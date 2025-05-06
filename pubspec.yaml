@@ -1,5 +1,5 @@
 name: grimity
-description: "A new Flutter project."
+description: 'A new Flutter project.'
 publish_to: 'none'
 version: 0.1.0
 
@@ -10,10 +10,75 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # UI
+  cached_network_image: ^3.4.1
+  flutter_animate: ^4.5.2
+  flutter_screenutil: ^5.9.3
+  flutter_svg: ^2.0.17
+  gap: ^3.0.1
+  skeletonizer: ^1.4.3
+
+  # Annotation
+  freezed_annotation: ^3.0.0
+  json_annotation: ^4.9.0
+
+  # Database
+  flutter_secure_storage: ^9.2.4
+  shared_preferences: ^2.5.3
+
+  # DI
+  get_it: ^8.0.3
+  injectable: ^2.5.0
+
+  # Logger
+  talker: ^4.7.1
+  talker_dio_logger: ^4.7.1
+  talker_flutter: ^4.7.1
+  talker_riverpod_logger: ^4.7.1
+
+  # Network
+  dio: ^5.8.0+1
+  mockito: ^5.4.5
+  retrofit: ^4.4.2
+
+  # Routing
+  go_router: ^15.1.1
+
+  # State Management
+  flutter_hooks: ^0.21.2
+  flutter_riverpod: ^2.6.1
+  hooks_riverpod: ^2.6.1
+  riverpod_annotation: ^2.6.1
+
+  # Utils
+  collection: ^1.19.1
+  flutter_gen: ^5.10.0
+  flutter_native_splash: ^2.4.5
+  intl: ^0.20.2
+  uuid: ^4.5.1
+  vector_graphics: ^1.1.18
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  build_runner: ^2.4.15
+  custom_lint: ^0.7.5
+  flutter_gen_runner: ^5.10.0
+  freezed: ^3.0.4
+  go_router_builder: ^2.8.2
+  injectable_generator: ^2.7.0
+  json_serializable: ^6.9.4
+  retrofit_generator: ^9.1.9
+  riverpod_generator: ^2.6.5
+  riverpod_lint: ^2.6.5
 
 flutter:
   uses-material-design: true
+
+flutter_gen:
+  output: lib/gen/
+  line_length: 80
+
+  integrations:
+    flutter_svg: true
