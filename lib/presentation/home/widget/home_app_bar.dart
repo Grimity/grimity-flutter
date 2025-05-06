@@ -5,19 +5,19 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_theme.dart';
 import 'package:grimity/gen/assets.gen.dart';
 
-class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const MainAppBar({super.key});
+class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const HomeAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       title: Assets.images.logo.svg(width: 90.w, height: 27.h),
       actions: [
-        GestureDetector(onTap: () {}, child: Assets.icons.main.search.svg(width: 24.w, height: 24.w)),
+        GestureDetector(onTap: () {}, child: Assets.icons.home.search.svg(width: 24.w, height: 24.w)),
         Gap(20.w),
-        GestureDetector(onTap: () {}, child: Assets.icons.main.notification.svg(width: 24.w, height: 24.w)),
+        GestureDetector(onTap: () {}, child: Assets.icons.home.notification.svg(width: 24.w, height: 24.w)),
         Gap(20.w),
-        GestureDetector(onTap: () {}, child: Assets.icons.main.menu.svg(width: 24.w, height: 24.w)),
+        GestureDetector(onTap: () {}, child: Assets.icons.home.menu.svg(width: 24.w, height: 24.w)),
       ],
       bottom: const PreferredSize(
         preferredSize: Size.fromHeight(1),
