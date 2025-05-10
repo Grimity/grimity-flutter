@@ -1,0 +1,23 @@
+import 'package:dio/dio.dart' hide Headers;
+import 'package:grimity/app/config/app_const.dart';
+import 'package:grimity/app/enum/post_type.enum.dart';
+import 'package:grimity/data/model/post/post_detail_response.dart';
+import 'package:grimity/data/model/post/posts_response.dart';
+import 'package:injectable/injectable.dart';
+import 'package:retrofit/retrofit.dart';
+
+part 'post_api.g.dart';
+
+@prod
+@injectable
+@RestApi(baseUrl: AppConst.apiUrl)
+abstract class PostAPI {
+  @factoryMethod
+  factory PostAPI(Dio dio) = _PostAPI;
+
+  @GET('/posts')
+  Future<PostsResponse> getPosts(@Query('page') int page, @Query('size') int size, @Query('type') PostType type);
+
+  @GET('/posts/{id}')
+  Future<PostDetailResponse> getPostDetail(@Path('id') String id);
+}

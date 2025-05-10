@@ -11,7 +11,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize get_it
-  await configureDependenciesDev();
+  await configureDependenciesProd();
 
   // Initialize talker
   final talker = TalkerFlutter.init();

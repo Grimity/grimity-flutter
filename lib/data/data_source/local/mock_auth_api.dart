@@ -1,5 +1,5 @@
 import 'package:grimity/data/data_source/remote/auth_api.dart';
-import 'package:grimity/data/model/login_response.dart';
+import 'package:grimity/data/model/auth/login_response.dart';
 import 'package:grimity/domain/usecase/auth/login_usecase.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mockito/mockito.dart';
