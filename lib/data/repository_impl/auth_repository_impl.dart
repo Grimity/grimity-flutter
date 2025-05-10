@@ -1,6 +1,6 @@
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/data/data_source/remote/auth_api.dart';
-import 'package:grimity/data/model/login_response.dart';
+import 'package:grimity/data/model/auth/login_response.dart';
 import 'package:grimity/domain/entity/token.dart';
 import 'package:grimity/domain/repository/auth_repository.dart';
 import 'package:grimity/domain/usecase/auth/login_usecase.dart';
