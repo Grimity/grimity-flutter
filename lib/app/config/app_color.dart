@@ -22,8 +22,8 @@ abstract class AppColor {
   static const Color primary5 = Color(0xFF000000);
 
   // Secandary
-  static const Color secondary1 = Color(0xFF11D85D);
-  static const Color secondary2 = Color(0xFFEAFFF2);
+  static const Color secandary1 = Color(0xFF11D85D);
+  static const Color secandary2 = Color(0xFFEAFFF2);
 
   // Status
   static const Color statusPositive = Color(0xFF00BF40);
