@@ -43,6 +43,9 @@ dependencies:
   mockito: ^5.4.5
   retrofit: ^4.4.2
 
+  # OAuth
+  kakao_flutter_sdk_user: ^1.9.7+3
+
   # Routing
   go_router: ^15.1.1
 
@@ -54,6 +57,7 @@ dependencies:
 
   # Utils
   collection: ^1.19.1
+  device_info_plus: ^11.4.0
   flutter_gen: ^5.10.0
   flutter_native_splash: ^2.4.5
   intl: ^0.20.2

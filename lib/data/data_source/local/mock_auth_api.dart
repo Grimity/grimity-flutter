@@ -8,7 +8,7 @@ import 'package:mockito/mockito.dart';
 @Injectable(as: AuthAPI)
 class MockAuthAPI extends Mock implements AuthAPI {
   @override
-  Future<LoginResponse> login(LoginRequestParam request) async {
+  Future<LoginResponse> login(String appModel, String appDevice, LoginRequestParam request) async {
     return LoginResponse(id: 'id', accessToken: 'accessToken', refreshToken: 'refreshToken');
   }
 }

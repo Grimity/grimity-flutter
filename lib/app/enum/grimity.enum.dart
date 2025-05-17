@@ -1,0 +1,1 @@
+enum GrimityAppDevice { mobile, tablet }
