@@ -16,5 +16,9 @@ abstract class AuthAPI {
 
   @POST('/auth/login')
   @Headers({'withToken': "false"})
-  Future<LoginResponse> login(@Body() LoginRequestParam request);
+  Future<LoginResponse> login(
+    @Header('grimity-app-model') String appModel,
+    @Header('grimity-app-device') String appDevice,
+    @Body() LoginRequestParam request,
+  );
 }
