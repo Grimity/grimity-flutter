@@ -50,6 +50,8 @@
 		<string>kakaokompassauth</string>
 		<string>kakaolink</string>
 	</array>
+	<key>GIDClientID</key>
+	<string>293608396742-iusea4k4n957hanuuadbohcgvjurtd8i.apps.googleusercontent.com</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -57,6 +59,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>com.googleusercontent.apps.293608396742-iusea4k4n957hanuuadbohcgvjurtd8i</string>
 				<string>kakao9ef16b15112d4c1ad60660adc4c39a93</string>
 			</array>
 		</dict>

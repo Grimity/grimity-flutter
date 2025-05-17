@@ -33,12 +33,12 @@ class AuthRepositoryImpl extends AuthRepository {
       final String accessToken;
 
       switch (provider) {
+        case LoginProvider.google:
+          accessToken = await _oauthAPI.loginWithGoogle();
         case LoginProvider.kakao:
           accessToken = await _oauthAPI.loginWithKakao();
         case LoginProvider.apple:
           return Result.failure(Exception('Apple login is not implemented'));
-        case LoginProvider.google:
-          return Result.failure(Exception('Google login is not implemented'));
       }
 
       return Result.success(accessToken);
