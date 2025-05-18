@@ -90,6 +90,7 @@ flutter:
     - assets/icons/home/
     - assets/icons/main/
     - assets/images/
+    - assets/images/sign_up/
 
   fonts:
     - family: Pretendard
