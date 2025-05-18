@@ -1,6 +1,6 @@
 name: grimity
-description: 'A new Flutter project.'
-publish_to: 'none'
+description: "A new Flutter project."
+publish_to: "none"
 version: 0.1.0
 
 environment:
@@ -86,6 +86,7 @@ flutter:
 
   assets:
     - assets/icons/
+    - assets/icons/common/
     - assets/icons/home/
     - assets/icons/main/
     - assets/images/
