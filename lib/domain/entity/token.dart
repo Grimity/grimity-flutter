@@ -5,7 +5,7 @@ part 'token.g.dart';
 
 @freezed
 abstract class Token with _$Token {
-  const factory Token({required String accessToken, required String refreshToken, required String id}) = _Token;
+  const factory Token({required String accessToken, required String refreshToken}) = _Token;
 
   factory Token.fromJson(Map<String, Object?> json) => _$TokenFromJson(json);
 }

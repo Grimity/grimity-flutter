@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/data/model/feed/feed_base_response.dart';
-import 'package:grimity/data/model/user/user_response.dart';
+import 'package:grimity/data/model/user/user_base_response.dart';
 import 'package:grimity/domain/entity/feed.dart';
 
 part 'latest_feed_response.freezed.dart';
@@ -16,7 +16,7 @@ abstract class LatestFeedResponse with _$LatestFeedResponse implements FeedBaseR
     String? thumbnail,
     required int viewCount,
     required int likeCount,
-    required UserResponse author,
+    required UserBaseResponse author,
     required DateTime createdAt,
     required bool isLike,
   }) = _LatestFeedResponse;

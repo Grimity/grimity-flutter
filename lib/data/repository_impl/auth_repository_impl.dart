@@ -6,7 +6,7 @@ import 'package:grimity/data/data_source/remote/oauth_api.dart';
 import 'package:grimity/data/model/auth/login_response.dart';
 import 'package:grimity/domain/entity/token.dart';
 import 'package:grimity/domain/repository/auth_repository.dart';
-import 'package:grimity/domain/usecase/auth/login_usecase.dart';
+import 'package:grimity/domain/usecase/auth_usecases.dart';
 import 'package:injectable/injectable.dart';
 
 @Injectable(as: AuthRepository)
@@ -44,6 +44,26 @@ class AuthRepositoryImpl extends AuthRepository {
       return Result.success(accessToken);
     } on Exception catch (e) {
       return Result.failure(e);
+    }
+  }
+
+  @override
+  Future<Result<void>> logoutWithOAuth(LoginProvider provider) async {
+    try {
+      switch (provider) {
+        case LoginProvider.google:
+          await _oauthAPI.logoutWithGoogle();
+          break;
+        case LoginProvider.kakao:
+          await _oauthAPI.logoutWithKakao();
+          break;
+        case LoginProvider.apple:
+          return Result.failure(Exception('Apple logout is not implemented'));
+      }
+
+      return Result.success(null);
+    } catch (e) {
+      return Result.failure(e as Exception);
     }
   }
 }

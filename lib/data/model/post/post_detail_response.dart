@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/data/model/post/post_response.dart';
-import 'package:grimity/data/model/user/user_response.dart';
+import 'package:grimity/data/model/user/user_base_response.dart';
 import 'package:grimity/domain/entity/post.dart';
 
 part 'post_detail_response.freezed.dart';
@@ -19,7 +19,7 @@ abstract class PostDetailResponse with _$PostDetailResponse implements PostRespo
     required String type,
     required int viewCount,
     required int commentCount,
-    required UserResponse author,
+    required UserBaseResponse author,
     required int likeCount,
     required bool isLike,
     required bool isSave,
