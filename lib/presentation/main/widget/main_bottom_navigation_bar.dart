@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/presentation/common/grimity_animation_button.dart';
+import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
 import 'package:grimity/presentation/main/provider/main_bottom_navigation_bar_provider.dart';
 
 class MainBottomNavigationBar extends ConsumerWidget {

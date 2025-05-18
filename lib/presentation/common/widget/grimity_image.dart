@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/common/grimity_animation_button.dart';
+import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class GrimityImage extends StatelessWidget {

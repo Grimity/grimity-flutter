@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/feed.dart';
-import 'package:grimity/presentation/common/grimity_image_feed.dart';
+import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
 import 'package:grimity/presentation/home/provider/home_data_provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
