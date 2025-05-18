@@ -4,8 +4,8 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/common/grimity_gray_circle.dart';
-import 'package:grimity/presentation/common/grimity_image.dart';
+import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
+import 'package:grimity/presentation/common/widget/grimity_image.dart';
 
 class GrimityImageFeed extends StatelessWidget {
   const GrimityImageFeed({super.key, required this.feed, this.index});

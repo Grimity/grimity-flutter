@@ -6,7 +6,7 @@ import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/extension/date_time_extension.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/common/grimity_gray_circle.dart';
+import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
 import 'package:grimity/presentation/home/provider/home_data_provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
