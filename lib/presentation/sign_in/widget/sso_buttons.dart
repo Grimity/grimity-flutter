@@ -57,7 +57,7 @@ class _SSOButton extends StatelessWidget {
         decoration: BoxDecoration(color: AppColor.gray00, borderRadius: BorderRadius.circular(12)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [icon, Gap(6), Text('$name로 계속하기', style: AppTypeface.subTitle1.copyWith(color: AppColor.gray800))],
+          children: [icon, Gap(6), Text('$name로 계속하기', style: AppTypeface.subTitle4.copyWith(color: AppColor.gray800))],
         ),
       ),
     );
