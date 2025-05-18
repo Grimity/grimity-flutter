@@ -14,6 +14,6 @@ abstract class LoginResponse with _$LoginResponse {
 
 extension LoginResponseX on LoginResponse {
   Token toToken() {
-    return Token(accessToken: accessToken, refreshToken: refreshToken, id: id);
+    return Token(accessToken: accessToken, refreshToken: refreshToken);
   }
 }

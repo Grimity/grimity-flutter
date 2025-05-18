@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/data/model/feed/feed_base_response.dart';
-import 'package:grimity/data/model/user/user_response.dart';
+import 'package:grimity/data/model/user/user_base_response.dart';
 import 'package:grimity/domain/entity/feed.dart';
 
 part 'searched_feed_by_tags_response.freezed.dart';
@@ -17,7 +17,7 @@ abstract class SearchedFeedByTagsResponse with _$SearchedFeedByTagsResponse impl
     required int likeCount,
     required int viewCount,
     required bool isLike,
-    required UserResponse author,
+    required UserBaseResponse author,
   }) = _SearchedFeedByTagsResponse;
 
   factory SearchedFeedByTagsResponse.fromJson(Map<String, dynamic> json) => _$SearchedFeedByTagsResponseFromJson(json);

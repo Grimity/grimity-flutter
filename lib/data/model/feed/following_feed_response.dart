@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/data/model/feed/feed_response.dart';
-import 'package:grimity/data/model/user/user_response.dart';
+import 'package:grimity/data/model/user/user_base_response.dart';
 import 'package:grimity/domain/entity/feed.dart';
 
 part 'following_feed_response.freezed.dart';
@@ -20,7 +20,7 @@ abstract class FollowingFeedResponse with _$FollowingFeedResponse implements Fee
     required int likeCount,
     required String content,
     required List<String> tags,
-    required UserResponse author,
+    required UserBaseResponse author,
     required int commentCount,
     required bool isLike,
     required bool isSave,

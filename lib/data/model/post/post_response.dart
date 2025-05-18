@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/data/model/post/post_base_response.dart';
-import 'package:grimity/data/model/user/user_response.dart';
+import 'package:grimity/data/model/user/user_base_response.dart';
 import 'package:grimity/domain/entity/post.dart';
 
 part 'post_response.freezed.dart';
@@ -19,7 +19,7 @@ abstract class PostResponse with _$PostResponse implements PostBaseResponse {
     required String type,
     required int viewCount,
     required int commentCount,
-    required UserResponse author,
+    required UserBaseResponse author,
   }) = _PostResponse;
 
   factory PostResponse.fromJson(Map<String, dynamic> json) => _$PostResponseFromJson(json);

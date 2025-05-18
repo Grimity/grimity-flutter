@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/data/model/feed/feed_base_response.dart';
-import 'package:grimity/data/model/user/user_response.dart';
+import 'package:grimity/data/model/user/user_base_response.dart';
 import 'package:grimity/domain/entity/feed.dart';
 
 part 'popular_feed_response.freezed.dart';
@@ -18,7 +18,7 @@ abstract class PopularFeedResponse with _$PopularFeedResponse implements FeedBas
     required int viewCount,
     required int likeCount,
     required bool isLike,
-    required UserResponse author,
+    required UserBaseResponse author,
   }) = _PopularFeedResponse;
 
   factory PopularFeedResponse.fromJson(Map<String, dynamic> json) => _$PopularFeedResponseFromJson(json);

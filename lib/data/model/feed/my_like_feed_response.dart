@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/data/model/feed/feed_base_response.dart';
-import 'package:grimity/data/model/user/user_response.dart';
+import 'package:grimity/data/model/user/user_base_response.dart';
 import 'package:grimity/domain/entity/feed.dart';
 
 part 'my_like_feed_response.freezed.dart';
@@ -19,7 +19,7 @@ abstract class MyLikeFeedResponse with _$MyLikeFeedResponse implements FeedBaseR
     required int viewCount,
     required int commentCount,
     required DateTime createdAt,
-    required UserResponse author,
+    required UserBaseResponse author,
   }) = _MyLikeFeedResponse;
 
   factory MyLikeFeedResponse.fromJson(Map<String, dynamic> json) => _$MyLikeFeedResponseFromJson(json);
