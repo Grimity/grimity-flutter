@@ -21,7 +21,7 @@ class UserAuth extends _$UserAuth {
    */
 
   Future<void> login(LoginProvider provider) async {
-    final result = await completeLoginProcessUseCase.execute(provider);
+    final result = await completeLoginProcessUseCase.execute(provider, ref);
 
     result.fold(
       onSuccess: (data) {
