@@ -11,14 +11,16 @@ class SignIn extends _$SignIn {
   @override
   void build() {}
 
+  /// 로그인 결과에 따른 라우팅
   void _route(WidgetRef ref) {
     if (ref.read(userAuthProvider) != null) {
       MainRoute().go(ref.context);
     } else {
-      // TODO: 회원가입 화면 라우팅
+      SignUpRoute().push(ref.context);
     }
   }
 
+  /// 로그인
   Future<void> login(WidgetRef ref, LoginProvider provider) async {
     try {
       await ref.read(userAuthProvider.notifier).login(provider);
