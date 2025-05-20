@@ -11,8 +11,24 @@ part 'app_router.g.dart';
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 
 abstract final class AppRouter {
-  static GoRouter router(WidgetRef ref) =>
-      GoRouter(navigatorKey: rootNavigatorKey, initialLocation: MainRoute.path, routes: $appRoutes);
+  static final GoRouter _router = GoRouter(
+    navigatorKey: rootNavigatorKey,
+    initialLocation: SignInRoute.path,
+    routes: $appRoutes,
+    // FIX: 카카오톡 App 로그인 시의 Routing 관련 문제 수정
+    // Ref: https://github.com/kakao/kakao_flutter_sdk/issues/200
+    redirect: (context, state) {
+      final uri = state.uri;
+
+      if (uri.scheme.contains('kakao') && uri.authority == 'oauth') {
+        return SignInRoute.path;
+      }
+
+      return null;
+    },
+  );
+
+  static GoRouter router(WidgetRef ref) => _router;
 }
 
 @TypedGoRoute<SplashRoute>(path: SplashRoute.path, name: SplashRoute.name)
