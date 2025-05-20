@@ -8,6 +8,7 @@ class LogoutWithOAuthUseCase extends UseCase<LoginProvider, void> {
   LogoutWithOAuthUseCase(this._authRepository);
 
   final AuthRepository _authRepository;
+
   @override
   Future<void> execute(LoginProvider provider) async {
     await _authRepository.logoutWithOAuth(provider);

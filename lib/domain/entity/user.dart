@@ -25,26 +25,6 @@ abstract class User with _$User {
     String? email,
   }) = _User;
 
+  factory User.empty() => const User(id: '', name: '', url: '');
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
-}
-
-@freezed
-abstract class Link with _$Link {
-  const factory Link({required String linkName, required String link}) = _Link;
-
-  factory Link.fromJson(Map<String, dynamic> json) => _$LinkFromJson(json);
-}
-
-@freezed
-abstract class AlbumWithCount with _$AlbumWithCount {
-  const factory AlbumWithCount({required String id, required String name, required int feedCount}) = _AlbumWithCount;
-
-  factory AlbumWithCount.fromJson(Map<String, dynamic> json) => _$AlbumWithCountFromJson(json);
-}
-
-@freezed
-abstract class Subscription with _$Subscription {
-  const factory Subscription({required List<String> subscription}) = _Subscription;
-
-  factory Subscription.fromJson(Map<String, dynamic> json) => _$SubscriptionFromJson(json);
 }

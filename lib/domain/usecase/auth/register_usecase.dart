@@ -6,12 +6,12 @@ import 'package:grimity/domain/repository/auth_repository.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class LoginUseCase extends UseCase<LoginRequestParam, Result<Token>> {
-  LoginUseCase(this._authRepository);
+class RegisterUseCase extends UseCase<RegisterRequestParam, Result<void>> {
+  RegisterUseCase(this._authRepository);
 
   final AuthRepository _authRepository;
   @override
-  Future<Result<Token>> execute(LoginRequestParam param) async {
-    return await _authRepository.login(param);
+  Future<Result<Token>> execute(RegisterRequestParam param) async {
+    return await _authRepository.register(param);
   }
 }

@@ -1,12 +1,12 @@
 import 'package:grimity/app/base/result.dart';
-import 'package:grimity/app/enum/grimity.enum.dart';
 import 'package:grimity/app/enum/login_provider.enum.dart';
+import 'package:grimity/app/util/device_info_util.dart';
 import 'package:grimity/data/data_source/remote/auth_api.dart';
 import 'package:grimity/data/data_source/remote/oauth_api.dart';
 import 'package:grimity/data/model/auth/login_response.dart';
+import 'package:grimity/domain/dto/auth_request_params.dart';
 import 'package:grimity/domain/entity/token.dart';
 import 'package:grimity/domain/repository/auth_repository.dart';
-import 'package:grimity/domain/usecase/auth_usecases.dart';
 import 'package:injectable/injectable.dart';
 
 @Injectable(as: AuthRepository)
@@ -17,9 +17,12 @@ class AuthRepositoryImpl extends AuthRepository {
   AuthRepositoryImpl(this._authAPI, this._oauthAPI);
 
   @override
-  Future<Result<Token>> login(LoginRequestParam request, String appModel) async {
+  Future<Result<Token>> login(LoginRequestParam request) async {
     try {
-      final LoginResponse response = await _authAPI.login(appModel, GrimityAppDevice.mobile.name, request);
+      final appModel = await DeviceInfoUtil.getAppModel();
+      final appDevice = await DeviceInfoUtil.getAppDevice();
+
+      final LoginResponse response = await _authAPI.login(appModel, appDevice, request);
 
       return Result.success(response.toToken());
     } on Exception catch (e) {
@@ -64,6 +67,19 @@ class AuthRepositoryImpl extends AuthRepository {
       return Result.success(null);
     } catch (e) {
       return Result.failure(e as Exception);
+    }
+  }
+
+  @override
+  Future<Result<Token>> register(RegisterRequestParam request) async {
+    try {
+      final appModel = await DeviceInfoUtil.getAppModel();
+      final appDevice = await DeviceInfoUtil.getAppDevice();
+
+      final response = await _authAPI.register(appModel, appDevice, request);
+      return Result.success(response.toToken());
+    } on Exception catch (e) {
+      return Result.failure(e);
     }
   }
 }

@@ -1,18 +1,20 @@
-// lib/domain/usecase/auth/complete_login_process_usecase.dart
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/app/base/use_case.dart';
 import 'package:grimity/app/enum/login_provider.enum.dart';
+import 'package:grimity/domain/dto/auth_request_params.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/domain/usecase/auth_usecases.dart';
 import 'package:grimity/domain/usecase/me_usecases.dart';
+import 'package:grimity/presentation/common/provider/auth_credential_provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class CompleteLoginProcessUseCase extends UseCase<LoginProvider, Result<void>> {
+class CompleteLoginProcessUseCase extends ParamWithRefUseCase<LoginProvider, Result<User>> {
   CompleteLoginProcessUseCase();
 
   @override
-  Future<Result<User>> execute(LoginProvider provider) async {
+  Future<Result<User>> execute(LoginProvider provider, Ref ref) async {
     try {
       // OAuth로부터 AccessToken 발급
       final Result<String> oauthAccessToken = await loginWithOAuthUseCase.execute(provider);
@@ -26,6 +28,9 @@ class CompleteLoginProcessUseCase extends UseCase<LoginProvider, Result<void>> {
       final loginResult = await loginUseCase.execute(param);
 
       if (loginResult.isFailure) {
+        // 로그인 실패 이후 회원가입을 위해 OAuth 정보 저장
+        ref.read(authCredentialProvider.notifier).setCredential(provider, oauthAccessToken.data);
+
         return Result.failure(loginResult.error);
       }
 
