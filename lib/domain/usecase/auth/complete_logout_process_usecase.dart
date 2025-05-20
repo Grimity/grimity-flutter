@@ -9,6 +9,7 @@ class CompleteLogoutProcessUseCase extends UseCase<LoginProvider, void> {
   CompleteLogoutProcessUseCase(this._authRepository);
 
   final AuthRepository _authRepository;
+
   @override
   Future<void> execute(LoginProvider provider) async {
     await clearSecureSettingsUseCase.execute();

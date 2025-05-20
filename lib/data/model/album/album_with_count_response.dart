@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/data/model/album/album_base_response.dart';
-import 'package:grimity/domain/entity/user.dart';
+import 'package:grimity/domain/entity/album_with_count.dart';
 
 part 'album_with_count_response.freezed.dart';
 part 'album_with_count_response.g.dart';

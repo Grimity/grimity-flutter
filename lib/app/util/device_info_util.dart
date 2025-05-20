@@ -1,8 +1,21 @@
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/material.dart';
+import 'package:grimity/app/enum/grimity.enum.dart';
 
 class DeviceInfoUtil {
   static final DeviceInfoPlugin _deviceInfo = DeviceInfoPlugin();
+
+  static Future<String> getAppModel() async {
+    final deviceInfo = await getDeviceInfo();
+    return deviceInfo['model'];
+  }
+
+  static Future<String> getAppDevice() async {
+    final firstView = WidgetsBinding.instance.platformDispatcher.views.first;
+    final logicalShortestSide = firstView.physicalSize.shortestSide / firstView.devicePixelRatio;
+    return logicalShortestSide > 600 ? GrimityAppDevice.tablet.name : GrimityAppDevice.mobile.name;
+  }
 
   static Future<String> getDeviceModel() async {
     try {
