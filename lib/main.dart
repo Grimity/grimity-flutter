@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_theme.dart';
 import 'package:grimity/app/di/di_setup.dart';
@@ -36,7 +37,7 @@ class MainApp extends ConsumerWidget {
         return MaterialApp.router(
           routerConfig: AppRouter.router(ref),
           theme: AppTheme.appTheme,
-          builder: (context, child) => child!,
+          builder: (context, child) => FToastBuilder()(context, child),
         );
       },
     );

@@ -1,5 +1,6 @@
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/enum/login_provider.enum.dart';
+import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -26,7 +27,7 @@ class SignIn extends _$SignIn {
       await ref.read(userAuthProvider.notifier).login(provider);
       _route(ref);
     } catch (e) {
-      // TODO: 로그인 실패 알림
+      ToastService.showError('소셜 로그인에 실패했어요.', showImmediately: true);
     }
   }
 }
