@@ -6,6 +6,8 @@ import 'package:grimity/domain/entity/token.dart';
 abstract class AuthRepository {
   Future<Result<Token>> login(LoginRequestParam request);
   Future<Result<String>> loginWithOAuth(LoginProvider provider);
-  Future<Result<void>> logoutWithOAuth(LoginProvider provider);
   Future<Result<Token>> register(RegisterRequestParam request);
+  Future<Result<Token>> refresh();
+  Future<Result<void>> logout();
+  Future<Result<void>> logoutWithOAuth(LoginProvider provider);
 }
