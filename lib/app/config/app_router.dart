@@ -13,7 +13,7 @@ final rootNavigatorKey = GlobalKey<NavigatorState>();
 abstract final class AppRouter {
   static final GoRouter _router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: SignInRoute.path,
+    initialLocation: SplashRoute.path,
     routes: $appRoutes,
     // FIX: 카카오톡 App 로그인 시의 Routing 관련 문제 수정
     // Ref: https://github.com/kakao/kakao_flutter_sdk/issues/200
