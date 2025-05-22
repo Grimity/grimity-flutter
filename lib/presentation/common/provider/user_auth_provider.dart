@@ -1,7 +1,7 @@
 import 'package:grimity/app/enum/login_provider.enum.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/domain/usecase/auth_usecases.dart';
-import 'package:grimity/domain/usecase/settings_usecases.dart';
+import 'package:grimity/domain/usecase/me_usecases.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'user_auth_provider.g.dart';
@@ -11,6 +11,24 @@ class UserAuth extends _$UserAuth {
   @override
   User? build() {
     return null;
+  }
+
+  /*
+   * 유저 정보 조회
+   * state = User -> 유저 정보 조회 성공
+   * state = null -> 유저 정보 조회 실패
+   */
+  Future<void> getUser() async {
+    final result = await getMeUseCase.execute();
+
+    result.fold(
+      onSuccess: (data) {
+        state = data;
+      },
+      onFailure: (error) {
+        state = null;
+      },
+    );
   }
 
   /*
@@ -37,8 +55,12 @@ class UserAuth extends _$UserAuth {
     );
   }
 
+  /*
+   * 로그아웃
+   * OAuth 로그아웃 / 저장된 토큰 제거
+   */
   Future<void> logout(LoginProvider provider) async {
-    await logoutWithOAuthUseCase.execute(provider);
-    await clearSecureSettingsUseCase.execute();
+    await completeLogoutProcessUseCase.execute(provider);
+    state = null;
   }
 }

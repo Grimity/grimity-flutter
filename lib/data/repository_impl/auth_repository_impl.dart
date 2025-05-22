@@ -3,7 +3,9 @@ import 'package:grimity/app/enum/login_provider.enum.dart';
 import 'package:grimity/app/util/device_info_util.dart';
 import 'package:grimity/data/data_source/remote/auth_api.dart';
 import 'package:grimity/data/data_source/remote/oauth_api.dart';
+import 'package:grimity/data/data_source/remote/refresh_token_api.dart';
 import 'package:grimity/data/model/auth/login_response.dart';
+import 'package:grimity/data/model/auth/refresh_response.dart';
 import 'package:grimity/domain/dto/auth_request_params.dart';
 import 'package:grimity/domain/entity/token.dart';
 import 'package:grimity/domain/repository/auth_repository.dart';
@@ -13,8 +15,9 @@ import 'package:injectable/injectable.dart';
 class AuthRepositoryImpl extends AuthRepository {
   final AuthAPI _authAPI;
   final OAuthAPI _oauthAPI;
+  final RefreshTokenAPI _refreshTokenAPI;
 
-  AuthRepositoryImpl(this._authAPI, this._oauthAPI);
+  AuthRepositoryImpl(this._authAPI, this._oauthAPI, this._refreshTokenAPI);
 
   @override
   Future<Result<Token>> login(LoginRequestParam request) async {
@@ -51,6 +54,19 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
+  Future<Result<void>> logout() async {
+    try {
+      final appModel = await DeviceInfoUtil.getAppModel();
+      final appDevice = await DeviceInfoUtil.getAppDevice();
+
+      await _authAPI.logout(appModel, appDevice);
+      return Result.success(null);
+    } catch (e) {
+      return Result.failure(e as Exception);
+    }
+  }
+
+  @override
   Future<Result<void>> logoutWithOAuth(LoginProvider provider) async {
     try {
       switch (provider) {
@@ -71,12 +87,25 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
+  Future<Result<Token>> refresh() async {
+    try {
+      final appModel = await DeviceInfoUtil.getAppModel();
+      final appDevice = await DeviceInfoUtil.getAppDevice();
+
+      final RefreshResponse response = await _refreshTokenAPI.refresh(appModel, appDevice);
+      return Result.success(response.toToken());
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
+
+  @override
   Future<Result<Token>> register(RegisterRequestParam request) async {
     try {
       final appModel = await DeviceInfoUtil.getAppModel();
       final appDevice = await DeviceInfoUtil.getAppDevice();
 
-      final response = await _authAPI.register(appModel, appDevice, request);
+      final LoginResponse response = await _authAPI.register(appModel, appDevice, request);
       return Result.success(response.toToken());
     } on Exception catch (e) {
       return Result.failure(e);
