@@ -9,8 +9,13 @@ class TokenInterceptor extends QueuedInterceptor {
     try {
       if (options.headers['withToken'] != 'false') {
         final token = await loadTokenUseCase.execute();
+
         if (token != null) {
           options.headers['Authorization'] = 'Bearer ${token.accessToken}';
+        } else {
+          return handler.reject(
+            DioException(requestOptions: options, response: Response(requestOptions: options, statusCode: 401)),
+          );
         }
       }
 
