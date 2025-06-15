@@ -68,6 +68,8 @@ class TokenInterceptor extends QueuedInterceptor {
       } catch (e) {
         return handler.next(err);
       }
+    } else {
+      return handler.next(err);
     }
   }
 
