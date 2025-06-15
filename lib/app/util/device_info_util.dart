@@ -24,7 +24,7 @@ class DeviceInfoUtil {
         return androidInfo.model;
       } else if (Platform.isIOS) {
         final iosInfo = await _deviceInfo.iosInfo;
-        return iosInfo.model;
+        return iosInfo.utsname.machine;
       }
       return 'unknown';
     } catch (e) {
@@ -62,7 +62,7 @@ class DeviceInfoUtil {
       } else if (Platform.isIOS) {
         final iosInfo = await _deviceInfo.iosInfo;
         return {
-          'model': iosInfo.model,
+          'model': iosInfo.utsname.machine,
           'name': iosInfo.name,
           'systemName': iosInfo.systemName,
           'systemVersion': iosInfo.systemVersion,
