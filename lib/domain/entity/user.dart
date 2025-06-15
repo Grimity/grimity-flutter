@@ -1,4 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:grimity/domain/entity/album.dart';
+import 'package:grimity/domain/entity/link.dart';
 
 part 'user.freezed.dart';
 part 'user.g.dart';
@@ -12,7 +14,7 @@ abstract class User with _$User {
     required String url,
     String? backgroundImage,
     String? description,
-    List<Map<String, String>>? links,
+    List<Link>? links,
     DateTime? createdAt,
     bool? hasNotification,
     int? followerCount,
@@ -20,11 +22,21 @@ abstract class User with _$User {
     int? feedCount,
     int? postCount,
     bool? isFollowing,
-    List<Map<String, dynamic>>? albums,
+    List<Album>? albums,
     String? provider,
     String? email,
   }) = _User;
 
-  factory User.empty() => const User(id: '', name: '', url: '');
+  factory User.empty() => const User(
+    id: '',
+    name: 'Lorem ipsum',
+    url: '',
+    followerCount: 0,
+    followingCount: 0,
+    feedCount: 0,
+    postCount: 0,
+    isFollowing: false,
+    albums: [],
+  );
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }

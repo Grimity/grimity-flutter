@@ -6,7 +6,7 @@ part 'feeds.g.dart';
 
 @freezed
 abstract class Feeds with _$Feeds {
-  const factory Feeds({required List<Feed> feeds, String? nextCursor}) = _Feeds;
+  const factory Feeds({required List<Feed> feeds, String? nextCursor, int? totalCount}) = _Feeds;
 
   factory Feeds.fromJson(Map<String, dynamic> json) => _$FeedsFromJson(json);
 

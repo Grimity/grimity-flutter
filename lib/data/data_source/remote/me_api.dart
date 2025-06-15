@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:grimity/app/config/app_const.dart';
 import 'package:grimity/data/model/user/my_profile_response.dart';
+import 'package:grimity/domain/dto/me_request_params.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -15,4 +16,22 @@ abstract class MeAPI {
 
   @GET('/me')
   Future<MyProfileResponse> getMyProfile();
+
+  @PUT('/me')
+  Future<void> updateUser(@Body() UpdateUserRequest request);
+
+  @DELETE('/me')
+  Future<void> deleteUser();
+
+  @PUT('/me/image')
+  Future<void> updateProfileImage(@Body() UpdateProfileImageRequestParam request);
+
+  @DELETE('/me/image')
+  Future<void> deleteProfileImage();
+
+  @PUT('/me/background')
+  Future<void> updateBackgroundImage(@Body() UpdateBackgroundImageRequestParam request);
+
+  @DELETE('/me/background')
+  Future<void> deleteBackgroundImage();
 }

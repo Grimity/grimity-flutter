@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:grimity/data/model/album/album_with_count_response.dart';
 import 'package:grimity/data/model/user/link_response.dart';
 import 'package:grimity/data/model/user/user_base_response.dart';
 import 'package:grimity/domain/entity/user.dart';
@@ -21,7 +22,7 @@ abstract class UserProfileResponse with _$UserProfileResponse implements UserBas
     required int feedCount,
     required int postCount,
     required bool isFollowing,
-    required List<dynamic> albums,
+    required List<AlbumWithCountResponse> albums,
   }) = _UserProfileResponse;
 
   factory UserProfileResponse.fromJson(Map<String, dynamic> json) => _$UserProfileResponseFromJson(json);
@@ -36,13 +37,13 @@ extension UserProfileResponseX on UserProfileResponse {
       url: url,
       description: description,
       backgroundImage: backgroundImage,
-      links: links.map((e) => {'linkName': e.linkName, 'link': e.link}).toList(),
+      links: links.map((e) => e.toEntity()).toList(),
       followerCount: followerCount,
       followingCount: followingCount,
       feedCount: feedCount,
       postCount: postCount,
       isFollowing: isFollowing,
-      albums: albums.map((e) => {'id': e['id'], 'name': e['name'], 'feedCount': e['feedCount']}).toList(),
+      albums: albums.map((e) => e.toEntity()).toList(),
     );
   }
 }

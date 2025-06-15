@@ -4,7 +4,7 @@ import 'package:grimity/domain/entity/album.dart';
 part 'album_base_response.freezed.dart';
 part 'album_base_response.g.dart';
 
-@freezed
+@Freezed(copyWith: false)
 abstract class AlbumBaseResponse with _$AlbumBaseResponse {
   const factory AlbumBaseResponse({required String id, required String name}) = _AlbumBaseResponse;
 

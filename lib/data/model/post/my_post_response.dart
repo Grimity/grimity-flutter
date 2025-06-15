@@ -1,12 +1,12 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:grimity/data/model/post/post_response.dart';
+import 'package:grimity/data/model/post/post_base_response.dart';
 import 'package:grimity/domain/entity/post.dart';
 
 part 'my_post_response.freezed.dart';
 part 'my_post_response.g.dart';
 
 @Freezed(copyWith: false)
-abstract class MyPostResponse with _$MyPostResponse implements PostResponse {
+abstract class MyPostResponse with _$MyPostResponse implements PostBaseResponse {
   const MyPostResponse._();
 
   const factory MyPostResponse({

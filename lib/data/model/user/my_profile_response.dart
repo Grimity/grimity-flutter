@@ -38,7 +38,7 @@ extension MyProfileResponseX on MyProfileResponse {
       email: email,
       backgroundImage: backgroundImage,
       description: description,
-      links: links.map((e) => {'linkName': e.linkName, 'link': e.link}).toList(),
+      links: links.map((e) => e.toEntity()).toList(),
       createdAt: createdAt,
       hasNotification: hasNotification,
       followerCount: followerCount,

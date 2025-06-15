@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/data/model/album/album_base_response.dart';
-import 'package:grimity/domain/entity/album_with_count.dart';
+import 'package:grimity/domain/entity/album.dart';
 
 part 'album_with_count_response.freezed.dart';
 part 'album_with_count_response.g.dart';
@@ -16,7 +16,7 @@ abstract class AlbumWithCountResponse with _$AlbumWithCountResponse implements A
 }
 
 extension AlbumWithCountResponseX on AlbumWithCountResponse {
-  AlbumWithCount toEntity() {
-    return AlbumWithCount(id: id, name: name, feedCount: feedCount);
+  Album toEntity() {
+    return Album(id: id, name: name, feedCount: feedCount);
   }
 }

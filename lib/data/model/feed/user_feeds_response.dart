@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/data/model/feed/user_feed_response.dart';
 import 'package:grimity/data/model/shared/cursor_response.dart';
-import 'package:grimity/domain/entity/feed.dart';
+import 'package:grimity/domain/entity/feeds.dart';
 
 part 'user_feeds_response.freezed.dart';
 part 'user_feeds_response.g.dart';
@@ -16,7 +16,7 @@ abstract class UserFeedsResponse with _$UserFeedsResponse implements CursorRespo
 }
 
 extension UserFeedsResponseX on UserFeedsResponse {
-  List<Feed> toEntity() {
-    return feeds.toEntity();
+  Feeds toEntity() {
+    return Feeds(feeds: feeds.toEntity(), nextCursor: nextCursor);
   }
 }
