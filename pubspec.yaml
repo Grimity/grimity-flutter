@@ -93,6 +93,7 @@ flutter:
     - assets/icons/common/
     - assets/icons/home/
     - assets/icons/main/
+    - assets/icons/drawer/
     - assets/images/
     - assets/images/sign_up/
 

@@ -17,7 +17,10 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         Gap(20.w),
         GestureDetector(onTap: () {}, child: Assets.icons.home.notification.svg(width: 24.w, height: 24.w)),
         Gap(20.w),
-        GestureDetector(onTap: () {}, child: Assets.icons.home.menu.svg(width: 24.w, height: 24.w)),
+        GestureDetector(
+          onTap: () => Scaffold.of(context).openEndDrawer(),
+          child: Assets.icons.home.menu.svg(width: 24.w, height: 24.w),
+        ),
       ],
       bottom: const PreferredSize(
         preferredSize: Size.fromHeight(1),
