@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:grimity/presentation/drawer/app_drawer.dart';
+import 'package:grimity/presentation/drawer/main_app_drawer.dart';
 import 'package:grimity/presentation/home/home_page.dart';
 import 'package:grimity/presentation/main/provider/main_bottom_navigation_bar_provider.dart'
     show mainBottomNavigationBarProvider;
@@ -22,7 +22,7 @@ class MainPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: HomeAppBar(),
-      endDrawer: AppDrawer(),
+      endDrawer: MainAppDrawer(),
       body: PageView(
         controller: mainTabController,
         children: [
