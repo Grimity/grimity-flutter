@@ -8,9 +8,10 @@ import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
 import 'package:grimity/presentation/common/widget/grimity_image.dart';
 
 class GrimityImageFeed extends StatelessWidget {
-  const GrimityImageFeed({super.key, required this.feed, this.index});
+  const GrimityImageFeed({super.key, required this.feed, this.authorName, this.index});
 
   final Feed feed;
+  final String? authorName;
   final int? index;
 
   @override
@@ -27,7 +28,10 @@ class GrimityImageFeed extends StatelessWidget {
         const Gap(2),
         Row(
           children: [
-            Text(feed.author?.name ?? '작성자 정보 없음', style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
+            Text(
+              feed.author?.name ?? authorName ?? '작성자 정보 없음',
+              style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
+            ),
             GrimityGrayCircle(),
             Assets.icons.home.like.svg(width: 16, height: 16),
             const Gap(4),
