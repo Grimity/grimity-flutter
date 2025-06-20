@@ -4,17 +4,18 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 
 class GrimityButton extends StatelessWidget {
-  const GrimityButton(this.text, {super.key, required this.onTap, this.isEnabled = true});
+  const GrimityButton(this.text, {super.key, required this.onTap, this.isEnabled = true, this.hasBottomPadding = true});
 
   final String text;
   final VoidCallback onTap;
 
   final bool isEnabled;
+  final bool hasBottomPadding;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 24.h),
+      padding: EdgeInsets.only(bottom: hasBottomPadding ? 24.h : 0),
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: isEnabled ? onTap : null,

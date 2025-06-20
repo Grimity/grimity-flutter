@@ -32,6 +32,14 @@ class UserAuth extends _$UserAuth {
   }
 
   /*
+   * 유저 정보 업데이트
+   * state = User -> 유저 정보 업데이트 성공
+   */
+  Future<void> setUser(User user) async {
+    state = user;
+  }
+
+  /*
    * 로그인
    * state = User -> 로그인 성공
    * state = null -> 회원가입 필요

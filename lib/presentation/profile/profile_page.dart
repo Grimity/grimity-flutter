@@ -13,7 +13,7 @@ class ProfilePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final profileAsync = ref.watch(profileDataProvider(ref.read(userAuthProvider)?.url ?? ''));
+    final profileAsync = ref.watch(profileDataProvider(ref.watch(userAuthProvider)?.url ?? ''));
 
     return profileAsync.maybeWhen(
       data: (user) {

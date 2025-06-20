@@ -53,7 +53,7 @@ class UserProfileView extends StatelessWidget {
       child: Align(
         alignment: Alignment.topLeft,
         child: GestureDetector(
-          onTap: () {},
+          onTap: () => context.push(ProfileEditRoute.path, extra: user),
           child: Container(
             width: 26,
             height: 26,

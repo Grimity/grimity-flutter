@@ -20,8 +20,10 @@ class GrimityTextField extends HookWidget {
     this.keyboardType,
     this.textInputAction,
     this.maxLength,
+    this.maxLines,
     this.hintText,
     this.errorText,
+    this.defaultText,
   }) : type = GrimityTextFieldType.normal;
 
   const GrimityTextField.small({
@@ -36,8 +38,10 @@ class GrimityTextField extends HookWidget {
     this.keyboardType,
     this.textInputAction,
     this.maxLength,
+    this.maxLines,
     this.hintText,
     this.errorText,
+    this.defaultText,
   }) : type = GrimityTextFieldType.small;
 
   final GrimityTextFieldType type;
@@ -45,6 +49,8 @@ class GrimityTextField extends HookWidget {
 
   final TextEditingController? controller;
   final void Function(String)? onChanged;
+  final void Function(String)? onSubmitted;
+
   final bool? autoFocus;
   final FocusNode? focusNode;
   final TextInputType? keyboardType;
@@ -52,9 +58,10 @@ class GrimityTextField extends HookWidget {
 
   final bool enabled;
   final int? maxLength;
+  final int? maxLines;
   final String? hintText;
   final String? errorText;
-  final void Function(String)? onSubmitted;
+  final String? defaultText;
 
   BorderRadius get _borderRadius =>
       type == GrimityTextFieldType.normal ? BorderRadius.circular(12) : BorderRadius.circular(8);
@@ -101,7 +108,7 @@ class GrimityTextField extends HookWidget {
   Widget? get _suffixWidget {
     if (state == GrimityTextFieldState.success) {
       return Assets.icons.common.checkMark.svg();
-    } else if (maxLength != null && focusNode?.hasFocus == true) {
+    } else if (maxLength != null) {
       return Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,
@@ -117,6 +124,7 @@ class GrimityTextField extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final animationController = useAnimationController();
+    final focusNode = this.focusNode ?? useFocusNode();
 
     final textField = TextField(
           enabled: enabled,
@@ -145,10 +153,13 @@ class GrimityTextField extends HookWidget {
             ),
             filled: true,
             fillColor: _fillColor,
+            prefix:
+                defaultText != null
+                    ? Text(defaultText!, style: AppTypeface.label2.copyWith(color: AppColor.gray500))
+                    : null,
             suffixIconConstraints: const BoxConstraints(minWidth: 18, minHeight: 18),
-            suffixIcon:
-                _suffixWidget != null ? Padding(padding: const EdgeInsets.only(right: 16), child: _suffixWidget) : null,
           ),
+          maxLines: maxLines,
         )
         .animate(
           autoPlay: false,
@@ -168,7 +179,9 @@ class GrimityTextField extends HookWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        textField,
+        Stack(
+          children: [textField, if (_suffixWidget != null) Positioned(right: 16, bottom: 16, child: _suffixWidget!)],
+        ),
         if (state == GrimityTextFieldState.error && errorText != null) ...[
           const Gap(6),
           Text(errorText!, style: AppTypeface.caption2.copyWith(color: AppColor.statusNegative)),

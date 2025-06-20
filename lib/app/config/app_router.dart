@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/main/main_page.dart';
+import 'package:grimity/presentation/profile_edit/profile_crop_image_page.dart';
+import 'package:grimity/presentation/profile_edit/profile_edit_page.dart';
 import 'package:grimity/presentation/sign_in/sign_in_page.dart';
+import 'package:grimity/presentation/upload_image/upload_image_page.dart';
 import 'package:grimity/presentation/sign_up/sign_up_page.dart';
 import 'package:grimity/presentation/splash/splash_page.dart';
 
@@ -29,6 +33,30 @@ abstract final class AppRouter {
   );
 
   static GoRouter router(WidgetRef ref) => _router;
+}
+
+@TypedGoRoute<ProfileEditRoute>(path: ProfileEditRoute.path, name: ProfileEditRoute.name)
+class ProfileEditRoute extends GoRouteData {
+  const ProfileEditRoute(this.$extra);
+
+  static const String path = '/profile-edit';
+  static const String name = 'profile-edit';
+
+  final User $extra;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => ProfileEditPage(user: state.extra as User);
+}
+
+@TypedGoRoute<CropImageRoute>(path: CropImageRoute.path, name: CropImageRoute.name)
+class CropImageRoute extends GoRouteData {
+  const CropImageRoute();
+
+  static const String path = '/crop-image';
+  static const String name = 'crop-image';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const ProfileCropImagePage();
 }
 
 @TypedGoRoute<SplashRoute>(path: SplashRoute.path, name: SplashRoute.name)
@@ -73,4 +101,15 @@ class SignUpRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => const SignUpPage();
+}
+
+@TypedGoRoute<UploadImageRoute>(path: UploadImageRoute.path, name: UploadImageRoute.name)
+class UploadImageRoute extends GoRouteData {
+  const UploadImageRoute();
+
+  static const String path = '/upload-image';
+  static const String name = 'upload-image';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const UploadImagePage();
 }
