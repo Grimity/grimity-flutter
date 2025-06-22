@@ -8,10 +8,12 @@ import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
 import 'package:grimity/presentation/common/widget/grimity_image.dart';
 
 class GrimityImageFeed extends StatelessWidget {
-  const GrimityImageFeed({super.key, required this.feed, this.index});
+  const GrimityImageFeed({super.key, required this.feed, this.index, this.onToggleLike, this.onToggleSave});
 
   final Feed feed;
   final int? index;
+  final VoidCallback? onToggleLike;
+  final VoidCallback? onToggleSave;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,14 @@ class GrimityImageFeed extends StatelessWidget {
       children: [
         AspectRatio(
           aspectRatio: 1.0,
-          child: GrimityImage.big(imageUrl: feed.thumbnail ?? '', index: index, isLike: feed.isLike),
+          child: GrimityImage.big(
+            imageUrl: feed.thumbnail ?? '',
+            index: index,
+            isLike: feed.isLike,
+            onToggleLike: onToggleLike,
+            isSave: feed.isSave,
+            onToggleSave: onToggleSave,
+          ),
         ),
         const Gap(8),
         Expanded(child: Text(feed.title, style: AppTypeface.label2, maxLines: 1, overflow: TextOverflow.ellipsis)),

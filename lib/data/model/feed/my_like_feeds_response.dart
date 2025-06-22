@@ -1,9 +1,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/data/model/feed/my_like_feed_response.dart';
 import 'package:grimity/data/model/shared/cursor_response.dart';
-import 'package:grimity/domain/entity/feed.dart';
+import 'package:grimity/domain/entity/feeds.dart';
 
 part 'my_like_feeds_response.freezed.dart';
+
 part 'my_like_feeds_response.g.dart';
 
 @Freezed(copyWith: false)
@@ -17,7 +18,7 @@ abstract class MyLikeFeedsResponse with _$MyLikeFeedsResponse implements CursorR
 }
 
 extension MyLikeFeedsResponseX on MyLikeFeedsResponse {
-  List<Feed> toEntity() {
-    return feeds.toEntity();
+  Feeds toEntity() {
+    return Feeds(feeds: feeds.toEntity(), nextCursor: nextCursor);
   }
 }

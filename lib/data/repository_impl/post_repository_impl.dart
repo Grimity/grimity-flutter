@@ -32,4 +32,24 @@ class PostRepositoryImpl extends PostRepository {
       return Result.failure(e);
     }
   }
+
+  @override
+  Future<Result<void>> savePost(String id) async {
+    try {
+      await _postAPI.savePost(id);
+      return Result.success(null);
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
+
+  @override
+  Future<Result<void>> removeSavedPost(String id) async {
+    try {
+      await _postAPI.removeSavedPost(id);
+      return Result.success(null);
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
 }
