@@ -19,4 +19,16 @@ abstract class FeedAPI {
 
   @GET('/feeds/today-popular')
   Future<List<FeedTodayPopularResponse>> getTodayPopularFeeds();
+
+  @PUT('/feeds/{id}/like')
+  Future<void> likeFeed(@Path('id') String id);
+
+  @DELETE('/feeds/{id}/like')
+  Future<void> unlikeFeed(@Path('id') String id);
+
+  @PUT('/feeds/{id}/save')
+  Future<void> saveFeed(@Path('id') String id);
+
+  @DELETE('/feeds/{id}/save')
+  Future<void> removeSavedFeed(@Path('id') String id);
 }

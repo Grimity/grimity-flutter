@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:grimity/app/config/app_const.dart';
+import 'package:grimity/data/model/feed/my_like_feeds_response.dart';
+import 'package:grimity/data/model/post/my_save_posts_response.dart';
 import 'package:grimity/data/model/user/my_profile_response.dart';
 import 'package:grimity/domain/dto/me_request_params.dart';
 import 'package:injectable/injectable.dart';
@@ -34,4 +36,13 @@ abstract class MeAPI {
 
   @DELETE('/me/background')
   Future<void> deleteBackgroundImage();
+
+  @GET('/me/like-feeds')
+  Future<MyLikeFeedsResponse> getLikeFeeds(@Query('size') int? size, @Query('cursor') String? cursor);
+
+  @GET('/me/save-feeds')
+  Future<MyLikeFeedsResponse> getSaveFeeds(@Query('size') int? size, @Query('cursor') String? cursor);
+
+  @GET('/me/save-posts')
+  Future<MySavePostsResponse> getSavePosts(@Query('page') int page, @Query('size') int size);
 }

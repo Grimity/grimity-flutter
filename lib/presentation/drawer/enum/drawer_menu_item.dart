@@ -1,3 +1,4 @@
+import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/gen/assets.gen.dart';
 
 enum DrawerMenuItem {
@@ -27,5 +28,26 @@ enum DrawerMenuItem {
       case DrawerMenuItem.setting:
         return Assets.icons.drawer.setting;
     }
+  }
+
+  String get path {
+    switch (this) {
+      case DrawerMenuItem.home:
+        return MainRoute.path;
+      case DrawerMenuItem.paint:
+        throw UnimplementedError();
+      case DrawerMenuItem.board:
+        throw UnimplementedError();
+      case DrawerMenuItem.following:
+        throw UnimplementedError();
+      case DrawerMenuItem.storage:
+        return StorageRoute.path;
+      case DrawerMenuItem.setting:
+        throw UnimplementedError();
+    }
+  }
+
+  bool get isGo {
+    return this == DrawerMenuItem.home || this == DrawerMenuItem.paint || this == DrawerMenuItem.board;
   }
 }
