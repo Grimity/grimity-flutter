@@ -116,4 +116,24 @@ class UsersRepositoryImpl extends UsersRepository {
       return Result.failure(e);
     }
   }
+
+  @override
+  Future<Result<void>> followUserById(String id) async {
+    try {
+      await _usersAPI.followUserById(id);
+      return Result.success(null);
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
+
+  @override
+  Future<Result<void>> unfollowUserById(String id) async {
+    try {
+      await _usersAPI.unfollowUserById(id);
+      return Result.success(null);
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
 }

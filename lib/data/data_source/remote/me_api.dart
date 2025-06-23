@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:grimity/app/config/app_const.dart';
+import 'package:grimity/data/model/user/my_followers_response.dart';
+import 'package:grimity/data/model/user/my_followings_response.dart';
 import 'package:grimity/data/model/user/my_profile_response.dart';
 import 'package:grimity/domain/dto/me_request_params.dart';
 import 'package:injectable/injectable.dart';
@@ -34,4 +36,13 @@ abstract class MeAPI {
 
   @DELETE('/me/background')
   Future<void> deleteBackgroundImage();
+
+  @GET('/me/followers')
+  Future<MyFollowersResponse> getMyFollowers(@Query('size') int? size, @Query('cursor') String? cursor);
+
+  @GET('/me/followings')
+  Future<MyFollowingsResponse> getMyFollowings(@Query('size') int? size, @Query('cursor') String? cursor);
+
+  @DELETE('/me/followings/{id}')
+  Future<void> deleteFollowerById(@Path('id') String id);
 }

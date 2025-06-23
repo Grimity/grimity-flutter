@@ -23,4 +23,8 @@ abstract class UsersRepository {
   Future<Result<Feeds>> getFeeds(GetUserFeedsRequestParams request);
 
   Future<Result<List<Post>>> getPosts(GetUserPostsRequestParams request);
+
+  Future<Result<void>> followUserById(String id);
+
+  Future<Result<void>> unfollowUserById(String id);
 }
