@@ -38,5 +38,8 @@ abstract class User with _$User {
     isFollowing: false,
     albums: [],
   );
+
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+  static List<User> get emptyList => [User.empty(), User.empty(), User.empty()];
 }

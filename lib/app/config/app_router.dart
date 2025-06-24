@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimity/presentation/follow/follow_page.dart';
 import 'package:grimity/presentation/main/main_page.dart';
 import 'package:grimity/presentation/sign_in/sign_in_page.dart';
 import 'package:grimity/presentation/sign_up/sign_up_page.dart';
@@ -73,4 +74,15 @@ class SignUpRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => const SignUpPage();
+}
+
+@TypedGoRoute<FollowRoute>(path: FollowRoute.path, name: FollowRoute.name)
+class FollowRoute extends GoRouteData {
+  const FollowRoute();
+
+  static const String path = '/follow';
+  static const String name = 'follow';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const FollowPage();
 }
