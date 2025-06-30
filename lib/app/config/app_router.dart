@@ -6,6 +6,7 @@ import 'package:grimity/presentation/main/main_page.dart';
 import 'package:grimity/presentation/sign_in/sign_in_page.dart';
 import 'package:grimity/presentation/sign_up/sign_up_page.dart';
 import 'package:grimity/presentation/splash/splash_page.dart';
+import 'package:grimity/presentation/storage/storage_page.dart';
 
 part 'app_router.g.dart';
 
@@ -85,4 +86,15 @@ class FollowRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => const FollowPage();
+}
+
+@TypedGoRoute<StorageRoute>(path: StorageRoute.path, name: StorageRoute.name)
+class StorageRoute extends GoRouteData {
+  const StorageRoute();
+
+  static const String path = '/storage';
+  static const String name = 'storage';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const StoragePage();
 }

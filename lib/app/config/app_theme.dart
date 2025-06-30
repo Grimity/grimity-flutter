@@ -19,5 +19,7 @@ class AppTheme {
     ),
   );
 
-  static Size get kToolbarHeight => Size.fromHeight(48.w);
+  static Size get kToolbarHeight => Size.fromHeight(48.h);
+
+  static Size get kBottomBarHeight => Size.fromHeight(52.h);
 }

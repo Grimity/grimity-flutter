@@ -13,10 +13,32 @@ class GrimityImage extends StatelessWidget {
     required this.height,
     this.index,
     this.isLike,
+    this.onToggleLike,
+    this.isSave,
+    this.onToggleSave,
   });
 
-  const GrimityImage.big({super.key, required this.imageUrl, this.index, this.isLike}) : width = 205, height = 205;
-  const GrimityImage.medium({super.key, required this.imageUrl, this.index, this.isLike}) : width = 165, height = 165;
+  const GrimityImage.big({
+    super.key,
+    required this.imageUrl,
+    this.index,
+    this.isLike,
+    this.onToggleLike,
+    this.isSave,
+    this.onToggleSave,
+  }) : width = 205,
+       height = 205;
+
+  const GrimityImage.medium({
+    super.key,
+    required this.imageUrl,
+    this.index,
+    this.isLike,
+    this.onToggleLike,
+    this.isSave,
+    this.onToggleSave,
+  }) : width = 165,
+       height = 165;
 
   final String imageUrl;
   final double width;
@@ -24,6 +46,9 @@ class GrimityImage extends StatelessWidget {
 
   final int? index;
   final bool? isLike;
+  final VoidCallback? onToggleLike;
+  final bool? isSave;
+  final VoidCallback? onToggleSave;
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +67,27 @@ class GrimityImage extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.bottomRight,
                       child: GrimityAnimationButton(
-                        onTap: () {},
+                        onTap: () => onToggleLike?.call(),
                         child:
                             isLike!
                                 ? Assets.icons.home.heartFill.svg(width: 24, height: 24)
                                 : Assets.icons.home.heart.svg(width: 24, height: 24),
+                      ),
+                    ),
+                  ),
+                ],
+                if (isSave != null) ...[
+                  Positioned.fill(
+                    right: 10,
+                    bottom: 10,
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: GrimityAnimationButton(
+                        onTap: () => onToggleSave?.call(),
+                        child:
+                            isSave!
+                                ? Assets.icons.storage.saveFill.svg(width: 24, height: 24)
+                                : Assets.icons.storage.save.svg(width: 24, height: 24),
                       ),
                     ),
                   ),

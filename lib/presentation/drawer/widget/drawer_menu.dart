@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/presentation/drawer/enum/drawer_menu_item.dart';
@@ -25,6 +26,11 @@ class _DrawerMenuListTile extends StatelessWidget {
       dense: true,
       onTap: () {
         Scaffold.of(context).closeEndDrawer();
+        if (drawerMenuItem.isGo) {
+          context.go(drawerMenuItem.path);
+        } else {
+          context.push(drawerMenuItem.path);
+        }
       },
       minLeadingWidth: 10.w,
       leading: SvgPicture.asset(drawerMenuItem.icon.path, width: 16),

@@ -95,6 +95,7 @@ flutter:
     - assets/icons/main/
     - assets/icons/drawer/
     - assets/icons/follow/
+    - assets/icons/storage/
     - assets/images/
     - assets/images/sign_up/
 

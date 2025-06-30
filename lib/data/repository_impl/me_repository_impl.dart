@@ -2,7 +2,11 @@ import 'package:grimity/app/base/result.dart';
 import 'package:grimity/data/data_source/remote/me_api.dart';
 import 'package:grimity/data/model/user/my_followers_response.dart';
 import 'package:grimity/data/model/user/my_followings_response.dart';
+import 'package:grimity/data/model/feed/my_like_feeds_response.dart';
+import 'package:grimity/data/model/post/my_save_posts_response.dart';
 import 'package:grimity/data/model/user/my_profile_response.dart';
+import 'package:grimity/domain/entity/feeds.dart';
+import 'package:grimity/domain/entity/posts.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/domain/dto/me_request_params.dart';
 import 'package:grimity/domain/entity/users.dart';
@@ -84,6 +88,36 @@ class MeRepositoryImpl extends MeRepository {
       return Result.failure(e);
     }
   }
+  
+  @override
+  Future<Result<Feeds>> getLikeFeeds(int? size, String? cursor) async {
+    try {
+      final MyLikeFeedsResponse response = await _meAPI.getLikeFeeds(size, cursor);
+      return Result.success(response.toEntity());
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
+
+  @override
+  Future<Result<Feeds>> getSaveFeeds(int? size, String? cursor) async {
+    try {
+      final MyLikeFeedsResponse response = await _meAPI.getSaveFeeds(size, cursor);
+      return Result.success(response.toEntity());
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
+
+  @override
+  Future<Result<Posts>> getSavePosts(int page, int size) async {
+    try {
+      final MySavePostsResponse response = await _meAPI.getSavePosts(page, size);
+      return Result.success(response.toEntity());
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
 
   @override
   Future<Result<Users>> getMyFollowers(int? size, String? cursor) async {
@@ -114,5 +148,4 @@ class MeRepositoryImpl extends MeRepository {
       return Result.failure(e);
     }
   }
-
 }
