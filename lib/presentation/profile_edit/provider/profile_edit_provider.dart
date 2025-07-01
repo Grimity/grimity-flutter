@@ -20,13 +20,14 @@ class ProfileEdit extends _$ProfileEdit {
     final user = ref.read(userAuthProvider);
 
     if (user == null) {
-      return const ProfileEditState(nickname: '', description: '', url: '', links: []);
+      return const ProfileEditState(nickname: '', originalNickname: '', description: '', url: '', links: []);
     }
 
     return ProfileEditState(
       image: user.image,
       backgroundImage: user.backgroundImage,
       nickname: user.name,
+      originalNickname: user.name,
       description: user.description ?? '',
       url: user.url,
       links: user.links ?? [],
@@ -35,12 +36,12 @@ class ProfileEdit extends _$ProfileEdit {
 
   /// 이미지 업데이트
   void updateImage(String? image) {
-    state = state.copyWith(image: image, isSaved: true);
+    state = state.copyWith(image: image);
   }
 
   /// 배경 이미지 업데이트
   void updateBackgroundImage(String? backgroundImage) {
-    state = state.copyWith(backgroundImage: backgroundImage, isSaved: true);
+    state = state.copyWith(backgroundImage: backgroundImage);
   }
 
   /// 닉네임 업데이트
@@ -97,6 +98,10 @@ class ProfileEdit extends _$ProfileEdit {
   }
 
   Future<void> updateUser() async {
+    if (!await validate()) {
+      return;
+    }
+
     final request = UpdateUserRequest(
       name: state.nickname,
       url: state.url,
@@ -110,6 +115,7 @@ class ProfileEdit extends _$ProfileEdit {
       onSuccess: (data) {
         state = state.copyWith(isSaved: true);
         ToastService.show('프로필 수정이 완료되었습니다');
+        ref.read(userAuthProvider.notifier).getUser();
       },
       onFailure: (error) {
         ToastService.showError('프로필 수정에 실패했습니다');
@@ -117,9 +123,31 @@ class ProfileEdit extends _$ProfileEdit {
     );
   }
 
+  /// 유효성 체크
+  Future<bool> validate() async {
+    await Future.wait([
+      checkNicknameDuplicate(),
+      checkUrlValidity(),
+    ]);
+
+    return state.nicknameState == GrimityTextFieldState.normal && state.urlState == GrimityTextFieldState.normal;
+  }
+
   /// 닉네임 중복 확인
   Future<void> checkNicknameDuplicate() async {
-    if (!ValidatorUtil.isValidNickname(state.nickname) || state.isNicknameChecking) return;
+    if (state.originalNickname == state.nickname) {
+      state = state.copyWith(isNicknameChecking: false, nicknameState: GrimityTextFieldState.normal);
+      return;
+    }
+
+    if (!ValidatorUtil.isValidNickname(state.nickname) || state.isNicknameChecking) {
+      state = state.copyWith(
+        isNicknameChecking: false,
+        nicknameState: GrimityTextFieldState.error,
+        nicknameCheckMessage: '닉네임은 최소 2자, 최대 12자까지 입력할 수 있어요',
+      );
+      return;
+    }
 
     state = state.copyWith(isNicknameChecking: true);
 
@@ -141,7 +169,14 @@ class ProfileEdit extends _$ProfileEdit {
 
   /// URL 유효성 검증
   Future<void> checkUrlValidity() async {
-    if (!ValidatorUtil.isValidUrl(state.url) || state.isUrlChecking) return;
+    if (!ValidatorUtil.isValidUrl(state.url) || state.isUrlChecking) {
+      state = state.copyWith(
+        isUrlChecking: false,
+        urlState: GrimityTextFieldState.error,
+        urlCheckMessage: '숫자, 영문(소문자), 언더바(_)만 입력 가능합니다.',
+      );
+      return;
+    }
 
     state = state.copyWith(isUrlChecking: true);
 
@@ -177,6 +212,7 @@ abstract class ProfileEditState with _$ProfileEditState {
     String? image,
     String? backgroundImage,
     required String nickname,
+    required String originalNickname,
     @Default(GrimityTextFieldState.normal) GrimityTextFieldState nicknameState,
     @Default(false) bool isNicknameChecking,
     String? nicknameCheckMessage,

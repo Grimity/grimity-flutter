@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/profile_edit/view/profile_edit_view.dart';
 import 'package:grimity/presentation/profile_edit/widget/profile_edit_background.dart';
 import 'package:grimity/presentation/profile_edit/widget/profile_edit_description.dart';
@@ -11,9 +10,7 @@ import 'package:grimity/presentation/profile_edit/widget/profile_edit_save_butto
 import 'package:grimity/presentation/profile_edit/widget/profile_edit_url.dart';
 
 class ProfileEditPage extends ConsumerWidget {
-  const ProfileEditPage({super.key, required this.user});
-
-  final User user;
+  const ProfileEditPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

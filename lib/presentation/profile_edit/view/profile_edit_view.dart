@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
-import 'package:grimity/presentation/common/widget/grimity_dialog.dart';
 import 'package:grimity/presentation/profile_edit/provider/profile_edit_provider.dart';
 import 'package:grimity/presentation/profile_edit/widget/profile_edit_app_bar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

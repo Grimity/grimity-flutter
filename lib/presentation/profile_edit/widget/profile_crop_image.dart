@@ -6,13 +6,14 @@ import 'package:grimity/presentation/profile_edit/provider/upload_image_provider
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ProfileCropImage extends ConsumerWidget {
-  const ProfileCropImage({super.key, required this.controller});
+  const ProfileCropImage({super.key, required this.controller, required this.type});
 
   final CustomImageCropController controller;
+  final UploadImageType type;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final uploadImage = ref.read(uploadImageProvider);
+    final uploadImage = ref.read(uploadImageProvider(type));
 
     return Expanded(
       child: CustomImageCrop(

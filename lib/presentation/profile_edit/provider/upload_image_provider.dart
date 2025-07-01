@@ -3,11 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:grimity/app/config/app_const.dart';
 import 'package:grimity/app/enum/presigned.enum.dart';
+import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/domain/dto/aws_request_params.dart';
 import 'package:grimity/domain/dto/me_request_params.dart';
 import 'package:grimity/domain/usecase/aws_usecases.dart';
 import 'package:grimity/domain/usecase/me_usecases.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
+import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
 import 'package:grimity/presentation/profile_edit/provider/profile_edit_provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -15,13 +17,21 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'upload_image_provider.g.dart';
 
-enum UploadImageType { profile, background }
+enum UploadImageType {
+  profile,
+  background;
+
+  String toJson() => name;
+
+  static UploadImageType fromJson(String value) =>
+      UploadImageType.values.firstWhere((e) => e.name == value);
+}
 
 @Riverpod(keepAlive: true)
 class UploadImage extends _$UploadImage {
   @override
-  UploadImageState build() {
-    return UploadImageState();
+  UploadImageState build(UploadImageType type) {
+    return UploadImageState(type: type);
   }
 
   Future<bool> pickImage(UploadImageType type) async {
@@ -50,9 +60,12 @@ class UploadImage extends _$UploadImage {
       return false;
     }
 
-    if (state.type == UploadImageType.profile) {
+    setUploading(true);
+
+    try {
       // Presigned URL 발급
-      final urlRequest = GetPresignedUrlRequest(type: PresignedType.profile, ext: PresignedExt.webp);
+      final presignedType = state.type == UploadImageType.profile ? PresignedType.profile : PresignedType.background;
+      final urlRequest = GetPresignedUrlRequest(type: presignedType, ext: PresignedExt.webp);
       final urlResult = await getPresignedUrlUseCase.execute(urlRequest);
 
       if (urlResult.isFailure) {
@@ -69,38 +82,34 @@ class UploadImage extends _$UploadImage {
       }
 
       // 프로필 이미지 업데이트
-      await updateProfileImageUseCase.execute(UpdateProfileImageRequestParam(imageName: urlResult.data.imageName));
-
-      // 유저 정보 업데이트
-      await ref.read(userAuthProvider.notifier).getUser();
-      ref.read(profileEditProvider.notifier).updateImage(AppConst.imageUrl + urlResult.data.imageName);
-    } else {
-      // Presigned URL 발급
-      final urlRequest = GetPresignedUrlRequest(type: PresignedType.background, ext: PresignedExt.webp);
-      final urlResult = await getPresignedUrlUseCase.execute(urlRequest);
-
-      if (urlResult.isFailure) {
-        return false;
+      if (state.type == UploadImageType.profile) {
+        await updateProfileImageUseCase.execute(UpdateProfileImageRequestParam(imageName: urlResult.data.imageName));
       }
-
-      // AWS 이미지 업로드
-      final uploadResult = await uploadImageUseCase.execute(
-        UploadImageRequest(url: urlResult.data.url, filePath: state.image!.path),
-      );
-
-      if (uploadResult.isFailure) {
-        return false;
-      }
-
       // 배경 이미지 업데이트
-      await updateBackgroundImageUseCase.execute(
-        UpdateBackgroundImageRequestParam(imageName: urlResult.data.imageName),
-      );
+      else {
+        await updateBackgroundImageUseCase.execute(
+          UpdateBackgroundImageRequestParam(imageName: urlResult.data.imageName),
+        );
+      }
 
       // 유저 정보 업데이트
       await ref.read(userAuthProvider.notifier).getUser();
-      ref.read(profileEditProvider.notifier).updateBackgroundImage(AppConst.imageUrl + urlResult.data.imageName);
+
+      // profileEditProvider 업데이트
+      if (state.type == UploadImageType.profile) {
+        ref.read(profileEditProvider.notifier).updateImage(AppConst.imageUrl + urlResult.data.imageName);
+        ToastService.show('프로필 이미지 업데이트가 완료되었습니다');
+      } else {
+        ref.read(profileEditProvider.notifier).updateBackgroundImage(AppConst.imageUrl + urlResult.data.imageName);
+        ToastService.show('배경 이미지 업데이트가 완료되었습니다');
+      }
+
+      // 프로필 정보 업데이트
+      ref.invalidate(profileDataProvider);
+    } finally {
+      setUploading(false);
     }
+
     return true;
   }
 
@@ -115,6 +124,12 @@ class UploadImage extends _$UploadImage {
       ref.read(profileEditProvider.notifier).updateBackgroundImage(null);
     }
   }
+
+  void setUploading(bool isUploading) {
+    state = state.copyWith(
+      isUploading: isUploading
+    );
+  }
 }
 
 class UploadImageState {
@@ -122,7 +137,7 @@ class UploadImageState {
   final UploadImageType type;
   final bool isUploading;
 
-  UploadImageState({this.image, this.type = UploadImageType.profile, this.isUploading = false});
+  UploadImageState({this.image, required this.type, this.isUploading = false});
 
   UploadImageState copyWith({XFile? image, UploadImageType? type, bool? isUploading}) {
     return UploadImageState(

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/main/main_page.dart';
 import 'package:grimity/presentation/profile_edit/profile_crop_image_page.dart';
 import 'package:grimity/presentation/profile_edit/profile_edit_page.dart';
+import 'package:grimity/presentation/profile_edit/provider/upload_image_provider.dart';
 import 'package:grimity/presentation/sign_in/sign_in_page.dart';
 import 'package:grimity/presentation/upload_image/upload_image_page.dart';
 import 'package:grimity/presentation/sign_up/sign_up_page.dart';
@@ -37,26 +37,26 @@ abstract final class AppRouter {
 
 @TypedGoRoute<ProfileEditRoute>(path: ProfileEditRoute.path, name: ProfileEditRoute.name)
 class ProfileEditRoute extends GoRouteData {
-  const ProfileEditRoute(this.$extra);
+  const ProfileEditRoute();
 
   static const String path = '/profile-edit';
   static const String name = 'profile-edit';
 
-  final User $extra;
-
   @override
-  Widget build(BuildContext context, GoRouterState state) => ProfileEditPage(user: state.extra as User);
+  Widget build(BuildContext context, GoRouterState state) => ProfileEditPage();
 }
 
 @TypedGoRoute<CropImageRoute>(path: CropImageRoute.path, name: CropImageRoute.name)
 class CropImageRoute extends GoRouteData {
-  const CropImageRoute();
+  const CropImageRoute({required this.type});
 
   static const String path = '/crop-image';
   static const String name = 'crop-image';
 
+  final UploadImageType type;
+
   @override
-  Widget build(BuildContext context, GoRouterState state) => const ProfileCropImagePage();
+  Widget build(BuildContext context, GoRouterState state) => ProfileCropImagePage(type: type);
 }
 
 @TypedGoRoute<SplashRoute>(path: SplashRoute.path, name: SplashRoute.name)

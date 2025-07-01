@@ -19,12 +19,14 @@ class ProfileEditNickname extends HookConsumerWidget {
         Text("닉네임", style: AppTypeface.caption1),
         Gap(10),
         GrimityTextField.normal(
+          state: ref.read(profileEditProvider).nicknameState,
           controller: nicknameController,
           hintText: "닉네임을 입력해주세요.",
           maxLength: 12,
           onChanged: (value) {
             ref.read(profileEditProvider.notifier).updateNickname(value);
           },
+          errorText: ref.read(profileEditProvider).nicknameCheckMessage,
         ),
       ],
     );

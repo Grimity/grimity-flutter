@@ -11,7 +11,7 @@ class ProfileEditUrl extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final grimityUrlController = useTextEditingController(text: ref.read(profileEditProvider).url);
+    final grimityUrlController = useTextEditingController(text: ref.watch(profileEditProvider).url);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -19,12 +19,15 @@ class ProfileEditUrl extends HookConsumerWidget {
         Text("링크", style: AppTypeface.caption1),
         Gap(10),
         GrimityTextField.normal(
+          state: ref.read(profileEditProvider).urlState,
           controller: grimityUrlController,
           hintText: ref.read(profileEditProvider).url,
+          maxLength: 20,
           defaultText: "www.grimity.com/",
           onChanged: (value) {
             ref.read(profileEditProvider.notifier).updateUrl(value);
           },
+          errorText: ref.read(profileEditProvider).urlCheckMessage,
         ),
       ],
     );

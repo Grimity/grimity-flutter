@@ -19,7 +19,8 @@ void showBackgroundImageBottomSheet(BuildContext context, WidgetRef ref) {
       borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
     ),
     builder: (context) {
-      final uploadImage = ref.read(uploadImageProvider.notifier);
+      final type = UploadImageType.background;
+      final uploadImage = ref.read(uploadImageProvider(UploadImageType.background).notifier);
 
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
@@ -52,7 +53,7 @@ void showBackgroundImageBottomSheet(BuildContext context, WidgetRef ref) {
 
                 if (isSelected && context.mounted) {
                   context.pop();
-                  CropImageRoute().push(context);
+                  CropImageRoute(type: type).push(context);
                 }
               },
               child: Container(
@@ -93,7 +94,8 @@ void showProfileImageBottomSheet(BuildContext context, WidgetRef ref) {
       borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
     ),
     builder: (context) {
-      final uploadImage = ref.read(uploadImageProvider.notifier);
+      final type = UploadImageType.profile;
+      final uploadImage = ref.read(uploadImageProvider(UploadImageType.profile).notifier);
 
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
@@ -126,7 +128,7 @@ void showProfileImageBottomSheet(BuildContext context, WidgetRef ref) {
 
                 if (isSelected && context.mounted) {
                   context.pop();
-                  CropImageRoute().push(context);
+                  CropImageRoute(type: type).push(context);
                 }
               },
               child: Container(
@@ -211,18 +213,18 @@ showAddLinkBottomSheet(BuildContext context, ProfileEdit profileEditNotifier) {
                     Gap(8),
                     _BottomSheetButton(
                       height: 54.w,
-                      child: Align(alignment: Alignment.centerLeft, child: Text("픽시브", style: AppTypeface.label2)),
+                      child: Align(alignment: Alignment.centerLeft, child: Text("유튜브", style: AppTypeface.label2)),
                       onTap: () {
-                        profileEditNotifier.addLink(Link(linkName: "픽시브", link: "https://www.pixiv.net/"));
+                        profileEditNotifier.addLink(Link(linkName: "유튜브", link: "https://www.youtube.com/"));
                         context.pop();
                       },
                     ),
                     Gap(8),
                     _BottomSheetButton(
                       height: 54.w,
-                      child: Align(alignment: Alignment.centerLeft, child: Text("유튜브", style: AppTypeface.label2)),
+                      child: Align(alignment: Alignment.centerLeft, child: Text("픽시브", style: AppTypeface.label2)),
                       onTap: () {
-                        profileEditNotifier.addLink(Link(linkName: "유튜브", link: "https://www.youtube.com/"));
+                        profileEditNotifier.addLink(Link(linkName: "픽시브", link: "https://www.pixiv.net/"));
                         context.pop();
                       },
                     ),
@@ -238,7 +240,7 @@ showAddLinkBottomSheet(BuildContext context, ProfileEdit profileEditNotifier) {
                     Gap(8),
                     _BottomSheetButton(
                       height: 54.w,
-                      child: Align(alignment: Alignment.centerLeft, child: Text("웹", style: AppTypeface.label2)),
+                      child: Align(alignment: Alignment.centerLeft, child: Text("직접 입력", style: AppTypeface.label2)),
                       onTap: () {
                         profileEditNotifier.addLink(Link(linkName: "", link: "https://"));
                         context.pop();

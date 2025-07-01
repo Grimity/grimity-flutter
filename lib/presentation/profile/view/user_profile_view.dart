@@ -191,7 +191,7 @@ class _UserProfile extends StatelessWidget {
                   Gap(4),
                   Row(
                     children: [
-                      Text(e.link.split('/').last, style: AppTypeface.caption1.copyWith(color: AppColor.gray700)),
+                      Text('@${e.link.split('/').last}', style: AppTypeface.caption1.copyWith(color: AppColor.gray700)),
                       if (index == 2 && user.links!.length > 3) ...[
                         Gap(12),
                         GestureDetector(

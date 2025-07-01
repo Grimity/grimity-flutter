@@ -33,9 +33,10 @@ class ProfileEditDropdown extends StatelessWidget {
       ),
       style: AppTypeface.label2,
       dropdownColor: AppColor.gray00,
+      borderRadius: BorderRadius.circular(12),
       icon: Assets.icons.profileEdit.arrowDown.svg(width: 16, height: 16),
       items:
-          ['X', '인스타그램', '픽시브', '유튜브', '이메일'].map((String value) {
+          ['X', '인스타그램', '유튜브', '픽시브', '이메일', '직접 입력'].map((String value) {
             return DropdownMenuItem<String>(value: value, child: Text(value, style: AppTypeface.label2));
           }).toList(),
       onChanged: onChanged,

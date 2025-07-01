@@ -5,13 +5,14 @@ import 'package:grimity/presentation/profile_edit/provider/upload_image_provider
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ProfileCropButton extends ConsumerWidget {
-  const ProfileCropButton({super.key, required this.controller});
+  const ProfileCropButton({super.key, required this.controller, required this.type});
 
   final CustomImageCropController controller;
+  final UploadImageType type;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final uploadImage = ref.read(uploadImageProvider);
+    final uploadImage = ref.read(uploadImageProvider(type));
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -21,8 +22,10 @@ class ProfileCropButton extends ConsumerWidget {
           final cropImage = await controller.onCropImage();
 
           if (cropImage != null) {
-            await ref.read(uploadImageProvider.notifier).setMemoryImage(cropImage);
-            await ref.read(uploadImageProvider.notifier).updateImage();
+            await ref.read(uploadImageProvider(type).notifier).setMemoryImage(cropImage);
+            // updateImage의 시간이 너무 오래걸려서 비동기로 처리
+            // isUploading으로 상태 관리
+            ref.read(uploadImageProvider(type).notifier).updateImage();
           }
 
           if (context.mounted) {
