@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:grimity/presentation/main/main_page.dart';
+import 'package:grimity/presentation/home/home_page.dart';
+import 'package:grimity/presentation/main/main_app_shell.dart';
+import 'package:grimity/presentation/profile/profile_page.dart';
 import 'package:grimity/presentation/profile_edit/profile_crop_image_page.dart';
 import 'package:grimity/presentation/profile_edit/profile_edit_page.dart';
 import 'package:grimity/presentation/profile_edit/provider/upload_image_provider.dart';
@@ -13,6 +15,7 @@ import 'package:grimity/presentation/splash/splash_page.dart';
 part 'app_router.g.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
+final shellNavigatorKey = GlobalKey<NavigatorState>();
 
 abstract final class AppRouter {
   static final GoRouter _router = GoRouter(
@@ -33,6 +36,144 @@ abstract final class AppRouter {
   );
 
   static GoRouter router(WidgetRef ref) => _router;
+}
+
+@TypedStatefulShellRoute<AppShellRoute>(
+  branches: [
+    TypedStatefulShellBranch<HomeBranchData>(
+      routes: [
+        TypedGoRoute<HomeRoute>(path: HomeRoute.path, name: HomeRoute.name),
+      ],
+    ),
+    TypedStatefulShellBranch<PaintBranchData>(
+      routes: [
+        TypedGoRoute<PaintRoute>(path: PaintRoute.path, name: PaintRoute.name),
+      ],
+    ),
+    TypedStatefulShellBranch<FollowingBranchData>(
+      routes: [
+        TypedGoRoute<FollowingRoute>(path: FollowingRoute.path, name: FollowingRoute.name),
+      ],
+    ),
+    TypedStatefulShellBranch<BoardBranchData>(
+      routes: [
+        TypedGoRoute<BoardRoute>(path: BoardRoute.path, name: BoardRoute.name),
+      ],
+    ),
+    TypedStatefulShellBranch<MyBranchData>(
+      routes: [
+        TypedGoRoute<MyRoute>(path: MyRoute.path, name: MyRoute.name),
+        TypedGoRoute<ProfileRoute>(path: MyRoute.path + ProfileRoute.path, name: ProfileRoute.name),
+      ],
+    ),
+  ],
+)
+class AppShellRoute extends StatefulShellRouteData {
+  const AppShellRoute();
+
+  static final GlobalKey<NavigatorState> $navigatorKey = shellNavigatorKey;
+
+  @override
+  Widget builder(BuildContext context, GoRouterState state, StatefulNavigationShell navigationShell) {
+    return MainAppShell(navigationShell: navigationShell);
+  }
+}
+
+class HomeBranchData extends StatefulShellBranchData {
+  const HomeBranchData();
+}
+
+class HomeRoute extends GoRouteData {
+  const HomeRoute();
+
+  static const String path = '/home';
+  static const String name = 'home';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => HomePage();
+}
+
+class PaintBranchData extends StatefulShellBranchData {
+  const PaintBranchData();
+}
+
+class PaintRoute extends GoRouteData {
+  const PaintRoute();
+
+  static const String path = '/paint';
+  static const String name = 'paint';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => Center(child: Text('Paint'),);
+}
+
+class FollowingBranchData extends StatefulShellBranchData {
+  const FollowingBranchData();
+}
+
+class FollowingRoute extends GoRouteData {
+  const FollowingRoute();
+
+  static const String path = '/following';
+  static const String name = 'following';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => Center(child: Text('Following'),);
+}
+
+class BoardBranchData extends StatefulShellBranchData {
+  const BoardBranchData();
+}
+
+class BoardRoute extends GoRouteData {
+  const BoardRoute();
+
+  static const String path = '/board';
+  static const String name = 'board';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => Center(child: Text('Board'),);
+}
+
+class MyBranchData extends StatefulShellBranchData {
+  const MyBranchData();
+}
+
+class MyRoute extends GoRouteData {
+  const MyRoute();
+
+  static const String path = '/my';
+  static const String name = 'my';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => ProfilePage(url: null);
+}
+
+class ProfileRoute extends GoRouteData {
+  final String url;
+
+  const ProfileRoute({required this.url});
+
+  static const String path = '/profile/:url';
+  static const String name = 'profile';
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return CustomTransitionPage(
+      key: state.pageKey,
+      child: ProfilePage(url: url),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(1, 0), // 오른쪽에서 시작
+            end: Offset.zero,
+          ).animate(animation),
+          child: child,
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 200),
+    );
+  }
 }
 
 @TypedGoRoute<ProfileEditRoute>(path: ProfileEditRoute.path, name: ProfileEditRoute.name)
@@ -68,17 +209,6 @@ class SplashRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => const SplashPage();
-}
-
-@TypedGoRoute<MainRoute>(path: MainRoute.path, name: MainRoute.name)
-class MainRoute extends GoRouteData {
-  const MainRoute();
-
-  static const String path = '/main';
-  static const String name = 'main';
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) => const MainPage();
 }
 
 @TypedGoRoute<SignInRoute>(path: SignInRoute.path, name: SignInRoute.name)

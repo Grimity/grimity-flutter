@@ -28,7 +28,7 @@ class SignUpCheckUrlButton extends ConsumerWidget {
         result.fold(
           onSuccess: (user) {
             if (!context.mounted) return;
-            MainRoute().go(context);
+            HomeRoute().go(context);
           },
           onFailure: (error) {
             ToastService.showError('회원가입에 실패했어요.', showImmediately: true);

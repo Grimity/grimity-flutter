@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
-import 'package:grimity/presentation/main/provider/main_bottom_navigation_bar_provider.dart';
+import 'package:grimity/presentation/main/provider/main_bottom_navigation_item.dart';
 
 class MainBottomNavigationBar extends ConsumerWidget {
-  const MainBottomNavigationBar({super.key});
+  final StatefulNavigationShell navigationShell;
+
+  const MainBottomNavigationBar({super.key, required this.navigationShell});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentTab = ref.watch(mainBottomNavigationBarProvider);
-
     return SafeArea(
       top: false,
       child: Container(
@@ -30,14 +31,14 @@ class MainBottomNavigationBar extends ConsumerWidget {
                 padding: EdgeInsets.fromLTRB(16.5, 12, 16.5, 24),
                 child: GrimityAnimationButton(
                   onTap: () {
-                    ref.read(mainBottomNavigationBarProvider.notifier).setCurrentTab(e);
+                    navigationShell.goBranch(e.index, initialLocation: e.index == navigationShell.currentIndex);
                   },
                   child: SvgPicture.asset(
                     e.icon.path,
                     width: 22,
                     height: 22,
                     colorFilter: ColorFilter.mode(
-                      currentTab == e ? AppColor.gray700 : AppColor.gray500,
+                      navigationShell.currentIndex == e.index ? AppColor.gray700 : AppColor.gray500,
                       BlendMode.srcIn,
                     ),
                   ),

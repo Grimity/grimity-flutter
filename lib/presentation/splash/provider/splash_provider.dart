@@ -28,6 +28,6 @@ class Splash extends _$Splash {
 
     // 유저 정보 조회 성공 시 메인 화면으로 이동
     if (!ref.context.mounted) return;
-    MainRoute().go(ref.context);
+    HomeRoute().go(ref.context);
   }
 }

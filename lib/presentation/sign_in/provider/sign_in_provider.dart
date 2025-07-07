@@ -15,7 +15,7 @@ class SignIn extends _$SignIn {
   /// 로그인 결과에 따른 라우팅
   void _route(WidgetRef ref) {
     if (ref.read(userAuthProvider) != null) {
-      MainRoute().go(ref.context);
+      HomeRoute().go(ref.context);
     } else {
       SignUpRoute().push(ref.context);
     }

@@ -1,7 +1,4 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:grimity/gen/assets.gen.dart';
-
-part 'main_bottom_navigation_bar_provider.g.dart';
 
 enum MainNavigationItem {
   home,
@@ -25,17 +22,5 @@ enum MainNavigationItem {
       case MainNavigationItem.my:
         return Assets.icons.main.defaultProfile;
     }
-  }
-}
-
-@Riverpod(keepAlive: true)
-class MainBottomNavigationBar extends _$MainBottomNavigationBar {
-  @override
-  MainNavigationItem build() {
-    return MainNavigationItem.home;
-  }
-
-  void setCurrentTab(MainNavigationItem item) {
-    state = item;
   }
 }

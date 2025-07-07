@@ -8,12 +8,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class HomeView extends HookConsumerWidget {
   const HomeView({
     super.key,
+    required this.homeAppBar,
     required this.noticeView,
     required this.feedRankingView,
     required this.latestPostView,
     required this.latestFeedView,
   });
 
+  final Widget homeAppBar;
   final Widget noticeView;
   final Widget feedRankingView;
   final Widget latestPostView;
@@ -29,21 +31,20 @@ class HomeView extends HookConsumerWidget {
       loadFunction: () async => await ref.read(latestFeedDataProvider.notifier).loadMore(),
     );
 
-    return SingleChildScrollView(
+    return CustomScrollView(
       controller: scrollController,
-      child: Column(
-        children: [
-          const Gap(16),
-          noticeView,
-          const Gap(24),
-          feedRankingView,
-          const Gap(50),
-          latestPostView,
-          const Gap(50),
-          latestFeedView,
-          const Gap(16),
-        ],
-      ),
+      slivers: [
+        homeAppBar,
+        SliverToBoxAdapter(child: Gap(16)),
+        SliverToBoxAdapter(child: noticeView),
+        SliverToBoxAdapter(child: Gap(24)),
+        SliverToBoxAdapter(child: feedRankingView),
+        SliverToBoxAdapter(child: Gap(50)),
+        SliverToBoxAdapter(child: latestPostView),
+        SliverToBoxAdapter(child: Gap(50)),
+        SliverToBoxAdapter(child: latestFeedView),
+        SliverToBoxAdapter(child: Gap(16)),
+      ],
     );
   }
 }

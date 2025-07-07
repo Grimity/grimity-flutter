@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
+import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/gen/assets.gen.dart';
@@ -28,9 +29,16 @@ class GrimityImageFeed extends StatelessWidget {
         const Gap(2),
         Row(
           children: [
-            Text(
-              feed.author?.name ?? authorName ?? '작성자 정보 없음',
-              style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
+            GestureDetector(
+              onTap: () {
+                if (feed.author != null) {
+                  ProfileRoute(url: feed.author!.url).push(context);
+                }
+              },
+              child: Text(
+                feed.author?.name ?? authorName ?? '작성자 정보 없음',
+                style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
+              ),
             ),
             GrimityGrayCircle(),
             Assets.icons.home.like.svg(width: 16, height: 16),
