@@ -15,7 +15,7 @@ void showCancelEditDialog(BuildContext context) {
           cancelText: '취소',
           confirmText: '나가기',
           onCancel: () => context.pop(),
-          onConfirm: () => HomeRoute().go(context),
+          onConfirm: () => MyRoute().go(context),
         ),
   );
 }

@@ -1,9 +1,9 @@
-import 'package:grimity/app/enum/sort_type.enum.dart';
 import 'package:grimity/domain/entity/feeds.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/domain/dto/users_request_params.dart';
 import 'package:grimity/domain/usecase/users_usecase.dart';
 import 'package:grimity/presentation/profile/provider/selected_album_provider.dart';
+import 'package:grimity/presentation/profile/provider/selected_sort_type_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'profile_feeds_data_provider.g.dart';
@@ -17,11 +17,12 @@ class ProfileFeedsData extends _$ProfileFeedsData {
     }
 
     final selectedAlbumId = ref.watch(selectedAlbumProvider);
+    final selectedSortType = ref.watch(selectedSortTypeProvider);
 
     final GetUserFeedsRequestParams param = GetUserFeedsRequestParams(
       id: userId,
       size: 10,
-      sort: SortType.latest,
+      sort: selectedSortType,
       albumId: selectedAlbumId,
     );
 
@@ -36,11 +37,12 @@ class ProfileFeedsData extends _$ProfileFeedsData {
     }
 
     final selectedAlbumId = ref.read(selectedAlbumProvider);
+    final selectedSortType = ref.read(selectedSortTypeProvider);
 
     final param = GetUserFeedsRequestParams(
       id: userId,
       size: 10,
-      sort: SortType.latest,
+      sort: selectedSortType,
       cursor: currentState.nextCursor,
       albumId: selectedAlbumId,
     );

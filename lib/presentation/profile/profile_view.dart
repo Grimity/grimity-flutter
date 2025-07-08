@@ -12,12 +12,14 @@ class ProfileView extends HookConsumerWidget {
   const ProfileView({
     super.key,
     required this.user,
+    this.isMine = false,
     required this.userProfileView,
     required this.feedTabView,
     required this.postTabView,
   });
 
   final User user;
+  final bool isMine;
   final Widget userProfileView;
   final Widget feedTabView;
   final Widget postTabView;
@@ -29,23 +31,25 @@ class ProfileView extends HookConsumerWidget {
     final userProfileKey = useMemoized(() => GlobalKey());
     final tabController = useTabController(initialLength: 2);
 
-    useInfiniteScrollHook(
-      ref: ref,
-      scrollController: scrollController,
-      loadFunction: () async {
-        if (tabController.index == 0) {
-          final currentState = ref.read(profileFeedsDataProvider(user.id)).valueOrNull;
-          if (currentState != null && currentState.nextCursor != null && currentState.nextCursor!.isNotEmpty) {
-            await ref.read(profileFeedsDataProvider(user.id).notifier).loadMore(user.id);
+    if (user.id.isNotEmpty) {
+      useInfiniteScrollHook(
+        ref: ref,
+        scrollController: scrollController,
+        loadFunction: () async {
+          if (tabController.index == 0) {
+            final currentState = ref.read(profileFeedsDataProvider(user.id)).valueOrNull;
+            if (currentState != null && currentState.nextCursor != null && currentState.nextCursor!.isNotEmpty) {
+              await ref.read(profileFeedsDataProvider(user.id).notifier).loadMore(user.id);
+            }
+          } else if (tabController.index == 1) {
+            final currentState = ref.read(profilePostsDataProvider(user.id)).valueOrNull;
+            if (currentState != null && currentState.length >= 10) {
+              await ref.read(profilePostsDataProvider(user.id).notifier).loadMore(user.id);
+            }
           }
-        } else if (tabController.index == 1) {
-          final currentState = ref.read(profilePostsDataProvider(user.id)).valueOrNull;
-          if (currentState != null && currentState.length >= 10) {
-            await ref.read(profilePostsDataProvider(user.id).notifier).loadMore(user.id);
-          }
-        }
-      },
-    );
+        },
+      );
+    }
 
     return SafeArea(
       child: NotificationListener<ScrollNotification>(
@@ -87,7 +91,7 @@ class ProfileView extends HookConsumerWidget {
           controller: scrollController,
           headerSliverBuilder: (context, innerBoxScrolled) {
             return [
-              ProfileAppBar(userName: user.name, nameOpacity: nameOpacity.value),
+              ProfileAppBar(userName: user.name, nameOpacity: nameOpacity.value, isMine: isMine),
               SliverToBoxAdapter(child: Container(key: userProfileKey, child: userProfileView)),
               SliverPersistentHeader(pinned: true, delegate: ProfileTabBar(user: user, tabController: tabController)),
             ];

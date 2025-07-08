@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
@@ -13,9 +14,10 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UserProfileView extends StatelessWidget {
-  const UserProfileView({super.key, required this.user});
+  const UserProfileView({super.key, required this.user, this.isMine = false});
 
   final User user;
+  final bool isMine;
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +32,8 @@ class UserProfileView extends StatelessWidget {
             children: [
               _UserProfile(user: user),
               _buildProfileImage(),
-              _buildEditButton(context),
-              _buildMoreButton(context),
+              if (isMine) _buildEditButton(context),
+              _buildButtons(context),
             ],
           ),
         ),
@@ -68,24 +70,63 @@ class UserProfileView extends StatelessWidget {
     );
   }
 
-  Widget _buildMoreButton(BuildContext context) {
+  // 팔로잉/언팔로우 버튼, 더보기 버튼
+  Widget _buildButtons(BuildContext context) {
     return Positioned.fill(
       top: 14,
       child: Align(
         alignment: Alignment.topRight,
-        child: GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTap: () => showProfileMoreBottomSheet(context, user.url),
-          child: Container(
-            width: 30,
-            height: 30,
-            decoration: BoxDecoration(
-              border: Border.all(color: AppColor.gray300, width: 1),
-              borderRadius: BorderRadius.circular(12),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            if (!isMine) ...[_buildFollowButton(), Gap(10.w)],
+            _buildMoreButton(context),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFollowButton() {
+    final isFollowing = user.isFollowing ?? false;
+
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        // TODO : follow/unfollow
+      },
+      child: Container(
+        height: 30,
+        decoration: BoxDecoration(
+          border: isFollowing ? Border.all(color: AppColor.gray300) : Border.all(color: AppColor.primary4, width: 1),
+          borderRadius: BorderRadius.circular(50),
+          color: isFollowing ? AppColor.gray00 : AppColor.primary4,
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+          child: Center(
+            child: Text(
+              isFollowing ? '언팔로우' : '팔로잉',
+              style: AppTypeface.caption3.copyWith(color: isFollowing ? AppColor.gray700 : AppColor.gray00),
             ),
-            child: Center(child: Assets.icons.profile.moreHoriz.svg(width: 20, height: 20)),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildMoreButton(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () => showProfileMoreBottomSheet(context, user.url, isMine),
+      child: Container(
+        width: 30,
+        height: 30,
+        decoration: BoxDecoration(
+          border: Border.all(color: AppColor.gray300, width: 1),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Center(child: Assets.icons.profile.moreHoriz.svg(width: 20, height: 20)),
       ),
     );
   }

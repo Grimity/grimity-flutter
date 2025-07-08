@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/app/enum/sort_type.enum.dart';
 import 'package:grimity/domain/entity/album.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/user.dart';
@@ -11,13 +12,15 @@ import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
 import 'package:grimity/presentation/profile/provider/profile_feeds_data_provider.dart';
 import 'package:grimity/presentation/profile/provider/selected_album_provider.dart';
+import 'package:grimity/presentation/profile/provider/selected_sort_type_provider.dart';
 import 'package:grimity/presentation/profile/widget/album_chip.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ProfileFeedTabView extends HookConsumerWidget {
-  const ProfileFeedTabView({super.key, required this.user});
+  const ProfileFeedTabView({super.key, required this.user, this.isMine = false});
 
   final User user;
+  final bool isMine;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -36,10 +39,10 @@ class ProfileFeedTabView extends HookConsumerWidget {
             children: [
               _ProfileAlbumHeader(albums: user.albums ?? [], selectedAlbumId: selectedAlbumId),
               Gap(8),
-              _buildAlbumEdit(),
+              if (isMine) _buildAlbumEdit(),
             ],
           ),
-          _buildMenu(),
+          if (user.feedCount != 0) _buildMenu(),
           Expanded(
             child: feedsAsync.when(
               data: (data) => _buildFeedGrid(context, data.feeds),
@@ -70,6 +73,15 @@ class ProfileFeedTabView extends HookConsumerWidget {
         ),
       );
     } else {
+      if (!isMine) {
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [Text('아직 업로드한 그림이 없어요', style: AppTypeface.label2.copyWith(color: AppColor.gray600))],
+          ),
+        );
+      }
+
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -104,29 +116,21 @@ class ProfileFeedTabView extends HookConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () {},
-            child: Row(
-              children: [
-                Text('그림 정리', style: AppTypeface.caption2.copyWith(color: AppColor.gray700)),
-                Gap(6),
-                Assets.icons.profile.sync.svg(width: 16, height: 16),
-              ],
+          if (isMine) ...[
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {},
+              child: Row(
+                children: [
+                  Text('그림 정리', style: AppTypeface.caption2.copyWith(color: AppColor.gray700)),
+                  Gap(6),
+                  Assets.icons.profile.sync.svg(width: 16, height: 16),
+                ],
+              ),
             ),
-          ),
-          Gap(16),
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () {},
-            child: Row(
-              children: [
-                Text('최신순', style: AppTypeface.caption2.copyWith(color: AppColor.gray700)),
-                Gap(6),
-                Assets.icons.profile.arrowDown.svg(width: 16, height: 16),
-              ],
-            ),
-          ),
+            Gap(16),
+          ],
+          _ProfileFeedSortTypeDropDown(),
         ],
       ),
     );
@@ -194,6 +198,46 @@ class _ProfileAlbumHeader extends HookConsumerWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _ProfileFeedSortTypeDropDown extends ConsumerWidget {
+  const _ProfileFeedSortTypeDropDown();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return IntrinsicWidth(
+      child: DropdownButtonFormField<SortType>(
+        padding: EdgeInsets.zero,
+        value: SortType.latest,
+        items:
+            SortType.values
+                .map(
+                  (e) => DropdownMenuItem(
+                    value: e,
+                    child: Text(e.typeName, style: AppTypeface.caption2.copyWith(color: AppColor.gray700)),
+                  ),
+                )
+                .toList(),
+        decoration: InputDecoration(
+          isDense: true,
+          fillColor: Colors.white,
+          contentPadding: EdgeInsets.zero,
+          enabledBorder: OutlineInputBorder(borderSide: BorderSide.none),
+          focusedBorder: OutlineInputBorder(borderSide: BorderSide.none),
+        ),
+        dropdownColor: AppColor.gray00,
+        borderRadius: BorderRadius.circular(12),
+        icon: Padding(
+          padding: EdgeInsets.only(left: 4),
+          child: Assets.icons.profile.arrowDown.svg(width: 16, height: 16),
+        ),
+        onChanged: (value) {
+          if (value == null) return;
+          ref.read(selectedSortTypeProvider.notifier).setSortType(value);
+        },
       ),
     );
   }

@@ -67,5 +67,5 @@ class ProfileTabBar extends SliverPersistentHeaderDelegate {
   double get minExtent => 42.w;
 
   @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) => false;
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) => true;
 }

@@ -17,7 +17,9 @@ class ProfilePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final profileAsync = ref.watch(profileDataProvider(url ?? (ref.watch(userAuthProvider)?.url ?? '')));
+    final myUrl = ref.watch(userAuthProvider)?.url ?? '';
+    final isMine = url == null || url == myUrl;
+    final profileAsync = ref.watch(profileDataProvider(url ?? myUrl));
 
     return profileAsync.maybeWhen(
       data: (user) {
@@ -25,9 +27,10 @@ class ProfilePage extends HookConsumerWidget {
 
         return ProfileView(
           user: user,
-          userProfileView: UserProfileView(user: user),
-          feedTabView: ProfileFeedTabView(user: user),
-          postTabView: ProfilePostTabView(user: user),
+          isMine: isMine,
+          userProfileView: UserProfileView(user: user, isMine: isMine),
+          feedTabView: ProfileFeedTabView(user: user, isMine: isMine),
+          postTabView: ProfilePostTabView(user: user, isMine: isMine),
         );
       },
       orElse: () {

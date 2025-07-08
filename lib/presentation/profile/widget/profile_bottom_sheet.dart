@@ -9,7 +9,7 @@ import 'package:grimity/domain/entity/link.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-void showProfileMoreBottomSheet(BuildContext context, String url) {
+void showProfileMoreBottomSheet(BuildContext context, String url, bool isMine) {
   showModalBottomSheet(
     context: context,
     backgroundColor: Colors.white,
@@ -36,18 +36,45 @@ void showProfileMoreBottomSheet(BuildContext context, String url) {
                 child: Text("프로필 링크 공유", style: AppTypeface.label2),
               ),
             ),
-            Gap(16),
-            GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: () {
-                context.pop();
-              },
-              child: Container(
-                width: double.maxFinite,
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                child: Text("회원 탈퇴", style: AppTypeface.label2),
+            if (isMine) ...[
+              Gap(16),
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  context.pop();
+                },
+                child: Container(
+                  width: double.maxFinite,
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                  child: Text("회원 탈퇴", style: AppTypeface.label2),
+                ),
               ),
-            ),
+            ] else ...[
+              Gap(16),
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  context.pop();
+                },
+                child: Container(
+                  width: double.maxFinite,
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                  child: Text("메세지 보내기", style: AppTypeface.label2),
+                ),
+              ),
+              Gap(16),
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  context.pop();
+                },
+                child: Container(
+                  width: double.maxFinite,
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                  child: Text("신고하기", style: AppTypeface.label2),
+                ),
+              ),
+            ],
             Gap(24),
             _BottomSheetButton(
               onTap: () {
