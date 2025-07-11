@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimity/presentation/album_edit/album_edit_page.dart';
 import 'package:grimity/presentation/home/home_page.dart';
 import 'package:grimity/presentation/main/main_app_shell.dart';
 import 'package:grimity/presentation/profile/profile_page.dart';
@@ -242,4 +243,15 @@ class UploadImageRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => const UploadImagePage();
+}
+
+@TypedGoRoute<AlbumEditRoute>(path: AlbumEditRoute.path, name: AlbumEditRoute.name)
+class AlbumEditRoute extends GoRouteData {
+  const AlbumEditRoute();
+
+  static const String path = '/album-edit';
+  static const String name = 'album-edit';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const AlbumEditPage();
 }

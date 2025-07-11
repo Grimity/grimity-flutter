@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
+import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/sort_type.enum.dart';
 import 'package:grimity/domain/entity/album.dart';
@@ -10,6 +11,7 @@ import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
+import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
 import 'package:grimity/presentation/profile/provider/profile_feeds_data_provider.dart';
 import 'package:grimity/presentation/profile/provider/selected_album_provider.dart';
 import 'package:grimity/presentation/profile/provider/selected_sort_type_provider.dart';
@@ -39,7 +41,7 @@ class ProfileFeedTabView extends HookConsumerWidget {
             children: [
               _ProfileAlbumHeader(albums: user.albums ?? [], selectedAlbumId: selectedAlbumId),
               Gap(8),
-              if (isMine) _buildAlbumEdit(),
+              if (isMine) _buildAlbumEdit(context, ref),
             ],
           ),
           if (user.feedCount != 0) _buildMenu(),
@@ -96,9 +98,9 @@ class ProfileFeedTabView extends HookConsumerWidget {
     }
   }
 
-  Widget _buildAlbumEdit() {
+  Widget _buildAlbumEdit(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () => AlbumEditRoute().push(context).then((_) => ref.invalidate(profileDataProvider)),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50.r),

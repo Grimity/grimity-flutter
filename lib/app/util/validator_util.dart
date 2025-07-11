@@ -8,4 +8,9 @@ class ValidatorUtil {
     // 2 ~ 12자
     return nickname.length >= 2 && nickname.length <= 12;
   }
+
+  static bool isValidAlbumName(String albumName) {
+    // 2 ~ 15자
+    return albumName.length >= 2 && albumName.length <= 15;
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:grimity/app/config/app_const.dart';
+import 'package:grimity/data/model/album/album_base_response.dart';
 import 'package:grimity/data/model/user/my_profile_response.dart';
 import 'package:grimity/domain/dto/me_request_params.dart';
 import 'package:injectable/injectable.dart';
@@ -34,4 +35,7 @@ abstract class MeAPI {
 
   @DELETE('/me/background')
   Future<void> deleteBackgroundImage();
+
+  @GET('/me/albums')
+  Future<List<AlbumBaseResponse>> getMyAlbums();
 }

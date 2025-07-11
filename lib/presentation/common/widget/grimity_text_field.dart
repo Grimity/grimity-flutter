@@ -15,6 +15,9 @@ class GrimityTextField extends HookWidget {
     this.controller,
     this.onChanged,
     this.onSubmitted,
+    this.onEdit,
+    this.onCancel,
+    this.onSave,
     this.autoFocus,
     this.focusNode,
     this.keyboardType,
@@ -24,6 +27,7 @@ class GrimityTextField extends HookWidget {
     this.hintText,
     this.errorText,
     this.defaultText,
+    this.showSuffix = true,
   }) : type = GrimityTextFieldType.normal;
 
   const GrimityTextField.small({
@@ -33,6 +37,9 @@ class GrimityTextField extends HookWidget {
     this.controller,
     this.onChanged,
     this.onSubmitted,
+    this.onEdit,
+    this.onCancel,
+    this.onSave,
     this.autoFocus,
     this.focusNode,
     this.keyboardType,
@@ -42,6 +49,7 @@ class GrimityTextField extends HookWidget {
     this.hintText,
     this.errorText,
     this.defaultText,
+    this.showSuffix = true,
   }) : type = GrimityTextFieldType.small;
 
   final GrimityTextFieldType type;
@@ -50,6 +58,10 @@ class GrimityTextField extends HookWidget {
   final TextEditingController? controller;
   final void Function(String)? onChanged;
   final void Function(String)? onSubmitted;
+
+  final void Function()? onEdit;
+  final void Function()? onCancel;
+  final void Function()? onSave;
 
   final bool? autoFocus;
   final FocusNode? focusNode;
@@ -62,6 +74,8 @@ class GrimityTextField extends HookWidget {
   final String? hintText;
   final String? errorText;
   final String? defaultText;
+
+  final bool showSuffix;
 
   BorderRadius get _borderRadius =>
       type == GrimityTextFieldType.normal ? BorderRadius.circular(12) : BorderRadius.circular(8);
@@ -100,14 +114,43 @@ class GrimityTextField extends HookWidget {
         return AppColor.statusNegative;
       case GrimityTextFieldState.success:
         return AppColor.main;
+      case GrimityTextFieldState.disabled:
+        return AppColor.primary4;
       default:
         return AppColor.gray700;
     }
   }
 
   Widget? get _suffixWidget {
+    if (showSuffix == false) {
+      return null;
+    }
+
     if (state == GrimityTextFieldState.success) {
       return Assets.icons.common.checkMark.svg();
+    } else if (state == GrimityTextFieldState.disabled) {
+      if (enabled == false) {
+        return GestureDetector(
+          onTap: onEdit,
+          child: Text('수정', style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
+        );
+      } else {
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            GestureDetector(
+              onTap: onCancel,
+              child: Text('취소', style: AppTypeface.caption2.copyWith(color: AppColor.gray700)),
+            ),
+            Gap(24),
+            GestureDetector(
+              onTap: onSave,
+              child: Text('완료', style: AppTypeface.caption2.copyWith(color: AppColor.main)),
+            ),
+          ],
+        );
+      }
     } else if (maxLength != null) {
       return Row(
         mainAxisSize: MainAxisSize.min,

@@ -4,13 +4,14 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 
 class GrimityButton extends StatelessWidget {
-  const GrimityButton(this.text, {super.key, required this.onTap, this.isEnabled = true, this.hasBottomPadding = true});
+  const GrimityButton(this.text, {super.key, required this.onTap, this.isEnabled = true, this.hasBottomPadding = true, this.isFullWidth = true});
 
   final String text;
   final VoidCallback onTap;
 
   final bool isEnabled;
   final bool hasBottomPadding;
+  final bool isFullWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +22,18 @@ class GrimityButton extends StatelessWidget {
         onTap: isEnabled ? onTap : null,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
-          width: double.maxFinite,
+          width: isFullWidth ? double.maxFinite : null,
           padding: const EdgeInsets.symmetric(vertical: 16),
           decoration: BoxDecoration(
             color: isEnabled ? AppColor.primary4 : AppColor.gray300,
             borderRadius: BorderRadius.circular(16),
           ),
-          child: Center(
+          child: Padding(
+            padding: isFullWidth ? EdgeInsets.zero : const EdgeInsets.symmetric(horizontal: 27.5),
             child: Text(
               text,
               style: AppTypeface.subTitle4.copyWith(color: isEnabled ? Colors.white : AppColor.gray500),
+              textAlign: TextAlign.center,
             ),
           ),
         ),

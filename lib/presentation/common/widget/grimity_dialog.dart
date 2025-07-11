@@ -11,7 +11,7 @@ class GrimityDialog extends Dialog {
     required this.title,
     this.content,
     this.icon,
-    this.cancelText = '취소',
+    this.cancelText,
     this.confirmText,
     this.onCancel,
     this.onConfirm,
@@ -23,7 +23,7 @@ class GrimityDialog extends Dialog {
   final SvgGenImage? icon;
 
   /// 버튼 텍스트
-  final String cancelText;
+  final String? cancelText;
   final String? confirmText;
 
   /// 버튼 콜백
@@ -50,25 +50,27 @@ class GrimityDialog extends Dialog {
             ],
             Gap(30.h),
             Row(
+              spacing: 6.w,
               children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: onCancel ?? () => Navigator.of(context).pop(),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 11.h),
-                      decoration: BoxDecoration(
-                        color: AppColor.gray00,
-                        border: Border.all(color: AppColor.gray300),
-                        borderRadius: BorderRadius.circular(10.r),
-                      ),
-                      child: Center(
-                        child: Text(cancelText, style: AppTypeface.label2.copyWith(color: AppColor.primary5)),
+                if (cancelText != null) ...[
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: onCancel ?? () => Navigator.of(context).pop(),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 11.h),
+                        decoration: BoxDecoration(
+                          color: AppColor.gray00,
+                          border: Border.all(color: AppColor.gray300),
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                        child: Center(
+                          child: Text(cancelText!, style: AppTypeface.label2.copyWith(color: AppColor.primary5)),
+                        ),
                       ),
                     ),
                   ),
-                ),
+                ],
                 if (confirmText != null) ...[
-                  Gap(6.w),
                   Expanded(
                     child: GestureDetector(
                       onTap: onConfirm ?? () => Navigator.of(context).pop(),
