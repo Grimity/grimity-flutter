@@ -230,20 +230,29 @@ class _UserProfile extends StatelessWidget {
                     Assets.icons.profile.web.image(width: 18, height: 18),
                   ],
                   Gap(4),
-                  Row(
-                    children: [
-                      Text('@${e.link.split('/').last}', style: AppTypeface.caption1.copyWith(color: AppColor.gray700)),
-                      if (index == 2 && user.links!.length > 3) ...[
-                        Gap(12),
-                        GestureDetector(
-                          onTap: () => showProfileLinkBottomSheet(context, user.links!),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Flexible(
                           child: Text(
-                            '외 링크 ${user.links!.length - 3}개',
-                            style: AppTypeface.caption1.copyWith(color: AppColor.main),
+                            '@${e.link.split('/').last}',
+                            style: AppTypeface.caption1.copyWith(color: AppColor.gray700),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
+                        if (index == 2 && user.links!.length > 3) ...[
+                          Gap(12),
+                          GestureDetector(
+                            onTap: () => showProfileLinkBottomSheet(context, user.links!),
+                            child: Text(
+                              '외 링크 ${user.links!.length - 3}개',
+                              style: AppTypeface.caption1.copyWith(color: AppColor.main),
+                            ),
+                          ),
+                        ],
                       ],
-                    ],
+                    ),
                   ),
                 ],
               ),
