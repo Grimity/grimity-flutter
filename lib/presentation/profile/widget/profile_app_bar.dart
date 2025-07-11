@@ -49,7 +49,10 @@ class _ProfileAppBarDelegate extends SliverPersistentHeaderDelegate {
             child: AnimatedOpacity(
               duration: const Duration(milliseconds: 100),
               opacity: nameOpacity,
-              child: Text(name, style: AppTypeface.subTitle2, overflow: TextOverflow.ellipsis),
+              child: Padding(
+                padding: isMine ? EdgeInsets.only(left: 16) : EdgeInsets.zero,
+                child: Text(name, style: AppTypeface.subTitle2, overflow: TextOverflow.ellipsis),
+              ),
             ),
           ),
           const Spacer(),
