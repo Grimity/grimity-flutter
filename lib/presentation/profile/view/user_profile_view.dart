@@ -235,7 +235,13 @@ class _UserProfile extends StatelessWidget {
                       children: [
                         Flexible(
                           child: Text(
-                            '@${e.link.split('/').last}',
+                            (e.linkName == 'X' ||
+                                    e.linkName == '인스타그램' ||
+                                    e.linkName == '픽시브' ||
+                                    e.linkName == '유튜브' ||
+                                    e.linkName == '이메일')
+                                ? '${e.linkName}@${e.link.split('/').last}'
+                                : e.linkName,
                             style: AppTypeface.caption1.copyWith(color: AppColor.gray700),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
