@@ -9,6 +9,7 @@ import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_placeholder.dart';
+import 'package:grimity/presentation/profile/enum/link_type_enum.dart';
 import 'package:grimity/presentation/profile/widget/profile_bottom_sheet.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -216,32 +217,14 @@ class _UserProfile extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (e.linkName == 'X') ...[
-                    Assets.icons.profile.x.image(width: 18, height: 18),
-                  ] else if (e.linkName == '인스타그램') ...[
-                    Assets.icons.profile.instagram.image(width: 18, height: 18),
-                  ] else if (e.linkName == '픽시브') ...[
-                    Assets.icons.profile.pixiv.image(width: 18, height: 18),
-                  ] else if (e.linkName == '유튜브') ...[
-                    Assets.icons.profile.youtube.image(width: 18, height: 18),
-                  ] else if (e.linkName == '이메일') ...[
-                    Assets.icons.profile.mail.image(width: 18, height: 18),
-                  ] else ...[
-                    Assets.icons.profile.web.image(width: 18, height: 18),
-                  ],
+                  LinkType.getLinkImage(e.linkName, 18, 18),
                   Gap(4),
                   Expanded(
                     child: Row(
                       children: [
                         Flexible(
                           child: Text(
-                            (e.linkName == 'X' ||
-                                    e.linkName == '인스타그램' ||
-                                    e.linkName == '픽시브' ||
-                                    e.linkName == '유튜브' ||
-                                    e.linkName == '이메일')
-                                ? '${e.linkName}@${e.link.split('/').last}'
-                                : e.linkName,
+                            LinkType.isCustomLinkType(e.linkName) ? e.linkName : '@${e.link.split('/').last}',
                             style: AppTypeface.caption1.copyWith(color: AppColor.gray700),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,

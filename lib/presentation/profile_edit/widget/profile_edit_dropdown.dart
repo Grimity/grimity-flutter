@@ -3,6 +3,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/link.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/profile/enum/link_type_enum.dart';
 
 class ProfileEditDropdown extends StatelessWidget {
   const ProfileEditDropdown({super.key, required this.link, required this.onChanged});
@@ -36,7 +37,7 @@ class ProfileEditDropdown extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       icon: Assets.icons.profileEdit.arrowDown.svg(width: 16, height: 16),
       items:
-          ['X', '인스타그램', '유튜브', '픽시브', '이메일', '직접 입력'].map((String value) {
+          LinkType.values.map((e) => e.linkName).toList().map((String value) {
             return DropdownMenuItem<String>(value: value, child: Text(value, style: AppTypeface.label2));
           }).toList(),
       onChanged: onChanged,

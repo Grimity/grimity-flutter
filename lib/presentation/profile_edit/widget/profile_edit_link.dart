@@ -7,6 +7,7 @@ import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/link.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_text_field.dart';
+import 'package:grimity/presentation/profile/enum/link_type_enum.dart';
 import 'package:grimity/presentation/profile_edit/provider/profile_edit_provider.dart';
 import 'package:grimity/presentation/profile_edit/widget/profile_edit_bottom_sheet.dart';
 import 'package:grimity/presentation/profile_edit/widget/profile_edit_dropdown.dart';
@@ -155,11 +156,7 @@ class LinkWidget extends HookConsumerWidget {
       padding: EdgeInsets.only(bottom: 6),
       child: Row(
         children: [
-          if (link.linkName == 'X' ||
-              link.linkName == '인스타그램' ||
-              link.linkName == '픽시브' ||
-              link.linkName == '유튜브' ||
-              link.linkName == '이메일') ...[
+          if (!LinkType.isCustomLinkType(link.linkName)) ...[
             SizedBox(
               width: 120.w,
               child: ProfileEditDropdown(

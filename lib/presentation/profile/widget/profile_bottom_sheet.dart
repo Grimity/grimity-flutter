@@ -7,6 +7,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/link.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/profile/enum/link_type_enum.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 void showProfileMoreBottomSheet(BuildContext context, String url, bool isMine) {
@@ -226,19 +227,7 @@ class _LinkItem extends StatelessWidget {
       },
       child: Row(
         children: [
-          if (link.linkName == 'X') ...[
-            Assets.icons.profile.x.image(width: 28, height: 28),
-          ] else if (link.linkName == '인스타그램') ...[
-            Assets.icons.profile.instagram.image(width: 28, height: 28),
-          ] else if (link.linkName == '픽시브') ...[
-            Assets.icons.profile.pixiv.image(width: 28, height: 28),
-          ] else if (link.linkName == '유튜브') ...[
-            Assets.icons.profile.youtube.image(width: 28, height: 28),
-          ] else if (link.linkName == '이메일') ...[
-            Assets.icons.profile.mail.image(width: 28, height: 28),
-          ] else ...[
-            Assets.icons.profile.web.image(width: 28, height: 28),
-          ],
+          LinkType.getLinkImage(link.linkName, 28, 28),
           Gap(14),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

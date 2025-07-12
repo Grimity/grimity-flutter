@@ -8,6 +8,7 @@ import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/link.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/profile/enum/link_type_enum.dart';
 import 'package:grimity/presentation/profile_edit/provider/profile_edit_provider.dart';
 import 'package:grimity/presentation/profile_edit/provider/upload_image_provider.dart';
 
@@ -187,70 +188,32 @@ showAddLinkBottomSheet(BuildContext context, ProfileEdit profileEditNotifier) {
                 ),
               ],
             ),
+            Gap(16),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Gap(16),
-                    _BottomSheetButton(
-                      height: 54.w,
-                      child: Align(alignment: Alignment.centerLeft, child: Text("X", style: AppTypeface.label2)),
-                      onTap: () {
-                        profileEditNotifier.addLink(Link(linkName: "X", link: "https://x.com/"));
-                        context.pop();
-                      },
-                    ),
-                    Gap(8),
-                    _BottomSheetButton(
-                      height: 54.w,
-                      child: Align(alignment: Alignment.centerLeft, child: Text("인스타그램", style: AppTypeface.label2)),
-                      onTap: () {
-                        profileEditNotifier.addLink(Link(linkName: "인스타그램", link: "https://www.instagram.com/"));
-                        context.pop();
-                      },
-                    ),
-                    Gap(8),
-                    _BottomSheetButton(
-                      height: 54.w,
-                      child: Align(alignment: Alignment.centerLeft, child: Text("유튜브", style: AppTypeface.label2)),
-                      onTap: () {
-                        profileEditNotifier.addLink(Link(linkName: "유튜브", link: "https://www.youtube.com/"));
-                        context.pop();
-                      },
-                    ),
-                    Gap(8),
-                    _BottomSheetButton(
-                      height: 54.w,
-                      child: Align(alignment: Alignment.centerLeft, child: Text("픽시브", style: AppTypeface.label2)),
-                      onTap: () {
-                        profileEditNotifier.addLink(Link(linkName: "픽시브", link: "https://www.pixiv.net/"));
-                        context.pop();
-                      },
-                    ),
-                    Gap(8),
-                    _BottomSheetButton(
-                      height: 54.w,
-                      child: Align(alignment: Alignment.centerLeft, child: Text("이메일", style: AppTypeface.label2)),
-                      onTap: () {
-                        profileEditNotifier.addLink(Link(linkName: "이메일", link: ""));
-                        context.pop();
-                      },
-                    ),
-                    Gap(8),
-                    _BottomSheetButton(
-                      height: 54.w,
-                      child: Align(alignment: Alignment.centerLeft, child: Text("직접 입력", style: AppTypeface.label2)),
-                      onTap: () {
-                        profileEditNotifier.addLink(Link(linkName: "", link: "https://"));
-                        context.pop();
-                      },
-                    ),
-                    Gap(24),
-                  ],
+                  spacing: 8,
+                  children:
+                      LinkType.values
+                          .map(
+                            (e) => _BottomSheetButton(
+                              height: 54.w,
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(e.linkName, style: AppTypeface.label2),
+                              ),
+                              onTap: () {
+                                profileEditNotifier.addLink(Link(linkName: e.linkName, link: e.defaultLink));
+                                context.pop();
+                              },
+                            ),
+                          )
+                          .toList(),
                 ),
               ),
             ),
+            Gap(24),
           ],
         ),
       );
