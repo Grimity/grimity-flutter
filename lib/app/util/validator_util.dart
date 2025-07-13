@@ -10,7 +10,7 @@ class ValidatorUtil {
   }
 
   static bool isValidAlbumName(String albumName) {
-    // 2 ~ 15자
-    return albumName.length >= 2 && albumName.length <= 15;
+    // 1 ~ 15자
+    return albumName.isNotEmpty && albumName.length <= 15;
   }
 }

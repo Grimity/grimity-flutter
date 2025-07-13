@@ -71,7 +71,7 @@ class AlbumEdit extends _$AlbumEdit {
       state = state.copyWith(
         isNewAlbumNameChecking: false,
         newAlbumNameState: GrimityTextFieldState.error,
-        albumCheckMessage: '앨범명은 2자 이상 최대 15자까지만 가능해요',
+        albumCheckMessage: '앨범명 최대 15자까지만 가능해요',
       );
       return;
     }
@@ -145,7 +145,7 @@ class AlbumEdit extends _$AlbumEdit {
   // 앨범 수정
   Future<void> updateAlbum(Album album) async {
     if (!ValidatorUtil.isValidAlbumName(album.name)) {
-      ToastService.showError('앨범명은 2자 이상 최대 15자까지만 가능해요');
+      ToastService.showError('앨범명 최대 15자까지만 가능해요');
       return;
     }
 
