@@ -224,7 +224,7 @@ class _UserProfile extends StatelessWidget {
                       children: [
                         Flexible(
                           child: Text(
-                            LinkType.isCustomLinkType(e.linkName) ? e.linkName : '@${e.link.split('/').last}',
+                            LinkType.isCustomLinkType(e.linkName) ? e.linkName : e.link.split('/').last,
                             style: AppTypeface.caption1.copyWith(color: AppColor.gray700),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
