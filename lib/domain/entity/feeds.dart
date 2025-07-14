@@ -12,3 +12,13 @@ abstract class Feeds with _$Feeds {
 
   factory Feeds.empty() => const Feeds(feeds: []);
 }
+
+extension FeedsX on Feeds {
+  Feeds overrideLikeStateToTrue() {
+    return copyWith(feeds: feeds.map((e) => e.copyWith(isLike: true)).toList());
+  }
+
+  Feeds overrideSaveStateToTrue() {
+    return copyWith(feeds: feeds.map((e) => e.copyWith(isSave: true)).toList());
+  }
+}

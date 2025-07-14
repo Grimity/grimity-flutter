@@ -56,4 +56,10 @@ abstract class UsersAPI {
 
   @GET('/users/{id}/posts')
   Future<List<MyPostResponse>> getPosts(@Path('id') String id, @Query('page') int? page, @Query('size') int? size);
+
+  @PUT('/users/{id}/follow')
+  Future<void> followUserById(@Path('id') String id);
+
+  @DELETE('/users/{id}/follow')
+  Future<void> unfollowUserById(@Path('id') String id);
 }

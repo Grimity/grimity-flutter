@@ -32,4 +32,44 @@ class FeedRepositoryImpl extends FeedRepository {
       return Result.failure(e);
     }
   }
+
+  @override
+  Future<Result<void>> likeFeed(String id) async {
+    try {
+      await _feedAPI.likeFeed(id);
+      return Result.success(null);
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
+
+  @override
+  Future<Result<void>> unlikeFeed(String id) async {
+    try {
+      await _feedAPI.unlikeFeed(id);
+      return Result.success(null);
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
+
+  @override
+  Future<Result<void>> saveFeed(String id) async {
+    try {
+      await _feedAPI.saveFeed(id);
+      return Result.success(null);
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
+
+  @override
+  Future<Result<void>> removeSavedFeed(String id) async {
+    try {
+      await _feedAPI.removeSavedFeed(id);
+      return Result.success(null);
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
 }

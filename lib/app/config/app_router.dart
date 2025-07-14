@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimity/presentation/follow/follow_page.dart';
 import 'package:grimity/presentation/album_edit/album_edit_page.dart';
 import 'package:grimity/presentation/home/home_page.dart';
 import 'package:grimity/presentation/main/main_app_shell.dart';
@@ -12,6 +13,7 @@ import 'package:grimity/presentation/sign_in/sign_in_page.dart';
 import 'package:grimity/presentation/upload_image/upload_image_page.dart';
 import 'package:grimity/presentation/sign_up/sign_up_page.dart';
 import 'package:grimity/presentation/splash/splash_page.dart';
+import 'package:grimity/presentation/storage/storage_page.dart';
 
 part 'app_router.g.dart';
 
@@ -254,4 +256,26 @@ class AlbumEditRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => const AlbumEditPage();
+}
+
+@TypedGoRoute<FollowRoute>(path: FollowRoute.path, name: FollowRoute.name)
+class FollowRoute extends GoRouteData {
+  const FollowRoute();
+
+  static const String path = '/follow';
+  static const String name = 'follow';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const FollowPage();
+}
+
+@TypedGoRoute<StorageRoute>(path: StorageRoute.path, name: StorageRoute.name)
+class StorageRoute extends GoRouteData {
+  const StorageRoute();
+
+  static const String path = '/storage';
+  static const String name = 'storage';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const StoragePage();
 }
