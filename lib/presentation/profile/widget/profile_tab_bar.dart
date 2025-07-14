@@ -3,13 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/user.dart';
+import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
 
 class ProfileTabBar extends SliverPersistentHeaderDelegate {
-  const ProfileTabBar({required this.user, required this.tabController, this.isMine = false});
+  const ProfileTabBar({required this.user, required this.tabController, required this.viewType});
 
   final User user;
   final TabController tabController;
-  final bool isMine;
+  final ProfileViewType viewType;
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
@@ -32,7 +33,7 @@ class ProfileTabBar extends SliverPersistentHeaderDelegate {
         physics: const NeverScrollableScrollPhysics(),
         tabs: [
           _ProfileTab(name: '그림', count: user.feedCount ?? 0),
-          if (isMine) _ProfileTab(name: '글', count: user.postCount ?? 0),
+          if (viewType == ProfileViewType.mine) _ProfileTab(name: '글', count: user.postCount ?? 0),
         ],
       ),
     );

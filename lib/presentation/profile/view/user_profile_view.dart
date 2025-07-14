@@ -10,15 +10,16 @@ import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_placeholder.dart';
 import 'package:grimity/presentation/profile/enum/link_type_enum.dart';
+import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
 import 'package:grimity/presentation/profile/widget/profile_bottom_sheet.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UserProfileView extends StatelessWidget {
-  const UserProfileView({super.key, required this.user, this.isMine = false});
+  const UserProfileView({super.key, required this.user, required this.viewType});
 
   final User user;
-  final bool isMine;
+  final ProfileViewType viewType;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,7 @@ class UserProfileView extends StatelessWidget {
             children: [
               _UserProfile(user: user),
               _buildProfileImage(),
-              if (isMine) _buildEditButton(context),
+              if (viewType == ProfileViewType.mine) _buildEditButton(context),
               _buildButtons(context),
             ],
           ),
@@ -80,7 +81,7 @@ class UserProfileView extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            if (!isMine) ...[_buildFollowButton(), Gap(10.w)],
+            if (viewType == ProfileViewType.other) ...[_buildFollowButton(), Gap(10.w)],
             _buildMoreButton(context),
           ],
         ),
@@ -119,7 +120,7 @@ class UserProfileView extends StatelessWidget {
   Widget _buildMoreButton(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: () => showProfileMoreBottomSheet(context, user.url, isMine),
+      onTap: () => showProfileMoreBottomSheet(context, user.url, viewType),
       child: Container(
         width: 30,
         height: 30,

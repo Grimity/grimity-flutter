@@ -8,9 +8,10 @@ import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/link.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/profile/enum/link_type_enum.dart';
+import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-void showProfileMoreBottomSheet(BuildContext context, String url, bool isMine) {
+void showProfileMoreBottomSheet(BuildContext context, String url, ProfileViewType viewType) {
   showModalBottomSheet(
     context: context,
     backgroundColor: Colors.white,
@@ -37,7 +38,7 @@ void showProfileMoreBottomSheet(BuildContext context, String url, bool isMine) {
                 child: Text("프로필 링크 공유", style: AppTypeface.label2),
               ),
             ),
-            if (isMine) ...[
+            if (viewType == ProfileViewType.mine) ...[
               Gap(16),
               GestureDetector(
                 behavior: HitTestBehavior.translucent,

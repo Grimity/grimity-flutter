@@ -11,6 +11,7 @@ import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
+import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
 import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
 import 'package:grimity/presentation/profile/provider/profile_feeds_data_provider.dart';
 import 'package:grimity/presentation/profile/provider/selected_album_provider.dart';
@@ -19,10 +20,10 @@ import 'package:grimity/presentation/profile/widget/album_chip.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ProfileFeedTabView extends HookConsumerWidget {
-  const ProfileFeedTabView({super.key, required this.user, this.isMine = false});
+  const ProfileFeedTabView({super.key, required this.user, required this.viewType});
 
   final User user;
-  final bool isMine;
+  final ProfileViewType viewType;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -41,7 +42,7 @@ class ProfileFeedTabView extends HookConsumerWidget {
             children: [
               _ProfileAlbumHeader(albums: user.albums ?? [], selectedAlbumId: selectedAlbumId),
               Gap(8),
-              if (isMine) _buildAlbumEdit(context, ref),
+              if (viewType == ProfileViewType.mine) _buildAlbumEdit(context, ref),
             ],
           ),
           if (user.feedCount != 0) _buildMenu(),
@@ -75,7 +76,7 @@ class ProfileFeedTabView extends HookConsumerWidget {
         ),
       );
     } else {
-      if (!isMine) {
+      if (viewType == ProfileViewType.other) {
         return Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -118,7 +119,7 @@ class ProfileFeedTabView extends HookConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          if (isMine) ...[
+          if (viewType == ProfileViewType.mine) ...[
             GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () {},

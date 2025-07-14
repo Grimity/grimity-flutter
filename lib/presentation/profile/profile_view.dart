@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
 import 'package:grimity/presentation/profile/provider/profile_feeds_data_provider.dart';
 import 'package:grimity/presentation/profile/provider/profile_posts_data_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,13 +13,13 @@ class ProfileView extends HookConsumerWidget {
   const ProfileView({
     super.key,
     required this.user,
-    this.isMine = false,
+    required this.viewType,
     required this.userProfileView,
     required this.tabViewList,
   });
 
   final User user;
-  final bool isMine;
+  final ProfileViewType viewType;
   final Widget userProfileView;
   final List<Widget> tabViewList;
 
@@ -89,9 +90,12 @@ class ProfileView extends HookConsumerWidget {
           controller: scrollController,
           headerSliverBuilder: (context, innerBoxScrolled) {
             return [
-              ProfileAppBar(userName: user.name, nameOpacity: nameOpacity.value, isMine: isMine),
+              ProfileAppBar(userName: user.name, nameOpacity: nameOpacity.value, viewType: viewType),
               SliverToBoxAdapter(child: Container(key: userProfileKey, child: userProfileView)),
-              SliverPersistentHeader(pinned: true, delegate: ProfileTabBar(user: user, tabController: tabController, isMine: isMine)),
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: ProfileTabBar(user: user, tabController: tabController, viewType: viewType),
+              ),
             ];
           },
           body: TabBarView(

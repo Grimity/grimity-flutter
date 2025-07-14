@@ -4,30 +4,31 @@ import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_theme.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
 
 class ProfileAppBar extends StatelessWidget {
-  const ProfileAppBar({super.key, required this.userName, required this.nameOpacity, required this.isMine});
+  const ProfileAppBar({super.key, required this.userName, required this.nameOpacity, required this.viewType});
 
   final String userName;
   final double nameOpacity;
-  final bool isMine;
+  final ProfileViewType viewType;
 
   @override
   Widget build(BuildContext context) {
     return SliverPersistentHeader(
       pinned: true,
       floating: false,
-      delegate: _ProfileAppBarDelegate(name: userName, nameOpacity: nameOpacity, isMine: isMine),
+      delegate: _ProfileAppBarDelegate(name: userName, nameOpacity: nameOpacity, viewType: viewType),
     );
   }
 }
 
 class _ProfileAppBarDelegate extends SliverPersistentHeaderDelegate {
-  const _ProfileAppBarDelegate({required this.name, required this.nameOpacity, required this.isMine});
+  const _ProfileAppBarDelegate({required this.name, required this.nameOpacity, required this.viewType});
 
   final String name;
   final double nameOpacity;
-  final bool isMine;
+  final ProfileViewType viewType;
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
@@ -36,7 +37,7 @@ class _ProfileAppBarDelegate extends SliverPersistentHeaderDelegate {
       alignment: Alignment.centerLeft,
       child: Row(
         children: [
-          if (!isMine) ...[
+          if (viewType == ProfileViewType.other) ...[
             IconButton(
               onPressed: () => Navigator.of(context).maybePop(),
               padding: EdgeInsets.zero,
@@ -50,13 +51,13 @@ class _ProfileAppBarDelegate extends SliverPersistentHeaderDelegate {
               duration: const Duration(milliseconds: 100),
               opacity: nameOpacity,
               child: Padding(
-                padding: isMine ? EdgeInsets.only(left: 16) : EdgeInsets.zero,
+                padding: viewType == ProfileViewType.mine ? EdgeInsets.only(left: 16) : EdgeInsets.zero,
                 child: Text(name, style: AppTypeface.subTitle2, overflow: TextOverflow.ellipsis),
               ),
             ),
           ),
           const Spacer(),
-          if (isMine) ...[
+          if (viewType == ProfileViewType.mine) ...[
             GestureDetector(onTap: () {}, child: Assets.icons.home.search.svg(width: 24.w, height: 24.w)),
             Gap(20.w),
             GestureDetector(onTap: () {}, child: Assets.icons.profile.storage.svg(width: 24.w, height: 24.w)),
