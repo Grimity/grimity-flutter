@@ -14,22 +14,20 @@ class ProfileView extends HookConsumerWidget {
     required this.user,
     this.isMine = false,
     required this.userProfileView,
-    required this.feedTabView,
-    required this.postTabView,
+    required this.tabViewList,
   });
 
   final User user;
   final bool isMine;
   final Widget userProfileView;
-  final Widget feedTabView;
-  final Widget postTabView;
+  final List<Widget> tabViewList;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scrollController = useScrollController();
     final nameOpacity = useState(0.0);
     final userProfileKey = useMemoized(() => GlobalKey());
-    final tabController = useTabController(initialLength: 2);
+    final tabController = useTabController(initialLength: tabViewList.length);
 
     if (user.id.isNotEmpty) {
       useInfiniteScrollHook(
@@ -93,13 +91,13 @@ class ProfileView extends HookConsumerWidget {
             return [
               ProfileAppBar(userName: user.name, nameOpacity: nameOpacity.value, isMine: isMine),
               SliverToBoxAdapter(child: Container(key: userProfileKey, child: userProfileView)),
-              SliverPersistentHeader(pinned: true, delegate: ProfileTabBar(user: user, tabController: tabController)),
+              SliverPersistentHeader(pinned: true, delegate: ProfileTabBar(user: user, tabController: tabController, isMine: isMine)),
             ];
           },
           body: TabBarView(
             controller: tabController,
             physics: const NeverScrollableScrollPhysics(),
-            children: [feedTabView, postTabView],
+            children: tabViewList,
           ),
         ),
       ),

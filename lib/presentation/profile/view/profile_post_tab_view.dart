@@ -12,10 +12,9 @@ import 'package:grimity/presentation/profile/provider/profile_posts_data_provide
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ProfilePostTabView extends HookConsumerWidget {
-  const ProfilePostTabView({super.key, required this.user, this.isMine = false});
+  const ProfilePostTabView({super.key, required this.user});
 
   final User user;
-  final bool isMine;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,15 +36,6 @@ class ProfilePostTabView extends HookConsumerWidget {
     if (posts.isNotEmpty) {
       return GrimityPostFeed(posts: posts);
     } else {
-      if (!isMine) {
-        return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [Text('아직 업로드한 글이 없어요', style: AppTypeface.label2.copyWith(color: AppColor.gray600))],
-          ),
-        );
-      }
-
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
