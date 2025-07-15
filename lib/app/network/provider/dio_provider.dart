@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:grimity/app/config/app_const.dart';
+import 'package:grimity/app/di/api_url_provider.dart';
 import 'package:grimity/app/network/interceptor/token_interceptor.dart';
 import 'package:injectable/injectable.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
@@ -11,12 +11,12 @@ const Duration readTimeOutMls = Duration(milliseconds: 15000);
 @module
 abstract class DioProvider {
   @lazySingleton
-  Dio dio() {
+  Dio dio(ApiUrlProvider apiUrlProvider) {
     final Dio dio = Dio();
 
     dio.options = BaseOptions(
       responseType: ResponseType.json,
-      baseUrl: AppConst.apiUrl,
+      baseUrl: apiUrlProvider.apiUrl,
       contentType: Headers.jsonContentType,
       connectTimeout: connectionTimeOutMls,
       receiveTimeout: readTimeOutMls,
