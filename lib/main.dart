@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -12,6 +13,9 @@ import 'package:talker_riverpod_logger/talker_riverpod_logger.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Load dotEnv
+  await dotenv.load(fileName: '.env');
+
   // Initialize get_it
   await configureDependenciesProd();
 
@@ -19,7 +23,7 @@ void main() async {
   final talker = TalkerFlutter.init();
 
   // Initialize Kakao
-  KakaoSdk.init(nativeAppKey: '9ef16b15112d4c1ad60660adc4c39a93');
+  KakaoSdk.init(nativeAppKey: dotenv.env['KAKAO_NATIVE_APP_KEY']);
 
   runApp(
     ProviderScope(

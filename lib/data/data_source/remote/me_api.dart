@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart' hide Headers;
-import 'package:grimity/app/config/app_const.dart';
 import 'package:grimity/data/model/album/album_base_response.dart';
 import 'package:grimity/data/model/user/my_followers_response.dart';
 import 'package:grimity/data/model/user/my_followings_response.dart';
@@ -12,12 +11,11 @@ import 'package:retrofit/retrofit.dart';
 
 part 'me_api.g.dart';
 
-@prod
 @injectable
-@RestApi(baseUrl: AppConst.apiUrl)
+@RestApi()
 abstract class MeAPI {
   @factoryMethod
-  factory MeAPI(Dio dio) = _MeAPI;
+  factory MeAPI(Dio dio, {@Named('baseUrl') String baseUrl}) = _MeAPI;
 
   @GET('/me')
   Future<MyProfileResponse> getMyProfile();

@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:grimity/app/config/app_const.dart';
 import 'package:grimity/app/enum/presigned.enum.dart';
+import 'package:grimity/app/provider/image_url_provider.dart';
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/domain/dto/aws_request_params.dart';
 import 'package:grimity/domain/dto/me_request_params.dart';
@@ -68,6 +68,8 @@ class UploadImage extends _$UploadImage {
       final urlRequest = GetPresignedUrlRequest(type: presignedType, ext: PresignedExt.webp);
       final urlResult = await getPresignedUrlUseCase.execute(urlRequest);
 
+      final imageUrl = ref.read(imageUrlProvider).imageUrl;
+
       if (urlResult.isFailure) {
         return false;
       }
@@ -97,10 +99,10 @@ class UploadImage extends _$UploadImage {
 
       // profileEditProvider 업데이트
       if (state.type == UploadImageType.profile) {
-        ref.read(profileEditProvider.notifier).updateImage(AppConst.imageUrl + urlResult.data.imageName);
+        ref.read(profileEditProvider.notifier).updateImage(imageUrl + urlResult.data.imageName);
         ToastService.show('프로필 이미지 업데이트가 완료되었습니다');
       } else {
-        ref.read(profileEditProvider.notifier).updateBackgroundImage(AppConst.imageUrl + urlResult.data.imageName);
+        ref.read(profileEditProvider.notifier).updateBackgroundImage(imageUrl + urlResult.data.imageName);
         ToastService.show('배경 이미지 업데이트가 완료되었습니다');
       }
 
