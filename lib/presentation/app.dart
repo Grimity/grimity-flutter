@@ -1,42 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_theme.dart';
-import 'package:grimity/app/di/di_setup.dart';
-import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:grimity/app/environment/flavor.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 import 'package:talker_riverpod_logger/talker_riverpod_logger.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  // Load dotEnv
-  await dotenv.load(fileName: '.env');
-
-  // Initialize get_it
-  await configureDependenciesProd();
+void runFlavoredApp() async {
+  await Flavor.instance.setup();
 
   // Initialize talker
   final talker = TalkerFlutter.init();
-
-  // Initialize Kakao
-  KakaoSdk.init(nativeAppKey: dotenv.env['KAKAO_NATIVE_APP_KEY']);
 
   runApp(
     ProviderScope(
       observers: [
         TalkerRiverpodObserver(talker: talker, settings: TalkerRiverpodLoggerSettings(printStateFullData: false)),
       ],
-      child: MainApp(),
+      child: App(),
     ),
   );
 }
 
-class MainApp extends ConsumerWidget {
-  const MainApp({super.key});
+class App extends ConsumerWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

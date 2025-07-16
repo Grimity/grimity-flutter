@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:grimity/app/config/app_config.dart';
 import 'package:grimity/app/enum/presigned.enum.dart';
-import 'package:grimity/app/provider/image_url_provider.dart';
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/domain/dto/aws_request_params.dart';
 import 'package:grimity/domain/dto/me_request_params.dart';
@@ -67,8 +67,7 @@ class UploadImage extends _$UploadImage {
       final presignedType = state.type == UploadImageType.profile ? PresignedType.profile : PresignedType.background;
       final urlRequest = GetPresignedUrlRequest(type: presignedType, ext: PresignedExt.webp);
       final urlResult = await getPresignedUrlUseCase.execute(urlRequest);
-
-      final imageUrl = ref.read(imageUrlProvider).imageUrl;
+      final imageUrl = AppConfig.imageUrl;
 
       if (urlResult.isFailure) {
         return false;
