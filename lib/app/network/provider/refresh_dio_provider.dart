@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:grimity/app/di/api_url_provider.dart';
+import 'package:grimity/app/di/api_module.dart';
 import 'package:grimity/app/network/interceptor/refresh_interceptor.dart';
 import 'package:injectable/injectable.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
