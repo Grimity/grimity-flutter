@@ -318,8 +318,12 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Firebase
+# Ignore Firebase configuration files
 firebase.json
-lib/firebase_options.dart
-android/app/google-services.json
+lib/firebase_options*.dart
 ios/Runner/GoogleService-Info.plist
+ios/flavors/*/GoogleService-Info.plist
+macos/Runner/GoogleService-Info.plist
+macos/flavors/*/GoogleService-Info.plist
+android/app/google-services.json
+android/app/src/*/google-services.json
