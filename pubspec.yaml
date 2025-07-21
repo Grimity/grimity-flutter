@@ -24,6 +24,7 @@ dependencies:
   photo_manager: ^3.5.0
   skeletonizer: ^2.0.1
   custom_image_crop: ^0.1.1
+  lottie: ^3.3.1
 
   # Annotation
   freezed_annotation: ^3.0.0
@@ -108,6 +109,7 @@ flutter:
     - assets/icons/storage/
     - assets/images/
     - assets/images/sign_up/
+    - assets/lottie/
 
   fonts:
     - family: Pretendard
