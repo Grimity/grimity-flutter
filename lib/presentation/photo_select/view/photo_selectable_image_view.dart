@@ -1,0 +1,82 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:grimity/app/config/app_color.dart';
+import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/presentation/home/hook/use_infinite_scroll_hook.dart';
+import 'package:grimity/presentation/photo_select/provider/photo_select_provider.dart';
+import 'package:grimity/presentation/photo_select/widget/photo_asset_thumbnail_widget.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:photo_manager/photo_manager.dart';
+
+/// 선택할 수 있는 이미지 ListView
+class PhotoSelectableGridView extends HookConsumerWidget {
+  final List<AssetEntity> selectedImages;
+  final List<AssetEntity> galleryImages;
+
+  const PhotoSelectableGridView({super.key, required this.selectedImages, required this.galleryImages});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final scrollController = useScrollController();
+
+    useInfiniteScrollHook(
+      ref: ref,
+      scrollController: scrollController,
+      loadFunction: () async => await ref.read(photoSelectProvider.notifier).loadMore(),
+    );
+
+    return GridView.builder(
+      controller: scrollController,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        crossAxisSpacing: 2,
+        mainAxisSpacing: 2,
+      ),
+      itemBuilder: (context, index) {
+        final asset = galleryImages[index];
+        final isSelected = selectedImages.contains(asset);
+        final selectionIndex = selectedImages.indexOf(asset) + 1;
+
+        return _PhotoSelectableImageThumbnail(asset: asset, isSelected: isSelected, selectionIndex: selectionIndex);
+      },
+      itemCount: galleryImages.length,
+    );
+  }
+}
+
+class _PhotoSelectableImageThumbnail extends ConsumerWidget {
+  final AssetEntity asset;
+  final bool isSelected;
+  final int? selectionIndex;
+
+  const _PhotoSelectableImageThumbnail({required this.asset, required this.isSelected, this.selectionIndex});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return GestureDetector(
+      onTap: () => ref.read(photoSelectProvider.notifier).toggleImageSelection(asset),
+      child: Stack(
+        children: [
+          PhotoAssetThumbnailWidget(asset: asset),
+          if (isSelected)
+            Container(
+              decoration: BoxDecoration(
+                color: AppColor.gray800.withValues(alpha: 0.6),
+                border: Border.all(color: AppColor.gray00.withValues(alpha: 0.6), width: 2),
+              ),
+            ),
+          Positioned(
+            top: 8,
+            right: 8,
+            child: Container(
+              width: 20,
+              height: 20,
+              decoration: BoxDecoration(color: AppColor.gray00, shape: BoxShape.circle),
+              child: isSelected ? Center(child: Text('$selectionIndex', style: AppTypeface.caption1)) : null,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

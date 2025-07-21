@@ -5,6 +5,7 @@ import 'package:grimity/presentation/follow/follow_page.dart';
 import 'package:grimity/presentation/album_edit/album_edit_page.dart';
 import 'package:grimity/presentation/home/home_page.dart';
 import 'package:grimity/presentation/main/main_app_shell.dart';
+import 'package:grimity/presentation/photo_select/photo_select_page.dart';
 import 'package:grimity/presentation/profile/profile_page.dart';
 import 'package:grimity/presentation/profile_edit/profile_crop_image_page.dart';
 import 'package:grimity/presentation/profile_edit/profile_edit_page.dart';
@@ -278,4 +279,15 @@ class StorageRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => const StoragePage();
+}
+
+@TypedGoRoute<PhotoSelectRoute>(path: PhotoSelectRoute.path, name: PhotoSelectRoute.name)
+class PhotoSelectRoute extends GoRouteData {
+  const PhotoSelectRoute();
+
+  static const String path = '/photo-select';
+  static const String name = 'photo-select';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const PhotoSelectPage();
 }
