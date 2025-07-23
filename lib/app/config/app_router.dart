@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimity/presentation/common/enum/upload_image_type.dart';
+import 'package:grimity/presentation/feed_upload/feed_upload_page.dart';
 import 'package:grimity/presentation/follow/follow_page.dart';
 import 'package:grimity/presentation/album_edit/album_edit_page.dart';
 import 'package:grimity/presentation/home/home_page.dart';
@@ -9,7 +11,6 @@ import 'package:grimity/presentation/photo_select/photo_select_page.dart';
 import 'package:grimity/presentation/profile/profile_page.dart';
 import 'package:grimity/presentation/profile_edit/profile_crop_image_page.dart';
 import 'package:grimity/presentation/profile_edit/profile_edit_page.dart';
-import 'package:grimity/presentation/profile_edit/provider/upload_image_provider.dart';
 import 'package:grimity/presentation/sign_in/sign_in_page.dart';
 import 'package:grimity/presentation/upload_image/upload_image_page.dart';
 import 'package:grimity/presentation/sign_up/sign_up_page.dart';
@@ -45,24 +46,16 @@ abstract final class AppRouter {
 @TypedStatefulShellRoute<AppShellRoute>(
   branches: [
     TypedStatefulShellBranch<HomeBranchData>(
-      routes: [
-        TypedGoRoute<HomeRoute>(path: HomeRoute.path, name: HomeRoute.name),
-      ],
+      routes: [TypedGoRoute<HomeRoute>(path: HomeRoute.path, name: HomeRoute.name)],
     ),
     TypedStatefulShellBranch<PaintBranchData>(
-      routes: [
-        TypedGoRoute<PaintRoute>(path: PaintRoute.path, name: PaintRoute.name),
-      ],
+      routes: [TypedGoRoute<PaintRoute>(path: PaintRoute.path, name: PaintRoute.name)],
     ),
     TypedStatefulShellBranch<FollowingBranchData>(
-      routes: [
-        TypedGoRoute<FollowingRoute>(path: FollowingRoute.path, name: FollowingRoute.name),
-      ],
+      routes: [TypedGoRoute<FollowingRoute>(path: FollowingRoute.path, name: FollowingRoute.name)],
     ),
     TypedStatefulShellBranch<BoardBranchData>(
-      routes: [
-        TypedGoRoute<BoardRoute>(path: BoardRoute.path, name: BoardRoute.name),
-      ],
+      routes: [TypedGoRoute<BoardRoute>(path: BoardRoute.path, name: BoardRoute.name)],
     ),
     TypedStatefulShellBranch<MyBranchData>(
       routes: [
@@ -108,7 +101,7 @@ class PaintRoute extends GoRouteData {
   static const String name = 'paint';
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => Center(child: Text('Paint'),);
+  Widget build(BuildContext context, GoRouterState state) => Center(child: Text('Paint'));
 }
 
 class FollowingBranchData extends StatefulShellBranchData {
@@ -122,7 +115,7 @@ class FollowingRoute extends GoRouteData {
   static const String name = 'following';
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => Center(child: Text('Following'),);
+  Widget build(BuildContext context, GoRouterState state) => Center(child: Text('Following'));
 }
 
 class BoardBranchData extends StatefulShellBranchData {
@@ -136,7 +129,7 @@ class BoardRoute extends GoRouteData {
   static const String name = 'board';
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => Center(child: Text('Board'),);
+  Widget build(BuildContext context, GoRouterState state) => Center(child: Text('Board'));
 }
 
 class MyBranchData extends StatefulShellBranchData {
@@ -279,6 +272,21 @@ class StorageRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => const StoragePage();
+}
+
+@TypedGoRoute<FeedUploadRoute>(path: FeedUploadRoute.path, name: FeedUploadRoute.name)
+class FeedUploadRoute extends GoRouteData {
+  const FeedUploadRoute({required this.from});
+
+  static const String path = '/feed-upload';
+  static const String name = 'feed-upload';
+
+  final String from;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return FeedUploadPage(from: from);
+  }
 }
 
 @TypedGoRoute<PhotoSelectRoute>(path: PhotoSelectRoute.path, name: PhotoSelectRoute.name)

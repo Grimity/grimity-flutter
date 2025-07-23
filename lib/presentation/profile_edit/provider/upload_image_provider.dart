@@ -8,6 +8,7 @@ import 'package:grimity/domain/dto/aws_request_params.dart';
 import 'package:grimity/domain/dto/me_request_params.dart';
 import 'package:grimity/domain/usecase/aws_usecases.dart';
 import 'package:grimity/domain/usecase/me_usecases.dart';
+import 'package:grimity/presentation/common/enum/upload_image_type.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
 import 'package:grimity/presentation/profile_edit/provider/profile_edit_provider.dart';
@@ -16,16 +17,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'upload_image_provider.g.dart';
-
-enum UploadImageType {
-  profile,
-  background;
-
-  String toJson() => name;
-
-  static UploadImageType fromJson(String value) =>
-      UploadImageType.values.firstWhere((e) => e.name == value);
-}
 
 @Riverpod(keepAlive: true)
 class UploadImage extends _$UploadImage {
@@ -70,6 +61,7 @@ class UploadImage extends _$UploadImage {
       final imageUrl = AppConfig.imageUrl;
 
       if (urlResult.isFailure) {
+        ToastService.showError('문제가 발생하였습니다.');
         return false;
       }
 
@@ -79,6 +71,7 @@ class UploadImage extends _$UploadImage {
       );
 
       if (uploadResult.isFailure) {
+        ToastService.showError('문제가 발생하였습니다.');
         return false;
       }
 

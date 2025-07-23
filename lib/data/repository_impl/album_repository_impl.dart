@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/app/exception/album_name_conflict_exception.dart';
 import 'package:grimity/data/data_source/remote/album_api.dart';
-import 'package:grimity/data/model/album/album_id_response.dart';
+import 'package:grimity/data/model/common/id_response.dart';
 import 'package:grimity/domain/dto/album_request_params.dart';
 import 'package:grimity/domain/repository/album_repository.dart';
 import 'package:injectable/injectable.dart';
@@ -14,9 +14,9 @@ class AlbumRepositoryImpl extends AlbumRepository {
   AlbumRepositoryImpl(this._albumAPI);
 
   @override
-  Future<Result<AlbumIdResponse>> createAlbum(CreateAlbumRequestParam request) async {
+  Future<Result<IdResponse>> createAlbum(CreateAlbumRequestParam request) async {
     try {
-      final AlbumIdResponse response = await _albumAPI.createAlbum(request);
+      final IdResponse response = await _albumAPI.createAlbum(request);
       return Result.success(response);
     } on DioException catch (e) {
       if (e.response?.statusCode == 409) {

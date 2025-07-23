@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/presentation/common/enum/upload_image_type.dart';
 import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
 import 'package:grimity/presentation/common/widget/grimity_placeholder.dart';
 import 'package:grimity/presentation/profile_edit/provider/profile_edit_provider.dart';

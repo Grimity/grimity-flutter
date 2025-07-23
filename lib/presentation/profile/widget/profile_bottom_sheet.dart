@@ -134,7 +134,9 @@ void showProfileShareBottomSheet(BuildContext context, String url) {
             Gap(16),
             _BottomSheetButton(
               height: 54.w,
-              onTap: () {},
+              onTap: () {
+                // TODO X 공유
+              },
               child: Row(
                 children: [
                   Assets.icons.profile.xOutlined.image(width: 24, height: 24),
@@ -146,7 +148,9 @@ void showProfileShareBottomSheet(BuildContext context, String url) {
             Gap(16),
             _BottomSheetButton(
               height: 54.w,
-              onTap: () {},
+              onTap: () {
+                // TODO 카카오톡 공유
+              },
               child: Row(
                 children: [
                   Assets.icons.profile.kakaotalk.image(width: 24, height: 24),

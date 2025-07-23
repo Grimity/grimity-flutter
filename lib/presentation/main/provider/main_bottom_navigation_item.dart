@@ -1,3 +1,4 @@
+import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/gen/assets.gen.dart';
 
 enum MainNavigationItem {
@@ -21,6 +22,21 @@ enum MainNavigationItem {
         return Assets.icons.main.board;
       case MainNavigationItem.my:
         return Assets.icons.main.defaultProfile;
+    }
+  }
+
+  String get routeName {
+    switch (this) {
+      case MainNavigationItem.home:
+        return HomeRoute.name;
+      case MainNavigationItem.paint:
+        return PaintRoute.name;
+      case MainNavigationItem.following:
+        return FollowRoute.name;
+      case MainNavigationItem.board:
+        return BoardRoute.name;
+      case MainNavigationItem.my:
+        return MyRoute.name;
     }
   }
 }

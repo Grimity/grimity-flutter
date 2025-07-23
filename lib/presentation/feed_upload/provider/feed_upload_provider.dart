@@ -1,0 +1,210 @@
+import 'dart:io';
+
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:grimity/app/config/app_config.dart';
+import 'package:grimity/app/enum/presigned.enum.dart';
+import 'package:grimity/app/service/toast_service.dart';
+import 'package:grimity/domain/dto/aws_request_params.dart';
+import 'package:grimity/domain/dto/feeds_request_param.dart';
+import 'package:grimity/domain/usecase/aws_usecases.dart';
+import 'package:grimity/domain/usecase/feed_usecases.dart';
+import 'package:grimity/presentation/home/provider/home_data_provider.dart';
+import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
+import 'package:grimity/presentation/profile/provider/profile_feeds_data_provider.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:photo_manager/photo_manager.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'feed_upload_provider.g.dart';
+
+part 'feed_upload_provider.freezed.dart';
+
+/// 피드 업로드 화면을 관리하는 프로바이더
+@riverpod
+class FeedUpload extends _$FeedUpload {
+  @override
+  FeedUploadState build() {
+    return FeedUploadState();
+  }
+
+  /// 제목 업데이트
+  void updateTitle(String title) {
+    if (title.length > 32) {
+      return;
+    }
+    state = state.copyWith(title: title);
+  }
+
+  /// 제목 업데이트
+  void updateContent(String content) {
+    if (content.length > 300) {
+      return;
+    }
+    state = state.copyWith(content: content);
+  }
+
+  /// 이미지 업데이트
+  void updateImages(List<AssetEntity> images) {
+    state = state.copyWith(images: images);
+  }
+
+  /// 대표 이미지 업데이트
+  void updateThumbnailImage(AssetEntity thumbnailImage) {
+    state = state.copyWith(thumbnailImage: thumbnailImage);
+  }
+
+  /// 태그 업데이트
+  void updateTags(List<String> tags) {
+    state = state.copyWith(tags: tags);
+  }
+
+  /// 태그 추가
+  void addTag(String tag) {
+    if (tag.isEmpty) return;
+
+    state = state.copyWith(tags: [...state.tags, tag]);
+  }
+
+  /// 태그 삭제
+  String removeLastTag() {
+    if (state.tags.isEmpty) return '';
+
+    final lastTag = state.tags.last;
+    final newTags = state.tags.sublist(0, state.tags.length - 1);
+    state = state.copyWith(tags: newTags);
+    return lastTag;
+  }
+
+  /// 선택된 앨범 업데이트
+  void updateAlbumId(String albumId) {
+    state = state.copyWith(albumId: albumId);
+  }
+
+  /// 선택된 이미지 삭제
+  void removeImage(AssetEntity asset) {
+    final newImages = state.images.where((image) => image.id != asset.id).toList();
+
+    final isThumbnail = asset == state.thumbnailImage;
+    final newThumbnail = isThumbnail ? (newImages.isNotEmpty ? newImages.first : null) : state.thumbnailImage;
+
+    state = state.copyWith(images: newImages, thumbnailImage: newThumbnail);
+  }
+
+  void _setUploading(bool isUploading) {
+    state = state.copyWith(uploading: isUploading);
+  }
+
+  /// 피드 업로드
+  /// 성공 시 FeedUrl, 실패 시 null
+  Future<String?> feedUpload() async {
+    if (state.uploading ||
+        state.images.isEmpty ||
+        state.title.isEmpty ||
+        state.content.isEmpty ||
+        state.thumbnailImage == null) {
+      return null;
+    }
+    _setUploading(true);
+
+    try {
+      // 1.Presigned URL 발급
+      final presignedType = PresignedType.feed;
+      final urlRequests = List.filled(
+        state.images.length,
+        GetPresignedUrlRequest(type: presignedType, ext: PresignedExt.webp),
+      );
+
+      final urlResult = await getPresignedUrlsUseCase.execute(urlRequests);
+      if (urlResult.isFailure) {
+        ToastService.showError('이미지 업로드 주소 생성에 실패했습니다.');
+        return null;
+      }
+
+      // 2. AssetEntity -> XFile 변환 (임시 파일 생성)
+      final xFileList = await _assetEntitiesToXFiles();
+      if (xFileList.contains(null)) {
+        ToastService.showError('이미지 파일을 읽을 수 없습니다.');
+        return null;
+      }
+
+      // 3. AWS 이미지 업로드
+      final uploadRequests = List.generate(
+        urlResult.data.length,
+        (index) => UploadImageRequest(url: urlResult.data[index].url, filePath: xFileList[index]!.path),
+      );
+
+      final uploadResult = await uploadImagesUseCase.execute(uploadRequests);
+      if (uploadResult.isFailure) {
+        ToastService.showError('문제가 발생하였습니다.');
+        return null;
+      }
+
+      // 4. 피드 생성 요청
+      final thumbnailIndex = state.images.indexOf(state.thumbnailImage ?? state.images.first);
+      final createFeedRequest = CreateFeedRequest(
+        title: state.title,
+        cards: urlResult.data.map((e) => e.imageName).toList(),
+        content: state.content,
+        tags: state.tags,
+        thumbnail: urlResult.data[thumbnailIndex].imageName,
+        albumId: state.albumId == 'all' ? null : state.albumId,
+      );
+
+      final createFeedResult = await createFeedUseCase.execute(createFeedRequest);
+      if (createFeedResult.isFailure) {
+        ToastService.showError('피드 생성에 실패했습니다.');
+        return null;
+      }
+
+      // Feed와 관련된 provider 갱신되도록 처리
+      ref.invalidate(latestFeedDataProvider);
+      ref.invalidate(profileDataProvider);
+      ref.invalidate(profileFeedsDataProvider);
+
+      // 생성된 FeedUrl 반환
+      return '${AppConfig.apiUrl}feeds/${createFeedResult.data.id}';
+    } finally {
+      _setUploading(false);
+    }
+  }
+
+  /// AssetEntity List -> XFile List
+  /// 파일 접근 불가(삭제 등)시 null 포함
+  Future<List<XFile?>> _assetEntitiesToXFiles() async {
+    final tempDir = await getTemporaryDirectory();
+    final tempPath = tempDir.path;
+
+    return Future.wait(
+      state.images.map((asset) async {
+        final file = await asset.file;
+        if (file == null) return null;
+
+        final id = asset.id.split('/').first;
+        final tempFile = File('$tempPath/feed_${id}_${DateTime.now().millisecondsSinceEpoch}.png');
+
+        try {
+          await file.copy(tempFile.path);
+          return XFile(tempFile.path, mimeType: 'image/png');
+        } catch (e) {
+          // 파일 복사 에러 $e
+          return null;
+        }
+      }),
+    );
+  }
+}
+
+/// 피드 업로드 화면 상태 클래스
+@freezed
+abstract class FeedUploadState with _$FeedUploadState {
+  const factory FeedUploadState({
+    @Default('') String title, // 제목
+    @Default('') String content, //본문
+    @Default(<AssetEntity>[]) List<AssetEntity> images, // 이미지
+    AssetEntity? thumbnailImage, // 썸네일 이미지
+    @Default([]) List<String> tags, // 태그
+    @Default('all') String albumId, // 선택된 앨범
+    @Default(false) bool uploading,
+  }) = _FeedUploadState;
+}

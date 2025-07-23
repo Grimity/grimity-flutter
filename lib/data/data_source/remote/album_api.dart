@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:grimity/data/model/album/album_id_response.dart';
+import 'package:grimity/data/model/common/id_response.dart';
 import 'package:grimity/domain/dto/album_request_params.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
@@ -13,7 +13,7 @@ abstract class AlbumAPI {
   factory AlbumAPI(Dio dio, {@Named('baseUrl') String baseUrl}) = _AlbumAPI;
 
   @POST('/albums')
-  Future<AlbumIdResponse> createAlbum(@Body() CreateAlbumRequestParam request);
+  Future<IdResponse> createAlbum(@Body() CreateAlbumRequestParam request);
 
   @PUT('/albums/order')
   Future<void> updateAlbumOrder(@Body() UpdateAlbumOrderRequestParam request);

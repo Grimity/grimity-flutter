@@ -9,8 +9,21 @@ class UploadImageUseCase extends UseCase<UploadImageRequest, Result<void>> {
   UploadImageUseCase(this._awsRepository);
 
   final AWSRepository _awsRepository;
+
   @override
   Future<Result<void>> execute(UploadImageRequest request) async {
     return await _awsRepository.uploadImage(request);
+  }
+}
+
+@injectable
+class UploadImagesUseCase extends UseCase<List<UploadImageRequest>, Result<void>> {
+  UploadImagesUseCase(this._awsRepository);
+
+  final AWSRepository _awsRepository;
+
+  @override
+  Future<Result<void>> execute(List<UploadImageRequest> requests) async {
+    return await _awsRepository.uploadImages(requests);
   }
 }
