@@ -12,7 +12,6 @@ import 'package:grimity/presentation/profile/profile_page.dart';
 import 'package:grimity/presentation/profile_edit/profile_crop_image_page.dart';
 import 'package:grimity/presentation/profile_edit/profile_edit_page.dart';
 import 'package:grimity/presentation/sign_in/sign_in_page.dart';
-import 'package:grimity/presentation/upload_image/upload_image_page.dart';
 import 'package:grimity/presentation/sign_up/sign_up_page.dart';
 import 'package:grimity/presentation/splash/splash_page.dart';
 import 'package:grimity/presentation/storage/storage_page.dart';
@@ -230,16 +229,7 @@ class SignUpRoute extends GoRouteData {
   Widget build(BuildContext context, GoRouterState state) => const SignUpPage();
 }
 
-@TypedGoRoute<UploadImageRoute>(path: UploadImageRoute.path, name: UploadImageRoute.name)
-class UploadImageRoute extends GoRouteData {
-  const UploadImageRoute();
 
-  static const String path = '/upload-image';
-  static const String name = 'upload-image';
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) => const UploadImagePage();
-}
 
 @TypedGoRoute<AlbumEditRoute>(path: AlbumEditRoute.path, name: AlbumEditRoute.name)
 class AlbumEditRoute extends GoRouteData {
