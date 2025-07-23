@@ -12,6 +12,7 @@ class GrimityUnderlineTextField extends HookWidget {
     super.key,
     this.state = GrimityTextFieldState.normal,
     this.enabled = true,
+    this.useBodyTextStyle = false,
     this.controller,
     this.onChanged,
     this.onSubmitted,
@@ -28,6 +29,7 @@ class GrimityUnderlineTextField extends HookWidget {
     super.key,
     this.state = GrimityTextFieldState.normal,
     this.enabled = true,
+    this.useBodyTextStyle = false,
     this.controller,
     this.onChanged,
     this.onSubmitted,
@@ -55,6 +57,8 @@ class GrimityUnderlineTextField extends HookWidget {
   final String? hintText;
   final String? errorText;
   final void Function(String)? onSubmitted;
+
+  final bool useBodyTextStyle;
 
   Color get _fillColor {
     if (!enabled) return AppColor.gray100;
@@ -106,6 +110,15 @@ class GrimityUnderlineTextField extends HookWidget {
     return null;
   }
 
+  TextStyle get _textStyle {
+    if (useBodyTextStyle) {
+      return AppTypeface.body1;
+    }
+    else {
+      return AppTypeface.label2;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final animationController = useAnimationController();
@@ -118,13 +131,13 @@ class GrimityUnderlineTextField extends HookWidget {
           focusNode: focusNode,
           keyboardType: keyboardType,
           textInputAction: textInputAction,
-          style: AppTypeface.label2,
+          style: _textStyle,
           maxLength: maxLength,
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.symmetric(vertical: 16),
             counterText: '',
             hintText: hintText,
-            hintStyle: AppTypeface.label2.copyWith(color: AppColor.gray500),
+            hintStyle: _textStyle.copyWith(color: AppColor.gray500),
             border: UnderlineInputBorder(borderSide: BorderSide(color: _enabledBorderColor)),
             focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: _enabledBorderColor)),
             enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: _borderColor)),

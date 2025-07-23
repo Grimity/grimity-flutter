@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:grimity/presentation/common/widget/grimity_pop_scope.dart';
 import 'package:grimity/presentation/profile_edit/provider/profile_edit_provider.dart';
 import 'package:grimity/presentation/profile_edit/widget/profile_edit_app_bar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:grimity/presentation/profile_edit/widget/profile_edit_cancel_dialog.dart';
 
 class ProfileEditView extends HookConsumerWidget {
   const ProfileEditView({
@@ -31,13 +33,11 @@ class ProfileEditView extends HookConsumerWidget {
     return Scaffold(
       appBar: const ProfileEditAppBar(),
       bottomNavigationBar: editSaveButton,
-      // ignore: deprecated_member_use
-      body: WillPopScope(
-        onWillPop: () async {
-          if (state.isSaved) {
-            return true;
-          } else {
-            return false;
+      body: GrimityPopScope(
+        canPop: state.isSaved,
+        callback: () {
+          if (state.isSaved == false) {
+            showCancelEditDialog(context);
           }
         },
         child: SingleChildScrollView(

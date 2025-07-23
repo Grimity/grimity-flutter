@@ -51,4 +51,28 @@ class AWSRepositoryImpl extends AWSRepository {
       return Result.failure(e);
     }
   }
+
+  @override
+  Future<Result<void>> uploadImages(List<UploadImageRequest> requests) async {
+    try {
+      await Future.wait(
+        requests.map((request) async {
+          final bytes = await File(request.filePath).readAsBytes();
+          final compressedBytes = await FlutterImageCompress.compressWithList(
+            bytes,
+            quality: 90,
+            format: CompressFormat.webp,
+          );
+          await Dio().put(
+            request.url,
+            data: compressedBytes,
+            options: Options(headers: {'Content-Type': 'image/webp'}),
+          );
+        }),
+      );
+      return Result.success(null);
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
 }

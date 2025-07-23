@@ -15,6 +15,8 @@ class GrimityDialog extends Dialog {
     this.confirmText,
     this.onCancel,
     this.onConfirm,
+    this.linkWidget,
+    this.shareWidget,
   });
 
   /// 본문
@@ -29,6 +31,10 @@ class GrimityDialog extends Dialog {
   /// 버튼 콜백
   final VoidCallback? onCancel;
   final VoidCallback? onConfirm;
+
+  /// 위젯
+  final Widget? linkWidget;
+  final Widget? shareWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +54,9 @@ class GrimityDialog extends Dialog {
               Gap(6.h),
               Text(content!, style: AppTypeface.label3.copyWith(color: AppColor.gray600), textAlign: TextAlign.center),
             ],
+            if (linkWidget != null) ...[Gap(16.h), linkWidget!],
             Gap(30.h),
+            if (shareWidget != null) ...[shareWidget!, Gap(12.h)],
             Row(
               spacing: 6.w,
               children: [

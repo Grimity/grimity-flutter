@@ -6,14 +6,16 @@ import 'package:grimity/presentation/drawer/widget/drawer_profile.dart';
 import 'package:grimity/presentation/drawer/widget/drawer_upload_button.dart';
 
 class MainAppDrawer extends StatelessWidget {
-  const MainAppDrawer({super.key});
+  const MainAppDrawer({super.key, required this.currentIndex});
+
+  final int currentIndex;
 
   @override
   Widget build(BuildContext context) {
     return DrawerView(
       closeButton: DrawerCloseButton(),
       profileWidget: DrawerProfile(),
-      uploadButton: DrawerUploadButton(),
+      uploadButton: DrawerUploadButton(currentIndex: currentIndex,),
       menuListView: DrawerMenuListView(),
     );
   }

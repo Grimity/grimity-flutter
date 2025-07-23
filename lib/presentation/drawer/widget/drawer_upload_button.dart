@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grimity/app/config/app_color.dart';
+import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/presentation/main/provider/main_bottom_navigation_item.dart';
 
 class DrawerUploadButton extends StatelessWidget {
-  const DrawerUploadButton({super.key});
+  const DrawerUploadButton({super.key, required this.currentIndex});
+
+  final int currentIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +16,7 @@ class DrawerUploadButton extends StatelessWidget {
       behavior: HitTestBehavior.translucent,
       onTap: () {
         Scaffold.of(context).closeEndDrawer();
+        FeedUploadRoute(from: MainNavigationItem.values[currentIndex].routeName).push(context);
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),

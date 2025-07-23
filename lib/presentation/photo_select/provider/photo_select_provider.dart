@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/domain/usecase/photo_usecases.dart';
+import 'package:grimity/presentation/feed_upload/provider/feed_upload_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -84,7 +85,8 @@ class PhotoSelect extends _$PhotoSelect {
 
   /// 이미지 전달
   void completeImageSelect(List<AssetEntity> images) {
-    // ref.read(feedUploadProvider.notifier).updateImages(images);
+    ref.read(feedUploadProvider.notifier).updateImages(images);
+    ref.read(feedUploadProvider.notifier).updateThumbnailImage(images.first);
   }
 }
 

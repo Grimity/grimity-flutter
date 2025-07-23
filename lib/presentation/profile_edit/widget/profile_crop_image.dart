@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:custom_image_crop/custom_image_crop.dart';
 import 'package:flutter/material.dart';
+import 'package:grimity/presentation/common/enum/upload_image_type.dart';
 import 'package:grimity/presentation/profile_edit/provider/upload_image_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

@@ -5,8 +5,9 @@ import 'package:photo_manager/photo_manager.dart';
 class PhotoAssetThumbnailWidget extends StatelessWidget {
   final AssetEntity asset;
   final double size;
+  final BoxFit fit;
 
-  const PhotoAssetThumbnailWidget({super.key, required this.asset, this.size = 128});
+  const PhotoAssetThumbnailWidget({super.key, required this.asset, this.size = 128, this.fit = BoxFit.cover});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class PhotoAssetThumbnailWidget extends StatelessWidget {
       future: asset.thumbnailDataWithSize(ThumbnailSize(size.toInt(), size.toInt())),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return Image.memory(snapshot.data!, fit: BoxFit.cover, width: size, height: size);
+          return Image.memory(snapshot.data!, fit: fit, width: size, height: size);
         }
 
         return _PhotoAssetThumbnailLoadingWidget();
