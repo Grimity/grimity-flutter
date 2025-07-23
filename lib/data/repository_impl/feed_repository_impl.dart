@@ -1,7 +1,7 @@
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/data/data_source/remote/feed_api.dart';
 import 'package:grimity/data/model/common/id_response.dart';
-import 'package:grimity/data/model/feed/feed_today_popular_response.dart';
+import 'package:grimity/data/model/feed/feed_rankings_response.dart';
 import 'package:grimity/data/model/feed/latest_feeds_response.dart';
 import 'package:grimity/domain/dto/feeds_request_param.dart';
 import 'package:grimity/domain/entity/feed.dart';
@@ -36,10 +36,17 @@ class FeedRepositoryImpl extends FeedRepository {
   }
 
   @override
-  Future<Result<List<Feed>>> getTodayPopularFeeds() async {
+  Future<Result<List<Feed>>> getFeedRankings({String? month, String? startDate, String? endDate}) async {
     try {
-      final List<FeedTodayPopularResponse> response = await _feedAPI.getTodayPopularFeeds();
-      return Result.success(response.toEntity());
+      if (month != null && month.isNotEmpty) {
+        final FeedRankingsResponse response = await _feedAPI.getFeedRankings(month: month);
+        return Result.success(response.toEntity());
+      } else if (startDate != null && endDate != null) {
+        final FeedRankingsResponse response = await _feedAPI.getFeedRankings(startDate: startDate, endDate: endDate);
+        return Result.success(response.toEntity());
+      } else {
+        throw Exception('조회 기간 설정 오류');
+      }
     } on Exception catch (e) {
       return Result.failure(e);
     }

@@ -1,4 +1,6 @@
 import 'package:grimity/app/enum/post_type.enum.dart';
+import 'package:grimity/app/util/date_time_util.dart';
+import 'package:grimity/domain/dto/feeds_request_param.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/feeds.dart';
 import 'package:grimity/domain/entity/post.dart';
@@ -14,7 +16,8 @@ part 'home_data_provider.g.dart';
 class FeedRankingData extends _$FeedRankingData {
   @override
   FutureOr<List<Feed>> build() async {
-    final result = await getTodayPopularFeedsUseCase.execute();
+    final List<String> range = DateTimeUtil.getOneWeekRange();
+    final result = await getFeedRankingsUseCase.execute(GetFeedRankingsRequest(startDate: range[0], endDate: range[1]));
 
     return result.fold(onSuccess: (feeds) => feeds, onFailure: (e) => []);
   }

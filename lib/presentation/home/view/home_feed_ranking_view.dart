@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
@@ -23,7 +24,7 @@ class HomeFeedRankingView extends ConsumerWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('오늘의 인기 랭킹', style: AppTypeface.subTitle1),
+              Text('주간 랭킹', style: AppTypeface.subTitle1),
               Text('더보기', style: AppTypeface.caption1.copyWith(color: AppColor.gray600)),
             ],
           ),
@@ -55,7 +56,7 @@ class _HomeRankingCarousel extends StatelessWidget {
         disableCenter: true,
         viewportFraction: 0.6,
         padEnds: false,
-        height: 300,
+        height: 252.h,
       ),
       itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
         return Container(

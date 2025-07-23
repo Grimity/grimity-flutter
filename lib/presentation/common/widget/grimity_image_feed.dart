@@ -41,7 +41,7 @@ class GrimityImageFeed extends StatelessWidget {
           ),
         ),
         const Gap(8),
-        Expanded(child: Text(feed.title, style: AppTypeface.label2, maxLines: 1, overflow: TextOverflow.ellipsis)),
+        Flexible(child: Text(feed.title, style: AppTypeface.label2, maxLines: 1, overflow: TextOverflow.ellipsis)),
         const Gap(2),
         Row(
           children: [
