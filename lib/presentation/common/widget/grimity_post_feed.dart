@@ -14,6 +14,7 @@ class GrimityPostFeed extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: posts.length,
+      padding: EdgeInsets.zero,
       separatorBuilder: (context, index) {
         return Divider(color: AppColor.gray300, height: 1, thickness: 1);
       },
