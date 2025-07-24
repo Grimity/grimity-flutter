@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:grimity/data/model/common/id_response.dart';
+import 'package:grimity/data/model/feed/feed_detail_response.dart';
 import 'package:grimity/data/model/feed/feed_rankings_response.dart';
 import 'package:grimity/data/model/feed/latest_feeds_response.dart';
 import 'package:grimity/domain/dto/feeds_request_param.dart';
@@ -26,6 +27,9 @@ abstract class FeedAPI {
     @Query('startDate') String? startDate,
     @Query('endDate') String? endDate,
   });
+
+  @GET('/feeds/{id}')
+  Future<FeedDetailResponse> getFeedDetail(@Path('id') String id);
 
   @PUT('/feeds/{id}/like')
   Future<void> likeFeed(@Path('id') String id);
