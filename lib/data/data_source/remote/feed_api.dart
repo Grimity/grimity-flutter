@@ -28,6 +28,12 @@ abstract class FeedAPI {
     @Query('endDate') String? endDate,
   });
 
+  @PUT('/feeds/{id}')
+  Future<void> updateFeed(@Path('id') String id, @Body() UpdateFeedRequest request);
+
+  @DELETE('/feeds/{id}')
+  Future<void> deleteFeed(@Path('id') String id);
+
   @GET('/feeds/{id}')
   Future<FeedDetailResponse> getFeedDetail(@Path('id') String id);
 

@@ -8,7 +8,11 @@ import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_follow_button.dart';
+import 'package:grimity/presentation/common/widget/grimity_modal_bottom_sheet.dart';
+import 'package:grimity/presentation/common/widget/grimity_more_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_placeholder.dart';
+import 'package:grimity/presentation/common/widget/grimity_share_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/profile/enum/link_type_enum.dart';
 import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
 import 'package:grimity/presentation/profile/widget/profile_bottom_sheet.dart';
@@ -81,56 +85,51 @@ class UserProfileView extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            if (viewType == ProfileViewType.other) ...[_buildFollowButton(), Gap(10.w)],
-            _buildMoreButton(context),
+            if (viewType == ProfileViewType.other) ...[
+              GrimityFollowButton(
+                url: user.url,
+              ),
+              Gap(10.w),
+            ],
+            GrimityMoreButton(onTap: () => _showMoreBottomSheet(context)),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildFollowButton() {
-    final isFollowing = user.isFollowing ?? false;
-
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onTap: () {
-        // TODO : follow/unfollow
-      },
-      child: Container(
-        height: 30,
-        decoration: BoxDecoration(
-          border: isFollowing ? Border.all(color: AppColor.gray300) : Border.all(color: AppColor.primary4, width: 1),
-          borderRadius: BorderRadius.circular(50),
-          color: isFollowing ? AppColor.gray00 : AppColor.primary4,
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
-          child: Center(
-            child: Text(
-              isFollowing ? '언팔로우' : '팔로잉',
-              style: AppTypeface.caption3.copyWith(color: isFollowing ? AppColor.gray700 : AppColor.gray00),
-            ),
-          ),
-        ),
+  void _showMoreBottomSheet(BuildContext context) {
+    final List<GrimityModalButtonModel> buttons = [
+      GrimityModalButtonModel(
+        title: '프로필 링크 공유',
+        onTap: () {
+          context.pop();
+          GrimityShareModalBottomSheet.show(context, url: user.url);
+        },
       ),
-    );
-  }
-
-  Widget _buildMoreButton(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onTap: () => showProfileMoreBottomSheet(context, user.url, viewType),
-      child: Container(
-        width: 30,
-        height: 30,
-        decoration: BoxDecoration(
-          border: Border.all(color: AppColor.gray300, width: 1),
-          borderRadius: BorderRadius.circular(12),
+      if (viewType == ProfileViewType.mine) ...[
+        GrimityModalButtonModel(
+          title: '회원 탈퇴',
+          onTap: () {
+            context.pop();
+          },
         ),
-        child: Center(child: Assets.icons.profile.moreHoriz.svg(width: 20, height: 20)),
-      ),
-    );
+      ] else ...[
+        GrimityModalButtonModel(
+          title: '메세지 보내기',
+          onTap: () {
+            context.pop();
+          },
+        ),
+        GrimityModalButtonModel(
+          title: '신고하기',
+          onTap: () {
+            context.pop();
+          },
+        ),
+      ],
+    ];
+    GrimityModalBottomSheet.show(context, buttons: buttons);
   }
 }
 

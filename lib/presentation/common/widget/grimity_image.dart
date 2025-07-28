@@ -70,8 +70,8 @@ class GrimityImage extends StatelessWidget {
                         onTap: () => onToggleLike?.call(),
                         child:
                             isLike!
-                                ? Assets.icons.home.heartFill.svg(width: 24, height: 24)
-                                : Assets.icons.home.heart.svg(width: 24, height: 24),
+                                ? Assets.icons.common.heartFill.svg(width: 24, height: 24)
+                                : Assets.icons.common.heart.svg(width: 24, height: 24),
                       ),
                     ),
                   ),
@@ -86,8 +86,8 @@ class GrimityImage extends StatelessWidget {
                         onTap: () => onToggleSave?.call(),
                         child:
                             isSave!
-                                ? Assets.icons.storage.saveFill.svg(width: 24, height: 24)
-                                : Assets.icons.storage.save.svg(width: 24, height: 24),
+                                ? Assets.icons.common.saveFill.svg(width: 24, height: 24)
+                                : Assets.icons.common.save.svg(width: 24, height: 24),
                       ),
                     ),
                   ),
