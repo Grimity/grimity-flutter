@@ -24,7 +24,7 @@ class FeedUploadScaffoldBottomSheet extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: SizedBox(
-              height: 42,
+              height: height,
               child: Row(
                 children: [
                   GrimityAnimationButton(

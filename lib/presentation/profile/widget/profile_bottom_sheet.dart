@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -8,165 +7,9 @@ import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/link.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/profile/enum/link_type_enum.dart';
-import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-void showProfileMoreBottomSheet(BuildContext context, String url, ProfileViewType viewType) {
-  showModalBottomSheet(
-    context: context,
-    backgroundColor: Colors.white,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
-    ),
-    builder: (context) {
-      return Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Gap(16),
-            GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: () {
-                context.pop();
-                showProfileShareBottomSheet(context, url);
-              },
-              child: Container(
-                width: double.maxFinite,
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                child: Text("프로필 링크 공유", style: AppTypeface.label2),
-              ),
-            ),
-            if (viewType == ProfileViewType.mine) ...[
-              Gap(16),
-              GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () {
-                  context.pop();
-                },
-                child: Container(
-                  width: double.maxFinite,
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                  child: Text("회원 탈퇴", style: AppTypeface.label2),
-                ),
-              ),
-            ] else ...[
-              Gap(16),
-              GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () {
-                  context.pop();
-                },
-                child: Container(
-                  width: double.maxFinite,
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                  child: Text("메세지 보내기", style: AppTypeface.label2),
-                ),
-              ),
-              Gap(16),
-              GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () {
-                  context.pop();
-                },
-                child: Container(
-                  width: double.maxFinite,
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                  child: Text("신고하기", style: AppTypeface.label2),
-                ),
-              ),
-            ],
-            Gap(24),
-            _BottomSheetButton(
-              onTap: () {
-                context.pop();
-              },
-              child: Center(child: Text("취소", style: AppTypeface.label2)),
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
-
-void showProfileShareBottomSheet(BuildContext context, String url) {
-  showModalBottomSheet(
-    context: context,
-    backgroundColor: Colors.white,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
-    ),
-    builder: (context) {
-      return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Gap(24),
-            Row(
-              children: [
-                Text("프로필 공유하기", style: AppTypeface.subTitle3),
-                const Spacer(),
-                GestureDetector(
-                  onTap: () => context.pop(),
-                  child: Assets.icons.common.close.svg(width: 24, height: 24),
-                ),
-              ],
-            ),
-            Gap(16),
-            _BottomSheetButton(
-              height: 54.w,
-              child: Row(
-                children: [
-                  Assets.icons.profile.link.svg(width: 24, height: 24),
-                  Gap(8),
-                  Text("링크 복사하기", style: AppTypeface.label2),
-                ],
-              ),
-              onTap: () {
-                Clipboard.setData(ClipboardData(text: url));
-                context.pop();
-              },
-            ),
-            Gap(16),
-            _BottomSheetButton(
-              height: 54.w,
-              onTap: () {
-                // TODO X 공유
-              },
-              child: Row(
-                children: [
-                  Assets.icons.profile.xOutlined.image(width: 24, height: 24),
-                  Gap(8),
-                  Text("X로 공유", style: AppTypeface.label2),
-                ],
-              ),
-            ),
-            Gap(16),
-            _BottomSheetButton(
-              height: 54.w,
-              onTap: () {
-                // TODO 카카오톡 공유
-              },
-              child: Row(
-                children: [
-                  Assets.icons.profile.kakaotalk.image(width: 24, height: 24),
-                  Gap(8),
-                  Text("카카오톡으로 공유", style: AppTypeface.label2),
-                ],
-              ),
-            ),
-            Gap(24),
-          ],
-        ),
-      );
-    },
-  );
-}
-
+/// TODO 공통화 프로필 링크
 void showProfileLinkBottomSheet(BuildContext context, List<Link> links) {
   showModalBottomSheet(
     context: context,
@@ -242,28 +85,6 @@ class _LinkItem extends StatelessWidget {
             ],
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _BottomSheetButton extends StatelessWidget {
-  const _BottomSheetButton({required this.child, required this.onTap, this.height});
-
-  final Widget child;
-  final VoidCallback onTap;
-  final double? height;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 11, horizontal: 16),
-        width: double.maxFinite,
-        height: height ?? 42.w,
-        decoration: BoxDecoration(border: Border.all(color: AppColor.gray300), borderRadius: BorderRadius.circular(12)),
-        child: child,
       ),
     );
   }

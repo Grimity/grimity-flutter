@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
+import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/presentation/common/enum/upload_image_type.dart';
 import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
+import 'package:grimity/presentation/common/widget/grimity_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/common/widget/grimity_placeholder.dart';
 import 'package:grimity/presentation/profile_edit/provider/profile_edit_provider.dart';
 import 'package:grimity/presentation/profile_edit/provider/upload_image_provider.dart';
-import 'package:grimity/presentation/profile_edit/widget/profile_edit_bottom_sheet.dart';
 
 class ProfileEditBackground extends ConsumerWidget {
   const ProfileEditBackground({super.key});
@@ -43,7 +45,7 @@ class _ProfileEditBackgroundEditButton extends ConsumerWidget {
       child: Align(
         alignment: Alignment.bottomRight,
         child: GestureDetector(
-          onTap: isUploading ? null : () => showBackgroundImageBottomSheet(context, ref),
+          onTap: isUploading ? null : () => _showBackgroundImageBottomSheet(context, ref),
           child: Container(
             width: 69.w,
             height: 34.w,
@@ -57,5 +59,35 @@ class _ProfileEditBackgroundEditButton extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  void _showBackgroundImageBottomSheet(BuildContext context, WidgetRef ref) {
+    final type = UploadImageType.background;
+    final uploadImage = ref.read(uploadImageProvider(type).notifier);
+    List<GrimityModalButtonModel> buttons = [
+      GrimityModalButtonModel(
+        title: '기본 커버로 변경',
+        onTap: () async {
+          await uploadImage.deleteImage(type);
+
+          if (context.mounted) {
+            context.pop();
+          }
+        },
+      ),
+      GrimityModalButtonModel(
+        title: '커버 변경',
+        onTap: () async {
+          final isSelected = await uploadImage.pickImage(type);
+
+          if (isSelected && context.mounted) {
+            context.pop();
+            CropImageRoute(type: type).push(context);
+          }
+        },
+      ),
+    ];
+
+    GrimityModalBottomSheet.show(context, buttons: buttons);
   }
 }

@@ -54,6 +54,28 @@ class FeedRepositoryImpl extends FeedRepository {
   }
 
   @override
+  Future<Result<void>> updateFeed(String id, UpdateFeedRequest request) async {
+    try {
+      await _feedAPI.updateFeed(id, request);
+      return Result.success(null);
+    }
+    on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
+
+  @override
+  Future<Result<void>> deleteFeed(String id) async {
+    try {
+      await _feedAPI.deleteFeed(id);
+      return Result.success(null);
+    }
+    on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
+
+  @override
   Future<Result<Feed>> getFeedDetail(String id) async {
     try {
       final FeedDetailResponse response = await _feedAPI.getFeedDetail(id);

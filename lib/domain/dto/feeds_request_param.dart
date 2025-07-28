@@ -24,3 +24,25 @@ abstract class CreateFeedRequest with _$CreateFeedRequest {
 
   factory CreateFeedRequest.fromJson(Map<String, dynamic> json) => _$CreateFeedRequestFromJson(json);
 }
+
+@freezed
+abstract class UpdateFeedUseCaseParam with _$UpdateFeedUseCaseParam {
+  const factory UpdateFeedUseCaseParam({required String id, required UpdateFeedRequest request, String? albumId}) =
+      _UpdateFeedUseCaseParam;
+
+  factory UpdateFeedUseCaseParam.fromJson(Map<String, dynamic> json) => _$UpdateFeedUseCaseParamFromJson(json);
+}
+
+@freezed
+abstract class UpdateFeedRequest with _$UpdateFeedRequest {
+  const factory UpdateFeedRequest({
+    required String title,
+    required List<String> cards,
+    required String content,
+    required List<String> tags,
+    required String thumbnail,
+    String? albumId,
+  }) = _UpdateFeedRequest;
+
+  factory UpdateFeedRequest.fromJson(Map<String, dynamic> json) => _$UpdateFeedRequestFromJson(json);
+}

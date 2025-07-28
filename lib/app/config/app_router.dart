@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/presentation/common/enum/upload_image_type.dart';
+import 'package:grimity/presentation/feed_detail/feed_detail_page.dart';
 import 'package:grimity/presentation/feed_upload/feed_upload_page.dart';
 import 'package:grimity/presentation/follow/follow_page.dart';
 import 'package:grimity/presentation/album_edit/album_edit_page.dart';
@@ -288,4 +289,19 @@ class PhotoSelectRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => const PhotoSelectPage();
+}
+
+@TypedGoRoute<FeedDetailRoute>(path: FeedDetailRoute.path, name: FeedDetailRoute.name)
+class FeedDetailRoute extends GoRouteData {
+  final String id;
+
+  const FeedDetailRoute({required this.id});
+
+  static const String path = '/feed/:id';
+  static const String name = 'feed-detail';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return FeedDetailPage(feedId: id);
+  }
 }

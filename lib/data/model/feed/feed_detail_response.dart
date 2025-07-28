@@ -25,7 +25,7 @@ abstract class FeedDetailResponse with _$FeedDetailResponse implements FeedRespo
     required bool isLike,
     required bool isSave,
     required int commentCount,
-    required AlbumBaseResponse album,
+    AlbumBaseResponse? album,
   }) = _FeedDetailResponse;
 
   factory FeedDetailResponse.fromJson(Map<String, dynamic> json) => _$FeedDetailResponseFromJson(json);
@@ -47,7 +47,7 @@ extension FeedDetailResponseX on FeedDetailResponse {
       isLike: isLike,
       isSave: isSave,
       commentCount: commentCount,
-      album: album.toEntity(),
+      album: album?.toEntity(),
     );
   }
 }

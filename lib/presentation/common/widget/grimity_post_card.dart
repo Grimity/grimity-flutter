@@ -60,7 +60,7 @@ class GrimityPostCard extends StatelessWidget {
               GrimityGrayCircle(),
               Text(post.createdAt.toRelativeTime(), style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
               GrimityGrayCircle(),
-              Assets.icons.home.view.svg(width: 16, height: 16),
+              Assets.icons.common.view.svg(width: 16, height: 16),
               const Gap(2),
               Text(post.viewCount.toString(), style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
             ],

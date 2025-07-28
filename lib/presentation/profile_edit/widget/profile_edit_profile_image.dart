@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/enum/upload_image_type.dart';
 import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
+import 'package:grimity/presentation/common/widget/grimity_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/common/widget/grimity_placeholder.dart';
 import 'package:grimity/presentation/profile_edit/provider/upload_image_provider.dart';
-import 'package:grimity/presentation/profile_edit/widget/profile_edit_bottom_sheet.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:grimity/presentation/profile_edit/provider/profile_edit_provider.dart';
 
@@ -21,7 +23,7 @@ class ProfileEditProfileImage extends ConsumerWidget {
         alignment: Alignment.topLeft,
         child: GestureDetector(
           behavior: HitTestBehavior.translucent,
-          onTap: isUploading ? null : () => showProfileImageBottomSheet(context, ref),
+          onTap: isUploading ? null : () => _showProfileImageBottomSheet(context, ref),
           child: Stack(
             children: [
               GrimityProfileImage(url: ref.watch(profileEditProvider).image),
@@ -49,5 +51,36 @@ class ProfileEditProfileImage extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  void _showProfileImageBottomSheet(BuildContext context, WidgetRef ref) {
+    final type = UploadImageType.profile;
+    final uploadImage = ref.read(uploadImageProvider(type).notifier);
+
+    final List<GrimityModalButtonModel> buttons = [
+      GrimityModalButtonModel(
+        title: '기본 프로필로 변경',
+        onTap: () async {
+          await uploadImage.deleteImage(type);
+
+          if (context.mounted) {
+            context.pop();
+          }
+        },
+      ),
+      GrimityModalButtonModel(
+        title: '프로필 변경',
+        onTap: () async {
+          final isSelected = await uploadImage.pickImage(type);
+
+          if (isSelected && context.mounted) {
+            context.pop();
+            CropImageRoute(type: type).push(context);
+          }
+        },
+      ),
+    ];
+
+    GrimityModalBottomSheet.show(context, buttons: buttons);
   }
 }

@@ -25,6 +25,7 @@ dependencies:
   skeletonizer: ^2.0.1
   custom_image_crop: ^0.1.1
   lottie: ^3.3.1
+  photo_view: ^0.15.0
 
   # Annotation
   freezed_annotation: ^3.0.0
