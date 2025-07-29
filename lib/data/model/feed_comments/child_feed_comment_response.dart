@@ -16,7 +16,7 @@ abstract class ChildFeedCommentResponse with _$ChildFeedCommentResponse implemen
     required int likeCount,
     required bool isLike,
     required UserBaseResponse writer,
-    required UserBaseResponse mentionedUser,
+    UserBaseResponse? mentionedUser,
   }) = _ChildFeedCommentResponse;
 
   factory ChildFeedCommentResponse.fromJson(Map<String, dynamic> json) => _$ChildFeedCommentResponseFromJson(json);
@@ -31,7 +31,7 @@ extension ChildFeedCommentResponseX on ChildFeedCommentResponse {
       likeCount: likeCount,
       isLike: isLike,
       writer: writer.toEntity(),
-      mentionedUser: mentionedUser.toEntity(),
+      mentionedUser: mentionedUser?.toEntity(),
     );
   }
 }
