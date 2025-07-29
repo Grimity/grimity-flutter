@@ -8,9 +8,9 @@ part 'feed_comments_request_params.g.dart';
 abstract class CreateFeedCommentRequest with _$CreateFeedCommentRequest {
   const factory CreateFeedCommentRequest({
     required String feedId,
-    required String parentCommentId,
+    String? parentCommentId,
     required String content,
-    required String mentionedUserId,
+    String? mentionedUserId,
   }) = _CreateFeedCommentRequest;
 
   factory CreateFeedCommentRequest.fromJson(Map<String, dynamic> json) => _$CreateFeedCommentRequestFromJson(json);

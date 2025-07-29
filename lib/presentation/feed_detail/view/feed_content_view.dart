@@ -44,7 +44,7 @@ class FeedContentView extends ConsumerWidget {
           Gap(16),
           Row(
             children: [
-              GrimityUserImage(imageUrl: feed.author?.image),
+              GrimityUserImage(imageUrl: feed.author?.image, size: 30,),
               Gap(8),
               Flexible(
                 child: Column(
