@@ -8,6 +8,7 @@ import 'package:grimity/presentation/drawer/main_app_drawer.dart';
 import 'package:grimity/presentation/feed_detail/view/feed_author_profile_view.dart';
 import 'package:grimity/presentation/feed_detail/view/feed_comments_view.dart';
 import 'package:grimity/presentation/feed_detail/view/feed_content_view.dart';
+import 'package:grimity/presentation/feed_detail/view/feed_recommend_feed_view.dart';
 import 'package:grimity/presentation/feed_detail/widget/feed_comment_input_bar.dart';
 import 'package:grimity/presentation/feed_detail/widget/feed_detail_app_bar.dart';
 import 'package:grimity/presentation/feed_detail/widget/feed_util_bar.dart';
@@ -80,7 +81,9 @@ class FeedDetailView extends HookWidget {
                     ),
                     SliverToBoxAdapter(child: Container(color: AppColor.gray200, height: 8)),
                     SliverToBoxAdapter(child: FeedAuthorProfileView(author: feed.author ?? User.empty())),
-                    SliverToBoxAdapter(child: Container(color: AppColor.gray200, height: 400)),
+                    SliverToBoxAdapter(child: Container(color: AppColor.gray200, height: 8)),
+                    SliverToBoxAdapter(child: FeedRecommendFeedView()),
+                    SliverToBoxAdapter(child: Gap(52)),
                   ],
                 ),
               ),
