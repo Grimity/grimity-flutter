@@ -13,9 +13,7 @@ import 'package:grimity/presentation/feed_upload/widget/feed_upload_modal_bottom
 import 'package:skeletonizer/skeletonizer.dart';
 
 class FeedUploadAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const FeedUploadAppBar({super.key, required this.from});
-
-  final String from;
+  const FeedUploadAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +22,7 @@ class FeedUploadAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: Center(
         child: GestureDetector(
           behavior: HitTestBehavior.translucent,
-          onTap: () => showCancelFeedUploadDialog(context, from),
+          onTap: () => showCancelFeedUploadDialog(context),
           child: Assets.icons.common.close.svg(width: 24.w, height: 24.w),
         ),
       ),
@@ -68,7 +66,7 @@ class FeedUploadAppBar extends StatelessWidget implements PreferredSizeWidget {
                       ? () async {
                         final uploadedFeedUrl = await ref.read(feedUploadProvider.notifier).feedUpload();
                         if (uploadedFeedUrl != null && context.mounted) {
-                          showUploadCompleteDialog(context, uploadedFeedUrl, from);
+                          showUploadCompleteDialog(context, uploadedFeedUrl);
                         }
                       }
                       : null,

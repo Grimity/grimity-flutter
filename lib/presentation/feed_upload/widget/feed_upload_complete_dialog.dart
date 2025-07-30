@@ -8,7 +8,7 @@ import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_dialog.dart';
 
-void showUploadCompleteDialog(BuildContext context, String link, String from) {
+void showUploadCompleteDialog(BuildContext context, String link) {
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -18,7 +18,10 @@ void showUploadCompleteDialog(BuildContext context, String link, String from) {
           title: '그림이 업로드 되었어요',
           content: '업로드 소식을 공유해보세요',
           confirmText: '닫기',
-          onConfirm: () => context.goNamed(from),
+          onConfirm: () {
+            context.pop();
+            context.pop();
+          },
           linkWidget: GestureDetector(
             onTap: () {
               Clipboard.setData(ClipboardData(text: link));

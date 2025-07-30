@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/presentation/common/widget/grimity_dialog.dart';
 
-void showCancelFeedUploadDialog(BuildContext context, String from) {
+void showCancelFeedUploadDialog(BuildContext context) {
   showDialog(
     context: context,
     builder:
@@ -12,7 +12,10 @@ void showCancelFeedUploadDialog(BuildContext context, String from) {
           cancelText: '취소',
           confirmText: '나가기',
           onCancel: () => context.pop(),
-          onConfirm: () => context.goNamed(from),
+          onConfirm: () {
+            context.pop();
+            context.pop();
+          },
         ),
   );
 }

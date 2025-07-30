@@ -19,7 +19,7 @@ class MainFloatingActionButton extends StatelessWidget {
         if (currentIndex == MainNavigationItem.board.index) {
           throw UnimplementedError('Unimplemented Error - AddPostRoute');
         } else {
-          FeedUploadRoute(from: MainNavigationItem.values[currentIndex].routeName).push(context);
+          FeedUploadRoute().push(context);
         }
       },
       child: Container(

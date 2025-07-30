@@ -14,14 +14,12 @@ class FeedUploadView extends ConsumerWidget {
     required this.feedUploadBodyView,
     required this.feedUploadScaffoldBottomSheet,
     required this.bottomSheetHeight,
-    required this.from,
   });
 
   final PreferredSizeWidget feedUploadAppBar;
   final Widget feedUploadBodyView;
   final Widget feedUploadScaffoldBottomSheet;
   final double bottomSheetHeight;
-  final String from;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -36,7 +34,7 @@ class FeedUploadView extends ConsumerWidget {
                 ToastService.showError('그림 업로드가 진행중 입니다.');
               }
               : () {
-                showCancelFeedUploadDialog(context, from);
+                showCancelFeedUploadDialog(context);
               },
       child: Stack(
         children: [
