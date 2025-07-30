@@ -144,7 +144,7 @@ class _FeedAuthorInfoSection extends StatelessWidget {
           ),
         ),
         if (!isMine) ...[if (feed.author != null) GrimityFollowButton(url: feed.author!.url), Gap(10)],
-        GrimityMoreButton(onTap: () => onMoreTap),
+        GrimityMoreButton(onTap: onMoreTap),
       ],
     );
   }

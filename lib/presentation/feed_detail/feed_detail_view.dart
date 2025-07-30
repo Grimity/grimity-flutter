@@ -3,20 +3,31 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/domain/entity/feed.dart';
-import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/drawer/main_app_drawer.dart';
-import 'package:grimity/presentation/feed_detail/view/feed_author_profile_view.dart';
-import 'package:grimity/presentation/feed_detail/view/feed_comments_view.dart';
-import 'package:grimity/presentation/feed_detail/view/feed_content_view.dart';
-import 'package:grimity/presentation/feed_detail/view/feed_recommend_feed_view.dart';
-import 'package:grimity/presentation/feed_detail/widget/feed_comment_input_bar.dart';
-import 'package:grimity/presentation/feed_detail/widget/feed_detail_app_bar.dart';
-import 'package:grimity/presentation/feed_detail/widget/feed_util_bar.dart';
 
 class FeedDetailView extends HookWidget {
   final Feed feed;
+  final Widget feedDetailAppBar;
+  final Widget feedContentView;
+  final Widget feedCommentsView;
+  final Widget feedAuthorProfileView;
+  final Widget feedRecommendFeedView;
+  final Widget feedCommentInputBar;
+  final Widget feedUtilBar;
 
-  const FeedDetailView({super.key, required this.feed});
+  FeedDetailView({
+    super.key,
+    required this.feed,
+    required this.feedDetailAppBar,
+    required this.feedContentView,
+    required this.feedCommentsView,
+    required this.feedAuthorProfileView,
+    required this.feedRecommendFeedView,
+    required this.feedCommentInputBar,
+    required this.feedUtilBar,
+  });
+
+  final Widget grayGap = SliverToBoxAdapter(child: Container(color: AppColor.gray200, height: 8));
 
   @override
   Widget build(BuildContext context) {
@@ -60,29 +71,23 @@ class FeedDetailView extends HookWidget {
                 },
                 child: CustomScrollView(
                   slivers: [
-                    FeedDetailAppBar(),
+                    feedDetailAppBar,
                     SliverToBoxAdapter(child: Gap(16)),
                     SliverToBoxAdapter(
                       child: Builder(
                         builder: (context) {
                           // 위치 추적용 context 저장
                           feedContentContextRef.value = context;
-                          return FeedContentView(feed: feed);
+                          return feedContentView;
                         },
                       ),
                     ),
-                    _buildGrayContainer(),
-                    SliverToBoxAdapter(
-                      child: FeedCommentsView(
-                        feedId: feed.id,
-                        feedAuthorId: feed.author?.id ?? '',
-                        commentCount: feed.commentCount ?? 0,
-                      ),
-                    ),
-                    _buildGrayContainer(),
-                    SliverToBoxAdapter(child: FeedAuthorProfileView(author: feed.author ?? User.empty())),
-                    _buildGrayContainer(),
-                    SliverToBoxAdapter(child: FeedRecommendFeedView()),
+                    grayGap,
+                    SliverToBoxAdapter(child: feedCommentsView),
+                    grayGap,
+                    SliverToBoxAdapter(child: feedAuthorProfileView),
+                    grayGap,
+                    SliverToBoxAdapter(child: feedRecommendFeedView),
                     SliverToBoxAdapter(child: Gap(52)),
                   ],
                 ),
@@ -95,11 +100,11 @@ class FeedDetailView extends HookWidget {
                   duration: Duration(milliseconds: 200),
                   child:
                       showCommentInputBar.value
-                          ? FeedCommentInputBar(feedId: feed.id)
+                          ? feedCommentInputBar
                           : Container(
                             color: AppColor.gray00,
                             padding: EdgeInsets.symmetric(horizontal: 16),
-                            child: FeedUtilBar(feed: feed),
+                            child: feedUtilBar,
                           ),
                 ),
               ),
@@ -109,6 +114,4 @@ class FeedDetailView extends HookWidget {
       ),
     );
   }
-
-  _buildGrayContainer() => SliverToBoxAdapter(child: Container(color: AppColor.gray200, height: 8));
 }
