@@ -10,6 +10,8 @@ part 'profile_data_provider.g.dart';
 class ProfileData extends _$ProfileData {
   @override
   FutureOr<User?> build(String url) async {
+    if (url.isEmpty) return null;
+
     final result = await getUserProfileByUrlUseCase.execute(url);
 
     return result.fold(onSuccess: (profile) => profile, onFailure: (e) => null);

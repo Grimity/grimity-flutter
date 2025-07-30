@@ -10,6 +10,8 @@ part 'feed_comments_data_provider.g.dart';
 class FeedCommentsData extends _$FeedCommentsData {
   @override
   FutureOr<List<Comment>> build(String feedId) async {
+    if (feedId.isEmpty) return [];
+
     final result = await getFeedCommentsUseCase.execute(feedId);
 
     return result.fold(onSuccess: (comments) => comments, onFailure: (e) => []);
