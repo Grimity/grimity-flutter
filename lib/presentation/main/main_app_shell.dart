@@ -17,7 +17,7 @@ class _MainAppShellState extends State<MainAppShell> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer: MainAppDrawer(currentIndex:widget.navigationShell.currentIndex),
+      endDrawer: MainAppDrawer(),
       body: widget.navigationShell,
       bottomNavigationBar: MainBottomNavigationBar(navigationShell: widget.navigationShell),
       floatingActionButton: MainFloatingActionButton(currentIndex: widget.navigationShell.currentIndex),

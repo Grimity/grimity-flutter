@@ -26,7 +26,7 @@ class FeedDetailView extends HookWidget {
     final feedContentContextRef = useRef<BuildContext?>(null);
 
     return Scaffold(
-      endDrawer: MainAppDrawer(currentIndex: 0), // TODO : 되돌아오는 Route 구조 변경 필요
+      endDrawer: MainAppDrawer(),
       body: SafeArea(
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,

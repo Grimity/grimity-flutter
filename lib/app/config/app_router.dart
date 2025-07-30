@@ -266,16 +266,14 @@ class StorageRoute extends GoRouteData {
 
 @TypedGoRoute<FeedUploadRoute>(path: FeedUploadRoute.path, name: FeedUploadRoute.name)
 class FeedUploadRoute extends GoRouteData {
-  const FeedUploadRoute({required this.from});
+  const FeedUploadRoute();
 
   static const String path = '/feed-upload';
   static const String name = 'feed-upload';
 
-  final String from;
-
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return FeedUploadPage(from: from);
+    return FeedUploadPage();
   }
 }
 
