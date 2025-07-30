@@ -85,9 +85,9 @@ class FeedContentView extends ConsumerWidget {
                 final imageUrl = feed.cards![index];
                 return GestureDetector(
                   onTap: () {
-                    Navigator.of(
-                      context,
-                    ).push(MaterialPageRoute(builder: (context) => _FeedImageListPage(imageUrls: feed.cards!)));
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => _FeedImageListPage(imageUrls: feed.cards!, index: index)),
+                    );
                   },
                   child: CachedNetworkImage(
                     imageUrl: imageUrl,
@@ -175,14 +175,15 @@ class FeedContentView extends ConsumerWidget {
 }
 
 class _FeedImageListPage extends HookWidget {
-  const _FeedImageListPage({required this.imageUrls});
+  const _FeedImageListPage({required this.imageUrls, required this.index});
 
   final List<String> imageUrls;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
-    final currentIndex = useState(0);
-    final pageController = usePageController();
+    final currentIndex = useState(index);
+    final pageController = usePageController(initialPage: index);
 
     return Scaffold(
       backgroundColor: Colors.black,
