@@ -10,6 +10,8 @@ part 'feed_author_feeds_data_provider.g.dart';
 class FeedAuthorFeedsData extends _$FeedAuthorFeedsData {
   @override
   FutureOr<Feeds> build(String userId) async {
+    if (userId.isEmpty) return Feeds(feeds: [], nextCursor: '');
+
     final param = GetUserFeedsRequestParams(id: userId, size: 6, sort: SortType.latest);
 
     final result = await getUserFeedsUseCase.execute(param);

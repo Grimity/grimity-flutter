@@ -71,7 +71,7 @@ class FeedDetailView extends HookWidget {
                         },
                       ),
                     ),
-                    SliverToBoxAdapter(child: Container(color: AppColor.gray200, height: 8)),
+                    _buildGrayContainer(),
                     SliverToBoxAdapter(
                       child: FeedCommentsView(
                         feedId: feed.id,
@@ -79,9 +79,9 @@ class FeedDetailView extends HookWidget {
                         commentCount: feed.commentCount ?? 0,
                       ),
                     ),
-                    SliverToBoxAdapter(child: Container(color: AppColor.gray200, height: 8)),
+                    _buildGrayContainer(),
                     SliverToBoxAdapter(child: FeedAuthorProfileView(author: feed.author ?? User.empty())),
-                    SliverToBoxAdapter(child: Container(color: AppColor.gray200, height: 8)),
+                    _buildGrayContainer(),
                     SliverToBoxAdapter(child: FeedRecommendFeedView()),
                     SliverToBoxAdapter(child: Gap(52)),
                   ],
@@ -109,4 +109,6 @@ class FeedDetailView extends HookWidget {
       ),
     );
   }
+
+  _buildGrayContainer() => SliverToBoxAdapter(child: Container(color: AppColor.gray200, height: 8));
 }

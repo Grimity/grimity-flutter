@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -19,8 +18,6 @@ import 'package:grimity/presentation/common/widget/grimity_more_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_user_image.dart';
 import 'package:grimity/presentation/feed_detail/widget/feed_detail_delete_dialog.dart';
 import 'package:grimity/presentation/feed_detail/widget/feed_util_bar.dart';
-import 'package:photo_view/photo_view.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 /// 피드 본문 View
 class FeedContentView extends ConsumerWidget {
@@ -37,99 +34,18 @@ class FeedContentView extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(feed.title, style: AppTypeface.subTitle1.copyWith(color: AppColor.gray800)),
+          _FeedTitleSection(title: feed.title),
           Gap(16),
-          Row(
-            children: [
-              GrimityUserImage(imageUrl: feed.author?.image, size: 30),
-              Gap(8),
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      feed.author?.name ?? '작성자 정보 없음',
-                      style: AppTypeface.label2.copyWith(color: AppColor.gray700),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          feed.createdAt == null ? '알 수 없음' : feed.createdAt!.toRelativeTime(),
-                          style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
-                        ),
-                        GrimityGrayCircle(),
-                        Assets.icons.common.like.svg(width: 16, height: 16),
-                        Gap(2),
-                        Text('${feed.likeCount}', style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
-                        GrimityGrayCircle(),
-                        Assets.icons.common.view.svg(width: 16, height: 16),
-                        Gap(2),
-                        Text('${feed.viewCount}', style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              if (!isMine) ...[if (feed.author != null) GrimityFollowButton(url: feed.author!.url), Gap(10)],
-              GrimityMoreButton(onTap: () => _showMoreBottomSheet(context, isMine, ref)),
-            ],
+          _FeedAuthorInfoSection(
+            feed: feed,
+            isMine: isMine,
+            onMoreTap: () => _showMoreBottomSheet(context, isMine, ref),
           ),
           Gap(32),
-          if (feed.cards != null) ...[
-            ListView.separated(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                final imageUrl = feed.cards![index];
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => _FeedImageListPage(imageUrls: feed.cards!, index: index)),
-                    );
-                  },
-                  child: CachedNetworkImage(
-                    imageUrl: imageUrl,
-                    width: 343.w,
-                    fit: BoxFit.fitWidth,
-                    placeholder:
-                        (context, url) => Skeletonizer(child: Assets.images.imagePlaceholder.image(width: 343.w)),
-                    errorWidget: (context, error, stackTrace) => Assets.images.imagePlaceholder.image(width: 343.w),
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) => Gap(8),
-              itemCount: feed.cards!.length,
-              padding: EdgeInsets.zero,
-            ),
-            Gap(20),
-          ],
-          Text(
-            feed.content ?? '',
-            style: TextStyle(fontSize: 16.sp, height: 1.6, letterSpacing: 0, fontWeight: FontWeight.w500),
-          ),
-          if (feed.tags != null) ...[
-            Gap(20),
-            Wrap(
-              spacing: 6,
-              runSpacing: 6,
-              children:
-                  feed.tags!
-                      .map(
-                        (tag) => Container(
-                          padding: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            border: Border.all(color: AppColor.gray300, width: 1),
-                          ),
-                          child: Text(tag, style: AppTypeface.caption3.copyWith(color: AppColor.gray700)),
-                        ),
-                      )
-                      .toList(),
-            ),
-          ],
+          if (feed.cards != null) _FeedImageListSection(imageUrls: feed.cards!),
+          _FeedContentSection(content: feed.content ?? ''),
           Gap(20),
+          if (feed.tags != null) _FeedTagSection(tags: feed.tags!),
           FeedUtilBar(feed: feed),
         ],
       ),
@@ -174,88 +90,133 @@ class FeedContentView extends ConsumerWidget {
   }
 }
 
-class _FeedImageListPage extends HookWidget {
-  const _FeedImageListPage({required this.imageUrls, required this.index});
+class _FeedTitleSection extends StatelessWidget {
+  final String title;
 
-  final List<String> imageUrls;
-  final int index;
+  const _FeedTitleSection({required this.title});
 
   @override
   Widget build(BuildContext context) {
-    final currentIndex = useState(index);
-    final pageController = usePageController(initialPage: index);
+    return Text(title, style: AppTypeface.subTitle1.copyWith(color: AppColor.gray800));
+  }
+}
 
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        leading: GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTap: () => context.pop(),
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
-            child: Assets.icons.common.close.svg(
-              width: 24.w,
-              height: 24.w,
-              colorFilter: ColorFilter.mode(AppColor.gray00, BlendMode.srcIn),
-            ),
+class _FeedAuthorInfoSection extends StatelessWidget {
+  const _FeedAuthorInfoSection({required this.feed, required this.isMine, required this.onMoreTap});
+
+  final Feed feed;
+  final bool isMine;
+  final VoidCallback onMoreTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        GrimityUserImage(imageUrl: feed.author?.image, size: 30),
+        Gap(8),
+        Flexible(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                feed.author?.name ?? '작성자 정보 없음',
+                style: AppTypeface.label2.copyWith(color: AppColor.gray700),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              Row(
+                children: [
+                  Text(
+                    feed.createdAt == null ? '알 수 없음' : feed.createdAt!.toRelativeTime(),
+                    style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
+                  ),
+                  GrimityGrayCircle(),
+                  Assets.icons.common.like.svg(width: 16, height: 16),
+                  Gap(2),
+                  Text('${feed.likeCount}', style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
+                  GrimityGrayCircle(),
+                  Assets.icons.common.view.svg(width: 16, height: 16),
+                  Gap(2),
+                  Text('${feed.viewCount}', style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
+                ],
+              ),
+            ],
           ),
         ),
-        titleSpacing: 0,
-        title: Row(
-          children: [
-            Text('${currentIndex.value + 1} ', style: AppTypeface.body1.copyWith(color: AppColor.main)),
-            Text('/ ${imageUrls.length}', style: AppTypeface.body1.copyWith(color: AppColor.gray00)),
-          ],
-        ),
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: PageView.builder(
-                controller: pageController,
-                itemCount: imageUrls.length,
-                onPageChanged: (index) => currentIndex.value = index,
-                itemBuilder: (context, index) {
-                  return PhotoView(
-                    imageProvider: CachedNetworkImageProvider(imageUrls[index]),
-                    backgroundDecoration: BoxDecoration(color: Colors.transparent),
-                  );
-                },
+        if (!isMine) ...[if (feed.author != null) GrimityFollowButton(url: feed.author!.url), Gap(10)],
+        GrimityMoreButton(onTap: () => onMoreTap),
+      ],
+    );
+  }
+}
+
+class _FeedImageListSection extends StatelessWidget {
+  final List<String> imageUrls;
+
+  const _FeedImageListSection({required this.imageUrls});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListView.separated(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: imageUrls.length,
+          itemBuilder: (context, index) {
+            final imageUrl = imageUrls[index];
+            return GestureDetector(
+              onTap: () {
+                ImageViewerRoute(initialIndex: index, imageUrls: imageUrls).push(context);
+              },
+              child: CachedNetworkImage(
+                imageUrl: imageUrl,
+                width: 343.w,
+                fit: BoxFit.fitWidth,
+                placeholder: (_, __) => Assets.images.imagePlaceholder.image(width: 343.w),
+                errorWidget: (_, __, ___) => Assets.images.imagePlaceholder.image(width: 343.w),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 16.h, bottom: 32.h, left: 16.h),
-              child: SizedBox(
-                height: 48.h,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: imageUrls.length,
-                  itemBuilder: (context, index) {
-                    final isSelected = index == currentIndex.value;
-                    return GestureDetector(
-                      onTap: () => pageController.jumpToPage(index),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: isSelected ? Border.all(color: AppColor.main, width: 1) : null,
-                        ),
-                        child: CachedNetworkImage(
-                          imageUrl: imageUrls[index],
-                          width: 48.h,
-                          height: 48.h,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) => Gap(6),
-                ),
-              ),
-            ),
-          ],
+            );
+          },
+          separatorBuilder: (_, __) => Gap(8),
         ),
+        Gap(20),
+      ],
+    );
+  }
+}
+
+class _FeedContentSection extends StatelessWidget {
+  final String content;
+
+  const _FeedContentSection({required this.content});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(content, style: TextStyle(fontSize: 16.sp, height: 1.6, letterSpacing: 0, fontWeight: FontWeight.w500));
+  }
+}
+
+class _FeedTagSection extends StatelessWidget {
+  final List<String> tags;
+
+  const _FeedTagSection({required this.tags});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [Wrap(spacing: 6, runSpacing: 6, children: tags.map((tag) => _buildTag(tag)).toList()), Gap(20)],
+    );
+  }
+
+  Widget _buildTag(String tag) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(50),
+        border: Border.all(color: AppColor.gray300, width: 1),
       ),
+      child: Text(tag, style: AppTypeface.caption3.copyWith(color: AppColor.gray700)),
     );
   }
 }

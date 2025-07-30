@@ -7,6 +7,7 @@ import 'package:grimity/presentation/feed_upload/feed_upload_page.dart';
 import 'package:grimity/presentation/follow/follow_page.dart';
 import 'package:grimity/presentation/album_edit/album_edit_page.dart';
 import 'package:grimity/presentation/home/home_page.dart';
+import 'package:grimity/presentation/image/image_viewer_page.dart';
 import 'package:grimity/presentation/main/main_app_shell.dart';
 import 'package:grimity/presentation/photo_select/photo_select_page.dart';
 import 'package:grimity/presentation/profile/profile_page.dart';
@@ -230,8 +231,6 @@ class SignUpRoute extends GoRouteData {
   Widget build(BuildContext context, GoRouterState state) => const SignUpPage();
 }
 
-
-
 @TypedGoRoute<AlbumEditRoute>(path: AlbumEditRoute.path, name: AlbumEditRoute.name)
 class AlbumEditRoute extends GoRouteData {
   const AlbumEditRoute();
@@ -303,5 +302,21 @@ class FeedDetailRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return FeedDetailPage(feedId: id);
+  }
+}
+
+@TypedGoRoute<ImageViewerRoute>(path: ImageViewerRoute.path, name: ImageViewerRoute.name)
+class ImageViewerRoute extends GoRouteData {
+  final int initialIndex;
+  final List<String> imageUrls;
+
+  const ImageViewerRoute({required this.initialIndex, required this.imageUrls});
+
+  static const String path = '/image-viewer';
+  static const String name = 'image-viewer';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ImageViewerPage(imageUrls: imageUrls, initialIndex: initialIndex);
   }
 }
