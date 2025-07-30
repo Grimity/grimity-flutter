@@ -32,13 +32,13 @@ class FeedRecommendFeedView extends ConsumerWidget {
   }
 }
 
-class _RecommendFeedListView extends StatelessWidget {
+class _RecommendFeedListView extends ConsumerWidget {
   const _RecommendFeedListView({required this.feeds});
 
   final List<Feed> feeds;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final int rowCount = (feeds.length / 2).ceil();
 
     return LayoutGrid(
@@ -46,7 +46,16 @@ class _RecommendFeedListView extends StatelessWidget {
       rowSizes: List.generate(rowCount, (_) => auto),
       rowGap: 20,
       columnGap: 12,
-      children: [for (var feed in feeds) GrimityImageFeed(feed: feed)],
+      children: [
+        for (var feed in feeds)
+          GrimityImageFeed(
+            feed: feed,
+            onToggleLike:
+                () => ref
+                    .read(feedRecommendFeedDataProvider.notifier)
+                    .toggleLikeFeed(feedId: feed.id, like: feed.isLike == true ? false : true),
+          ),
+      ],
     );
   }
 }

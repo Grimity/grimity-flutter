@@ -15,4 +15,23 @@ class FeedRecommendFeedData extends _$FeedRecommendFeedData {
 
     return result.fold(onSuccess: (feeds) => feeds, onFailure: (e) => Feeds(feeds: [], nextCursor: ''));
   }
+
+  Future<void> toggleLikeFeed({required String feedId, required bool like}) async {
+    final currentState = state.valueOrNull;
+    if (currentState == null) return;
+
+    final result = like ? await likeFeedUseCase.execute(feedId) : await unlikeFeedUseCase.execute(feedId);
+
+    result.fold(
+      onSuccess: (data) {
+        final updateFeedList = currentState.feeds.map((e) => e.id == feedId ? e.copyWith(isLike: like) : e).toList();
+        final updatedFeeds = Feeds(feeds: updateFeedList, nextCursor: currentState.nextCursor);
+
+        state = AsyncValue.data(updatedFeeds);
+      },
+      onFailure: (error) {
+        return state = AsyncValue.error(error, StackTrace.current);
+      },
+    );
+  }
 }
