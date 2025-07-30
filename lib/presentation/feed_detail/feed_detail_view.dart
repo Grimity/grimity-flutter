@@ -3,7 +3,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/domain/entity/feed.dart';
+import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/drawer/main_app_drawer.dart';
+import 'package:grimity/presentation/feed_detail/view/feed_author_profile_view.dart';
 import 'package:grimity/presentation/feed_detail/view/feed_comments_view.dart';
 import 'package:grimity/presentation/feed_detail/view/feed_content_view.dart';
 import 'package:grimity/presentation/feed_detail/widget/feed_comment_input_bar.dart';
@@ -19,6 +21,9 @@ class FeedDetailView extends HookWidget {
   Widget build(BuildContext context) {
     final showCommentInputBar = useState(false);
 
+    // FeedContentView 위치 추적용 context 저장
+    final feedContentContextRef = useRef<BuildContext?>(null);
+
     return Scaffold(
       endDrawer: MainAppDrawer(currentIndex: 0), // TODO : 되돌아오는 Route 구조 변경 필요
       body: SafeArea(
@@ -29,7 +34,8 @@ class FeedDetailView extends HookWidget {
             children: [
               NotificationListener<ScrollNotification>(
                 onNotification: (notification) {
-                  final ctx = feedContentKey.currentContext;
+                  final ctx = feedContentContextRef.value;
+
                   if (ctx != null) {
                     // feedDetailView의 RenderBox를 얻음 (위젯의 실제 위치, 크기 정보를 얻기 위해)
                     final box = ctx.findRenderObject() as RenderBox;
@@ -55,7 +61,15 @@ class FeedDetailView extends HookWidget {
                   slivers: [
                     FeedDetailAppBar(),
                     SliverToBoxAdapter(child: Gap(16)),
-                    SliverToBoxAdapter(child: FeedContentView(feed: feed)),
+                    SliverToBoxAdapter(
+                      child: Builder(
+                        builder: (context) {
+                          // 위치 추적용 context 저장
+                          feedContentContextRef.value = context;
+                          return FeedContentView(feed: feed);
+                        },
+                      ),
+                    ),
                     SliverToBoxAdapter(child: Container(color: AppColor.gray200, height: 8)),
                     SliverToBoxAdapter(
                       child: FeedCommentsView(
@@ -65,6 +79,8 @@ class FeedDetailView extends HookWidget {
                       ),
                     ),
                     SliverToBoxAdapter(child: Container(color: AppColor.gray200, height: 8)),
+                    SliverToBoxAdapter(child: FeedAuthorProfileView(author: feed.author ?? User.empty())),
+                    SliverToBoxAdapter(child: Container(color: AppColor.gray200, height: 400)),
                   ],
                 ),
               ),

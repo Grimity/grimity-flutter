@@ -22,8 +22,6 @@ import 'package:grimity/presentation/feed_detail/widget/feed_util_bar.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-final GlobalKey feedContentKey = GlobalKey();
-
 /// 피드 본문 View
 class FeedContentView extends ConsumerWidget {
   final Feed feed;
@@ -35,7 +33,6 @@ class FeedContentView extends ConsumerWidget {
     final bool isMine = ref.read(userAuthProvider)?.id == feed.author?.id;
 
     return Padding(
-      key: feedContentKey,
       padding: EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,7 +41,7 @@ class FeedContentView extends ConsumerWidget {
           Gap(16),
           Row(
             children: [
-              GrimityUserImage(imageUrl: feed.author?.image, size: 30,),
+              GrimityUserImage(imageUrl: feed.author?.image, size: 30),
               Gap(8),
               Flexible(
                 child: Column(
