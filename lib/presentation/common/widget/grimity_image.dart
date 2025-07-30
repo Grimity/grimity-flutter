@@ -40,6 +40,17 @@ class GrimityImage extends StatelessWidget {
   }) : width = 165,
        height = 165;
 
+  const GrimityImage.small({
+    super.key,
+    required this.imageUrl,
+    this.index,
+    this.isLike,
+    this.onToggleLike,
+    this.isSave,
+    this.onToggleSave,
+  }) : width = 130,
+        height = 130;
+
   final String imageUrl;
   final double width;
   final double height;
@@ -59,7 +70,7 @@ class GrimityImage extends StatelessWidget {
         imageBuilder:
             (context, imageProvider) => Stack(
               children: [
-                Positioned.fill(child: Image(image: imageProvider, fit: BoxFit.cover)),
+                Positioned.fill(child: Image(image: imageProvider, fit: BoxFit.cover, width: width, height: height,)),
                 if (isLike != null) ...[
                   Positioned.fill(
                     right: 10,
