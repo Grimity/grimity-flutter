@@ -27,7 +27,7 @@ abstract class CreateFeedRequest with _$CreateFeedRequest {
 
 @freezed
 abstract class UpdateFeedUseCaseParam with _$UpdateFeedUseCaseParam {
-  const factory UpdateFeedUseCaseParam({required String id, required UpdateFeedRequest request, String? albumId}) =
+  const factory UpdateFeedUseCaseParam({required String id, required UpdateFeedRequest request}) =
       _UpdateFeedUseCaseParam;
 
   factory UpdateFeedUseCaseParam.fromJson(Map<String, dynamic> json) => _$UpdateFeedUseCaseParamFromJson(json);

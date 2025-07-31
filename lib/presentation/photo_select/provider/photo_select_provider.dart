@@ -20,14 +20,27 @@ class PhotoSelect extends _$PhotoSelect {
       return PhotoSelectState(hasAccess: permission.hasAccess, isAuth: permission.isAuth);
     }
 
+    final feedUploadState = ref.read(feedUploadProvider);
+
     // 전체 접근 허용 || 제한된 사진 접근 허용
     final result = await fetchPhotoUseCase.execute(0);
     return result.fold(
       onSuccess: (photos) {
-        return PhotoSelectState(hasAccess: permission.hasAccess, isAuth: permission.isAuth, photos: photos);
+        return PhotoSelectState(
+          hasAccess: permission.hasAccess,
+          isAuth: permission.isAuth,
+          photos: photos,
+          selected: feedUploadState.images,
+          thumbnailImage: feedUploadState.thumbnailImage,
+        );
       },
       onFailure: (e) {
-        return PhotoSelectState(hasAccess: permission.hasAccess, isAuth: permission.isAuth);
+        return PhotoSelectState(
+          hasAccess: permission.hasAccess,
+          isAuth: permission.isAuth,
+          selected: feedUploadState.images,
+          thumbnailImage: feedUploadState.thumbnailImage,
+        );
       },
     );
   }
@@ -56,37 +69,47 @@ class PhotoSelect extends _$PhotoSelect {
   }
 
   /// 이미지 선택 토글
-  void toggleImageSelection(AssetEntity asset) {
+  void toggleImageSelection(ImageSourceItem image) {
     state = state.whenData((data) {
       final selected = [...data.selected];
+      final isAdd = !selected.contains(image);
 
-      if (selected.contains(asset)) {
-        selected.remove(asset);
-      } else {
-        if (selected.length >= 10) {
-          ToastService.showError('최대 10개까지 추가 가능합니다');
-          return data;
-        }
-        selected.add(asset);
+      /// 제거
+      if (!isAdd) {
+        selected.remove(image);
+        final newThumbnail =
+            image == data.thumbnailImage ? (selected.isNotEmpty ? selected.first : null) : data.thumbnailImage;
+        return data.copyWith(selected: selected, thumbnailImage: newThumbnail);
       }
 
-      return data.copyWith(selected: selected);
+      if (selected.length >= 10) {
+        ToastService.showError('최대 10개까지 추가 가능합니다');
+        return data;
+      }
+
+      /// 추가
+      selected.add(image);
+      final newThumbnail = selected.length == 1 ? image : data.thumbnailImage;
+
+      return data.copyWith(selected: selected, thumbnailImage: newThumbnail);
     });
   }
 
   /// 선택된 이미지 제거
-  void removeSelectedImage(AssetEntity asset) {
+  void removeSelectedImage(ImageSourceItem image) {
     state = state.whenData((data) {
       final selected = [...data.selected];
-      selected.remove(asset);
-      return data.copyWith(selected: selected);
+      selected.remove(image);
+      final newThumbnail =
+          image == data.thumbnailImage ? (selected.isNotEmpty ? selected.first : null) : data.thumbnailImage;
+      return data.copyWith(selected: selected, thumbnailImage: newThumbnail);
     });
   }
 
   /// 이미지 전달
-  void completeImageSelect(List<AssetEntity> images) {
+  void completeImageSelect(List<ImageSourceItem> images, ImageSourceItem thumbnailImage) {
     ref.read(feedUploadProvider.notifier).updateImages(images);
-    ref.read(feedUploadProvider.notifier).updateThumbnailImage(images.first);
+    ref.read(feedUploadProvider.notifier).updateThumbnailImage(thumbnailImage);
   }
 }
 
@@ -95,8 +118,9 @@ abstract class PhotoSelectState with _$PhotoSelectState {
   const factory PhotoSelectState({
     @Default(false) bool hasAccess, // 전체 접근 권한 || 선택 접근 권한
     @Default(false) bool isAuth, // 전체 접근 권한
-    @Default([]) List<AssetEntity> photos,
-    @Default([]) List<AssetEntity> selected,
+    @Default([]) List<AssetEntity> photos, // 갤러리 이미지
+    @Default([]) List<ImageSourceItem> selected, // 선택된 이미지
+    ImageSourceItem? thumbnailImage, // 썸네일 이미지
     @Default(0) int page,
     @Default(false) bool isLoadingMore,
     @Default(true) bool hasMore,
