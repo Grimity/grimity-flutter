@@ -14,7 +14,7 @@ class StorageEmptyWidget extends ConsumerWidget {
 
     return Column(
       spacing: 16.h,
-      children: [SvgPicture.asset(Assets.icons.storage.resultNull.path, width: 60.w), Text(type.emptyMessage)],
+      children: [SvgPicture.asset(Assets.icons.common.resultNull.path, width: 60.w), Text(type.emptyMessage)],
     );
   }
 }
