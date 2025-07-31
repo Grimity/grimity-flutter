@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/app/config/app_color.dart';
@@ -6,7 +7,6 @@ import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/feed_upload/provider/feed_upload_provider.dart';
 import 'package:grimity/presentation/feed_upload/widget/feed_upload_add_image_button.dart';
 import 'package:grimity/presentation/photo_select/widget/photo_asset_thumbnail_widget.dart';
-import 'package:photo_manager/photo_manager.dart';
 
 /// 선택된 이미지 표시 View
 class FeedUploadSelectedImageView extends ConsumerWidget {
@@ -22,17 +22,17 @@ class FeedUploadSelectedImageView extends ConsumerWidget {
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
-          ...state.images.map((asset) {
-            final isThumbnail = state.thumbnailImage == asset;
-            final isFirst = state.images.first == asset;
+          ...state.images.map((imageSource) {
+            final isThumbnail = state.thumbnailImage == imageSource;
+            final isFirst = state.images.first == imageSource;
 
             return Padding(
               padding: EdgeInsets.only(left: isFirst ? 16 : 0, right: 12),
               child: _FeedUploadSelectedImage(
-                asset: asset,
+                imageSource: imageSource,
                 isThumbnail: isThumbnail,
-                onThumbnailTap: () => notifier.updateThumbnailImage(asset),
-                onRemoveTap: () => notifier.removeImage(asset),
+                onThumbnailTap: () => notifier.updateThumbnailImage(imageSource),
+                onRemoveTap: () => notifier.removeImage(imageSource),
               ),
             );
           }),
@@ -45,13 +45,13 @@ class FeedUploadSelectedImageView extends ConsumerWidget {
 
 class _FeedUploadSelectedImage extends StatelessWidget {
   const _FeedUploadSelectedImage({
-    required this.asset,
+    required this.imageSource,
     required this.isThumbnail,
     required this.onThumbnailTap,
     required this.onRemoveTap,
   });
 
-  final AssetEntity asset;
+  final ImageSourceItem imageSource;
   final bool isThumbnail;
   final VoidCallback onThumbnailTap;
   final VoidCallback onRemoveTap;
@@ -70,10 +70,12 @@ class _FeedUploadSelectedImage extends StatelessWidget {
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: PhotoAssetThumbnailWidget(asset: asset, fit: BoxFit.contain),
+            child:
+                imageSource is AssetImageSource
+                    ? PhotoAssetThumbnailWidget(asset: (imageSource as AssetImageSource).asset, fit: BoxFit.contain)
+                    : CachedNetworkImage(imageUrl: (imageSource as RemoteImageSource).url, fit: BoxFit.contain),
           ),
         ),
-
         Positioned(
           left: 8,
           top: 8,

@@ -1,10 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/feed_upload/provider/feed_upload_provider.dart';
 import 'package:grimity/presentation/photo_select/provider/photo_select_provider.dart';
 import 'package:grimity/presentation/photo_select/widget/photo_asset_thumbnail_widget.dart';
-import 'package:photo_manager/photo_manager.dart';
 
 /// 선택된 이미지 표시 ListView
 class PhotoSelectedImageListView extends StatelessWidget {
@@ -20,9 +21,9 @@ class PhotoSelectedImageListView extends StatelessWidget {
         padding: EdgeInsets.only(left: 16),
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          final asset = state.selected[index];
+          final imageSource = state.selected[index];
 
-          return _PhotoSelectedImageThumbnail(asset);
+          return _PhotoSelectedImageThumbnail(imageSource);
         },
         itemCount: state.selected.length,
       ),
@@ -31,9 +32,9 @@ class PhotoSelectedImageListView extends StatelessWidget {
 }
 
 class _PhotoSelectedImageThumbnail extends ConsumerWidget {
-  final AssetEntity asset;
+  final ImageSourceItem imageSource;
 
-  const _PhotoSelectedImageThumbnail(this.asset);
+  const _PhotoSelectedImageThumbnail(this.imageSource);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -51,7 +52,15 @@ class _PhotoSelectedImageThumbnail extends ConsumerWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: PhotoAssetThumbnailWidget(asset: asset, size: 54),
+                child:
+                    imageSource is AssetImageSource
+                        ? PhotoAssetThumbnailWidget(asset: (imageSource as AssetImageSource).asset, size: 54)
+                        : CachedNetworkImage(
+                          imageUrl: (imageSource as RemoteImageSource).url,
+                          width: 54,
+                          height: 54,
+                          fit: BoxFit.cover,
+                        ),
               ),
             ),
             Positioned(
@@ -59,17 +68,19 @@ class _PhotoSelectedImageThumbnail extends ConsumerWidget {
               right: -8,
               child: GestureDetector(
                 behavior: HitTestBehavior.translucent,
-                onTap: () => ref.read(photoSelectProvider.notifier).removeSelectedImage(asset),
+                onTap: () => ref.read(photoSelectProvider.notifier).removeSelectedImage(imageSource),
                 child: Container(
-                  padding: EdgeInsets.all(4),
                   decoration: BoxDecoration(
                     color: Color(0xFF23252B).withValues(alpha: 0.8),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Assets.icons.common.close.svg(
-                    width: 10,
-                    height: 10,
-                    colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                  child: Padding(
+                    padding: EdgeInsets.all(4),
+                    child: Assets.icons.common.close.svg(
+                      width: 10,
+                      height: 10,
+                      colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                    ),
                   ),
                 ),
               ),

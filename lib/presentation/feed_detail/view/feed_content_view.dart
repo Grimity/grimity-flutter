@@ -59,7 +59,8 @@ class FeedContentView extends ConsumerWidget {
               GrimityModalButtonModel(
                 title: '수정하기',
                 onTap: () {
-                  // TODO 수정하기 구현 FeedUpload 부분 수정량이 많아 나중에 처리
+                  context.pop();
+                  context.push(FeedUploadRoute.path, extra: feed);
                 },
               ),
               GrimityModalButtonModel(

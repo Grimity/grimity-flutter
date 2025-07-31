@@ -36,7 +36,9 @@ class PhotoSelectAppBar extends StatelessWidget implements PreferredSizeWidget {
                       isActive
                           ? () {
                             context.pop();
-                            ref.read(photoSelectProvider.notifier).completeImageSelect(data.selected);
+                            ref
+                                .read(photoSelectProvider.notifier)
+                                .completeImageSelect(data.selected, data.thumbnailImage ?? data.selected.first);
                           }
                           : null,
                   child: Text(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/presentation/feed_upload/provider/feed_upload_provider.dart';
 import 'package:grimity/presentation/home/hook/use_infinite_scroll_hook.dart';
 import 'package:grimity/presentation/photo_select/provider/photo_select_provider.dart';
 import 'package:grimity/presentation/photo_select/widget/photo_asset_thumbnail_widget.dart';
@@ -10,7 +11,7 @@ import 'package:photo_manager/photo_manager.dart';
 
 /// 선택할 수 있는 이미지 ListView
 class PhotoSelectableGridView extends HookConsumerWidget {
-  final List<AssetEntity> selectedImages;
+  final List<ImageSourceItem> selectedImages;
   final List<AssetEntity> galleryImages;
 
   const PhotoSelectableGridView({super.key, required this.selectedImages, required this.galleryImages});
@@ -34,8 +35,8 @@ class PhotoSelectableGridView extends HookConsumerWidget {
       ),
       itemBuilder: (context, index) {
         final asset = galleryImages[index];
-        final isSelected = selectedImages.contains(asset);
-        final selectionIndex = selectedImages.indexOf(asset) + 1;
+        final isSelected = selectedImages.contains(ImageSourceItem.asset(asset));
+        final selectionIndex = selectedImages.indexOf(ImageSourceItem.asset(asset)) + 1;
 
         return _PhotoSelectableImageThumbnail(asset: asset, isSelected: isSelected, selectionIndex: selectionIndex);
       },
@@ -54,7 +55,7 @@ class _PhotoSelectableImageThumbnail extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: () => ref.read(photoSelectProvider.notifier).toggleImageSelection(asset),
+      onTap: () => ref.read(photoSelectProvider.notifier).toggleImageSelection(ImageSourceItem.asset(asset)),
       child: Stack(
         children: [
           PhotoAssetThumbnailWidget(asset: asset),
