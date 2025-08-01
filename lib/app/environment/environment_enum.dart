@@ -29,7 +29,7 @@ enum Env {
   };
 
   String get kakaoApiKey => switch (this) {
-    dev => dotenv.env['KAKAO_NATIVE_APP_KEY']!,
+    dev => dotenv.env['DEV_KAKAO_NATIVE_APP_KEY']!,
     prod => dotenv.env['KAKAO_NATIVE_APP_KEY']!,
   };
 }
