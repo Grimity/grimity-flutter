@@ -14,6 +14,7 @@ import 'package:grimity/presentation/photo_select/photo_select_page.dart';
 import 'package:grimity/presentation/profile/profile_page.dart';
 import 'package:grimity/presentation/profile_edit/profile_crop_image_page.dart';
 import 'package:grimity/presentation/profile_edit/profile_edit_page.dart';
+import 'package:grimity/presentation/ranking/ranking_page.dart';
 import 'package:grimity/presentation/sign_in/sign_in_page.dart';
 import 'package:grimity/presentation/sign_up/sign_up_page.dart';
 import 'package:grimity/presentation/splash/splash_page.dart';
@@ -51,7 +52,7 @@ abstract final class AppRouter {
       routes: [TypedGoRoute<HomeRoute>(path: HomeRoute.path, name: HomeRoute.name)],
     ),
     TypedStatefulShellBranch<PaintBranchData>(
-      routes: [TypedGoRoute<PaintRoute>(path: PaintRoute.path, name: PaintRoute.name)],
+      routes: [TypedGoRoute<RankingRoute>(path: RankingRoute.path, name: RankingRoute.name)],
     ),
     TypedStatefulShellBranch<FollowingBranchData>(
       routes: [TypedGoRoute<FollowingRoute>(path: FollowingRoute.path, name: FollowingRoute.name)],
@@ -96,14 +97,14 @@ class PaintBranchData extends StatefulShellBranchData {
   const PaintBranchData();
 }
 
-class PaintRoute extends GoRouteData {
-  const PaintRoute();
+class RankingRoute extends GoRouteData {
+  const RankingRoute();
 
-  static const String path = '/paint';
-  static const String name = 'paint';
+  static const String path = '/ranking';
+  static const String name = 'ranking';
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => Center(child: Text('Paint'));
+  Widget build(BuildContext context, GoRouterState state) => RankingPage();
 }
 
 class FollowingBranchData extends StatefulShellBranchData {
