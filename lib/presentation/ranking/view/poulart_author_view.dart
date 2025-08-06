@@ -145,18 +145,16 @@ class _PopularAuthorThumbnailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Row(
-        spacing: 4,
-        children:
-            feeds
-                .map(
-                  (feed) => Expanded(
-                    child: AspectRatio(aspectRatio: 1.0, child: GrimityImage.small(imageUrl: feed.thumbnail ?? '')),
-                  ),
-                )
-                .toList(),
-      ),
+    return Row(
+      spacing: 4,
+      children:
+          feeds
+              .map(
+                (feed) => Expanded(
+                  child: AspectRatio(aspectRatio: 1.0, child: GrimityImage.small(imageUrl: feed.thumbnail ?? '')),
+                ),
+              )
+              .toList(),
     );
   }
 }
