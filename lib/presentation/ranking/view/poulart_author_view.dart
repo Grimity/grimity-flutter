@@ -23,23 +23,23 @@ class PopularAuthorView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final popularAuthor = ref.watch(popularAuthorDataProvider);
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('인기 작가', style: AppTypeface.subTitle1.copyWith(color: AppColor.gray800)),
-          Gap(16),
-          popularAuthor.maybeWhen(
-            data: (users) {
-              if (users.isEmpty) return SizedBox.shrink();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Text('인기 작가', style: AppTypeface.subTitle1.copyWith(color: AppColor.gray800)),
+        ),
+        Gap(16),
+        popularAuthor.maybeWhen(
+          data: (users) {
+            if (users.isEmpty) return SizedBox.shrink();
 
-              return _PopularAuthorCarousel(users: users);
-            },
-            orElse: () => Skeletonizer(child: _PopularAuthorCarousel(users: User.emptyList)),
-          ),
-        ],
-      ),
+            return _PopularAuthorCarousel(users: users);
+          },
+          orElse: () => Skeletonizer(child: _PopularAuthorCarousel(users: User.emptyList)),
+        ),
+      ],
     );
   }
 }
@@ -64,58 +64,63 @@ class _PopularAuthorCarousel extends HookConsumerWidget {
             disableCenter: true,
             height: 183.h,
             padEnds: false,
-            viewportFraction: 0.93,
+            viewportFraction: 0.9,
             onPageChanged: (index, reason) => currentIndex.value = index,
           ),
           itemBuilder: (context, index, realIndex) {
             final user = users[index];
             final feedAsync = ref.watch(popularAuthorFeedDataProvider(user.id));
 
-            return Container(
-              width: 343.w,
-              margin: EdgeInsets.only(right: 8),
-              padding: EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColor.gray300, width: 1),
-              ),
-              child: Column(
-                spacing: 20,
-                children: [
-                  Row(
-                    children: [
-                      GrimityUserImage(imageUrl: user.image, size: 30),
-                      Gap(8),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(user.name, style: AppTypeface.label2.copyWith(color: AppColor.gray700)),
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(text: '팔로워 ', style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
-                                TextSpan(text: '${user.followerCount}', style: AppTypeface.caption1),
-                              ],
+            return Padding(
+              padding: EdgeInsets.only(left: 16),
+              child: Container(
+                width: 343.w,
+                margin: EdgeInsets.only(right: 8),
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: AppColor.gray300, width: 1),
+                ),
+                child: Column(
+                  spacing: 20,
+                  children: [
+                    Row(
+                      children: [
+                        GrimityUserImage(imageUrl: user.image, size: 30),
+                        Gap(8),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(user.name, style: AppTypeface.label2.copyWith(color: AppColor.gray700)),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(text: '팔로워 ', style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
+                                  TextSpan(text: '${user.followerCount}', style: AppTypeface.caption1),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
+                        Spacer(),
+                        // 팔로우 버튼
+                        GrimityFollowButton(url: user.url),
+                      ],
+                    ),
+                    Expanded(
+                      child: feedAsync.maybeWhen(
+                        data: (feeds) {
+                          final feedList = feeds.feeds.toList();
+                          while (feedList.length < 3) {
+                            feedList.add(Feed.empty());
+                          }
+                          return _PopularAuthorThumbnailView(feeds: feedList);
+                        },
+                        orElse: () => Skeletonizer(child: _PopularAuthorThumbnailView(feeds: Feed.emptyList)),
                       ),
-                      Spacer(),
-                      // 팔로우 버튼
-                      GrimityFollowButton(url: user.url),
-                    ],
-                  ),
-                  feedAsync.maybeWhen(
-                    data: (feeds) {
-                      final feedList = feeds.feeds.toList();
-                      while (feedList.length < 3) {
-                        feedList.add(Feed.empty());
-                      }
-                      return _PopularAuthorThumbnailView(feeds: feedList);
-                    },
-                    orElse: () => Skeletonizer(child: _PopularAuthorThumbnailView(feeds: Feed.emptyList)),
-                  ),
-                ],
+                    ),
+                  ],
+                ),
               ),
             );
           },

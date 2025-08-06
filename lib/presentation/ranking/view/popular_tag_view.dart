@@ -16,19 +16,19 @@ class PopularTagView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tagAsync = ref.watch(popularTagDataProvider);
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('인기 태그', style: AppTypeface.subTitle1.copyWith(color: AppColor.gray800)),
-          Gap(16),
-          tagAsync.maybeWhen(
-            data: (tags) => _PopularTagListView(tags: tags),
-            orElse: () => Skeletonizer(child: _PopularTagListView(tags: Tag.emptyList)),
-          ),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Text('인기 태그', style: AppTypeface.subTitle1.copyWith(color: AppColor.gray800)),
+        ),
+        Gap(16),
+        tagAsync.maybeWhen(
+          data: (tags) => _PopularTagListView(tags: tags),
+          orElse: () => Skeletonizer(child: _PopularTagListView(tags: Tag.emptyList)),
+        ),
+      ],
     );
   }
 }
@@ -44,7 +44,12 @@ class _PopularTagListView extends StatelessWidget {
       height: 170.h,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) => _PopularTagCard(tag: tags[index]),
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: EdgeInsets.only(left: index == 0 ? 16 : 0, right: index == tags.length - 1 ? 16 : 0),
+            child: _PopularTagCard(tag: tags[index]),
+          );
+        },
         itemCount: tags.length,
         separatorBuilder: (context, index) => Gap(12),
       ),
