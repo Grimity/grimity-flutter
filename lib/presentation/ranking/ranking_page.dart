@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimity/presentation/ranking/ranking_view.dart';
 import 'package:grimity/presentation/ranking/view/popular_feed_view.dart';
+import 'package:grimity/presentation/ranking/view/poulart_author_view.dart';
 import 'package:grimity/presentation/ranking/widget/ranking_app_bar.dart';
 
 class RankingPage extends StatelessWidget {
@@ -11,6 +12,7 @@ class RankingPage extends StatelessWidget {
     return RankingView(
       rankingAppBar: RankingAppBar(),
       popularFeedView: PopularFeedView(),
+      popularAuthorView: PopularAuthorView(),
     );
   }
 }
