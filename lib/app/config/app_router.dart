@@ -7,6 +7,7 @@ import 'package:grimity/presentation/feed_detail/feed_detail_page.dart';
 import 'package:grimity/presentation/feed_upload/feed_upload_page.dart';
 import 'package:grimity/presentation/follow/follow_page.dart';
 import 'package:grimity/presentation/album_edit/album_edit_page.dart';
+import 'package:grimity/presentation/following_feed/following_feed_page.dart';
 import 'package:grimity/presentation/home/home_page.dart';
 import 'package:grimity/presentation/image/image_viewer_page.dart';
 import 'package:grimity/presentation/main/main_app_shell.dart';
@@ -118,7 +119,7 @@ class FollowingRoute extends GoRouteData {
   static const String name = 'following';
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => Center(child: Text('Following'));
+  Widget build(BuildContext context, GoRouterState state) => FollowingFeedPage();
 }
 
 class BoardBranchData extends StatefulShellBranchData {

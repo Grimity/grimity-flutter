@@ -12,8 +12,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 // 팔로워 뷰
-class FollowersView extends HookConsumerWidget {
-  const FollowersView({super.key});
+class FollowerUserView extends HookConsumerWidget {
+  const FollowerUserView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,15 +28,15 @@ class FollowersView extends HookConsumerWidget {
             (data) =>
                 data.users.isEmpty
                     ? FollowEmptyView(type: FollowTabType.follower)
-                    : _FollowersListView(users: data.users),
-        orElse: () => Skeletonizer(child: _FollowersListView(users: User.emptyList)),
+                    : _FollowerUserListView(users: data.users),
+        orElse: () => Skeletonizer(child: _FollowerUserListView(users: User.emptyList)),
       ),
     );
   }
 }
 
-class _FollowersListView extends HookConsumerWidget {
-  const _FollowersListView({required this.users});
+class _FollowerUserListView extends HookConsumerWidget {
+  const _FollowerUserListView({required this.users});
 
   final List<User> users;
 

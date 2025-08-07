@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/data/model/feed/following_feed_response.dart';
 import 'package:grimity/data/model/shared/cursor_response.dart';
-import 'package:grimity/domain/entity/feed.dart';
+import 'package:grimity/domain/entity/feeds.dart';
 
 part 'following_feeds_response.freezed.dart';
 part 'following_feeds_response.g.dart';
@@ -17,7 +17,7 @@ abstract class FollowingFeedsResponse with _$FollowingFeedsResponse implements C
 }
 
 extension FollowingFeedsResponseX on FollowingFeedsResponse {
-  List<Feed> toEntity() {
-    return feeds.toEntity();
+  Feeds toEntity() {
+    return Feeds(feeds: feeds.toEntity(), nextCursor: nextCursor);
   }
 }

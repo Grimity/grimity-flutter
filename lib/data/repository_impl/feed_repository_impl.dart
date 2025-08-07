@@ -3,6 +3,7 @@ import 'package:grimity/data/data_source/remote/feed_api.dart';
 import 'package:grimity/data/model/common/id_response.dart';
 import 'package:grimity/data/model/feed/feed_detail_response.dart';
 import 'package:grimity/data/model/feed/feed_rankings_response.dart';
+import 'package:grimity/data/model/feed/following_feeds_response.dart';
 import 'package:grimity/data/model/feed/latest_feeds_response.dart';
 import 'package:grimity/domain/dto/feeds_request_param.dart';
 import 'package:grimity/domain/entity/feed.dart';
@@ -48,6 +49,17 @@ class FeedRepositoryImpl extends FeedRepository {
       } else {
         throw Exception('조회 기간 설정 오류');
       }
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
+
+
+  @override
+  Future<Result<Feeds>> getFollowingFeeds(int? size, String? cursor) async {
+    try {
+      final FollowingFeedsResponse response = await _feedAPI.getFollowingFeeds(size, cursor);
+      return Result.success(response.toEntity());
     } on Exception catch (e) {
       return Result.failure(e);
     }

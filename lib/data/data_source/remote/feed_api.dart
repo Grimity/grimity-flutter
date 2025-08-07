@@ -2,6 +2,7 @@ import 'package:dio/dio.dart' hide Headers;
 import 'package:grimity/data/model/common/id_response.dart';
 import 'package:grimity/data/model/feed/feed_detail_response.dart';
 import 'package:grimity/data/model/feed/feed_rankings_response.dart';
+import 'package:grimity/data/model/feed/following_feeds_response.dart';
 import 'package:grimity/data/model/feed/latest_feeds_response.dart';
 import 'package:grimity/domain/dto/feeds_request_param.dart';
 import 'package:injectable/injectable.dart';
@@ -27,6 +28,12 @@ abstract class FeedAPI {
     @Query('startDate') String? startDate,
     @Query('endDate') String? endDate,
   });
+
+  @GET('/feeds/following')
+  Future<FollowingFeedsResponse> getFollowingFeeds(
+    @Query('size') int? size,
+    @Query('cursor') String? cursor,
+  );
 
   @PUT('/feeds/{id}')
   Future<void> updateFeed(@Path('id') String id, @Body() UpdateFeedRequest request);
