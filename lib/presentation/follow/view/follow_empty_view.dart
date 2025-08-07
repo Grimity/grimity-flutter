@@ -15,7 +15,7 @@ class FollowEmptyView extends StatelessWidget {
     return Column(
       children: [
         Gap(80.h),
-        SvgPicture.asset(Assets.icons.follow.user.path, width: 60.w),
+        SvgPicture.asset(Assets.icons.common.user.path, width: 60.w),
         Gap(16.h),
         Text(type.emptyMessage),
       ],

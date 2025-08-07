@@ -3,6 +3,7 @@ import 'package:grimity/domain/entity/album.dart';
 import 'package:grimity/domain/entity/user.dart';
 
 part 'feed.freezed.dart';
+
 part 'feed.g.dart';
 
 @freezed
@@ -28,5 +29,6 @@ abstract class Feed with _$Feed {
 
   factory Feed.empty() =>
       Feed(id: '', title: 'Lorem ipsum dolor sit amet', thumbnail: '', viewCount: 0, likeCount: 0, commentCount: 0);
+
   static List<Feed> get emptyList => [Feed.empty(), Feed.empty(), Feed.empty()];
 }

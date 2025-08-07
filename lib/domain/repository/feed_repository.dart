@@ -11,6 +11,8 @@ abstract class FeedRepository {
 
   Future<Result<List<Feed>>> getFeedRankings({String? month, String? startDate, String? endDate});
 
+  Future<Result<Feeds>> getFollowingFeeds(int? size, String? cursor);
+
   Future<Result<void>> updateFeed(String id, UpdateFeedRequest request);
 
   Future<Result<void>> deleteFeed(String id);

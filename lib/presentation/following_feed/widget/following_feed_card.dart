@@ -1,0 +1,155 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
+import 'package:grimity/app/config/app_color.dart';
+import 'package:grimity/app/config/app_router.dart';
+import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/app/extension/date_time_extension.dart';
+import 'package:grimity/domain/entity/feed.dart';
+import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
+import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
+import 'package:grimity/presentation/common/widget/grimity_more_button.dart';
+import 'package:grimity/presentation/common/widget/grimity_user_image.dart';
+import 'package:grimity/presentation/following_feed/provider/following_feed_data_provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:readmore/readmore.dart';
+
+class FollowingFeedCard extends ConsumerWidget {
+  const FollowingFeedCard({super.key, required this.feed});
+
+  final Feed feed;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 16),
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    GrimityUserImage(imageUrl: feed.author?.image ?? '', size: 24),
+                    Gap(6),
+                    Text(feed.author?.name ?? '', style: AppTypeface.caption1.copyWith(color: AppColor.gray600)),
+                    GrimityGrayCircle(),
+                    Text(
+                      feed.createdAt?.toRelativeTime() ?? '',
+                      style: AppTypeface.caption1.copyWith(color: AppColor.gray600),
+                    ),
+                    Spacer(),
+
+                    /// Todo moreHoriz 처리
+                    GrimityMoreButton(onTap: () {}),
+                    // Assets.icons.common.moreHoriz.svg(width: 20),
+                  ],
+                ),
+                Gap(8),
+                Text(feed.title, style: AppTypeface.subTitle4.copyWith(color: AppColor.gray800)),
+                Gap(6),
+                ReadMoreText(
+                  feed.content ?? '',
+                  style: AppTypeface.label3.copyWith(color: AppColor.gray800),
+                  trimMode: TrimMode.Line,
+                  trimLines: 3,
+                  trimExpandedText: '',
+                  trimCollapsedText: '더보기',
+                  moreStyle: AppTypeface.label2.copyWith(color: AppColor.main),
+                ),
+              ],
+            ),
+          ),
+          Gap(20),
+          AspectRatio(aspectRatio: 1.0, child: _FollowingFeedCardImageCarousel(imageList: feed.cards ?? [])),
+          Gap(10),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                GrimityAnimationButton(
+                  onTap:
+                      () => ref
+                      .read(followingFeedDataProvider.notifier)
+                      .toggleLikeFeed(feedId: feed.id, like: !(feed.isLike ?? false)),
+                  child:
+                  feed.isLike ?? false
+                      ? Assets.icons.common.heartFill.svg(width: 24, height: 24)
+                      : Assets.icons.common.heart.svg(width: 24, height: 24),
+                ),
+                Gap(6),
+                Text('${feed.likeCount ?? 0}', style: AppTypeface.label3.copyWith(color: AppColor.gray700)),
+                Gap(20),
+                Assets.icons.common.reply.svg(width: 24, height: 24),
+                Gap(6),
+                Text('${feed.commentCount ?? 0}', style: AppTypeface.label3.copyWith(color: AppColor.gray700)),
+              ],
+            ),
+          ),
+          /// TODO 댓글 추가
+        ],
+      ),
+    );
+  }
+}
+
+class _FollowingFeedCardImageCarousel extends StatelessWidget {
+  const _FollowingFeedCardImageCarousel({required this.imageList});
+
+  final List<String> imageList;
+
+  @override
+  Widget build(BuildContext context) {
+    return CarouselSlider.builder(
+      itemCount: imageList.length,
+      options: CarouselOptions(
+        enableInfiniteScroll: false,
+        disableCenter: true,
+        padEnds: false,
+        viewportFraction: 0.97,
+      ),
+      itemBuilder: (context, index, realIndex) {
+        final imageUrl = imageList[index];
+        return Container(
+          padding: EdgeInsets.only(left: index == 0 ? 16 : 4, right: index == imageList.length - 1 ? 16 : 4),
+          child: GestureDetector(
+            onTap: () {
+              ImageViewerRoute(initialIndex: index, imageUrls: imageList).push(context);
+            },
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                CachedNetworkImage(
+                  imageUrl: imageUrl,
+                  fit: BoxFit.fitWidth,
+                  placeholder: (_, __) => Assets.images.imagePlaceholder.image(width: 343.w),
+                  errorWidget: (_, __, ___) => Assets.images.imagePlaceholder.image(width: 343.w),
+                ),
+                Positioned(
+                  right: 12,
+                  bottom: 12,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                    decoration: BoxDecoration(
+                      color: AppColor.gray800.withValues(alpha: 0.8),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      '${index + 1}/${imageList.length}',
+                      style: AppTypeface.caption4.copyWith(color: AppColor.gray100),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
