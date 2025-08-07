@@ -35,7 +35,7 @@ class GrimityFollowButton extends ConsumerWidget {
               padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
               child: Center(
                 child: Text(
-                  isFollowing ? '언팔로우' : '팔로잉',
+                  isFollowing ? '언팔로우' : '팔로우',
                   style: AppTypeface.caption3.copyWith(color: isFollowing ? AppColor.gray700 : AppColor.gray00),
                 ),
               ),

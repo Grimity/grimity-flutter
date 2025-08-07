@@ -3,7 +3,7 @@ import 'package:grimity/gen/assets.gen.dart';
 
 enum MainNavigationItem {
   home,
-  paint,
+  ranking,
   following,
   board,
   my;
@@ -14,7 +14,7 @@ enum MainNavigationItem {
     switch (this) {
       case MainNavigationItem.home:
         return Assets.icons.main.home;
-      case MainNavigationItem.paint:
+      case MainNavigationItem.ranking:
         return Assets.icons.main.paint;
       case MainNavigationItem.following:
         return Assets.icons.main.following;
@@ -29,8 +29,8 @@ enum MainNavigationItem {
     switch (this) {
       case MainNavigationItem.home:
         return HomeRoute.name;
-      case MainNavigationItem.paint:
-        return PaintRoute.name;
+      case MainNavigationItem.ranking:
+        return RankingRoute.name;
       case MainNavigationItem.following:
         return FollowRoute.name;
       case MainNavigationItem.board:
