@@ -4,8 +4,11 @@ import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/provider/author_with_feeds_provider.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
+import 'package:grimity/presentation/following_feed/view/recommend_author_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class FollowingFeedEmptyView extends ConsumerWidget {
   const FollowingFeedEmptyView({super.key});
@@ -13,13 +16,25 @@ class FollowingFeedEmptyView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userAuthProvider);
+    final authorWithFeedsAsync = ref.watch(authorWithFeedsDataProvider);
 
-    return Column(children: [user?.followingCount == 0 ? _UserEmptyView() : _FeedEmptyView()]);
+    return Column(
+      children: [
+        user?.followingCount == 0 ? _UserEmptyView() : _FeedEmptyView(),
+        authorWithFeedsAsync.maybeWhen(
+          data: (authorWithFeedsList) => FollowingFeedRecommendAuthorListView(authorWithFeedsList: authorWithFeedsList),
+          orElse:
+              () => Skeletonizer(
+                child: FollowingFeedRecommendAuthorListView(authorWithFeedsList: AuthorWithFeeds.emptyList),
+              ),
+        ),
+      ],
+    );
   }
 }
 
-class _FeedEmptyView extends StatelessWidget {
-  const _FeedEmptyView();
+class _UserEmptyView extends StatelessWidget {
+  const _UserEmptyView();
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +54,8 @@ class _FeedEmptyView extends StatelessWidget {
   }
 }
 
-class _UserEmptyView extends StatelessWidget {
-  const _UserEmptyView();
+class _FeedEmptyView extends StatelessWidget {
+  const _FeedEmptyView();
 
   @override
   Widget build(BuildContext context) {
