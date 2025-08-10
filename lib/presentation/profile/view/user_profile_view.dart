@@ -91,7 +91,7 @@ class UserProfileView extends StatelessWidget {
               ),
               Gap(10.w),
             ],
-            GrimityMoreButton(onTap: () => _showMoreBottomSheet(context)),
+            GrimityMoreButton.decorated(onTap: () => _showMoreBottomSheet(context)),
           ],
         ),
       ),
