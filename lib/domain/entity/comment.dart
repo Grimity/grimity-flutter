@@ -12,7 +12,7 @@ abstract class Comment with _$Comment {
     required String content,
     required DateTime createdAt,
     required int likeCount,
-    required bool isLike,
+    bool? isLike,
     required User writer,
     User? mentionedUser,
     List<Comment>? childComments,

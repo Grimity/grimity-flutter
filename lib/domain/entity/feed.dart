@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/domain/entity/album.dart';
+import 'package:grimity/domain/entity/comment.dart';
 import 'package:grimity/domain/entity/user.dart';
 
 part 'feed.freezed.dart';
@@ -23,6 +24,7 @@ abstract class Feed with _$Feed {
     bool? isSave,
     int? commentCount,
     Album? album,
+    Comment? comment,
   }) = _Feed;
 
   factory Feed.fromJson(Map<String, dynamic> json) => _$FeedFromJson(json);
