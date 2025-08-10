@@ -2,6 +2,7 @@ import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/domain/dto/feed_comments_request_params.dart';
 import 'package:grimity/domain/entity/comment.dart';
 import 'package:grimity/domain/usecase/feed_comments_usecases.dart';
+import 'package:grimity/presentation/feed_detail/provider/feed_detail_data_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'feed_comments_data_provider.g.dart';
@@ -32,6 +33,7 @@ class FeedCommentsData extends _$FeedCommentsData {
 
     return result.fold(
       onSuccess: (value) {
+        ref.invalidate(feedDetailDataProvider);
         ref.invalidateSelf();
         return true;
       },

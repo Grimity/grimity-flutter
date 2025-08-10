@@ -83,15 +83,17 @@ class CommentWidget extends ConsumerWidget {
                   ],
                 ),
                 Gap(6),
-                Row(
-                  children: [
-                    if (comment.mentionedUser != null) ...[
-                      Text('@${comment.mentionedUser!.name}', style: AppTypeface.label3.copyWith(color: AppColor.main)),
-                      Gap(8),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      if (comment.mentionedUser != null)
+                        TextSpan(
+                          text: '@${comment.mentionedUser!.name} ',
+                          style: AppTypeface.label3.copyWith(color: AppColor.main),
+                        ),
+                      TextSpan(text: comment.content, style: AppTypeface.label3.copyWith(color: AppColor.gray800)),
                     ],
-
-                    Text(comment.content, style: AppTypeface.label3.copyWith(color: AppColor.gray800)),
-                  ],
+                  ),
                 ),
                 Row(
                   children: [
