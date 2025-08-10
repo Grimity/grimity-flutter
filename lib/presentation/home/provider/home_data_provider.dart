@@ -18,7 +18,7 @@ class FeedRankingData extends _$FeedRankingData {
   FutureOr<List<Feed>> build() async {
     final now = DateTime.now();
     final startDate = now.oneWeekBeforeFormatted;
-    final endDate = now.toYearMonth;
+    final endDate = now.toYearMonthDay;
     final result = await getFeedRankingsUseCase.execute(GetFeedRankingsRequest(startDate: startDate, endDate: endDate));
 
     return result.fold(onSuccess: (feeds) => feeds, onFailure: (e) => []);
