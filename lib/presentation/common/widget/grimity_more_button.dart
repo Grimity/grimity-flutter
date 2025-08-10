@@ -5,8 +5,13 @@ import 'package:grimity/gen/assets.gen.dart';
 /// 공통 더보기 버튼
 class GrimityMoreButton extends StatelessWidget {
   final VoidCallback onTap;
+  final bool hasDecoration;
 
-  const GrimityMoreButton({super.key, required this.onTap});
+  const GrimityMoreButton({super.key, required this.onTap, required this.hasDecoration});
+
+  const GrimityMoreButton.decorated({super.key, required this.onTap}) : hasDecoration = true;
+
+  const GrimityMoreButton.plain({super.key, required this.onTap}) : hasDecoration = false;
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +21,13 @@ class GrimityMoreButton extends StatelessWidget {
       child: Container(
         width: 30,
         height: 30,
-        decoration: BoxDecoration(
-          border: Border.all(color: AppColor.gray300, width: 1),
-          borderRadius: BorderRadius.circular(12),
-        ),
+        decoration:
+            hasDecoration
+                ? BoxDecoration(
+                  border: Border.all(color: AppColor.gray300, width: 1),
+                  borderRadius: BorderRadius.circular(12),
+                )
+                : null,
         child: Center(child: Assets.icons.common.moreHoriz.svg(width: 20, height: 20)),
       ),
     );

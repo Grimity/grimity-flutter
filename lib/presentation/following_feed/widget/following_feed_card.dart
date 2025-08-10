@@ -46,7 +46,7 @@ class FollowingFeedCard extends ConsumerWidget {
                     Spacer(),
 
                     /// Todo moreHoriz 처리
-                    GrimityMoreButton(onTap: () {}),
+                    GrimityMoreButton.plain(onTap: () {}),
                     // Assets.icons.common.moreHoriz.svg(width: 20),
                   ],
                 ),
