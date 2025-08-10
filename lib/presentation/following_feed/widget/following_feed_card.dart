@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
@@ -11,6 +12,7 @@ import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
+import 'package:grimity/presentation/common/widget/grimity_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/common/widget/grimity_more_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_user_image.dart';
 import 'package:grimity/presentation/following_feed/provider/following_feed_data_provider.dart';
@@ -44,10 +46,27 @@ class FollowingFeedCard extends ConsumerWidget {
                       style: AppTypeface.caption1.copyWith(color: AppColor.gray600),
                     ),
                     Spacer(),
+                    GrimityMoreButton.plain(
+                      onTap: () {
+                        final buttons = [
+                          GrimityModalButtonModel(
+                            title: '신고하기',
+                            onTap: () {
+                              // TODO 신고하기 페이지 구현시 처리
+                            },
+                          ),
+                          GrimityModalButtonModel(
+                            title: '유저 프로필로 이동',
+                            onTap: () {
+                              context.pop();
+                              ProfileRoute(url: feed.author!.url).go(context);
+                            },
+                          ),
+                        ];
 
-                    /// Todo moreHoriz 처리
-                    GrimityMoreButton.plain(onTap: () {}),
-                    // Assets.icons.common.moreHoriz.svg(width: 20),
+                        GrimityModalBottomSheet.show(context, buttons: buttons);
+                      },
+                    ),
                   ],
                 ),
                 Gap(8),
@@ -75,12 +94,12 @@ class FollowingFeedCard extends ConsumerWidget {
                 GrimityAnimationButton(
                   onTap:
                       () => ref
-                      .read(followingFeedDataProvider.notifier)
-                      .toggleLikeFeed(feedId: feed.id, like: !(feed.isLike ?? false)),
+                          .read(followingFeedDataProvider.notifier)
+                          .toggleLikeFeed(feedId: feed.id, like: !(feed.isLike ?? false)),
                   child:
-                  feed.isLike ?? false
-                      ? Assets.icons.common.heartFill.svg(width: 24, height: 24)
-                      : Assets.icons.common.heart.svg(width: 24, height: 24),
+                      feed.isLike ?? false
+                          ? Assets.icons.common.heartFill.svg(width: 24, height: 24)
+                          : Assets.icons.common.heart.svg(width: 24, height: 24),
                 ),
                 Gap(6),
                 Text('${feed.likeCount ?? 0}', style: AppTypeface.label3.copyWith(color: AppColor.gray700)),
@@ -91,6 +110,7 @@ class FollowingFeedCard extends ConsumerWidget {
               ],
             ),
           ),
+
           /// TODO 댓글 추가
         ],
       ),
