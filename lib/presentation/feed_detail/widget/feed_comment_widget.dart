@@ -45,6 +45,7 @@ class CommentWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isMyComment = feedAuthorId == comment.writer.id;
+    final isLike = comment.isLike ?? false;
 
     return Padding(
       padding: EdgeInsets.all(16),
@@ -96,13 +97,13 @@ class CommentWidget extends ConsumerWidget {
                   children: [
                     GrimityAnimationButton(
                       child:
-                          comment.isLike
+                          isLike
                               ? Assets.icons.common.heartFill.svg(width: 20.w, height: 20.w)
                               : Assets.icons.common.heart.svg(width: 20.w, height: 20.w),
                       onTap:
                           () => ref
                               .read(feedCommentsDataProvider(feedId).notifier)
-                              .toggleCommentLike(comment.id, !comment.isLike),
+                              .toggleCommentLike(comment.id, !isLike),
                     ),
                     if (comment.likeCount > 0) ...[
                       Gap(6),

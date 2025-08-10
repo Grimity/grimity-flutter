@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/data/model/feed/feed_response.dart';
 import 'package:grimity/data/model/user/user_base_response.dart';
+import 'package:grimity/domain/entity/comment.dart';
 import 'package:grimity/domain/entity/feed.dart';
 
 part 'following_feed_response.freezed.dart';
@@ -24,6 +25,7 @@ abstract class FollowingFeedResponse with _$FollowingFeedResponse implements Fee
     required int commentCount,
     required bool isLike,
     required bool isSave,
+    Comment? comment,
   }) = _FollowingFeedResponse;
 
   factory FollowingFeedResponse.fromJson(Map<String, dynamic> json) => _$FollowingFeedResponseFromJson(json);
@@ -45,6 +47,7 @@ extension FollowingFeedResponseX on FollowingFeedResponse {
       commentCount: commentCount,
       isLike: isLike,
       isSave: isSave,
+      comment: comment,
     );
   }
 }

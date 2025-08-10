@@ -86,7 +86,7 @@ class FollowingFeedCard extends ConsumerWidget {
           ),
           Gap(20),
           AspectRatio(aspectRatio: 1.0, child: _FollowingFeedCardImageCarousel(imageList: feed.cards ?? [])),
-          Gap(10),
+          Gap(12),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: Row(
@@ -110,8 +110,30 @@ class FollowingFeedCard extends ConsumerWidget {
               ],
             ),
           ),
-
-          /// TODO 댓글 추가
+          if (feed.comment != null) ...[
+            Gap(16),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                decoration: BoxDecoration(color: AppColor.gray200, borderRadius: BorderRadius.circular(12)),
+                child: Row(
+                  children: [
+                    GrimityUserImage(imageUrl: feed.comment!.writer.image, size: 24),
+                    Gap(6),
+                    Flexible(
+                      child: Text(
+                        feed.comment!.content,
+                        style: AppTypeface.caption2.copyWith(color: AppColor.gray700),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );
