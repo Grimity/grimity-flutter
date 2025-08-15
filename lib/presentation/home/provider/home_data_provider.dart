@@ -33,7 +33,7 @@ class LatestPostData extends _$LatestPostData {
 
     final result = await getPostsUseCase.execute(param);
 
-    return result.fold(onSuccess: (posts) => posts, onFailure: (e) => []);
+    return result.fold(onSuccess: (posts) => posts.posts, onFailure: (e) => []);
   }
 }
 
