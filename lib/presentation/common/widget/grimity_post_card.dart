@@ -12,8 +12,9 @@ import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
 class GrimityPostCard extends StatelessWidget {
   final Post post;
   final bool showPostType;
+  final String? keyword;
 
-  const GrimityPostCard({super.key, required this.post, this.showPostType = false});
+  const GrimityPostCard({super.key, required this.post, this.showPostType = false, this.keyword});
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +38,12 @@ class GrimityPostCard extends StatelessWidget {
             children: [
               if (post.thumbnail != null) ...[Assets.icons.home.image.svg(width: 16, height: 16), const Gap(6)],
               Flexible(
-                child: Text(
-                  post.title,
-                  style: AppTypeface.label1.copyWith(color: AppColor.gray800),
+                child: Text.rich(
+                  buildHighlightedSpan(
+                    text: post.title,
+                    keyword: keyword,
+                    normal: AppTypeface.label1.copyWith(color: AppColor.gray800),
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -60,9 +64,12 @@ class GrimityPostCard extends StatelessWidget {
             ],
           ),
           const Gap(4),
-          Text(
-            post.content,
-            style: AppTypeface.label3.copyWith(color: AppColor.gray700),
+          Text.rich(
+            buildHighlightedSpan(
+              text: post.content,
+              keyword: keyword,
+              normal: AppTypeface.label3.copyWith(color: AppColor.gray700),
+            ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -81,5 +88,29 @@ class GrimityPostCard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  InlineSpan buildHighlightedSpan({required String text, String? keyword, required TextStyle normal}) {
+    if (keyword == null || keyword.isEmpty) {
+      return TextSpan(text: text, style: normal);
+    }
+
+    final kw = keyword.trim();
+    final reg = RegExp(RegExp.escape(kw), caseSensitive: false);
+    final spans = <TextSpan>[];
+    int start = 0;
+
+    for (final m in reg.allMatches(text)) {
+      if (m.start > start) {
+        spans.add(TextSpan(text: text.substring(start, m.start), style: normal));
+      }
+      spans.add(TextSpan(text: text.substring(m.start, m.end), style: normal.copyWith(color: AppColor.main)));
+      start = m.end;
+    }
+    if (start < text.length) {
+      spans.add(TextSpan(text: text.substring(start), style: normal));
+    }
+
+    return TextSpan(children: spans, style: normal);
   }
 }

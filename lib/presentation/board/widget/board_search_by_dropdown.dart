@@ -8,12 +8,12 @@ class BoardSearchByDropdown extends StatelessWidget {
   const BoardSearchByDropdown({super.key, required this.type, required this.onChanged});
 
   final SearchType type;
-  final Function(String?) onChanged;
+  final Function(SearchType?) onChanged;
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField<String>(
-      value: type.typeName,
+    return DropdownButtonFormField<SearchType>(
+      value: type,
       decoration: InputDecoration(
         isDense: true,
         filled: true,
@@ -39,10 +39,10 @@ class BoardSearchByDropdown extends StatelessWidget {
         colorFilter: ColorFilter.mode(AppColor.gray700, BlendMode.srcIn),
       ),
       items:
-          SearchType.values.map((e) => e.typeName).toList().map((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value, style: AppTypeface.label2.copyWith(color: AppColor.gray800)),
+          SearchType.values.map((e) {
+            return DropdownMenuItem<SearchType>(
+              value: e,
+              child: Text(e.typeName, style: AppTypeface.label2.copyWith(color: AppColor.gray800)),
             );
           }).toList(),
       onChanged: onChanged,
