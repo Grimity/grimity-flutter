@@ -1,7 +1,7 @@
 import 'package:grimity/domain/entity/posts.dart';
 import 'package:grimity/domain/usecase/post/search_posts_usecase.dart';
 import 'package:grimity/domain/usecase/post_usecases.dart';
-import 'package:grimity/presentation/board/provider/board_search_query_provider.dart';
+import 'package:grimity/presentation/board/common/provider/board_search_query_provider.dart';
 import 'package:grimity/presentation/common/mixin/pagination_mixin.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

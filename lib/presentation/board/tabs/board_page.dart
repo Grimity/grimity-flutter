@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/app/enum/post_type.enum.dart';
-import 'package:grimity/presentation/board/board_view.dart';
-import 'package:grimity/presentation/board/widget/board_app_bar.dart';
-import 'package:grimity/presentation/board/widget/board_search_bar.dart';
+import 'package:grimity/presentation/board/tabs/view/board_view.dart';
+import 'package:grimity/presentation/board/tabs/widget/board_app_bar.dart';
+import 'package:grimity/presentation/board/common/widget/board_search_bar.dart';
 
 class BoardPage extends ConsumerWidget {
   const BoardPage({super.key});
