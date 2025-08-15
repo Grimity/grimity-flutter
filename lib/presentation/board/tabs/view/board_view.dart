@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:grimity/app/enum/post_type.enum.dart';
 import 'package:grimity/domain/entity/post.dart';
-import 'package:grimity/presentation/board/provider/post_data_provider.dart';
-import 'package:grimity/presentation/board/view/board_list_view.dart';
-import 'package:grimity/presentation/board/widget/board_tab_bar.dart';
+import 'package:grimity/presentation/board/tabs/provider/board_post_data_provider.dart';
+import 'package:grimity/presentation/board/tabs/view/board_list_view.dart';
+import 'package:grimity/presentation/board/tabs/widget/board_tab_bar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -37,7 +37,7 @@ class BoardView extends HookConsumerWidget {
         physics: NeverScrollableScrollPhysics(),
         children:
             tabList.map((type) {
-              final postAsync = ref.watch(postDataProvider(type));
+              final postAsync = ref.watch(boardPostDataProvider(type));
 
               return postAsync.maybeWhen(
                 data:

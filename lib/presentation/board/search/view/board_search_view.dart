@@ -5,8 +5,8 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/board/provider/board_search_data_provider.dart';
-import 'package:grimity/presentation/board/view/board_search_list_view.dart';
+import 'package:grimity/presentation/board/search/provider/board_search_data_provider.dart';
+import 'package:grimity/presentation/board/search/view/board_search_list_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 

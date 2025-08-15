@@ -5,10 +5,10 @@ import 'package:grimity/domain/usecase/post_usecases.dart';
 import 'package:grimity/presentation/common/mixin/pagination_mixin.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'post_data_provider.g.dart';
+part 'board_post_data_provider.g.dart';
 
 @riverpod
-class PostData extends _$PostData with PaginationMixin {
+class BoardPostData extends _$BoardPostData with PaginationMixin {
   @override
   FutureOr<Posts> build(PostType type) async {
     return await _fetch();
