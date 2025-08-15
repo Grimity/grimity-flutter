@@ -4,6 +4,7 @@ import 'package:grimity/data/data_source/remote/post_api.dart';
 import 'package:grimity/data/model/post/post_detail_response.dart';
 import 'package:grimity/data/model/post/posts_response.dart';
 import 'package:grimity/domain/entity/post.dart';
+import 'package:grimity/domain/entity/posts.dart';
 import 'package:grimity/domain/repository/post_repository.dart';
 import 'package:injectable/injectable.dart';
 
@@ -14,7 +15,7 @@ class PostRepositoryImpl extends PostRepository {
   PostRepositoryImpl(this._postAPI);
 
   @override
-  Future<Result<List<Post>>> getPosts(int page, int size, PostType type) async {
+  Future<Result<Posts>> getPosts(int page, int size, PostType type) async {
     try {
       final PostsResponse response = await _postAPI.getPosts(page, size, type);
       return Result.success(response.toEntity());

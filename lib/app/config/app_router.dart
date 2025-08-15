@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/domain/entity/feed.dart';
+import 'package:grimity/presentation/board/board_page.dart';
 import 'package:grimity/presentation/common/enum/upload_image_type.dart';
 import 'package:grimity/presentation/feed_detail/feed_detail_page.dart';
 import 'package:grimity/presentation/feed_upload/feed_upload_page.dart';
@@ -133,7 +134,7 @@ class BoardRoute extends GoRouteData {
   static const String name = 'board';
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => Center(child: Text('Board'));
+  Widget build(BuildContext context, GoRouterState state) => BoardPage();
 }
 
 class MyBranchData extends StatefulShellBranchData {

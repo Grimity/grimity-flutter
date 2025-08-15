@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/app/enum/post_type.enum.dart';
 import 'package:grimity/app/extension/date_time_extension.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/gen/assets.gen.dart';
@@ -10,16 +11,28 @@ import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
 /// 게시글 위젯
 class GrimityPostCard extends StatelessWidget {
   final Post post;
+  final bool showPostType;
 
-  const GrimityPostCard({super.key, required this.post});
+  const GrimityPostCard({super.key, required this.post, this.showPostType = false});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      padding: EdgeInsets.symmetric(vertical: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if (showPostType && post.type != null) ...[
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+              decoration: BoxDecoration(color: AppColor.primary1, borderRadius: BorderRadius.circular(99)),
+              child: Text(
+                PostType.valueToName(post.type!),
+                style: AppTypeface.caption3.copyWith(color: AppColor.primary2),
+              ),
+            ),
+            Gap(6),
+          ],
           Row(
             children: [
               if (post.thumbnail != null) ...[Assets.icons.home.image.svg(width: 16, height: 16), const Gap(6)],

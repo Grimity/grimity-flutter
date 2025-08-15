@@ -28,6 +28,8 @@ class GrimityTextField extends HookWidget {
     this.errorText,
     this.defaultText,
     this.showSuffix = true,
+    this.showSearchIcon = false,
+    this.onSearch,
   }) : type = GrimityTextFieldType.normal;
 
   const GrimityTextField.small({
@@ -50,6 +52,8 @@ class GrimityTextField extends HookWidget {
     this.errorText,
     this.defaultText,
     this.showSuffix = true,
+    this.showSearchIcon = false,
+    this.onSearch,
   }) : type = GrimityTextFieldType.small;
 
   final GrimityTextFieldType type;
@@ -76,6 +80,9 @@ class GrimityTextField extends HookWidget {
   final String? defaultText;
 
   final bool showSuffix;
+
+  final bool showSearchIcon;
+  final void Function()? onSearch;
 
   BorderRadius get _borderRadius =>
       type == GrimityTextFieldType.normal ? BorderRadius.circular(12) : BorderRadius.circular(8);
@@ -164,6 +171,21 @@ class GrimityTextField extends HookWidget {
     return null;
   }
 
+  Widget? get _suffixIcon {
+    if (showSearchIcon) {
+      return IconButton(
+        onPressed: onSearch,
+        icon: Assets.icons.home.search.svg(
+          width: 20,
+          height: 20,
+          colorFilter: ColorFilter.mode(AppColor.gray600, BlendMode.srcIn),
+        ),
+      );
+    }
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final animationController = useAnimationController();
@@ -201,6 +223,7 @@ class GrimityTextField extends HookWidget {
                     ? Text(defaultText!, style: AppTypeface.label2.copyWith(color: AppColor.gray500))
                     : null,
             suffixIconConstraints: const BoxConstraints(minWidth: 18, minHeight: 18),
+            suffixIcon: _suffixIcon,
           ),
           maxLines: maxLines,
         )
