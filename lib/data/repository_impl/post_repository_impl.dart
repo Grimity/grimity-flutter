@@ -1,5 +1,6 @@
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/app/enum/post_type.enum.dart';
+import 'package:grimity/app/enum/search_type.enum.dart';
 import 'package:grimity/data/data_source/remote/post_api.dart';
 import 'package:grimity/data/model/post/post_detail_response.dart';
 import 'package:grimity/data/model/post/posts_response.dart';
@@ -18,6 +19,16 @@ class PostRepositoryImpl extends PostRepository {
   Future<Result<Posts>> getPosts(int page, int size, PostType type) async {
     try {
       final PostsResponse response = await _postAPI.getPosts(page, size, type);
+      return Result.success(response.toEntity());
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
+
+  @override
+  Future<Result<Posts>> searchPosts(int page, int size, String keyword, SearchType searchBy) async {
+    try {
+      final PostsResponse response = await _postAPI.searchPosts(page, size, keyword, searchBy);
       return Result.success(response.toEntity());
     } on Exception catch (e) {
       return Result.failure(e);

@@ -11,10 +11,10 @@ part 'post_data_provider.g.dart';
 class PostData extends _$PostData with PaginationMixin {
   @override
   FutureOr<Posts> build(PostType type) async {
-    return await _fetch(currentPage);
+    return await _fetch();
   }
 
-  Future<Posts> _fetch(int page) async {
+  Future<Posts> _fetch() async {
     final GetPostsRequestParam param = GetPostsRequestParam(page: currentPage, size: size, type: type);
 
     final result = await getPostsUseCase.execute(param);
@@ -25,6 +25,6 @@ class PostData extends _$PostData with PaginationMixin {
   Future<void> goToPage(int page) async {
     setPagination(page: page);
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() => _fetch(page));
+    state = await AsyncValue.guard(() => _fetch());
   }
 }

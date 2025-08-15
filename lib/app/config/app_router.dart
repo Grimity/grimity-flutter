@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/presentation/board/board_page.dart';
+import 'package:grimity/presentation/board/board_search_page.dart';
 import 'package:grimity/presentation/common/enum/upload_image_type.dart';
 import 'package:grimity/presentation/feed_detail/feed_detail_page.dart';
 import 'package:grimity/presentation/feed_upload/feed_upload_page.dart';
@@ -60,7 +61,13 @@ abstract final class AppRouter {
       routes: [TypedGoRoute<FollowingRoute>(path: FollowingRoute.path, name: FollowingRoute.name)],
     ),
     TypedStatefulShellBranch<BoardBranchData>(
-      routes: [TypedGoRoute<BoardRoute>(path: BoardRoute.path, name: BoardRoute.name)],
+      routes: [
+        TypedGoRoute<BoardRoute>(
+          path: BoardRoute.path,
+          name: BoardRoute.name,
+          routes: [TypedGoRoute<BoardSearchRoute>(path: BoardSearchRoute.path, name: BoardSearchRoute.name)],
+        ),
+      ],
     ),
     TypedStatefulShellBranch<MyBranchData>(
       routes: [
@@ -135,6 +142,16 @@ class BoardRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => BoardPage();
+}
+
+class BoardSearchRoute extends GoRouteData {
+  BoardSearchRoute();
+
+  static const String path = 'search';
+  static const String name = 'boardSearch';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => BoardSearchPage();
 }
 
 class MyBranchData extends StatefulShellBranchData {
