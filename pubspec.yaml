@@ -27,6 +27,7 @@ dependencies:
   lottie: ^3.3.1
   photo_view: ^0.15.0
   readmore: ^3.0.0
+  flutter_widget_from_html: ^0.17.0
 
   # Annotation
   freezed_annotation: ^3.0.0
