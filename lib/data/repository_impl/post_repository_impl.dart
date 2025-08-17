@@ -46,6 +46,36 @@ class PostRepositoryImpl extends PostRepository {
   }
 
   @override
+  Future<Result<void>> deletePost(String id) async {
+    try {
+      await _postAPI.deletePost(id);
+      return Result.success(null);
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
+
+  @override
+  Future<Result<void>> likePost(String id) async {
+    try {
+      await _postAPI.likePost(id);
+      return Result.success(null);
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
+
+  @override
+  Future<Result<void>> unlikePost(String id) async {
+    try {
+      await _postAPI.unlikePost(id);
+      return Result.success(null);
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
+
+  @override
   Future<Result<void>> savePost(String id) async {
     try {
       await _postAPI.savePost(id);

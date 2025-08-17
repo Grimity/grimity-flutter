@@ -11,6 +11,12 @@ abstract class PostRepository {
 
   Future<Result<Post>> getPostDetail(String id);
 
+  Future<Result<void>> deletePost(String id);
+
+  Future<Result<void>> likePost(String id);
+
+  Future<Result<void>> unlikePost(String id);
+
   Future<Result<void>> savePost(String id);
 
   Future<Result<void>> removeSavedPost(String id);

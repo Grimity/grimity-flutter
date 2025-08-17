@@ -28,6 +28,15 @@ abstract class PostAPI {
   @GET('/posts/{id}')
   Future<PostDetailResponse> getPostDetail(@Path('id') String id);
 
+  @DELETE('/posts/{id}')
+  Future<void> deletePost(@Path('id') String id);
+
+  @PUT('/posts/{id}/like')
+  Future<void> likePost(@Path('id') String id);
+
+  @DELETE('/posts/{id}/like')
+  Future<void> unlikePost(@Path('id') String id);
+
   @PUT('/posts/{id}/save')
   Future<void> savePost(@Path('id') String id);
 
