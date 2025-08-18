@@ -12,6 +12,7 @@ import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/comment/enum/comment_type.dart';
 import 'package:grimity/presentation/comment/provider/comment_input_provider.dart';
 import 'package:grimity/presentation/comment/provider/comments_data_provider.dart';
+import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
 import 'package:grimity/presentation/common/widget/grimity_modal_bottom_sheet.dart';
@@ -58,14 +59,15 @@ class CommentWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isMyComment = authorId == comment.writer?.id;
+    final isAuthor = authorId == comment.writer?.id;
+    final isMyComment = authorId == ref.watch(userAuthProvider)?.id;
     final isLike = comment.isLike ?? false;
 
     return Padding(
       padding: EdgeInsets.all(16),
       child:
           comment.isAnonymousUserComment
-              ? Row(children: [Text('삭제된 댓글입니다.', style: AppTypeface.label2.copyWith(color: AppColor.gray500))])
+              ? Text('삭제된 댓글입니다.', style: AppTypeface.label2.copyWith(color: AppColor.gray500))
               : Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -88,7 +90,7 @@ class CommentWidget extends ConsumerWidget {
                                   comment.isDeletedComment ? '탈퇴한 사용자' : comment.writer!.name,
                                   style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
                                 ),
-                                if (isMyComment) _buildAuthorChip(),
+                                if (isAuthor) _buildAuthorChip(),
                                 GrimityGrayCircle(),
                                 Text(
                                   comment.createdAt.toRelativeTime(),
