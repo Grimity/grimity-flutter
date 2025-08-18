@@ -60,7 +60,7 @@ class CommentWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isAuthor = authorId == comment.writer?.id;
-    final isMyComment = authorId == ref.watch(userAuthProvider)?.id;
+    final isMyComment = comment.writer?.id == ref.watch(userAuthProvider)?.id;
     final isLike = comment.isLike ?? false;
 
     return Padding(
