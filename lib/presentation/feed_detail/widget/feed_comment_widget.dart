@@ -44,85 +44,97 @@ class CommentWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isMyComment = feedAuthorId == comment.writer.id;
+    final isMyComment = feedAuthorId == comment.writer?.id;
     final isLike = comment.isLike ?? false;
 
     return Padding(
       padding: EdgeInsets.all(16),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (isChild) ...[
-            Gap(16),
-            Padding(padding: EdgeInsets.all(6), child: Assets.icons.common.commentReplyPointer.svg()),
-          ],
-          GrimityUserImage(imageUrl: comment.writer.image, size: 24),
-          Gap(6),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
+      child:
+          comment.isAnonymousUserComment
+              ? Row(children: [Text('삭제된 댓글입니다.', style: AppTypeface.label2.copyWith(color: AppColor.gray500))])
+              : Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (isChild) ...[
+                    Gap(16),
+                    Padding(padding: EdgeInsets.all(6), child: Assets.icons.common.commentReplyPointer.svg()),
+                  ],
+                  GrimityUserImage(imageUrl: comment.writer!.image, size: 24),
+                  Gap(6),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(comment.writer.name, style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
-                        if (isMyComment) _buildAuthorChip(),
-                        GrimityGrayCircle(),
-                        Text(
-                          comment.createdAt.toRelativeTime(),
-                          style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  comment.isDeletedComment ? '탈퇴한 사용자' : comment.writer!.name,
+                                  style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
+                                ),
+                                if (isMyComment) _buildAuthorChip(),
+                                GrimityGrayCircle(),
+                                Text(
+                                  comment.createdAt.toRelativeTime(),
+                                  style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
+                                ),
+                              ],
+                            ),
+                            GrimityAnimationButton(
+                              onTap: () => _showCommentMoreBottomSheet(context, ref, isMyComment),
+                              child: Assets.icons.common.moreHoriz.svg(width: 20.w, height: 20.w),
+                            ),
+                          ],
+                        ),
+                        Gap(6),
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              if (comment.mentionedUser != null)
+                                TextSpan(
+                                  text: '@${comment.mentionedUser!.name} ',
+                                  style: AppTypeface.label3.copyWith(color: AppColor.main),
+                                ),
+                              TextSpan(
+                                text: comment.content,
+                                style: AppTypeface.label3.copyWith(color: AppColor.gray800),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            GrimityAnimationButton(
+                              child:
+                                  isLike
+                                      ? Assets.icons.common.heartFill.svg(width: 20.w, height: 20.w)
+                                      : Assets.icons.common.heart.svg(width: 20.w, height: 20.w),
+                              onTap:
+                                  () => ref
+                                      .read(feedCommentsDataProvider(feedId).notifier)
+                                      .toggleCommentLike(comment.id, !isLike),
+                            ),
+                            if (comment.likeCount > 0) ...[
+                              Gap(6),
+                              Text(
+                                '${comment.likeCount}',
+                                style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
+                              ),
+                            ],
+                            Gap(16),
+                            TextButton(
+                              onPressed: () => updateCommentReplyState(ref),
+                              child: Text('답글달기', style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                    GrimityAnimationButton(
-                      onTap: () => _showCommentMoreBottomSheet(context, ref, isMyComment),
-                      child: Assets.icons.common.moreHoriz.svg(width: 20.w, height: 20.w),
-                    ),
-                  ],
-                ),
-                Gap(6),
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      if (comment.mentionedUser != null)
-                        TextSpan(
-                          text: '@${comment.mentionedUser!.name} ',
-                          style: AppTypeface.label3.copyWith(color: AppColor.main),
-                        ),
-                      TextSpan(text: comment.content, style: AppTypeface.label3.copyWith(color: AppColor.gray800)),
-                    ],
                   ),
-                ),
-                Row(
-                  children: [
-                    GrimityAnimationButton(
-                      child:
-                          isLike
-                              ? Assets.icons.common.heartFill.svg(width: 20.w, height: 20.w)
-                              : Assets.icons.common.heart.svg(width: 20.w, height: 20.w),
-                      onTap:
-                          () => ref
-                              .read(feedCommentsDataProvider(feedId).notifier)
-                              .toggleCommentLike(comment.id, !isLike),
-                    ),
-                    if (comment.likeCount > 0) ...[
-                      Gap(6),
-                      Text('${comment.likeCount}', style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
-                    ],
-                    Gap(16),
-                    TextButton(
-                      onPressed: () => updateCommentReplyState(ref),
-                      child: Text('답글달기', style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+                ],
+              ),
     );
   }
 
@@ -132,13 +144,13 @@ class CommentWidget extends ConsumerWidget {
           .read(commentInputProvider.notifier)
           .updateCommentReplyState(
             parentCommentId: parentComment!.id,
-            mentionedUserId: comment.writer.id,
-            replyUserName: comment.writer.name,
+            mentionedUserId: comment.writer!.id,
+            replyUserName: comment.writer!.name,
           );
     } else {
       ref
           .read(commentInputProvider.notifier)
-          .updateCommentReplyState(parentCommentId: comment.id, replyUserName: comment.writer.name);
+          .updateCommentReplyState(parentCommentId: comment.id, replyUserName: comment.writer!.name);
     }
   }
 
@@ -179,7 +191,7 @@ class CommentWidget extends ConsumerWidget {
                 title: '유저 프로필로 이동',
                 onTap: () {
                   context.pop();
-                  ProfileRoute(url: comment.writer.url).go(context);
+                  ProfileRoute(url: comment.writer!.url).go(context);
                 },
               ),
             ];

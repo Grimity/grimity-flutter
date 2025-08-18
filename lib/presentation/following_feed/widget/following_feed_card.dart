@@ -119,7 +119,7 @@ class FollowingFeedCard extends ConsumerWidget {
                 decoration: BoxDecoration(color: AppColor.gray200, borderRadius: BorderRadius.circular(12)),
                 child: Row(
                   children: [
-                    GrimityUserImage(imageUrl: feed.comment!.writer.image, size: 24),
+                    GrimityUserImage(imageUrl: feed.comment!.writer?.image ?? '', size: 24),
                     Gap(6),
                     Flexible(
                       child: Text(
