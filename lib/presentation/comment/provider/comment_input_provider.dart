@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/app/service/toast_service.dart';
-import 'package:grimity/presentation/feed_detail/provider/feed_comments_data_provider.dart';
+import 'package:grimity/presentation/comment/enum/comment_type.dart';
+import 'package:grimity/presentation/comment/provider/comments_data_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'comment_input_provider.g.dart';
@@ -10,16 +11,16 @@ part 'comment_input_provider.freezed.dart';
 @riverpod
 class CommentInput extends _$CommentInput {
   @override
-  CommentInputState build() {
+  CommentInputState build(CommentType type) {
     return CommentInputState();
   }
 
-  Future<void> createComment({required String feedId}) async {
+  Future<void> createComment({required String id}) async {
     setUploading(true);
     try {
       final result = await ref
-          .read(feedCommentsDataProvider(feedId).notifier)
-          .createFeedComment(
+          .read(commentsDataProvider(type, id).notifier)
+          .createComment(
             content: state.content,
             parentCommentId: state.parentCommentId,
             mentionedUserId: state.mentionedUserId,
@@ -40,7 +41,11 @@ class CommentInput extends _$CommentInput {
     state = state.copyWith(content: content);
   }
 
-  void updateCommentReplyState({required String parentCommentId, String? mentionedUserId, required String replyUserName}) {
+  void updateCommentReplyState({
+    required String parentCommentId,
+    String? mentionedUserId,
+    required String replyUserName,
+  }) {
     clearReplyState();
     state = state.copyWith(
       parentCommentId: parentCommentId,

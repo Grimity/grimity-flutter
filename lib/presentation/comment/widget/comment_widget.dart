@@ -9,42 +9,56 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/extension/date_time_extension.dart';
 import 'package:grimity/domain/entity/comment.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/comment/enum/comment_type.dart';
+import 'package:grimity/presentation/comment/provider/comment_input_provider.dart';
+import 'package:grimity/presentation/comment/provider/comments_data_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
 import 'package:grimity/presentation/common/widget/grimity_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/common/widget/grimity_user_image.dart';
-import 'package:grimity/presentation/feed_detail/provider/comment_input_provider.dart';
-import 'package:grimity/presentation/feed_detail/provider/feed_comments_data_provider.dart';
 
 class CommentWidget extends ConsumerWidget {
   const CommentWidget({
     super.key,
     required this.comment,
-    required this.feedId,
-    required this.feedAuthorId,
+    required this.id,
+    required this.authorId,
     this.parentComment,
+    required this.commentType,
   });
 
   final Comment comment;
-  final String feedId;
-  final String feedAuthorId;
+  final String id;
+  final String authorId;
   final Comment? parentComment;
+  final CommentType commentType;
 
-  factory CommentWidget.parent({required Comment comment, required String feedId, required String feedAuthorId}) =>
-      CommentWidget(comment: comment, feedId: feedId, feedAuthorId: feedAuthorId);
+  factory CommentWidget.parent({
+    required Comment comment,
+    required String id,
+    required String authorId,
+    required CommentType commentType,
+  }) => CommentWidget(comment: comment, id: id, authorId: authorId, commentType: commentType);
 
   factory CommentWidget.child({
     required Comment comment,
-    required String feedId,
-    required String feedAuthorId,
+    required String id,
+    required String authorId,
     required Comment parentComment,
-  }) => CommentWidget(comment: comment, feedId: feedId, feedAuthorId: feedAuthorId, parentComment: parentComment);
+    required CommentType commentType,
+  }) => CommentWidget(
+    comment: comment,
+    id: id,
+    authorId: authorId,
+    parentComment: parentComment,
+    commentType: commentType,
+  );
 
   bool get isChild => parentComment != null;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isMyComment = feedAuthorId == comment.writer?.id;
+    final isMyComment = authorId == comment.writer?.id;
     final isLike = comment.isLike ?? false;
 
     return Padding(
@@ -113,7 +127,7 @@ class CommentWidget extends ConsumerWidget {
                                       : Assets.icons.common.heart.svg(width: 20.w, height: 20.w),
                               onTap:
                                   () => ref
-                                      .read(feedCommentsDataProvider(feedId).notifier)
+                                      .read(commentsDataProvider(commentType, id).notifier)
                                       .toggleCommentLike(comment.id, !isLike),
                             ),
                             if (comment.likeCount > 0) ...[
@@ -141,7 +155,7 @@ class CommentWidget extends ConsumerWidget {
   void updateCommentReplyState(WidgetRef ref) {
     if (isChild) {
       ref
-          .read(commentInputProvider.notifier)
+          .read(commentInputProvider(commentType).notifier)
           .updateCommentReplyState(
             parentCommentId: parentComment!.id,
             mentionedUserId: comment.writer!.id,
@@ -149,7 +163,7 @@ class CommentWidget extends ConsumerWidget {
           );
     } else {
       ref
-          .read(commentInputProvider.notifier)
+          .read(commentInputProvider(commentType).notifier)
           .updateCommentReplyState(parentCommentId: comment.id, replyUserName: comment.writer!.name);
     }
   }
@@ -162,7 +176,7 @@ class CommentWidget extends ConsumerWidget {
                 title: '삭제하기',
                 onTap: () {
                   context.pop();
-                  ref.read(feedCommentsDataProvider(feedId).notifier).deleteComment(comment.id);
+                  ref.read(commentsDataProvider(commentType, id).notifier).deleteComment(comment.id);
                 },
               ),
               GrimityModalButtonModel(

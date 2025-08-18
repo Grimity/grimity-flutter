@@ -4,20 +4,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/comment/enum/comment_type.dart';
+import 'package:grimity/presentation/comment/provider/comment_input_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
-import 'package:grimity/presentation/feed_detail/provider/comment_input_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class FeedCommentInputBar extends HookConsumerWidget {
-  const FeedCommentInputBar({super.key, required this.feedId});
+class CommentInputBar extends HookConsumerWidget {
+  const CommentInputBar({super.key, required this.id, required this.commentType});
 
-  final String feedId;
+  final String id;
+  final CommentType commentType;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = useTextEditingController();
-    final state = ref.watch(commentInputProvider);
-    final notifier = ref.read(commentInputProvider.notifier);
+    final state = ref.watch(commentInputProvider(commentType));
+    final notifier = ref.read(commentInputProvider(commentType).notifier);
     final isNotEmpty = state.content.trim().isNotEmpty;
 
     useEffect(() {
@@ -90,7 +92,7 @@ class FeedCommentInputBar extends HookConsumerWidget {
                       !isNotEmpty || state.uploading
                           ? null
                           : () {
-                            notifier.createComment(feedId: feedId);
+                            notifier.createComment(id: id);
                             FocusScope.of(context).unfocus();
                           },
                   child: Container(

@@ -4,23 +4,32 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/domain/entity/comment.dart';
-import 'package:grimity/presentation/feed_detail/model/comment_item.dart';
-import 'package:grimity/presentation/feed_detail/provider/feed_comments_data_provider.dart';
-import 'package:grimity/presentation/feed_detail/widget/feed_comment_widget.dart';
-import 'package:grimity/presentation/feed_detail/widget/feed_empty_comment_widget.dart';
+import 'package:grimity/presentation/comment/widget/comment_widget.dart';
+import 'package:grimity/presentation/comment/enum/comment_type.dart';
+import 'package:grimity/presentation/comment/model/comment_item.dart';
+import 'package:grimity/presentation/comment/provider/comments_data_provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:gap/gap.dart';
+import 'package:grimity/gen/assets.gen.dart';
 
-/// 피드 댓글 View
-class FeedCommentsView extends ConsumerWidget {
-  const FeedCommentsView({super.key, required this.feedId, required this.commentCount, required this.feedAuthorId});
+/// 댓글 View
+class CommentsView extends ConsumerWidget {
+  const CommentsView({
+    super.key,
+    required this.id,
+    required this.commentCount,
+    required this.authorId,
+    required this.commentType,
+  });
 
-  final String feedId;
-  final String feedAuthorId;
+  final String id;
+  final String authorId;
   final int commentCount;
+  final CommentType commentType;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final commentsAsync = ref.watch(feedCommentsDataProvider(feedId));
+    final commentsAsync = ref.watch(commentsDataProvider(commentType, id));
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 30.h),
@@ -38,17 +47,19 @@ class FeedCommentsView extends ConsumerWidget {
           ),
           commentsAsync.maybeWhen(
             data:
-                (comments) => _FeedCommentListView(
-                  feedId: feedId,
-                  feedAuthorId: feedAuthorId,
+                (comments) => _CommentListView(
+                  id: id,
+                  authorId: authorId,
                   commentItems: flattenComments(comments),
+                  commentType: commentType,
                 ),
             orElse:
                 () => Skeletonizer(
-                  child: _FeedCommentListView(
-                    feedId: feedId,
-                    feedAuthorId: feedAuthorId,
+                  child: _CommentListView(
+                    id: id,
+                    authorId: authorId,
                     commentItems: flattenComments(Comment.emptyList),
+                    commentType: commentType,
                   ),
                 ),
           ),
@@ -72,17 +83,23 @@ class FeedCommentsView extends ConsumerWidget {
   }
 }
 
-class _FeedCommentListView extends StatelessWidget {
-  const _FeedCommentListView({required this.feedId, required this.feedAuthorId, required this.commentItems});
+class _CommentListView extends StatelessWidget {
+  const _CommentListView({
+    required this.id,
+    required this.authorId,
+    required this.commentItems,
+    required this.commentType,
+  });
 
-  final String feedId;
-  final String feedAuthorId;
+  final String id;
+  final String authorId;
   final List<CommentItem> commentItems;
+  final CommentType commentType;
 
   @override
   Widget build(BuildContext context) {
     if (commentItems.isEmpty) {
-      return EmptyCommentWidget();
+      return _EmptyCommentWidget();
     }
 
     return ListView.separated(
@@ -94,14 +111,36 @@ class _FeedCommentListView extends StatelessWidget {
         return item is ChildCommentItem
             ? CommentWidget.child(
               comment: item.comment,
-              feedId: feedId,
-              feedAuthorId: feedAuthorId,
+              id: id,
+              authorId: authorId,
               parentComment: item.parentComment,
+              commentType: commentType,
             )
-            : CommentWidget.parent(comment: item.comment, feedId: feedId, feedAuthorId: feedAuthorId);
+            : CommentWidget.parent(comment: item.comment, id: id, authorId: authorId, commentType: commentType);
       },
       separatorBuilder: (context, index) => Divider(color: AppColor.gray300, height: 1, thickness: 1),
       itemCount: commentItems.length,
+    );
+  }
+}
+
+/// 댓글이 없는 경우
+class _EmptyCommentWidget extends StatelessWidget {
+  const _EmptyCommentWidget();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 30.h),
+      child: Column(
+        children: [
+          Assets.icons.common.commentReply.svg(width: 60.w, height: 60.w),
+          Gap(16),
+          Text('아직 댓글이 없어요', style: AppTypeface.subTitle3.copyWith(color: AppColor.gray700)),
+          Gap(6),
+          Text('댓글을 써서 생각을 나눠보세요', style: AppTypeface.label2.copyWith(color: AppColor.gray500)),
+        ],
+      ),
     );
   }
 }
