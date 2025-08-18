@@ -75,8 +75,10 @@ class CommentWidget extends ConsumerWidget {
                     Gap(16),
                     Padding(padding: EdgeInsets.all(6), child: Assets.icons.common.commentReplyPointer.svg()),
                   ],
-                  GrimityUserImage(imageUrl: comment.writer!.image, size: 24),
-                  Gap(6),
+                  if (commentType == CommentType.feed) ...[
+                    GrimityUserImage(imageUrl: comment.writer!.image, size: 24),
+                    Gap(6),
+                  ],
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,6 +126,7 @@ class CommentWidget extends ConsumerWidget {
                           children: [
                             GrimityAnimationButton(
                               child:
+                                  /// TODO Post 게시글의 경우 따봉 아이콘으로 변경
                                   isLike
                                       ? Assets.icons.common.heartFill.svg(width: 20.w, height: 20.w)
                                       : Assets.icons.common.heart.svg(width: 20.w, height: 20.w),
