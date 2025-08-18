@@ -110,17 +110,44 @@ class CommentsData extends _$CommentsData {
     );
   }
 
-  /// 주어진 commentId를 가진 댓글(부모 또는 자식)을 트리에서 제거
+  /// feed인 경우 댓글을 찾아 데이터 제거
+  /// post인 경우
+  ///  - 하위 댓글이 있는 상태에서 상위 댓글이 지워지는 경우(writer = null, isDelete = true)
+  ///  - 나머지는 데이터 삭제
   List<Comment> _deleteCommentRecursive(List<Comment> comments, String commentId) {
+    if (commentType == CommentType.feed) {
+      return comments
+          .where((comment) => comment.id != commentId) // 부모가 아닌 경우 유지
+          .map((comment) {
+            if (comment.childComments != null) {
+              final updatedChildren = _deleteCommentRecursive(comment.childComments!, commentId);
+              return comment.copyWith(childComments: updatedChildren);
+            }
+            return comment;
+          })
+          .toList();
+    }
+
     return comments
-        .where((comment) => comment.id != commentId) // 부모가 아닌 경우 유지
-        .map((comment) {
-          if (comment.childComments != null) {
+        .map<Comment?>((comment) {
+          if (comment.id == commentId) {
+            final hasChildren = comment.childComments?.isNotEmpty ?? false;
+            if (hasChildren) {
+              // 자식 댓글이 있는 경우 writer: null, isDeleted: true 처리
+              return comment.copyWith(writer: null, isDeleted: true);
+            } else {
+              return null;
+            }
+          }
+
+          if (comment.childComments?.isNotEmpty ?? false) {
             final updatedChildren = _deleteCommentRecursive(comment.childComments!, commentId);
             return comment.copyWith(childComments: updatedChildren);
           }
+
           return comment;
         })
+        .whereType<Comment>()
         .toList();
   }
 }
