@@ -126,7 +126,6 @@ class CommentWidget extends ConsumerWidget {
                           children: [
                             GrimityAnimationButton(
                               child:
-                                  /// TODO Post 게시글의 경우 따봉 아이콘으로 변경
                                   isLike
                                       ? Assets.icons.common.heartFill.svg(width: 20.w, height: 20.w)
                                       : Assets.icons.common.heart.svg(width: 20.w, height: 20.w),
