@@ -34,7 +34,7 @@ class PostContentView extends ConsumerWidget {
         children: [
           _PostTitleSection(title: post.title),
           Gap(8),
-          _PostAuthorInfoSection(post: post, isMine: true, onMoreTap: () => _showMoreBottomSheet(context, isMine, ref)),
+          _PostAuthorInfoSection(post: post, isMine: isMine, onMoreTap: () => _showMoreBottomSheet(context, isMine, ref)),
           Gap(16),
           _PostContentSection(content: post.content),
           Gap(30),
@@ -46,14 +46,13 @@ class PostContentView extends ConsumerWidget {
 
   void _showMoreBottomSheet(BuildContext context, bool isMine, WidgetRef ref) {
     final List<GrimityModalButtonModel> buttons =
-        !isMine
+        isMine
             ? [
               GrimityModalButtonModel(
                 title: '수정하기',
                 onTap: () {
                   context.pop();
-                  // TODO PostUpload 구현 시 처리
-                  // context.push(FeedUploadRoute.path, extra: feed);
+                  context.push(PostUploadRoute.path, extra: post);
                 },
               ),
               GrimityModalButtonModel(
