@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/service/toast_service.dart';
+import 'package:grimity/presentation/common/dialog/cancel_upload_dialog.dart';
 import 'package:grimity/presentation/common/widget/grimity_lottie_loading.dart';
 import 'package:grimity/presentation/common/widget/grimity_pop_scope.dart';
 import 'package:grimity/presentation/feed_upload/provider/feed_upload_provider.dart';
-import 'package:grimity/presentation/feed_upload/widget/feed_upload_cancel_dialog.dart';
 
 class FeedUploadView extends ConsumerWidget {
   const FeedUploadView({
@@ -34,7 +34,7 @@ class FeedUploadView extends ConsumerWidget {
                 ToastService.showError('그림 업로드가 진행중 입니다.');
               }
               : () {
-                showCancelFeedUploadDialog(context);
+                showCancelUploadDialog(context);
               },
       child: Stack(
         children: [
