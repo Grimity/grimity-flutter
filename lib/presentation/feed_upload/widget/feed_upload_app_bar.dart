@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_theme.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_select_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/feed_upload/provider/album_list_provider.dart';
 import 'package:grimity/presentation/feed_upload/provider/feed_upload_provider.dart';
 import 'package:grimity/presentation/feed_upload/widget/feed_upload_cancel_dialog.dart';
@@ -35,7 +37,24 @@ class FeedUploadAppBar extends StatelessWidget implements PreferredSizeWidget {
               final selectedAlbum = albums.firstWhere((e) => e.id == ref.watch(feedUploadProvider).albumId);
 
               return GestureDetector(
-                onTap: () => showSelectAlbumBottomSheet(context, ref, albums),
+                onTap:
+                    () => GrimitySelectModalBottomSheet.show(
+                      context,
+                      title: '앨범 선택',
+                      buttons:
+                          albums
+                              .map(
+                                (e) => GrimitySelectModalButtonModel(
+                                  title: e.name,
+                                  isSelected: e.id == ref.read(feedUploadProvider).albumId,
+                                  onTap: () {
+                                    context.pop();
+                                    ref.read(feedUploadProvider.notifier).updateAlbumId(e.id);
+                                  },
+                                ),
+                              )
+                              .toList(),
+                    ),
                 child: Row(
                   children: [Text(selectedAlbum.name, style: AppTypeface.subTitle3), Icon(Icons.expand_more, size: 24)],
                 ),
