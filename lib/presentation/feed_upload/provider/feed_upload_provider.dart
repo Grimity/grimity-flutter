@@ -181,7 +181,7 @@ class FeedUpload extends _$FeedUpload {
           return null;
         }
 
-        feedUrl = '${AppConfig.apiUrl}feeds/${createFeedResult.data.id}';
+        feedUrl = '${AppConfig.apiUrl}feeds/${createFeedResult.data}';
       }
       // 4.2 update
       else {
