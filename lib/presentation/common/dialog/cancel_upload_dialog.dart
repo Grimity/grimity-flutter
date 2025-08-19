@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/presentation/common/widget/grimity_dialog.dart';
 
-void showCancelFeedUploadDialog(BuildContext context) {
+void showCancelUploadDialog(BuildContext context) {
   showDialog(
     context: context,
     builder:
