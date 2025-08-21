@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../widgets/search_app_bar.dart';
-import '../widgets/tab_bar_widget.dart';
-import '../widgets/drawings_grid_widget.dart';
-import '../widgets/empty_state_widget.dart';
-import '../widgets/category_tags_widget.dart';
-import '../hooks/drawing_hooks.dart';
+import 'package:grimity/presentation/home/widget/search_app_bar.dart';
+import 'package:grimity/presentation/home/widget/tab_bar_widget.dart';
+import '../widget/empty_state_widget.dart';
+import 'package:grimity/presentation/home/widget/drawing_grid_widget.dart';
+import 'package:grimity/presentation/home/widget/category_tags_widget.dart';
+import 'package:grimity/presentation/home/hook/home_searching_hooks.dart';
 
 class MainView extends ConsumerWidget {
   @override
@@ -17,7 +17,7 @@ class MainView extends ConsumerWidget {
       body: SafeArea(
         child: Column(
           children: [
-            CustomAppBar(),
+            SearchAppBar(),
             TabBarWidget(),
             if (selectedTab == 0 && drawings.isEmpty)
               Expanded(child: EmptyStateWidget())
