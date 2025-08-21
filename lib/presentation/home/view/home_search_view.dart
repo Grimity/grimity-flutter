@@ -7,7 +7,7 @@ import 'package:grimity/presentation/home/widget/drawing_grid_widget.dart';
 import 'package:grimity/presentation/home/widget/category_tags_widget.dart';
 import 'package:grimity/presentation/home/hook/home_searching_hooks.dart';
 
-class MainView extends ConsumerWidget {
+class SearchView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedTab = DrawingHooks.useSelectedTab(ref);
