@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grimity/app/config/app_color.dart';
+import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/search_type.enum.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/presentation/board/search/provider/board_search_data_provider.dart';
@@ -26,6 +28,18 @@ class BoardSearchListView extends ConsumerWidget {
     return ListView(
       padding: EdgeInsets.zero,
       children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(text: '검색결과 ', style: AppTypeface.label2.copyWith(color: AppColor.gray600)),
+                TextSpan(text: totalCount.toString(), style: AppTypeface.label2.copyWith(color: AppColor.gray800)),
+                TextSpan(text: '건', style: AppTypeface.label2.copyWith(color: AppColor.gray600)),
+              ],
+            ),
+          ),
+        ),
         GrimityPostFeed(posts: posts, cardHorizontalPadding: 16, showPostType: true, keyword: keyword),
         GrimityPaginationWidget(
           currentPage: notifier.currentPage,
