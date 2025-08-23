@@ -12,7 +12,7 @@ class EmptyStateWidget extends StatelessWidget {
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color: Colors.grey[800],
+              color: Colors.transparent,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Assets.icons.home.ResultNull.svg(
