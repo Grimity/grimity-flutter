@@ -65,7 +65,7 @@ final selectedTabProvider = StateProvider<int>((ref) => 0);
 
 // 카테고리 목록
 final categoriesProvider = Provider<List<String>>((ref) {
-  return ['한지로', '과정의 컬닝', '고양이', '통통', '볼루와이어', '귀엽', '한적', '미끄', '백업', '베껍'];
+  return ['탄지로', '귀멸의 칼날', '고양이', '동물', '블루아카이브', '귀칼', '만화', '미쿠', '백업', '배경'];
 });
 
 // 선택된 카테고리 상태
