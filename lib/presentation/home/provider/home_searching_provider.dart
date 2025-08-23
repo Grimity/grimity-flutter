@@ -74,6 +74,26 @@ final selectedCategoryProvider = StateProvider<String>((ref) => '');
 // 검색어 상태
 final searchQueryProvider = StateProvider<String>((ref) => '');
 
+final searchedUsersProvider = StateProvider<String>((ref) => '');
+
+final searchedFreePostsProvider = StateProvider<String>((ref) => '');
+
+  // 모의 사용자 데이터
+  final allUsers = [
+    {'username': '체리마루', 'profilePic': 'https://example.com/profile1.png'},
+    {'username': '그림쟁이', 'profilePic': 'https://example.com/profile2.png'},
+    {'username': '아트러버', 'profilePic': 'https://example.com/profile3.png'},
+  ];
+
+  // 검색어로 사용자 필터링 프로바이더
+  final filteredUsersProvider = Provider<List<Map<String, String>>>((ref) {
+    final query = ref.watch(searchQueryProvider);
+    if (query.isEmpty) return allUsers;
+    return allUsers
+        .where((user) => user['username']!.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+  });
+
 // 필터링된 그림 목록
 final filteredDrawingsProvider = Provider<List<DrawingModel>>((ref) {
   final drawings = ref.watch(drawingsProvider);
@@ -91,8 +111,7 @@ final filteredDrawingsProvider = Provider<List<DrawingModel>>((ref) {
 
   // 카테고리로 필터링 (실제로는 더 복잡한 로직이 필요)
   if (selectedCategory.isNotEmpty) {
-    // 여기서는 예시로 단순히 전체 리스트를 반환
-    // 실제로는 카테고리에 맞는 필터링 로직 구현
+    return [];
   }
 
   return filtered;

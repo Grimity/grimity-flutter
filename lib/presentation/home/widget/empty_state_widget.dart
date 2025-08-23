@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grimity/gen/assets.gen.dart';
 
 class EmptyStateWidget extends StatelessWidget {
   @override
@@ -14,10 +15,9 @@ class EmptyStateWidget extends StatelessWidget {
               color: Colors.grey[800],
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(
-              Icons.inbox,
-              color: Colors.white,
-              size: 40,
+            child: Assets.icons.home.ResultNull.svg(
+              width: 48,
+              height: 48,
             ),
           ),
           SizedBox(height: 16),

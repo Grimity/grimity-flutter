@@ -41,10 +41,10 @@ class SearchContentWidget extends ConsumerWidget {
         return DrawingsGridWidget();
 
       case 1:
-        return SearchUserWidgetWrapper(keyword: query);
+        return SearchUserWidget();
 
       case 2:
-        return SearchFreeWidgetWrapper(keyword: query);
+        return SearchFreeWidget();
 
       default:
         return NoRelatedResult(keyword: query);
@@ -52,34 +52,34 @@ class SearchContentWidget extends ConsumerWidget {
   }
 }
 
-class SearchUserWidgetWrapper extends ConsumerWidget {
-  final String keyword;
-  const SearchUserWidgetWrapper({super.key, required this.keyword});
+// class SearchUserWidgetWrapper extends ConsumerWidget {
+//   final String keyword;
+//   const SearchUserWidgetWrapper({super.key, required this.keyword});
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // 예시: users 검색 결과 훅 (프로젝트 훅 이름에 맞춰 수정)
-    final users = DrawingHooks.useSearchedUsers(ref) ?? const [];
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     // 예시: users 검색 결과 훅 (프로젝트 훅 이름에 맞춰 수정)
+//     final users = DrawingHooks.useSearchedUsers(ref) ?? const [];
 
-    if (users.isEmpty) {
-      return NoRelatedResult(keyword: keyword);
-    }
-    return SearchUserWidget();
-  }
-}
+//     if (users.isEmpty) {
+//       return NoRelatedResult(keyword: keyword);
+//     }
+//     return SearchUserWidget();
+//   }
+// }
 
-class SearchFreeWidgetWrapper extends ConsumerWidget {
-  final String keyword;
-  const SearchFreeWidgetWrapper({super.key, required this.keyword});
+// class SearchFreeWidgetWrapper extends ConsumerWidget {
+//   final String keyword;
+//   const SearchFreeWidgetWrapper({super.key, required this.keyword});
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // 예시: 자유게시판 검색 결과 훅 (프로젝트 훅 이름에 맞춰 수정)
-    final posts = DrawingHooks.useSearchedFreePosts(ref) ?? const [];
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     // 예시: 자유게시판 검색 결과 훅 (프로젝트 훅 이름에 맞춰 수정)
+//     final posts = DrawingHooks.useSearchedFreePosts(ref) ?? const [];
 
-    if (posts.isEmpty) {
-      return NoRelatedResult(keyword: keyword);
-    }
-    return SearchFreeWidget();
-  }
-}
+//     if (posts.isEmpty) {
+//       return NoRelatedResult(keyword: keyword);
+//     }
+//     return SearchFreeWidget();
+//   }
+// }
