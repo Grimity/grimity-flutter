@@ -32,17 +32,17 @@ class CategoryTagsWidget extends ConsumerWidget {
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
-                    color: isSelected ? Colors.green[100] : Colors.grey[100],
+                    color: isSelected ? Colors.black : Colors.grey[100],
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                      color: isSelected ? Colors.green[300]! : Colors.grey[300]!,
+                      color: isSelected ? Colors.black! : Colors.grey[300]!,
                     ),
                   ),
                   child: Text(
                     category,
                     style: TextStyle(
                       fontSize: 14,
-                      color: isSelected ? Colors.green[700] : Colors.grey[700],
+                      color: isSelected ? Colors.white : Colors.grey[700],
                       fontWeight: isSelected ? FontWeight.w500 : FontWeight.normal,
                     ),
                   ),
