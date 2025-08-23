@@ -13,7 +13,7 @@ class TabBarWidget extends ConsumerWidget {
         children: [
           _buildTabItem(ref, '그림', 0, selectedTab == 0),
           SizedBox(width: 24),
-          _buildTabItem(ref, '휴지', 1, selectedTab == 1),
+          _buildTabItem(ref, '유저', 1, selectedTab == 1),
           SizedBox(width: 24),
           _buildTabItem(ref, '자유게시판', 2, selectedTab == 2),
         ],
