@@ -37,6 +37,7 @@ class App extends ConsumerWidget {
         return MaterialApp.router(
           routerConfig: AppRouter.router(ref),
           theme: AppTheme.appTheme,
+          debugShowCheckedModeBanner: false,
           builder: (context, child) => FToastBuilder()(context, child),
         );
       },
