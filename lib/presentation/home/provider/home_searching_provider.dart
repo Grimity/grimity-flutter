@@ -18,7 +18,7 @@ class DrawingsNotifier extends StateNotifier<List<DrawingModel>> {
         author: '체리마루',
         likes: 24,
         views: 113,
-        createdAt: DateTime.now().subtract(Duration(hours: 2)),
+        createdAt: DateTime.now().subtract(const Duration(hours: 2)),
       ),
       DrawingModel(
         id: '2',
@@ -26,7 +26,7 @@ class DrawingsNotifier extends StateNotifier<List<DrawingModel>> {
         author: '체리마루',
         likes: 24,
         views: 113,
-        createdAt: DateTime.now().subtract(Duration(hours: 5)),
+        createdAt: DateTime.now().subtract(const Duration(hours: 5)),
       ),
       DrawingModel(
         id: '3',
@@ -34,7 +34,7 @@ class DrawingsNotifier extends StateNotifier<List<DrawingModel>> {
         author: '체리마루',
         likes: 24,
         views: 113,
-        createdAt: DateTime.now().subtract(Duration(days: 1)),
+        createdAt: DateTime.now().subtract(const Duration(days: 1)),
       ),
       DrawingModel(
         id: '4',
@@ -42,7 +42,7 @@ class DrawingsNotifier extends StateNotifier<List<DrawingModel>> {
         author: '체리마루',
         likes: 24,
         views: 113,
-        createdAt: DateTime.now().subtract(Duration(days: 2)),
+        createdAt: DateTime.now().subtract(const Duration(days: 2)),
       ),
     ];
   }
@@ -60,59 +60,71 @@ class DrawingsNotifier extends StateNotifier<List<DrawingModel>> {
   }
 }
 
-// 선택된 탭 상태
 final selectedTabProvider = StateProvider<int>((ref) => 0);
 
-// 카테고리 목록
 final categoriesProvider = Provider<List<String>>((ref) {
   return ['탄지로', '귀멸의 칼날', '고양이', '동물', '블루아카이브', '귀칼', '만화', '미쿠', '백업', '배경'];
 });
 
-// 선택된 카테고리 상태
 final selectedCategoryProvider = StateProvider<String>((ref) => '');
 
-// 검색어 상태
 final searchQueryProvider = StateProvider<String>((ref) => '');
 
-final searchedUsersProvider = StateProvider<String>((ref) => '');
-
-final searchedFreePostsProvider = StateProvider<String>((ref) => '');
-
-  // 모의 사용자 데이터
-  final allUsers = [
+final allUsersProvider = Provider<List<Map<String, String>>>((ref) {
+  return const [
     {'username': '체리마루', 'profilePic': 'https://example.com/profile1.png'},
     {'username': '그림쟁이', 'profilePic': 'https://example.com/profile2.png'},
     {'username': '아트러버', 'profilePic': 'https://example.com/profile3.png'},
   ];
+});
 
-  // 검색어로 사용자 필터링 프로바이더
-  final filteredUsersProvider = Provider<List<Map<String, String>>>((ref) {
-    final query = ref.watch(searchQueryProvider);
-    if (query.isEmpty) return allUsers;
-    return allUsers
-        .where((user) => user['username']!.toLowerCase().contains(query.toLowerCase()))
-        .toList();
-  });
+final allFreePostsProvider = Provider<List<Map<String, String>>>((ref) {
+  return const [
+    {'title': 'flutter tips', 'id': 'p1'},
+    {'title': 'riverpod guide', 'id': 'p2'},
+    {'title': 'free talk', 'id': 'p3'},
+  ];
+});
 
-// 필터링된 그림 목록
+final filteredUsersProvider = Provider<List<Map<String, String>>>((ref) {
+  final allUsers = ref.watch(allUsersProvider);
+  final query = ref.watch(searchQueryProvider);
+  if (query.isEmpty) return allUsers;
+
+  final q = query.toLowerCase();
+  return allUsers
+      .where((u) => (u['username'] ?? '').toLowerCase().contains(q))
+      .toList();
+});
+
+final filteredFreePostsProvider = Provider<List<Map<String, String>>>((ref) {
+  final allPosts = ref.watch(allFreePostsProvider);
+  final query = ref.watch(searchQueryProvider);
+  if (query.isEmpty) return allPosts;
+
+  final q = query.toLowerCase();
+  return allPosts
+      .where((p) => (p['title'] ?? '').toLowerCase().contains(q))
+      .toList();
+});
+
 final filteredDrawingsProvider = Provider<List<DrawingModel>>((ref) {
   final drawings = ref.watch(drawingsProvider);
   final searchQuery = ref.watch(searchQueryProvider);
   final selectedCategory = ref.watch(selectedCategoryProvider);
 
-  var filtered = drawings;
+  Iterable<DrawingModel> filtered = drawings;
 
-  // 검색어로 필터링
   if (searchQuery.isNotEmpty) {
-    filtered = filtered.where((drawing) =>
-    drawing.title.toLowerCase().contains(searchQuery.toLowerCase()) ||
-        drawing.author.toLowerCase().contains(searchQuery.toLowerCase())).toList();
+    final q = searchQuery.toLowerCase();
+    filtered = filtered.where((d) =>
+        d.title.toLowerCase().contains(q) || d.author.toLowerCase().contains(q));
   }
 
-  // 카테고리로 필터링 (실제로는 더 복잡한 로직이 필요)
   if (selectedCategory.isNotEmpty) {
-    return [];
+    final c = selectedCategory.toLowerCase();
+    filtered = filtered.where((d) => d.title.toLowerCase().contains(c));
   }
 
-  return filtered;
+  return filtered.toList();
 });
