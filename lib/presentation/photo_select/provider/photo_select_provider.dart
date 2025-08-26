@@ -1,7 +1,10 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/domain/usecase/photo_usecases.dart';
+import 'package:grimity/presentation/common/enum/upload_image_type.dart';
 import 'package:grimity/presentation/feed_upload/provider/feed_upload_provider.dart';
+import 'package:grimity/presentation/photo_select/provider/photo_select_page_argument_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -12,7 +15,7 @@ part 'photo_select_provider.freezed.dart';
 @riverpod
 class PhotoSelect extends _$PhotoSelect {
   @override
-  FutureOr<PhotoSelectState> build() async {
+  FutureOr<PhotoSelectState> build(UploadImageType type) async {
     final permission = await PhotoManager.requestPermissionExtend();
 
     // 접근 권한이 없는 경우
@@ -20,7 +23,8 @@ class PhotoSelect extends _$PhotoSelect {
       return PhotoSelectState(hasAccess: permission.hasAccess, isAuth: permission.isAuth);
     }
 
-    final feedUploadState = ref.read(feedUploadProvider);
+    final prevSelected = type == UploadImageType.feed ? ref.read(feedUploadProvider).images : <ImageSourceItem>[];
+    final prevThumbNail = type == UploadImageType.feed ? ref.read(feedUploadProvider).thumbnailImage : null;
 
     // 전체 접근 허용 || 제한된 사진 접근 허용
     final result = await fetchPhotoUseCase.execute(0);
@@ -30,16 +34,16 @@ class PhotoSelect extends _$PhotoSelect {
           hasAccess: permission.hasAccess,
           isAuth: permission.isAuth,
           photos: photos,
-          selected: feedUploadState.images,
-          thumbnailImage: feedUploadState.thumbnailImage,
+          selected: prevSelected,
+          thumbnailImage: prevThumbNail,
         );
       },
       onFailure: (e) {
         return PhotoSelectState(
           hasAccess: permission.hasAccess,
           isAuth: permission.isAuth,
-          selected: feedUploadState.images,
-          thumbnailImage: feedUploadState.thumbnailImage,
+          selected: prevSelected,
+          thumbnailImage: prevThumbNail,
         );
       },
     );
@@ -107,9 +111,17 @@ class PhotoSelect extends _$PhotoSelect {
   }
 
   /// 이미지 전달
-  void completeImageSelect(List<ImageSourceItem> images, ImageSourceItem thumbnailImage) {
-    ref.read(feedUploadProvider.notifier).updateImages(images);
-    ref.read(feedUploadProvider.notifier).updateThumbnailImage(thumbnailImage);
+  void completeImageSelect() {
+    if (state.value == null) return;
+
+    if (type == UploadImageType.feed) {
+      final images = state.value!.selected;
+      final thumbnailImage = state.value!.thumbnailImage;
+      ref.read(feedUploadProvider.notifier).updateImages(images);
+      ref.read(feedUploadProvider.notifier).updateThumbnailImage(thumbnailImage ?? images.first);
+    } else {
+      /// TODO Post
+    }
   }
 }
 
@@ -125,4 +137,16 @@ abstract class PhotoSelectState with _$PhotoSelectState {
     @Default(false) bool isLoadingMore,
     @Default(true) bool hasMore,
   }) = _PhotoSelectState;
+}
+
+mixin class PhotoSelectMixin {
+  AsyncValue<PhotoSelectState> photosAsync(WidgetRef ref) {
+    final type = ref.read(photoSelectTypeArgumentProvider);
+    return ref.watch(photoSelectProvider(type));
+  }
+
+  PhotoSelect photoNotifier(WidgetRef ref) {
+    final type = ref.read(photoSelectTypeArgumentProvider);
+    return ref.read(photoSelectProvider(type).notifier);
+  }
 }
