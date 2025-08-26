@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grimity/presentation/home/provider/home_searching_provider.dart';
+import 'package:grimity/presentation/home/widget/post_card.dart';
 
-class SearchFreeWidget extends StatelessWidget {
+class SearchFreeWidget extends ConsumerWidget {
+
+  const SearchFreeWidget({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        '자유게시판 탭 이거 이게 구현해야함',
-        style: TextStyle(
-          fontSize: 16,
-          color: Colors.grey[600],
-        ),
-      ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final posts = ref.watch(postsProvider);
+
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemCount: posts.length,
+      itemBuilder: (context, index) {
+        final post = posts[index];
+        return PostCard(post: post);
+      },
     );
   }
 }

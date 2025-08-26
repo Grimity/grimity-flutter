@@ -5,6 +5,14 @@ final drawingsProvider = StateNotifierProvider<DrawingsNotifier, List<DrawingMod
   return DrawingsNotifier();
 });
 
+final postsProvider = StateNotifierProvider<PostsNotifier, List<Post>>((ref) {
+  return PostsNotifier();
+});
+
+final galleryProvider = StateNotifierProvider<GalleryNotifier, List<GalleryItem>>((ref) {
+  return GalleryNotifier();
+});
+
 class DrawingsNotifier extends StateNotifier<List<DrawingModel>> {
   DrawingsNotifier() : super([]) {
     _initializeDrawings();
@@ -57,6 +65,108 @@ class DrawingsNotifier extends StateNotifier<List<DrawingModel>> {
       }
       return drawing;
     }).toList();
+  }
+}
+
+class PostsNotifier extends StateNotifier<List<Post>> {
+  PostsNotifier() : super([]) {
+    _loadPosts();
+  }
+
+  void _loadPosts() {
+    // 샘플 데이터
+    state = [
+      Post(
+        id: 1,
+        title: '그림을 그렸는데요',
+        content: '안녕하세요 어기는 마쥬? 그냥 어쨌어요 출네요',
+        author: '닉네임',
+        createdAt: DateTime.now().subtract(const Duration(minutes: 32)),
+        viewCount: 113,
+        commentCount: 3,
+        type: PostType.text,
+      ),
+      Post(
+        id: 2,
+        title: '이거 그림을 어떻게그렸는지 모르겠어요',
+        content: '안녕하세요 어기는 마쥬? 그냥 어쨌어요 출네요',
+        author: '닉네임',
+        createdAt: DateTime.now().subtract(const Duration(minutes: 32)),
+        viewCount: 113,
+        commentCount: 12,
+        type: PostType.text,
+      ),
+      Post(
+        id: 3,
+        title: '그림 그리는거 진짜 어려운 것 같아요',
+        content: '어떻게 그림 어떻게 그렇갔는지 모르겠네.. #오늘의감정',
+        author: '닉네임',
+        createdAt: DateTime.now().subtract(const Duration(minutes: 32)),
+        viewCount: 113,
+        commentCount: 3,
+        type: PostType.text,
+      ),
+    ];
+  }
+
+  void addPost(Post post) {
+    state = [post, ...state];
+  }
+
+  void removePost(int postId) {
+    state = state.where((post) => post.id != postId).toList();
+  }
+}
+
+class GalleryNotifier extends StateNotifier<List<GalleryItem>> {
+  GalleryNotifier() : super([]) {
+    _loadGallery();
+  }
+
+  void _loadGallery() {
+    // 샘플 갤러리 데이터
+    state = [
+      GalleryItem(
+        id: 1,
+        title: '그림그리는사람',
+        imageUrl: 'https://picsum.photos/300/200?random=1',
+        author: 'Grimify',
+        createdAt: DateTime.now().subtract(const Duration(minutes: 15)),
+        viewCount: 15,
+      ),
+      GalleryItem(
+        id: 2,
+        title: '그림',
+        imageUrl: 'https://picsum.photos/300/200?random=2',
+        author: 'Grimify',
+        createdAt: DateTime.now().subtract(const Duration(minutes: 15)),
+        viewCount: 15,
+      ),
+      GalleryItem(
+        id: 3,
+        title: '나가자!그림',
+        imageUrl: 'https://picsum.photos/300/400?random=3',
+        author: '닉네임',
+        createdAt: DateTime.now().subtract(const Duration(minutes: 15)),
+        viewCount: 15,
+      ),
+      GalleryItem(
+        id: 4,
+        title: '겨울의그림',
+        imageUrl: 'https://picsum.photos/400/300?random=4',
+        author: '닉네임',
+        createdAt: DateTime.now().subtract(const Duration(minutes: 15)),
+        viewCount: 15,
+      ),
+    ];
+  }
+
+  void addGalleryItem(GalleryItem item) {
+    state = [item, ...state];
+  }
+
+  void removeGalleryItem(int itemId) {
+    state = state.where((item) => item.id != itemId).toList();
   }
 }
 
