@@ -41,9 +41,15 @@ class SearchContentWidget extends ConsumerWidget {
         return DrawingsGridWidget();
 
       case 1:
+        if (drawings.isEmpty) {
+          return NoRelatedResult(keyword: query);
+        }
         return SearchUserWidget();
 
       case 2:
+        if (drawings.isEmpty) {
+          return NoRelatedResult(keyword: query);
+        }
         return SearchFreeWidget();
 
       default:
