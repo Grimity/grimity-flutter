@@ -302,13 +302,15 @@ class FeedUploadRoute extends GoRouteData {
 
 @TypedGoRoute<PhotoSelectRoute>(path: PhotoSelectRoute.path, name: PhotoSelectRoute.name)
 class PhotoSelectRoute extends GoRouteData {
-  const PhotoSelectRoute();
+  const PhotoSelectRoute({required this.type});
+
+  final UploadImageType type;
 
   static const String path = '/photo-select';
   static const String name = 'photo-select';
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => const PhotoSelectPage();
+  Widget build(BuildContext context, GoRouterState state) => PhotoSelectPage(type: type);
 }
 
 @TypedGoRoute<FeedDetailRoute>(path: FeedDetailRoute.path, name: FeedDetailRoute.name)

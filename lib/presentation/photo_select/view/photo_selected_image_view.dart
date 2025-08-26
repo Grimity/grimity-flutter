@@ -31,7 +31,7 @@ class PhotoSelectedImageListView extends StatelessWidget {
   }
 }
 
-class _PhotoSelectedImageThumbnail extends ConsumerWidget {
+class _PhotoSelectedImageThumbnail extends ConsumerWidget with PhotoSelectMixin {
   final ImageSourceItem imageSource;
 
   const _PhotoSelectedImageThumbnail(this.imageSource);
@@ -68,7 +68,7 @@ class _PhotoSelectedImageThumbnail extends ConsumerWidget {
               right: -8,
               child: GestureDetector(
                 behavior: HitTestBehavior.translucent,
-                onTap: () => ref.read(photoSelectProvider.notifier).removeSelectedImage(imageSource),
+                onTap: () => photoNotifier(ref).removeSelectedImage(imageSource),
                 child: Container(
                   decoration: BoxDecoration(
                     color: Color(0xFF23252B).withValues(alpha: 0.8),

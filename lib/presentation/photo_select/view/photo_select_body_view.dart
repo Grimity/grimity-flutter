@@ -11,13 +11,12 @@ import 'package:grimity/presentation/photo_select/widget/photo_permission_reques
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:photo_manager/photo_manager.dart';
 
-class PhotoSelectBodyView extends HookConsumerWidget {
+class PhotoSelectBodyView extends HookConsumerWidget with PhotoSelectMixin {
   const PhotoSelectBodyView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final photos = ref.watch(photoSelectProvider);
-    return photos.maybeWhen(
+    return photosAsync(ref).maybeWhen(
       data: (state) {
         // 접근 권한이 없는 경우
         if (!state.hasAccess) {
