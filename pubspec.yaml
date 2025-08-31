@@ -9,6 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   # UI
   animations: ^2.0.11
@@ -28,6 +30,10 @@ dependencies:
   photo_view: ^0.15.0
   readmore: ^3.0.0
   flutter_widget_from_html: ^0.17.0
+  flutter_quill: ^11.4.2
+  flutter_quill_delta_from_html: ^1.5.3
+  vsc_quill_delta_to_html: ^1.0.5
+  flutter_quill_extensions: ^11.0.0
 
   # Annotation
   freezed_annotation: ^3.0.0
@@ -109,6 +115,7 @@ flutter:
     - assets/icons/profile_edit/
     - assets/icons/drawer/
     - assets/icons/feed_upload/
+    - assets/icons/editor/
     - assets/images/
     - assets/images/sign_up/
     - assets/lottie/

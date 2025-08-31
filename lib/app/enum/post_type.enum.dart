@@ -16,6 +16,28 @@ enum PostType {
 
   const PostType(this.typeName);
 
+  static PostType fromString(String value) {
+    return PostType.values.firstWhere(
+      (e) => e.toJson() == value,
+      orElse: () => PostType.normal,
+    );
+  }
+
+  String toJson() {
+    switch (this) {
+      case PostType.normal:
+        return 'NORMAL';
+      case PostType.question:
+        return 'QUESTION';
+      case PostType.feedback:
+        return 'FEEDBACK';
+      case PostType.notice:
+        return 'NOTICE';
+      case PostType.all:
+        return 'ALL';
+    }
+  }
+
   static String valueToName(String value) {
     switch (value) {
       case 'NORMAL':

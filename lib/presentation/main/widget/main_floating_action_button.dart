@@ -17,7 +17,7 @@ class MainFloatingActionButton extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (currentIndex == MainNavigationItem.board.index) {
-          throw UnimplementedError('Unimplemented Error - AddPostRoute');
+          PostUploadRoute().push(context);
         } else {
           FeedUploadRoute().push(context);
         }

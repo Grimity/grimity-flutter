@@ -20,7 +20,7 @@ class PostUtilBar extends ConsumerWidget {
       isSave: isSave,
       likeCount: post.likeCount ?? 0,
       commentCount: post.commentCount ?? 0,
-      shareUrl: '${AppConfig.apiUrl}posts/${post.id}',
+      shareUrl: AppConfig.buildPostUrl(post.id),
       onLikeTap: () => ref.read(postDetailDataProvider(post.id).notifier).toggleLikePost(post.id, !isLike),
       onSaveTap: () => ref.read(postDetailDataProvider(post.id).notifier).toggleSavePost(post.id, !isSave),
     );
