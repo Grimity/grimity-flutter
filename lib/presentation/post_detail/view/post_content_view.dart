@@ -188,6 +188,13 @@ class _PostContentSection extends StatelessWidget {
         }
         return null;
       },
+      onTapImage: (imageMetadata) {
+        final imageUrl = imageMetadata.sources.isNotEmpty ? imageMetadata.sources.first.url : null;
+        if (imageUrl == null) return;
+
+        ImageViewerRoute(initialIndex: 0, imageUrls: [imageUrl]).push(context);
+      },
+      // ImageViewerPage
       renderMode: RenderMode.column,
     );
   }
