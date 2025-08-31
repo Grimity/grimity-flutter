@@ -29,5 +29,12 @@ abstract class AppTypefaceEditor {
     paragraph: DefaultTextBlockStyle(paragraph, _hSpacing, _pBottom, _lineSpacing, null),
     h1: DefaultTextBlockStyle(h1, _hSpacing, _hBottom, _lineSpacing, null),
     h2: DefaultTextBlockStyle(h2, _hSpacing, _hBottom, _lineSpacing, null),
+    placeHolder: DefaultTextBlockStyle(
+      paragraph.copyWith(color: AppColor.gray500),
+      _hSpacing,
+      _pBottom,
+      _lineSpacing,
+      null,
+    ),
   );
 }
