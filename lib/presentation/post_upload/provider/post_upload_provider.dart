@@ -320,8 +320,7 @@ class PostUpload extends _$PostUpload {
     try {
       String postUrl;
 
-      // 4. Post 생성/수정 요청
-      // 4.1 create
+      // create
       if (state.postId == null) {
         final createPostRequest = CreatePostRequest(
           title: state.title,
@@ -337,9 +336,8 @@ class PostUpload extends _$PostUpload {
 
         postUrl = AppConfig.buildPostUrl(createPostResult.data);
       }
-      // 4.2 update
+      // update
       else {
-        /// TODO 업데이트 에러남
         UpdatePostWithIdRequestParam request = UpdatePostWithIdRequestParam(
           id: state.postId!,
           param: CreatePostRequest(
