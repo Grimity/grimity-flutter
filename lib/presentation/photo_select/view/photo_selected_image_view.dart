@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/feed_upload/provider/feed_upload_provider.dart';
+import 'package:grimity/presentation/common/model/image_item_source.dart';
 import 'package:grimity/presentation/photo_select/provider/photo_select_provider.dart';
 import 'package:grimity/presentation/photo_select/widget/photo_asset_thumbnail_widget.dart';
 
