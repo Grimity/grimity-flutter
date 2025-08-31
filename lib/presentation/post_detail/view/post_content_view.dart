@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/app/config/app_typeface_editor.dart';
 import 'package:grimity/app/extension/date_time_extension.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/gen/assets.gen.dart';
@@ -33,7 +34,11 @@ class PostContentView extends ConsumerWidget {
         children: [
           _PostTitleSection(title: post.title),
           Gap(8),
-          _PostAuthorInfoSection(post: post, isMine: isMine, onMoreTap: () => _showMoreBottomSheet(context, isMine, ref)),
+          _PostAuthorInfoSection(
+            post: post,
+            isMine: isMine,
+            onMoreTap: () => _showMoreBottomSheet(context, isMine, ref),
+          ),
           Gap(16),
           _PostContentSection(content: post.content),
           Gap(30),
@@ -139,8 +144,7 @@ class _PostAuthorInfoSection extends StatelessWidget {
   }
 }
 
-/// content는 html 형식
-/// HtmlWidget을 사용
+/// Detail의 content는 Html 형식
 class _PostContentSection extends StatelessWidget {
   final String content;
 
@@ -148,10 +152,42 @@ class _PostContentSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /// TODO 스타일별 폰트
-    /// TODO 이미지 선택 시 photoView
     return HtmlWidget(
       content,
+      textStyle: AppTypefaceEditor.paragraph,
+      customWidgetBuilder: (e) {
+        /// p태그 하나에 여러개 br이 있는 경우 p태그의 마진이 동작하지 않음
+        /// br태그에 p 마진 값 추가
+        if (e.localName == 'br') {
+          return Gap(6);
+        }
+
+        return null;
+      },
+      customStylesBuilder: (e) {
+        switch (e.localName) {
+          case 'h1':
+            return {'font-size': '32px', 'font-weight': '700', 'line-height': '38px', 'margin': '0 0 14px 0'};
+          case 'h2':
+            return {'font-size': '24px', 'font-weight': '600', 'line-height': '30px', 'margin': '0 0 14px 0'};
+          case 'p':
+            return {'font-size': '16px', 'font-weight': '500', 'line-height': '24px', 'margin': '0 0 6px 0'};
+          case 'strong':
+          case 'b':
+            return {'font-weight': '700'};
+          case 'em':
+          case 'i':
+            return {'font-style': 'italic'};
+          case 'u':
+            return {'text-decoration': 'underline'};
+          case 's':
+          case 'del':
+            return {'text-decoration': 'line-through'};
+          case 'img':
+            return {'width': '100%', 'height': 'auto', 'object-fit': 'contain', 'display': 'block'};
+        }
+        return null;
+      },
       renderMode: RenderMode.column,
     );
   }
