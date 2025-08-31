@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -149,9 +148,10 @@ class _PostContentSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// TODO 스타일별 폰트
+    /// TODO 이미지 선택 시 photoView
     return HtmlWidget(
       content,
-      textStyle: TextStyle(fontSize: 16.sp, height: 1.6, letterSpacing: 0, fontWeight: FontWeight.w500),
       renderMode: RenderMode.column,
     );
   }

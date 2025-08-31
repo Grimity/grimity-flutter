@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/domain/entity/feed.dart';
+import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/presentation/board/tabs/board_page.dart';
 import 'package:grimity/presentation/board/search/board_search_page.dart';
 import 'package:grimity/presentation/common/enum/upload_image_type.dart';
@@ -15,6 +16,7 @@ import 'package:grimity/presentation/image/image_viewer_page.dart';
 import 'package:grimity/presentation/main/main_app_shell.dart';
 import 'package:grimity/presentation/photo_select/photo_select_page.dart';
 import 'package:grimity/presentation/post_detail/post_detail_page.dart';
+import 'package:grimity/presentation/post_upload/post_upload_page.dart';
 import 'package:grimity/presentation/profile/profile_page.dart';
 import 'package:grimity/presentation/profile_edit/profile_crop_image_page.dart';
 import 'package:grimity/presentation/profile_edit/profile_edit_page.dart';
@@ -356,5 +358,19 @@ class PostDetailRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return PostDetailPage(postId: id);
+  }
+}
+
+@TypedGoRoute<PostUploadRoute>(path: PostUploadRoute.path, name: PostUploadRoute.name)
+class PostUploadRoute extends GoRouteData {
+  const PostUploadRoute();
+
+  static const String path = '/post-upload';
+  static const String name = 'post-upload';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    final post = state.extra as Post?;
+    return PostUploadPage(postToEdit: post);
   }
 }

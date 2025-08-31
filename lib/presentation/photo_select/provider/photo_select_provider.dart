@@ -6,6 +6,7 @@ import 'package:grimity/presentation/common/model/image_item_source.dart';
 import 'package:grimity/presentation/common/enum/upload_image_type.dart';
 import 'package:grimity/presentation/feed_upload/provider/feed_upload_provider.dart';
 import 'package:grimity/presentation/photo_select/provider/photo_select_page_argument_provider.dart';
+import 'package:grimity/presentation/post_upload/provider/post_upload_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -114,14 +115,14 @@ class PhotoSelect extends _$PhotoSelect {
   /// 이미지 전달
   void completeImageSelect() {
     if (state.value == null) return;
+    final images = state.value!.selected;
 
     if (type == UploadImageType.feed) {
-      final images = state.value!.selected;
       final thumbnailImage = state.value!.thumbnailImage;
       ref.read(feedUploadProvider.notifier).updateImages(images);
       ref.read(feedUploadProvider.notifier).updateThumbnailImage(thumbnailImage ?? images.first);
     } else {
-      /// TODO Post
+      ref.read(postUploadProvider.notifier).updateImages(images);
     }
   }
 }
