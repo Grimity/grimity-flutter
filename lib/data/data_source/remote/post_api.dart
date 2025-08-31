@@ -22,7 +22,7 @@ abstract class PostAPI {
   @GET('/posts')
   Future<PostsResponse> getPosts(@Query('page') int page, @Query('size') int size, @Query('type') PostType type);
 
-  @POST('/posts/{id}')
+  @PUT('/posts/{id}')
   Future<void> updatePost(@Path('id') String id, @Body() CreatePostRequest request);
 
   @GET('/posts/search')
