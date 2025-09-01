@@ -24,4 +24,21 @@ abstract class PostAPI {
 
   @DELETE('/posts/{id}/save')
   Future<void> removeSavedPost(@Path('id') String id);
+
+  @POST('/posts')
+  Future<PostsResponse> getSavedPosts(@Query('page') int page, @Query('size') int size, @Query('type') PostType type);
+
+  @GET('/posts/notices')
+  Future<List<PostDetailResponse>> getNotices();
+
+  @GET('/posts/search')
+  Future<PostsResponse> searchPosts(
+    @Query('keyword') String keyword,
+    @Query('page') int page,
+    @Query('size') int size,
+    @Query('type') PostType type,
+  );
+
+  
+
 }
