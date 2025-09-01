@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:grimity/app/config/app_color.dart';
+import 'package:grimity/app/util/color_util.dart';
 import 'package:grimity/presentation/post_upload/widget/toolbar/parts/menu_archor_square.dart';
 import 'package:grimity/presentation/post_upload/widget/toolbar/parts/quill_toolbar_utils.dart';
 import 'package:grimity/gen/assets.gen.dart';
@@ -44,7 +45,7 @@ class ColorMenu extends HookWidget {
       return () => menuController.close();
     }, [menuController]);
 
-    final indicator = _mode == _Mode.text ? selectionState.textColor : selectionState.backgroundColor;
+    final color = _mode == _Mode.text ? selectionState.textColor : selectionState.backgroundColor;
 
     return MenuAnchorSquare(
       menuController: menuController,
@@ -55,7 +56,7 @@ class ColorMenu extends HookWidget {
             Positioned.fill(
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: indicator ?? Colors.transparent,
+                  color: color ?? Colors.transparent,
                   border: Border.all(color: AppColor.gray300, width: 1),
                 ),
               ),
@@ -64,12 +65,11 @@ class ColorMenu extends HookWidget {
             colorFilter:
                 (_mode == _Mode.text)
                     ? ColorFilter.mode(AppColor.gray700, BlendMode.srcIn)
-                    : indicator == null || indicator == _colors[2] || indicator == _colors[5]
+                    : color == null || color.equalsHexCode(_colors[2]) || color.equalsHexCode(_colors[5])
                     ? ColorFilter.mode(AppColor.gray700, BlendMode.srcIn)
                     : ColorFilter.mode(AppColor.gray00, BlendMode.srcIn),
           ),
-          if (_mode == _Mode.text)
-            Positioned(right: 4, bottom: 4, child: Container(width: 4, height: 4, color: indicator)),
+          if (_mode == _Mode.text) Positioned(right: 4, bottom: 4, child: Container(width: 4, height: 4, color: color)),
         ],
       ),
       menuChildren: [
@@ -85,11 +85,12 @@ class ColorMenu extends HookWidget {
               runSpacing: 8,
               children:
                   _colors.map((c) {
-                    final isSelected = c == indicator;
+                    final isSelected = c.equalsHexCode(color);
 
                     return GestureDetector(
                       onTap: () {
-                        final hex = '#${c.toARGB32().toRadixString(16)}';
+                        final hex = c.toHexColor();
+
                         if (_mode == _Mode.text) {
                           controller.formatSelection(ColorAttribute(isSelected ? null : hex));
                         } else {
