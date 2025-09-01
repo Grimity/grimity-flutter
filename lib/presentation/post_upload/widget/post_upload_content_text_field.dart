@@ -28,16 +28,19 @@ class PostUploadContentTextField extends HookConsumerWidget {
       return () => quillController.removeListener(listener);
     }, [quillController]);
 
-    return QuillEditor(
-      focusNode: focusNode,
-      scrollController: scrollController,
-      controller: quillController,
-      config: QuillEditorConfig(
-        placeholder: '내용을 입력하세요',
-        scrollable: false,
-        scrollBottomInset: MediaQuery.of(context).viewInsets.bottom + 12,
-        customStyles: AppTypefaceEditor.quillDefaultStyles,
-        embedBuilders: [DeletableImageBuilder(), ...FlutterQuillEmbeds.editorBuilders()],
+    return DefaultTextStyle.merge(
+      style: AppTypefaceEditor.editorFontFamily,
+      child: QuillEditor(
+        focusNode: focusNode,
+        scrollController: scrollController,
+        controller: quillController,
+        config: QuillEditorConfig(
+          placeholder: '내용을 입력하세요',
+          scrollable: false,
+          scrollBottomInset: MediaQuery.of(context).viewInsets.bottom + 12,
+          customStyles: AppTypefaceEditor.quillDefaultStyles,
+          embedBuilders: [DeletableImageBuilder(), ...FlutterQuillEmbeds.editorBuilders()],
+        ),
       ),
     );
   }

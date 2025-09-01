@@ -6,14 +6,16 @@ import 'package:grimity/app/config/app_color.dart';
 abstract class AppTypefaceEditor {
   const AppTypefaceEditor._();
 
+  static TextStyle get editorFontFamily => TextStyle(fontFamily: 'Pretendard');
+
   static TextStyle get paragraph =>
-      TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, height: 24 / 16, color: AppColor.gray800);
+      editorFontFamily.copyWith(fontSize: 16.sp, fontWeight: FontWeight.w500, height: 24 / 16, color: AppColor.gray800);
 
   static TextStyle get h1 =>
-      TextStyle(fontSize: 32.sp, fontWeight: FontWeight.w700, height: 38 / 32, color: AppColor.gray800);
+      editorFontFamily.copyWith(fontSize: 32.sp, fontWeight: FontWeight.w700, height: 38 / 32, color: AppColor.gray800);
 
   static TextStyle get h2 =>
-      TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w600, height: 30 / 24, color: AppColor.gray800);
+      editorFontFamily.copyWith(fontSize: 24.sp, fontWeight: FontWeight.w600, height: 30 / 24, color: AppColor.gray800);
 
   // p { padding-bottom: 6px }
   static const _pBottom = VerticalSpacing(0, 6);
