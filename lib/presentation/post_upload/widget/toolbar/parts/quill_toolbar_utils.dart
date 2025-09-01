@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:grimity/app/util/color_util.dart';
 
 extension QuillControllerX on QuillController {
   SelectionState get currentSelectionState {
@@ -10,7 +11,6 @@ extension QuillControllerX on QuillController {
 
     final textColorAttr = attrs[Attribute.color.key]?.value as String?;
     final bgColorAttr = attrs[Attribute.background.key]?.value as String?;
-    Color? parseHex(String? hex) => hex == null ? null : Color(int.parse(hex.substring(1), radix: 16));
 
     return SelectionState(
       isH1: isH1,
@@ -20,8 +20,8 @@ extension QuillControllerX on QuillController {
       isItalic: attrs.containsKey(Attribute.italic.key),
       isUnderline: attrs.containsKey(Attribute.underline.key),
       isStrike: attrs.containsKey(Attribute.strikeThrough.key),
-      textColor: parseHex(textColorAttr),
-      backgroundColor: parseHex(bgColorAttr),
+      textColor: ColorUtil.parseHex(textColorAttr),
+      backgroundColor: ColorUtil.parseHex(bgColorAttr),
     );
   }
 
