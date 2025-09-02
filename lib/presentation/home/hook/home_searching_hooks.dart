@@ -4,6 +4,7 @@ import 'package:grimity/presentation/home/provider/home_searching_provider.dart'
 import 'package:grimity/data/model/search/drawing_model.dart';
 
 class DrawingHooks {
+
   // ---- Drawings ----
   static List<DrawingModel> useDrawings(WidgetRef ref) {
     return ref.watch(filteredDrawingsProvider);
@@ -20,8 +21,13 @@ class DrawingHooks {
 
   // ---- Categories ----
   static List<String> useCategories(WidgetRef ref) {
-    return ref.watch(categoriesProvider);
+    final async = ref.watch(categoriesProvider);
+    return async.maybeWhen(
+      data: (v) => v,
+      orElse: () => const [],
+    );
   }
+
 
   static String useSelectedCategory(WidgetRef ref) {
     return ref.watch(selectedCategoryProvider);

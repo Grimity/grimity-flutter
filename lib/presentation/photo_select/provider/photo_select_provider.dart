@@ -6,7 +6,6 @@ import 'package:photo_manager/photo_manager.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'photo_select_provider.g.dart';
-
 part 'photo_select_provider.freezed.dart';
 
 @riverpod

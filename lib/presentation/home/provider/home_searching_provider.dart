@@ -1,6 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/data/model/search/drawing_model.dart';
-import 'package:grimity/domain/usecase/tag_usecases.dart';
+import 'package:grimity/app/base/result.dart';
+import 'package:grimity/domain/entity/tag.dart';
+import 'package:grimity/domain/usecase/tag/get_popular_tags_usecase.dart';
+import 'package:grimity/app/di/di_setup.dart'; // getIt
 
 
 final drawingsProvider = StateNotifierProvider<DrawingsNotifier, List<DrawingModel>>((ref) {
@@ -175,8 +178,23 @@ class GalleryNotifier extends StateNotifier<List<GalleryItem>> {
 final selectedTabProvider = StateProvider<int>((ref) => 0);
 
 //todo: 이거 api 연결해야함
-final categoriesProvider = Provider<List<String>>((ref) {
-  return ['탄지로', '귀멸의 칼날', '고양이', '동물', '블루아카이브', '귀칼', '만화', '미쿠', '백업', '배경'];
+final tagNamesProvider = FutureProvider.autoDispose<List<String>>((ref) async {
+  final uc = getIt<GetPopularTagsUseCase>(); // 또는 전역 getPopularTagsUseCase
+  final Result<List<Tag>> res = await uc.execute();
+
+  return res.fold(
+    onSuccess: (tags) {
+      final seen = <String>{};
+      final out = <String>[];
+      for (final t in tags) {
+        final key = t.tagName.trim().toLowerCase();
+        if (key.isEmpty) continue;
+        if (seen.add(key)) out.add(t.tagName);
+      }
+      return out;
+    },
+    onFailure: (e) => throw e,
+  );
 });
 
 final selectedCategoryProvider = StateProvider<String>((ref) => '');
