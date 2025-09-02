@@ -38,7 +38,4 @@ abstract class PostAPI {
     @Query('size') int size,
     @Query('type') PostType type,
   );
-
-  
-
 }

@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/data/model/search/drawing_model.dart';
+import 'package:grimity/domain/usecase/tag_usecases.dart';
+
 
 final drawingsProvider = StateNotifierProvider<DrawingsNotifier, List<DrawingModel>>((ref) {
   return DrawingsNotifier();
@@ -172,6 +174,7 @@ class GalleryNotifier extends StateNotifier<List<GalleryItem>> {
 
 final selectedTabProvider = StateProvider<int>((ref) => 0);
 
+//todo: 이거 api 연결해야함
 final categoriesProvider = Provider<List<String>>((ref) {
   return ['탄지로', '귀멸의 칼날', '고양이', '동물', '블루아카이브', '귀칼', '만화', '미쿠', '백업', '배경'];
 });

@@ -15,7 +15,7 @@ class EmptyStateWidget extends StatelessWidget {
               color: Colors.transparent,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Assets.icons.home.ResultNull.svg(
+            child: Assets.icons.home.resultNull.svg(
               width: 48,
               height: 48,
             ),
