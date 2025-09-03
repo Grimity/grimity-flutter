@@ -7,4 +7,5 @@ abstract class PostRepository {
   Future<Result<Post>> getPostDetail(String id);
   Future<Result<void>> savePost(String id);
   Future<Result<void>> removeSavedPost(String id);
+  Future<Result<void>> searchPosts(int page, int size, PostType type);
 }

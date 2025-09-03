@@ -52,4 +52,14 @@ class PostRepositoryImpl extends PostRepository {
       return Result.failure(e);
     }
   }
+
+  @override
+  Future<Result<void>> searchPosts(int page, int size, PostType type) {
+    try {
+      final PostsResponse response = await _postAPI.getPosts(page, size, type);
+      return Result.success(response.toEntity());
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
 }
