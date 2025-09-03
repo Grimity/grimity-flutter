@@ -16,7 +16,11 @@ class DeltaUtil {
 
   /// HTML → Delta
   static Delta htmlToDelta(String html) {
-    return HtmlToDelta().convert(html);
+    // FIX: <p> 태그 변환 시 개행 처리 안되는 issue(웹에서 게시글 업로드 시 발생)
+    // Ref: https://github.com/kakao/kakao_flutter_sdk/issues/200
+    bool shouldInsertANewLine(String localName) => localName == 'p';
+
+    return HtmlToDelta(shouldInsertANewLine: shouldInsertANewLine).convert(html);
   }
 
   /// Delta → Document
