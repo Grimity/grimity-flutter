@@ -36,6 +36,6 @@ abstract class PostAPI {
     @Query('keyword') String keyword,
     @Query('page') int page,
     @Query('size') int size,
-    @Query('type') PostType type,
+    @Query('type') searchBy search,
   );
 }

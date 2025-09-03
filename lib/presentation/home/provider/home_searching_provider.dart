@@ -10,7 +10,6 @@ import 'package:grimity/domain/entity/feeds.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/domain/usecase/users/search_user_usecase.dart';
 import 'package:grimity/domain/entity/post.dart';
-import 'package:grimity/domain/usecase/post'
 
 final selectedTabProvider = StateProvider<int>((ref) => 0);
 
