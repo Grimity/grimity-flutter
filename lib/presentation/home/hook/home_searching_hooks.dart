@@ -21,13 +21,12 @@ class DrawingHooks {
 
   // ---- Categories ----
   static List<String> useCategories(WidgetRef ref) {
-    final async = ref.watch(categoriesProvider);
+    final async = ref.watch(tagNamesProvider);
     return async.maybeWhen(
       data: (v) => v,
       orElse: () => const [],
     );
   }
-
 
   static String useSelectedCategory(WidgetRef ref) {
     return ref.watch(selectedCategoryProvider);

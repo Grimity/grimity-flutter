@@ -5,11 +5,14 @@ import 'package:grimity/data/model/feed/feed_detail_response.dart';
 import 'package:grimity/data/model/feed/feed_rankings_response.dart';
 import 'package:grimity/data/model/feed/following_feeds_response.dart';
 import 'package:grimity/data/model/feed/latest_feeds_response.dart';
+import 'package:grimity/data/model/feed/searched_feeds_response.dart';
 import 'package:grimity/domain/dto/feeds_request_param.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/feeds.dart';
 import 'package:grimity/domain/repository/feed_repository.dart';
 import 'package:injectable/injectable.dart';
+
+import '../../domain/dto/search_feeds_param.dart';
 
 @Injectable(as: FeedRepository)
 class FeedRepositoryImpl extends FeedRepository {
@@ -132,6 +135,21 @@ class FeedRepositoryImpl extends FeedRepository {
     try {
       await _feedAPI.removeSavedFeed(id);
       return Result.success(null);
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
+
+  @override
+  Future<Result<Feeds>> searchFeeds(SearchFeedsParam param) async {
+    try {
+      final res = await _feedAPI.searchFeeds(
+        param.keyword,
+        param.sort,
+        param.size,
+        param.cursor,
+      );
+      return Result.success(res.toEntity()); // ← SearchedFeedsResponse → Feeds 매핑
     } on Exception catch (e) {
       return Result.failure(e);
     }

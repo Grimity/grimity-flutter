@@ -8,6 +8,8 @@ import 'package:grimity/domain/dto/feeds_request_param.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../../model/feed/searched_feeds_response.dart';
+
 part 'feed_api.g.dart';
 
 @injectable
@@ -34,6 +36,14 @@ abstract class FeedAPI {
     @Query('size') int? size,
     @Query('cursor') String? cursor,
   );
+
+  @GET('/feeds/search')
+  Future<SearchedFeedsResponse> searchFeeds(
+      @Query('keyword') String keyword,
+      @Query('sort') String sort,
+      @Query('size') int size,
+      @Query('cursor') String? cursor,
+      );
 
   @PUT('/feeds/{id}')
   Future<void> updateFeed(@Path('id') String id, @Body() UpdateFeedRequest request);
