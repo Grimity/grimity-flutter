@@ -7,6 +7,8 @@ import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/domain/repository/post_repository.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../app/enum/search_post_type.enum.dart';
+
 @Injectable(as: PostRepository)
 class PostRepositoryImpl extends PostRepository {
   final PostAPI _postAPI;
@@ -54,12 +56,23 @@ class PostRepositoryImpl extends PostRepository {
   }
 
   @override
-  Future<Result<void>> searchPosts(int page, int size, PostType type) {
+  Future<Result<List<Post>>> searchPosts({
+    required int page,
+    required int size,
+    required String keyword,
+    required SearchBy searchBy,
+  }) async {
     try {
-      final PostsResponse response = await _postAPI.getPosts(page, size, type);
-      return Result.success(response.toEntity());
+      final res = await _postAPI.searchPosts(
+        page,            // int OK
+        size,            // int OK
+        keyword,         // String OK
+        searchBy.value,  // enum -> String
+      );
+      return Result.success(res.toEntity());
     } on Exception catch (e) {
       return Result.failure(e);
     }
   }
+
 }

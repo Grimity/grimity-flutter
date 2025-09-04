@@ -5,6 +5,8 @@ import 'package:grimity/data/model/post/posts_response.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../../../app/enum/search_post_type.enum.dart';
+
 part 'post_api.g.dart';
 
 @injectable
@@ -33,9 +35,10 @@ abstract class PostAPI {
 
   @GET('/posts/search')
   Future<PostsResponse> searchPosts(
-    @Query('keyword') String keyword,
-    @Query('page') int page,
-    @Query('size') int size,
-    @Query('type') searchBy search,
-  );
+      @Query('page') int page,
+      @Query('size') int size,
+      @Query('keyword') String keyword,
+      @Query('searchBy') String searchBy,  // enum은 String으로 전달
+      );
+
 }

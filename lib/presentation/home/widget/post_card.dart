@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:grimity/data/model/search/drawing_model.dart';
+
+import '../../../domain/entity/post.dart';
+
 
 class PostCard extends StatelessWidget {
   final Post post;
@@ -67,7 +69,7 @@ class PostCard extends StatelessWidget {
           Row(
             children: [
               Text(
-                post.author,
+                post.author!.name,
                 style: TextStyle(
                   fontSize: 12,
                   color: Colors.grey[500],
