@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/home/hook/home_searching_hooks.dart';
 import 'package:grimity/presentation/home/widget/category_tags_widget.dart';
 import 'package:grimity/presentation/home/provider/home_searching_provider.dart';
@@ -60,6 +61,34 @@ class SearchContentWidget extends ConsumerWidget {
                     ),
                     const SizedBox(height: 6),
                     Text(feed.title ?? '', maxLines: 1, overflow: TextOverflow.ellipsis),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            feed.author?.name ?? '익명',
+                            style: const TextStyle(fontSize: 12, color: Colors.grey),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        const SizedBox(width: 5),
+
+                        Assets.icons.home.heart.svg(width: 14, height: 14),
+                        const SizedBox(width: 2),
+                        Text(
+                          '${feed.likeCount ?? 0}',
+                          style: const TextStyle(fontSize: 12, color: Colors.grey),
+                        ),
+
+                        const SizedBox(width: 5),
+
+                        Assets.icons.home.eye.svg(width: 14, height: 14),
+                        const SizedBox(width: 2),
+                        Text(
+                          '${feed.viewCount ?? 0}',
+                          style: const TextStyle(fontSize: 12, color: Colors.grey),
+                        ),
+                      ],
+                    )
                   ],
                 );
               },
