@@ -7,21 +7,21 @@ class CategoryTagsWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final categories = DrawingHooks.useCategories(ref);
     final selectedCategory = DrawingHooks.useSelectedCategory(ref);
+    final kb = MediaQuery.of(context).viewInsets.bottom; // 키보드 높이
 
-    return Padding(
-      padding: EdgeInsets.all(16),
+    return SingleChildScrollView(
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+      padding: EdgeInsets.fromLTRB(16, 16, 16, 16 + kb), // <- 하단에 키보드 높이만큼 여유
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             '추천태그',
             style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
+              fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black,
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -30,12 +30,12 @@ class CategoryTagsWidget extends ConsumerWidget {
               return GestureDetector(
                 onTap: () => DrawingHooks.useSelectCategory(ref, category),
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
                     color: isSelected ? Colors.black : Colors.grey[100],
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                      color: isSelected ? Colors.black! : Colors.grey[300]!,
+                      color: isSelected ? Colors.black : Colors.grey[300]!,
                     ),
                   ),
                   child: Text(
