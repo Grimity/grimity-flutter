@@ -39,6 +39,7 @@ class _SearchAppBarState extends ConsumerState<SearchAppBar> {
             child: GestureDetector(
               onTap: () => setState(() => _isSearching = true),
               child: Container(
+                height: 44,
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey[300]!),

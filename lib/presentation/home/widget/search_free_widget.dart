@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/presentation/home/provider/home_searching_provider.dart';
 import 'package:grimity/domain/entity/post.dart' as domain;
 
+import 'empty_state_widget.dart';
+
 class SearchFreeWidget extends ConsumerWidget {
   const SearchFreeWidget({Key? key}) : super(key: key);
 
@@ -13,7 +15,7 @@ class SearchFreeWidget extends ConsumerWidget {
     return asyncPosts.when(
       data: (List<domain.Post> posts) {
         if (posts.isEmpty) {
-          return const Center(child: Text('검색된 게시글이 없어요'));
+          return EmptyStateWidget();
         }
         return ListView.builder(
           padding: const EdgeInsets.all(16),

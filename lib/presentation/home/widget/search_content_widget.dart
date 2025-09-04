@@ -5,6 +5,7 @@ import 'package:grimity/presentation/home/widget/category_tags_widget.dart';
 import 'package:grimity/presentation/home/provider/home_searching_provider.dart';
 import 'package:grimity/domain/entity/feeds.dart';
 import 'package:grimity/domain/entity/feed.dart';
+import 'empty_state_widget.dart';
 import 'search_free_widget.dart';
 import 'search_user_widget.dart';
 
@@ -14,7 +15,7 @@ class NoRelatedResult extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('관련 결과가 없어요'));
+    return EmptyStateWidget();
   }
 }
 

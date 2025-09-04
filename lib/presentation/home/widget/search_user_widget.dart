@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/presentation/home/provider/home_searching_provider.dart';
 import 'package:grimity/domain/entity/user.dart';
 
+import 'empty_state_widget.dart';
+
 class SearchUserWidget extends ConsumerWidget {
   const SearchUserWidget({Key? key}) : super(key: key);
 
@@ -13,7 +15,7 @@ class SearchUserWidget extends ConsumerWidget {
     return asyncUsers.when(
       data: (List<User> users) {
         if (users.isEmpty) {
-          return const Center(child: Text('검색된 유저가 없어요'));
+          return EmptyStateWidget();
         }
         return ListView.builder(
           padding: const EdgeInsets.all(16),

@@ -1,4 +1,3 @@
-// drawings_grid_widget.dart  (Feeds 표시)
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/presentation/home/provider/home_searching_provider.dart';
