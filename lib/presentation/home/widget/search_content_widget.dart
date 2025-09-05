@@ -5,7 +5,6 @@ import 'package:grimity/presentation/home/hook/home_searching_hooks.dart';
 import 'package:grimity/presentation/home/widget/category_tags_widget.dart';
 import 'package:grimity/presentation/home/provider/home_searching_provider.dart';
 import 'package:grimity/domain/entity/feeds.dart';
-import 'package:grimity/domain/entity/feed.dart';
 import 'empty_state_widget.dart';
 import 'search_free_widget.dart';
 import 'search_user_widget.dart';
@@ -23,10 +22,65 @@ class NoRelatedResult extends StatelessWidget {
 class SearchContentWidget extends ConsumerWidget {
   const SearchContentWidget({super.key});
 
+  // 🔗 썸네일 상대경로 → 절대경로로
+  String _fullImageUrl(String? path) {
+    if ((path ?? '').isEmpty) return '';
+    if (path!.startsWith('http')) return path;
+    const base = 'https://image.grimity.com/'; // 실제 CDN 베이스에 맞춰 수정
+    return '$base$path';
+  }
+
+  // 🖍️ 하이라이트 유틸: terms 에 매칭되는 부분만 초록색
+  TextSpan _highlight(
+      String text,
+      List<String> terms, {
+        TextStyle? normalStyle,
+        TextStyle? highlightStyle,
+      }) {
+    if (text.isEmpty || terms.isEmpty) {
+      return TextSpan(text: text, style: normalStyle);
+    }
+
+    // 빈 키워드 제거 + 긴 단어 우선(겹침 최소화)
+    final cleaned = terms
+        .map((t) => t.trim())
+        .where((t) => t.isNotEmpty)
+        .toSet()
+        .toList()
+      ..sort((a, b) => b.length.compareTo(a.length));
+
+    if (cleaned.isEmpty) {
+      return TextSpan(text: text, style: normalStyle);
+    }
+
+    final pattern = cleaned.map(RegExp.escape).join('|');
+    final reg = RegExp('($pattern)', caseSensitive: false);
+
+    final spans = <TextSpan>[];
+    int start = 0;
+
+    for (final m in reg.allMatches(text)) {
+      if (m.start > start) {
+        spans.add(TextSpan(text: text.substring(start, m.start), style: normalStyle));
+      }
+      spans.add(TextSpan(text: text.substring(m.start, m.end), style: highlightStyle));
+      start = m.end;
+    }
+    if (start < text.length) {
+      spans.add(TextSpan(text: text.substring(start), style: normalStyle));
+    }
+    return TextSpan(children: spans);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedTab = DrawingHooks.useSelectedTab(ref);
     final query = DrawingHooks.useSearchQuery(ref).trim();
+
+    // 🔎 검색어 → 키워드 배열
+    final terms = query.isEmpty
+        ? const <String>[]
+        : query.split(RegExp(r'\s+')).where((e) => e.isNotEmpty).toList();
 
     // 검색어 없으면 추천 태그 노출
     if (query.isEmpty) {
@@ -59,7 +113,11 @@ class SearchContentWidget extends ConsumerWidget {
                         ),
                         TextSpan(
                           text: '$total',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
                         ),
                         TextSpan(
                           text: '건',
@@ -67,8 +125,9 @@ class SearchContentWidget extends ConsumerWidget {
                         ),
                       ],
                     ),
-                  )
+                  ),
                 ),
+
                 // Grid
                 Expanded(
                   child: GridView.builder(
@@ -106,40 +165,59 @@ class SearchContentWidget extends ConsumerWidget {
                                 borderRadius: BorderRadius.circular(8),
                                 child: Stack(
                                   children: [
-                                    (thumb.isEmpty)
+                                    thumb.isEmpty
                                         ? Container(
                                       color: Colors.grey[200],
                                       child: Icon(Icons.image, color: Colors.grey[400]),
                                     )
-                                        : Image.network(thumb, fit: BoxFit.cover, width: double.infinity, height: double.infinity),
+                                        : Image.network(
+                                      thumb,
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                    ),
                                     Positioned(
                                       bottom: 4,
                                       right: 4,
                                       child: Assets.icons.home.heart.svg(
-                                      width: 18,
-                                      height: 18,
-                                    ),
+                                        width: 18,
+                                        height: 18,
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
                             ),
                             const SizedBox(height: 6),
-                            // 제목
-                            Text(
-                              feed.title ?? '',
+
+                            // 제목 (키워드 하이라이트 적용)
+                            RichText(
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
+                              text: _highlight(
+                                feed.title ?? '',
+                                terms,
+                                normalStyle: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black87,
+                                ),
+                                highlightStyle: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.green,
+                                ),
                               ),
                             ),
+
                             const SizedBox(height: 4),
+
                             // 작성자 + 하트/뷰
                             Row(
                               children: [
                                 Expanded(
+                                  // 필요하면 작성자에도 하이라이트 적용 가능:
+                                  // RichText(text: _highlight(feed.author?.name ?? '익명', terms, ...))
                                   child: Text(
                                     feed.author?.name ?? '익명',
                                     style: const TextStyle(fontSize: 12, color: Colors.grey),
@@ -188,14 +266,5 @@ class SearchContentWidget extends ConsumerWidget {
       default:
         return NoRelatedResult(keyword: query);
     }
-  }
-
-  /// API가 thumbnail을 "feed/UUID.webp" 같은 상대경로로 주면 풀 URL로 변환
-  String _fullImageUrl(String? path) {
-    if (path == null || path.isEmpty) return '';
-    if (path.startsWith('http')) return path;
-    // 실제 CDN/이미지 베이스 URL에 맞춰 변경하세요.
-    const base = 'https://image.grimity.com/';
-    return '$base$path';
   }
 }

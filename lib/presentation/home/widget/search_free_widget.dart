@@ -31,9 +31,56 @@ class SearchFreeWidget extends ConsumerWidget {
     }
   }
 
+  // 하이라이트 유틸: terms 에 매칭되는 부분만 초록색
+  TextSpan _highlight(
+      String text,
+      List<String> terms, {
+        TextStyle? normalStyle,
+        TextStyle? highlightStyle,
+      }) {
+    if (text.isEmpty || terms.isEmpty) {
+      return TextSpan(text: text, style: normalStyle);
+    }
+
+    final cleaned = terms
+        .map((t) => t.trim())
+        .where((t) => t.isNotEmpty)
+        .toSet()
+        .toList()
+      ..sort((a, b) => b.length.compareTo(a.length)); // 긴 키워드 우선
+
+    if (cleaned.isEmpty) {
+      return TextSpan(text: text, style: normalStyle);
+    }
+
+    final pattern = cleaned.map(RegExp.escape).join('|');
+    final reg = RegExp('($pattern)', caseSensitive: false);
+
+    final spans = <TextSpan>[];
+    int start = 0;
+
+    for (final m in reg.allMatches(text)) {
+      if (m.start > start) {
+        spans.add(TextSpan(text: text.substring(start, m.start), style: normalStyle));
+      }
+      spans.add(TextSpan(text: text.substring(m.start, m.end), style: highlightStyle));
+      start = m.end;
+    }
+    if (start < text.length) {
+      spans.add(TextSpan(text: text.substring(start), style: normalStyle));
+    }
+    return TextSpan(children: spans);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncPosts = ref.watch(searchedPostsProvider);
+
+    // 검색어 → 키워드 배열
+    final query = ref.watch(searchQueryProvider).trim();
+    final terms = query.isEmpty
+        ? const <String>[]
+        : query.split(RegExp(r'\s+')).where((e) => e.isNotEmpty).toList();
 
     return asyncPosts.when(
       data: (List<domain.Post> posts) {
@@ -54,9 +101,6 @@ class SearchFreeWidget extends ConsumerWidget {
                       text: '검색결과 ',
                       style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                     ),
-                    const TextSpan(
-                      text: '', // 숫자는 아래에서 동적으로
-                    ),
                     TextSpan(
                       text: '${posts.length}',
                       style: const TextStyle(
@@ -74,10 +118,7 @@ class SearchFreeWidget extends ConsumerWidget {
               ),
             ),
 
-            // ── 리스트 (이 위젯이 페이지 바디로 단독 사용될 때) ──
-            // 만약 상위가 이미 스크롤러라면:
-            // 1) Expanded 제거
-            // 2) 아래 ListView.builder에 shrinkWrap: true, physics: NeverScrollableScrollPhysics() 적용
+            // ── 리스트 ──
             Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.all(16),
@@ -104,19 +145,28 @@ class SearchFreeWidget extends ConsumerWidget {
                         vertical: 12,
                       ),
 
-                      // ── 제목 라인: 아이콘 + 제목 + 댓글 배지 ──
+                      // ── 제목 라인: 아이콘 + 제목(하이라이트) + 댓글 배지 ──
                       title: Row(
                         children: [
                           Assets.icons.home.image.svg(width: 14, height: 14),
                           const SizedBox(width: 6),
                           Expanded(
-                            child: Text(
-                              p.title ?? '(제목 없음)',
+                            child: RichText(
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
+                              text: _highlight(
+                                p.title ?? '(제목 없음)',
+                                terms,
+                                normalStyle: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black87,
+                                ),
+                                highlightStyle: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.green,
+                                ),
                               ),
                             ),
                           ),
@@ -127,7 +177,7 @@ class SearchFreeWidget extends ConsumerWidget {
                               vertical: 2,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.white, // 안쪽 배경
+                              color: Colors.white,
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
                                 color: Colors.grey.shade400,
@@ -136,9 +186,9 @@ class SearchFreeWidget extends ConsumerWidget {
                             ),
                             child: Text(
                               '${p.commentCount ?? 0}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 11,
-                                color: Colors.red,
+                                color: Colors.red, // 필요하면 회색으로 바꿔도 됨
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -151,13 +201,23 @@ class SearchFreeWidget extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 6),
-                          Text(
-                            p.content ?? '',
+                          RichText(
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[700],
+                            text: _highlight(
+                              p.content ?? '',
+                              terms,
+                              normalStyle: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey[700],
+                                height: 1.2,
+                              ),
+                              highlightStyle: TextStyle(
+                                fontSize: 14,
+                                color: Colors.green.shade700,
+                                fontWeight: FontWeight.w600,
+                                height: 1.2,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 10),
@@ -178,16 +238,18 @@ class SearchFreeWidget extends ConsumerWidget {
                               const SizedBox(width: 8),
 
                               // 구분 점
-                              Text('·',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.grey.shade500,
-                                  )),
+                              Text(
+                                '·',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey.shade500,
+                                ),
+                              ),
                               const SizedBox(width: 8),
 
                               // 작성 시간 (몇 분 전)
                               Text(
-                                timeAgo(p.createdAt), // ← createdAt: DateTime?
+                                timeAgo(p.createdAt), // createdAt: DateTime?
                                 style: TextStyle(
                                   fontSize: 11,
                                   color: Colors.grey.shade500,

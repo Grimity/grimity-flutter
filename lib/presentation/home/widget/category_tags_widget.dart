@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/presentation/home/hook/home_searching_hooks.dart';
 
+import '../provider/home_searching_provider.dart';
+
 class CategoryTagsWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,7 +30,12 @@ class CategoryTagsWidget extends ConsumerWidget {
             children: categories.map((category) {
               final isSelected = selectedCategory == category;
               return GestureDetector(
-                onTap: () => DrawingHooks.useSelectCategory(ref, category),
+                onTap: () {
+                  DrawingHooks.useSelectCategory(ref, category);
+                  ref.read(searchQueryProvider.notifier).state = category;
+                  // ref.read(searchSortProvider.notifier).state = SearchSort.accuracy;
+                  FocusScope.of(context).unfocus();
+                },
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
