@@ -50,10 +50,24 @@ class SearchContentWidget extends ConsumerWidget {
                 // 결과 개수
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                  child: Text(
-                    '검색결과 $total건',
-                    style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-                  ),
+                  child: Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: '검색결과 ',
+                          style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                        ),
+                        TextSpan(
+                          text: '$total',
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black),
+                        ),
+                        TextSpan(
+                          text: '건',
+                          style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                        ),
+                      ],
+                    ),
+                  )
                 ),
                 // Grid
                 Expanded(
@@ -90,12 +104,24 @@ class SearchContentWidget extends ConsumerWidget {
                             Expanded(
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
-                                child: (thumb.isEmpty)
-                                    ? Container(
-                                  color: Colors.grey[200],
-                                  child: Icon(Icons.image, color: Colors.grey[400]),
-                                )
-                                    : Image.network(thumb, fit: BoxFit.cover),
+                                child: Stack(
+                                  children: [
+                                    (thumb.isEmpty)
+                                        ? Container(
+                                      color: Colors.grey[200],
+                                      child: Icon(Icons.image, color: Colors.grey[400]),
+                                    )
+                                        : Image.network(thumb, fit: BoxFit.cover, width: double.infinity, height: double.infinity),
+                                    Positioned(
+                                      bottom: 4,
+                                      right: 4,
+                                      child: Assets.icons.home.heart.svg(
+                                      width: 18,
+                                      height: 18,
+                                    ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                             const SizedBox(height: 6),
@@ -120,7 +146,7 @@ class SearchContentWidget extends ConsumerWidget {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
-                                const SizedBox(width: 5),
+                                const SizedBox(width: 2),
                                 // 하트
                                 Assets.icons.home.heart.svg(width: 14, height: 14),
                                 const SizedBox(width: 2),
