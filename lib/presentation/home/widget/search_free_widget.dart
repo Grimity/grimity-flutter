@@ -313,7 +313,6 @@ class SearchFreeWidget extends ConsumerWidget {
                         ],
                       ),
 
-                      // ── 본문 + 메타 ──
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
