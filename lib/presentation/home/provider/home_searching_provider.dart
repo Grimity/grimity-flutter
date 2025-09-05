@@ -129,3 +129,7 @@ final searchAllProvider = FutureProvider.autoDispose<SearchAllBundle>((ref) asyn
 
   return SearchAllBundle(feeds: feeds, users: users, posts: posts);
 });
+
+//정렬기능
+enum SearchSort { accuracy, recent, popular }
+final searchSortProvider = StateProvider<SearchSort>((ref) => SearchSort.accuracy);

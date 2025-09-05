@@ -72,15 +72,102 @@ class SearchFreeWidget extends ConsumerWidget {
     return TextSpan(children: spans);
   }
 
+  // 검색어 → 키워드 배열
+  List<String> _terms(String q) =>
+      q.trim().isEmpty ? const [] : q.trim().split(RegExp(r'\s+')).where((e) => e.isNotEmpty).toList();
+
+  // 정확도 점수(간단 가중치): 제목>본문>작성자
+  int _accuracyScorePost(domain.Post p, List<String> terms) {
+    if (terms.isEmpty) return 0;
+    int score = 0;
+    final t = (p.title ?? '').toLowerCase();
+    final c = (p.content ?? '').toLowerCase();
+    final a = (p.author?.name ?? '').toLowerCase();
+
+    for (final term in terms) {
+      final q = term.toLowerCase();
+      if (t == q) score += 400;
+      if (t.startsWith(q)) score += 150;
+      if (t.contains(q)) score += 100;
+
+      if (c.startsWith(q)) score += 60;
+      if (c.contains(q)) score += 40;
+
+      if (a.startsWith(q)) score += 35;
+      if (a.contains(q)) score += 20;
+    }
+    return score;
+  }
+
+  // 인기 점수(간단 가중치)
+  int _popularScorePost(domain.Post p) {
+    final like = p.likeCount ?? 0;
+    final comment = p.commentCount ?? 0;
+    final view = p.viewCount ?? 0;
+    return 3 * like + 5 * comment + 1 * view;
+  }
+
+  // 라벨
+  String _sortLabel(SearchSort s) {
+    switch (s) {
+      case SearchSort.accuracy:
+        return '정확도순';
+      case SearchSort.recent:
+        return '최신순';
+      case SearchSort.popular:
+        return '인기순';
+    }
+  }
+
+  // 드롭다운(“검색결과 N건” 오른쪽)
+  Widget _sortDropdown(BuildContext context, WidgetRef ref) {
+    final sort = ref.watch(searchSortProvider);
+
+    // Flutter 구버전 호환: inkWellTheme 미사용, 잉크색만 덮어쓰기
+    final themed = Theme.of(context).copyWith(
+      splashColor: Colors.black12,
+      highlightColor: Colors.black12,
+      hoverColor: Colors.black12,
+      focusColor: Colors.black12,
+    );
+
+    return Theme(
+      data: themed,
+      child: DropdownButton<SearchSort>(
+        value: sort,
+        onChanged: (v) {
+          if (v == null) return;
+          ref.read(searchSortProvider.notifier).state = v;
+        },
+        items: SearchSort.values
+            .map((s) => DropdownMenuItem<SearchSort>(
+          value: s,
+          child: Text(
+            _sortLabel(s),
+            style: const TextStyle(fontSize: 13),
+          ),
+        ))
+            .toList(),
+        elevation: 2,
+        underline: const SizedBox.shrink(),
+        borderRadius: BorderRadius.circular(12),
+        style: const TextStyle(color: Colors.black87),
+        icon: const Icon(Icons.keyboard_arrow_down_rounded, size: 18),
+        dropdownColor: Colors.white,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncPosts = ref.watch(searchedPostsProvider);
 
     // 검색어 → 키워드 배열
     final query = ref.watch(searchQueryProvider).trim();
-    final terms = query.isEmpty
-        ? const <String>[]
-        : query.split(RegExp(r'\s+')).where((e) => e.isNotEmpty).toList();
+    final terms = _terms(query);
+
+    // 정렬 상태
+    final sort = ref.watch(searchSortProvider);
 
     return asyncPosts.when(
       data: (List<domain.Post> posts) {
@@ -88,33 +175,69 @@ class SearchFreeWidget extends ConsumerWidget {
           return EmptyStateWidget();
         }
 
+        // 프론트 단 정렬(현재 페이지 기준)
+        final sorted = [...posts]..sort((a, b) {
+          switch (sort) {
+            case SearchSort.recent:
+              final ad = a.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0);
+              final bd = b.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0);
+              final cmp = bd.compareTo(ad); // desc
+              if (cmp != 0) return cmp;
+              return _popularScorePost(b).compareTo(_popularScorePost(a)); // tie-breaker
+
+            case SearchSort.popular:
+              final cmp = _popularScorePost(b).compareTo(_popularScorePost(a));
+              if (cmp != 0) return cmp;
+              final ad = a.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0);
+              final bd = b.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0);
+              return bd.compareTo(ad); // tie-breaker
+
+            case SearchSort.accuracy:
+            default:
+              final cmp = _accuracyScorePost(b, terms).compareTo(_accuracyScorePost(a, terms));
+              if (cmp != 0) return cmp;
+              final ad = a.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0);
+              final bd = b.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0);
+              return bd.compareTo(ad); // tie-breaker
+          }
+        });
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── 결과 개수 ─────────────────────────────────────
+            // ── 결과 개수 + 정렬 드롭다운 ──────────────────────
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-              child: Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: '검색결과 ',
-                      style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-                    ),
-                    TextSpan(
-                      text: '${posts.length}',
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: '검색결과 ',
+                            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                          ),
+                          TextSpan(
+                            text: '${sorted.length}',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                          TextSpan(
+                            text: '건',
+                            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                          ),
+                        ],
                       ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    TextSpan(
-                      text: '건',
-                      style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-                    ),
-                  ],
-                ),
+                  ),
+                  _sortDropdown(context, ref),
+                ],
               ),
             ),
 
@@ -122,9 +245,9 @@ class SearchFreeWidget extends ConsumerWidget {
             Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.all(16),
-                itemCount: posts.length,
+                itemCount: sorted.length,
                 itemBuilder: (context, i) {
-                  final p = posts[i];
+                  final p = sorted[i];
 
                   return Container(
                     margin: const EdgeInsets.only(bottom: 12),
@@ -172,23 +295,17 @@ class SearchFreeWidget extends ConsumerWidget {
                           ),
                           const SizedBox(width: 2),
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 6,
-                              vertical: 2,
-                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
-                                color: Colors.grey.shade400,
-                                width: 1,
-                              ),
+                              border: Border.all(color: Colors.grey.shade400, width: 1),
                             ),
                             child: Text(
                               '${p.commentCount ?? 0}',
                               style: const TextStyle(
                                 fontSize: 11,
-                                color: Colors.red, // 필요하면 회색으로 바꿔도 됨
+                                color: Colors.red,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -238,35 +355,22 @@ class SearchFreeWidget extends ConsumerWidget {
                               const SizedBox(width: 8),
 
                               // 구분 점
-                              Text(
-                                '·',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey.shade500,
-                                ),
-                              ),
+                              Text('·', style: TextStyle(fontSize: 12, color: Colors.grey.shade500)),
                               const SizedBox(width: 8),
 
-                              // 작성 시간 (몇 분 전)
+                              // 작성 시간
                               Text(
                                 timeAgo(p.createdAt), // createdAt: DateTime?
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  color: Colors.grey.shade500,
-                                ),
+                                style: TextStyle(fontSize: 11, color: Colors.grey.shade500),
                               ),
                               const SizedBox(width: 12),
 
                               // 조회수
-                              const Icon(Icons.visibility,
-                                  size: 14, color: Colors.grey),
+                              const Icon(Icons.visibility, size: 14, color: Colors.grey),
                               const SizedBox(width: 4),
                               Text(
                                 '${p.viewCount ?? 0}',
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey,
-                                ),
+                                style: const TextStyle(fontSize: 12, color: Colors.grey),
                               ),
                             ],
                           ),
