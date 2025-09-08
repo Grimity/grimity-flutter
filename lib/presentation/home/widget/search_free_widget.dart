@@ -11,7 +11,6 @@ import 'empty_state_widget.dart';
 class SearchFreeWidget extends ConsumerWidget {
   const SearchFreeWidget({Key? key}) : super(key: key);
 
-  // "n초/분/시간/일 전" 표기 (null-safe)
   String timeAgo(DateTime? createdAt) {
     if (createdAt == null) return '-';
     final created = createdAt.toLocal();
@@ -33,11 +32,10 @@ class SearchFreeWidget extends ConsumerWidget {
     }
   }
 
-  // 검색어 → 키워드 배열
   List<String> _terms(String q) =>
       q.trim().isEmpty ? const [] : q.trim().split(RegExp(r'\s+')).where((e) => e.isNotEmpty).toList();
 
-  // 정확도 점수(간단 가중치): 제목>본문>작성자
+
   int _accuracyScorePost(domain.Post p, List<String> terms) {
     if (terms.isEmpty) return 0;
     int score = 0;
@@ -68,7 +66,6 @@ class SearchFreeWidget extends ConsumerWidget {
     return 3 * like + 5 * comment + 1 * view;
   }
 
-  // 라벨
   String _sortLabel(SearchSort s) {
     switch (s) {
       case SearchSort.accuracy:
@@ -80,11 +77,9 @@ class SearchFreeWidget extends ConsumerWidget {
     }
   }
 
-  // 드롭다운(“검색결과 N건” 오른쪽)
   Widget _sortDropdown(BuildContext context, WidgetRef ref) {
     final sort = ref.watch(searchSortProvider);
 
-    // Flutter 구버전 호환: inkWellTheme 미사용, 잉크색만 덮어쓰기
     final themed = Theme.of(context).copyWith(
       splashColor: Colors.black12,
       highlightColor: Colors.black12,
@@ -122,12 +117,9 @@ class SearchFreeWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncPosts = ref.watch(searchedPostsProvider);
-
-    // 검색어 → 키워드 배열
     final query = ref.watch(searchQueryProvider).trim();
     final terms = _terms(query);
 
-    // 정렬 상태
     final sort = ref.watch(searchSortProvider);
 
     return asyncPosts.when(
@@ -136,7 +128,6 @@ class SearchFreeWidget extends ConsumerWidget {
           return EmptyStateWidget();
         }
 
-        // 프론트 단 정렬(현재 페이지 기준)
         final sorted = [...posts]..sort((a, b) {
           switch (sort) {
             case SearchSort.recent:
@@ -166,7 +157,6 @@ class SearchFreeWidget extends ConsumerWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── 결과 개수 + 정렬 드롭다운 ──────────────────────
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
               child: Row(
@@ -202,7 +192,6 @@ class SearchFreeWidget extends ConsumerWidget {
               ),
             ),
 
-            // ── 리스트 ──
             Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.all(16),

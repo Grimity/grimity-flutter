@@ -21,6 +21,8 @@ import 'package:grimity/presentation/sign_up/sign_up_page.dart';
 import 'package:grimity/presentation/splash/splash_page.dart';
 import 'package:grimity/presentation/storage/storage_page.dart';
 
+import '../../presentation/home/view/home_search_view.dart';
+
 part 'app_router.g.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -320,5 +322,21 @@ class ImageViewerRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return ImageViewerPage(imageUrls: imageUrls, initialIndex: initialIndex);
+  }
+}
+
+@TypedGoRoute<SearchViewRoute>(
+  path: SearchViewRoute.path,
+  name: SearchViewRoute.name,
+)
+class SearchViewRoute extends GoRouteData {
+  const SearchViewRoute();
+
+  static const String path = '/search';
+  static const String name = 'search';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const SearchView();
   }
 }
