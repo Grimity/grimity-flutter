@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/presentation/home/provider/home_searching_provider.dart';
 import 'package:grimity/domain/entity/user.dart';
 
+import '../../../app/config/app_typeface.dart';
 import '../../common/widget/grimity_user_image.dart';
 import 'empty_state_widget.dart';
 
@@ -121,20 +122,14 @@ class SearchUserWidget extends ConsumerWidget {
                   children: [
                     TextSpan(
                       text: '검색결과 ',
-                      style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-                    ),
+                      style: AppTypeface.caption1),
                     TextSpan(
                       text: '${users.length}',
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
+                      style: AppTypeface.caption1.copyWith(fontWeight: FontWeight.bold),
                     ),
                     TextSpan(
                       text: '건',
-                      style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-                    ),
+                      style: AppTypeface.caption1),
                   ],
                 ),
               ),
@@ -146,8 +141,6 @@ class SearchUserWidget extends ConsumerWidget {
                 itemCount: users.length,
                 itemBuilder: (context, i) {
                   final u = users[i];
-                  final img = _getProfileImage(u);
-                  final isFollowing = u.isFollowing == true;
 
                   return Container(
                     margin: const EdgeInsets.only(bottom: 12),

@@ -6,6 +6,7 @@ import 'package:grimity/presentation/home/provider/home_searching_provider.dart'
 import 'package:grimity/domain/entity/feeds.dart';
 import 'package:grimity/presentation/common/util/text_highlighter.dart';
 import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
+import '../../../app/config/app_color.dart';
 import '../../../app/config/app_typeface.dart';
 import 'empty_state_widget.dart';
 import 'search_free_widget.dart';
@@ -51,12 +52,12 @@ class SearchContentWidget extends ConsumerWidget {
           };
           return DropdownMenuItem<SearchSort>(
             value: s,
-            child: Text(label, style: const TextStyle(fontSize: 13)),
+            child: Text(label, style: AppTypeface.caption1),
           );
         }).toList(),
         dropdownColor: Colors.white,
         iconEnabledColor: Colors.black87,
-        style: const TextStyle(color: Colors.black87, fontSize: 13),
+        style: AppTypeface.caption1.copyWith(color: AppColor.gray800),
         underline: const SizedBox.shrink(),
         borderRadius: BorderRadius.circular(12),
         icon: const Icon(Icons.keyboard_arrow_down_rounded, size: 18),
