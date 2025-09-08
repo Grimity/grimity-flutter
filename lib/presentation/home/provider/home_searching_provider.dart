@@ -22,6 +22,8 @@ import 'package:grimity/domain/entity/users.dart';
 import 'package:grimity/domain/usecase/users/search_user_usecase.dart';
 import 'package:grimity/domain/dto/users_request_params.dart';
 
+import 'debounced_query_provider.dart';
+
 /// 선택된 상단 탭 (0: 그림/피드, 1: 유저, 2: 게시글)
 final selectedTabProvider = StateProvider<int>((ref) => 0);
 
@@ -53,7 +55,8 @@ final tagNamesProvider = FutureProvider.autoDispose<List<String>>((ref) async {
 
 /// 피드 검색 (/feeds/search)
 final searchedFeedsProvider = FutureProvider.autoDispose<Feeds>((ref) async {
-  final q      = ref.watch(searchQueryProvider).trim();
+  final q = await ref.watch(debouncedQueryProvider.future);
+
   final uiSort = ref.watch(searchSortProvider);
   if (q.length < 2 || q.length > 20) return Feeds.empty();
 
@@ -75,37 +78,37 @@ final searchedFeedsProvider = FutureProvider.autoDispose<Feeds>((ref) async {
   return res.fold(onSuccess: (v) => v, onFailure: (_) => Feeds.empty());
 });
 
+
 /// 게시글 검색 (/posts/search)
 final searchedPostsProvider = FutureProvider.autoDispose<List<Post>>((ref) async {
-  final q = ref.watch(searchQueryProvider).trim();
-  if (q.isEmpty) return <Post>[];
+  final q = await ref.watch(debouncedQueryProvider.future);
+  if (q.length < 2 || q.length > 20) return <Post>[];
 
   final uc = getIt<SearchPostsUseCase>();
-  final res = await uc.execute(SearchPostsParam(
-    keyword: q,
-    page: 1,
-    size: 20,
-    searchBy: SearchBy.combined,
-  ));
+
+  final res = await uc.execute(
+    SearchPostsParam(
+      keyword: q,
+      page: 1,
+      size: 20,
+      searchBy: SearchBy.combined,
+    ),
+  );
 
   return res.fold(onSuccess: (v) => v, onFailure: (_) => <Post>[]);
 });
 
 /// 유저 검색 (/users/search)
-/// Users 엔티티를 받아서 List<User>로 풀어서 반환
 final searchedUsersProvider = FutureProvider.autoDispose<List<User>>((ref) async {
-  final q = ref.watch(searchQueryProvider).trim();
-  if (q.isEmpty) return const <User>[];
+  final q = await ref.watch(debouncedQueryProvider.future);
+  if (q.length < 2 || q.length > 20) return const <User>[];
 
   final uc = getIt<SearchUserUseCase>();
   final Result<Users> res = await uc.execute(
     SearchUserRequestParams(keyword: q, size: 20, cursor: null),
   );
 
-  return res.fold(
-    onSuccess: (v) => v.users, // Users 안의 List<User>
-    onFailure: (_) => <User>[],
-  );
+  return res.fold(onSuccess: (v) => v.users, onFailure: (_) => <User>[]);
 });
 
 /// 세 가지를 한 번에 가져오고 싶을 때 사용할 번들 + Provider
@@ -125,7 +128,6 @@ final searchAllProvider = FutureProvider.autoDispose<SearchAllBundle>((ref) asyn
   final query = ref.watch(searchQueryProvider).trim();
   if (query.isEmpty) return const SearchAllBundle.empty();
 
-  // 병렬 요청
   final feedsF = ref.read(searchedFeedsProvider.future);
   final usersF = ref.read(searchedUsersProvider.future);
   final postsF = ref.read(searchedPostsProvider.future);
@@ -139,6 +141,6 @@ final searchAllProvider = FutureProvider.autoDispose<SearchAllBundle>((ref) asyn
   return SearchAllBundle(feeds: feeds, users: users, posts: posts);
 });
 
-//정렬기능
+
 enum SearchSort { accuracy, recent, popular }
 final searchSortProvider = StateProvider<SearchSort>((ref) => SearchSort.accuracy);

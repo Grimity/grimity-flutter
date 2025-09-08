@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/home/view/home_search_view.dart';
 
 import '../../../app/config/app_router.dart';
 
