@@ -1,5 +1,6 @@
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/app/enum/post_type.enum.dart';
+import 'package:grimity/app/enum/sort_type.enum.dart';
 import 'package:grimity/domain/entity/post.dart';
 import '../../app/enum/search_post_type.enum.dart';
 

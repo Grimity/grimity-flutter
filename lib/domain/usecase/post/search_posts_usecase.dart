@@ -18,7 +18,7 @@ class SearchPostsUseCase extends UseCase<SearchPostsParam, Result<List<Post>>> {
       page: input.page,
       size: input.size,
       keyword: input.keyword,
-      searchBy: input.searchBy,
+      searchBy: input.searchBy
     );
   }
 }

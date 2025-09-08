@@ -8,6 +8,7 @@ import 'package:grimity/domain/repository/post_repository.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../app/enum/search_post_type.enum.dart';
+import '../../app/enum/sort_type.enum.dart';
 
 @Injectable(as: PostRepository)
 class PostRepositoryImpl extends PostRepository {

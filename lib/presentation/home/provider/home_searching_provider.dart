@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/app/di/di_setup.dart';
+import 'package:grimity/app/enum/sort_type.enum.dart';
 
 import 'package:grimity/domain/entity/tag.dart';
 import 'package:grimity/domain/usecase/tag/get_popular_tags_usecase.dart';
@@ -37,7 +38,6 @@ final tagNamesProvider = FutureProvider.autoDispose<List<String>>((ref) async {
 
   return res.fold(
     onSuccess: (tags) {
-      // tagName만 추출 + 대소문자 무시 중복 제거
       final seen = <String>{};
       final out = <String>[];
       for (final t in tags) {
@@ -53,17 +53,26 @@ final tagNamesProvider = FutureProvider.autoDispose<List<String>>((ref) async {
 
 /// 피드 검색 (/feeds/search)
 final searchedFeedsProvider = FutureProvider.autoDispose<Feeds>((ref) async {
-  final q = ref.watch(searchQueryProvider).trim();
-  if (q.isEmpty) return Feeds.empty();
+  final q      = ref.watch(searchQueryProvider).trim();
+  final uiSort = ref.watch(searchSortProvider);
+  if (q.length < 2 || q.length > 20) return Feeds.empty();
 
-  final uc = getIt<SearchFeedsUseCase>();
-  final Result<Feeds> res =
-  await uc.execute(SearchFeedsParam(keyword: q, sort: 'accuracy', size: 20));
+  SortType mapFeedSort(SearchSort s) => switch (s) {
+    SearchSort.recent   => SortType.latest,
+    SearchSort.popular  => SortType.like,
+    SearchSort.accuracy => SortType.latest,
+  };
 
-  return res.fold(
-    onSuccess: (v) => v,
-    onFailure: (_) => Feeds.empty(),
+  final uc  = getIt<SearchFeedsUseCase>();
+  final res = await uc.execute(
+    SearchFeedsParam(
+      keyword: q,
+      sort: mapFeedSort(uiSort),
+      size: 20,
+    ),
   );
+
+  return res.fold(onSuccess: (v) => v, onFailure: (_) => Feeds.empty());
 });
 
 /// 게시글 검색 (/posts/search)

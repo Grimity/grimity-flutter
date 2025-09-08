@@ -38,7 +38,7 @@ abstract class PostAPI {
       @Query('page') int page,
       @Query('size') int size,
       @Query('keyword') String keyword,
-      @Query('searchBy') String searchBy,  // enum은 String으로 전달
+      @Query('searchBy') String searchBy,
       );
 
 }

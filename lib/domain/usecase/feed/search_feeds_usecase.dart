@@ -1,4 +1,3 @@
-// domain/usecase/feed/search_feeds_usecase.dart
 import 'dart:async';
 import 'package:injectable/injectable.dart';
 import 'package:grimity/app/base/result.dart';

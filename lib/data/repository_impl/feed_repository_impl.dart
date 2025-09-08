@@ -145,11 +145,11 @@ class FeedRepositoryImpl extends FeedRepository {
     try {
       final res = await _feedAPI.searchFeeds(
         param.keyword,
-        param.sort,
+        param.sort as String,
         param.size,
         param.cursor,
       );
-      return Result.success(res.toEntity()); // ← SearchedFeedsResponse → Feeds 매핑
+      return Result.success(res.toEntity());
     } on Exception catch (e) {
       return Result.failure(e);
     }
