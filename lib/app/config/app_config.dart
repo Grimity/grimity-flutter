@@ -15,4 +15,13 @@ class AppConfig {
   static String get apiUrl => _instance._apiUrl;
 
   static String get imageUrl => _instance._imageUrl;
+
+  /// FeedUrl (ApiUrl + feeds/ + feedId)
+  static String buildFeedUrl(String feedId) => '${instance._apiUrl}feeds/$feedId';
+
+  /// FeedUrl (ApiUrl + posts/ + feedId)
+  static String buildPostUrl(String postId) => '${instance._apiUrl}posts/$postId';
+
+  /// FeedUrl (ImageUrl + imageName)
+  static String buildImageUrl(String imageName) => _instance._imageUrl + imageName;
 }

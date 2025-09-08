@@ -35,10 +35,13 @@ class ProfileEditDropdown extends StatelessWidget {
       style: AppTypeface.label2,
       dropdownColor: AppColor.gray00,
       borderRadius: BorderRadius.circular(12),
-      icon: Assets.icons.profileEdit.arrowDown.svg(width: 16, height: 16),
+      icon: Assets.icons.common.arrowDown.svg(width: 16, height: 16),
       items:
           LinkType.values.map((e) => e.linkName).toList().map((String value) {
-            return DropdownMenuItem<String>(value: value, child: Text(value, style: AppTypeface.label2));
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value, style: AppTypeface.label2.copyWith(color: AppColor.gray800)),
+            );
           }).toList(),
       onChanged: onChanged,
     );

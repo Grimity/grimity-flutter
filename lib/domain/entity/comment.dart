@@ -13,10 +13,18 @@ abstract class Comment with _$Comment {
     required DateTime createdAt,
     required int likeCount,
     bool? isLike,
-    required User writer,
+    User? writer,
     User? mentionedUser,
     List<Comment>? childComments,
+    bool? isDeleted,
   }) = _Comment;
+
+  const Comment._();
+
+  bool get isDeletedComment => isDeleted == true;
+
+  /// 익명화된 댓글(회원 탈퇴한 댓글)
+  bool get isAnonymousUserComment => writer == null;
 
   factory Comment.empty() =>
       Comment(id: '', content: '', createdAt: DateTime.now(), likeCount: 0, isLike: false, writer: User.empty());

@@ -12,3 +12,9 @@ abstract class IdResponse with _$IdResponse {
 
   factory IdResponse.fromJson(Map<String, dynamic> json) => _$IdResponseFromJson(json);
 }
+
+extension IdResponseX on IdResponse {
+  String toEntity() {
+    return id;
+  }
+}

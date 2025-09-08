@@ -22,10 +22,10 @@ class FeedRepositoryImpl extends FeedRepository {
   FeedRepositoryImpl(this._feedAPI);
 
   @override
-  Future<Result<IdResponse>> createFeed(CreateFeedRequest request) async {
+  Future<Result<String>> createFeed(CreateFeedRequest request) async {
     try {
       final IdResponse response = await _feedAPI.createFeed(request);
-      return Result.success(response);
+      return Result.success(response.toEntity());
     } on Exception catch (e) {
       return Result.failure(e);
     }
@@ -58,7 +58,6 @@ class FeedRepositoryImpl extends FeedRepository {
     }
   }
 
-
   @override
   Future<Result<Feeds>> getFollowingFeeds(int? size, String? cursor) async {
     try {
@@ -74,8 +73,7 @@ class FeedRepositoryImpl extends FeedRepository {
     try {
       await _feedAPI.updateFeed(id, request);
       return Result.success(null);
-    }
-    on Exception catch (e) {
+    } on Exception catch (e) {
       return Result.failure(e);
     }
   }
@@ -85,8 +83,7 @@ class FeedRepositoryImpl extends FeedRepository {
     try {
       await _feedAPI.deleteFeed(id);
       return Result.success(null);
-    }
-    on Exception catch (e) {
+    } on Exception catch (e) {
       return Result.failure(e);
     }
   }

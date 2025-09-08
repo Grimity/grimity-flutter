@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/domain/entity/feed.dart';
+import 'package:grimity/domain/entity/post.dart';
+import 'package:grimity/presentation/board/tabs/board_page.dart';
+import 'package:grimity/presentation/board/search/board_search_page.dart';
 import 'package:grimity/presentation/common/enum/upload_image_type.dart';
 import 'package:grimity/presentation/feed_detail/feed_detail_page.dart';
 import 'package:grimity/presentation/feed_upload/feed_upload_page.dart';
@@ -12,6 +15,8 @@ import 'package:grimity/presentation/home/home_page.dart';
 import 'package:grimity/presentation/image/image_viewer_page.dart';
 import 'package:grimity/presentation/main/main_app_shell.dart';
 import 'package:grimity/presentation/photo_select/photo_select_page.dart';
+import 'package:grimity/presentation/post_detail/post_detail_page.dart';
+import 'package:grimity/presentation/post_upload/post_upload_page.dart';
 import 'package:grimity/presentation/profile/profile_page.dart';
 import 'package:grimity/presentation/profile_edit/profile_crop_image_page.dart';
 import 'package:grimity/presentation/profile_edit/profile_edit_page.dart';
@@ -61,7 +66,13 @@ abstract final class AppRouter {
       routes: [TypedGoRoute<FollowingRoute>(path: FollowingRoute.path, name: FollowingRoute.name)],
     ),
     TypedStatefulShellBranch<BoardBranchData>(
-      routes: [TypedGoRoute<BoardRoute>(path: BoardRoute.path, name: BoardRoute.name)],
+      routes: [
+        TypedGoRoute<BoardRoute>(
+          path: BoardRoute.path,
+          name: BoardRoute.name,
+          routes: [TypedGoRoute<BoardSearchRoute>(path: BoardSearchRoute.path, name: BoardSearchRoute.name)],
+        ),
+      ],
     ),
     TypedStatefulShellBranch<MyBranchData>(
       routes: [
@@ -135,7 +146,17 @@ class BoardRoute extends GoRouteData {
   static const String name = 'board';
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => Center(child: Text('Board'));
+  Widget build(BuildContext context, GoRouterState state) => BoardPage();
+}
+
+class BoardSearchRoute extends GoRouteData {
+  BoardSearchRoute();
+
+  static const String path = 'search';
+  static const String name = 'boardSearch';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => BoardSearchPage();
 }
 
 class MyBranchData extends StatefulShellBranchData {
@@ -285,13 +306,15 @@ class FeedUploadRoute extends GoRouteData {
 
 @TypedGoRoute<PhotoSelectRoute>(path: PhotoSelectRoute.path, name: PhotoSelectRoute.name)
 class PhotoSelectRoute extends GoRouteData {
-  const PhotoSelectRoute();
+  const PhotoSelectRoute({required this.type});
+
+  final UploadImageType type;
 
   static const String path = '/photo-select';
   static const String name = 'photo-select';
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => const PhotoSelectPage();
+  Widget build(BuildContext context, GoRouterState state) => PhotoSelectPage(type: type);
 }
 
 @TypedGoRoute<FeedDetailRoute>(path: FeedDetailRoute.path, name: FeedDetailRoute.name)
@@ -338,5 +361,32 @@ class SearchViewRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const SearchView();
+    
+@TypedGoRoute<PostDetailRoute>(path: PostDetailRoute.path, name: PostDetailRoute.name)
+class PostDetailRoute extends GoRouteData {
+  final String id;
+
+  const PostDetailRoute({required this.id});
+
+  static const String path = '/post/:id';
+  static const String name = 'post-detail';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return PostDetailPage(postId: id);
+  }
+}
+
+@TypedGoRoute<PostUploadRoute>(path: PostUploadRoute.path, name: PostUploadRoute.name)
+class PostUploadRoute extends GoRouteData {
+  const PostUploadRoute();
+
+  static const String path = '/post-upload';
+  static const String name = 'post-upload';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    final post = state.extra as Post?;
+    return PostUploadPage(postToEdit: post);
   }
 }

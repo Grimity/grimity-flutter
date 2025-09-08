@@ -58,7 +58,6 @@ class UploadImage extends _$UploadImage {
       final presignedType = state.type == UploadImageType.profile ? PresignedType.profile : PresignedType.background;
       final urlRequest = GetPresignedUrlRequest(type: presignedType, ext: PresignedExt.webp);
       final urlResult = await getPresignedUrlUseCase.execute(urlRequest);
-      final imageUrl = AppConfig.imageUrl;
 
       if (urlResult.isFailure) {
         ToastService.showError('문제가 발생하였습니다.');
@@ -91,10 +90,10 @@ class UploadImage extends _$UploadImage {
 
       // profileEditProvider 업데이트
       if (state.type == UploadImageType.profile) {
-        ref.read(profileEditProvider.notifier).updateImage(imageUrl + urlResult.data.imageName);
+        ref.read(profileEditProvider.notifier).updateImage(AppConfig.buildImageUrl(urlResult.data.imageName));
         ToastService.show('프로필 이미지 업데이트가 완료되었습니다');
       } else {
-        ref.read(profileEditProvider.notifier).updateBackgroundImage(imageUrl + urlResult.data.imageName);
+        ref.read(profileEditProvider.notifier).updateBackgroundImage(AppConfig.buildImageUrl(urlResult.data.imageName));
         ToastService.show('배경 이미지 업데이트가 완료되었습니다');
       }
 

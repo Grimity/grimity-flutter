@@ -8,14 +8,12 @@ import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/photo_select/provider/photo_select_provider.dart';
 
-class PhotoSelectAppBar extends ConsumerWidget implements PreferredSizeWidget {
+class PhotoSelectAppBar extends ConsumerWidget with PhotoSelectMixin implements PreferredSizeWidget {
   const PhotoSelectAppBar({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final photoAsync = ref.watch(photoSelectProvider);
-
-    return photoAsync.maybeWhen(
+    return photosAsync(ref).maybeWhen(
       data: (state) {
         if (!state.hasAccess) {
           return _buildCloseAppBar(context);
@@ -39,9 +37,7 @@ class PhotoSelectAppBar extends ConsumerWidget implements PreferredSizeWidget {
                   isActive
                       ? () {
                         context.pop();
-                        ref
-                            .read(photoSelectProvider.notifier)
-                            .completeImageSelect(state.selected, state.thumbnailImage ?? state.selected.first);
+                        photoNotifier(ref).completeImageSelect();
                       }
                       : null,
               child: Text(

@@ -5,6 +5,7 @@ import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grimity/presentation/common/enum/upload_image_type.dart';
 import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
 import 'package:grimity/presentation/feed_upload/provider/feed_upload_provider.dart';
 
@@ -39,7 +40,7 @@ class FeedUploadScaffoldBottomSheet extends StatelessWidget {
                   ),
                   Gap(16),
                   GrimityAnimationButton(
-                    onTap: () => PhotoSelectRoute().push(context),
+                    onTap: () => PhotoSelectRoute(type: UploadImageType.feed).push(context),
                     child: Assets.icons.feedUpload.camera.svg(width: 24, height: 24),
                   ),
                   Spacer(),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/feed_upload/provider/feed_upload_provider.dart';
+import 'package:grimity/presentation/common/model/image_item_source.dart';
 import 'package:grimity/presentation/photo_select/provider/photo_select_provider.dart';
 import 'package:grimity/presentation/photo_select/widget/photo_asset_thumbnail_widget.dart';
 
@@ -31,7 +31,7 @@ class PhotoSelectedImageListView extends StatelessWidget {
   }
 }
 
-class _PhotoSelectedImageThumbnail extends ConsumerWidget {
+class _PhotoSelectedImageThumbnail extends ConsumerWidget with PhotoSelectMixin {
   final ImageSourceItem imageSource;
 
   const _PhotoSelectedImageThumbnail(this.imageSource);
@@ -68,7 +68,7 @@ class _PhotoSelectedImageThumbnail extends ConsumerWidget {
               right: -8,
               child: GestureDetector(
                 behavior: HitTestBehavior.translucent,
-                onTap: () => ref.read(photoSelectProvider.notifier).removeSelectedImage(imageSource),
+                onTap: () => photoNotifier(ref).removeSelectedImage(imageSource),
                 child: Container(
                   decoration: BoxDecoration(
                     color: Color(0xFF23252B).withValues(alpha: 0.8),

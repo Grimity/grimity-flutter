@@ -1,0 +1,146 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/app/config/app_color.dart';
+import 'package:grimity/domain/entity/comment.dart';
+import 'package:grimity/presentation/comment/widget/comment_widget.dart';
+import 'package:grimity/presentation/comment/enum/comment_type.dart';
+import 'package:grimity/presentation/comment/model/comment_item.dart';
+import 'package:grimity/presentation/comment/provider/comments_data_provider.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+import 'package:gap/gap.dart';
+import 'package:grimity/gen/assets.gen.dart';
+
+/// 댓글 View
+class CommentsView extends ConsumerWidget {
+  const CommentsView({
+    super.key,
+    required this.id,
+    required this.commentCount,
+    required this.authorId,
+    required this.commentType,
+  });
+
+  final String id;
+  final String authorId;
+  final int commentCount;
+  final CommentType commentType;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final commentsAsync = ref.watch(commentsDataProvider(commentType, id));
+
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 30.h),
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: Row(
+              spacing: 6,
+              children: [
+                Text('댓글', style: AppTypeface.subTitle1.copyWith(color: AppColor.gray800)),
+                Text('$commentCount', style: AppTypeface.body1.copyWith(color: AppColor.main)),
+              ],
+            ),
+          ),
+          commentsAsync.maybeWhen(
+            data:
+                (comments) => _CommentListView(
+                  id: id,
+                  authorId: authorId,
+                  commentItems: flattenComments(comments),
+                  commentType: commentType,
+                ),
+            orElse:
+                () => Skeletonizer(
+                  child: _CommentListView(
+                    id: id,
+                    authorId: authorId,
+                    commentItems: flattenComments(Comment.emptyList),
+                    commentType: commentType,
+                  ),
+                ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<CommentItem> flattenComments(List<Comment> comments) {
+    final result = <CommentItem>[];
+
+    for (final parent in comments) {
+      result.add(ParentCommentItem(parent));
+
+      if (parent.childComments != null) {
+        result.addAll(parent.childComments!.map((child) => ChildCommentItem(child, parent)));
+      }
+    }
+
+    return result;
+  }
+}
+
+class _CommentListView extends StatelessWidget {
+  const _CommentListView({
+    required this.id,
+    required this.authorId,
+    required this.commentItems,
+    required this.commentType,
+  });
+
+  final String id;
+  final String authorId;
+  final List<CommentItem> commentItems;
+  final CommentType commentType;
+
+  @override
+  Widget build(BuildContext context) {
+    if (commentItems.isEmpty) {
+      return _EmptyCommentWidget();
+    }
+
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        final item = commentItems[index];
+
+        return item is ChildCommentItem
+            ? CommentWidget.child(
+              comment: item.comment,
+              id: id,
+              authorId: authorId,
+              parentComment: item.parentComment,
+              commentType: commentType,
+            )
+            : CommentWidget.parent(comment: item.comment, id: id, authorId: authorId, commentType: commentType);
+      },
+      separatorBuilder: (context, index) => Divider(color: AppColor.gray300, height: 1, thickness: 1),
+      itemCount: commentItems.length,
+    );
+  }
+}
+
+/// 댓글이 없는 경우
+class _EmptyCommentWidget extends StatelessWidget {
+  const _EmptyCommentWidget();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 30.h),
+      child: Column(
+        children: [
+          Assets.icons.common.commentReply.svg(width: 60.w, height: 60.w),
+          Gap(16),
+          Text('아직 댓글이 없어요', style: AppTypeface.subTitle3.copyWith(color: AppColor.gray700)),
+          Gap(6),
+          Text('댓글을 써서 생각을 나눠보세요', style: AppTypeface.label2.copyWith(color: AppColor.gray500)),
+        ],
+      ),
+    );
+  }
+}

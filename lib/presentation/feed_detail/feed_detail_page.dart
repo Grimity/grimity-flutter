@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/user.dart';
+import 'package:grimity/presentation/comment/enum/comment_type.dart';
+import 'package:grimity/presentation/comment/view/comments_view.dart';
+import 'package:grimity/presentation/comment/widget/comment_input_bar.dart';
 import 'package:grimity/presentation/feed_detail/feed_detail_view.dart';
 import 'package:grimity/presentation/feed_detail/provider/feed_detail_data_provider.dart';
 import 'package:grimity/presentation/feed_detail/view/feed_author_profile_view.dart';
-import 'package:grimity/presentation/feed_detail/view/feed_comments_view.dart';
 import 'package:grimity/presentation/feed_detail/view/feed_content_view.dart';
 import 'package:grimity/presentation/feed_detail/view/feed_recommend_feed_view.dart';
-import 'package:grimity/presentation/feed_detail/widget/feed_comment_input_bar.dart';
 import 'package:grimity/presentation/feed_detail/widget/feed_detail_app_bar.dart';
 import 'package:grimity/presentation/feed_detail/widget/feed_util_bar.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -30,14 +31,15 @@ class FeedDetailPage extends ConsumerWidget {
           feed: feed,
           feedDetailAppBar: FeedDetailAppBar(),
           feedContentView: FeedContentView(feed: feed),
-          feedCommentsView: FeedCommentsView(
-            feedId: feed.id,
-            feedAuthorId: feed.author?.id ?? '',
+          feedCommentsView: CommentsView(
+            id: feed.id,
+            authorId: feed.author?.id ?? '',
             commentCount: feed.commentCount ?? 0,
+            commentType: CommentType.feed,
           ),
           feedAuthorProfileView: FeedAuthorProfileView(author: feed.author ?? User.empty()),
           feedRecommendFeedView: FeedRecommendFeedView(),
-          feedCommentInputBar: FeedCommentInputBar(feedId: feed.id),
+          feedCommentInputBar: CommentInputBar(id: feed.id, commentType: CommentType.feed),
           feedUtilBar: FeedUtilBar(feed: feed),
         );
       },
@@ -49,14 +51,15 @@ class FeedDetailPage extends ConsumerWidget {
             feed: feed,
             feedDetailAppBar: FeedDetailAppBar(),
             feedContentView: FeedContentView(feed: feed),
-            feedCommentsView: FeedCommentsView(
-              feedId: feed.id,
-              feedAuthorId: feed.author?.id ?? '',
+            feedCommentsView: CommentsView(
+              id: feed.id,
+              authorId: feed.author?.id ?? '',
               commentCount: feed.commentCount ?? 0,
+              commentType: CommentType.feed,
             ),
             feedAuthorProfileView: FeedAuthorProfileView(author: feed.author ?? User.empty()),
             feedRecommendFeedView: FeedRecommendFeedView(),
-            feedCommentInputBar: FeedCommentInputBar(feedId: feed.id),
+            feedCommentInputBar: CommentInputBar(id: feed.id, commentType: CommentType.feed),
             feedUtilBar: FeedUtilBar(feed: feed),
           ),
         );

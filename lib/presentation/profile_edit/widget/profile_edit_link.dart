@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/link.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_select_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/common/widget/grimity_text_field.dart';
 import 'package:grimity/presentation/profile/enum/link_type_enum.dart';
 import 'package:grimity/presentation/profile_edit/provider/profile_edit_provider.dart';
-import 'package:grimity/presentation/profile_edit/widget/profile_edit_bottom_sheet.dart';
 import 'package:grimity/presentation/profile_edit/widget/profile_edit_dropdown.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -76,7 +77,23 @@ class ProfileEditLink extends HookConsumerWidget {
         ),
         Gap(10),
         GestureDetector(
-          onTap: () => showAddLinkBottomSheet(context, profileEditNotifier),
+          onTap:
+              () => GrimitySelectModalBottomSheet.show(
+                context,
+                title: '외부 링크 선택',
+                buttons:
+                    LinkType.values
+                        .map(
+                          (e) => GrimitySelectModalButtonModel(
+                            title: e.linkName,
+                            onTap: () {
+                              profileEditNotifier.addLink(Link(linkName: e.linkName, link: e.defaultLink));
+                              context.pop();
+                            },
+                          ),
+                        )
+                        .toList(),
+              ),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(

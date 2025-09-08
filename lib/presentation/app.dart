@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -7,6 +8,7 @@ import 'package:grimity/app/config/app_theme.dart';
 import 'package:grimity/app/environment/flavor.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 import 'package:talker_riverpod_logger/talker_riverpod_logger.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void runFlavoredApp() async {
   await Flavor.instance.setup();
@@ -35,6 +37,12 @@ class App extends ConsumerWidget {
       useInheritedMediaQuery: true,
       builder: (context, child) {
         return MaterialApp.router(
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            FlutterQuillLocalizations.delegate,
+          ],
           routerConfig: AppRouter.router(ref),
           theme: AppTheme.appTheme,
           debugShowCheckedModeBanner: false,

@@ -10,6 +10,7 @@ import 'package:grimity/domain/dto/feeds_request_param.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/usecase/aws_usecases.dart';
 import 'package:grimity/domain/usecase/feed_usecases.dart';
+import 'package:grimity/presentation/common/model/image_item_source.dart';
 import 'package:grimity/presentation/feed_detail/provider/feed_detail_data_provider.dart';
 import 'package:grimity/presentation/home/provider/home_data_provider.dart';
 import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
@@ -181,7 +182,7 @@ class FeedUpload extends _$FeedUpload {
           return null;
         }
 
-        feedUrl = '${AppConfig.apiUrl}feeds/${createFeedResult.data.id}';
+        feedUrl = AppConfig.buildFeedUrl(createFeedResult.data);
       }
       // 4.2 update
       else {
@@ -207,7 +208,7 @@ class FeedUpload extends _$FeedUpload {
           return null;
         }
 
-        feedUrl = '${AppConfig.apiUrl}feeds/${state.feedId ?? ''}';
+        feedUrl = AppConfig.buildFeedUrl(state.feedId!);
         ref.invalidate(feedDetailDataProvider(state.feedId!));
       }
 
@@ -262,11 +263,4 @@ abstract class FeedUploadState with _$FeedUploadState {
     @Default(false) bool uploading,
     String? feedId,
   }) = _FeedUploadState;
-}
-
-@freezed
-sealed class ImageSourceItem with _$ImageSourceItem {
-  const factory ImageSourceItem.asset(AssetEntity asset) = AssetImageSource;
-
-  const factory ImageSourceItem.remote(String url) = RemoteImageSource;
 }

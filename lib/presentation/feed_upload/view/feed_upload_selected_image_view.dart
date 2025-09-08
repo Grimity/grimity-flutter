@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/model/image_item_source.dart';
 import 'package:grimity/presentation/feed_upload/provider/feed_upload_provider.dart';
 import 'package:grimity/presentation/feed_upload/widget/feed_upload_add_image_button.dart';
 import 'package:grimity/presentation/photo_select/widget/photo_asset_thumbnail_widget.dart';
@@ -91,7 +92,7 @@ class _FeedUploadSelectedImage extends StatelessWidget {
               child: Row(
                 spacing: 2,
                 children: [
-                  Assets.icons.feedUpload.check.svg(
+                  Assets.icons.common.check.svg(
                     colorFilter: ColorFilter.mode(isThumbnail ? AppColor.gray00 : AppColor.gray500, BlendMode.srcIn),
                   ),
                   Text(
