@@ -10,16 +10,7 @@ import 'empty_state_widget.dart';
 class SearchUserWidget extends ConsumerWidget {
   const SearchUserWidget({Key? key}) : super(key: key);
 
-  ImageProvider<Object>? _getProfileImage(User user) {
-    if ((user.image ?? '').isNotEmpty) {
-      return NetworkImage(user.image!);
-    }
-    if ((user.backgroundImage ?? '').isNotEmpty) {
-      return NetworkImage(user.backgroundImage!);
-    }
-    return null;
-  }
-
+  // 기본 배너 -> 못찾아서 나중에 여쭤봐야함
   Widget _defaultBanner() {
     return Container(
       height: 84,
@@ -37,7 +28,6 @@ class SearchUserWidget extends ConsumerWidget {
     );
   }
 
-  // 배너: backgroundImage가 있으면 이미지, 없으면 기본 배너
   Widget _buildBanner(String? bgUrl) {
     if (bgUrl == null || bgUrl.isEmpty) {
       return _defaultBanner();
@@ -72,7 +62,7 @@ class SearchUserWidget extends ConsumerWidget {
         .where((t) => t.isNotEmpty)
         .toSet()
         .toList()
-      ..sort((a, b) => b.length.compareTo(a.length)); // 긴 키워드 우선
+      ..sort((a, b) => b.length.compareTo(a.length));
 
     if (cleaned.isEmpty) {
       return TextSpan(text: text, style: normalStyle);
@@ -100,7 +90,6 @@ class SearchUserWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncUsers = ref.watch(searchedUsersProvider);
-
     final query = ref.watch(searchQueryProvider).trim();
     final terms = query.isEmpty
         ? const <String>[]
@@ -115,21 +104,18 @@ class SearchUserWidget extends ConsumerWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // 헤더
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
               child: Text.rich(
                 TextSpan(
                   children: [
-                    TextSpan(
-                      text: '검색결과 ',
-                      style: AppTypeface.caption1),
+                    TextSpan(text: '검색결과 ', style: AppTypeface.caption1),
                     TextSpan(
                       text: '${users.length}',
                       style: AppTypeface.caption1.copyWith(fontWeight: FontWeight.bold),
                     ),
-                    TextSpan(
-                      text: '건',
-                      style: AppTypeface.caption1),
+                    TextSpan(text: '건', style: AppTypeface.caption1),
                   ],
                 ),
               ),
@@ -142,95 +128,80 @@ class SearchUserWidget extends ConsumerWidget {
                 itemBuilder: (context, i) {
                   final u = users[i];
 
+                  const double bannerH    = 84;
+                  const double avatarSize  = 40;
+                  const double hPad        = 12;
+                  const double overlapDy   = -((avatarSize / 2.0) + 13);
+
                   return Container(
                     margin: const EdgeInsets.only(bottom: 12),
                     decoration: BoxDecoration(
+                      color: Colors.white,
                       border: Border.all(color: Colors.grey.shade300, width: 1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _buildBanner(u.backgroundImage),
 
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
-                          child: Builder(
-                            builder: (context) {
-                              const double avatarSize = 40;
-                              final double overlapDy = -(avatarSize / 2.0);
-
-                              return Transform.translate(
+                          padding: const EdgeInsets.fromLTRB(hPad, 12, hPad, 12),
+                          //이걸 column형태로 변경하면 오류가 남
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Transform.translate(
                                 offset: Offset(0, overlapDy),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                child: GrimityUserImage(imageUrl: u.image, size: avatarSize),
+                              ),
+                              const SizedBox(width: 15),
+
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    GrimityUserImage(imageUrl: u.image, size: avatarSize),
-
-                                    const SizedBox(width: 8),
-
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              RichText(
-                                                text: _highlight(
-                                                  u.name ?? '이름 없음',
-                                                  terms,
-                                                  normalStyle: const TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black87,
-                                                  ),
-                                                  highlightStyle: const TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: Colors.green,
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(width: 6),
-                                              Text(
-                                                '팔로워 ${u.followerCount ?? 0}',
-                                                style: const TextStyle(fontSize: 12, color: Colors.grey),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(height: 4),
-                                          Text(
-                                            u.description ?? '소개가 없습니다',
-                                            style: const TextStyle(fontSize: 12, color: Colors.grey),
-                                          ),
-                                        ],
+                                    RichText(
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      text: _highlight(
+                                        u.name ?? '이름 없음',
+                                        terms,
+                                        normalStyle: AppTypeface.label2.copyWith(color: Colors.black87),
+                                        highlightStyle: AppTypeface.label2.copyWith(
+                                          color: Colors.green,
+                                          fontWeight: FontWeight.w700,
+                                        ),
                                       ),
                                     ),
-
-                                    TextButton(
-                                      onPressed: () {},
-                                      style: TextButton.styleFrom(
-                                        backgroundColor: (u.isFollowing == true)
-                                            ? Colors.grey.shade200
-                                            : Colors.black,
-                                        minimumSize: const Size(60, 32),
-                                        padding: EdgeInsets.zero,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(16),
-                                        ),
-                                      ),
-                                      child: Text(
-                                        (u.isFollowing == true) ? '팔로잉' : '팔로우',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: (u.isFollowing == true) ? Colors.black87 : Colors.white,
-                                        ),
-                                      ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      '팔로워 ${u.followerCount ?? 0}',
+                                      style: AppTypeface.caption2.copyWith(color: Colors.grey),
                                     ),
                                   ],
                                 ),
-                              );
-                            },
+                              ),
+
+                              TextButton(
+                                onPressed: () {},
+                                style: TextButton.styleFrom(
+                                  backgroundColor: (u.isFollowing == true)
+                                      ? Colors.grey.shade200
+                                      : Colors.black,
+                                  minimumSize: const Size(64, 32),
+                                  padding: EdgeInsets.zero,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                ),
+                                child: Text(
+                                  (u.isFollowing == true) ? '팔로잉' : '팔로우',
+                                  style: AppTypeface.caption2.copyWith(
+                                    color: (u.isFollowing == true) ? Colors.black87 : Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -247,3 +218,30 @@ class SearchUserWidget extends ConsumerWidget {
     );
   }
 }
+
+
+// Row(
+// children: [
+// RichText(
+// text: _highlight(
+// u.name ?? '이름 없음',
+// terms,
+// normalStyle: const TextStyle(
+// fontSize: 14,
+// fontWeight: FontWeight.w600,
+// color: Colors.black87,
+// ),
+// highlightStyle: const TextStyle(
+// fontSize: 14,
+// fontWeight: FontWeight.w700,
+// color: Colors.green,
+// ),
+// ),
+// ),
+// const SizedBox(width: 6),
+// Text(
+// '팔로워 ${u.followerCount ?? 0}',
+// style: const TextStyle(fontSize: 12, color: Colors.grey),
+// ),
+// ],
+// ),
