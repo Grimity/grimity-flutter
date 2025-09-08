@@ -9,7 +9,6 @@ import 'empty_state_widget.dart';
 class SearchUserWidget extends ConsumerWidget {
   const SearchUserWidget({Key? key}) : super(key: key);
 
-  // 프로필 이미지 (image 우선, 없으면 backgroundImage 사용)
   ImageProvider<Object>? _getProfileImage(User user) {
     if ((user.image ?? '').isNotEmpty) {
       return NetworkImage(user.image!);
@@ -20,7 +19,6 @@ class SearchUserWidget extends ConsumerWidget {
     return null;
   }
 
-  // 기본 배너
   Widget _defaultBanner() {
     return Container(
       height: 84,
@@ -58,7 +56,6 @@ class SearchUserWidget extends ConsumerWidget {
     );
   }
 
-  // 하이라이트 유틸: terms 에 포함된 부분만 초록색
   TextSpan _highlight(
       String text,
       List<String> terms, {
@@ -117,7 +114,6 @@ class SearchUserWidget extends ConsumerWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── 검색결과 헤더 ──
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
               child: Text.rich(
@@ -144,7 +140,6 @@ class SearchUserWidget extends ConsumerWidget {
               ),
             ),
 
-            // ── 유저 리스트 (배너+카드) ──
             Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.all(16),
@@ -163,62 +158,86 @@ class SearchUserWidget extends ConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // 배너
                         _buildBanner(u.backgroundImage),
+
                         Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Row(
-                            children: [
-                              GrimityUserImage(imageUrl: u.image, size: 40),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                          padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+                          child: Builder(
+                            builder: (context) {
+                              const double avatarSize = 40;
+                              final double overlapDy = -(avatarSize / 2.0);
+
+                              return Transform.translate(
+                                offset: Offset(0, overlapDy), // 아바타만 배너에 겹치게
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    RichText(
-                                      text: _highlight(
-                                        u.name ?? '이름 없음',
-                                        terms,
-                                        normalStyle: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.black87,
+                                    GrimityUserImage(imageUrl: u.image, size: avatarSize),
+
+                                    const SizedBox(width: 8),
+
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              RichText(
+                                                text: _highlight(
+                                                  u.name ?? '이름 없음',
+                                                  terms,
+                                                  normalStyle: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black87,
+                                                  ),
+                                                  highlightStyle: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: Colors.green,
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(width: 6),
+                                              Text(
+                                                '팔로워 ${u.followerCount ?? 0}',
+                                                style: const TextStyle(fontSize: 12, color: Colors.grey),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 4),
+                                          Text(
+                                            u.description ?? '소개가 없습니다',
+                                            style: const TextStyle(fontSize: 12, color: Colors.grey),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+
+                                    TextButton(
+                                      onPressed: () {},
+                                      style: TextButton.styleFrom(
+                                        backgroundColor: (u.isFollowing == true)
+                                            ? Colors.grey.shade200
+                                            : Colors.black,
+                                        minimumSize: const Size(60, 32),
+                                        padding: EdgeInsets.zero,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(16),
                                         ),
-                                        highlightStyle: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.green,
+                                      ),
+                                      child: Text(
+                                        (u.isFollowing == true) ? '팔로잉' : '팔로우',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: (u.isFollowing == true) ? Colors.black87 : Colors.white,
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(height: 2),
-                                    Text(
-                                      '팔로워 ${u.followerCount ?? 0}',
-                                      style: const TextStyle(fontSize: 12, color: Colors.grey),
-                                    ),
                                   ],
                                 ),
-                              ),
-                              // 팔로우 버튼 (예: 아이콘버튼이나 공통 팔로우 버튼 위젯)
-                              TextButton(
-                                onPressed: () {},
-                                style: TextButton.styleFrom(
-                                  backgroundColor: isFollowing ? Colors.grey.shade200 : Colors.black,
-                                  minimumSize: const Size(60, 32),
-                                  padding: EdgeInsets.zero,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                ),
-                                child: Text(
-                                  isFollowing ? '팔로잉' : '팔로우',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: isFollowing ? Colors.black87 : Colors.white,
-                                  ),
-                                ),
-                              )
-                            ],
+                              );
+                            },
                           ),
                         ),
                       ],

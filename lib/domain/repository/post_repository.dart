@@ -1,7 +1,7 @@
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/app/enum/post_type.enum.dart';
 import 'package:grimity/domain/entity/post.dart';
-import 'package:grimity/app/enum/search_post_type.enum.dart';
+import '../../app/enum/search_post_type.enum.dart';
 
 abstract class PostRepository {
   Future<Result<List<Post>>> getPosts(int page, int size, PostType type);
@@ -12,6 +12,6 @@ abstract class PostRepository {
     required int page,
     required int size,
     required String keyword,
-    required SearchBy searchBy, // ← enum
+    required SearchBy searchBy,
   });
 }
