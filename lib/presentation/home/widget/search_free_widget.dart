@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/presentation/home/provider/home_searching_provider.dart';
 import 'package:grimity/domain/entity/post.dart' as domain;
+import 'package:grimity/presentation/common/widget/grimity_post_card.dart';
 
 import '../../../gen/assets.gen.dart';
 import 'empty_state_widget.dart';
@@ -248,135 +249,7 @@ class SearchFreeWidget extends ConsumerWidget {
                 itemCount: sorted.length,
                 itemBuilder: (context, i) {
                   final p = sorted[i];
-
-                  return Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
-                          blurRadius: 6,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
-                      ),
-
-                      // ── 제목 라인: 아이콘 + 제목(하이라이트) + 댓글 배지 ──
-                      title: Row(
-                        children: [
-                          Assets.icons.home.image.svg(width: 14, height: 14),
-                          const SizedBox(width: 6),
-                          Expanded(
-                            child: RichText(
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              text: _highlight(
-                                p.title ?? '(제목 없음)',
-                                terms,
-                                normalStyle: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black87,
-                                ),
-                                highlightStyle: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.green,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 2),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: Colors.grey.shade400, width: 1),
-                            ),
-                            child: Text(
-                              '${p.commentCount ?? 0}',
-                              style: const TextStyle(
-                                fontSize: 11,
-                                color: Colors.red,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 6),
-                          RichText(
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            text: _highlight(
-                              p.content ?? '',
-                              terms,
-                              normalStyle: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey[700],
-                                height: 1.2,
-                              ),
-                              highlightStyle: TextStyle(
-                                fontSize: 14,
-                                color: Colors.green.shade700,
-                                fontWeight: FontWeight.w600,
-                                height: 1.2,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            children: [
-                              // 작성자
-                              Expanded(
-                                child: Text(
-                                  p.author?.name ?? '익명',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-
-                              // 구분 점
-                              Text('·', style: TextStyle(fontSize: 12, color: Colors.grey.shade500)),
-                              const SizedBox(width: 8),
-
-                              // 작성 시간
-                              Text(
-                                timeAgo(p.createdAt), // createdAt: DateTime?
-                                style: TextStyle(fontSize: 11, color: Colors.grey.shade500),
-                              ),
-                              const SizedBox(width: 12),
-
-                              // 조회수
-                              const Icon(Icons.visibility, size: 14, color: Colors.grey),
-                              const SizedBox(width: 4),
-                              Text(
-                                '${p.viewCount ?? 0}',
-                                style: const TextStyle(fontSize: 12, color: Colors.grey),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
+                  return GrimityPostCard(post: p);
                 },
               ),
             ),

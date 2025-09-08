@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/home/hook/home_searching_hooks.dart';
 import 'package:grimity/presentation/home/widget/category_tags_widget.dart';
 import 'package:grimity/presentation/home/provider/home_searching_provider.dart';
 import 'package:grimity/domain/entity/feeds.dart';
+import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'empty_state_widget.dart';
 import 'search_free_widget.dart';
@@ -271,108 +271,7 @@ class SearchContentWidget extends ConsumerWidget {
                       final feed = sorted[i]; // ⬅️ 정렬된 데이터 사용
                       final thumb = _fullImageUrl(feed.thumbnail);
 
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.05),
-                              blurRadius: 6,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        padding: const EdgeInsets.all(8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // 썸네일
-                            Expanded(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: Stack(
-                                  children: [
-                                    thumb.isEmpty
-                                        ? Container(
-                                      color: Colors.grey[200],
-                                      child: Icon(Icons.image, color: Colors.grey[400]),
-                                    )
-                                        : Image.network(
-                                      thumb,
-                                      fit: BoxFit.cover,
-                                      width: double.infinity,
-                                      height: double.infinity,
-                                    ),
-                                    Positioned(
-                                      bottom: 4,
-                                      right: 4,
-                                      child: Assets.icons.home.heart.svg(
-                                        width: 18,
-                                        height: 18,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 6),
-
-                            // 제목 (키워드 하이라이트 적용)
-                            RichText(
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              text: _highlight(
-                                feed.title ?? '',
-                                terms,
-                                normalStyle: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black87,
-                                ),
-                                highlightStyle: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.green,
-                                ),
-                              ),
-                            ),
-
-                            const SizedBox(height: 4),
-
-                            // 작성자 + 하트/뷰
-                            Row(
-                              children: [
-                                Expanded(
-                                  // 필요하면 작성자에도 하이라이트 적용 가능:
-                                  // RichText(text: _highlight(feed.author?.name ?? '익명', terms, ...))
-                                  child: Text(
-                                    feed.author?.name ?? '익명',
-                                    style: const TextStyle(fontSize: 12, color: Colors.grey),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                                const SizedBox(width: 2),
-                                // 하트
-                                Assets.icons.home.heart.svg(width: 14, height: 14),
-                                const SizedBox(width: 2),
-                                Text(
-                                  '${feed.likeCount ?? 0}',
-                                  style: const TextStyle(fontSize: 12, color: Colors.grey),
-                                ),
-                                const SizedBox(width: 6),
-                                // 조회수(눈)
-                                Assets.icons.home.eye.svg(width: 14, height: 14),
-                                const SizedBox(width: 2),
-                                Text(
-                                  '${feed.viewCount ?? 0}',
-                                  style: const TextStyle(fontSize: 12, color: Colors.grey),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      );
+                      return GrimityImageFeed(feed: feed);
                     },
                   ),
                 ),
