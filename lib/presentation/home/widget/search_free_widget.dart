@@ -3,8 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/presentation/home/provider/home_searching_provider.dart';
 import 'package:grimity/domain/entity/post.dart' as domain;
 import 'package:grimity/presentation/common/widget/grimity_post_card.dart';
-
-import '../../../gen/assets.gen.dart';
+import '../../../app/config/app_color.dart';
+import '../../../app/config/app_typeface.dart';
+import '../../common/util/text_highlighter.dart';
 import 'empty_state_widget.dart';
 
 class SearchFreeWidget extends ConsumerWidget {
@@ -30,47 +31,6 @@ class SearchFreeWidget extends ConsumerWidget {
       final d = created.day.toString().padLeft(2, '0');
       return '${created.year}-$m-$d';
     }
-  }
-
-  // 하이라이트 유틸: terms 에 매칭되는 부분만 초록색
-  TextSpan _highlight(
-      String text,
-      List<String> terms, {
-        TextStyle? normalStyle,
-        TextStyle? highlightStyle,
-      }) {
-    if (text.isEmpty || terms.isEmpty) {
-      return TextSpan(text: text, style: normalStyle);
-    }
-
-    final cleaned = terms
-        .map((t) => t.trim())
-        .where((t) => t.isNotEmpty)
-        .toSet()
-        .toList()
-      ..sort((a, b) => b.length.compareTo(a.length)); // 긴 키워드 우선
-
-    if (cleaned.isEmpty) {
-      return TextSpan(text: text, style: normalStyle);
-    }
-
-    final pattern = cleaned.map(RegExp.escape).join('|');
-    final reg = RegExp('($pattern)', caseSensitive: false);
-
-    final spans = <TextSpan>[];
-    int start = 0;
-
-    for (final m in reg.allMatches(text)) {
-      if (m.start > start) {
-        spans.add(TextSpan(text: text.substring(start, m.start), style: normalStyle));
-      }
-      spans.add(TextSpan(text: text.substring(m.start, m.end), style: highlightStyle));
-      start = m.end;
-    }
-    if (start < text.length) {
-      spans.add(TextSpan(text: text.substring(start), style: normalStyle));
-    }
-    return TextSpan(children: spans);
   }
 
   // 검색어 → 키워드 배열
@@ -249,7 +209,27 @@ class SearchFreeWidget extends ConsumerWidget {
                 itemCount: sorted.length,
                 itemBuilder: (context, i) {
                   final p = sorted[i];
-                  return GrimityPostCard(post: p);
+                  return GrimityPostCard(
+                    post: p,
+                    titleSpan: TextHighlighter.highlight(
+                      p.title ?? '',
+                      terms,
+                      normalStyle: AppTypeface.label1.copyWith(color: AppColor.gray800),
+                      highlightStyle: AppTypeface.label1.copyWith(
+                        color: Colors.green,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    contentSpan: TextHighlighter.highlight(
+                      p.content ?? '',
+                      terms,
+                      normalStyle: AppTypeface.label3.copyWith(color: AppColor.gray700),
+                      highlightStyle: AppTypeface.label3.copyWith(
+                        color: Colors.green,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  );
                 },
               ),
             ),

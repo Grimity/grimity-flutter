@@ -168,7 +168,7 @@ class SearchUserWidget extends ConsumerWidget {
                               final double overlapDy = -(avatarSize / 2.0);
 
                               return Transform.translate(
-                                offset: Offset(0, overlapDy), // 아바타만 배너에 겹치게
+                                offset: Offset(0, overlapDy),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [

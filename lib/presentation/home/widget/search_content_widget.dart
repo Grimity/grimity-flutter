@@ -4,8 +4,10 @@ import 'package:grimity/presentation/home/hook/home_searching_hooks.dart';
 import 'package:grimity/presentation/home/widget/category_tags_widget.dart';
 import 'package:grimity/presentation/home/provider/home_searching_provider.dart';
 import 'package:grimity/domain/entity/feeds.dart';
+import 'package:grimity/presentation/common/util/text_highlighter.dart';
 import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
 import 'package:grimity/domain/entity/feed.dart';
+import '../../../app/config/app_typeface.dart';
 import 'empty_state_widget.dart';
 import 'search_free_widget.dart';
 import 'search_user_widget.dart';
@@ -26,50 +28,8 @@ class SearchContentWidget extends ConsumerWidget {
   String _fullImageUrl(String? path) {
     if ((path ?? '').isEmpty) return '';
     if (path!.startsWith('http')) return path;
-    const base = 'https://image.grimity.com/'; // 실제 CDN 베이스에 맞춰 수정
+    const base = 'https://image.grimity.com/';
     return '$base$path';
-  }
-
-  // 🖍️ 하이라이트 유틸: terms 에 매칭되는 부분만 초록색
-  TextSpan _highlight(
-      String text,
-      List<String> terms, {
-        TextStyle? normalStyle,
-        TextStyle? highlightStyle,
-      }) {
-    if (text.isEmpty || terms.isEmpty) {
-      return TextSpan(text: text, style: normalStyle);
-    }
-
-    // 빈 키워드 제거 + 긴 단어 우선(겹침 최소화)
-    final cleaned = terms
-        .map((t) => t.trim())
-        .where((t) => t.isNotEmpty)
-        .toSet()
-        .toList()
-      ..sort((a, b) => b.length.compareTo(a.length));
-
-    if (cleaned.isEmpty) {
-      return TextSpan(text: text, style: normalStyle);
-    }
-
-    final pattern = cleaned.map(RegExp.escape).join('|');
-    final reg = RegExp('($pattern)', caseSensitive: false);
-
-    final spans = <TextSpan>[];
-    int start = 0;
-
-    for (final m in reg.allMatches(text)) {
-      if (m.start > start) {
-        spans.add(TextSpan(text: text.substring(start, m.start), style: normalStyle));
-      }
-      spans.add(TextSpan(text: text.substring(m.start, m.end), style: highlightStyle));
-      start = m.end;
-    }
-    if (start < text.length) {
-      spans.add(TextSpan(text: text.substring(start), style: normalStyle));
-    }
-    return TextSpan(children: spans);
   }
 
   List<String> _terms(String q) =>
@@ -120,16 +80,10 @@ class SearchContentWidget extends ConsumerWidget {
     final sort = ref.watch(searchSortProvider);
 
     final themed = Theme.of(context).copyWith(
-      // 잉크(눌림/호버) 오버레이 색을 회색으로
       splashColor: Colors.black12,
       highlightColor: Colors.black12,
       hoverColor: Colors.black12,
       focusColor: Colors.black12,
-
-      // (선택) 잉크 효과 자체를 없애고 싶다면 아래 주석 해제
-      // splashFactory: NoSplash.splashFactory,
-      // splashColor: Colors.transparent,
-      // highlightColor: Colors.transparent,
     );
 
     return Theme(
@@ -271,7 +225,20 @@ class SearchContentWidget extends ConsumerWidget {
                       final feed = sorted[i]; // ⬅️ 정렬된 데이터 사용
                       final thumb = _fullImageUrl(feed.thumbnail);
 
-                      return GrimityImageFeed(feed: feed);
+                      // Grid itemBuilder 안
+                      return GrimityImageFeed(
+                        feed: feed,
+                        titleSpan: TextHighlighter.highlight(
+                          feed.title ?? '',
+                          terms,
+                          normalStyle: AppTypeface.label2,
+                          highlightStyle: AppTypeface.label2.copyWith(
+                            color: Colors.green,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      );
+
                     },
                   ),
                 ),

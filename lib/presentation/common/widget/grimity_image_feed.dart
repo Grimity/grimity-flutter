@@ -16,6 +16,7 @@ class GrimityImageFeed extends StatelessWidget {
     this.index,
     this.onToggleLike,
     this.onToggleSave,
+    this.titleSpan,
   });
 
   final Feed feed;
@@ -23,9 +24,11 @@ class GrimityImageFeed extends StatelessWidget {
   final int? index;
   final VoidCallback? onToggleLike;
   final VoidCallback? onToggleSave;
+  final InlineSpan? titleSpan;
 
   @override
   Widget build(BuildContext context) {
+    final String safeTitle = feed.title ?? '';
     return GestureDetector(
       onTap: () => FeedDetailRoute(id: feed.id).push(context),
       child: Column(
@@ -43,7 +46,20 @@ class GrimityImageFeed extends StatelessWidget {
             ),
           ),
           const Gap(8),
-          Flexible(child: Text(feed.title, style: AppTypeface.label2, maxLines: 1, overflow: TextOverflow.ellipsis)),
+          Flexible(
+            child: (titleSpan != null)
+                ? RichText(
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              text: titleSpan!,
+            )
+                : Text(
+              safeTitle,
+              style: AppTypeface.label2,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
           const Gap(2),
           Row(
             children: [
