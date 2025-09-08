@@ -1,4 +1,5 @@
 import 'package:grimity/app/base/result.dart';
+import 'package:grimity/app/enum/sort_type.enum.dart';
 import 'package:grimity/data/data_source/remote/feed_api.dart';
 import 'package:grimity/data/model/common/id_response.dart';
 import 'package:grimity/data/model/feed/feed_detail_response.dart';
@@ -145,7 +146,7 @@ class FeedRepositoryImpl extends FeedRepository {
     try {
       final res = await _feedAPI.searchFeeds(
         param.keyword,
-        param.sort as String,
+        param.sort.query,
         param.size,
         param.cursor,
       );

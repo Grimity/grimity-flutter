@@ -12,3 +12,11 @@ enum SortType {
 
   const SortType(this.typeName);
 }
+
+extension SortTypeX on SortType {
+  String get query => switch (this) {
+    SortType.latest => 'latest',
+    SortType.like   => 'like',
+    SortType.oldest => 'oldest',
+  };
+}

@@ -42,7 +42,7 @@ class SearchContentWidget extends ConsumerWidget {
         value: sort,
         onChanged: (v) {
           if (v == null) return;
-          ref.read(searchSortProvider.notifier).state = v; // ⬅️ 바뀌면 provider 재호출 트리거
+          ref.read(searchSortProvider.notifier).state = v;
         },
         items: SearchSort.values.map((s) {
           final label = switch (s) {
