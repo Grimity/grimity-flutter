@@ -101,7 +101,7 @@ class ProfileFeedTabView extends HookConsumerWidget {
 
   Widget _buildAlbumEdit(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: () => AlbumEditRoute().push(context).then((_) => ref.invalidate(profileDataProvider)),
+      onTap: () => AlbumEditRoute(user.albums ?? <Album>[]).push(context).then((_) => ref.invalidate(profileDataProvider)),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50.r),
