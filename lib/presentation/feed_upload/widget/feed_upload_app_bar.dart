@@ -7,8 +7,8 @@ import 'package:grimity/app/config/app_theme.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/dialog/cancel_upload_dialog.dart';
+import 'package:grimity/presentation/common/provider/album_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_select_modal_bottom_sheet.dart';
-import 'package:grimity/presentation/feed_upload/provider/album_list_provider.dart';
 import 'package:grimity/presentation/feed_upload/provider/feed_upload_provider.dart';
 import 'package:grimity/presentation/feed_upload/widget/feed_upload_complete_dialog.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -29,7 +29,7 @@ class FeedUploadAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       title: Consumer(
         builder: (context, ref, child) {
-          final albumListAsync = ref.watch(albumListProvider);
+          final albumListAsync = ref.watch(albumsWithAllProvider);
 
           return albumListAsync.when(
             data: (albums) {
