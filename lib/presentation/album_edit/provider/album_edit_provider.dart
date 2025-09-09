@@ -6,7 +6,6 @@ import 'package:grimity/app/util/validator_util.dart';
 import 'package:grimity/domain/dto/album_request_params.dart';
 import 'package:grimity/domain/entity/album.dart';
 import 'package:grimity/domain/usecase/album_usecases.dart';
-import 'package:grimity/presentation/album_edit/provider/album_data_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'album_edit_provider.g.dart';
@@ -90,9 +89,13 @@ class AlbumEdit extends _$AlbumEdit {
 
     result.fold(
       onSuccess: (value) {
-        state = state.copyWith(newAlbumName: '', newAlbumNameState: GrimityTextFieldState.normal);
-
-        ref.invalidate(albumDataProvider);
+        final newAlbum = Album(id: value.id, name: state.newAlbumName);
+        final prevAlbums = state.albums;
+        state = state.copyWith(
+          newAlbumName: '',
+          newAlbumNameState: GrimityTextFieldState.normal,
+          albums: [...prevAlbums, newAlbum],
+        );
       },
       onFailure: (e) {
         if (e is AlbumNameConflictException) {
@@ -119,8 +122,9 @@ class AlbumEdit extends _$AlbumEdit {
     final result = await updateAlbumOrderUseCase.execute(UpdateAlbumOrderRequestParam(ids: ids));
 
     result.fold(
-      onSuccess: (value) {
-        ref.invalidate(albumDataProvider);
+      onSuccess: (_) {
+        final reordered = ids.map((id) => state.albums.firstWhere((album) => album.id == id)).toList();
+        state = state.copyWith(albums: reordered);
       },
       onFailure: (e) {
         ToastService.showError('앨범 순서 저장에 실패했어요');
@@ -133,8 +137,8 @@ class AlbumEdit extends _$AlbumEdit {
     final result = await deleteAlbumUseCase.execute(album.id);
 
     result.fold(
-      onSuccess: (value) {
-        ref.invalidate(albumDataProvider);
+      onSuccess: (_) {
+        state = state.copyWith(albums: state.albums.where((a) => a.id != album.id).toList());
       },
       onFailure: (e) {
         ToastService.showError('앨범 삭제에 실패했어요');
@@ -154,9 +158,11 @@ class AlbumEdit extends _$AlbumEdit {
     );
 
     result.fold(
-      onSuccess: (value) {
-        state = state.copyWith(editAlbum: null);
-        ref.invalidate(albumDataProvider);
+      onSuccess: (_) {
+        final updated =
+            state.albums.map((album) => album.id == album.id ? album.copyWith(name: album.name) : album).toList();
+
+        state = state.copyWith(albums: updated, editAlbum: null);
       },
       onFailure: (e) {
         if (e is AlbumNameConflictException) {

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
-import 'package:grimity/presentation/album_edit/provider/album_data_provider.dart';
 import 'package:grimity/presentation/album_edit/provider/album_edit_provider.dart';
 import 'package:grimity/presentation/album_edit/view/album_reorderable_list_view.dart';
 import 'package:grimity/presentation/album_edit/widget/album_empty_widget.dart';
+import 'package:grimity/presentation/common/provider/album_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
 
 class AlbumEditListView extends ConsumerWidget {
@@ -13,7 +13,7 @@ class AlbumEditListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final albumAsync = ref.watch(albumDataProvider);
+    final albumAsync = ref.watch(albumsProvider);
     final albumEditState = ref.watch(albumEditProvider);
     final albums = albumEditState.albums;
     final isSorting = albumEditState.isAlbumSorting;
