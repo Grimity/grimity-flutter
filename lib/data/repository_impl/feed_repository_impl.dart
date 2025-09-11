@@ -28,6 +28,16 @@ class FeedRepositoryImpl extends FeedRepository {
   }
 
   @override
+  Future<Result<void>> deleteFeeds(DeleteFeedsRequest request) async {
+    try {
+      await _feedAPI.deleteFeeds(request);
+      return Result.success(null);
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
+
+  @override
   Future<Result<Feeds>> getLatestFeeds(int? size, String? cursor) async {
     try {
       final LatestFeedsResponse response = await _feedAPI.getLatestFeeds(size, cursor);

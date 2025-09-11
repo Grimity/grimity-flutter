@@ -6,6 +6,8 @@ import 'package:grimity/domain/entity/feeds.dart';
 abstract class FeedRepository {
   Future<Result<String>> createFeed(CreateFeedRequest request);
 
+  Future<Result<void>> deleteFeeds(DeleteFeedsRequest request);
+
   Future<Result<Feeds>> getLatestFeeds(int? size, String? cursor);
 
   Future<Result<List<Feed>>> getFeedRankings({String? month, String? startDate, String? endDate});

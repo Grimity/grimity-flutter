@@ -19,6 +19,9 @@ abstract class FeedAPI {
   @POST('/feeds')
   Future<IdResponse> createFeed(@Body() CreateFeedRequest request);
 
+  @POST('/feeds/batch-delete')
+  Future<void> deleteFeeds(@Body() DeleteFeedsRequest request);
+
   @GET('/feeds/latest')
   Future<LatestFeedsResponse> getLatestFeeds(@Query('size') int? size, @Query('cursor') String? cursor);
 

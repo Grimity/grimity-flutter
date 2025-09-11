@@ -1,6 +1,7 @@
 import 'package:grimity/app/di/di_setup.dart';
 import 'package:grimity/domain/usecase/feed/create_feed_usecase.dart';
 import 'package:grimity/domain/usecase/feed/delete_feed_usecase.dart';
+import 'package:grimity/domain/usecase/feed/delete_feeds_usecase.dart';
 import 'package:grimity/domain/usecase/feed/get_feed_detail_usecase.dart';
 import 'package:grimity/domain/usecase/feed/get_feed_rankings_usecase.dart';
 import 'package:grimity/domain/usecase/feed/get_following_feeds_usecase.dart';
@@ -12,6 +13,7 @@ import 'package:grimity/domain/usecase/feed/unlike_feed_usecase.dart';
 import 'package:grimity/domain/usecase/feed/update_feed_usecase.dart';
 
 final createFeedUseCase = getIt<CreateFeedUseCase>();
+final deleteFeedsUseCase = getIt<DeleteFeedsUseCase>();
 final getLatestFeedsUseCase = getIt<GetLatestFeedsUseCase>();
 final getFeedRankingsUseCase = getIt<GetFeedRankingsUseCase>();
 final getFollowingFeedsUseCase = getIt<GetFollowingFeedsUseCase>();
