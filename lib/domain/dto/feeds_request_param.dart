@@ -46,3 +46,10 @@ abstract class UpdateFeedRequest with _$UpdateFeedRequest {
 
   factory UpdateFeedRequest.fromJson(Map<String, dynamic> json) => _$UpdateFeedRequestFromJson(json);
 }
+
+@freezed
+abstract class DeleteFeedsRequest with _$DeleteFeedsRequest {
+  const factory DeleteFeedsRequest({required List<String> ids}) = _DeleteFeedsRequest;
+
+  factory DeleteFeedsRequest.fromJson(Map<String, dynamic> json) => _$DeleteFeedsRequestFromJson(json);
+}
