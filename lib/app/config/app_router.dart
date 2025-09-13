@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:grimity/domain/entity/album.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/post.dart';
+import 'package:grimity/domain/entity/user.dart';
+import 'package:grimity/presentation/album_organize/album_organize_page.dart';
 import 'package:grimity/presentation/board/tabs/board_page.dart';
 import 'package:grimity/presentation/board/search/board_search_page.dart';
 import 'package:grimity/presentation/common/enum/upload_image_type.dart';
@@ -375,5 +377,21 @@ class PostUploadRoute extends GoRouteData {
   Widget build(BuildContext context, GoRouterState state) {
     final post = state.extra as Post?;
     return PostUploadPage(postToEdit: post);
+  }
+}
+
+@TypedGoRoute<AlbumOrganizeRoute>(path: AlbumOrganizeRoute.path, name: AlbumOrganizeRoute.name)
+class AlbumOrganizeRoute extends GoRouteData {
+  const AlbumOrganizeRoute({required this.$extra});
+
+  final User $extra ;
+
+  static const String path = '/album-organize';
+  static const String name = 'album-organize';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    final user = $extra;
+    return AlbumOrganizePage(user: user);
   }
 }
