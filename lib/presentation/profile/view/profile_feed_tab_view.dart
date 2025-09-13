@@ -31,6 +31,11 @@ class ProfileFeedTabView extends HookConsumerWidget {
 
     final feedsAsync = ref.watch(profileFeedsDataProvider(user.id));
     final selectedAlbumId = ref.watch(selectedAlbumProvider);
+    final userAlbums = user.albums ?? [];
+    final selectedAlbumFeedCount =
+        selectedAlbumId == null
+            ? user.feedCount ?? 0
+            : userAlbums.firstWhere((album) => album.id == selectedAlbumId).feedCount ?? 0;
 
     return Padding(
       padding: EdgeInsets.only(left: 16.w, right: 16.w),
@@ -45,7 +50,8 @@ class ProfileFeedTabView extends HookConsumerWidget {
               if (viewType == ProfileViewType.mine) _buildAlbumEdit(context, ref),
             ],
           ),
-          if (user.feedCount != 0) _buildMenu(),
+          // 해당 앨범의 피드 갯수가 0개가 아닐때 표시
+          if (selectedAlbumFeedCount != 0) _buildMenu(context, ref, selectedAlbumId),
           Expanded(
             child: feedsAsync.when(
               data: (data) => _buildFeedGrid(context, data.feeds),
@@ -101,7 +107,8 @@ class ProfileFeedTabView extends HookConsumerWidget {
 
   Widget _buildAlbumEdit(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: () => AlbumEditRoute(user.albums ?? <Album>[]).push(context).then((_) => ref.invalidate(profileDataProvider)),
+      onTap:
+          () => AlbumEditRoute(user.albums ?? <Album>[]).push(context).then((_) => ref.invalidate(profileDataProvider)),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50.r),
@@ -113,7 +120,7 @@ class ProfileFeedTabView extends HookConsumerWidget {
     );
   }
 
-  Widget _buildMenu() {
+  Widget _buildMenu(BuildContext context, WidgetRef ref, String? selectedAlbumId) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 13.5),
       child: Row(
@@ -122,7 +129,11 @@ class ProfileFeedTabView extends HookConsumerWidget {
           if (viewType == ProfileViewType.mine) ...[
             GestureDetector(
               behavior: HitTestBehavior.opaque,
-              onTap: () {},
+              onTap:
+                  () => AlbumOrganizeRoute($extra: user).push(context).then((_) {
+                    ref.invalidate(profileFeedsDataProvider);
+                    ref.invalidate(profileDataProvider);
+                  }),
               child: Row(
                 children: [
                   Text('그림 정리', style: AppTypeface.caption2.copyWith(color: AppColor.gray700)),
