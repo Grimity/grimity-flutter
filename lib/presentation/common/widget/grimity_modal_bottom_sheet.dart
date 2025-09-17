@@ -3,7 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
+import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/app/enum/report.enum.dart';
 
 class GrimityModalBottomSheet extends StatelessWidget {
   final List<GrimityModalButtonModel> buttons;
@@ -58,6 +60,18 @@ class GrimityModalButtonModel {
   final VoidCallback onTap;
 
   GrimityModalButtonModel({required this.title, required this.onTap});
+
+  factory GrimityModalButtonModel.report({
+    required BuildContext context,
+    required ReportRefType refType,
+    required String refId,
+  }) => GrimityModalButtonModel(
+    title: '신고하기',
+    onTap: () {
+      context.pop();
+      ReportRoute(refType: refType, refId: refId).push(context);
+    },
+  );
 }
 
 class _BottomSheetButton extends StatelessWidget {

@@ -1,4 +1,5 @@
 import 'package:grimity/app/base/use_case.dart';
+import 'package:grimity/app/enum/report.enum.dart';
 import 'package:grimity/domain/usecase/feed_comments_usecases.dart';
 import 'package:grimity/domain/usecase/post_comments_usecases.dart';
 
@@ -47,6 +48,15 @@ extension CommentTypeX on CommentType {
         return unlikeFeedCommentUseCase;
       case CommentType.post:
         return unlikePostCommentUseCase;
+    }
+  }
+
+  ReportRefType get reportRefType {
+    switch (this) {
+      case CommentType.feed:
+        return ReportRefType.feedComment;
+      case CommentType.post:
+        return ReportRefType.postComment;
     }
   }
 }

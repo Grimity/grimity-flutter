@@ -192,12 +192,7 @@ class CommentWidget extends ConsumerWidget {
               ),
             ]
             : [
-              GrimityModalButtonModel(
-                title: '신고하기',
-                onTap: () {
-                  /// TODO 신고하기 페이지 구현 시
-                },
-              ),
+              GrimityModalButtonModel.report(context: context, refType: commentType.reportRefType, refId: comment.id),
               GrimityModalButtonModel(
                 title: '답글달기',
                 onTap: () {
