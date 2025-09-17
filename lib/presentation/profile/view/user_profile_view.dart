@@ -86,12 +86,7 @@ class UserProfileView extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            if (viewType == ProfileViewType.other) ...[
-              GrimityFollowButton(
-                url: user.url,
-              ),
-              Gap(10.w),
-            ],
+            if (viewType == ProfileViewType.other) ...[GrimityFollowButton(url: user.url), Gap(10.w)],
             GrimityMoreButton.decorated(onTap: () => _showMoreBottomSheet(context)),
           ],
         ),
@@ -122,13 +117,7 @@ class UserProfileView extends StatelessWidget {
             context.pop();
           },
         ),
-        GrimityModalButtonModel(
-          title: '신고하기',
-          onTap: () {
-            context.pop();
-            ReportRoute(refType: ReportRefType.user, refId: user.id).push(context);
-          },
-        ),
+        GrimityModalButtonModel.report(context: context, refType: ReportRefType.user, refId: user.id),
       ],
     ];
     GrimityModalBottomSheet.show(context, buttons: buttons);

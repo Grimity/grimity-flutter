@@ -7,6 +7,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/config/app_typeface_editor.dart';
+import 'package:grimity/app/enum/report.enum.dart';
 import 'package:grimity/app/extension/date_time_extension.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/gen/assets.gen.dart';
@@ -68,12 +69,7 @@ class PostContentView extends ConsumerWidget {
               ),
             ]
             : [
-              GrimityModalButtonModel(
-                title: '신고하기',
-                onTap: () {
-                  // TODO 신고하기 페이지 구현시 처리
-                },
-              ),
+              GrimityModalButtonModel.report(context: context, refType: ReportRefType.post, refId: post.id),
               GrimityModalButtonModel(
                 title: '유저 프로필로 이동',
                 onTap: () {

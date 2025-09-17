@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/app/enum/report.enum.dart';
 import 'package:grimity/app/extension/date_time_extension.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/gen/assets.gen.dart';
@@ -49,12 +50,7 @@ class FollowingFeedCard extends ConsumerWidget {
                     GrimityMoreButton.plain(
                       onTap: () {
                         final buttons = [
-                          GrimityModalButtonModel(
-                            title: '신고하기',
-                            onTap: () {
-                              // TODO 신고하기 페이지 구현시 처리
-                            },
-                          ),
+                          GrimityModalButtonModel.report(context: context, refType: ReportRefType.feed, refId: feed.id),
                           GrimityModalButtonModel(
                             title: '유저 프로필로 이동',
                             onTap: () {
