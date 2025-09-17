@@ -116,6 +116,7 @@ flutter:
     - assets/icons/drawer/
     - assets/icons/feed_upload/
     - assets/icons/editor/
+    - assets/icons/report/
     - assets/images/
     - assets/images/sign_up/
     - assets/lottie/

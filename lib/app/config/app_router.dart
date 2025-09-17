@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimity/app/enum/report.enum.dart';
 import 'package:grimity/domain/entity/album.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/post.dart';
@@ -24,6 +25,7 @@ import 'package:grimity/presentation/profile/profile_page.dart';
 import 'package:grimity/presentation/profile_edit/profile_crop_image_page.dart';
 import 'package:grimity/presentation/profile_edit/profile_edit_page.dart';
 import 'package:grimity/presentation/ranking/ranking_page.dart';
+import 'package:grimity/presentation/report/report_page.dart';
 import 'package:grimity/presentation/sign_in/sign_in_page.dart';
 import 'package:grimity/presentation/sign_up/sign_up_page.dart';
 import 'package:grimity/presentation/splash/splash_page.dart';
@@ -384,7 +386,7 @@ class PostUploadRoute extends GoRouteData {
 class AlbumOrganizeRoute extends GoRouteData {
   const AlbumOrganizeRoute({required this.$extra});
 
-  final User $extra ;
+  final User $extra;
 
   static const String path = '/album-organize';
   static const String name = 'album-organize';
@@ -393,5 +395,21 @@ class AlbumOrganizeRoute extends GoRouteData {
   Widget build(BuildContext context, GoRouterState state) {
     final user = $extra;
     return AlbumOrganizePage(user: user);
+  }
+}
+
+@TypedGoRoute<ReportRoute>(path: ReportRoute.path, name: ReportRoute.name)
+class ReportRoute extends GoRouteData {
+  const ReportRoute({required this.refType, required this.refId});
+
+  final ReportRefType refType;
+  final String refId;
+
+  static const String path = '/report';
+  static const String name = 'report';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ReportPage(refType: refType, refId: refId);
   }
 }

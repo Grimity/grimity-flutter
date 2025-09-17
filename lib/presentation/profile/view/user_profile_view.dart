@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/app/enum/report.enum.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_follow_button.dart';
@@ -125,6 +126,7 @@ class UserProfileView extends StatelessWidget {
           title: '신고하기',
           onTap: () {
             context.pop();
+            ReportRoute(refType: ReportRefType.user, refId: user.id).push(context);
           },
         ),
       ],
