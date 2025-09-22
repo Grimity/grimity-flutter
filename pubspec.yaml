@@ -34,6 +34,7 @@ dependencies:
   flutter_quill_delta_from_html: ^1.5.3
   vsc_quill_delta_to_html: ^1.0.5
   flutter_quill_extensions: ^11.0.0
+  custom_refresh_indicator: ^4.0.1
 
   # Annotation
   freezed_annotation: ^3.0.0
@@ -117,6 +118,7 @@ flutter:
     - assets/icons/feed_upload/
     - assets/icons/editor/
     - assets/icons/report/
+    - assets/icons/refresh/
     - assets/images/
     - assets/images/sign_up/
     - assets/lottie/
