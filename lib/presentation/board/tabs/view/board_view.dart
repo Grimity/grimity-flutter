@@ -5,6 +5,7 @@ import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/presentation/board/tabs/provider/board_post_data_provider.dart';
 import 'package:grimity/presentation/board/tabs/view/board_list_view.dart';
 import 'package:grimity/presentation/board/tabs/widget/board_tab_bar.dart';
+import 'package:grimity/presentation/common/widget/grimity_refresh_indicator.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -41,11 +42,16 @@ class BoardView extends HookConsumerWidget {
 
               return postAsync.maybeWhen(
                 data:
-                    (posts) => BoardListView(
-                      posts: posts.posts,
-                      totalCount: posts.totalCount ?? 0,
-                      type: type,
-                      scrollController: scrollController,
+                    (posts) => GrimityRefreshIndicator(
+                      onRefresh: () async {
+                        await Future.wait([ref.refresh(boardPostDataProvider(type).future)]);
+                      },
+                      child: BoardListView(
+                        posts: posts.posts,
+                        totalCount: posts.totalCount ?? 0,
+                        type: type,
+                        scrollController: scrollController,
+                      ),
                     ),
                 orElse:
                     () => Skeletonizer(
