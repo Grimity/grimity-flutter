@@ -10,6 +10,7 @@ import 'package:grimity/domain/entity/album.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
 import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
 import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
 import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
@@ -38,24 +39,24 @@ class ProfileFeedTabView extends HookConsumerWidget {
             : userAlbums.firstWhere((album) => album.id == selectedAlbumId).feedCount ?? 0;
 
     return Padding(
-      padding: EdgeInsets.only(left: 16.w, right: 16.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Gap(12),
-          Row(
-            children: [
-              _ProfileAlbumHeader(albums: user.albums ?? [], selectedAlbumId: selectedAlbumId),
-              Gap(8),
-              if (viewType == ProfileViewType.mine) _buildAlbumEdit(context, ref),
-            ],
+      padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 12),
+      child: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: Row(
+              children: [
+                _ProfileAlbumHeader(albums: user.albums ?? [], selectedAlbumId: selectedAlbumId),
+                Gap(8),
+                if (viewType == ProfileViewType.mine) _buildAlbumEdit(context, ref),
+              ],
+            ),
           ),
           // 해당 앨범의 피드 갯수가 0개가 아닐때 표시
-          if (selectedAlbumFeedCount != 0) _buildMenu(context, ref, selectedAlbumId),
-          Expanded(
+          if (selectedAlbumFeedCount != 0) SliverToBoxAdapter(child: _buildMenu(context, ref, selectedAlbumId)),
+          SliverToBoxAdapter(
             child: feedsAsync.when(
               data: (data) => _buildFeedGrid(context, data.feeds),
-              loading: () => const Center(child: CircularProgressIndicator()),
+              loading: () => GrimityCircularProgressIndicator(),
               error: (error, stack) => _buildFeedGrid(context, []),
             ),
           ),
