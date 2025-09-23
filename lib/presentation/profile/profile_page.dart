@@ -30,10 +30,8 @@ class ProfilePage extends HookConsumerWidget {
           user: user,
           viewType: viewType,
           userProfileView: UserProfileView(user: user, viewType: viewType),
-          tabViewList: [
-            ProfileFeedTabView(user: user, viewType: viewType),
-            if (viewType == ProfileViewType.mine) ProfilePostTabView(user: user),
-          ],
+          feedTabView: ProfileFeedTabView(user: user, viewType: viewType),
+          postTabView: viewType == ProfileViewType.mine ?  ProfilePostTabView(user: user) : null,
         );
       },
       orElse: () {
@@ -43,10 +41,8 @@ class ProfilePage extends HookConsumerWidget {
           user: emptyUser,
           viewType: viewType,
           userProfileView: UserProfileView(user: emptyUser, viewType: viewType),
-          tabViewList: [
-            ProfileFeedTabView(user: emptyUser, viewType: viewType),
-            if (viewType == ProfileViewType.mine) ProfilePostTabView(user: emptyUser),
-          ],
+          feedTabView: ProfileFeedTabView(user: emptyUser, viewType: viewType),
+          postTabView: viewType == ProfileViewType.mine ?  ProfilePostTabView(user: emptyUser) : null,
         );
       },
     );

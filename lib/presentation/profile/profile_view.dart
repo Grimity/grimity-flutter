@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:grimity/presentation/common/widget/grimity_refresh_indicator.dart';
 import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
+import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
 import 'package:grimity/presentation/profile/provider/profile_feeds_data_provider.dart';
 import 'package:grimity/presentation/profile/provider/profile_posts_data_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -15,20 +17,22 @@ class ProfileView extends HookConsumerWidget {
     required this.user,
     required this.viewType,
     required this.userProfileView,
-    required this.tabViewList,
+    required this.feedTabView,
+    required this.postTabView,
   });
 
   final User user;
   final ProfileViewType viewType;
   final Widget userProfileView;
-  final List<Widget> tabViewList;
+  final Widget feedTabView;
+  final Widget? postTabView;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scrollController = useScrollController();
     final nameOpacity = useState(0.0);
     final userProfileKey = useMemoized(() => GlobalKey());
-    final tabController = useTabController(initialLength: tabViewList.length);
+    final tabController = useTabController(initialLength: postTabView == null ? 1 : 2);
 
     if (user.id.isNotEmpty) {
       useInfiniteScrollHook(
@@ -101,7 +105,30 @@ class ProfileView extends HookConsumerWidget {
           body: TabBarView(
             controller: tabController,
             physics: const NeverScrollableScrollPhysics(),
-            children: tabViewList,
+            children: [
+              // pull to refresh 를 프로필 전체 기준으로 하려고 했으나
+              // 구조상 하나의 스크롤로 잡기가 어려워 탭 View 기준으로 refresh 처리
+              // refresh시 해당 탭 + 사용자 정보까지 업데이트 처리
+              GrimityRefreshIndicator(
+                onRefresh: () async {
+                  await Future.wait([
+                    ref.refresh(profileFeedsDataProvider(user.id).future),
+                    ref.refresh(profileDataProvider(user.url).future),
+                  ]);
+                },
+                child: feedTabView,
+              ),
+              if (postTabView != null)
+                GrimityRefreshIndicator(
+                  onRefresh: () async {
+                    await Future.wait([
+                      ref.refresh(profilePostsDataProvider(user.id).future),
+                      ref.refresh(profileDataProvider(user.url).future),
+                    ]);
+                  },
+                  child: postTabView!,
+                ),
+            ],
           ),
         ),
       ),
