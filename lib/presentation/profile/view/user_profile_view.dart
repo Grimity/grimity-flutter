@@ -37,7 +37,7 @@ class UserProfileView extends StatelessWidget {
           child: Stack(
             clipBehavior: Clip.none,
             children: [
-              _UserProfile(user: user),
+              _UserProfile(user: user, viewType: viewType),
               _buildProfileImage(),
               if (viewType == ProfileViewType.mine) _buildEditButton(context),
               _buildButtons(context),
@@ -125,9 +125,10 @@ class UserProfileView extends StatelessWidget {
 }
 
 class _UserProfile extends StatelessWidget {
-  const _UserProfile({required this.user});
+  const _UserProfile({required this.user, required this.viewType});
 
   final User user;
+  final ProfileViewType viewType;
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +138,7 @@ class _UserProfile extends StatelessWidget {
         Gap(40),
         _buildUserName(),
         Gap(2),
-        _buildUserFollowerCount(),
+        _buildUserFollowerCount(context),
         _buildUserDescription(),
         _buildUserLinks(context),
         Gap(16),
@@ -153,17 +154,20 @@ class _UserProfile extends StatelessWidget {
     return Text(user.name, style: AppTypeface.subTitle1);
   }
 
-  Widget _buildUserFollowerCount() {
-    return Row(
-      children: [
-        Text('팔로워', style: AppTypeface.label3.copyWith(color: AppColor.gray600)),
-        Gap(4),
-        Text(user.followerCount.toString(), style: AppTypeface.label2.copyWith(color: AppColor.gray700)),
-        Gap(8),
-        Text('팔로잉', style: AppTypeface.label3.copyWith(color: AppColor.gray600)),
-        Gap(4),
-        Text(user.followingCount.toString(), style: AppTypeface.label2.copyWith(color: AppColor.gray700)),
-      ],
+  Widget _buildUserFollowerCount(BuildContext context) {
+    return GestureDetector(
+      onTap: viewType == ProfileViewType.mine ? () => FollowRoute().push(context) : null,
+      child: Row(
+        children: [
+          Text('팔로워', style: AppTypeface.label3.copyWith(color: AppColor.gray600)),
+          Gap(4),
+          Text(user.followerCount.toString(), style: AppTypeface.label2.copyWith(color: AppColor.gray700)),
+          Gap(8),
+          Text('팔로잉', style: AppTypeface.label3.copyWith(color: AppColor.gray600)),
+          Gap(4),
+          Text(user.followingCount.toString(), style: AppTypeface.label2.copyWith(color: AppColor.gray700)),
+        ],
+      ),
     );
   }
 
