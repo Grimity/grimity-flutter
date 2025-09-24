@@ -79,18 +79,20 @@ class GrimityPostCard extends StatelessWidget {
             const Gap(4),
             Row(
               children: [
-                GestureDetector(
-                  onTap: () {
-                    if (post.author != null) {
-                      ProfileRoute(url: post.author!.url).push(context);
-                    }
-                  },
-                  child: Text(
-                    post.author?.name ?? '작성자 정보 없음',
-                    style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
+                if (post.author != null) ...[
+                  GestureDetector(
+                    onTap: () {
+                      if (post.author != null) {
+                        ProfileRoute(url: post.author!.url).push(context);
+                      }
+                    },
+                    child: Text(
+                      post.author?.name ?? '작성자 정보 없음',
+                      style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
+                    ),
                   ),
-                ),
-                GrimityGrayCircle(),
+                  GrimityGrayCircle(),
+                ],
                 Text(post.createdAt.toRelativeTime(), style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
                 GrimityGrayCircle(),
                 Assets.icons.common.view.svg(width: 16, height: 16),
