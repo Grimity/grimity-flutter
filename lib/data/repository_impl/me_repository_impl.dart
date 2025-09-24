@@ -6,9 +6,11 @@ import 'package:grimity/data/model/user/my_followings_response.dart';
 import 'package:grimity/data/model/feed/my_like_feeds_response.dart';
 import 'package:grimity/data/model/post/my_save_posts_response.dart';
 import 'package:grimity/data/model/user/my_profile_response.dart';
+import 'package:grimity/data/model/user/subscription_response.dart';
 import 'package:grimity/domain/entity/album.dart';
 import 'package:grimity/domain/entity/feeds.dart';
 import 'package:grimity/domain/entity/posts.dart';
+import 'package:grimity/domain/entity/subscription.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/domain/dto/me_request_params.dart';
 import 'package:grimity/domain/entity/users.dart';
@@ -155,6 +157,26 @@ class MeRepositoryImpl extends MeRepository {
   Future<Result<void>> deleteFollowerById(String id) async {
     try {
       await _meAPI.deleteFollowerById(id);
+      return Result.success(null);
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
+
+  @override
+  Future<Result<Subscription>> getSubscription() async {
+    try {
+      final result = await _meAPI.getSubscription();
+      return Result.success(result.toEntity());
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
+
+  @override
+  Future<Result<void>> updateSubscription(UpdateSubscriptionRequestParam request) async {
+    try {
+      await _meAPI.updateSubscription(request);
       return Result.success(null);
     } on Exception catch (e) {
       return Result.failure(e);

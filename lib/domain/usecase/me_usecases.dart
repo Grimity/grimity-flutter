@@ -10,8 +10,10 @@ import 'package:grimity/domain/usecase/me/get_my_followers_usecase.dart';
 import 'package:grimity/domain/usecase/me/get_my_followings_usecase.dart';
 import 'package:grimity/domain/usecase/me/get_save_feeds_usecase.dart';
 import 'package:grimity/domain/usecase/me/get_save_posts_usecase.dart';
+import 'package:grimity/domain/usecase/me/get_subscription_usecase.dart';
 import 'package:grimity/domain/usecase/me/update_background_image_usecase.dart';
 import 'package:grimity/domain/usecase/me/update_profile_image_usecase.dart';
+import 'package:grimity/domain/usecase/me/update_subscription_usecase.dart';
 import 'package:grimity/domain/usecase/me/update_user_usecase.dart';
 
 final getMeUseCase = getIt<GetMeUseCase>();
@@ -32,3 +34,6 @@ final deleteFollowerByIdUseCase = getIt<DeleteFollowerByIdUseCase>();
 final getSaveFeedsUseCase = getIt<GetSaveFeedsUseCase>();
 final getLikeFeedsUseCase = getIt<GetLikeFeedsUseCase>();
 final getSavePostsUseCase = getIt<GetSavePostsUseCase>();
+
+final getSubscriptionUseCase = getIt<GetSubscriptionUseCase>();
+final updateSubscriptionUseCase = getIt<UpdateSubscriptionUseCase>();

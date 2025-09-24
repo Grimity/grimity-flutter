@@ -3,6 +3,7 @@ import 'package:grimity/domain/dto/me_request_params.dart';
 import 'package:grimity/domain/entity/album.dart';
 import 'package:grimity/domain/entity/feeds.dart';
 import 'package:grimity/domain/entity/posts.dart';
+import 'package:grimity/domain/entity/subscription.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/domain/entity/users.dart';
 
@@ -34,4 +35,8 @@ abstract class MeRepository {
   Future<Result<Feeds>> getSaveFeeds(int? size, String? cursor);
 
   Future<Result<Posts>> getSavePosts(int page, int size);
+
+  Future<Result<Subscription>> getSubscription();
+
+  Future<Result<void>> updateSubscription(UpdateSubscriptionRequestParam request);
 }
