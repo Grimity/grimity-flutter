@@ -35,11 +35,11 @@ enum DrawerMenuItem {
       case DrawerMenuItem.home:
         return HomeRoute.path;
       case DrawerMenuItem.paint:
-        throw UnimplementedError();
+        return RankingRoute.path;
       case DrawerMenuItem.board:
-        throw UnimplementedError();
+        return BoardRoute.path;
       case DrawerMenuItem.following:
-        return FollowRoute.path;
+        return FollowingRoute.path;
       case DrawerMenuItem.storage:
         return StorageRoute.path;
       case DrawerMenuItem.setting:
@@ -48,6 +48,9 @@ enum DrawerMenuItem {
   }
 
   bool get isGo {
-    return this == DrawerMenuItem.home || this == DrawerMenuItem.paint || this == DrawerMenuItem.board;
+    return this == DrawerMenuItem.home ||
+        this == DrawerMenuItem.paint ||
+        this == DrawerMenuItem.board ||
+        this == DrawerMenuItem.following;
   }
 }
