@@ -5,6 +5,7 @@ import 'package:grimity/data/model/user/my_followings_response.dart';
 import 'package:grimity/data/model/feed/my_like_feeds_response.dart';
 import 'package:grimity/data/model/post/my_save_posts_response.dart';
 import 'package:grimity/data/model/user/my_profile_response.dart';
+import 'package:grimity/data/model/user/subscription_response.dart';
 import 'package:grimity/domain/dto/me_request_params.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
@@ -58,4 +59,10 @@ abstract class MeAPI {
 
   @GET('/me/save-posts')
   Future<MySavePostsResponse> getSavePosts(@Query('page') int page, @Query('size') int size);
+
+  @GET('/me/subscribe')
+  Future<SubscriptionResponse> getSubscription();
+
+  @PUT('/me/subscribe')
+  Future<void> updateSubscription(@Body() UpdateSubscriptionRequestParam request);
 }

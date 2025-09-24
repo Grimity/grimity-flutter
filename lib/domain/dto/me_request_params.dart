@@ -1,7 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:grimity/app/enum/subscription_type.enum.dart';
 import 'package:grimity/domain/entity/link.dart';
 
 part 'me_request_params.freezed.dart';
+
 part 'me_request_params.g.dart';
 
 @freezed
@@ -30,4 +32,13 @@ abstract class UpdateBackgroundImageRequestParam with _$UpdateBackgroundImageReq
 
   factory UpdateBackgroundImageRequestParam.fromJson(Map<String, dynamic> json) =>
       _$UpdateBackgroundImageRequestParamFromJson(json);
+}
+
+@freezed
+abstract class UpdateSubscriptionRequestParam with _$UpdateSubscriptionRequestParam {
+  const factory UpdateSubscriptionRequestParam({required List<SubscriptionType> subscription}) =
+      _UpdateSubscriptionRequestParam;
+
+  factory UpdateSubscriptionRequestParam.fromJson(Map<String, dynamic> json) =>
+      _$UpdateSubscriptionRequestParamFromJson(json);
 }
