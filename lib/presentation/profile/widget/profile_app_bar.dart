@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_theme.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
@@ -62,7 +63,10 @@ class _ProfileAppBarDelegate extends SliverPersistentHeaderDelegate {
             Gap(20.w),
             GestureDetector(onTap: () {}, child: Assets.icons.profile.storage.svg(width: 24.w, height: 24.w)),
             Gap(20.w),
-            GestureDetector(onTap: () {}, child: Assets.icons.profile.setting.svg(width: 24.w, height: 24.w)),
+            GestureDetector(
+              onTap: () => SettingRoute().push(context),
+              child: Assets.icons.profile.setting.svg(width: 24.w, height: 24.w),
+            ),
             Gap(16.w),
           ] else ...[
             GestureDetector(onTap: () {}, child: Assets.icons.home.search.svg(width: 24.w, height: 24.w)),
