@@ -4,6 +4,7 @@ import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/enum/grimity.enum.dart';
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/app/util/validator_util.dart';
+import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_button.dart';
 import 'package:grimity/presentation/sign_up/provider/sign_up_provider.dart';
 
@@ -27,6 +28,9 @@ class SignUpCheckUrlButton extends ConsumerWidget {
         final result = await ref.read(signUpProvider.notifier).signUp(ref);
         result.fold(
           onSuccess: (user) {
+            // 회원 가입 이후 UserAuthProvider User 갱신
+            ref.read(userAuthProvider.notifier).setUser(user);
+
             if (!context.mounted) return;
             HomeRoute().go(context);
           },
