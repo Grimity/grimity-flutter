@@ -1,5 +1,6 @@
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
+import 'package:grimity/presentation/common/provider/user_subscribe_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -28,6 +29,9 @@ class Splash extends _$Splash {
 
     // 유저 정보 조회 성공 시 메인 화면으로 이동
     if (!ref.context.mounted) return;
+
+    // 유저 정보 로그인 시도 후 구독 여부 조회
+    ref.read(userSubscribeProvider.notifier).getSubscription();
     HomeRoute().go(ref.context);
   }
 }

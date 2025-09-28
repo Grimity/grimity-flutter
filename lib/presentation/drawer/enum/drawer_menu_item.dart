@@ -43,7 +43,7 @@ enum DrawerMenuItem {
       case DrawerMenuItem.storage:
         return StorageRoute.path;
       case DrawerMenuItem.setting:
-        throw UnimplementedError();
+        return SettingRoute.path;
     }
   }
 

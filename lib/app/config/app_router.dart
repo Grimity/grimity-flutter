@@ -26,6 +26,7 @@ import 'package:grimity/presentation/profile_edit/profile_crop_image_page.dart';
 import 'package:grimity/presentation/profile_edit/profile_edit_page.dart';
 import 'package:grimity/presentation/ranking/ranking_page.dart';
 import 'package:grimity/presentation/report/report_page.dart';
+import 'package:grimity/presentation/setting/setting_page.dart';
 import 'package:grimity/presentation/sign_in/sign_in_page.dart';
 import 'package:grimity/presentation/sign_up/sign_up_page.dart';
 import 'package:grimity/presentation/splash/splash_page.dart';
@@ -412,4 +413,15 @@ class ReportRoute extends GoRouteData {
   Widget build(BuildContext context, GoRouterState state) {
     return ReportPage(refType: refType, refId: refId);
   }
+}
+
+@TypedGoRoute<SettingRoute>(path: SettingRoute.path, name: SettingRoute.name)
+class SettingRoute extends GoRouteData {
+  const SettingRoute();
+
+  static const String path = '/setting';
+  static const String name = 'setting';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => SettingPage();
 }

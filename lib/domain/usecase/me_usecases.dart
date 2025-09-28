@@ -1,4 +1,5 @@
 import 'package:grimity/app/di/di_setup.dart';
+import 'package:grimity/domain/usecase/me/complete_delete_user_process_usecase.dart';
 import 'package:grimity/domain/usecase/me/delete_background_image_usecase.dart';
 import 'package:grimity/domain/usecase/me/delete_follower_usecase.dart';
 import 'package:grimity/domain/usecase/me/delete_profile_image_usecase.dart';
@@ -19,6 +20,7 @@ import 'package:grimity/domain/usecase/me/update_user_usecase.dart';
 final getMeUseCase = getIt<GetMeUseCase>();
 final updateUserUseCase = getIt<UpdateUserUseCase>();
 final deleteUserUseCase = getIt<DeleteUserUseCase>();
+final completeDeleteUserProcessUseCase = getIt<CompleteDeleteUserProcessUseCase>();
 
 final updateProfileImageUseCase = getIt<UpdateProfileImageUseCase>();
 final deleteProfileImageUseCase = getIt<DeleteProfileImageUseCase>();

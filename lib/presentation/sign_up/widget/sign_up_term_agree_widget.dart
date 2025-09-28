@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
+import 'package:grimity/app/config/app_const.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/presentation/common/widget/grimity_check_box.dart';
 import 'package:grimity/presentation/sign_up/provider/sign_up_provider.dart';
@@ -25,7 +26,7 @@ class SignUpTermAgreeWidget extends ConsumerWidget {
           children: [
             GestureDetector(
               onTap: () async {
-                await launchUrl(Uri.parse('https://nostalgic-patch-498.notion.site/1930ac6bf29881e9a3e4c405e7f49f2b'));
+                await launchUrl(Uri.parse(AppConst.serviceTermsUrl));
               },
               child: Text(
                 '서비스이용약관',
@@ -35,7 +36,7 @@ class SignUpTermAgreeWidget extends ConsumerWidget {
             Text(' 과 ', style: AppTypeface.caption1.copyWith(color: AppColor.gray600)),
             GestureDetector(
               onTap: () async {
-                await launchUrl(Uri.parse('https://nostalgic-patch-498.notion.site/1930ac6bf29881b9aa19ff623c69b8e6'));
+                await launchUrl(Uri.parse(AppConst.privacyPolicyUrl));
               },
               child: Text(
                 '개인정보처리방침',
