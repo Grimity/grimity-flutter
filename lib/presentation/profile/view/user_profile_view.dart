@@ -1,14 +1,19 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/app/enum/login_provider.enum.dart';
 import 'package:grimity/app/enum/report.enum.dart';
 import 'package:grimity/domain/entity/user.dart';
+import 'package:grimity/domain/usecase/me_usecases.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
+import 'package:grimity/presentation/common/widget/grimity_dialog.dart';
 import 'package:grimity/presentation/common/widget/grimity_follow_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/common/widget/grimity_more_button.dart';
@@ -20,14 +25,14 @@ import 'package:grimity/presentation/profile/widget/profile_bottom_sheet.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class UserProfileView extends StatelessWidget {
+class UserProfileView extends ConsumerWidget {
   const UserProfileView({super.key, required this.user, required this.viewType});
 
   final User user;
   final ProfileViewType viewType;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -40,7 +45,7 @@ class UserProfileView extends StatelessWidget {
               _UserProfile(user: user, viewType: viewType),
               _buildProfileImage(),
               if (viewType == ProfileViewType.mine) _buildEditButton(context),
-              _buildButtons(context),
+              _buildButtons(context, ref),
             ],
           ),
         ),
@@ -78,7 +83,7 @@ class UserProfileView extends StatelessWidget {
   }
 
   // 팔로잉/언팔로우 버튼, 더보기 버튼
-  Widget _buildButtons(BuildContext context) {
+  Widget _buildButtons(BuildContext context, WidgetRef ref) {
     return Positioned.fill(
       top: 14,
       child: Align(
@@ -87,14 +92,14 @@ class UserProfileView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             if (viewType == ProfileViewType.other) ...[GrimityFollowButton(url: user.url), Gap(10.w)],
-            GrimityMoreButton.decorated(onTap: () => _showMoreBottomSheet(context)),
+            GrimityMoreButton.decorated(onTap: () => _showMoreBottomSheet(context, ref)),
           ],
         ),
       ),
     );
   }
 
-  void _showMoreBottomSheet(BuildContext context) {
+  void _showMoreBottomSheet(BuildContext context, WidgetRef ref) {
     final List<GrimityModalButtonModel> buttons = [
       GrimityModalButtonModel(
         title: '프로필 링크 공유',
@@ -108,6 +113,7 @@ class UserProfileView extends StatelessWidget {
           title: '회원 탈퇴',
           onTap: () {
             context.pop();
+            showDeleteAccountDialog(context, ref);
           },
         ),
       ] else ...[
@@ -121,6 +127,30 @@ class UserProfileView extends StatelessWidget {
       ],
     ];
     GrimityModalBottomSheet.show(context, buttons: buttons);
+  }
+
+  void showDeleteAccountDialog(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder:
+          (builderContext) => GrimityDialog(
+        title: '정말 탈퇴하시겠어요?',
+        content: '계정 복구는 어려워요.',
+        cancelText: '취소',
+        confirmText: '탈퇴하기',
+        onCancel: () => builderContext.pop(),
+        onConfirm: () async {
+          final user = ref.read(userAuthProvider);
+          if (user == null) return;
+
+          builderContext.pop();
+          await completeDeleteUserProcessUseCase.execute(LoginProviderX.fromString(user.provider ?? ''));
+          if (context.mounted) {
+            SignInRoute().go(context);
+          }
+        },
+      ),
+    );
   }
 }
 
