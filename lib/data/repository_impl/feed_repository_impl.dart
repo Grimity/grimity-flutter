@@ -5,11 +5,15 @@ import 'package:grimity/data/model/feed/feed_detail_response.dart';
 import 'package:grimity/data/model/feed/feed_rankings_response.dart';
 import 'package:grimity/data/model/feed/following_feeds_response.dart';
 import 'package:grimity/data/model/feed/latest_feeds_response.dart';
+import 'package:grimity/data/model/feed/searched_feeds_response.dart';
 import 'package:grimity/domain/dto/feeds_request_param.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/feeds.dart';
 import 'package:grimity/domain/repository/feed_repository.dart';
 import 'package:injectable/injectable.dart';
+
+import '../../app/enum/sort_type.enum.dart';
+import '../../domain/dto/search_feeds_params.dart';
 
 @Injectable(as: FeedRepository)
 class FeedRepositoryImpl extends FeedRepository {
@@ -135,12 +139,34 @@ class FeedRepositoryImpl extends FeedRepository {
   }
 
   @override
-  Future<Result<void>> removeSavedFeed(String id) async {
+  Future<Result<Feeds>> searchFeeds(SearchFeedsParams input) async {
     try {
-      await _feedAPI.removeSavedFeed(id);
-      return Result.success(null);
+      final sortString = _mapSortToApi(input.sort);
+      final resp = await _feedAPI.searchFeeds(
+        keyword: input.keyword,
+        sort: sortString,
+        size: input.size,
+        cursor: input.cursor,
+      );
+      return Result.success(resp.toEntity() as Feeds);
     } on Exception catch (e) {
       return Result.failure(e);
     }
+  }
+
+  String _mapSortToApi(SortType s) {
+    switch (s) {
+      case SortType.latest:
+        return 'latest';
+      case SortType.like:
+        return 'popular';
+      default:
+        return 'accuracy';
+    }
+  }
+
+  @override
+  Future<Result<void>> removeSavedFeed(String id) {
+    throw UnimplementedError();
   }
 }

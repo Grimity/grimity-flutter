@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/domain/dto/feeds_request_param.dart';
+import 'package:grimity/domain/dto/search_feeds_params.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/feeds.dart';
 
@@ -27,4 +30,7 @@ abstract class FeedRepository {
   Future<Result<void>> saveFeed(String id);
 
   Future<Result<void>> removeSavedFeed(String id);
+
+  FutureOr<Result<Feeds>> searchFeeds(SearchFeedsParams input);
+  
 }

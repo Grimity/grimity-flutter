@@ -16,6 +16,7 @@ class GrimityImageFeed extends StatelessWidget {
     this.index,
     this.onToggleLike,
     this.onToggleSave,
+    this.titleSpan,
   });
 
   final Feed feed;
@@ -23,6 +24,7 @@ class GrimityImageFeed extends StatelessWidget {
   final int? index;
   final VoidCallback? onToggleLike;
   final VoidCallback? onToggleSave;
+  final InlineSpan? titleSpan;
 
   @override
   Widget build(BuildContext context) {

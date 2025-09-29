@@ -9,13 +9,21 @@ import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
 
-/// 게시글 위젯
 class GrimityPostCard extends StatelessWidget {
   final Post post;
   final bool showPostType;
   final String? keyword;
+  final InlineSpan? titleSpan;
+  final InlineSpan? contentSpan;
 
-  const GrimityPostCard({super.key, required this.post, this.showPostType = false, this.keyword});
+  const GrimityPostCard({
+    super.key,
+    required this.post,
+    this.showPostType = false,
+    this.keyword,
+    this.titleSpan,
+    this.contentSpan
+  });
 
   @override
   Widget build(BuildContext context) {
