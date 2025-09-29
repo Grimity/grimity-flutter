@@ -37,6 +37,7 @@ class App extends ConsumerWidget {
       useInheritedMediaQuery: true,
       builder: (context, child) {
         return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,

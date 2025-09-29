@@ -19,7 +19,7 @@ class HomeAppBar extends StatelessWidget {
       centerTitle: false,
       title: Assets.images.logo.svg(width: 90.w, height: 27.h),
       actions: [
-        GestureDetector(onTap: () => context.pushNamed(SearchRoute.path), child: Assets.icons.home.search.svg(width: 24.w, height: 24.w)),
+        GestureDetector(onTap: () => context.pushNamed(SearchRoute.name), child: Assets.icons.home.search.svg(width: 24.w, height: 24.w)),
         Gap(20.w),
         GestureDetector(onTap: () {}, child: Assets.icons.home.notification.svg(width: 24.w, height: 24.w)),
         Gap(20.w),
