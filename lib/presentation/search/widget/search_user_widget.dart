@@ -19,7 +19,7 @@ class SearchUserWidget extends ConsumerWidget {
         style: TextStyle(
           fontSize: 22,
           fontWeight: FontWeight.w700,
-          color: Colors.black,
+          color: Colors.grey,
           letterSpacing: 0.5,
         ),
       ),

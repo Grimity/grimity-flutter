@@ -86,7 +86,7 @@ final searchedPostsProvider = FutureProvider.autoDispose<List<Post>>((ref) async
       page: 1,
       size: 20,
       searchType: SearchType.combined,
-    ) as SearchPostsRequestParam,
+    )
   );
 
   return res.fold(

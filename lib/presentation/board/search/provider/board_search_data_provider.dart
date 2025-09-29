@@ -1,9 +1,10 @@
 import 'package:grimity/domain/entity/posts.dart';
-import 'package:grimity/domain/usecase/post/search_posts_usecase.dart';
 import 'package:grimity/domain/usecase/post_usecases.dart';
 import 'package:grimity/presentation/board/common/provider/board_search_query_provider.dart';
 import 'package:grimity/presentation/common/mixin/pagination_mixin.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../../../domain/dto/search_posts_params.dart';
 
 part 'board_search_data_provider.g.dart';
 
@@ -17,11 +18,11 @@ class SearchData extends _$SearchData with PaginationMixin {
   Future<Posts> _fetch() async {
     final searchQueryState = ref.read(searchQueryProvider);
 
-    final SearchPostsRequestParam param = SearchPostsRequestParam(
+    final SearchPostsParam param = SearchPostsParam(
       page: currentPage,
       size: size,
       keyword: searchQueryState.keyword,
-      searchBy: searchQueryState.searchType,
+      searchType: searchQueryState.searchType,
     );
 
     final result = await searchPostsUseCase.execute(param);
