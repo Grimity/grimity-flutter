@@ -26,6 +26,7 @@ import 'package:grimity/presentation/profile_edit/profile_crop_image_page.dart';
 import 'package:grimity/presentation/profile_edit/profile_edit_page.dart';
 import 'package:grimity/presentation/ranking/ranking_page.dart';
 import 'package:grimity/presentation/report/report_page.dart';
+import 'package:grimity/presentation/search/search_page.dart';
 import 'package:grimity/presentation/setting/setting_page.dart';
 import 'package:grimity/presentation/sign_in/sign_in_page.dart';
 import 'package:grimity/presentation/sign_up/sign_up_page.dart';
@@ -424,4 +425,15 @@ class SettingRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => SettingPage();
+}
+
+@TypedGoRoute<SearchRoute>(path: SearchRoute.path, name: SearchRoute.name)
+class SearchRoute extends GoRouteData {
+  const SearchRoute();
+
+  static const String path = '/search';
+  static const String name = 'search';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => SearchView();
 }
