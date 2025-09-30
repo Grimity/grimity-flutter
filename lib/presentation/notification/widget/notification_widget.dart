@@ -45,14 +45,7 @@ class NotificationWidget extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildNotificationText(notification.message),
-                  Text(
-                    notification.message,
-                    style: AppTypeface.label3.copyWith(
-                      color: AppColor.gray800.withValues(alpha: notification.isRead ? 0.5 : 1.0),
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                  Gap(2),
                   Text(
                     notification.createdAt.toRelativeTime(),
                     style: AppTypeface.caption2.copyWith(
@@ -83,7 +76,7 @@ class NotificationWidget extends ConsumerWidget {
   /// - 두 패턴이 없으면: 전체 문자열을 일반 Text로 반환
   Widget _buildNotificationText(String message) {
     final styleBase = AppTypeface.label3.copyWith(
-      color: AppColor.gray800.withValues(alpha: !notification.isRead ? 0.5 : 1.0),
+      color: AppColor.gray800.withValues(alpha: notification.isRead ? 0.5 : 1.0),
     );
     final styleBold = styleBase.copyWith(fontWeight: FontWeight.bold);
 
