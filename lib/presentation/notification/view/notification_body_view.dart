@@ -2,10 +2,10 @@ import 'package:flutter/material.dart' hide Notification;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/notification/provider/notification_data_provider.dart';
 import 'package:grimity/domain/entity/notification.dart';
+import 'package:grimity/presentation/notification/widget/notification_action_button.dart';
 import 'package:grimity/presentation/notification/widget/notification_widget.dart';
 
 class NotificationBodyView extends ConsumerWidget {
@@ -21,19 +21,26 @@ class NotificationBodyView extends ConsumerWidget {
       slivers: [
         SliverToBoxAdapter(
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            child: GestureDetector(
-              onTap: () => notifier.deleteAllNotification(),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text('전체 삭제', style: AppTypeface.caption2.copyWith(color: AppColor.gray700)),
-                  Gap(6),
-                  Assets.icons.common.delete.svg(width: 16, height: 16),
-                ],
-              ),
+            padding: EdgeInsets.all(16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                NotificationActionButton(
+                  title: '전체 읽음',
+                  onTap: () => notifier.markAllNotificationAsRead(),
+                  icon: Assets.icons.common.view,
+                ),
+                Gap(8),
+                VerticalDivider(color: AppColor.gray300, width: 1,),
+                Gap(8),
+                NotificationActionButton(
+                  title: '전체 삭제',
+                  onTap: () => notifier.deleteAllNotification(),
+                  icon: Assets.icons.common.delete,
+                ),
+              ],
             ),
-          ),
+          )
         ),
         SliverList.separated(
           itemBuilder: (context, index) {
@@ -48,3 +55,4 @@ class NotificationBodyView extends ConsumerWidget {
     );
   }
 }
+
