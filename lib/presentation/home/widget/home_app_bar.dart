@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
+import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/gen/assets.gen.dart';
 
 class HomeAppBar extends StatelessWidget {
@@ -18,7 +19,10 @@ class HomeAppBar extends StatelessWidget {
       actions: [
         GestureDetector(onTap: () {}, child: Assets.icons.home.search.svg(width: 24.w, height: 24.w)),
         Gap(20.w),
-        GestureDetector(onTap: () {}, child: Assets.icons.home.notification.svg(width: 24.w, height: 24.w)),
+        GestureDetector(
+          onTap: () => NotificationRoute().push(context),
+          child: Assets.icons.home.notification.svg(width: 24.w, height: 24.w),
+        ),
         Gap(20.w),
         GestureDetector(
           onTap: () => Scaffold.of(context).openEndDrawer(),

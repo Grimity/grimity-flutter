@@ -18,6 +18,7 @@ import 'package:grimity/presentation/following_feed/following_feed_page.dart';
 import 'package:grimity/presentation/home/home_page.dart';
 import 'package:grimity/presentation/image/image_viewer_page.dart';
 import 'package:grimity/presentation/main/main_app_shell.dart';
+import 'package:grimity/presentation/notification/notification_page.dart';
 import 'package:grimity/presentation/photo_select/photo_select_page.dart';
 import 'package:grimity/presentation/post_detail/post_detail_page.dart';
 import 'package:grimity/presentation/post_upload/post_upload_page.dart';
@@ -424,4 +425,15 @@ class SettingRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => SettingPage();
+}
+
+@TypedGoRoute<NotificationRoute>(path: NotificationRoute.path, name: NotificationRoute.name)
+class NotificationRoute extends GoRouteData {
+  const NotificationRoute();
+
+  static const String path = '/notification';
+  static const String name = 'notification';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => NotificationPage();
 }
