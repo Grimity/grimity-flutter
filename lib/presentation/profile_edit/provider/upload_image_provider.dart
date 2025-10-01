@@ -1,12 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:grimity/app/config/app_config.dart';
 import 'package:grimity/app/enum/presigned.enum.dart';
 import 'package:grimity/app/service/toast_service.dart';
-import 'package:grimity/domain/dto/aws_request_params.dart';
+import 'package:grimity/domain/dto/image_request_params.dart';
 import 'package:grimity/domain/dto/me_request_params.dart';
-import 'package:grimity/domain/usecase/aws_usecases.dart';
+import 'package:grimity/domain/usecase/image_usecases.dart';
 import 'package:grimity/domain/usecase/me_usecases.dart';
 import 'package:grimity/presentation/common/enum/upload_image_type.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
@@ -56,8 +55,8 @@ class UploadImage extends _$UploadImage {
     try {
       // Presigned URL 발급
       final presignedType = state.type == UploadImageType.profile ? PresignedType.profile : PresignedType.background;
-      final urlRequest = GetPresignedUrlRequest(type: presignedType, ext: PresignedExt.webp);
-      final urlResult = await getPresignedUrlUseCase.execute(urlRequest);
+      final urlRequest = GetImageUploadUrlRequest(type: presignedType, ext: PresignedExt.webp);
+      final urlResult = await getImageUploadUrlUseCase.execute(urlRequest);
 
       if (urlResult.isFailure) {
         ToastService.showError('문제가 발생하였습니다.');
@@ -66,7 +65,7 @@ class UploadImage extends _$UploadImage {
 
       // AWS 이미지 업로드
       final uploadResult = await uploadImageUseCase.execute(
-        UploadImageRequest(url: urlResult.data.url, filePath: state.image!.path),
+        UploadImageRequest(url: urlResult.data.uploadUrl, filePath: state.image!.path),
       );
 
       if (uploadResult.isFailure) {
@@ -90,10 +89,10 @@ class UploadImage extends _$UploadImage {
 
       // profileEditProvider 업데이트
       if (state.type == UploadImageType.profile) {
-        ref.read(profileEditProvider.notifier).updateImage(AppConfig.buildImageUrl(urlResult.data.imageName));
+        ref.read(profileEditProvider.notifier).updateImage(urlResult.data.imageUrl);
         ToastService.show('프로필 이미지 업데이트가 완료되었습니다');
       } else {
-        ref.read(profileEditProvider.notifier).updateBackgroundImage(AppConfig.buildImageUrl(urlResult.data.imageName));
+        ref.read(profileEditProvider.notifier).updateBackgroundImage(urlResult.data.imageUrl);
         ToastService.show('배경 이미지 업데이트가 완료되었습니다');
       }
 
@@ -119,9 +118,7 @@ class UploadImage extends _$UploadImage {
   }
 
   void setUploading(bool isUploading) {
-    state = state.copyWith(
-      isUploading: isUploading
-    );
+    state = state.copyWith(isUploading: isUploading);
   }
 }
 

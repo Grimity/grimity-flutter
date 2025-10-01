@@ -10,10 +10,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/app/enum/presigned.enum.dart';
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/app/util/delta_util.dart';
-import 'package:grimity/domain/dto/aws_request_params.dart';
+import 'package:grimity/domain/dto/image_request_params.dart';
 import 'package:grimity/domain/dto/post_comments_request_params.dart';
 import 'package:grimity/domain/entity/post.dart';
-import 'package:grimity/domain/usecase/aws_usecases.dart';
+import 'package:grimity/domain/usecase/image_usecases.dart';
 import 'package:grimity/domain/usecase/post_usecases.dart';
 import 'package:grimity/presentation/board/tabs/provider/board_post_data_provider.dart';
 import 'package:grimity/presentation/common/model/image_item_source.dart';
@@ -198,8 +198,8 @@ class PostUpload extends _$PostUpload {
 
       try {
         // 1.Presigned URL 발급
-        final urlResult = await getPresignedUrlUseCase.execute(
-          GetPresignedUrlRequest(type: PresignedType.post, ext: PresignedExt.webp),
+        final urlResult = await getImageUploadUrlUseCase.execute(
+          GetImageUploadUrlRequest(type: PresignedType.post, ext: PresignedExt.webp),
         );
         if (urlResult.isFailure) {
           _updatePending(item.localPath, status: UploadStatus.failed);
@@ -209,7 +209,7 @@ class PostUpload extends _$PostUpload {
 
         // 2. AWS 이미지 업로드
         final uploadResult = await uploadImageUseCase.execute(
-          UploadImageRequest(url: urlResult.data.url, filePath: item.localPath),
+          UploadImageRequest(url: urlResult.data.uploadUrl, filePath: item.localPath),
         );
 
         if (uploadResult.isFailure) {
@@ -218,9 +218,9 @@ class PostUpload extends _$PostUpload {
           continue;
         }
 
-        final remoteUrl = AppConfig.buildImageUrl(urlResult.data.imageName);
-        _updatePending(item.localPath, status: UploadStatus.success, remoteUrl: remoteUrl);
-        _replaceImageSource(controller, fromLocalPath: item.localPath, toRemoteUrl: remoteUrl);
+        final imageUrl = urlResult.data.imageUrl;
+        _updatePending(item.localPath, status: UploadStatus.success, imageUrl: imageUrl);
+        _replaceImageSource(controller, fromLocalPath: item.localPath, toImageUrl: imageUrl);
       } catch (e) {
         _updatePending(item.localPath, status: UploadStatus.failed);
       }
@@ -230,16 +230,16 @@ class PostUpload extends _$PostUpload {
     state = state.copyWith(contentDeltaOps: controller.document.toDelta().toJson());
   }
 
-  void _updatePending(String localPath, {UploadStatus? status, String? remoteUrl}) {
+  void _updatePending(String localPath, {UploadStatus? status, String? imageUrl}) {
     final list = [...state.pendingImages];
     final idx = list.indexWhere((e) => e.localPath == localPath);
     if (idx == -1) return;
 
-    list[idx] = list[idx].copyWith(status: status ?? list[idx].status, remoteUrl: remoteUrl ?? list[idx].remoteUrl);
+    list[idx] = list[idx].copyWith(status: status ?? list[idx].status, remoteUrl: imageUrl ?? list[idx].remoteUrl);
     state = state.copyWith(pendingImages: list);
   }
 
-  void _replaceImageSource(QuillController controller, {required String fromLocalPath, required String toRemoteUrl}) {
+  void _replaceImageSource(QuillController controller, {required String fromLocalPath, required String toImageUrl}) {
     final delta = controller.document.toDelta();
     int offset = 0;
 
@@ -252,7 +252,7 @@ class PostUpload extends _$PostUpload {
       if (data is Map && data.containsKey('image')) {
         final src = data['image']?.toString() ?? '';
         if (src == fromLocalPath) {
-          controller.replaceText(offset, 1, BlockEmbed.image(toRemoteUrl), TextSelection.collapsed(offset: offset + 1));
+          controller.replaceText(offset, 1, BlockEmbed.image(toImageUrl), TextSelection.collapsed(offset: offset + 1));
           return;
         }
         offset += 1;

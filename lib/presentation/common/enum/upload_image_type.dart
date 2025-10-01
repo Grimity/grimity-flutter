@@ -2,7 +2,8 @@ enum UploadImageType {
   profile,
   feed,
   background,
-  post;
+  post,
+  chat;
 
   String toJson() => name;
 

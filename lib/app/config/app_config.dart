@@ -27,7 +27,4 @@ class AppConfig {
 
   /// FeedUrl (ApiUrl + posts/ + postId)
   static String buildPostUrl(String postId) => '${instance._baseUrl}posts/$postId';
-
-  /// FeedUrl (ImageUrl + imageName)
-  static String buildImageUrl(String imageName) => _instance._imageUrl + imageName;
 }

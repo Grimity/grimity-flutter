@@ -1,3 +1,3 @@
-enum PresignedType { profile, feed, background, post }
+enum PresignedType { profile, feed, background, post, chat }
 
 enum PresignedExt { jpg, jpeg, png, webp }
