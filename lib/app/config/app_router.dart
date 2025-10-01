@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/enum/report.enum.dart';
+import 'package:grimity/app/linking/external_link.dart';
+import 'package:grimity/app/linking/external_link_parser.dart';
 import 'package:grimity/domain/entity/album.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/post.dart';
@@ -57,6 +59,24 @@ abstract final class AppRouter {
   );
 
   static GoRouter router(WidgetRef ref) => _router;
+
+  // URL을 내부 라우팅으로 이동
+  static void handleServerUrl(BuildContext context, String url) {
+    final parsed = ExternalLinkParser.parse(url);
+    switch (parsed.type) {
+      case ExternalLinkType.profile:
+        context.go('/my/profile/${parsed.url}');
+        break;
+      case ExternalLinkType.post:
+        context.push('/posts/${parsed.id}');
+        break;
+      case ExternalLinkType.feed:
+        context.push('/feeds/${parsed.id}');
+        break;
+      case ExternalLinkType.unknown:
+        break;
+    }
+  }
 }
 
 @TypedStatefulShellRoute<AppShellRoute>(
@@ -330,7 +350,7 @@ class FeedDetailRoute extends GoRouteData {
 
   const FeedDetailRoute({required this.id});
 
-  static const String path = '/feed/:id';
+  static const String path = '/feeds/:id';
   static const String name = 'feed-detail';
 
   @override
@@ -361,7 +381,7 @@ class PostDetailRoute extends GoRouteData {
 
   const PostDetailRoute({required this.id});
 
-  static const String path = '/post/:id';
+  static const String path = '/posts/:id';
   static const String name = 'post-detail';
 
   @override

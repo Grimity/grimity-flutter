@@ -26,7 +26,7 @@ class Flavor {
     await dotenv.load(fileName: env.dotFileName);
 
     // AppConfig init
-    AppConfig.initialize(apiUrl: env.apiUrl, imageUrl: env.imageUrl);
+    AppConfig.initialize(baseUrl: env.baseUrl, apiUrl: env.apiUrl, imageUrl: env.imageUrl);
 
     // Initialize get_it
     await configureDependencies(env.getString);
