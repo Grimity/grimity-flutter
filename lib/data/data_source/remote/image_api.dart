@@ -15,6 +15,6 @@ abstract class ImageAPI {
   @POST('/images/get-upload-url')
   Future<ImageUploadUrlResponse> getUploadUrl(@Body() GetImageUploadUrlRequest request);
 
-  @POST('/images/image-upload-urls')
+  @POST('/images/get-upload-urls')
   Future<List<ImageUploadUrlResponse>> getUploadUrls(@Body() List<GetImageUploadUrlRequest> requests);
 }
