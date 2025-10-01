@@ -5,11 +5,11 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/app/config/app_config.dart';
 import 'package:grimity/app/enum/presigned.enum.dart';
 import 'package:grimity/app/service/toast_service.dart';
-import 'package:grimity/domain/dto/aws_request_params.dart';
 import 'package:grimity/domain/dto/feeds_request_param.dart';
+import 'package:grimity/domain/dto/image_request_params.dart';
 import 'package:grimity/domain/entity/feed.dart';
-import 'package:grimity/domain/usecase/aws_usecases.dart';
 import 'package:grimity/domain/usecase/feed_usecases.dart';
+import 'package:grimity/domain/usecase/image_usecases.dart';
 import 'package:grimity/presentation/common/model/image_item_source.dart';
 import 'package:grimity/presentation/feed_detail/provider/feed_detail_data_provider.dart';
 import 'package:grimity/presentation/home/provider/home_data_provider.dart';
@@ -133,10 +133,10 @@ class FeedUpload extends _$FeedUpload {
         final presignedType = PresignedType.feed;
         final urlRequests = List.filled(
           imageAssets.length,
-          GetPresignedUrlRequest(type: presignedType, ext: PresignedExt.webp),
+          GetImageUploadUrlRequest(type: presignedType, ext: PresignedExt.webp),
         );
 
-        final urlResult = await getPresignedUrlsUseCase.execute(urlRequests);
+        final urlResult = await getImageUploadUrlsUseCase.execute(urlRequests);
         if (urlResult.isFailure) {
           ToastService.showError('이미지 업로드 주소 생성에 실패했습니다.');
           return null;
@@ -152,7 +152,7 @@ class FeedUpload extends _$FeedUpload {
         // 3. AWS 이미지 업로드
         final uploadRequests = List.generate(
           urlResult.data.length,
-          (index) => UploadImageRequest(url: urlResult.data[index].url, filePath: xFileList[index]!.path),
+          (index) => UploadImageRequest(url: urlResult.data[index].uploadUrl, filePath: xFileList[index]!.path),
         );
 
         final uploadResult = await uploadImagesUseCase.execute(uploadRequests);
