@@ -13,6 +13,11 @@ enum Env {
     prod => 'prod',
   };
 
+  String get baseUrl => switch (this) {
+    dev => dotenv.env['DEV_BASE_URL']!,
+    prod => dotenv.env['BASE_URL']!,
+  };
+
   String get apiUrl => switch (this) {
     dev => dotenv.env['DEV_API_URL']!,
     prod => dotenv.env['API_URL']!,

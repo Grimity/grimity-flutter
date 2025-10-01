@@ -3,6 +3,7 @@ import 'package:flutter/material.dart' hide Notification;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
+import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/extension/date_time_extension.dart';
 import 'package:grimity/gen/assets.gen.dart';
@@ -25,7 +26,7 @@ class NotificationWidget extends ConsumerWidget {
           notifier.markNotificationAsRead(notification.id);
         }
 
-        // TODO 링크 이동
+        AppRouter.handleServerUrl(context, notification.link);
       },
       child: Container(
         padding: EdgeInsets.all(16),
