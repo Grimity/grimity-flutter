@@ -61,7 +61,10 @@ class _ProfileAppBarDelegate extends SliverPersistentHeaderDelegate {
           if (viewType == ProfileViewType.mine) ...[
             GestureDetector(onTap: () {}, child: Assets.icons.home.search.svg(width: 24.w, height: 24.w)),
             Gap(20.w),
-            GestureDetector(onTap: () {}, child: Assets.icons.profile.storage.svg(width: 24.w, height: 24.w)),
+            GestureDetector(
+              onTap: () => StorageRoute().push(context),
+              child: Assets.icons.profile.storage.svg(width: 24.w, height: 24.w),
+            ),
             Gap(20.w),
             GestureDetector(
               onTap: () => SettingRoute().push(context),
