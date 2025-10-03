@@ -62,7 +62,7 @@ class _StorageLikeFeedListView extends HookConsumerWidget {
                       onToggleLike:
                           () => ref
                               .read(likeFeedDataProvider.notifier)
-                              .toggleLikeFeed(feedId: feed.id, like: feed.isLike == true ? false : true),
+                              .toggleLike(feedId: feed.id, like: feed.isLike == true ? false : true),
                     ),
                   )
                   .toList(),

@@ -53,7 +53,7 @@ class _RecommendFeedListView extends ConsumerWidget {
             onToggleLike:
                 () => ref
                     .read(feedRecommendFeedDataProvider.notifier)
-                    .toggleLikeFeed(feedId: feed.id, like: feed.isLike == true ? false : true),
+                    .toggleLike(feedId: feed.id, like: feed.isLike == true ? false : true),
           ),
       ],
     );

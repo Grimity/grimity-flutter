@@ -1,14 +1,14 @@
 import 'package:grimity/domain/entity/feeds.dart';
-import 'package:grimity/domain/usecase/feed_usecases.dart';
 import 'package:grimity/domain/usecase/me/get_like_feeds_usecase.dart';
 import 'package:grimity/domain/usecase/me_usecases.dart';
+import 'package:grimity/presentation/common/mixin/feed_mixin.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'storage_like_feed_data_provider.g.dart';
 
 // 좋아요한 그림 데이터
 @riverpod
-class LikeFeedData extends _$LikeFeedData {
+class LikeFeedData extends _$LikeFeedData with FeedMixin<Feeds> {
   @override
   FutureOr<Feeds> build() async {
     final GetLikeFeedsRequestParam param = GetLikeFeedsRequestParam(size: 10);
@@ -39,22 +39,11 @@ class LikeFeedData extends _$LikeFeedData {
     );
   }
 
-  Future<void> toggleLikeFeed({required String feedId, required bool like}) async {
-    final currentState = state.valueOrNull;
-    if (currentState == null) return;
-
-    final result = like ? await likeFeedUseCase.execute(feedId) : await unlikeFeedUseCase.execute(feedId);
-
-    result.fold(
-      onSuccess: (data) {
-        final updateFeedList = currentState.feeds.map((e) => e.id == feedId ? e.copyWith(isLike: like) : e).toList();
-        final updatedFeeds = Feeds(feeds: updateFeedList, nextCursor: currentState.nextCursor);
-
-        state = AsyncValue.data(updatedFeeds);
-      },
-      onFailure: (error) {
-        return state = AsyncValue.error(error, StackTrace.current);
-      },
-    );
-  }
+  Future<void> toggleLike({required String feedId, required bool like}) => onToggleLike(
+    feedId: feedId,
+    like: like,
+    optimisticBuilder: (prev) {
+      return prev.copyWith(feeds: prev.feeds.map((e) => e.id == feedId ? e.copyWith(isLike: like) : e).toList());
+    },
+  );
 }

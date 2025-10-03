@@ -150,13 +150,13 @@ class PopularFeedView extends ConsumerWidget {
   }
 }
 
-class _PopularFeedListView extends StatelessWidget {
+class _PopularFeedListView extends ConsumerWidget {
   const _PopularFeedListView({required this.feeds});
 
   final List<Feed> feeds;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final int rowCount = (feeds.length / 2).ceil();
 
     return LayoutGrid(
@@ -164,7 +164,16 @@ class _PopularFeedListView extends StatelessWidget {
       rowSizes: List.generate(rowCount, (_) => auto),
       rowGap: 20,
       columnGap: 12,
-      children: [for (var feed in feeds) GrimityImageFeed(feed: feed)],
+      children: [
+        for (var feed in feeds)
+          GrimityImageFeed(
+            feed: feed,
+            onToggleLike:
+                () => ref
+                    .read(popularFeedRankingDataProvider.notifier)
+                    .toggleLike(feedId: feed.id, like: feed.isLike == true ? false : true),
+          ),
+      ],
     );
   }
 }

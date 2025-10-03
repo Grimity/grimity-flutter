@@ -91,7 +91,7 @@ class FollowingFeedCard extends ConsumerWidget {
                   onTap:
                       () => ref
                           .read(followingFeedDataProvider.notifier)
-                          .toggleLikeFeed(feedId: feed.id, like: !(feed.isLike ?? false)),
+                          .toggleLike(feedId: feed.id, like: !(feed.isLike ?? false)),
                   child:
                       feed.isLike ?? false
                           ? Assets.icons.common.heartFill.svg(width: 24, height: 24)

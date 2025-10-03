@@ -1,12 +1,13 @@
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/usecase/feed_usecases.dart';
+import 'package:grimity/presentation/common/mixin/feed_mixin.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'feed_detail_data_provider.g.dart';
 
 @riverpod
-class FeedDetailData extends _$FeedDetailData {
+class FeedDetailData extends _$FeedDetailData with FeedMixin<Feed?> {
   @override
   FutureOr<Feed?> build(String feedId) async {
     final result = await getFeedDetailUseCase.execute(feedId);
@@ -34,21 +35,13 @@ class FeedDetailData extends _$FeedDetailData {
     return isSuccess;
   }
 
-  /// 좋아요 토글
-  Future<void> toggleLikeFeed(String feedId, bool like) async {
-    final currentState = state.valueOrNull;
-    if (currentState == null) return;
-
-    final result = like ? await likeFeedUseCase.execute(feedId) : await unlikeFeedUseCase.execute(feedId);
-
-    if (result.isSuccess) {
-      final updatedFeed = currentState.copyWith(
-        likeCount: like ? currentState.likeCount! + 1 : currentState.likeCount! - 1,
-        isLike: like,
-      );
-      state = AsyncValue.data(updatedFeed);
-    }
-  }
+  Future<void> toggleLike({required String feedId, required bool like}) => onToggleLike(
+    feedId: feedId,
+    like: like,
+    optimisticBuilder: (prev) {
+      return prev?.copyWith(likeCount: like ? prev.likeCount! + 1 : prev.likeCount! - 1, isLike: like);
+    },
+  );
 
   /// 저장 토글
   Future<void> toggleSaveFeed(String feedId, bool save) async {

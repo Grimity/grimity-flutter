@@ -8,12 +8,13 @@ import 'package:grimity/domain/usecase/feed/get_latest_feeds_usecase.dart';
 import 'package:grimity/domain/usecase/feed_usecases.dart';
 import 'package:grimity/domain/usecase/post/get_posts_usecase.dart';
 import 'package:grimity/domain/usecase/post_usecases.dart';
+import 'package:grimity/presentation/common/mixin/feed_mixin.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'home_data_provider.g.dart';
 
 @riverpod
-class FeedRankingData extends _$FeedRankingData {
+class FeedRankingData extends _$FeedRankingData with FeedMixin<List<Feed>> {
   @override
   FutureOr<List<Feed>> build() async {
     final now = DateTime.now();
@@ -23,6 +24,18 @@ class FeedRankingData extends _$FeedRankingData {
 
     return result.fold(onSuccess: (feeds) => feeds, onFailure: (e) => []);
   }
+
+  Future<void> toggleLike({required String feedId, required bool like}) => onToggleLike(
+    feedId: feedId,
+    like: like,
+    optimisticBuilder: (prev) {
+      return prev
+          .map(
+            (e) => e.id == feedId ? e.copyWith(likeCount: like ? e.likeCount! + 1 : e.likeCount! - 1, isLike: like) : e,
+          )
+          .toList();
+    },
+  );
 }
 
 @riverpod
