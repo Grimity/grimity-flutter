@@ -62,7 +62,7 @@ class _StorageSavePostListView extends ConsumerWidget {
                     onTap:
                         () => ref
                             .read(savePostDataProvider.notifier)
-                            .toggleSavePost(postId: post.id, save: post.isSave == true ? false : true),
+                            .toggleSave(postId: post.id, save: post.isSave == true ? false : true),
                     child:
                         post.isSave == true
                             ? Assets.icons.common.saveFill.svg(width: 20, height: 20)

@@ -1,12 +1,13 @@
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/domain/usecase/post_usecases.dart';
+import 'package:grimity/presentation/common/mixin/post_mixin.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'post_detail_data_provider.g.dart';
 
 @riverpod
-class PostDetailData extends _$PostDetailData {
+class PostDetailData extends _$PostDetailData with PostMixin<Post?> {
   @override
   FutureOr<Post?> build(String postId) async {
     final result = await getPostDetailUseCase.execute(postId);
@@ -34,32 +35,19 @@ class PostDetailData extends _$PostDetailData {
     return isSuccess;
   }
 
-  /// 좋아요 토글
-  Future<void> toggleLikePost(String postId, bool like) async {
-    final currentState = state.valueOrNull;
-    if (currentState == null) return;
+  Future<void> toggleLike({required String postId, required bool like}) => onToggleLike(
+    postId: postId,
+    like: like,
+    optimisticBuilder: (prev) {
+      return prev?.copyWith(likeCount: like ? prev.likeCount! + 1 : prev.likeCount! - 1, isLike: like);
+    },
+  );
 
-    final result = like ? await likePostUseCase.execute(postId) : await unlikePostUseCase.execute(postId);
-
-    if (result.isSuccess) {
-      final updatedPost = currentState.copyWith(
-        likeCount: like ? currentState.likeCount! + 1 : currentState.likeCount! - 1,
-        isLike: like,
-      );
-      state = AsyncValue.data(updatedPost);
-    }
-  }
-
-  /// 저장 토글
-  Future<void> toggleSavePost(String postId, bool save) async {
-    final currentState = state.valueOrNull;
-    if (currentState == null) return;
-
-    final result = save ? await savePostUseCase.execute(postId) : await removeSavedPostUseCase.execute(postId);
-
-    if (result.isSuccess) {
-      final updatedPost = currentState.copyWith(isSave: save);
-      state = AsyncValue.data(updatedPost);
-    }
-  }
+  Future<void> toggleSave({required String postId, required bool save}) => onToggleSave(
+    postId: postId,
+    save: save,
+    optimisticBuilder: (prev) {
+      return prev?.copyWith(isSave: save);
+    },
+  );
 }
