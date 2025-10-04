@@ -22,7 +22,7 @@ class FeedUtilBar extends ConsumerWidget {
       commentCount: feed.commentCount ?? 0,
       shareUrl: AppConfig.buildFeedUrl(feed.id),
       onLikeTap: () => ref.read(feedDetailDataProvider(feed.id).notifier).toggleLike(feedId: feed.id, like: !isLike),
-      onSaveTap: () => ref.read(feedDetailDataProvider(feed.id).notifier).toggleSaveFeed(feed.id, !isSave),
+      onSaveTap: () => ref.read(feedDetailDataProvider(feed.id).notifier).toggleSave(feedId: feed.id, save: !isSave),
     );
   }
 }

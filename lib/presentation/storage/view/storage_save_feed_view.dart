@@ -62,7 +62,7 @@ class _StorageSaveFeedListView extends HookConsumerWidget {
                       onToggleSave:
                           () => ref
                               .read(saveFeedDataProvider.notifier)
-                              .toggleSaveFeed(feedId: feed.id, save: feed.isSave == true ? false : true),
+                              .toggleSave(feedId: feed.id, save: feed.isSave == true ? false : true),
                     ),
                   )
                   .toList(),

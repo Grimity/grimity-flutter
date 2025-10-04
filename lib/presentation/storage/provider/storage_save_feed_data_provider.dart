@@ -1,14 +1,14 @@
 import 'package:grimity/domain/entity/feeds.dart';
-import 'package:grimity/domain/usecase/feed_usecases.dart';
 import 'package:grimity/domain/usecase/me/get_save_feeds_usecase.dart';
 import 'package:grimity/domain/usecase/me_usecases.dart';
+import 'package:grimity/presentation/common/mixin/feed_mixin.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'storage_save_feed_data_provider.g.dart';
 
 // 저장한 그림 데이터
 @riverpod
-class SaveFeedData extends _$SaveFeedData {
+class SaveFeedData extends _$SaveFeedData with FeedMixin<Feeds> {
   @override
   FutureOr<Feeds> build() async {
     final GetSaveFeedsRequestParam param = GetSaveFeedsRequestParam(size: 10);
@@ -39,22 +39,11 @@ class SaveFeedData extends _$SaveFeedData {
     );
   }
 
-  Future<void> toggleSaveFeed({required String feedId, required bool save}) async {
-    final currentState = state.valueOrNull;
-    if (currentState == null) return;
-
-    final result = save ? await saveFeedUseCase.execute(feedId) : await removeSavedFeedUseCase.execute(feedId);
-
-    result.fold(
-      onSuccess: (data) {
-        final updateFeedList = currentState.feeds.map((e) => e.id == feedId ? e.copyWith(isSave: save) : e).toList();
-        final updatedFeeds = Feeds(feeds: updateFeedList, nextCursor: currentState.nextCursor);
-
-        state = AsyncValue.data(updatedFeeds);
-      },
-      onFailure: (error) {
-        return state = AsyncValue.error(error, StackTrace.current);
-      },
-    );
-  }
+  Future<void> toggleSave({required String feedId, required bool save}) => onToggleSave(
+    feedId: feedId,
+    save: save,
+    optimisticBuilder: (prev) {
+      return prev.copyWith(feeds: prev.feeds.map((e) => e.id == feedId ? e.copyWith(isSave: save) : e).toList());
+    },
+  );
 }

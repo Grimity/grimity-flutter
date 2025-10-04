@@ -28,4 +28,27 @@ mixin FeedMixin<T> {
       },
     );
   }
+
+  /// Feed save, remove
+  Future<void> onToggleSave({
+    required String feedId,
+    required bool save,
+    required T Function(T prev) optimisticBuilder,
+  }) async {
+    final prev = state.valueOrNull;
+    if (prev == null) return;
+
+    final optimistic = optimisticBuilder(prev);
+    state = AsyncValue.data(optimistic);
+
+    final result = save ? await saveFeedUseCase.execute(feedId) : await removeSavedFeedUseCase.execute(feedId);
+
+    result.fold(
+      onSuccess: (_) {},
+      onFailure: (e) {
+        state = AsyncValue.error(e, StackTrace.current);
+        state = AsyncValue.data(prev);
+      },
+    );
+  }
 }

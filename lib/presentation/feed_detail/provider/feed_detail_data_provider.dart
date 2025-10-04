@@ -43,16 +43,11 @@ class FeedDetailData extends _$FeedDetailData with FeedMixin<Feed?> {
     },
   );
 
-  /// 저장 토글
-  Future<void> toggleSaveFeed(String feedId, bool save) async {
-    final currentState = state.valueOrNull;
-    if (currentState == null) return;
-
-    final result = save ? await saveFeedUseCase.execute(feedId) : await removeSavedFeedUseCase.execute(feedId);
-
-    if (result.isSuccess) {
-      final updatedFeed = currentState.copyWith(isSave: save);
-      state = AsyncValue.data(updatedFeed);
-    }
-  }
+  Future<void> toggleSave({required String feedId, required bool save}) => onToggleSave(
+    feedId: feedId,
+    save: save,
+    optimisticBuilder: (prev) {
+      return prev?.copyWith(isSave: save);
+    },
+  );
 }
