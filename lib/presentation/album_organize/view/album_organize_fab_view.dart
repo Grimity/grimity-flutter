@@ -5,7 +5,7 @@ import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/album_organize/provider/album_organize_provider.dart';
 import 'package:grimity/presentation/album_organize/widget/album_organize_fab_button.dart';
-import 'package:grimity/presentation/common/widget/grimity_dialog.dart';
+import 'package:grimity/presentation/common/widget/alert/grimity_dialog.dart';
 import 'package:grimity/presentation/common/widget/grimity_select_modal_bottom_sheet.dart';
 import 'package:grimity/app/config/app_color.dart';
 

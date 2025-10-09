@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/domain/entity/album.dart';
 import 'package:grimity/presentation/album_edit/provider/album_edit_provider.dart';
-import 'package:grimity/presentation/common/widget/grimity_dialog.dart';
+import 'package:grimity/presentation/common/widget/alert/grimity_dialog.dart';
 
 void showAlbumDeleteDialog(BuildContext context, WidgetRef ref, Album album) {
   showDialog(

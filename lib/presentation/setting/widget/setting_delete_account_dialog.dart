@@ -5,7 +5,7 @@ import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/enum/login_provider.enum.dart';
 import 'package:grimity/domain/usecase/me_usecases.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
-import 'package:grimity/presentation/common/widget/grimity_dialog.dart';
+import 'package:grimity/presentation/common/widget/alert/grimity_dialog.dart';
 
 void showDeleteAccountDialog(BuildContext context, WidgetRef ref) {
   showDialog(

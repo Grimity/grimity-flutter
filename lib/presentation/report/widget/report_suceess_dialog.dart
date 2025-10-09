@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/common/widget/grimity_dialog.dart';
+import 'package:grimity/presentation/common/widget/alert/grimity_dialog.dart';
 
 void showSuccessReportDialog(BuildContext context) {
   showDialog(

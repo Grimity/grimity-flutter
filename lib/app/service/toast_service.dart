@@ -1,7 +1,7 @@
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/enum/grimity.enum.dart';
-import 'package:grimity/presentation/common/widget/grimity_toast.dart';
+import 'package:grimity/presentation/common/widget/alert/grimity_toast.dart';
 
 class ToastService {
   ToastService._();

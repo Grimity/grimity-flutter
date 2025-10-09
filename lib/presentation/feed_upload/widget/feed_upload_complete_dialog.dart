@@ -6,7 +6,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/common/widget/grimity_dialog.dart';
+import 'package:grimity/presentation/common/widget/alert/grimity_dialog.dart';
 
 void showUploadCompleteDialog(BuildContext context, String link) {
   showDialog(
