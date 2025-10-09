@@ -15,7 +15,7 @@ import 'package:grimity/presentation/comment/provider/comments_data_provider.dar
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
-import 'package:grimity/presentation/common/widget/grimity_modal_bottom_sheet.dart';
+import 'package:grimity/presentation/common/widget/popup/grimity_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/common/widget/grimity_user_image.dart';
 
 class CommentWidget extends ConsumerWidget {

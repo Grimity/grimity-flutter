@@ -4,7 +4,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
-import 'package:grimity/presentation/common/widget/grimity_share_modal_bottom_sheet.dart';
+import 'package:grimity/presentation/common/widget/popup/grimity_share_modal_bottom_sheet.dart';
 
 /// 공통 UtilBar
 /// 좋아요, 저장, 댓글, 공유 기능 UtilBar

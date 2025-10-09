@@ -14,7 +14,7 @@ import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_follow_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
-import 'package:grimity/presentation/common/widget/grimity_modal_bottom_sheet.dart';
+import 'package:grimity/presentation/common/widget/popup/grimity_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/common/widget/grimity_more_button.dart';
 import 'package:grimity/presentation/post_detail/widget/post_detail_delete_dialog.dart';
 import 'package:grimity/presentation/post_detail/widget/post_util_bar.dart';

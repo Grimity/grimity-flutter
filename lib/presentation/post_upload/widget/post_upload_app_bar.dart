@@ -8,7 +8,7 @@ import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/post_type.enum.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/dialog/cancel_upload_dialog.dart';
-import 'package:grimity/presentation/common/widget/grimity_select_modal_bottom_sheet.dart';
+import 'package:grimity/presentation/common/widget/popup/grimity_select_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/post_upload/provider/post_upload_page_argument_provider.dart';
 import 'package:grimity/presentation/post_upload/provider/post_upload_provider.dart';
 import 'package:grimity/presentation/post_upload/widget/post_upload_complete_dialog.dart';

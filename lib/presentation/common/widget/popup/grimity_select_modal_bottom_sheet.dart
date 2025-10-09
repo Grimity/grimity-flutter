@@ -12,8 +12,7 @@ class GrimitySelectModalBottomSheet extends ConsumerWidget {
   final String? title;
   final Widget? titleWidget;
   final List<GrimitySelectModalButtonModel>? buttons;
-  final List<
-      GrimitySelectModalButtonModel> Function(WidgetRef ref)? buttonsBuilder;
+  final List<GrimitySelectModalButtonModel> Function(WidgetRef ref)? buttonsBuilder;
   final VoidCallback? onSave;
 
   const GrimitySelectModalBottomSheet({
@@ -23,13 +22,11 @@ class GrimitySelectModalBottomSheet extends ConsumerWidget {
     this.buttons,
     this.buttonsBuilder,
     this.onSave,
-  })
-      : assert(title != null ||
-      titleWidget != null, 'Either buttons or buttonsBuilder must be provided'),
-        assert(buttons != null || buttonsBuilder !=
-            null, 'Either buttons or buttonsBuilder must be provided');
+  }) : assert(title != null || titleWidget != null, 'Either buttons or buttonsBuilder must be provided'),
+       assert(buttons != null || buttonsBuilder != null, 'Either buttons or buttonsBuilder must be provided');
 
-  static void show(BuildContext context, {
+  static void show(
+    BuildContext context, {
     String? title,
     Widget? titleWidget,
     List<GrimitySelectModalButtonModel>? buttons,
@@ -41,8 +38,7 @@ class GrimitySelectModalBottomSheet extends ConsumerWidget {
       backgroundColor: Colors.white,
       constraints: BoxConstraints(maxHeight: 520.h),
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(24), topRight: Radius.circular(24)),
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
       ),
       builder: (modalContext) {
         final container = ProviderScope.containerOf(context, listen: false);
@@ -75,8 +71,7 @@ class GrimitySelectModalBottomSheet extends ConsumerWidget {
             children: [
               titleNode,
               const Spacer(),
-              GestureDetector(onTap: () => context.pop(),
-                  child: Assets.icons.common.close.svg(width: 24, height: 24)),
+              GestureDetector(onTap: () => context.pop(), child: Assets.icons.common.close.svg(width: 24, height: 24)),
             ],
           ),
           Gap(24),
@@ -85,17 +80,16 @@ class GrimitySelectModalBottomSheet extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               spacing: 8,
               children:
-              models
-                  .map(
-                    (e) =>
-                    _SelectBottomSheetButton(
-                      title: e.title,
-                      onTap: e.onTap,
-                      isSelected: e.isSelected,
-                      isDisabled: e.isDisabled,
-                    ),
-              )
-                  .toList(),
+                  models
+                      .map(
+                        (e) => _SelectBottomSheetButton(
+                          title: e.title,
+                          onTap: e.onTap,
+                          isSelected: e.isSelected,
+                          isDisabled: e.isDisabled,
+                        ),
+                      )
+                      .toList(),
             ),
           ),
           Gap(24),
@@ -103,12 +97,9 @@ class GrimitySelectModalBottomSheet extends ConsumerWidget {
             GestureDetector(
               onTap: onSave,
               child: Container(
-                decoration: BoxDecoration(color: AppColor.primary4,
-                    borderRadius: BorderRadius.circular(10)),
+                decoration: BoxDecoration(color: AppColor.primary4, borderRadius: BorderRadius.circular(10)),
                 height: 42,
-                child: Center(child: Text('저장',
-                    style: AppTypeface.label2.copyWith(
-                        color: AppColor.gray00))),
+                child: Center(child: Text('저장', style: AppTypeface.label2.copyWith(color: AppColor.gray00))),
               ),
             ),
             Gap(24),
@@ -125,8 +116,7 @@ class GrimitySelectModalButtonModel {
   final bool isSelected;
   final bool isDisabled;
 
-  GrimitySelectModalButtonModel(
-      {required this.title, this.onTap, this.isSelected = false, this.isDisabled = false});
+  GrimitySelectModalButtonModel({required this.title, this.onTap, this.isSelected = false, this.isDisabled = false});
 }
 
 class _SelectBottomSheetButton extends StatelessWidget {
