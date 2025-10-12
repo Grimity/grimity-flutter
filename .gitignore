@@ -36,7 +36,6 @@ doc/api/
 ### Flutter ###
 # Flutter/Dart/Pub related
 **/doc/api/
-.fvm/flutter_sdk
 .pub-cache/
 .pub/
 coverage/
@@ -227,7 +226,6 @@ fabric.properties
 # Icon must end with two \r
 Icon
 
-
 # Thumbnails
 ._*
 
@@ -327,3 +325,6 @@ macos/Runner/GoogleService-Info.plist
 macos/flavors/*/GoogleService-Info.plist
 android/app/google-services.json
 android/app/src/*/google-services.json
+
+# FVM Version Cache
+.fvm/

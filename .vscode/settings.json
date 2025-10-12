@@ -1,14 +1,15 @@
 {
-    "files.exclude": {
-        "**/.git": true,
-        "**/.svn": true,
-        "**/.hg": true,
-        "**/CVS": true,
-        "**/.DS_Store": true,
-        "**/Thumbs.db": true,
-        "**/*.config.dart": true,
-        "**/*.g.dart": true,
-        "**/*.freezed.dart": true
-    },
-    "explorerExclude.backup": {}
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/*.config.dart": true,
+    "**/*.g.dart": true,
+    "**/*.freezed.dart": true
+  },
+  "explorerExclude.backup": {},
+  "dart.flutterSdkPath": ".fvm/versions/3.32.2"
 }
