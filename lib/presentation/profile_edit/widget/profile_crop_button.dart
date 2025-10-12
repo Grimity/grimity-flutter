@@ -1,7 +1,7 @@
 import 'package:custom_image_crop/custom_image_crop.dart';
 import 'package:flutter/material.dart';
 import 'package:grimity/presentation/common/enum/upload_image_type.dart';
-import 'package:grimity/presentation/common/widget/grimity_button.dart';
+import 'package:grimity/presentation/common/widget/button/grimity_button.dart';
 import 'package:grimity/presentation/profile_edit/provider/upload_image_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -17,8 +17,9 @@ class ProfileCropButton extends ConsumerWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: GrimityButton(
-        uploadImage.type == UploadImageType.profile ? '프로필 저장' : '커버 저장',
+      child: GrimityButton.large(
+        text: uploadImage.type == UploadImageType.profile ? '프로필 저장' : '커버 저장',
+        style: ButtonStyleType.line,
         onTap: () async {
           final cropImage = await controller.onCropImage();
 

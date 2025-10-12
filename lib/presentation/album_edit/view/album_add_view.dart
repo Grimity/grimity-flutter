@@ -5,7 +5,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/presentation/album_edit/provider/album_edit_provider.dart';
 import 'package:grimity/presentation/album_edit/widget/album_max_count_dialog.dart';
-import 'package:grimity/presentation/common/widget/grimity_button.dart';
+import 'package:grimity/presentation/common/widget/button/grimity_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_text_field.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -60,8 +60,8 @@ class AlbumAddView extends HookConsumerWidget {
           ),
         ),
         Gap(12),
-        GrimityButton(
-          '추가',
+        GrimityButton.medium(
+          text: '추가',
           onTap: () {
             newAlbumFocusNode.unfocus();
 
@@ -72,9 +72,7 @@ class AlbumAddView extends HookConsumerWidget {
 
             ref.read(albumEditProvider.notifier).createNewAlbum();
           },
-          isEnabled: newAlbumController.text.isEmpty || albumEditState.isAlbumSorting ? false : true,
-          isFullWidth: false,
-          hasBottomPadding: false,
+          status: newAlbumController.text.isEmpty || albumEditState.isAlbumSorting ? ButtonStatus.off : ButtonStatus.on,
         ),
         Gap(40),
       ],

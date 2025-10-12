@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:grimity/presentation/common/widget/grimity_button.dart';
+import 'package:grimity/presentation/common/widget/button/grimity_button.dart';
 import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
 import 'package:grimity/presentation/profile_edit/provider/profile_edit_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -11,11 +10,10 @@ class ProfileEditSaveButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SafeArea(
-      child: Container(
+      child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
-        height: 54.w,
-        child: GrimityButton(
-          '변경 내용 저장',
+        child: GrimityButton.large(
+          text: '변경 내용 저장',
           onTap: () async {
             await ref.read(profileEditProvider.notifier).updateUser();
             if (context.mounted && ref.read(profileEditProvider).isSaved == true) {
@@ -23,7 +21,6 @@ class ProfileEditSaveButton extends ConsumerWidget {
               Navigator.of(context).pop();
             }
           },
-          hasBottomPadding: false,
         ),
       ),
     );
