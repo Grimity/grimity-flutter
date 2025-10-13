@@ -1,0 +1,28 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "APP-Grimity",
+            "request": "launch",
+            "type": "dart",
+            "args": ["--flavor", "prod"],
+            "program": "lib/app/entrypoints/main_prod.dart",
+        },
+        {
+            "name": "APP-Grimity (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "args": ["--flavor", "prod"],
+            "flutterMode": "profile",
+            "program": "lib/app/entrypoints/main_prod.dart"
+        },
+        {
+            "name": "APP-Grimity (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "args": ["--flavor", "prod"],
+            "flutterMode": "release",
+            "program": "lib/app/entrypoints/main_prod.dart"
+        }
+    ]
+}
