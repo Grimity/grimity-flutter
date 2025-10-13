@@ -12,6 +12,7 @@ import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
 import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
+import 'package:grimity/presentation/common/widget/system/sort/grimity_search_sort_header.dart';
 import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
 import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
 import 'package:grimity/presentation/profile/provider/profile_feeds_data_provider.dart';
@@ -52,7 +53,8 @@ class ProfileFeedTabView extends HookConsumerWidget {
             ),
           ),
           // 해당 앨범의 피드 갯수가 0개가 아닐때 표시
-          if (selectedAlbumFeedCount != 0) SliverToBoxAdapter(child: _buildMenu(context, ref, selectedAlbumId)),
+          if (selectedAlbumFeedCount != 0)
+            SliverToBoxAdapter(child: _buildSortHeader(context, ref, selectedAlbumId, selectedAlbumFeedCount)),
           SliverToBoxAdapter(
             child: feedsAsync.when(
               data: (data) => _buildFeedGrid(context, data.feeds),
@@ -121,33 +123,31 @@ class ProfileFeedTabView extends HookConsumerWidget {
     );
   }
 
-  Widget _buildMenu(BuildContext context, WidgetRef ref, String? selectedAlbumId) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 13.5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          if (viewType == ProfileViewType.mine) ...[
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap:
-                  () => AlbumOrganizeRoute($extra: user).push(context).then((_) {
-                    ref.invalidate(profileFeedsDataProvider);
-                    ref.invalidate(profileDataProvider);
-                  }),
-              child: Row(
-                children: [
-                  Text('그림 정리', style: AppTypeface.caption2.copyWith(color: AppColor.gray700)),
-                  Gap(6),
-                  Assets.icons.profile.sync.svg(width: 16, height: 16),
-                ],
-              ),
-            ),
-            Gap(16),
-          ],
-          _ProfileFeedSortTypeDropDown(),
-        ],
-      ),
+  Widget _buildSortHeader(BuildContext context, WidgetRef ref, String? selectedAlbumId, int selectedAlbumFeedCount) {
+    return GrimitySearchSortHeader(
+      resultCount: selectedAlbumFeedCount,
+      onOrganizeTap:
+          viewType == ProfileViewType.mine
+              ? () => AlbumOrganizeRoute($extra: user).push(context).then((_) {
+                ref.invalidate(profileFeedsDataProvider);
+                ref.invalidate(profileDataProvider);
+              })
+              : null,
+      sortValue: SortType.latest,
+      sortItems:
+          SortType.profileFeedSortValues
+              .map(
+                (e) => DropdownMenuItem(
+                  value: e,
+                  child: Text(e.typeName, style: AppTypeface.caption2.copyWith(color: AppColor.gray700)),
+                ),
+              )
+              .toList(),
+      onSortChanged: (value) {
+        if (value == null) return;
+        ref.read(selectedSortTypeProvider.notifier).setSortType(value);
+      },
+      padding: EdgeInsets.zero,
     );
   }
 
@@ -213,46 +213,6 @@ class _ProfileAlbumHeader extends HookConsumerWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _ProfileFeedSortTypeDropDown extends ConsumerWidget {
-  const _ProfileFeedSortTypeDropDown();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return IntrinsicWidth(
-      child: DropdownButtonFormField<SortType>(
-        padding: EdgeInsets.zero,
-        value: SortType.latest,
-        items:
-            SortType.values
-                .map(
-                  (e) => DropdownMenuItem(
-                    value: e,
-                    child: Text(e.typeName, style: AppTypeface.caption2.copyWith(color: AppColor.gray700)),
-                  ),
-                )
-                .toList(),
-        decoration: InputDecoration(
-          isDense: true,
-          fillColor: Colors.white,
-          contentPadding: EdgeInsets.zero,
-          enabledBorder: OutlineInputBorder(borderSide: BorderSide.none),
-          focusedBorder: OutlineInputBorder(borderSide: BorderSide.none),
-        ),
-        dropdownColor: AppColor.gray00,
-        borderRadius: BorderRadius.circular(12),
-        icon: Padding(
-          padding: EdgeInsets.only(left: 4),
-          child: Assets.icons.profile.arrowDown.svg(width: 16, height: 16),
-        ),
-        onChanged: (value) {
-          if (value == null) return;
-          ref.read(selectedSortTypeProvider.notifier).setSortType(value);
-        },
       ),
     );
   }
