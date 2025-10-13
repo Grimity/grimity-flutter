@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:grimity/app/enum/sort_type.enum.dart';
 
 part 'feeds_request_param.freezed.dart';
 
@@ -52,4 +53,16 @@ abstract class DeleteFeedsRequest with _$DeleteFeedsRequest {
   const factory DeleteFeedsRequest({required List<String> ids}) = _DeleteFeedsRequest;
 
   factory DeleteFeedsRequest.fromJson(Map<String, dynamic> json) => _$DeleteFeedsRequestFromJson(json);
+}
+
+@freezed
+abstract class SearchFeedRequest with _$SearchFeedRequest {
+  const factory SearchFeedRequest({
+    String? cursor,
+    int? size,
+    required String keyword,
+    required SortType sort,
+  }) = _SearchFeedRequest;
+
+  factory SearchFeedRequest.fromJson(Map<String, dynamic> json) => _$SearchFeedRequestFromJson(json);
 }
