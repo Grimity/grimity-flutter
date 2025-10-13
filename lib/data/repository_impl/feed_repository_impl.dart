@@ -5,6 +5,7 @@ import 'package:grimity/data/model/feed/feed_detail_response.dart';
 import 'package:grimity/data/model/feed/feed_rankings_response.dart';
 import 'package:grimity/data/model/feed/following_feeds_response.dart';
 import 'package:grimity/data/model/feed/latest_feeds_response.dart';
+import 'package:grimity/data/model/feed/searched_feeds_response.dart';
 import 'package:grimity/domain/dto/feeds_request_param.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/feeds.dart';
@@ -32,6 +33,21 @@ class FeedRepositoryImpl extends FeedRepository {
     try {
       await _feedAPI.deleteFeeds(request);
       return Result.success(null);
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
+
+  @override
+  Future<Result<Feeds>> searchFeeds(SearchFeedRequest request) async {
+    try {
+      final SearchedFeedsResponse response = await _feedAPI.searchFeeds(
+        request.cursor,
+        request.size,
+        request.keyword,
+        request.sort,
+      );
+      return Result.success(response.toEntity());
     } on Exception catch (e) {
       return Result.failure(e);
     }

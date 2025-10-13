@@ -9,11 +9,13 @@ import 'package:grimity/domain/usecase/feed/get_latest_feeds_usecase.dart';
 import 'package:grimity/domain/usecase/feed/like_feed_usecase.dart';
 import 'package:grimity/domain/usecase/feed/remove_saved_feed_usecase.dart';
 import 'package:grimity/domain/usecase/feed/save_feed_usecase.dart';
+import 'package:grimity/domain/usecase/feed/search_feed_usecase.dart';
 import 'package:grimity/domain/usecase/feed/unlike_feed_usecase.dart';
 import 'package:grimity/domain/usecase/feed/update_feed_usecase.dart';
 
 final createFeedUseCase = getIt<CreateFeedUseCase>();
 final deleteFeedsUseCase = getIt<DeleteFeedsUseCase>();
+final searchFeedUseCase = getIt<SearchFeedUseCase>();
 final getLatestFeedsUseCase = getIt<GetLatestFeedsUseCase>();
 final getFeedRankingsUseCase = getIt<GetFeedRankingsUseCase>();
 final getFollowingFeedsUseCase = getIt<GetFollowingFeedsUseCase>();
