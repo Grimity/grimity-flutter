@@ -115,19 +115,22 @@ class GrimityTabBar extends StatelessWidget implements PreferredSizeWidget {
       builder: (context, child) {
         final currentIndex = tabController.index;
 
-        return TabBar(
-          controller: tabController,
-          indicator: indicator,
-          indicatorColor: indicatorColor,
-          indicatorSize: indicatorSize,
-          dividerColor: dividerColor,
-          padding: padding,
-          labelPadding: labelPadding,
-          tabAlignment: tabAlignment,
-          isScrollable: isScrollable,
-          physics: physics,
-          overlayColor: overlayColor,
-          tabs: buildTabs(currentIndex),
+        return Container(
+          color: AppColor.gray00,
+          child: TabBar(
+            controller: tabController,
+            indicator: indicator,
+            indicatorColor: indicatorColor,
+            indicatorSize: indicatorSize,
+            dividerColor: dividerColor,
+            padding: padding,
+            labelPadding: labelPadding,
+            tabAlignment: tabAlignment,
+            isScrollable: isScrollable,
+            physics: physics,
+            overlayColor: overlayColor,
+            tabs: buildTabs(currentIndex),
+          ),
         );
       },
     );
