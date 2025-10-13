@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     // START: FlutterFire Configuration
@@ -6,6 +9,16 @@ plugins {
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+}
+
+// 앱 서명 파일 불러오기.
+val keystoreProps = Properties().apply {
+    val keystorePropsFile = rootProject.file("key.properties")
+    if (keystorePropsFile.exists()) {
+        load(FileInputStream(keystorePropsFile))
+    } else {
+        throw Exception("/android 폴더에 'key.properties'와 'keystore.jks' 파일을 추가하세요.")
+    }
 }
 
 android {
@@ -33,24 +46,37 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        create("keystore") {
+            keyAlias = keystoreProps.getProperty("keyAlias")
+            keyPassword = keystoreProps.getProperty("keyPassword")
+            storeFile = file("../keystore.jks")
+            storePassword = keystoreProps.getProperty("storePassword")
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            // `flutter run --release`으로 빌드 할 때는 릴리스 키로 서명됩니다.
+            signingConfig = signingConfigs.getByName("keystore")
         }
 
-        flavorDimensions += "build-type"
-        productFlavors {
-            create("dev") {
-                dimension = "build-type"
-                resValue(type = "string", name = "app_name", value = "Grimity(dev)")
-                applicationIdSuffix = ".dev"
-            }
-            create("prod") {
-                dimension = "build-type"
-                resValue(type = "string", name = "app_name", value = "Grimity")
-            }
+        debug {
+            // `flutter run --debug`으로 빌드 할 때는 릴리스 키로 서명됩니다.
+            signingConfig = signingConfigs.getByName("keystore")
+        }
+    }
+
+    flavorDimensions += "build-type"
+    productFlavors {
+        create("dev") {
+            dimension = "build-type"
+            applicationIdSuffix = ".dev"
+            resValue("string", "app_name", "Grimity(dev)")
+        }
+        create("prod") {
+            dimension = "build-type"
+            resValue("string", "app_name", "Grimity")
         }
     }
 }
