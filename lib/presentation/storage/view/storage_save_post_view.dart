@@ -8,8 +8,9 @@ import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_pagination_widget.dart';
 import 'package:grimity/presentation/common/widget/grimity_post_card.dart';
+import 'package:grimity/presentation/storage/enum/storage_enum_item.dart';
 import 'package:grimity/presentation/storage/provider/storage_save_post_data_provider.dart';
-import 'package:grimity/presentation/storage/view/storage_empty_view.dart';
+import 'package:grimity/presentation/storage/widget/storage_empty_widget.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -25,7 +26,7 @@ class StorageSavePostView extends HookConsumerWidget {
       data:
           (data) =>
               data.posts.isEmpty
-                  ? StorageEmptyView(topPadding: 92)
+                  ? StorageEmptyWidget(emptyMessage: StorageTabType.savePost.emptyMessage)
                   : _StorageSavePostListView(posts: data.posts, totalCount: data.totalCount ?? 0),
       orElse: () => Skeletonizer(child: _StorageSavePostListView(posts: Post.emptyList)),
     );

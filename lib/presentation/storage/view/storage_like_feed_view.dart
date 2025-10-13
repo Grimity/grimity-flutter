@@ -5,8 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
 import 'package:grimity/presentation/home/hook/use_infinite_scroll_hook.dart';
+import 'package:grimity/presentation/storage/enum/storage_enum_item.dart';
 import 'package:grimity/presentation/storage/provider/storage_like_feed_data_provider.dart';
-import 'package:grimity/presentation/storage/view/storage_empty_view.dart';
+import 'package:grimity/presentation/storage/widget/storage_empty_widget.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -22,7 +23,11 @@ class StorageLikeFeedView extends HookConsumerWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       child: likeFeed.maybeWhen(
-        data: (data) => data.feeds.isEmpty ? StorageEmptyView() : _StorageLikeFeedListView(feeds: data.feeds),
+        data:
+            (data) =>
+                data.feeds.isEmpty
+                    ? StorageEmptyWidget(emptyMessage: StorageTabType.likeFeed.emptyMessage)
+                    : _StorageLikeFeedListView(feeds: data.feeds),
         orElse: () => Skeletonizer(child: _StorageLikeFeedListView(feeds: Feed.emptyList)),
       ),
     );
