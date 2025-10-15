@@ -6,6 +6,7 @@ import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
+import 'package:grimity/presentation/common/widget/grimity_highlight_text_span.dart';
 import 'package:grimity/presentation/common/widget/grimity_image.dart';
 
 class GrimityImageFeed extends StatelessWidget {
@@ -14,6 +15,7 @@ class GrimityImageFeed extends StatelessWidget {
     required this.feed,
     this.authorName,
     this.index,
+    this.keyword,
     this.onToggleLike,
     this.onToggleSave,
   });
@@ -21,6 +23,7 @@ class GrimityImageFeed extends StatelessWidget {
   final Feed feed;
   final String? authorName;
   final int? index;
+  final String? keyword;
   final VoidCallback? onToggleLike;
   final VoidCallback? onToggleSave;
 
@@ -43,7 +46,7 @@ class GrimityImageFeed extends StatelessWidget {
             ),
           ),
           const Gap(8),
-          Flexible(child: Text(feed.title, style: AppTypeface.label2, maxLines: 1, overflow: TextOverflow.ellipsis)),
+          Flexible(child: GrimityHighlightTextSpan(text: feed.title, keyword: keyword, normal: AppTypeface.label2)),
           const Gap(2),
           Row(
             children: [
