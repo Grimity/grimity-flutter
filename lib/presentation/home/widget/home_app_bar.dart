@@ -21,7 +21,10 @@ class HomeAppBar extends ConsumerWidget {
       centerTitle: false,
       title: Assets.images.logo.svg(width: 90.w, height: 27.h),
       actions: [
-        GestureDetector(onTap: () {}, child: Assets.icons.home.search.svg(width: 24.w, height: 24.w)),
+        GestureDetector(
+          onTap: () => SearchRoute().push(context),
+          child: Assets.icons.home.search.svg(width: 24.w, height: 24.w),
+        ),
         Gap(20.w),
         GestureDetector(
           onTap: () {
