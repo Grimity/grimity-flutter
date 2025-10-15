@@ -8,6 +8,7 @@ import 'package:grimity/app/extension/date_time_extension.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
+import 'package:grimity/presentation/common/widget/grimity_highlight_text_span.dart';
 
 /// 게시글 위젯
 class GrimityPostCard extends StatelessWidget {
@@ -41,14 +42,10 @@ class GrimityPostCard extends StatelessWidget {
               children: [
                 if (post.thumbnail != null) ...[Assets.icons.home.image.svg(width: 16, height: 16), const Gap(6)],
                 Flexible(
-                  child: Text.rich(
-                    buildHighlightedSpan(
-                      text: post.title,
-                      keyword: keyword,
-                      normal: AppTypeface.label1.copyWith(color: AppColor.gray800),
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  child: GrimityHighlightTextSpan(
+                    text: post.title,
+                    keyword: keyword,
+                    normal: AppTypeface.label1.copyWith(color: AppColor.gray800),
                   ),
                 ),
                 const Gap(4),
@@ -67,14 +64,10 @@ class GrimityPostCard extends StatelessWidget {
               ],
             ),
             const Gap(4),
-            Text.rich(
-              buildHighlightedSpan(
-                text: post.content,
-                keyword: keyword,
-                normal: AppTypeface.label3.copyWith(color: AppColor.gray700),
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+            GrimityHighlightTextSpan(
+              text: post.content,
+              keyword: keyword,
+              normal: AppTypeface.label3.copyWith(color: AppColor.gray700),
             ),
             const Gap(4),
             Row(
@@ -104,29 +97,5 @@ class GrimityPostCard extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  InlineSpan buildHighlightedSpan({required String text, String? keyword, required TextStyle normal}) {
-    if (keyword == null || keyword.isEmpty) {
-      return TextSpan(text: text, style: normal);
-    }
-
-    final kw = keyword.trim();
-    final reg = RegExp(RegExp.escape(kw), caseSensitive: false);
-    final spans = <TextSpan>[];
-    int start = 0;
-
-    for (final m in reg.allMatches(text)) {
-      if (m.start > start) {
-        spans.add(TextSpan(text: text.substring(start, m.start), style: normal));
-      }
-      spans.add(TextSpan(text: text.substring(m.start, m.end), style: normal.copyWith(color: AppColor.main)));
-      start = m.end;
-    }
-    if (start < text.length) {
-      spans.add(TextSpan(text: text.substring(start), style: normal));
-    }
-
-    return TextSpan(children: spans, style: normal);
   }
 }
