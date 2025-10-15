@@ -2,6 +2,11 @@
 그림쟁이들을 위한 그림 커뮤니티, 그리미티에 대한 Flutter 기반의 모바일 애플리케이션입니다.
 
 ### 관련 종속성
+<a href="https://riverpod.dev/"><img src="https://github.com/user-attachments/assets/ae070ff6-5c2b-43a8-ae97-8f34114093d0"></a>
+<a href="https://pub.dev/packages/freezed"><img src="https://github.com/user-attachments/assets/184030ac-da8f-400e-b093-d14a601fd16d"></a>
+<a href="https://pub.dev/packages/go_router"><img src="https://github.com/user-attachments/assets/97b636fd-6816-4ef5-861f-daa5081486ea"></a>
+<a href="https://pub.dev/packages/dio"><img src="https://github.com/user-attachments/assets/8ea8acf8-d09e-4b3b-837e-daa799b99b08"></a>
+<a href="https://pub.dev/packages/retrofit"><img src="https://github.com/user-attachments/assets/93e98556-e40b-4841-8025-c439dc0c9c3f"></a>
 
 | 종속성 | 최소 버전 | 권장 버전 |
 | ---- | ------- | ------- |
