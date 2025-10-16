@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grimity/presentation/search/search_view.dart';
 import 'package:grimity/presentation/search/view/search_feed_tab_view.dart';
 import 'package:grimity/presentation/search/view/search_recommend_tag_view.dart';
+import 'package:grimity/presentation/search/view/search_user_tab_view.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
@@ -11,7 +12,7 @@ class SearchPage extends StatelessWidget {
     return SearchView(
       recommendTagView: SearchRecommendTagView(),
       searchFeedTabView: SearchFeedTabView(),
-      searchUserTabView: Placeholder(),
+      searchUserTabView: SearchUserTabView(),
       searchPostTabView: Placeholder(),
     );
   }

@@ -4,6 +4,7 @@ import 'package:grimity/data/model/user/searched_user_response.dart';
 import 'package:grimity/domain/entity/users.dart';
 
 part 'searched_users_response.freezed.dart';
+
 part 'searched_users_response.g.dart';
 
 @Freezed(copyWith: false)
@@ -19,6 +20,6 @@ abstract class SearchedUsersResponse with _$SearchedUsersResponse implements Cur
 
 extension SearchedUsersResponseX on SearchedUsersResponse {
   Users toEntity() {
-    return Users(users: users.map((e) => e.toEntity()).toList(), nextCursor: nextCursor);
+    return Users(users: users.map((e) => e.toEntity()).toList(), nextCursor: nextCursor, totalCount: totalCount);
   }
 }
