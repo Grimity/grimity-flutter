@@ -3,6 +3,7 @@ import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/domain/usecase/me_usecases.dart';
 import 'package:grimity/domain/usecase/users_usecase.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
+import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
 
 mixin UserMixin<T> {
   AsyncValue<T> get state;
@@ -12,7 +13,17 @@ mixin UserMixin<T> {
   /// 현재 로그인 유저 정보를 다시 불러와 최신 상태로 갱신
   Future<void> _refreshCurrentUser(Ref ref) async {
     try {
+      /// 1. 유저 정보 최신화
       await ref.read(userAuthProvider.notifier).getUser();
+
+      /// 2. 유저 정보 Url
+      final me = ref.read(userAuthProvider);
+      final myUrl = me?.url;
+
+      /// 3. 유저 프로필 정보 최신화
+      if (myUrl != null) {
+        ref.invalidate(profileDataProvider(myUrl));
+      }
     } catch (_) {}
   }
 

@@ -1,13 +1,12 @@
-import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/domain/usecase/users_usecase.dart';
-import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
+import 'package:grimity/presentation/common/mixin/user_mixin.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'profile_data_provider.g.dart';
 
 @riverpod
-class ProfileData extends _$ProfileData {
+class ProfileData extends _$ProfileData with UserMixin<User?> {
   @override
   FutureOr<User?> build(String url) async {
     if (url.isEmpty) return null;
@@ -25,32 +24,16 @@ class ProfileData extends _$ProfileData {
     final isCurrentlyFollowing = currentState.isFollowing;
     if (isCurrentlyFollowing == null) return;
 
-    if (isCurrentlyFollowing) {
-      // 언팔로우
-      final result = await unfollowUserByIdUseCase.execute(currentState.id);
-      result.fold(
-        onSuccess: (_) {
-          ref.read(userAuthProvider.notifier).getUser();
-          state = AsyncData(currentState.copyWith(isFollowing: false));
-          ToastService.show('언팔로우가 완료되었어요.');
-        },
-        onFailure: (e) {
-          ToastService.showError('언팔로우가 실패했어요.');
-        },
-      );
-    } else {
-      // 팔로우
-      final result = await followUserByIdUseCase.execute(currentState.id);
-      result.fold(
-        onSuccess: (_) {
-          ref.read(userAuthProvider.notifier).getUser();
-          state = AsyncData(currentState.copyWith(isFollowing: true));
-          ToastService.show('팔로우가 완료되었어요.');
-        },
-        onFailure: (e) {
-          ToastService.showError('팔로우가 실패했어요.');
-        },
-      );
-    }
+    onToggleFollow(
+      ref: ref,
+      id: currentState.id,
+      follow: !isCurrentlyFollowing,
+      optimisticBuilder: (prev) {
+        final current = prev?.followerCount ?? 0;
+        final nextCount = !isCurrentlyFollowing ? current + 1 : (current - 1).clamp(0, 1 << 31);
+
+        return prev?.copyWith(isFollowing: !isCurrentlyFollowing, followerCount: nextCount);
+      },
+    );
   }
 }
