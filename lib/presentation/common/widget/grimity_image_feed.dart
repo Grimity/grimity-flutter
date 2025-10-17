@@ -53,7 +53,7 @@ class GrimityImageFeed extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   if (feed.author != null) {
-                    ProfileRoute(url: feed.author!.url).push(context);
+                    ProfileRoute(url: feed.author!.url).go(context);
                   }
                 },
                 child: Text(
