@@ -5,14 +5,15 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/provider/author_with_feeds_provider.dart';
-import 'package:grimity/presentation/common/widget/grimity_follow_button.dart';
+import 'package:grimity/presentation/common/widget/button/grimity_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_image.dart';
 import 'package:grimity/presentation/common/widget/grimity_user_image.dart';
 
 class GrimityAuthorWithFeedsCard extends StatelessWidget {
-  const GrimityAuthorWithFeedsCard({super.key, required this.authorWithFeeds});
+  const GrimityAuthorWithFeedsCard({super.key, required this.authorWithFeeds, required this.onFollowTab});
 
   final AuthorWithFeeds authorWithFeeds;
+  final VoidCallback onFollowTab;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,7 @@ class GrimityAuthorWithFeedsCard extends StatelessWidget {
                 ],
               ),
               Spacer(),
-              GrimityFollowButton(url: user.url),
+              GrimityButton.follow(isFollowing: user.isFollowing ?? false, onTap: onFollowTab),
             ],
           ),
           Gap(20),
