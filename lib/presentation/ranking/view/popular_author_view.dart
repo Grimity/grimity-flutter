@@ -65,7 +65,16 @@ class _PopularAuthorCarousel extends HookConsumerWidget {
 
             return Padding(
               padding: EdgeInsets.only(left: index == 0 ? 16 : 4, right: index == visibleUserCount - 1 ? 16 : 4),
-              child: GrimityAuthorWithFeedsCard(authorWithFeeds: authorWithFeeds),
+              child: GrimityAuthorWithFeedsCard(
+                authorWithFeeds: authorWithFeeds,
+                onFollowTab:
+                    () => ref
+                        .read(authorWithFeedsDataProvider.notifier)
+                        .toggleFollow(
+                          id: authorWithFeeds.user.id,
+                          follow: authorWithFeeds.user.isFollowing == false ? true : false,
+                        ),
+              ),
             );
           },
         ),
