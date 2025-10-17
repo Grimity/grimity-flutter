@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/button/grimity_action_button.dart';
 import 'package:grimity/presentation/notification/provider/notification_data_provider.dart';
 
 class HomeAppBar extends ConsumerWidget {
@@ -21,10 +22,7 @@ class HomeAppBar extends ConsumerWidget {
       centerTitle: false,
       title: Assets.images.logo.svg(width: 90.w, height: 27.h),
       actions: [
-        GestureDetector(
-          onTap: () => SearchRoute().push(context),
-          child: Assets.icons.home.search.svg(width: 24.w, height: 24.w),
-        ),
+        GrimityActionButton.search(context),
         Gap(20.w),
         GestureDetector(
           onTap: () {

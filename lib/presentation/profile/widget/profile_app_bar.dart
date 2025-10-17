@@ -5,6 +5,7 @@ import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_theme.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/button/grimity_action_button.dart';
 import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
 
 class ProfileAppBar extends StatelessWidget {
@@ -59,7 +60,7 @@ class _ProfileAppBarDelegate extends SliverPersistentHeaderDelegate {
           ),
           const Spacer(),
           if (viewType == ProfileViewType.mine) ...[
-            GestureDetector(onTap: () {}, child: Assets.icons.home.search.svg(width: 24.w, height: 24.w)),
+            GrimityActionButton.search(context),
             Gap(20.w),
             GestureDetector(
               onTap: () => StorageRoute().push(context),
@@ -72,7 +73,7 @@ class _ProfileAppBarDelegate extends SliverPersistentHeaderDelegate {
             ),
             Gap(16.w),
           ] else ...[
-            GestureDetector(onTap: () {}, child: Assets.icons.home.search.svg(width: 24.w, height: 24.w)),
+            GrimityActionButton.search(context),
             Gap(20.w),
             GestureDetector(
               onTap: () => Scaffold.of(context).openEndDrawer(),

@@ -76,7 +76,7 @@ class GrimityPostCard extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       if (post.author != null) {
-                        ProfileRoute(url: post.author!.url).push(context);
+                        ProfileRoute(url: post.author!.url).go(context);
                       }
                     },
                     child: Text(
