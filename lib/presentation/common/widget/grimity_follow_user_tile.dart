@@ -4,29 +4,30 @@ import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/user.dart';
+import 'package:grimity/presentation/common/widget/button/grimity_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_user_image.dart';
+
+enum FollowType {
+  // 팔로워
+  follower,
+  // 팔로잉
+  following,
+}
 
 // 팔로워, 팔로우 유저 표시 위젯
 class FollowUserTile extends StatelessWidget {
   final User user;
-  final String? buttonText;
-  final VoidCallback? onButtonTap;
+  final FollowType followType;
+  final VoidCallback onFollowTap;
 
-  const FollowUserTile._({super.key, required this.user, this.buttonText, this.onButtonTap});
+  const FollowUserTile._({super.key, required this.user, required this.followType, required this.onFollowTap});
 
-  // 버튼 없는 UI
-  factory FollowUserTile.plain({Key? key, required User user}) {
-    return FollowUserTile._(key: key, user: user);
+  factory FollowUserTile.follower({Key? key, required User user, required VoidCallback onFollowTap}) {
+    return FollowUserTile._(key: key, user: user, followType: FollowType.follower, onFollowTap: onFollowTap);
   }
 
-  // 버튼 있는 UI
-  factory FollowUserTile.withButton({
-    Key? key,
-    required User user,
-    required String buttonText,
-    required VoidCallback onButtonTap,
-  }) {
-    return FollowUserTile._(key: key, user: user, buttonText: buttonText, onButtonTap: onButtonTap);
+  factory FollowUserTile.following({Key? key, required User user, required VoidCallback onFollowTap}) {
+    return FollowUserTile._(key: key, user: user, followType: FollowType.following, onFollowTap: onFollowTap);
   }
 
   @override
@@ -55,21 +56,11 @@ class FollowUserTile extends StatelessWidget {
               ],
             ),
           ),
-          if (buttonText != null && onButtonTap != null)
-            GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: onButtonTap,
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                decoration: BoxDecoration(
-                  color: AppColor.gray00,
-                  borderRadius: BorderRadius.circular(50),
-                  border: Border.all(color: AppColor.gray300, width: 1),
-                ),
-                padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 10.w),
-                child: Text(buttonText!, style: AppTypeface.caption3.copyWith(color: AppColor.gray700)),
-              ),
-            ),
+          Gap(20.w),
+          switch (followType) {
+            FollowType.follower => GrimityButton.deleteFollower(onTap: onFollowTap),
+            FollowType.following => GrimityButton.follow(isFollowing: true, onTap: onFollowTap),
+          },
         ],
       ),
     );

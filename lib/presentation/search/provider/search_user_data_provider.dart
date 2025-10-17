@@ -38,6 +38,7 @@ class SearchUserData extends _$SearchUserData with UserMixin<Users> {
   }
 
   Future<void> toggleFollow({required String id, required bool follow}) => onToggleFollow(
+    ref: ref,
     id: id,
     follow: follow,
     optimisticBuilder: (prev) {

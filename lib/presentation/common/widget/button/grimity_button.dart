@@ -123,17 +123,26 @@ class GrimityButton extends StatelessWidget {
   );
 
   /// follow button
-  factory GrimityButton.follow({Key? key, required bool isFollowing, required VoidCallback onTap}) {
-    return GrimityButton._(
-      key: key,
-      text: isFollowing ? '언팔로우' : '팔로우',
-      onTap: onTap,
-      buttonSize: ButtonSize.round,
-      buttonStatus: ButtonStatus.on,
-      buttonColorType: ButtonColorType.mono,
-      buttonStyleType: isFollowing ? ButtonStyleType.line : ButtonStyleType.solid,
-    );
-  }
+  factory GrimityButton.follow({Key? key, required bool isFollowing, required VoidCallback onTap}) => GrimityButton._(
+    key: key,
+    text: isFollowing ? '언팔로우' : '팔로우',
+    onTap: onTap,
+    buttonSize: ButtonSize.round,
+    buttonStatus: ButtonStatus.on,
+    buttonColorType: ButtonColorType.mono,
+    buttonStyleType: isFollowing ? ButtonStyleType.line : ButtonStyleType.solid,
+  );
+
+  /// delete follow button
+  factory GrimityButton.deleteFollower({Key? key, required VoidCallback onTap}) => GrimityButton._(
+    key: key,
+    text: '삭제',
+    onTap: onTap,
+    buttonSize: ButtonSize.round,
+    buttonStatus: ButtonStatus.on,
+    buttonColorType: ButtonColorType.mono,
+    buttonStyleType: ButtonStyleType.line,
+  );
 
   BorderRadius get _borderRadius {
     switch (buttonSize) {
