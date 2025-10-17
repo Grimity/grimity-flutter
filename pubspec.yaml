@@ -101,6 +101,7 @@ dev_dependencies:
   retrofit_generator: ^9.1.9
   riverpod_generator: ^2.6.5
   riverpod_lint: ^2.6.5
+  git_config: ^1.0.0
 
 flutter:
   uses-material-design: true
