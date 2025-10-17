@@ -54,10 +54,9 @@ class _FollowerUserListView extends HookConsumerWidget {
       controller: scrollController,
       itemBuilder: (context, index) {
         final user = users[index];
-        return FollowUserTile.withButton(
+        return FollowUserTile.follower(
           user: user,
-          buttonText: '삭제',
-          onButtonTap: () => ref.read(followersDataProvider.notifier).deleteFollower(user.id),
+          onFollowTap: () => ref.read(followersDataProvider.notifier).deleteFollower(user.id),
         );
       },
       separatorBuilder: (context, index) => Gap(16.h),
