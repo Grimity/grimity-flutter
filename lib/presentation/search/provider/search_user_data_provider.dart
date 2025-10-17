@@ -2,13 +2,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/domain/dto/users_request_params.dart';
 import 'package:grimity/domain/entity/users.dart';
 import 'package:grimity/domain/usecase/users_usecase.dart';
+import 'package:grimity/presentation/common/mixin/user_mixin.dart';
 import 'package:grimity/presentation/search/provider/search_keyword_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'search_user_data_provider.g.dart';
 
 @riverpod
-class SearchUserData extends _$SearchUserData {
+class SearchUserData extends _$SearchUserData with UserMixin<Users> {
   @override
   FutureOr<Users> build({required String keyword}) async {
     final param = SearchUserRequestParams(size: 5, keyword: keyword);
@@ -35,6 +36,27 @@ class SearchUserData extends _$SearchUserData {
       },
     );
   }
+
+  Future<void> toggleFollow({required String id, required bool follow}) => onToggleFollow(
+    id: id,
+    follow: follow,
+    optimisticBuilder: (prev) {
+      return prev.copyWith(
+        users:
+            prev.users
+                .map(
+                  (e) =>
+                      id == e.id
+                          ? e.copyWith(
+                            isFollowing: follow,
+                            followerCount: follow ? e.followerCount! + 1 : e.followerCount! - 1,
+                          )
+                          : e,
+                )
+                .toList(),
+      );
+    },
+  );
 }
 
 mixin class SearchUserMixin {

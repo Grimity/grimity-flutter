@@ -68,17 +68,21 @@ class _SearchUserSortHeader extends StatelessWidget {
   }
 }
 
-class _SearchUserSliverListView extends StatelessWidget {
+class _SearchUserSliverListView extends ConsumerWidget with SearchUserMixin {
   const _SearchUserSliverListView({required this.users});
 
   final List<User> users;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SliverList.separated(
       itemBuilder: (context, index) {
         final user = users[index];
-        return GrimityUserCard(user: user);
+        return GrimityUserCard(
+          user: user,
+          onFollowTap:
+              () => searchUserNotifier(ref).toggleFollow(id: user.id, follow: user.isFollowing == false ? true : false),
+        );
       },
       separatorBuilder: (context, index) => Gap(16),
       itemCount: users.length,

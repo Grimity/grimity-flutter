@@ -3,15 +3,16 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/user.dart';
-import 'package:grimity/presentation/common/widget/grimity_follow_button.dart';
+import 'package:grimity/presentation/common/widget/button/grimity_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
 import 'package:grimity/presentation/common/widget/grimity_placeholder.dart';
 import 'package:grimity/presentation/common/widget/grimity_user_image.dart';
 
 class GrimityUserCard extends StatelessWidget {
-  const GrimityUserCard({super.key, required this.user});
+  const GrimityUserCard({super.key, required this.user, required this.onFollowTap});
 
   final User user;
+  final VoidCallback onFollowTap;
 
   final double _coverHeight = 110;
   final double _avatarSize = 40;
@@ -74,7 +75,11 @@ class GrimityUserCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Positioned(top: 26, right: 0, child: GrimityFollowButton(url: user.url)),
+                  Positioned(
+                    top: 26,
+                    right: 0,
+                    child: GrimityButton.follow(isFollowing: user.isFollowing ?? false, onTap: onFollowTap),
+                  ),
                 ],
               ),
             ),
