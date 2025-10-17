@@ -122,6 +122,19 @@ class GrimityButton extends StatelessWidget {
     buttonStyleType: style,
   );
 
+  /// follow button
+  factory GrimityButton.follow({Key? key, required bool isFollowing, required VoidCallback onTap}) {
+    return GrimityButton._(
+      key: key,
+      text: isFollowing ? '언팔로우' : '팔로우',
+      onTap: onTap,
+      buttonSize: ButtonSize.round,
+      buttonStatus: ButtonStatus.on,
+      buttonColorType: ButtonColorType.mono,
+      buttonStyleType: isFollowing ? ButtonStyleType.line : ButtonStyleType.solid,
+    );
+  }
+
   BorderRadius get _borderRadius {
     switch (buttonSize) {
       case ButtonSize.large:
