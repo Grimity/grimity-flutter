@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/button/grimity_action_button.dart';
 
 class PostDetailAppBar extends StatelessWidget {
   const PostDetailAppBar({super.key});
@@ -14,10 +13,7 @@ class PostDetailAppBar extends StatelessWidget {
       snap: false,
       centerTitle: false,
       actions: [
-        GestureDetector(
-          onTap: () => Scaffold.of(context).openEndDrawer(),
-          child: Assets.icons.home.menu.svg(width: 24.w, height: 24.w),
-        ),
+        GrimityActionButton.menu(context),
       ],
       bottom: const PreferredSize(
         preferredSize: Size.fromHeight(1),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/button/grimity_action_button.dart';
 
 class FeedDetailAppBar extends StatelessWidget {
   const FeedDetailAppBar({super.key});
@@ -13,12 +12,7 @@ class FeedDetailAppBar extends StatelessWidget {
       floating: false,
       snap: false,
       centerTitle: false,
-      actions: [
-        GestureDetector(
-          onTap: () => Scaffold.of(context).openEndDrawer(),
-          child: Assets.icons.home.menu.svg(width: 24.w, height: 24.w),
-        ),
-      ],
+      actions: [GrimityActionButton.menu(context)],
       bottom: const PreferredSize(
         preferredSize: Size.fromHeight(1),
         child: Divider(height: 1, color: AppColor.gray300),

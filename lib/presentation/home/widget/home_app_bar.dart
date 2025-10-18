@@ -15,6 +15,13 @@ class HomeAppBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final notificationAsync = ref.watch(notificationDataProvider);
 
+    onNotificationTap() {
+      // 홈 화면 진입시 데이터가 수신되서 알림 화면 진입시 데이터가 최신 데이터가 아닐 수 있음
+      // 따라서 데이터 리프래시 처리하여 재수신 하게 함
+      ref.invalidate(notificationDataProvider);
+      NotificationRoute().push(context);
+    }
+
     return SliverAppBar(
       pinned: true,
       floating: false,
@@ -24,41 +31,16 @@ class HomeAppBar extends ConsumerWidget {
       actions: [
         GrimityActionButton.search(context),
         Gap(20.w),
-        GestureDetector(
-          onTap: () {
-            // 홈 화면 진입시 데이터가 수신되서 알림 화면 진입시 데이터가 최신 데이터가 아닐 수 있음
-            // 따라서 데이터 리프래시 처리하여 재수신 하게 함
-            ref.invalidate(notificationDataProvider);
-            NotificationRoute().push(context);
-          },
-          child: Stack(
-            children: [
-              Assets.icons.home.notification.svg(width: 24.w, height: 24.w),
-              notificationAsync.maybeWhen(
-                data: (notifications) {
-                  final hasUnRead = notifications.where((n) => !n.isRead).isNotEmpty;
+        notificationAsync.maybeWhen(
+          data: (notifications) {
+            final hasUnRead = notifications.where((n) => !n.isRead).isNotEmpty;
 
-                  return hasUnRead
-                      ? Positioned(
-                        right: 2,
-                        child: Container(
-                          width: 4.w,
-                          height: 4.w,
-                          decoration: BoxDecoration(color: AppColor.main, shape: BoxShape.circle),
-                        ),
-                      )
-                      : SizedBox.shrink();
-                },
-                orElse: () => SizedBox.shrink(),
-              ),
-            ],
-          ),
+            return GrimityActionButton.notification(onTap: () => onNotificationTap(), showBadge: hasUnRead);
+          },
+          orElse: () => GrimityActionButton.notification(onTap: () => onNotificationTap()),
         ),
         Gap(20.w),
-        GestureDetector(
-          onTap: () => Scaffold.of(context).openEndDrawer(),
-          child: Assets.icons.home.menu.svg(width: 24.w, height: 24.w),
-        ),
+        GrimityActionButton.menu(context),
       ],
       bottom: const PreferredSize(
         preferredSize: Size.fromHeight(1),

@@ -175,7 +175,7 @@ class GrimityTextField extends HookWidget {
     if (showSearchIcon) {
       return IconButton(
         onPressed: onSearch,
-        icon: Assets.icons.home.search.svg(
+        icon: Assets.icons.common.search.svg(
           width: 20,
           height: 20,
           colorFilter: ColorFilter.mode(AppColor.gray600, BlendMode.srcIn),

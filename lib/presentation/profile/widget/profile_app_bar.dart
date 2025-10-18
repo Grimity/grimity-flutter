@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_theme.dart';
 import 'package:grimity/app/config/app_typeface.dart';
-import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/button/grimity_action_button.dart';
 import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
 
@@ -62,23 +60,14 @@ class _ProfileAppBarDelegate extends SliverPersistentHeaderDelegate {
           if (viewType == ProfileViewType.mine) ...[
             GrimityActionButton.search(context),
             Gap(20.w),
-            GestureDetector(
-              onTap: () => StorageRoute().push(context),
-              child: Assets.icons.profile.storage.svg(width: 24.w, height: 24.w),
-            ),
+            GrimityActionButton.storage(context),
             Gap(20.w),
-            GestureDetector(
-              onTap: () => SettingRoute().push(context),
-              child: Assets.icons.common.setting.svg(width: 24.w, height: 24.w),
-            ),
+            GrimityActionButton.setting(context),
             Gap(16.w),
           ] else ...[
             GrimityActionButton.search(context),
             Gap(20.w),
-            GestureDetector(
-              onTap: () => Scaffold.of(context).openEndDrawer(),
-              child: Assets.icons.home.menu.svg(width: 24.w, height: 24.w),
-            ),
+            GrimityActionButton.menu(context),
             Gap(20.w),
           ],
         ],
