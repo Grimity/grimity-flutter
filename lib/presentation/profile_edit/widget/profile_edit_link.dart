@@ -8,7 +8,7 @@ import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/link.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/popup/grimity_select_modal_bottom_sheet.dart';
-import 'package:grimity/presentation/common/widget/grimity_text_field.dart';
+import 'package:grimity/presentation/common/widget/text_field/grimity_text_field.dart';
 import 'package:grimity/presentation/profile/enum/link_type_enum.dart';
 import 'package:grimity/presentation/profile_edit/provider/profile_edit_provider.dart';
 import 'package:grimity/presentation/profile_edit/widget/profile_edit_dropdown.dart';

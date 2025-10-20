@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/common/widget/grimity_text_field.dart';
+import 'package:grimity/presentation/common/widget/text_field/grimity_text_field.dart';
 
 class PostAddLinkBottomSheet extends HookWidget {
   const PostAddLinkBottomSheet({super.key, this.initialText, this.initialUrl, required this.onSubmit});

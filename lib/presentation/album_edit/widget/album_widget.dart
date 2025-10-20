@@ -8,7 +8,7 @@ import 'package:grimity/domain/entity/album.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/album_edit/provider/album_edit_provider.dart';
 import 'package:grimity/presentation/album_edit/widget/album_delete_dialog.dart';
-import 'package:grimity/presentation/common/widget/grimity_text_field.dart';
+import 'package:grimity/presentation/common/widget/text_field/grimity_text_field.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AlbumWidget extends HookConsumerWidget {

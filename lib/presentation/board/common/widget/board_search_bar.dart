@@ -7,7 +7,7 @@ import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/presentation/board/common/widget/board_search_by_dropdown.dart';
 import 'package:grimity/presentation/board/search/provider/board_search_data_provider.dart';
 import 'package:grimity/presentation/board/common/provider/board_search_query_provider.dart';
-import 'package:grimity/presentation/common/widget/grimity_text_field.dart';
+import 'package:grimity/presentation/common/widget/text_field/grimity_text_field.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class BoardSearchBar extends HookConsumerWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:grimity/presentation/common/widget/grimity_underline_text_field.dart';
+import 'package:grimity/presentation/common/widget/text_field/grimity_underline_text_field.dart';
 import 'package:grimity/presentation/post_upload/provider/post_upload_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
