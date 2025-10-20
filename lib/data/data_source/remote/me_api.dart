@@ -46,7 +46,11 @@ abstract class MeAPI {
   Future<MyFollowersResponse> getMyFollowers(@Query('size') int? size, @Query('cursor') String? cursor);
 
   @GET('/me/followings')
-  Future<MyFollowingsResponse> getMyFollowings(@Query('size') int? size, @Query('cursor') String? cursor);
+  Future<MyFollowingsResponse> getMyFollowings(
+    @Query('size') int? size,
+    @Query('cursor') String? cursor,
+    @Query('keyword') String? keyword,
+  );
 
   @DELETE('/me/followers/{id}')
   Future<void> deleteFollowerById(@Path('id') String id);

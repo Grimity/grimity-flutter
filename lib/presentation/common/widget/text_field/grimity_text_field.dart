@@ -56,6 +56,30 @@ class GrimityTextField extends HookWidget {
     this.onSearch,
   }) : type = GrimityTextFieldType.small;
 
+  const GrimityTextField.borderless({
+    super.key,
+    this.state = GrimityTextFieldState.normal,
+    this.enabled = true,
+    this.controller,
+    this.onChanged,
+    this.onSubmitted,
+    this.onEdit,
+    this.onCancel,
+    this.onSave,
+    this.autoFocus,
+    this.focusNode,
+    this.keyboardType,
+    this.textInputAction,
+    this.maxLength,
+    this.maxLines,
+    this.hintText,
+    this.errorText,
+    this.defaultText,
+    this.showSuffix = true,
+    this.showSearchIcon = false,
+    this.onSearch,
+  }) : type = GrimityTextFieldType.borderless;
+
   final GrimityTextFieldType type;
   final GrimityTextFieldState state;
 
@@ -87,12 +111,21 @@ class GrimityTextField extends HookWidget {
   BorderRadius get _borderRadius =>
       type == GrimityTextFieldType.normal ? BorderRadius.circular(12) : BorderRadius.circular(8);
 
-  EdgeInsets get _contentPadding =>
-      type == GrimityTextFieldType.normal
-          ? const EdgeInsets.all(16)
-          : const EdgeInsets.symmetric(horizontal: 16, vertical: 10);
+  EdgeInsets get _contentPadding {
+    if (type == GrimityTextFieldType.borderless) {
+      return EdgeInsets.symmetric(vertical: 16);
+    }
+
+    return type == GrimityTextFieldType.normal
+        ? const EdgeInsets.all(16)
+        : const EdgeInsets.symmetric(horizontal: 16, vertical: 10);
+  }
 
   Color get _fillColor {
+    if (type == GrimityTextFieldType.borderless) {
+      return Colors.transparent;
+    }
+
     if (!enabled) return AppColor.gray100;
     switch (state) {
       case GrimityTextFieldState.error:
@@ -190,6 +223,7 @@ class GrimityTextField extends HookWidget {
   Widget build(BuildContext context) {
     final animationController = useAnimationController();
     final focusNode = this.focusNode ?? useFocusNode();
+    final isBorderless = type == GrimityTextFieldType.borderless;
 
     final textField = TextField(
           enabled: enabled,
@@ -206,13 +240,16 @@ class GrimityTextField extends HookWidget {
             counterText: '',
             hintText: hintText,
             hintStyle: AppTypeface.label2.copyWith(color: AppColor.gray500),
-            border: OutlineInputBorder(borderSide: BorderSide(color: _enabledBorderColor), borderRadius: _borderRadius),
-            focusedBorder: OutlineInputBorder(
+            border: isBorderless ? InputBorder.none : OutlineInputBorder(
               borderSide: BorderSide(color: _enabledBorderColor),
               borderRadius: _borderRadius,
             ),
-            enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: _borderColor), borderRadius: _borderRadius),
-            disabledBorder: OutlineInputBorder(
+            focusedBorder: isBorderless ? InputBorder.none : OutlineInputBorder(
+              borderSide: BorderSide(color: _enabledBorderColor),
+              borderRadius: _borderRadius,
+            ),
+            enabledBorder: isBorderless ? InputBorder.none : OutlineInputBorder(borderSide: BorderSide(color: _borderColor), borderRadius: _borderRadius),
+            disabledBorder: isBorderless ? InputBorder.none : OutlineInputBorder(
               borderSide: BorderSide(color: _borderColor),
               borderRadius: _borderRadius,
             ),

@@ -146,7 +146,7 @@ class MeRepositoryImpl extends MeRepository {
   @override
   Future<Result<Users>> getMyFollowings(int? size, String? cursor) async {
     try {
-      final result = await _meAPI.getMyFollowings(size, cursor);
+      final result = await _meAPI.getMyFollowings(size, cursor, null);
       return Result.success(result.toEntity());
     } on Exception catch (e) {
       return Result.failure(e);
