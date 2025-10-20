@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:grimity/presentation/common/widget/grimity_text_field.dart';
+import 'package:grimity/presentation/common/widget/system/check/grimity_radio_button.dart';
 import 'package:grimity/presentation/report/provider/report_provider.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/report.enum.dart';
-import 'package:grimity/gen/assets.gen.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ReportBodyView extends HookConsumerWidget with ReportMixin {
@@ -102,9 +102,7 @@ class _ReportReasonTile extends StatelessWidget {
       child: Row(
         spacing: 12,
         children: [
-          selected
-              ? Assets.icons.report.radioOn.svg(width: 24, height: 24)
-              : Assets.icons.report.raidoOff.svg(width: 24, height: 24),
+          GrimityRadioButton(value: selected, onTap: onTap),
           Text(label, style: AppTypeface.body2.copyWith(color: AppColor.gray800)),
         ],
       ),
