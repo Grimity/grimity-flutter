@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/presentation/common/provider/author_with_feeds_provider.dart';
-import 'package:grimity/presentation/common/widget/grimity_author_with_feeds_card.dart';
+import 'package:grimity/presentation/common/widget/user_card/grimity_author_with_feeds_card.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 

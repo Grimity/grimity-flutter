@@ -9,6 +9,7 @@ import 'package:grimity/presentation/common/widget/button/grimity_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_image.dart';
 import 'package:grimity/presentation/common/widget/system/profile/grimity_user_image.dart';
 
+/// 인기 유저 Card
 class GrimityAuthorWithFeedsCard extends StatelessWidget {
   const GrimityAuthorWithFeedsCard({super.key, required this.authorWithFeeds, required this.onFollowTab});
 
