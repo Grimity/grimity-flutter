@@ -7,7 +7,7 @@ import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
 import 'package:grimity/presentation/common/widget/system/pagination/grimity_pagination_widget.dart';
-import 'package:grimity/presentation/common/widget/grimity_post_card.dart';
+import 'package:grimity/presentation/common/widget/system/board/grimity_post_card.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/storage/enum/storage_enum_item.dart';
 import 'package:grimity/presentation/storage/provider/storage_save_post_data_provider.dart';

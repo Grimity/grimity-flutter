@@ -4,7 +4,7 @@ import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/domain/entity/posts.dart';
 import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
 import 'package:grimity/presentation/common/widget/system/pagination/grimity_pagination_widget.dart';
-import 'package:grimity/presentation/common/widget/grimity_post_feed.dart';
+import 'package:grimity/presentation/common/widget/system/board/grimity_post_feed.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/common/widget/system/sort/grimity_search_sort_header.dart';
 import 'package:grimity/presentation/search/provider/search_post_data_provider.dart';

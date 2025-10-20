@@ -3,7 +3,7 @@ import 'package:grimity/app/enum/post_type.enum.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/presentation/board/tabs/provider/board_post_data_provider.dart';
 import 'package:grimity/presentation/common/widget/system/pagination/grimity_pagination_widget.dart';
-import 'package:grimity/presentation/common/widget/grimity_post_feed.dart';
+import 'package:grimity/presentation/common/widget/system/board/grimity_post_feed.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class BoardListView extends ConsumerWidget {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/post.dart';
-import 'package:grimity/presentation/common/widget/grimity_post_feed.dart';
+import 'package:grimity/presentation/common/widget/system/board/grimity_post_feed.dart';
 import 'package:grimity/presentation/post_detail/provider/post_latest_data_provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 

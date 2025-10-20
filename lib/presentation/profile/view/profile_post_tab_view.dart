@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/domain/entity/user.dart';
-import 'package:grimity/presentation/common/widget/grimity_post_feed.dart';
+import 'package:grimity/presentation/common/widget/system/board/grimity_post_feed.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/profile/provider/profile_posts_data_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

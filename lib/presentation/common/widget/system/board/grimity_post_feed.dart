@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/domain/entity/post.dart';
-import 'package:grimity/presentation/common/widget/grimity_post_card.dart';
+import 'package:grimity/presentation/common/widget/system/board/grimity_post_card.dart';
 
 class GrimityPostFeed extends StatelessWidget {
   const GrimityPostFeed({

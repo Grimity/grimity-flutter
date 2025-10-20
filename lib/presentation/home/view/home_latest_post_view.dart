@@ -4,7 +4,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/post.dart';
-import 'package:grimity/presentation/common/widget/grimity_post_feed.dart';
+import 'package:grimity/presentation/common/widget/system/board/grimity_post_feed.dart';
 import 'package:grimity/presentation/home/provider/home_data_provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
