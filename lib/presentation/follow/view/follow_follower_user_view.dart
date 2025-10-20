@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/domain/entity/user.dart';
-import 'package:grimity/presentation/common/widget/grimity_follow_user_tile.dart';
+import 'package:grimity/presentation/follow/widget/follow_user_tile.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/follow/enum/follow_enum_tab_type.dart';
 import 'package:grimity/presentation/follow/provider/follow_followers_data_provider.dart';

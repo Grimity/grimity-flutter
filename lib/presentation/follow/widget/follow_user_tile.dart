@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/common/widget/button/grimity_button.dart';
-import 'package:grimity/presentation/common/widget/grimity_user_image.dart';
+import 'package:grimity/presentation/common/widget/system/profile/grimity_user_profile.dart';
 
 enum FollowType {
   // 팔로워
@@ -36,24 +34,11 @@ class FollowUserTile extends StatelessWidget {
       constraints: BoxConstraints(minHeight: 56.h),
       child: Row(
         children: [
-          GrimityUserImage(imageUrl: user.image),
-          Gap(12.w),
           Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(user.name, style: AppTypeface.label1),
-                if ((user.description ?? '').isNotEmpty) ...[
-                  Gap(2),
-                  Text(
-                    user.description!,
-                    style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ],
+            child: GrimityUserProfile.fromString(
+              imageUrl: user.image ?? '',
+              title: user.name,
+              subTitle: user.description ?? '',
             ),
           ),
           Gap(20.w),

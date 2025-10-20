@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart' hide Notification;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -7,7 +6,7 @@ import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/extension/date_time_extension.dart';
 import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/common/widget/grimity_user_image.dart';
+import 'package:grimity/presentation/common/widget/system/profile/grimity_user_profile.dart';
 import 'package:grimity/presentation/notification/provider/notification_data_provider.dart';
 import 'package:grimity/domain/entity/notification.dart';
 
@@ -33,27 +32,17 @@ class NotificationWidget extends ConsumerWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            (notification.image == null || notification.image!.contains('/profile/'))
-                ? GrimityUserImage(imageUrl: notification.image)
-                : SizedBox(
-                  width: 40,
-                  height: 40,
-                  child: CachedNetworkImage(imageUrl: notification.image!, fit: BoxFit.cover),
-                ),
-            Gap(12),
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildNotificationText(notification.message),
-                  Gap(2),
-                  Text(
-                    notification.createdAt.toRelativeTime(),
-                    style: AppTypeface.caption2.copyWith(
-                      color: AppColor.gray600.withValues(alpha: notification.isRead ? 0.5 : 1.0),
+              child: GrimityUserProfile.fromBuilder(
+                imageUrl: notification.image ?? '',
+                titleBuilder: () => _buildNotificationText(notification.message),
+                subTitleBuilder:
+                    () => Text(
+                      notification.createdAt.toRelativeTime(),
+                      style: AppTypeface.caption2.copyWith(
+                        color: AppColor.gray600.withValues(alpha: notification.isRead ? 0.5 : 1.0),
+                      ),
                     ),
-                  ),
-                ],
               ),
             ),
             Gap(8),
