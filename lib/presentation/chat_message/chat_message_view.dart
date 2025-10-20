@@ -52,7 +52,10 @@ class ChatMessageView extends ConsumerWidget {
                         padding: EdgeInsets.all(16),
                         itemCount: data.value!.messages.length,
                         itemBuilder: (context, index) {
-                          return ChatMessageFragment(model: data.value!.messages[index]);
+                          return ChatMessageFragment(
+                            chatId: chatId,
+                            model: data.value!.messages[index],
+                          );
                         },
                       ),
                     ),

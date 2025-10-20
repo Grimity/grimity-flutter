@@ -51,9 +51,9 @@ abstract class ChatMessage with _$ChatMessage {
 abstract class ChatMessageState with _$ChatMessageState {
   const factory ChatMessageState({
     required UserBaseResponse opponentUser,
-    required String? inputReplyToId,
     required String inputMessage,
     required List<ImageSourceItem> inputImages,
+    required ChatMessageReplyResponse? inputReply,
     required List<ChatMessage> messages,
     required String? nextCursor,
   }) = _ChatMessageState;
@@ -87,9 +87,9 @@ class ChatMessageProvider extends _$ChatMessageProvider {
 
     return ChatMessageState(
       opponentUser: responses[0] as UserBaseResponse,
-      inputReplyToId: null,
       inputMessage: "",
       inputImages: [],
+      inputReply: null,
       nextCursor: historyResponse.nextCursor,
       messages: historyResponse.messages.map(ChatMessage.fromItemResponse).toList(),
     );
@@ -151,14 +151,14 @@ class ChatMessageProvider extends _$ChatMessageProvider {
         chatId: chatId,
         content: self.inputMessage,
         images: uploadImages.map((e) => e.imageName).toList(),
-        replyToId: self.inputReplyToId,
+        replyToId: self.inputReply?.id,
       ),
     );
 
     state = AsyncData(state.value!.copyWith(
-      inputReplyToId: null,
       inputMessage: "",
       inputImages: [],
+      inputReply: null,
     ));
   }
 
@@ -167,6 +167,7 @@ class ChatMessageProvider extends _$ChatMessageProvider {
     final response = await getIt<ChatMessageAPI>().getMessages(loadItemSize, self.nextCursor, chatId);
 
     addMessages(response.messages.map(ChatMessage.fromItemResponse).toList());
+    state = AsyncData(state.value!.copyWith(nextCursor: response.nextCursor));
   }
 
   void addInputImages(List<ImageSourceItem> newImages) {
@@ -181,6 +182,17 @@ class ChatMessageProvider extends _$ChatMessageProvider {
 
     state = AsyncData(state.value!.copyWith(
       inputImages: [...currentImages, ...imagesToAdd],
+    ));
+  }
+
+  void setInputReply(ChatMessage message) {
+    state = AsyncData(state.value!.copyWith(
+      inputReply: ChatMessageReplyResponse(
+        id: message.id,
+        content: message.content,
+        image: message.image,
+        createdAt: message.createdAt,
+      ),
     ));
   }
 

@@ -7,8 +7,8 @@ part 'chat_message_reply_response.g.dart';
 abstract class ChatMessageReplyResponse with _$ChatMessageReplyResponse {
   const factory ChatMessageReplyResponse({
     required String id,
-    required String content,
-    required String image,
+    required String? content,
+    required String? image,
     required DateTime createdAt,
   }) = _ChatMessageReplyResponse;
 

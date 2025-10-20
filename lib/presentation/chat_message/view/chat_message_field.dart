@@ -5,6 +5,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/chat_message/provider/chat_message_provider.dart';
+import 'package:grimity/presentation/chat_message/view/chat_message_image_view.dart';
 import 'package:grimity/presentation/common/enum/upload_image_type.dart';
 import 'package:grimity/presentation/common/model/image_item_source.dart';
 import 'package:grimity/presentation/common/widget/button/grimity_button.dart';
@@ -24,21 +25,41 @@ class ChatMessageField extends ConsumerWidget {
     final provider = ref.read(providerFamily.notifier);
     final data = ref.watch(providerFamily);
 
-    return Container(
-      color: AppColor.gray100,
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      child: Row(
-        spacing: 12,
-        children: [
-          Expanded(child: _TextField(chatId: chatId)),
-          GrimityButton.round(
-            text: "전송",
-            onTap: provider.submit,
-            status: !data.isLoading && data.value!.canSubmit
-              ? ButtonStatus.on
-              : ButtonStatus.off,
-          ),
-        ],
+    final bool isVisibleReply = data.value?.inputReply != null;
+
+    return AnimatedSize(
+      alignment: Alignment.bottomCenter,
+      duration: Duration(milliseconds: 250),
+      curve: Curves.ease,
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        decoration: BoxDecoration(
+          color: AppColor.gray100,
+          border: isVisibleReply
+            ? Border(top: BorderSide(color: AppColor.gray300))
+            : null,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          spacing: 12,
+          children: [
+            if (isVisibleReply) _ReplyView(chatId: chatId),
+
+            Row(
+              spacing: 12,
+              children: [
+                Expanded(child: _TextField(chatId: chatId)),
+                GrimityButton.round(
+                  text: "전송",
+                  onTap: provider.submit,
+                  status: !data.isLoading && data.value!.canSubmit
+                    ? ButtonStatus.on
+                    : ButtonStatus.off,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -109,6 +130,65 @@ class _TextFieldState extends ConsumerState<_TextField> {
               onSubmitted: provider.setInputMessage,
               controller: _textEditingController,
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ReplyView extends ConsumerWidget {
+  const _ReplyView({required this.chatId});
+
+  final String chatId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final data = ref.watch(chatMessageProviderProvider(chatId: chatId));
+    final model = data.value!.inputReply!;
+    final user = data.value!.opponentUser;
+
+    return Container(
+      alignment: Alignment.centerLeft,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        spacing: 4,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            spacing: 4,
+            children: [
+              Assets.icons.chatMessage.deliver.svg(
+                width: 14,
+                height: 14,
+                color: AppColor.gray600,
+              ),
+              Text(
+                "${user.name}님께 답장보내기",
+                style: TextStyle(
+                  color: AppColor.gray600,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+          Builder(
+            builder: (context) {
+              if (model.content == null) {
+                return ChatMessageImageView(
+                  imageUrl: model.image!,
+                  width: 60,
+                  height: 60,
+                );
+              }
+
+              return Text(
+                model.content!,
+                style: TextStyle(color: AppColor.gray700, fontWeight: FontWeight.w500),
+              );
+            },
           ),
         ],
       ),
