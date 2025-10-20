@@ -6,6 +6,7 @@ import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
 import 'package:grimity/presentation/common/widget/grimity_image.dart';
 import 'package:grimity/app/config/app_color.dart';
+import 'package:grimity/presentation/common/widget/system/check/grimity_check_box.dart';
 
 class GrimitySelectableImageFeed extends StatelessWidget {
   const GrimitySelectableImageFeed({
@@ -42,19 +43,7 @@ class GrimitySelectableImageFeed extends StatelessWidget {
                   Positioned(
                     right: 12,
                     top: 12,
-                    child: Container(
-                      width: 24,
-                      height: 24,
-                      padding: EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        color: selected ? AppColor.main : AppColor.gray00,
-                        border: selected ? null : Border.all(color: AppColor.gray400, width: 1),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Assets.icons.common.check.svg(
-                        colorFilter: ColorFilter.mode(selected ? AppColor.gray00 : AppColor.gray300, BlendMode.srcIn),
-                      ),
-                    ),
+                    child: GrimityCheckBox(value: selected, onChanged: (_) => onToggleSelected.call()),
                   ),
                 ],
               ),

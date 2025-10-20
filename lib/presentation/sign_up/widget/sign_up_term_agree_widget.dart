@@ -4,7 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_const.dart';
 import 'package:grimity/app/config/app_typeface.dart';
-import 'package:grimity/presentation/common/widget/grimity_check_box.dart';
+import 'package:grimity/presentation/common/widget/system/check/grimity_check_box.dart';
 import 'package:grimity/presentation/sign_up/provider/sign_up_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
