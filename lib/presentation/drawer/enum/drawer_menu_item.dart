@@ -6,6 +6,7 @@ enum DrawerMenuItem {
   paint("인기 그림"),
   board("자유 게시판"),
   following("팔로잉"),
+  chat("DM"),
   storage("내 보관함"),
   setting("설정");
 
@@ -23,6 +24,8 @@ enum DrawerMenuItem {
         return Assets.icons.drawer.board;
       case DrawerMenuItem.following:
         return Assets.icons.drawer.following;
+      case DrawerMenuItem.chat:
+        return Assets.icons.drawer.chat;
       case DrawerMenuItem.storage:
         return Assets.icons.drawer.storage;
       case DrawerMenuItem.setting:
@@ -40,6 +43,8 @@ enum DrawerMenuItem {
         return BoardRoute.path;
       case DrawerMenuItem.following:
         return FollowingRoute.path;
+      case DrawerMenuItem.chat:
+        return ChatRoute.path;
       case DrawerMenuItem.storage:
         return StorageRoute.path;
       case DrawerMenuItem.setting:

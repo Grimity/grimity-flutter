@@ -11,6 +11,8 @@ import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/album_organize/album_organize_page.dart';
 import 'package:grimity/presentation/board/tabs/board_page.dart';
 import 'package:grimity/presentation/board/search/board_search_page.dart';
+import 'package:grimity/presentation/chat_message/chat_message_page.dart';
+import 'package:grimity/presentation/chat_new/new_chat_page.dart';
 import 'package:grimity/presentation/common/enum/upload_image_type.dart';
 import 'package:grimity/presentation/feed_detail/feed_detail_page.dart';
 import 'package:grimity/presentation/feed_upload/feed_upload_page.dart';
@@ -20,6 +22,7 @@ import 'package:grimity/presentation/following_feed/following_feed_page.dart';
 import 'package:grimity/presentation/home/home_page.dart';
 import 'package:grimity/presentation/image/image_viewer_page.dart';
 import 'package:grimity/presentation/main/main_app_shell.dart';
+import 'package:grimity/presentation/chat/chat_page.dart';
 import 'package:grimity/presentation/notification/notification_page.dart';
 import 'package:grimity/presentation/photo_select/photo_select_page.dart';
 import 'package:grimity/presentation/post_detail/post_detail_page.dart';
@@ -183,6 +186,43 @@ class BoardSearchRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => BoardSearchPage();
+}
+
+@TypedGoRoute<ChatRoute>(path: ChatRoute.path, name: ChatRoute.name)
+class ChatRoute extends GoRouteData {
+  const ChatRoute();
+
+  static const String path = '/chat';
+  static const String name = 'chat';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => ChatPage();
+}
+
+@TypedGoRoute<NewChatRoute>(path: NewChatRoute.path, name: NewChatRoute.name)
+class NewChatRoute extends GoRouteData {
+  const NewChatRoute();
+
+  static const String path = '/newChat';
+  static const String name = 'newChat';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => NewChatPage();
+}
+
+@TypedGoRoute<ChatMessageRoute>(path: ChatMessageRoute.path, name: ChatMessageRoute.name)
+class ChatMessageRoute extends GoRouteData {
+  const ChatMessageRoute(this.$extra);
+
+  final String $extra;
+
+  static const String path = '/chatMessage';
+  static const String name = 'chatMessage';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ChatMessagePage(chatId: $extra);
+  }
 }
 
 class MyBranchData extends StatefulShellBranchData {

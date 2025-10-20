@@ -7,7 +7,12 @@ class PhotoAssetThumbnailWidget extends StatelessWidget {
   final double size;
   final BoxFit fit;
 
-  const PhotoAssetThumbnailWidget({super.key, required this.asset, this.size = 128, this.fit = BoxFit.cover});
+  const PhotoAssetThumbnailWidget({
+    super.key,
+    required this.asset,
+    this.size = 256,
+    this.fit = BoxFit.cover,
+  });
 
   @override
   Widget build(BuildContext context) {

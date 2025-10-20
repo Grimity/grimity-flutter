@@ -1,5 +1,7 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/domain/usecase/photo_usecases.dart';
 import 'package:grimity/presentation/common/model/image_item_source.dart';
@@ -113,7 +115,8 @@ class PhotoSelect extends _$PhotoSelect {
   }
 
   /// 이미지 전달
-  void completeImageSelect() {
+  // ignore: avoid_build_context_in_providers
+  void completeImageSelect(BuildContext context) {
     if (state.value == null) return;
     final images = state.value!.selected;
 
@@ -124,6 +127,8 @@ class PhotoSelect extends _$PhotoSelect {
     } else {
       ref.read(postUploadProvider.notifier).updateImages(images);
     }
+
+    context.pop(images);
   }
 }
 

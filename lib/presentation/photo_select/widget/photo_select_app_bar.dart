@@ -36,8 +36,7 @@ class PhotoSelectAppBar extends ConsumerWidget with PhotoSelectMixin implements 
               onPressed:
                   isActive
                       ? () {
-                        context.pop();
-                        photoNotifier(ref).completeImageSelect();
+                        photoNotifier(ref).completeImageSelect(context);
                       }
                       : null,
               child: Text(

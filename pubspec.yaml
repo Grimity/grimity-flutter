@@ -35,6 +35,7 @@ dependencies:
   vsc_quill_delta_to_html: ^1.0.5
   flutter_quill_extensions: ^11.0.0
   custom_refresh_indicator: ^4.0.1
+  flutter_infinite_scroll_pagination: ^1.1.0
 
   # Annotation
   freezed_annotation: ^3.0.0
@@ -86,6 +87,7 @@ dependencies:
   uuid: ^4.5.1
   vector_graphics: ^1.1.18
   flutter_dotenv: ^5.2.1
+  socket_io_client: ^3.1.2
 
 dev_dependencies:
   flutter_test:
@@ -118,8 +120,10 @@ flutter:
     - assets/icons/drawer/
     - assets/icons/feed_upload/
     - assets/icons/editor/
-    - assets/icons/report/
     - assets/icons/refresh/
+    - assets/icons/chat/
+    - assets/icons/chat_message/
+    - assets/view/
     - assets/images/
     - assets/images/sign_up/
     - assets/lottie/
