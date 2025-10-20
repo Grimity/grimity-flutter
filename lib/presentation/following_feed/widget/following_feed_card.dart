@@ -15,7 +15,7 @@ import 'package:grimity/presentation/common/widget/grimity_animation_button.dart
 import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
 import 'package:grimity/presentation/common/widget/popup/grimity_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/common/widget/system/more/grimity_more_button.dart';
-import 'package:grimity/presentation/common/widget/grimity_user_image.dart';
+import 'package:grimity/presentation/common/widget/system/profile/grimity_user_image.dart';
 import 'package:grimity/presentation/following_feed/provider/following_feed_data_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:readmore/readmore.dart';

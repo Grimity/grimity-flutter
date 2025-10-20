@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
-import 'package:grimity/presentation/common/widget/grimity_user_image.dart';
+import 'package:grimity/presentation/common/widget/system/profile/grimity_user_image.dart';
 import 'package:grimity/presentation/main/provider/main_bottom_navigation_item.dart';
 
 class MainBottomNavigationBar extends ConsumerWidget {

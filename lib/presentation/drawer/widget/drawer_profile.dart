@@ -4,7 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
-import 'package:grimity/presentation/common/widget/grimity_user_image.dart';
+import 'package:grimity/presentation/common/widget/system/profile/grimity_user_image.dart';
 
 class DrawerProfile extends ConsumerWidget {
   const DrawerProfile({super.key});

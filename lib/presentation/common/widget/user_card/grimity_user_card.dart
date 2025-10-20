@@ -6,7 +6,7 @@ import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/common/widget/button/grimity_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
 import 'package:grimity/presentation/common/widget/grimity_placeholder.dart';
-import 'package:grimity/presentation/common/widget/grimity_user_image.dart';
+import 'package:grimity/presentation/common/widget/system/profile/grimity_user_image.dart';
 
 class GrimityUserCard extends StatelessWidget {
   const GrimityUserCard({super.key, required this.user, required this.onFollowTap});

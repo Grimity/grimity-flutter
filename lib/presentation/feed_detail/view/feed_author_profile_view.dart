@@ -8,7 +8,7 @@ import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_image.dart';
-import 'package:grimity/presentation/common/widget/grimity_user_image.dart';
+import 'package:grimity/presentation/common/widget/system/profile/grimity_user_image.dart';
 import 'package:grimity/presentation/feed_detail/provider/feed_author_feeds_data_provider.dart';
 import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';

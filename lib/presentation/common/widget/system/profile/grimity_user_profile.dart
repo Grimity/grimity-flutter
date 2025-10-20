@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
-import 'package:grimity/presentation/common/widget/grimity_user_image.dart';
+import 'package:grimity/presentation/common/widget/system/profile/grimity_user_image.dart';
 
 class GrimityUserProfile extends StatelessWidget {
   const GrimityUserProfile._({
