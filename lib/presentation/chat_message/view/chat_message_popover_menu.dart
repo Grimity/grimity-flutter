@@ -28,6 +28,7 @@ class ChatMessagePopoverMenu extends ConsumerWidget {
         createButtonWidget(
           icon: Assets.icons.chatMessage.heart,
           onTap: () {
+            provider.likeMessage(message, !message.isLike);
             popover.hide();
           }
         ),
