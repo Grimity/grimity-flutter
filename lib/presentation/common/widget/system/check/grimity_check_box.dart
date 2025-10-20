@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
 
 class GrimityCheckBox extends StatelessWidget {
   const GrimityCheckBox({super.key, required this.value, required this.onChanged});
@@ -10,13 +11,11 @@ class GrimityCheckBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
+    return GrimityAnimationButton(
       onTap: () {
         onChanged(!value);
       },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
+      child: Container(
         width: 24,
         height: 24,
         padding: EdgeInsets.all(4),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
 
 class GrimityRadioButton extends StatelessWidget {
   const GrimityRadioButton({super.key, required this.value, required this.onTap});
@@ -9,16 +10,12 @@ class GrimityRadioButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
+    return GrimityAnimationButton(
       onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        child:
-            value
-                ? Assets.icons.report.radioOn.svg(width: 24, height: 24)
-                : Assets.icons.report.raidoOff.svg(width: 24, height: 24),
-      ),
+      child:
+          value
+              ? Assets.icons.report.radioOn.svg(width: 24, height: 24)
+              : Assets.icons.report.raidoOff.svg(width: 24, height: 24),
     );
   }
 }
