@@ -4,6 +4,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/subscription_type.enum.dart';
 import 'package:grimity/presentation/common/provider/user_subscribe_provider.dart';
+import 'package:grimity/presentation/common/widget/system/check/grimity_switch.dart';
 
 class SettingSubscriptionSection extends ConsumerWidget {
   const SettingSubscriptionSection({super.key});
@@ -116,20 +117,7 @@ class _SettingSubscriptionSwitchTile extends StatelessWidget {
       dense: true,
       contentPadding: EdgeInsets.only(left: 32, right: 16),
       title: Text(title, style: AppTypeface.label3.copyWith(color: AppColor.gray800)),
-      trailing: Switch(
-        value: value,
-        onChanged: onChanged,
-        activeColor: AppColor.gray00,
-        activeTrackColor: AppColor.main,
-        inactiveThumbColor: AppColor.gray00,
-        inactiveTrackColor: AppColor.gray400,
-        trackOutlineColor: WidgetStateProperty.resolveWith((states) {
-          if (states.contains(WidgetState.selected)) {
-            return null;
-          }
-          return AppColor.gray400;
-        }),
-      ),
+      trailing: GrimitySwitch(value: value, onChanged: onChanged),
     );
   }
 }
