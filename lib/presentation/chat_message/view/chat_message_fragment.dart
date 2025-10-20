@@ -77,19 +77,31 @@ class _ChatMessageFragmentState extends ConsumerState<ChatMessageFragment> {
                   // 100px 더 작게 제약하되 최대 240px으로 수평 크기를 제한.
                   maxWidth: min((constraints.maxWidth - 100), 240),
                 ),
-                child: Column(
-                  crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  spacing: 6,
+                child: Stack(
                   children: [
-                    if (model.replyTo != null)
-                      _ReplyView(isMe: isMe, model: model.replyTo!, chatId: widget.chatId),
+                    Column(
+                      crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      spacing: 6,
+                      children: [
+                        if (model.replyTo != null)
+                          _ReplyView(isMe: isMe, model: model.replyTo!, chatId: widget.chatId),
 
-                    if (model.image != null)
-                      ChatMessageImageView(imageUrl: model.image!),
+                        if (model.image != null)
+                          ChatMessageImageView(imageUrl: model.image!),
 
-                    if (model.content != null)
-                      _MessageBubble(isMe: isMe, text: model.content!),
+                        if (model.content != null)
+                          _MessageBubble(isMe: isMe, text: model.content!),
+                      ],
+                    ),
+
+                    if (model.isLike)
+                      Positioned.fill(
+                        child: Align(
+                          alignment: isMe ? Alignment.bottomRight : Alignment.bottomLeft,
+                          child: _LikeBadge(),
+                        ),
+                      ),
                   ],
                 ),
               ),
@@ -205,6 +217,29 @@ class _ReplyView extends ConsumerWidget {
           ],
         ),
       ],
+    );
+  }
+}
+
+class _LikeBadge extends StatelessWidget {
+  const _LikeBadge();
+
+  @override
+  Widget build(BuildContext context) {
+    return FractionalTranslation(
+      translation: Offset(0, 0.6),
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 12),
+        width: 20,
+        height: 20,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: AppColor.gray00,
+          border: Border.all(color: AppColor.gray300),
+        ),
+        child: Assets.icons.chatMessage.heartFilled.svg(width: 12, height: 12),
+      ),
     );
   }
 }

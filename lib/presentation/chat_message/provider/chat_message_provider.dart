@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/app/di/di_setup.dart';
@@ -66,13 +67,15 @@ extension ChatMessageStateExtension on ChatMessageState {
 
 @riverpod
 class ChatMessageProvider extends _$ChatMessageProvider {
-  late final io.Socket _socket;
+  late io.Socket _socket;
 
   // ignore: avoid_public_notifier_properties
   late TextEditingController inputMessageController;
 
   /// 한꺼번에 로드할 메시지의 최대 개수.
   static const int loadItemSize = 30;
+
+  ChatMessageState get _state => state.value!;
 
   @override
   FutureOr<ChatMessageState> build({required String chatId}) async {
@@ -97,6 +100,7 @@ class ChatMessageProvider extends _$ChatMessageProvider {
 
   void connectSocket() async {
     final token = await loadTokenUseCase.execute();
+    late String socketId;
 
     _socket = io.io(
       Flavor.env.apiUrl,
@@ -107,15 +111,20 @@ class ChatMessageProvider extends _$ChatMessageProvider {
           .build(),
     );
 
-    SocketChatRequest socketIdRequest() {
-      return SocketChatRequest(socketId: _socket.id!);
-    }
+    ref.onDispose(_socket.dispose);
 
-    // 소켓 연결 시 항상 채팅방에 대한 입장 상태를 서버에 알리고,
-    // 연결 해제 시에도 자동으로 채팅방에서 나갔다고 서버에게 알림.
-    _socket.onConnect((_) => getIt<ChatAPI>().join(chatId, socketIdRequest()));
-    _socket.onDisconnect((_) => getIt<ChatAPI>().leave(chatId, socketIdRequest()));
+    // 소켓 연결 시 채팅방에 대한 입장 상태를 서버에 알림.
+    _socket.onConnect((_) {
+      socketId = _socket.id!;
+      getIt<ChatAPI>().join(chatId, SocketChatRequest(socketId: socketId));
+    });
 
+    // 연결 해제 시에도 채팅방에서 나갔다고 서버에게 알림.
+    _socket.onDisconnect((_) {
+      getIt<ChatAPI>().leave(chatId, SocketChatRequest(socketId: socketId));
+    });
+
+    // 새로운 메세지 이벤트.
     _socket.on('newChatMessage', (data) {
       final response = ChatMessageSocketResponse.fromJson(data);
       final messages = response.messages.map((message) {
@@ -132,15 +141,34 @@ class ChatMessageProvider extends _$ChatMessageProvider {
 
       addMessages(messages.toList());
     });
+
+    // 메세지 좋아요 이벤트.
+    _socket.on('likeChatMessage', (data) {
+      final message = findMessageById(data);
+
+      // 기존 메세지 정보 업데이트.
+      if (message != null) {
+        updateMessageById(message.id, (m) => m.copyWith(isLike: true));
+      }
+    });
+
+    // 메세지 좋아요 이벤트.
+    _socket.on('unlikeChatMessage', (data) {
+      final message = findMessageById(data);
+
+      // 기존 메세지 정보 업데이트.
+      if (message != null) {
+        updateMessageById(message.id, (m) => m.copyWith(isLike: false));
+      }
+    });
   }
 
   void submit() async {
-    final self = state.value!;
     final uploadImages = <ImageUploadUrl>[];
 
     // 사용자가 대상에게 보낼 메세지에 이미지를 포함시킨 경우.
-    if (self.inputImages.isNotEmpty) {
-      uploadImages.addAll(await ImageUpload.uploadAssets(self.inputImages, PresignedType.chat));
+    if (_state.inputImages.isNotEmpty) {
+      uploadImages.addAll(await ImageUpload.uploadAssets(_state.inputImages, PresignedType.chat));
     }
 
     // 메세지 전송 시, 사용자 입력 필드 초기화.
@@ -149,13 +177,13 @@ class ChatMessageProvider extends _$ChatMessageProvider {
     await getIt<ChatMessageAPI>().sendMessage(
       SendChatMessageRequest(
         chatId: chatId,
-        content: self.inputMessage,
+        content: _state.inputMessage,
         images: uploadImages.map((e) => e.imageName).toList(),
-        replyToId: self.inputReply?.id,
+        replyToId: _state.inputReply?.id,
       ),
     );
 
-    state = AsyncData(state.value!.copyWith(
+    state = AsyncData(_state.copyWith(
       inputMessage: "",
       inputImages: [],
       inputReply: null,
@@ -163,15 +191,14 @@ class ChatMessageProvider extends _$ChatMessageProvider {
   }
 
   Future<void> loadMore() async {
-    final self = state.value!;
-    final response = await getIt<ChatMessageAPI>().getMessages(loadItemSize, self.nextCursor, chatId);
+    final response = await getIt<ChatMessageAPI>().getMessages(loadItemSize, _state.nextCursor, chatId);
 
     addMessages(response.messages.map(ChatMessage.fromItemResponse).toList());
-    state = AsyncData(state.value!.copyWith(nextCursor: response.nextCursor));
+    state = AsyncData(_state.copyWith(nextCursor: response.nextCursor));
   }
 
   void addInputImages(List<ImageSourceItem> newImages) {
-    final currentImages = state.value!.inputImages;
+    final currentImages = _state.inputImages;
     final maxImages = 5;
 
     // 이미 추가된 이미지가 5개로서 최대 갯수인 경우.
@@ -180,13 +207,19 @@ class ChatMessageProvider extends _$ChatMessageProvider {
     final availableSpace = maxImages - currentImages.length;
     final imagesToAdd = newImages.take(availableSpace).toList();
 
-    state = AsyncData(state.value!.copyWith(
+    state = AsyncData(_state.copyWith(
       inputImages: [...currentImages, ...imagesToAdd],
     ));
   }
 
+  void removeInputImage(ImageSourceItem image) {
+    state = AsyncData(_state.copyWith(
+      inputImages: _state.inputImages.where((e) => e != image).toList(),
+    ));
+  }
+
   void setInputReply(ChatMessage message) {
-    state = AsyncData(state.value!.copyWith(
+    state = AsyncData(_state.copyWith(
       inputReply: ChatMessageReplyResponse(
         id: message.id,
         content: message.content,
@@ -202,17 +235,39 @@ class ChatMessageProvider extends _$ChatMessageProvider {
 
   /// 새로운 메시지를 추가할 때, 증복되는 메시지가 없도록 하고 항상 최신 순으로 정렬되도록 보장합니다.
   void addMessages(List<ChatMessage> newMessages) {
-    final self = state.value!;
-    final prevIds = self.messages.map((m) => m.id).toSet();
+    final prevIds = _state.messages.map((m) => m.id).toSet();
     final filtered = newMessages.where((m) => !prevIds.contains(m.id));
-    final sorted = [...self.messages, ...filtered]
+    final sorted = [..._state.messages, ...filtered]
       ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
 
-    state = AsyncData(self.copyWith(messages: sorted));
+    state = AsyncData(_state.copyWith(messages: sorted));
   }
 
   /// 주로 기존 메세지를 수정하기 위해서 사용됩니다.  
-  void updateMessage(ChatMessage newMessage) {
+  void updateMessageById(String id, ChatMessage Function(ChatMessage) updater) {
+    final updatedMessages = _state.messages.map((m) {
+      return m.id == id ? updater(m) : m;
+    }).toList();
 
+    state = AsyncData(_state.copyWith(messages: updatedMessages));
+  }
+
+  ChatMessage? findMessageById(String id) {
+    return state.value!.messages.firstWhereOrNull((e) => e.id == id);
+  }
+
+  Future<void> likeMessage(ChatMessage message, bool isLike) async {
+    updateMessageById(message.id, (m) => m.copyWith(isLike: isLike));
+
+    try {
+      if (isLike) {
+        await getIt<ChatMessageAPI>().likeMessage(message.id);
+      } else {
+        await getIt<ChatMessageAPI>().unlikeMessage(message.id);
+      }
+    } catch (e) {
+      // 예외 발생 시 롤백.
+      updateMessageById(message.id, (m) => m.copyWith(isLike: !isLike));
+    }
   }
 }
