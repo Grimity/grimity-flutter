@@ -7,6 +7,7 @@ import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/provider/author_with_feeds_provider.dart';
 import 'package:grimity/presentation/common/widget/button/grimity_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_image.dart';
+import 'package:grimity/presentation/common/widget/grimity_reaction.dart';
 import 'package:grimity/presentation/common/widget/system/profile/grimity_user_image.dart';
 
 /// 인기 유저 Card
@@ -37,14 +38,7 @@ class GrimityAuthorWithFeedsCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(user.name, style: AppTypeface.label2.copyWith(color: AppColor.gray700)),
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(text: '팔로워 ', style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
-                        TextSpan(text: '${user.followerCount}', style: AppTypeface.caption1),
-                      ],
-                    ),
-                  ),
+                  GrimityReaction.follower(followerCount: user.followerCount),
                 ],
               ),
               Spacer(),

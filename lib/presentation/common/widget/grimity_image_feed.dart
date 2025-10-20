@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/feed.dart';
-import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
 import 'package:grimity/presentation/common/widget/grimity_highlight_text_span.dart';
 import 'package:grimity/presentation/common/widget/grimity_image.dart';
+import 'package:grimity/presentation/common/widget/grimity_reaction.dart';
 
 class GrimityImageFeed extends StatelessWidget {
   const GrimityImageFeed({
@@ -48,28 +46,15 @@ class GrimityImageFeed extends StatelessWidget {
           const Gap(8),
           Flexible(child: GrimityHighlightTextSpan(text: feed.title, keyword: keyword, normal: AppTypeface.label2)),
           const Gap(2),
-          Row(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  if (feed.author != null) {
-                    ProfileRoute(url: feed.author!.url).go(context);
-                  }
-                },
-                child: Text(
-                  feed.author?.name ?? authorName ?? '작성자 정보 없음',
-                  style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
-                ),
-              ),
-              GrimityGrayCircle(),
-              Assets.icons.common.like.svg(width: 16, height: 16),
-              const Gap(4),
-              Text(feed.likeCount.toString(), style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
-              GrimityGrayCircle(),
-              Assets.icons.common.view.svg(width: 16, height: 16),
-              const Gap(4),
-              Text(feed.viewCount.toString(), style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
-            ],
+          GrimityReaction.nameLikeView(
+            name: feed.author?.name ?? authorName,
+            likeCount: feed.likeCount,
+            viewCount: feed.viewCount,
+            onNameTap: () {
+              if (feed.author != null) {
+                ProfileRoute(url: feed.author!.url).go(context);
+              }
+            },
           ),
         ],
       ),

@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/feed.dart';
-import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
 import 'package:grimity/presentation/common/widget/grimity_image.dart';
 import 'package:grimity/app/config/app_color.dart';
+import 'package:grimity/presentation/common/widget/grimity_reaction.dart';
 import 'package:grimity/presentation/common/widget/system/check/grimity_check_box.dart';
 
 class GrimitySelectableImageFeed extends StatelessWidget {
@@ -52,21 +51,10 @@ class GrimitySelectableImageFeed extends StatelessWidget {
           const Gap(8),
           Flexible(child: Text(feed.title, style: AppTypeface.label2, maxLines: 1, overflow: TextOverflow.ellipsis)),
           const Gap(2),
-          Row(
-            children: [
-              Text(
-                feed.author?.name ?? authorName ?? '작성자 정보 없음',
-                style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
-              ),
-              GrimityGrayCircle(),
-              Assets.icons.common.like.svg(width: 16, height: 16),
-              const Gap(4),
-              Text(feed.likeCount.toString(), style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
-              GrimityGrayCircle(),
-              Assets.icons.common.view.svg(width: 16, height: 16),
-              const Gap(4),
-              Text(feed.viewCount.toString(), style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
-            ],
+          GrimityReaction.nameLikeView(
+            name: feed.author?.name ?? authorName,
+            likeCount: feed.likeCount,
+            viewCount: feed.viewCount,
           ),
         ],
       ),

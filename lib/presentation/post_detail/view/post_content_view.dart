@@ -8,12 +8,10 @@ import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/config/app_typeface_editor.dart';
 import 'package:grimity/app/enum/report.enum.dart';
-import 'package:grimity/app/extension/date_time_extension.dart';
 import 'package:grimity/domain/entity/post.dart';
-import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/button/grimity_follow_button.dart';
-import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
+import 'package:grimity/presentation/common/widget/grimity_reaction.dart';
 import 'package:grimity/presentation/common/widget/popup/grimity_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/common/widget/system/more/grimity_more_button.dart';
 import 'package:grimity/presentation/post_detail/widget/post_detail_delete_dialog.dart';
@@ -117,18 +115,10 @@ class _PostAuthorInfoSection extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-              Row(
-                children: [
-                  Text(post.createdAt.toRelativeTime(), style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
-                  GrimityGrayCircle(),
-                  Assets.icons.common.like.svg(width: 16, height: 16),
-                  Gap(2),
-                  Text('${post.likeCount}', style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
-                  GrimityGrayCircle(),
-                  Assets.icons.common.view.svg(width: 16, height: 16),
-                  Gap(2),
-                  Text('${post.viewCount}', style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
-                ],
+              GrimityReaction.dateLikeView(
+                createdAt: post.createdAt,
+                likeCount: post.likeCount,
+                viewCount: post.viewCount,
               ),
             ],
           ),

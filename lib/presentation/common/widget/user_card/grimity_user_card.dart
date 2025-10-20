@@ -5,6 +5,7 @@ import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/common/widget/button/grimity_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
+import 'package:grimity/presentation/common/widget/grimity_reaction.dart';
 import 'package:grimity/presentation/common/widget/system/profile/grimity_profile_background_image.dart';
 import 'package:grimity/presentation/common/widget/system/profile/grimity_user_image.dart';
 
@@ -51,17 +52,7 @@ class GrimityUserCard extends StatelessWidget {
                             children: [
                               Text(user.name, style: AppTypeface.label2.copyWith(color: AppColor.gray700)),
                               GrimityGrayCircle(),
-                              RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: '팔로워 ',
-                                      style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
-                                    ),
-                                    TextSpan(text: '${user.followerCount}', style: AppTypeface.caption1),
-                                  ],
-                                ),
-                              ),
+                              GrimityReaction.follower(followerCount: user.followerCount),
                             ],
                           ),
                           if (user.description?.isNotEmpty ?? false)
