@@ -5,7 +5,7 @@ import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/enum/upload_image_type.dart';
 import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
 import 'package:grimity/presentation/common/widget/popup/grimity_modal_bottom_sheet.dart';
-import 'package:grimity/presentation/common/widget/grimity_placeholder.dart';
+import 'package:grimity/presentation/common/widget/system/profile/grimity_profile_image.dart';
 import 'package:grimity/presentation/profile_edit/provider/upload_image_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:grimity/presentation/profile_edit/provider/profile_edit_provider.dart';
