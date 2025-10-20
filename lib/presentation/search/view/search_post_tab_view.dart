@@ -5,9 +5,9 @@ import 'package:grimity/domain/entity/posts.dart';
 import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
 import 'package:grimity/presentation/common/widget/grimity_pagination_widget.dart';
 import 'package:grimity/presentation/common/widget/grimity_post_feed.dart';
+import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/common/widget/system/sort/grimity_search_sort_header.dart';
 import 'package:grimity/presentation/search/provider/search_post_data_provider.dart';
-import 'package:grimity/presentation/search/widget/search_empty_widget.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SearchPostTabView extends HookConsumerWidget with SearchPostMixin {
@@ -18,7 +18,11 @@ class SearchPostTabView extends HookConsumerWidget with SearchPostMixin {
     useAutomaticKeepAlive();
 
     return searchPostState(ref).maybeWhen(
-      data: (posts) => posts.totalCount == 0 ? SearchEmptyWidget() : _SearchResultPostView(posts: posts),
+      data:
+          (posts) =>
+              posts.totalCount == 0
+                  ? GrimityStateView.resultNull(title: '검색 결과가 없어요', subTitle: '다른 검색어를 입력해보세요')
+                  : _SearchResultPostView(posts: posts),
       orElse: () => GrimityCircularProgressIndicator(),
     );
   }

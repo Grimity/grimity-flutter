@@ -4,9 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/common/widget/grimity_follow_user_tile.dart';
+import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/follow/enum/follow_enum_tab_type.dart';
 import 'package:grimity/presentation/follow/provider/follow_followers_data_provider.dart';
-import 'package:grimity/presentation/follow/view/follow_empty_view.dart';
 import 'package:grimity/presentation/home/hook/use_infinite_scroll_hook.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -27,7 +27,7 @@ class FollowerUserView extends HookConsumerWidget {
         data:
             (data) =>
                 data.users.isEmpty
-                    ? FollowEmptyView(type: FollowTabType.follower)
+                    ? GrimityStateView.user(subTitle: FollowTabType.follower.emptyMessage)
                     : _FollowerUserListView(users: data.users),
         orElse: () => Skeletonizer(child: _FollowerUserListView(users: User.emptyList)),
       ),

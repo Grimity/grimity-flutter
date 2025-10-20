@@ -8,9 +8,8 @@ import 'package:grimity/presentation/comment/widget/comment_widget.dart';
 import 'package:grimity/presentation/comment/enum/comment_type.dart';
 import 'package:grimity/presentation/comment/model/comment_item.dart';
 import 'package:grimity/presentation/comment/provider/comments_data_provider.dart';
+import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:gap/gap.dart';
-import 'package:grimity/gen/assets.gen.dart';
 
 /// 댓글 View
 class CommentsView extends ConsumerWidget {
@@ -99,7 +98,11 @@ class _CommentListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (commentItems.isEmpty) {
-      return _EmptyCommentWidget();
+      return GrimityStateView.commentReply(
+        title: '아직 댓글이 없어요',
+        subTitle: '댓글을 써서 생각을 나눠보세요',
+        padding: EdgeInsets.symmetric(vertical: 30),
+      );
     }
 
     return ListView.separated(
@@ -120,27 +123,6 @@ class _CommentListView extends StatelessWidget {
       },
       separatorBuilder: (context, index) => Divider(color: AppColor.gray300, height: 1, thickness: 1),
       itemCount: commentItems.length,
-    );
-  }
-}
-
-/// 댓글이 없는 경우
-class _EmptyCommentWidget extends StatelessWidget {
-  const _EmptyCommentWidget();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 30.h),
-      child: Column(
-        children: [
-          Assets.icons.common.commentReply.svg(width: 60.w, height: 60.w),
-          Gap(16),
-          Text('아직 댓글이 없어요', style: AppTypeface.subTitle3.copyWith(color: AppColor.gray700)),
-          Gap(6),
-          Text('댓글을 써서 생각을 나눠보세요', style: AppTypeface.label2.copyWith(color: AppColor.gray500)),
-        ],
-      ),
     );
   }
 }

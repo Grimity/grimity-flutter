@@ -4,7 +4,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/presentation/album_edit/provider/album_edit_provider.dart';
 import 'package:grimity/presentation/album_edit/view/album_reorderable_list_view.dart';
-import 'package:grimity/presentation/album_edit/widget/album_empty_widget.dart';
+import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 
 class AlbumEditListView extends ConsumerWidget {
   const AlbumEditListView({super.key});
@@ -33,7 +33,9 @@ class AlbumEditListView extends ConsumerWidget {
               ),
           ],
         ),
-        albums.isEmpty ? AlbumEmptyWidget() : AlbumReorderableListView(),
+        albums.isEmpty
+            ? GrimityStateView.resultNull(title: '아직 생성된 앨범이 없어요', subTitle: '앨범을 추가하면 그림을 분류할 수 있어요')
+            : AlbumReorderableListView(),
       ],
     );
   }

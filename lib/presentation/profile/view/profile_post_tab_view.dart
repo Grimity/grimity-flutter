@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gap/gap.dart';
-import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/domain/entity/user.dart';
-import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_post_feed.dart';
+import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/profile/provider/profile_posts_data_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -36,16 +34,10 @@ class ProfilePostTabView extends HookConsumerWidget {
     if (posts.isNotEmpty) {
       return GrimityPostFeed(posts: posts);
     } else {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Assets.icons.profile.illust.svg(width: 60.w, height: 60.w),
-            Gap(16),
-            Text('첫 게시글을 업로드해보세요', style: AppTypeface.label2.copyWith(color: AppColor.gray600)),
-            Gap(16),
-          ],
-        ),
+      return GrimityStateView.illust(
+        subTitle: '첫 게시글을 업로드해보세요',
+        buttonText: '게시글 업로드',
+        onTap: () => PostUploadRoute().push(context),
       );
     }
   }

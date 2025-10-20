@@ -12,6 +12,7 @@ import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
 import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
+import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/common/widget/system/sort/grimity_search_sort_header.dart';
 import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
 import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
@@ -86,24 +87,13 @@ class ProfileFeedTabView extends HookConsumerWidget {
       );
     } else {
       if (viewType == ProfileViewType.other) {
-        return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [Text('아직 업로드한 그림이 없어요', style: AppTypeface.label2.copyWith(color: AppColor.gray600))],
-          ),
-        );
+        return GrimityStateView.resultNull(subTitle: '아직 업로드한 그림이 없어요');
       }
 
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Assets.icons.profile.illust.svg(width: 60.w, height: 60.w),
-            Gap(16),
-            Text('첫 그림을 업로드해보세요', style: AppTypeface.label2.copyWith(color: AppColor.gray600)),
-            Gap(16),
-          ],
-        ),
+      return GrimityStateView.illust(
+        subTitle: '첫 그림을 업로드해보세요',
+        buttonText: '그림 업로드',
+        onTap: () => FeedUploadRoute().push(context),
       );
     }
   }

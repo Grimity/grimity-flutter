@@ -8,12 +8,12 @@ import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/feeds.dart';
 import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
 import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
+import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/common/widget/system/sort/grimity_search_sort_header.dart';
 import 'package:grimity/presentation/home/hook/use_infinite_scroll_hook.dart';
 import 'package:grimity/presentation/search/provider/search_feed_data_provider.dart';
 import 'package:grimity/presentation/search/provider/search_feed_sort_type_provider.dart';
 import 'package:grimity/presentation/search/provider/search_keyword_provider.dart';
-import 'package:grimity/presentation/search/widget/search_empty_widget.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 /// 검색 결과 피드 View
@@ -25,7 +25,11 @@ class SearchFeedTabView extends HookConsumerWidget with SearchFeedMixin {
     useAutomaticKeepAlive();
 
     return searchFeedState(ref).maybeWhen(
-      data: (feeds) => feeds.feeds.isEmpty ? SearchEmptyWidget() : _SearchResultFeedView(feeds: feeds),
+      data:
+          (feeds) =>
+              feeds.feeds.isEmpty
+                  ? GrimityStateView.resultNull(title: '검색 결과가 없어요', subTitle: '다른 검색어를 입력해보세요')
+                  : _SearchResultFeedView(feeds: feeds),
       orElse: () => GrimityCircularProgressIndicator(),
     );
   }
