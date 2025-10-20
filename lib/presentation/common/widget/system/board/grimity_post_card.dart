@@ -9,6 +9,7 @@ import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
 import 'package:grimity/presentation/common/widget/grimity_highlight_text_span.dart';
+import 'package:grimity/presentation/common/widget/system/chip/grimity_chip.dart';
 
 /// 게시글 위젯
 class GrimityPostCard extends StatelessWidget {
@@ -28,14 +29,7 @@ class GrimityPostCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (showPostType && post.type != null) ...[
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 4, horizontal: 6),
-                decoration: BoxDecoration(color: AppColor.primary1, borderRadius: BorderRadius.circular(99)),
-                child: Text(
-                  PostType.valueToName(post.type!),
-                  style: AppTypeface.caption3.copyWith(color: AppColor.primary2),
-                ),
-              ),
+              GrimityChip.dark(PostType.valueToName(post.type!)),
               Gap(6),
             ],
             Row(

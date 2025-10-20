@@ -17,6 +17,7 @@ import 'package:grimity/presentation/common/widget/grimity_animation_button.dart
 import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
 import 'package:grimity/presentation/common/widget/popup/grimity_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/common/widget/grimity_user_image.dart';
+import 'package:grimity/presentation/common/widget/system/chip/grimity_chip.dart';
 
 class CommentWidget extends ConsumerWidget {
   const CommentWidget({
@@ -92,7 +93,7 @@ class CommentWidget extends ConsumerWidget {
                                   comment.isDeletedComment ? '탈퇴한 사용자' : comment.writer!.name,
                                   style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
                                 ),
-                                if (isAuthor) _buildAuthorChip(),
+                                if (isAuthor) ...[Gap(4), GrimityChip.light('작성자')],
                                 GrimityGrayCircle(),
                                 Text(
                                   comment.createdAt.toRelativeTime(),
@@ -210,18 +211,5 @@ class CommentWidget extends ConsumerWidget {
             ];
 
     GrimityModalBottomSheet.show(context, buttons: buttons);
-  }
-
-  Widget _buildAuthorChip() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 4),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(99),
-        color: AppColor.mainSecondary,
-        border: Border.all(color: Color(0xFF28C86E).withValues(alpha: 0.3)),
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-      child: Text('작성자', style: AppTypeface.caption3.copyWith(color: AppColor.main)),
-    );
   }
 }
