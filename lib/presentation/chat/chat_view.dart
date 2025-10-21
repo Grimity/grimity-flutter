@@ -54,12 +54,15 @@ class ChatView extends StatelessWidget {
                   Expanded(
                     child: GrimityRefreshIndicator(
                       onRefresh: provider.refresh,
-                      child: ListView(
+                      child: ListView.separated(
+                        separatorBuilder: (context, index) {
+                          return SizedBox(height: 16);
+                        },
                         padding: EdgeInsets.all(16),
-                        children: [
-                          // 대화 기록이 존재하는 사용자 목록.
-                          ...data.value!.chats.map((model) => ChatScrollItem(model: model)),
-                        ],
+                        itemCount: data.value!.chats.length,
+                        itemBuilder: (context, index) {
+                          return ChatScrollItem(model: data.value!.chats[index]);
+                        },
                       ),
                     ),
                   ),
