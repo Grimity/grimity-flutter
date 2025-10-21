@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/presentation/chat/provider/chat_provider.dart';
-import 'package:grimity/presentation/chat/view/chat_empty_view.dart';
 import 'package:grimity/presentation/chat/view/chat_scroll_item.dart';
 import 'package:grimity/presentation/chat/widgets/chat_floating_action_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
 import 'package:grimity/presentation/common/widget/grimity_refresh_indicator.dart';
+import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 
 class ChatView extends StatelessWidget {
   const ChatView({
@@ -40,8 +41,17 @@ class ChatView extends StatelessWidget {
 
           // 현재 주고 받은 메세지가 아직 없는 경우.
           if (data.value!.chats.isEmpty
-           && data.value!.keyword == "") {
-            return ListView(children: [ChatEmptyView()]);
+           && data.value!.keyword == null) {
+            return ListView(
+              children: [
+                GrimityStateView.commentReply(
+                  title: "주고 받은 메세지가 없어요",
+                  subTitle: "팔로우 한 작가에게 메세지를 보내보세요",
+                  buttonText: "새 메세지 보내기",
+                  onTap: () => NewChatRoute().push(context),
+                ),
+              ],
+            );
           }
 
           return Stack(

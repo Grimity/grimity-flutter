@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_infinite_scroll_pagination/flutter_infinite_scroll_pagination.dart';
 import 'package:grimity/presentation/chat_new/provider/new_chat_provider.dart';
-import 'package:grimity/presentation/chat_new/view/new_chat_empty_view.dart';
 import 'package:grimity/presentation/chat_new/view/new_chat_scroll_item_view.dart';
 import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
+import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class NewChatView extends StatelessWidget {
@@ -37,7 +37,12 @@ class NewChatView extends StatelessWidget {
           if (data.value!.followings.isEmpty
            && data.value!.keyword == null) {
             return ListView(
-              children: [NewChatEmptyView()],
+              children: [
+                GrimityStateView.user(
+                  title: "아직 팔로우하는 작가가 없어요",
+                  subTitle: "관심 있는 작가를 팔로우하고\n메세지를 주고 받아보세요",
+                ),
+              ],
             );
           }
 

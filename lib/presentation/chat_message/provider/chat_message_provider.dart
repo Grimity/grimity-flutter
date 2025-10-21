@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/app/di/di_setup.dart';
 import 'package:grimity/app/enum/presigned.enum.dart';
 import 'package:grimity/app/environment/flavor.dart';
-import 'package:grimity/app/image/Image_upload.dart';
+import 'package:grimity/app/image/image_upload.dart';
 import 'package:grimity/data/data_source/remote/chat_api.dart';
 import 'package:grimity/data/data_source/remote/chat_message_api.dart';
 import 'package:grimity/data/model/chat_message/chat_message_item_response.dart';
