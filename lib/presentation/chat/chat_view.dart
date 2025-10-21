@@ -26,6 +26,7 @@ class ChatView extends StatelessWidget {
       appBar: appbarView,
       body: Consumer(
         builder: (context, ref, _) {
+          final provider = ref.read(chatProviderProvider.notifier);
           final data = ref.watch(chatProviderProvider);
 
           // 현재 데이터를 불러오고 있는 경우.
@@ -38,7 +39,7 @@ class ChatView extends StatelessWidget {
           return Stack(
             children: [
               GrimityRefreshIndicator(
-                onRefresh: () async {},
+                onRefresh: provider.refresh,
                 child: Builder(
                   builder: (context) {
                     // 사용자에 대한 메세지가 아예 없는 경우.

@@ -3,9 +3,11 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/extension/date_time_extension.dart';
 import 'package:grimity/data/model/chat/chat_response.dart';
-import 'package:grimity/presentation/common/widget/grimity_user_image.dart';
+import 'package:grimity/presentation/chat/provider/chat_provider.dart';
+import 'package:grimity/presentation/common/widget/system/profile/grimity_user_image.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ChatScrollItem extends StatelessWidget {
+class ChatScrollItem extends ConsumerWidget {
   const ChatScrollItem({
     super.key,
     required this.model,
@@ -14,12 +16,15 @@ class ChatScrollItem extends StatelessWidget {
   final ChatResponse model;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: () {
-        // 메세지 뷰어 페이지로 이동.
-        ChatMessageRoute(model.id).push(context);
+      onTap: () async {
+        // 해당 채팅방 페이지로 이동.
+        await ChatMessageRoute(model.id).push(context);
+
+        // 채팅방 페이지에서 나가면 기존 채팅 기록 새로고침.
+        ref.read(chatProviderProvider.notifier).refresh();
       },
       child: Row(
         spacing: 12,

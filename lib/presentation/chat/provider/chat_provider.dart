@@ -18,12 +18,34 @@ abstract class ChatState with _$ChatState {
 
 @riverpod
 class ChatProvider extends _$ChatProvider {
+  ChatState get _state => state.value!;
+
   @override
   FutureOr<ChatState> build() async {
     final response = await getIt<ChatAPI>().search(null, null, null);
     return ChatState(
       chats: response.chats,
+      keyword: null,
       nextCursor: response.nextCursor,
     );
+  }
+
+  Future<void> loadMore() async {
+    assert(_state.nextCursor != null);
+    final response = await getIt<ChatAPI>().search(null, _state.nextCursor, _state.keyword);
+
+    state = AsyncData(_state.copyWith(
+      chats: [..._state.chats, ...response.chats],
+      nextCursor: response.nextCursor,
+    ));
+  }
+
+  Future<void> refresh() async {
+    final response = await getIt<ChatAPI>().search(null, null, _state.keyword);
+
+    state = AsyncData(_state.copyWith(
+      chats: response.chats,
+      nextCursor: response.nextCursor,
+    ));
   }
 }
