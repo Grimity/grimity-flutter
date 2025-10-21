@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/data/model/user/follow_user_response.dart';
 import 'package:grimity/presentation/chat_new/provider/new_chat_provider.dart';
 import 'package:grimity/presentation/common/widget/system/check/grimity_radio_button.dart';
-import 'package:grimity/presentation/common/widget/system/profile/grimity_user_image.dart';
+import 'package:grimity/presentation/common/widget/system/profile/grimity_user_profile.dart';
 
 // 사용자가 팔로우하고 있는 사용자 정보를 표시합니다.
 class NewChatScrollItemView extends ConsumerWidget {
@@ -33,25 +31,11 @@ class NewChatScrollItemView extends ConsumerWidget {
       child: Row(
         spacing: 16,
         children: [
-          GrimityUserImage(imageUrl: model.image),
-
-          // 간략한 사용자 정보 표시.
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // 사용자 이름 표시.
-                Text(
-                  model.name,
-                  style: AppTypeface.label1,
-                ),
-                // 사용자 아이디 표시.
-                Text(
-                  "@${model.url}",
-                  style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
-                ),
-              ],
+            child: GrimityUserProfile.fromString(
+              imageUrl: model.image!,
+              title: model.name,
+              subTitle: "@${model.url}",
             ),
           ),
           GrimityRadioButton(
