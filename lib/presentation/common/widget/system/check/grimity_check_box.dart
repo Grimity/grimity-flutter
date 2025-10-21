@@ -40,12 +40,16 @@ class GrimityCheckBox extends StatelessWidget {
     required VoidCallback onTap,
   }) {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: onTap,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         spacing: 8,
         children: [
-          GrimityCheckBox(value: value),
+          GrimityCheckBox(
+            value: value,
+            onChanged: (_) => onTap(),
+          ),
           Text(
             label,
             style: AppTypeface.caption1.copyWith(color: AppColor.gray700),
