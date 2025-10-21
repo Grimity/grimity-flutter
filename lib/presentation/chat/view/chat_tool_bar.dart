@@ -34,7 +34,7 @@ class ChatToolBar extends ConsumerWidget {
                   GrimityCheckBox.withLabeled(
                     value: isSelectedAll,
                     label: "전체 선택",
-                    onTap: () {},
+                    onTap: () => provider.selectChatAll(!isSelectedAll),
                   ),
                   Row(
                     mainAxisSize: MainAxisSize.min,

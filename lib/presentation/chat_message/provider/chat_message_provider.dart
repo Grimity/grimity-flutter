@@ -107,6 +107,7 @@ class ChatMessageProvider extends _$ChatMessageProvider {
     );
   }
 
+  /// 실시간 대화를 위해서 웹소켓을 연결합니다.
   void connectSocket() async {
     final token = await loadTokenUseCase.execute();
     late String socketId;
@@ -170,6 +171,7 @@ class ChatMessageProvider extends _$ChatMessageProvider {
     });
   }
 
+  /// 사용자가 활성화된 '전송' 버튼을 눌렀을 때 호출됩니다.
   void submit() async {
     final uploadImages = <ImageUploadUrl>[];
 
@@ -197,6 +199,7 @@ class ChatMessageProvider extends _$ChatMessageProvider {
     ));
   }
 
+  /// 다음 페이지에 대한 추가 데이터를 불러옵니다.
   Future<void> loadMore() async {
     final response = await getIt<ChatMessageAPI>().getMessages(loadItemSize, _state.nextCursor, chatId);
 
@@ -204,6 +207,7 @@ class ChatMessageProvider extends _$ChatMessageProvider {
     state = AsyncData(_state.copyWith(nextCursor: response.nextCursor));
   }
 
+  /// 주어진 이미지 목록을 상대방에게 보낼 이미지 목록에 삽입합니다.
   void addInputImages(List<ImageSourceItem> newImages) {
     final currentImages = _state.inputImages;
     final maxImages = 5;
@@ -219,12 +223,14 @@ class ChatMessageProvider extends _$ChatMessageProvider {
     ));
   }
 
+  /// 상대방에게 보낼 이미지 목록에서 주어진 이미지를 제거합니다.
   void removeInputImage(ImageSourceItem image) {
     state = AsyncData(_state.copyWith(
       inputImages: _state.inputImages.where((e) => e != image).toList(),
     ));
   }
 
+  /// 주어진 메세지를 답장할 메세지로서 정의합니다.
   void setInputReply(ChatMessage message) {
     state = AsyncData(_state.copyWith(
       inputReply: ChatMessageReplyResponse(
@@ -236,6 +242,7 @@ class ChatMessageProvider extends _$ChatMessageProvider {
     ));
   }
 
+  /// 주어진 문자열을 현재 작성 중인 메시지 내용으로 정의합니다.
   void setInputMessage(String newMessage) {
     state = AsyncData(state.value!.copyWith(inputMessage: newMessage));
   }
@@ -259,10 +266,12 @@ class ChatMessageProvider extends _$ChatMessageProvider {
     state = AsyncData(_state.copyWith(messages: updatedMessages));
   }
 
+  /// 주어진 아이디에 해당하는 메세지를 반환합니다.
   ChatMessage? findMessageById(String id) {
     return state.value!.messages.firstWhereOrNull((e) => e.id == id);
   }
 
+  /// 주어진 메세지에 대한 좋아요 여부를 정의합니다.
   Future<void> likeMessage(ChatMessage message, bool isLike) async {
     updateMessageById(message.id, (m) => m.copyWith(isLike: isLike));
 

@@ -39,7 +39,8 @@ class ChatView extends StatelessWidget {
           }
 
           // 현재 주고 받은 메세지가 아직 없는 경우.
-          if (data.value!.chats.isEmpty) {
+          if (data.value!.chats.isEmpty
+           && data.value!.keyword == "") {
             return ListView(children: [ChatEmptyView()]);
           }
 

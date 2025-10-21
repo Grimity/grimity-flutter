@@ -22,6 +22,7 @@ abstract class ChatState with _$ChatState {
 @riverpod
 class ChatProvider extends _$ChatProvider {
   ChatState get _state => state.value!;
+  String? _keyword;
 
   @override
   FutureOr<ChatState> build() async {
@@ -35,6 +36,12 @@ class ChatProvider extends _$ChatProvider {
     );
   }
 
+  /// 주어진 문자열을 검색어로 정의합니다.
+  void setKeyword(String newValue) {
+    _keyword = newValue == "" ? null : newValue;
+  }
+
+  /// 다음 페이지에 대한 추가 데이터를 불러옵니다.
   Future<void> loadMore() async {
     assert(_state.nextCursor != null);
     final response = await getIt<ChatAPI>().search(null, _state.nextCursor, _state.keyword);
@@ -45,11 +52,13 @@ class ChatProvider extends _$ChatProvider {
     ));
   }
 
+  /// 현재 데이터를 모두 버리고 다시 처음부터 데이터를 불러옵니다.
   Future<void> refresh() async {
-    final response = await getIt<ChatAPI>().search(null, null, _state.keyword);
+    final response = await getIt<ChatAPI>().search(null, null, _keyword);
 
     state = AsyncData(_state.copyWith(
       chats: response.chats,
+      keyword: _keyword,
       nextCursor: response.nextCursor,
     ));
   }
@@ -76,5 +85,16 @@ class ChatProvider extends _$ChatProvider {
     }
 
     state = AsyncData(_state.copyWith(selectedChats: newItems));
+  }
+
+  /// 모든 채팅을 대상으로 선택 여부를 정의합니다.
+  void selectChatAll(bool value) {
+    if (value) {
+      state = AsyncData(_state.copyWith(
+        selectedChats: _state.chats.map((e) => e.id).toList()
+      ));
+    } else {
+      state = AsyncData(_state.copyWith(selectedChats: []));
+    }
   }
 }
