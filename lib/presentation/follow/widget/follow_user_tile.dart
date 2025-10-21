@@ -36,7 +36,7 @@ class FollowUserTile extends StatelessWidget {
         children: [
           Expanded(
             child: GrimityUserProfile.fromString(
-              imageUrl: user.image ?? '',
+              imageUrl: user.image,
               title: user.name,
               subTitle: user.description ?? '',
             ),
