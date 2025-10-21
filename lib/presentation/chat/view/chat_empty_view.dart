@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
+import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/button/grimity_button.dart';
 
@@ -23,15 +24,11 @@ class ChatEmptyView extends StatelessWidget {
             children: [
               Text(
                 "주고 받은 메세지가 없어요",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: AppColor.gray700,
-                ),
+                style: AppTypeface.subTitle3.copyWith(color: AppColor.gray700),
               ),
               Text(
                 "팔로우 한 작가에게 메세지를 보내보세요",
-                style: TextStyle(color: AppColor.gray500),
+                style: AppTypeface.label2.copyWith(color: AppColor.gray500),
               ),
             ],
           ),

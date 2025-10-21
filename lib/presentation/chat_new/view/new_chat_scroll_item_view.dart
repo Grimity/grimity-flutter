@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/app/config/app_color.dart';
+import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/data/model/user/follow_user_response.dart';
 import 'package:grimity/presentation/chat_new/provider/new_chat_provider.dart';
 import 'package:grimity/presentation/common/widget/system/check/grimity_radio_button.dart';
@@ -43,18 +44,12 @@ class NewChatScrollItemView extends ConsumerWidget {
                 // 사용자 이름 표시.
                 Text(
                   model.name,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: AppColor.gray800,
-                  ),
+                  style: AppTypeface.label1,
                 ),
                 // 사용자 아이디 표시.
                 Text(
                   "@${model.url}",
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: AppColor.gray600,
-                  ),
+                  style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
                 ),
               ],
             ),

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/app/config/app_color.dart';
+import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/ux/popover.dart';
 import 'package:grimity/data/model/chat_message/chat_message_reply_response.dart';
 import 'package:grimity/gen/assets.gen.dart';
@@ -127,7 +128,7 @@ class _MessageBubble extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       decoration: BoxDecoration(
-        color: isMe ? AppColor.main : AppColor.gray300,
+        color: isMe ? AppColor.secandary1 : AppColor.gray300,
         borderRadius: switch(isMe) {
           true => BorderRadius.only(
             topLeft: Radius.circular(20),
@@ -145,8 +146,7 @@ class _MessageBubble extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: TextStyle(
-          fontWeight: FontWeight.w500,
+        style: AppTypeface.label2.copyWith(
           color: isMe ? AppColor.gray00 : AppColor.gray800,
         ),
       ),
@@ -176,7 +176,7 @@ class _ReplyView extends ConsumerWidget {
       children: [
         Text(
           isMe ? "${user.name}님에게 답장" : "나에게 답장",
-          style: TextStyle(fontSize: 12, color: AppColor.gray500),
+          style: AppTypeface.caption2.copyWith(color: AppColor.gray500),
         ),
         Row(
           mainAxisSize: MainAxisSize.min,
@@ -205,10 +205,8 @@ class _ReplyView extends ConsumerWidget {
                   ),
                   child: Text(
                     model.content!,
-                    style: TextStyle(
-                      color: AppColor.gray800,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
+                    style: AppTypeface.caption2.copyWith(
+                      color: isMe ? AppColor.gray800 : AppColor.secandary1,
                     ),
                   ),
                 );

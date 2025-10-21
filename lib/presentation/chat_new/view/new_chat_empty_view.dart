@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:grimity/app/config/app_color.dart';
+import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
 
 class NewChatEmptyView extends StatelessWidget {
@@ -21,16 +22,12 @@ class NewChatEmptyView extends StatelessWidget {
             children: [
               Text(
                 "아직 팔로우하는 작가가 없어요",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: AppColor.gray700,
-                ),
+                style: AppTypeface.subTitle3.copyWith(color: AppColor.gray700),
               ),
               Text(
                 "관심 있는 작가를 팔로우하고\n"
                 "메세지를 주고 받아 보세요",
-                style: TextStyle(color: AppColor.gray500),
+                style: AppTypeface.label2.copyWith(color: AppColor.gray500),
                 textAlign: TextAlign.center,
               ),
             ],

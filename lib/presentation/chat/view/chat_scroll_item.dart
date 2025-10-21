@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
+import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/extension/date_time_extension.dart';
 import 'package:grimity/data/model/chat/chat_response.dart';
 import 'package:grimity/presentation/chat/provider/chat_provider.dart';
@@ -49,21 +50,13 @@ class ChatScrollItem extends ConsumerWidget {
                       // 사용자 이름 표시.
                       Text(
                         model.opponentUser.name, 
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: AppColor.gray600,
-                        ),
+                        style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
                       ),
                       CircleAvatar(backgroundColor: AppColor.gray400, radius: 1),
                       Text(
                         model.lastMessage?.createdAt.toRelativeTime()
                                   ?? model.enteredAt.toRelativeTime(), 
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: AppColor.gray600,
-                        ),
+                        style: AppTypeface.caption1.copyWith(color: AppColor.gray600),
                       ),
                     ],
                   ),
@@ -72,7 +65,7 @@ class ChatScrollItem extends ConsumerWidget {
                     model.lastMessage == null
                       ? "최근 메세지가 없습니다."
                       : model.lastMessage?.content ?? "사진을 보냈습니다.", 
-                    style: TextStyle(color: AppColor.gray800),
+                    style: AppTypeface.label3.copyWith(color: AppColor.gray800),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
@@ -104,11 +97,7 @@ class _UnreadIndicator extends StatelessWidget {
       ),
       child: Text(
         unreadCount > 99 ? "99+" : unreadCount.toString(),
-        style: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
-          color: AppColor.gray00,
-        ),
+        style: AppTypeface.caption1.copyWith(color: AppColor.gray00),
       ),
     );
   }
