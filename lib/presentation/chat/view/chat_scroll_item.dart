@@ -45,7 +45,8 @@ class ChatScrollItem extends StatelessWidget {
                     ),
                     CircleAvatar(backgroundColor: AppColor.gray400, radius: 1),
                     Text(
-                      model.lastMessage.createdAt.toRelativeTime(), 
+                      model.lastMessage?.createdAt.toRelativeTime()
+                                ?? model.enteredAt.toRelativeTime(), 
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
@@ -56,7 +57,9 @@ class ChatScrollItem extends StatelessWidget {
                 ),
                 // 최근 메세지 내용 표시.
                 Text(
-                  model.lastMessage.content ?? "사진을 보냈습니다.", 
+                  model.lastMessage == null
+                    ? "최근 메세지가 없습니다."
+                    : model.lastMessage?.content ?? "사진을 보냈습니다.", 
                   style: TextStyle(color: AppColor.gray800),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
