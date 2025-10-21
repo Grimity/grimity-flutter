@@ -12,7 +12,7 @@ abstract class ChatResponse with _$ChatResponse {
     required int unreadCount,
     required DateTime enteredAt,
     required User opponentUser,
-    required ChatLastMessageResponse lastMessage,
+    required ChatLastMessageResponse? lastMessage,
   }) = _ChatResponse;
 
   factory ChatResponse.fromJson(Map<String, dynamic> json) => _$ChatResponseFromJson(json);
