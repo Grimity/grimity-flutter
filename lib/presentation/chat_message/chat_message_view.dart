@@ -67,7 +67,12 @@ class ChatMessageView extends ConsumerWidget {
                     if (data.value!.inputImages.isNotEmpty)
                       Align(
                         alignment: Alignment.bottomCenter,
-                        child: ChatMessageImageGallery(chatId: chatId),
+                        // 이미 위치를 추적해야 하는 대상인 [ChatMessageField] 위젯에서
+                        // [SafeArea] 위젯을 통해 대응했기 때문에 뷰 패딩 값을 모두 제거.
+                        child: MediaQuery(
+                          data: MediaQueryData(viewPadding: EdgeInsets.zero),
+                          child: ChatMessageImageGallery(chatId: chatId),
+                        ),
                       ),
                   ],
                 );

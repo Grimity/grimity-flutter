@@ -39,26 +39,28 @@ class ChatMessageField extends ConsumerWidget {
             ? Border(top: BorderSide(color: AppColor.gray300))
             : null,
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          spacing: 12,
-          children: [
-            if (isVisibleReply) _ReplyView(chatId: chatId),
+        child: SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 12,
+            children: [
+              if (isVisibleReply) _ReplyView(chatId: chatId),
 
-            Row(
-              spacing: 12,
-              children: [
-                Expanded(child: _TextField(chatId: chatId)),
-                GrimityButton.round(
-                  text: "전송",
-                  onTap: provider.submit,
-                  status: !data.isLoading && data.value!.canSubmit
-                    ? ButtonStatus.on
-                    : ButtonStatus.off,
-                ),
-              ],
-            ),
-          ],
+              Row(
+                spacing: 12,
+                children: [
+                  Expanded(child: _TextField(chatId: chatId)),
+                  GrimityButton.round(
+                    text: "전송",
+                    onTap: provider.submit,
+                    status: !data.isLoading && data.value!.canSubmit
+                      ? ButtonStatus.on
+                      : ButtonStatus.off,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
