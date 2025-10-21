@@ -37,7 +37,6 @@ class NewChatProvider extends _$NewChatProvider {
   }
 
   /// 현재 선택된 사용자에 대한 채팅 방을 생성하고 뷰어로 이동합니다.
-  // ignore: avoid_build_context_in_providers
   void submit(BuildContext context) async {
     assert(state.value?.selectedUserId != null);
     final response = await getIt<ChatAPI>().createChat(

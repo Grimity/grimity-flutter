@@ -49,7 +49,10 @@ class ChatMessageView extends ConsumerWidget {
                         separatorBuilder: (_, _) => SizedBox(height: 10),
                         shrinkWrap: true,
                         reverse: true,
-                        padding: EdgeInsets.all(16),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 20,
+                        ),
                         itemCount: data.value!.messages.length,
                         itemBuilder: (context, index) {
                           return ChatMessageFragment(
