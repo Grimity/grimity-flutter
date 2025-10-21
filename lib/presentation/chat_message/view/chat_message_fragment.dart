@@ -200,13 +200,13 @@ class _ReplyView extends ConsumerWidget {
                 return Container(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   decoration: BoxDecoration(
-                    color: AppColor.gray300,
+                    color: isMe ? AppColor.gray300 : AppColor.secandary1,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
                     model.content!,
                     style: AppTypeface.caption2.copyWith(
-                      color: isMe ? AppColor.gray800 : AppColor.secandary1,
+                      color: isMe ? AppColor.gray800 : AppColor.gray00,
                     ),
                   ),
                 );
