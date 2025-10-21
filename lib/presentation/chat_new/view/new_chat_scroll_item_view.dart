@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/data/model/user/follow_user_response.dart';
-import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/chat_new/provider/new_chat_provider.dart';
-import 'package:grimity/presentation/common/widget/grimity_user_image.dart';
+import 'package:grimity/presentation/common/widget/system/check/grimity_radio_button.dart';
+import 'package:grimity/presentation/common/widget/system/profile/grimity_user_image.dart';
 
 // 사용자가 팔로우하고 있는 사용자 정보를 표시합니다.
 class NewChatScrollItemView extends ConsumerWidget {
@@ -18,6 +17,7 @@ class NewChatScrollItemView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.read(newChatProviderProvider.notifier);
     final data = ref.watch(newChatProviderProvider);
     assert(data.value != null);
 
@@ -27,7 +27,7 @@ class NewChatScrollItemView extends ConsumerWidget {
       behavior: HitTestBehavior.opaque,
       onTap: () {
         // 메세지를 보낼 대상으로 선택하기.
-        ref.read(newChatProviderProvider.notifier).select(model);
+        provider.select(model);
       },
       child: Row(
         spacing: 16,
@@ -59,10 +59,10 @@ class NewChatScrollItemView extends ConsumerWidget {
               ],
             ),
           ),
-
-          isSelected
-            ? SvgPicture.asset(Assets.view.radioOn.path)
-            : SvgPicture.asset(Assets.view.raidoOff.path),
+          GrimityRadioButton(
+            value: isSelected,
+            onTap: () => provider.select(model),
+          ),
         ],
       ),
     );
