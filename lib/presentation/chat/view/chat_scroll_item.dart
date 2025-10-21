@@ -67,7 +67,7 @@ class ChatScrollItem extends ConsumerWidget {
                       : model.lastMessage?.content ?? "사진을 보냈습니다.", 
                     style: AppTypeface.label3.copyWith(color: AppColor.gray800),
                     overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
+                    maxLines: 2,
                   ),
                 ],
               ),
