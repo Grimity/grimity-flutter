@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/app/di/di_setup.dart';
 import 'package:grimity/data/data_source/remote/chat_api.dart';
@@ -13,6 +14,8 @@ abstract class ChatState with _$ChatState {
     required List<ChatResponse> chats,
     String? keyword,
     String? nextCursor,
+    required List<String> selectedChats,
+    required bool isSelectMode,
   }) = _ChatState;
 }
 
@@ -27,6 +30,8 @@ class ChatProvider extends _$ChatProvider {
       chats: response.chats,
       keyword: null,
       nextCursor: response.nextCursor,
+      selectedChats: [],
+      isSelectMode: false,
     );
   }
 
@@ -47,5 +52,29 @@ class ChatProvider extends _$ChatProvider {
       chats: response.chats,
       nextCursor: response.nextCursor,
     ));
+  }
+
+  /// 현재 선택 상태 여부를 정의합니다.
+  void setSelectMode(bool value) {
+    state = AsyncData(_state.copyWith(isSelectMode: value));
+  }
+
+  /// 주어진 채팅이 선택되었는지에 대한 여부를 반환합니다.
+  bool hasSelected(ChatResponse chat) {
+    return _state.selectedChats.firstWhereOrNull((id) => id == chat.id) != null;
+  }
+
+  /// 주어진 채팅에 대한 선택 여부를 정의합니다.
+  void selectChat(ChatResponse chat, bool value) {
+    assert(_state.isSelectMode);
+    final newItems = _state.selectedChats.toList();
+
+    if (value) {
+      newItems.add(chat.id);
+    } else {
+      newItems.removeWhere((id) => id == chat.id);
+    }
+
+    state = AsyncData(_state.copyWith(selectedChats: newItems));
   }
 }

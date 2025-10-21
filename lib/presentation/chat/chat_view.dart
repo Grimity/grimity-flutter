@@ -12,11 +12,13 @@ class ChatView extends StatelessWidget {
     super.key,
     required this.drawerView,
     required this.appbarView,
+    required this.toolBarView,
     required this.searchBarView,
   });
 
   final Widget drawerView;
   final PreferredSizeWidget appbarView;
+  final Widget toolBarView;
   final Widget searchBarView;
 
   @override
@@ -36,33 +38,31 @@ class ChatView extends StatelessWidget {
             );
           }
 
+          // 현재 주고 받은 메세지가 아직 없는 경우.
+          if (data.value!.chats.isEmpty) {
+            return ListView(children: [ChatEmptyView()]);
+          }
+
           return Stack(
             children: [
-              GrimityRefreshIndicator(
-                onRefresh: provider.refresh,
-                child: Builder(
-                  builder: (context) {
-                    // 사용자에 대한 메세지가 아예 없는 경우.
-                    if (data.value!.chats.isEmpty) {
-                      return ListView(children: [ChatEmptyView()]);
-                    }
-
-                    return Column(
-                      children: [
-                        searchBarView,
-                        Expanded(
-                          child: ListView(
-                            padding: EdgeInsets.all(16),
-                            children: [
-                              // 대화 기록이 존재하는 사용자 목록.
-                              ...data.value!.chats.map((model) => ChatScrollItem(model: model)),
-                            ],
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
+              Column(
+                spacing: 16,
+                children: [
+                  searchBarView,
+                  toolBarView,
+                  Expanded(
+                    child: GrimityRefreshIndicator(
+                      onRefresh: provider.refresh,
+                      child: ListView(
+                        padding: EdgeInsets.all(16),
+                        children: [
+                          // 대화 기록이 존재하는 사용자 목록.
+                          ...data.value!.chats.map((model) => ChatScrollItem(model: model)),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
 
               // 오른쪽 하단 액션 버튼 표시.

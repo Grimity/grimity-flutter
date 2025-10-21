@@ -16,6 +16,7 @@ import 'package:grimity/domain/dto/chat_message_request_params.dart';
 import 'package:grimity/domain/dto/chat_request_params.dart';
 import 'package:grimity/domain/entity/image_upload_url.dart';
 import 'package:grimity/domain/usecase/auth_usecases.dart';
+import 'package:grimity/presentation/chat/provider/chat_provider.dart';
 import 'package:grimity/presentation/common/model/image_item_source.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
@@ -86,6 +87,14 @@ class ChatMessageProvider extends _$ChatMessageProvider {
 
     connectSocket();
 
+    ref.onDispose(() {
+      // 연결된 웹소켓 연결 끊기.
+      _socket.dispose();
+
+      // 변경되었을 수 있는 메시지 내용 때문에 채팅 목록 새로고침.
+      ref.read(chatProviderProvider.notifier).refresh();
+    });
+
     final historyResponse = responses[1] as ChatMessageResponse;
 
     return ChatMessageState(
@@ -110,8 +119,6 @@ class ChatMessageProvider extends _$ChatMessageProvider {
           .setAuth({'accessToken': token!.accessToken})
           .build(),
     );
-
-    ref.onDispose(_socket.dispose);
 
     // 소켓 연결 시 채팅방에 대한 입장 상태를 서버에 알림.
     _socket.onConnect((_) {
