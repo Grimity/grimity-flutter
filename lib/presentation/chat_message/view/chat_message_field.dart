@@ -10,7 +10,7 @@ import 'package:grimity/presentation/chat_message/view/chat_message_image_view.d
 import 'package:grimity/presentation/common/enum/upload_image_type.dart';
 import 'package:grimity/presentation/common/model/image_item_source.dart';
 import 'package:grimity/presentation/common/widget/button/grimity_button.dart';
-import 'package:grimity/presentation/common/widget/grimity_text_field.dart';
+import 'package:grimity/presentation/common/widget/text_field/grimity_text_field.dart';
 
 class ChatMessageField extends ConsumerWidget {
   const ChatMessageField({

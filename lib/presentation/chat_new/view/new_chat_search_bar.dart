@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/presentation/chat_new/provider/new_chat_provider.dart';
-import 'package:grimity/presentation/common/widget/grimity_text_field.dart';
+import 'package:grimity/presentation/common/widget/text_field/grimity_text_field.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class NewChatSearchBar extends StatelessWidget {

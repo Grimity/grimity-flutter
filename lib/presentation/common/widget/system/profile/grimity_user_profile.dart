@@ -6,14 +6,14 @@ import 'package:grimity/presentation/common/widget/system/profile/grimity_user_i
 class GrimityUserProfile extends StatelessWidget {
   const GrimityUserProfile._({
     super.key,
-    required this.imageUrl,
+    this.imageUrl,
     this.title,
     this.subTitle,
     this.titleBuilder,
     this.subTitleBuilder,
   });
 
-  final String imageUrl;
+  final String? imageUrl;
   final String? title;
   final String? subTitle;
   final Widget Function()? titleBuilder;
@@ -21,7 +21,7 @@ class GrimityUserProfile extends StatelessWidget {
 
   /// 기본형 String 기반
   factory GrimityUserProfile.fromString({
-    required String imageUrl,
+    String? imageUrl,
     required String title,
     String? subTitle,
     Key? key,
@@ -29,7 +29,7 @@ class GrimityUserProfile extends StatelessWidget {
 
   /// Builder 기반
   factory GrimityUserProfile.fromBuilder({
-    required String imageUrl,
+    String? imageUrl,
     Widget Function()? titleBuilder,
     Widget Function()? subTitleBuilder,
     Key? key,

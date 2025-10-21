@@ -33,7 +33,7 @@ class NewChatScrollItemView extends ConsumerWidget {
         children: [
           Expanded(
             child: GrimityUserProfile.fromString(
-              imageUrl: model.image!,
+              imageUrl: model.image,
               title: model.name,
               subTitle: "@${model.url}",
             ),
