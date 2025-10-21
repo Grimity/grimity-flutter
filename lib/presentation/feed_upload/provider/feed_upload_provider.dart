@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/app/config/app_config.dart';
 import 'package:grimity/app/enum/presigned.enum.dart';
-import 'package:grimity/app/image/Image_upload.dart';
+import 'package:grimity/app/image/image_upload.dart';
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/domain/dto/feeds_request_param.dart';
 import 'package:grimity/domain/entity/feed.dart';

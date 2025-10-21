@@ -27,6 +27,7 @@ class ChatProvider extends _$ChatProvider {
   @override
   FutureOr<ChatState> build() async {
     final response = await getIt<ChatAPI>().search(null, null, null);
+
     return ChatState(
       chats: response.chats,
       keyword: null,

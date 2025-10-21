@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_infinite_scroll_pagination/flutter_infinite_scroll_pagination.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/presentation/chat_message/provider/chat_message_provider.dart';
-import 'package:grimity/presentation/chat_message/view/Chat_message_image_gallery.dart';
+import 'package:grimity/presentation/chat_message/view/chat_message_image_gallery.dart';
 import 'package:grimity/presentation/chat_message/view/chat_message_fragment.dart';
 import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
 
