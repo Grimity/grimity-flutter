@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_theme.dart';
+import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/report.enum.dart';
 import 'package:grimity/data/model/user/user_base_response.dart';
 import 'package:grimity/gen/assets.gen.dart';
@@ -79,7 +80,7 @@ class _BodyArea extends StatelessWidget {
         Expanded(
           child: Text(
             model.name,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: AppTypeface.subTitle3.copyWith(color: AppColor.primary4),
           ),
         ),
 

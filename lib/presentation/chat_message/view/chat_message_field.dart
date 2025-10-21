@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
+import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/chat_message/provider/chat_message_provider.dart';
 import 'package:grimity/presentation/chat_message/view/chat_message_image_view.dart';
@@ -168,11 +169,7 @@ class _ReplyView extends ConsumerWidget {
               ),
               Text(
                 "${user.name}님께 답장보내기",
-                style: TextStyle(
-                  color: AppColor.gray600,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
               ),
             ],
           ),
@@ -188,7 +185,7 @@ class _ReplyView extends ConsumerWidget {
 
               return Text(
                 model.content!,
-                style: TextStyle(color: AppColor.gray700, fontWeight: FontWeight.w500),
+                style: AppTypeface.caption2.copyWith(color: AppColor.gray800),
               );
             },
           ),

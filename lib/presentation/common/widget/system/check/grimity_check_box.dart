@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grimity/app/config/app_color.dart';
+import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
 
@@ -47,11 +48,7 @@ class GrimityCheckBox extends StatelessWidget {
           GrimityCheckBox(value: value),
           Text(
             label,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: AppColor.gray700,
-            ),
+            style: AppTypeface.caption1.copyWith(color: AppColor.gray700),
           ),
         ],
       ),
