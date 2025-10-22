@@ -156,4 +156,9 @@ mixin class PhotoSelectMixin {
     final type = ref.read(photoSelectTypeArgumentProvider);
     return ref.read(photoSelectProvider(type).notifier);
   }
+
+  void invalidatePhotoSelect(WidgetRef ref) {
+    final type = ref.read(photoSelectTypeArgumentProvider);
+    ref.invalidate(photoSelectProvider(type));
+  }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
+import 'package:grimity/presentation/common/widget/grimity_loading_indicator.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/photo_select/provider/photo_select_provider.dart';
 import 'package:grimity/presentation/photo_select/view/photo_selectable_image_view.dart';
@@ -13,7 +13,7 @@ class PhotoSelectBodyView extends HookConsumerWidget with PhotoSelectMixin {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return photosAsync(ref).maybeWhen(
+    return photosAsync(ref).when(
       data: (state) {
         // 접근 권한이 없는 경우
         if (!state.hasAccess) {
@@ -34,7 +34,8 @@ class PhotoSelectBodyView extends HookConsumerWidget with PhotoSelectMixin {
           ],
         );
       },
-      orElse: () => GrimityCircularProgressIndicator(),
+      loading: () => GrimityLoadingIndicator(),
+      error: (e, s) => GrimityStateView.error(onTap: () => invalidatePhotoSelect(ref)),
     );
   }
 }
