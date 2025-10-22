@@ -37,10 +37,10 @@ class HomeFeedRankingView extends ConsumerWidget {
         const Gap(16),
         Padding(
           padding: const EdgeInsets.only(left: 12),
-          child: feedRanking.maybeWhen(
+          child: feedRanking.when(
             data: (data) => _HomeRankingCarousel(feeds: data),
             loading: () => Skeletonizer(child: _HomeRankingCarousel(feeds: Feed.emptyList)),
-            orElse: () => GrimityStateView.error(onTap: () => ref.invalidate(feedRankingDataProvider)),
+            error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(feedRankingDataProvider)),
           ),
         ),
       ],
