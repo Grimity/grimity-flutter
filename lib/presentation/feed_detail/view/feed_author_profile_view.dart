@@ -8,6 +8,7 @@ import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_image.dart';
+import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/common/widget/system/profile/grimity_user_image.dart';
 import 'package:grimity/presentation/feed_detail/provider/feed_author_feeds_data_provider.dart';
 import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
@@ -24,19 +25,42 @@ class FeedAuthorProfileView extends ConsumerWidget {
     final profileAsync = ref.watch(profileDataProvider(author.url));
     final feedsAsync = ref.watch(feedAuthorFeedsDataProvider(author.id));
 
+    // 프로필 정보, 피드 정보 중 하나라도 에러 시.
+    if (profileAsync.hasError || feedsAsync.hasError) {
+      return GrimityStateView.error(
+        onTap: () {
+          if (profileAsync.hasError) {
+            ref.invalidate(profileDataProvider(author.url));
+          }
+
+          if (feedsAsync.hasError) {
+            ref.invalidate(feedAuthorFeedsDataProvider(author.id));
+          }
+        },
+      );
+    }
+
+    // 프로필 정보, 피드 정보 중 하나라도 로딩 시.
+    if (profileAsync.isLoading || feedsAsync.isLoading) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 30),
+        child: Column(
+          spacing: 16,
+          children: [
+            Skeletonizer(child: _AuthorProfile(profile: User.empty())),
+            Skeletonizer(child: _AuthorFeeds(feeds: Feed.emptyList, url: author.url)),
+          ],
+        ),
+      );
+    }
+
     return Padding(
-      padding: EdgeInsets.only(top: 30, bottom: 30),
+      padding: const EdgeInsets.symmetric(vertical: 30),
       child: Column(
         spacing: 16,
         children: [
-          profileAsync.maybeWhen(
-            data: (profile) => _AuthorProfile(profile: profile),
-            orElse: () => Skeletonizer(child: _AuthorProfile(profile: User.empty())),
-          ),
-          feedsAsync.maybeWhen(
-            data: (feeds) => _AuthorFeeds(feeds: feeds.feeds, url: author.url),
-            orElse: () => Skeletonizer(child: _AuthorFeeds(feeds: Feed.emptyList, url: author.url)),
-          ),
+          _AuthorProfile(profile: profileAsync.value!),
+          _AuthorFeeds(feeds: feedsAsync.value!.feeds, url: author.url),
         ],
       ),
     );

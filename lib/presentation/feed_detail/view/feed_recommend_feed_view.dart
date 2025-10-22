@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
+import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/feed_detail/provider/feed_recommend_feed_data_provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -22,9 +23,10 @@ class FeedRecommendFeedView extends ConsumerWidget {
         children: [
           Text('추천 그림', style: AppTypeface.subTitle1),
           Gap(16),
-          recommendFeed.maybeWhen(
+          recommendFeed.when(
             data: (data) => _RecommendFeedListView(feeds: data.feeds),
-            orElse: () => Skeletonizer(child: _RecommendFeedListView(feeds: Feed.emptyList)),
+            loading: () => Skeletonizer(child: _RecommendFeedListView(feeds: Feed.emptyList)),
+            error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(feedRecommendFeedDataProvider)),
           ),
         ],
       ),
