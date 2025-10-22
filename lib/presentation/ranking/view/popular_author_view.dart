@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/presentation/common/provider/author_with_feeds_provider.dart';
+import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/common/widget/user_card/grimity_author_with_feeds_card.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -25,13 +26,14 @@ class PopularAuthorView extends ConsumerWidget {
           child: Text('인기 작가', style: AppTypeface.subTitle1.copyWith(color: AppColor.gray800)),
         ),
         Gap(16),
-        authorWithFeedsAsync.maybeWhen(
-          data: (authorWithFeedsList) {
-            if (authorWithFeedsList.isEmpty) return SizedBox.shrink();
-
-            return _PopularAuthorCarousel(authorWithFeedsList: authorWithFeedsList);
-          },
-          orElse: () => Skeletonizer(child: _PopularAuthorCarousel(authorWithFeedsList: AuthorWithFeeds.emptyList)),
+        authorWithFeedsAsync.when(
+          data:
+              (authorWithFeedsList) =>
+          authorWithFeedsList.isEmpty
+              ? SizedBox.shrink()
+              : _PopularAuthorCarousel(authorWithFeedsList: authorWithFeedsList),
+          loading: () => Skeletonizer(child: _PopularAuthorCarousel(authorWithFeedsList: AuthorWithFeeds.emptyList)),
+          error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(authorWithFeedsDataProvider)),
         ),
       ],
     );
@@ -69,11 +71,11 @@ class _PopularAuthorCarousel extends HookConsumerWidget {
                 authorWithFeeds: authorWithFeeds,
                 onFollowTab:
                     () => ref
-                        .read(authorWithFeedsDataProvider.notifier)
-                        .toggleFollow(
-                          id: authorWithFeeds.user.id,
-                          follow: authorWithFeeds.user.isFollowing == false ? true : false,
-                        ),
+                    .read(authorWithFeedsDataProvider.notifier)
+                    .toggleFollow(
+                  id: authorWithFeeds.user.id,
+                  follow: authorWithFeeds.user.isFollowing == false ? true : false,
+                ),
               ),
             );
           },

@@ -9,6 +9,7 @@ import 'package:grimity/app/extension/date_time_extension.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
+import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/ranking/provider/popluar_feed_data_provider.dart';
 import 'package:grimity/presentation/ranking/provider/popular_feed_ranking_option_provider.dart';
 import 'package:grimity/presentation/ranking/widget/month_picker_bottom_sheet.dart';
@@ -34,30 +35,30 @@ class PopularFeedView extends ConsumerWidget {
           Row(
             spacing: 4,
             children:
-                FeedRankingType.values
-                    .map(
-                      (type) => GestureDetector(
-                        onTap: () => ref.read(popularFeedRankingOptionProvider.notifier).setType(type),
-                        child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 14),
-                          decoration: BoxDecoration(
-                            color: type == option.type ? AppColor.main : AppColor.gray00,
-                            border: Border.all(
-                              color: type == option.type ? Colors.transparent : AppColor.gray300,
-                              width: 2,
-                            ),
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          child: Text(
-                            type == FeedRankingType.weekly ? '주간' : '월간',
-                            style: AppTypeface.label1.copyWith(
-                              color: type == option.type ? AppColor.gray00 : AppColor.gray700,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                    .toList(),
+            FeedRankingType.values
+                .map(
+                  (type) => GestureDetector(
+                onTap: () => ref.read(popularFeedRankingOptionProvider.notifier).setType(type),
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 14),
+                  decoration: BoxDecoration(
+                    color: type == option.type ? AppColor.main : AppColor.gray00,
+                    border: Border.all(
+                      color: type == option.type ? Colors.transparent : AppColor.gray300,
+                      width: 2,
+                    ),
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: Text(
+                    type == FeedRankingType.weekly ? '주간' : '월간',
+                    style: AppTypeface.label1.copyWith(
+                      color: type == option.type ? AppColor.gray00 : AppColor.gray700,
+                    ),
+                  ),
+                ),
+              ),
+            )
+                .toList(),
           ),
           Gap(12),
           Container(
@@ -72,25 +73,25 @@ class PopularFeedView extends ConsumerWidget {
                     Icon(Icons.calendar_month_rounded, color: AppColor.gray500),
                     option.type == FeedRankingType.weekly
                         ? Text(
-                          '${option.baseDate.oneWeekBeforeFormatted} - ${option.baseDate.isSameDay(DateTime.now()) ? '오늘' : option.baseDate.toYearMonthDay}',
-                          style: AppTypeface.label2.copyWith(color: AppColor.gray700),
-                        )
+                      '${option.baseDate.oneWeekBeforeFormatted} - ${option.baseDate.isSameDay(DateTime.now()) ? '오늘' : option.baseDate.toYearMonthDay}',
+                      style: AppTypeface.label2.copyWith(color: AppColor.gray700),
+                    )
                         : GestureDetector(
-                          onTap: () => MonthPickerBottomSheet.show(context, option.baseDate),
-                          child: Row(
-                            spacing: 6,
-                            children: [
-                              Text(
-                                option.baseDate.toMonthText,
-                                style: AppTypeface.label2.copyWith(color: AppColor.gray700),
-                              ),
-                              Assets.icons.common.arrowDown.svg(
-                                width: 16,
-                                colorFilter: ColorFilter.mode(AppColor.gray700, BlendMode.srcIn),
-                              ),
-                            ],
+                      onTap: () => MonthPickerBottomSheet.show(context, option.baseDate),
+                      child: Row(
+                        spacing: 6,
+                        children: [
+                          Text(
+                            option.baseDate.toMonthText,
+                            style: AppTypeface.label2.copyWith(color: AppColor.gray700),
                           ),
-                        ),
+                          Assets.icons.common.arrowDown.svg(
+                            width: 16,
+                            colorFilter: ColorFilter.mode(AppColor.gray700, BlendMode.srcIn),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
                 Row(
@@ -98,9 +99,9 @@ class PopularFeedView extends ConsumerWidget {
                   children: [
                     GestureDetector(
                       onTap:
-                          option.isPreviousAvailable
-                              ? () => ref.read(popularFeedRankingOptionProvider.notifier).goToPrevious()
-                              : null,
+                      option.isPreviousAvailable
+                          ? () => ref.read(popularFeedRankingOptionProvider.notifier).goToPrevious()
+                          : null,
                       child: Container(
                         padding: EdgeInsets.all(6),
                         decoration: BoxDecoration(
@@ -117,9 +118,9 @@ class PopularFeedView extends ConsumerWidget {
                     ),
                     GestureDetector(
                       onTap:
-                          option.isNextAvailable
-                              ? () => ref.read(popularFeedRankingOptionProvider.notifier).goToNext()
-                              : null,
+                      option.isNextAvailable
+                          ? () => ref.read(popularFeedRankingOptionProvider.notifier).goToNext()
+                          : null,
                       child: Container(
                         padding: EdgeInsets.all(6),
                         decoration: BoxDecoration(
@@ -140,9 +141,10 @@ class PopularFeedView extends ConsumerWidget {
             ),
           ),
           Gap(16),
-          popularFeed.maybeWhen(
+          popularFeed.when(
             data: (feeds) => feeds.isEmpty ? SizedBox.shrink() : _PopularFeedListView(feeds: feeds),
-            orElse: () => Skeletonizer(child: _PopularFeedListView(feeds: Feed.emptyList)),
+            loading: () => Skeletonizer(child: _PopularFeedListView(feeds: Feed.emptyList)),
+            error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(popularFeedRankingDataProvider)),
           ),
         ],
       ),
@@ -170,8 +172,8 @@ class _PopularFeedListView extends ConsumerWidget {
             feed: feed,
             onToggleLike:
                 () => ref
-                    .read(popularFeedRankingDataProvider.notifier)
-                    .toggleLike(feedId: feed.id, like: feed.isLike == true ? false : true),
+                .read(popularFeedRankingDataProvider.notifier)
+                .toggleLike(feedId: feed.id, like: feed.isLike == true ? false : true),
           ),
       ],
     );

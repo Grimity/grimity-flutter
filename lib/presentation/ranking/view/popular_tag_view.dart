@@ -6,6 +6,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/tag.dart';
 import 'package:grimity/presentation/common/widget/grimity_image.dart';
+import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/ranking/provider/popular_tag_data_provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -24,9 +25,10 @@ class PopularTagView extends ConsumerWidget {
           child: Text('인기 태그', style: AppTypeface.subTitle1.copyWith(color: AppColor.gray800)),
         ),
         Gap(16),
-        tagAsync.maybeWhen(
+        tagAsync.when(
           data: (tags) => _PopularTagListView(tags: tags),
-          orElse: () => Skeletonizer(child: _PopularTagListView(tags: Tag.emptyList)),
+          loading: () => Skeletonizer(child: _PopularTagListView(tags: Tag.emptyList)),
+          error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(popularTagDataProvider)),
         ),
       ],
     );
