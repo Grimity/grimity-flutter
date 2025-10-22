@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
+import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/home/provider/home_data_provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -22,9 +23,10 @@ class HomeLatestFeedView extends ConsumerWidget {
         children: [
           Text('최신 그림', style: AppTypeface.subTitle1),
           const Gap(16),
-          latestFeed.maybeWhen(
+          latestFeed.when(
             data: (data) => _LatestFeedListView(feeds: data.feeds),
-            orElse: () => Skeletonizer(child: _LatestFeedListView(feeds: Feed.emptyList)),
+            loading: () => Skeletonizer(child: _LatestFeedListView(feeds: Feed.emptyList)),
+            error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(latestFeedDataProvider)),
           ),
         ],
       ),
