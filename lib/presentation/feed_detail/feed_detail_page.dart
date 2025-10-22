@@ -5,6 +5,7 @@ import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/comment/enum/comment_type.dart';
 import 'package:grimity/presentation/comment/view/comments_view.dart';
 import 'package:grimity/presentation/comment/widget/comment_input_bar.dart';
+import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/feed_detail/feed_detail_view.dart';
 import 'package:grimity/presentation/feed_detail/provider/feed_detail_data_provider.dart';
 import 'package:grimity/presentation/feed_detail/view/feed_author_profile_view.dart';
@@ -24,7 +25,7 @@ class FeedDetailPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final feedAsync = ref.watch(feedDetailDataProvider(feedId));
 
-    return feedAsync.maybeWhen(
+    return feedAsync.when(
       data: (feed) {
         feed ??= Feed.empty();
         return FeedDetailView(
@@ -43,7 +44,7 @@ class FeedDetailPage extends ConsumerWidget {
           feedUtilBar: FeedUtilBar(feed: feed),
         );
       },
-      orElse: () {
+      loading: () {
         final feed = Feed.empty();
 
         return Skeletonizer(
@@ -64,6 +65,11 @@ class FeedDetailPage extends ConsumerWidget {
           ),
         );
       },
+      error:
+          (e, s) => Scaffold(
+            appBar: AppBar(),
+            body: GrimityStateView.error(onTap: () => ref.invalidate(feedDetailDataProvider(feedId))),
+          ),
     );
   }
 }

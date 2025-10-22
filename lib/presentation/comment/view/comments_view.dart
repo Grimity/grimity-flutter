@@ -44,7 +44,7 @@ class CommentsView extends ConsumerWidget {
               ],
             ),
           ),
-          commentsAsync.maybeWhen(
+          commentsAsync.when(
             data:
                 (comments) => _CommentListView(
                   id: id,
@@ -52,7 +52,7 @@ class CommentsView extends ConsumerWidget {
                   commentItems: flattenComments(comments),
                   commentType: commentType,
                 ),
-            orElse:
+            loading:
                 () => Skeletonizer(
                   child: _CommentListView(
                     id: id,
@@ -61,6 +61,7 @@ class CommentsView extends ConsumerWidget {
                     commentType: commentType,
                   ),
                 ),
+            error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(commentsDataProvider(commentType, id))),
           ),
         ],
       ),
