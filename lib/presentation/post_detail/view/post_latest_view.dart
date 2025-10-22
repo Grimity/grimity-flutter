@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/post.dart';
+import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/common/widget/system/board/grimity_post_feed.dart';
 import 'package:grimity/presentation/post_detail/provider/post_latest_data_provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -24,9 +25,13 @@ class PostLatestView extends ConsumerWidget {
               children: [Text('자유게시판 최신글', style: AppTypeface.subTitle1)],
             ),
           ),
-          latestPost.maybeWhen(
+          latestPost.when(
             data: (data) => GrimityPostFeed(posts: data, showPostType: true, cardHorizontalPadding: 16),
-            orElse: () => Skeletonizer(child: GrimityPostFeed(posts: Post.emptyList)),
+            loading:
+                () => Skeletonizer(
+                  child: GrimityPostFeed(posts: Post.emptyList, showPostType: true, cardHorizontalPadding: 16),
+                ),
+            error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(postLatestDataProvider)),
           ),
         ],
       ),
