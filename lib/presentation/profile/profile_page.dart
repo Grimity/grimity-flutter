@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
+import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
 import 'package:grimity/presentation/profile/profile_view.dart';
 import 'package:grimity/presentation/profile/view/user_profile_view.dart';
@@ -22,7 +23,7 @@ class ProfilePage extends HookConsumerWidget {
     final viewType = url == null || url == myUrl ? ProfileViewType.mine : ProfileViewType.other;
     final profileAsync = ref.watch(profileDataProvider(url ?? myUrl));
 
-    return profileAsync.maybeWhen(
+    return profileAsync.when(
       data: (user) {
         user ??= User.empty();
 
@@ -31,10 +32,10 @@ class ProfilePage extends HookConsumerWidget {
           viewType: viewType,
           userProfileView: UserProfileView(user: user, viewType: viewType),
           feedTabView: ProfileFeedTabView(user: user, viewType: viewType),
-          postTabView: viewType == ProfileViewType.mine ?  ProfilePostTabView(user: user) : null,
+          postTabView: viewType == ProfileViewType.mine ? ProfilePostTabView(user: user) : null,
         );
       },
-      orElse: () {
+      loading: () {
         final emptyUser = User.empty();
 
         return ProfileView(
@@ -42,9 +43,12 @@ class ProfilePage extends HookConsumerWidget {
           viewType: viewType,
           userProfileView: UserProfileView(user: emptyUser, viewType: viewType),
           feedTabView: ProfileFeedTabView(user: emptyUser, viewType: viewType),
-          postTabView: viewType == ProfileViewType.mine ?  ProfilePostTabView(user: emptyUser) : null,
+          postTabView: viewType == ProfileViewType.mine ? ProfilePostTabView(user: emptyUser) : null,
         );
       },
+      error:
+          (e, s) =>
+              SafeArea(child: GrimityStateView.error(onTap: () => ref.invalidate(profileDataProvider(url ?? myUrl)))),
     );
   }
 }

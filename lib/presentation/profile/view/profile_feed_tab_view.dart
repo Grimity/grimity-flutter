@@ -10,7 +10,6 @@ import 'package:grimity/domain/entity/album.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
 import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/common/widget/system/sort/grimity_search_sort_header.dart';
@@ -21,6 +20,7 @@ import 'package:grimity/presentation/profile/provider/selected_album_provider.da
 import 'package:grimity/presentation/profile/provider/selected_sort_type_provider.dart';
 import 'package:grimity/presentation/profile/widget/album_chip.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class ProfileFeedTabView extends HookConsumerWidget {
   const ProfileFeedTabView({super.key, required this.user, required this.viewType});
@@ -59,8 +59,10 @@ class ProfileFeedTabView extends HookConsumerWidget {
           SliverToBoxAdapter(
             child: feedsAsync.when(
               data: (data) => _buildFeedGrid(context, data.feeds),
-              loading: () => GrimityCircularProgressIndicator(),
-              error: (error, stack) => _buildFeedGrid(context, []),
+              loading: () => Skeletonizer(child: _buildFeedGrid(context, Feed.emptyList)),
+              error:
+                  (error, stack) =>
+                      GrimityStateView.error(onTap: () => ref.invalidate(profileFeedsDataProvider(user.id))),
             ),
           ),
         ],

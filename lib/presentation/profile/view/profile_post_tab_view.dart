@@ -8,6 +8,7 @@ import 'package:grimity/presentation/common/widget/system/board/grimity_post_fee
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/profile/provider/profile_posts_data_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class ProfilePostTabView extends HookConsumerWidget {
   const ProfilePostTabView({super.key, required this.user});
@@ -24,8 +25,11 @@ class ProfilePostTabView extends HookConsumerWidget {
       padding: EdgeInsets.only(left: 16.w, right: 16.w),
       child: postsAsync.when(
         data: (data) => _buildPostGrid(context, data),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => _buildPostGrid(context, []),
+        loading: () => Skeletonizer(child: _buildPostGrid(context, Post.emptyList)),
+        error:
+            (error, stack) => ListView(
+              children: [GrimityStateView.error(onTap: () => ref.invalidate(profilePostsDataProvider(user.id)))],
+            ),
       ),
     );
   }
