@@ -22,13 +22,14 @@ class StorageSavePostView extends HookConsumerWidget {
     useAutomaticKeepAlive();
     final savePost = ref.watch(savePostDataProvider);
 
-    return savePost.maybeWhen(
+    return savePost.when(
       data:
           (data) =>
               data.posts.isEmpty
                   ? GrimityStateView.resultNull(subTitle: StorageTabType.savePost.emptyMessage)
                   : _StorageSavePostListView(posts: data.posts, totalCount: data.totalCount ?? 0),
-      orElse: () => Skeletonizer(child: _StorageSavePostListView(posts: Post.emptyList)),
+      loading: () => Skeletonizer(child: _StorageSavePostListView(posts: Post.emptyList)),
+      error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(savePostDataProvider)),
     );
   }
 }

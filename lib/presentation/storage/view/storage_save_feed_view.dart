@@ -22,13 +22,14 @@ class StorageSaveFeedView extends HookConsumerWidget {
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-      child: saveFeed.maybeWhen(
+      child: saveFeed.when(
         data:
             (data) =>
                 data.feeds.isEmpty
                     ? GrimityStateView.resultNull(subTitle: StorageTabType.saveFeed.emptyMessage)
                     : _StorageSaveFeedListView(feeds: data.feeds),
-        orElse: () => Skeletonizer(child: _StorageSaveFeedListView(feeds: Feed.emptyList)),
+        loading: () => Skeletonizer(child: _StorageSaveFeedListView(feeds: Feed.emptyList)),
+        error: (error, stackTrace) => GrimityStateView.error(onTap: () => ref.invalidate(saveFeedDataProvider)),
       ),
     );
   }

@@ -22,13 +22,14 @@ class StorageLikeFeedView extends HookConsumerWidget {
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-      child: likeFeed.maybeWhen(
+      child: likeFeed.when(
         data:
             (data) =>
                 data.feeds.isEmpty
                     ? GrimityStateView.resultNull(subTitle: StorageTabType.likeFeed.emptyMessage)
                     : _StorageLikeFeedListView(feeds: data.feeds),
-        orElse: () => Skeletonizer(child: _StorageLikeFeedListView(feeds: Feed.emptyList)),
+        loading: () => Skeletonizer(child: _StorageLikeFeedListView(feeds: Feed.emptyList)),
+        error: (error, stackTrace) => GrimityStateView.error(onTap: () => ref.invalidate(likeFeedDataProvider)),
       ),
     );
   }
