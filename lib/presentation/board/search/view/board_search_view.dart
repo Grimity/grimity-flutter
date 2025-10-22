@@ -23,7 +23,7 @@ class BoardSearchView extends HookConsumerWidget {
       headerSliverBuilder: (context, innerBoxIsScrolled) {
         return [boardSearchAppBar, SliverToBoxAdapter(child: boardSearchBar)];
       },
-      body: searchPostsAsync.maybeWhen(
+      body: searchPostsAsync.when(
         data: (posts) {
           if (posts.posts.isEmpty) {
             return GrimityStateView.resultNull(title: '검색 결과가 없어요', subTitle: '다른 검색어를 입력해보세요');
@@ -35,10 +35,11 @@ class BoardSearchView extends HookConsumerWidget {
             scrollController: scrollController,
           );
         },
-        orElse:
+        loading:
             () => Skeletonizer(
               child: BoardSearchListView(posts: Post.emptyList, totalCount: 0, scrollController: scrollController),
             ),
+        error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(searchDataProvider)),
       ),
     );
   }
