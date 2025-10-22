@@ -40,10 +40,13 @@ class FollowingFeedCard extends ConsumerWidget {
                   children: [
                     GrimityUserImage(imageUrl: feed.author?.image ?? '', size: 24),
                     Gap(6),
-                    Text(feed.author?.name ?? '', style: AppTypeface.caption1.copyWith(color: AppColor.gray600)),
+                    Text(
+                      feed.author?.name ?? '작성자 정보 없음',
+                      style: AppTypeface.caption1.copyWith(color: AppColor.gray600),
+                    ),
                     GrimityGrayCircle(),
                     Text(
-                      feed.createdAt?.toRelativeTime() ?? '',
+                      feed.createdAt?.toRelativeTime() ?? DateTime.now().toRelativeTime(),
                       style: AppTypeface.caption1.copyWith(color: AppColor.gray600),
                     ),
                     Spacer(),
@@ -81,7 +84,13 @@ class FollowingFeedCard extends ConsumerWidget {
             ),
           ),
           Gap(20),
-          AspectRatio(aspectRatio: 1.0, child: _FollowingFeedCardImageCarousel(imageList: feed.cards ?? [])),
+          AspectRatio(
+            aspectRatio: 1.0,
+            child:
+                (feed.cards?.isNotEmpty ?? false)
+                    ? _FollowingFeedCardImageCarousel(imageList: feed.cards!)
+                    : _imageSkeleton,
+          ),
           Gap(12),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
@@ -134,6 +143,12 @@ class FollowingFeedCard extends ConsumerWidget {
       ),
     );
   }
+
+  // 스켈레톤 효과를 위한 팔로잉 피드 사진 플레이스 홀더
+  Widget get _imageSkeleton => Padding(
+    padding: EdgeInsets.symmetric(horizontal: 16),
+    child: Container(width: 343.w, height: 343.w, color: AppColor.gray400),
+  );
 }
 
 class _FollowingFeedCardImageCarousel extends StatelessWidget {
