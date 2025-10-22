@@ -177,6 +177,24 @@ class GrimityStateView extends StatelessWidget {
     buttonStyleType: buttonStyleType,
   );
 
+  /// error 재시도 화면
+  factory GrimityStateView.error({
+    VoidCallback? onTap,
+    EdgeInsetsGeometry padding = const EdgeInsets.symmetric(vertical: 80),
+  }) => GrimityStateView._(
+    icon: Assets.icons.common.resultNull,
+    title: '오류가 발생했어요',
+    subTitle: '잠시 후 다시 시도해 주세요',
+    buttonText: '재시도',
+    onTap: onTap,
+    padding: padding,
+    buttonPrefixIcon: Assets.icons.common.retry,
+    buttonSize: ButtonSize.medium,
+    buttonStatus: ButtonStatus.on,
+    buttonColorType: ButtonColorType.mono,
+    buttonStyleType: ButtonStyleType.line,
+  );
+
   @override
   Widget build(BuildContext context) {
     return Align(
