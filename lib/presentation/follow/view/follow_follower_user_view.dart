@@ -23,13 +23,14 @@ class FollowerUserView extends HookConsumerWidget {
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-      child: users.maybeWhen(
+      child: users.when(
         data:
             (data) =>
                 data.users.isEmpty
                     ? GrimityStateView.user(subTitle: FollowTabType.follower.emptyMessage)
                     : _FollowerUserListView(users: data.users),
-        orElse: () => Skeletonizer(child: _FollowerUserListView(users: User.emptyList)),
+        loading: () => Skeletonizer(child: _FollowerUserListView(users: User.emptyList)),
+        error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(followersDataProvider)),
       ),
     );
   }
