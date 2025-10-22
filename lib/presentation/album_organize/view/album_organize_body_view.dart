@@ -8,6 +8,7 @@ import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/presentation/album_organize/provider/album_feed_data_provider.dart';
 import 'package:grimity/presentation/album_organize/provider/album_organize_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_selectable_image_feed.dart';
+import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/home/hook/use_infinite_scroll_hook.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -56,7 +57,10 @@ class AlbumOrganizeBodyView extends HookConsumerWidget with AlbumOrganizeMixin {
               child: albumFeeds.when(
                 data: (data) => _buildSelectableFeedGrid(context, ref, feeds: data.feeds),
                 loading: () => Skeletonizer(child: _buildSelectableFeedGrid(context, ref, feeds: Feed.emptyList)),
-                error: (error, stackTrace) => _buildSelectableFeedGrid(context, ref, feeds: []),
+                error:
+                    (error, stackTrace) => GrimityStateView.error(
+                      onTap: () => ref.invalidate(albumFeedDataProvider(user.id, currentAlbumId)),
+                    ),
               ),
             ),
           ],
