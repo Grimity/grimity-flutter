@@ -59,7 +59,7 @@ class FeedAuthorProfileView extends ConsumerWidget {
       child: Column(
         spacing: 16,
         children: [
-          _AuthorProfile(profile: profileAsync.value!),
+          _AuthorProfile(profile: profileAsync.value),
           _AuthorFeeds(feeds: feedsAsync.value!.feeds, url: author.url),
         ],
       ),
