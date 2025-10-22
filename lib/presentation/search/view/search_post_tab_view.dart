@@ -17,13 +17,13 @@ class SearchPostTabView extends HookConsumerWidget with SearchPostMixin {
   Widget build(BuildContext context, WidgetRef ref) {
     useAutomaticKeepAlive();
 
-    return searchPostState(ref).maybeWhen(
+    return searchPostState(ref).when(
       data:
           (posts) =>
               posts.totalCount == 0
                   ? GrimityStateView.resultNull(title: '검색 결과가 없어요', subTitle: '다른 검색어를 입력해보세요')
                   : _SearchResultPostView(posts: posts),
-      orElse: () => Skeletonizer(child: _SearchResultPostView(posts: Posts(posts: Post.emptyList, totalCount: 0))),
+      loading: () => Skeletonizer(child: _SearchResultPostView(posts: Posts(posts: Post.emptyList, totalCount: 0))),
       error: (e, s) => GrimityStateView.error(onTap: () => invalidateSearchPost(ref)),
     );
   }
