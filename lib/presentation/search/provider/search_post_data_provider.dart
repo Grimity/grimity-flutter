@@ -48,4 +48,10 @@ mixin class SearchPostMixin {
 
     return ref.read(searchPostDataProvider(keyword: keyword).notifier);
   }
+
+  void invalidateSearchPost(WidgetRef ref) {
+    final keyword = ref.watch(searchKeywordProvider);
+
+    ref.invalidate(searchPostDataProvider(keyword: keyword));
+  }
 }

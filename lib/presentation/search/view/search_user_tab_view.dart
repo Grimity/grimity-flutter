@@ -3,13 +3,13 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/domain/entity/users.dart';
-import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/common/widget/system/sort/grimity_search_sort_header.dart';
 import 'package:grimity/presentation/common/widget/user_card/grimity_user_card.dart';
 import 'package:grimity/presentation/home/hook/use_infinite_scroll_hook.dart';
 import 'package:grimity/presentation/search/provider/search_user_data_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 /// 검색 결과 피드 View
 class SearchUserTabView extends HookConsumerWidget with SearchUserMixin {
@@ -19,13 +19,14 @@ class SearchUserTabView extends HookConsumerWidget with SearchUserMixin {
   Widget build(BuildContext context, WidgetRef ref) {
     useAutomaticKeepAlive();
 
-    return searchUserState(ref).maybeWhen(
+    return searchUserState(ref).when(
       data:
           (users) =>
               users.users.isEmpty
                   ? GrimityStateView.resultNull(title: '검색 결과가 없어요', subTitle: '다른 검색어를 입력해보세요')
                   : _SearchResultUserView(users: users),
-      orElse: () => GrimityCircularProgressIndicator(),
+      loading: () => Skeletonizer(child: _SearchResultUserView(users: Users(users: User.emptyList, totalCount: 0))),
+      error: (e, s) => GrimityStateView.error(onTap: () => invalidateSearchUser(ref)),
     );
   }
 }
