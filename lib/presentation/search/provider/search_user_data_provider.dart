@@ -72,4 +72,10 @@ mixin class SearchUserMixin {
 
     return ref.read(searchUserDataProvider(keyword: keyword).notifier);
   }
+
+  void invalidateSearchUser(WidgetRef ref) {
+    final keyword = ref.read(searchKeywordProvider);
+
+    ref.invalidate(searchUserDataProvider(keyword: keyword));
+  }
 }

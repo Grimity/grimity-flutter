@@ -72,4 +72,11 @@ mixin class SearchFeedMixin {
 
     return ref.read(searchFeedDataProvider(keyword: keyword, sort: sort).notifier);
   }
+
+  void invalidateSearchFeed(WidgetRef ref) {
+    final keyword = ref.read(searchKeywordProvider);
+    final sort = ref.read(searchFeedSortTypeProvider);
+
+    ref.invalidate(searchFeedDataProvider(keyword: keyword, sort: sort));
+  }
 }

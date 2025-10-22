@@ -10,7 +10,7 @@ abstract class Tag with _$Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  factory Tag.empty() => Tag(tagName: '', thumbnail: '');
+  factory Tag.empty() => Tag(tagName: '그림', thumbnail: '');
 
   static List<Tag> get emptyList => [Tag.empty(), Tag.empty(), Tag.empty()];
 }
