@@ -1,12 +1,15 @@
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:grimity/app/environment/flavor.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 abstract class OAuthAPI {
   Future<String> loginWithGoogle();
+
   Future<String> loginWithKakao();
 
   Future<void> logoutWithGoogle();
+
   Future<void> logoutWithKakao();
 }
 
@@ -15,7 +18,7 @@ class OAuthAPIImpl extends OAuthAPI {
   @override
   Future<String> loginWithGoogle() async {
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAccount? googleUser = await GoogleSignIn(clientId: Flavor.env.googleSignInClientId).signIn();
 
       if (googleUser == null) {
         throw Exception('Google sign in failed');
@@ -49,7 +52,7 @@ class OAuthAPIImpl extends OAuthAPI {
   @override
   Future<void> logoutWithGoogle() async {
     try {
-      await GoogleSignIn().signOut();
+      await GoogleSignIn(clientId: Flavor.env.googleSignInClientId).signOut();
     } catch (e) {
       rethrow;
     }

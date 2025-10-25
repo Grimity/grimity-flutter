@@ -29,7 +29,8 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.293608396742-iusea4k4n957hanuuadbohcgvjurtd8i</string>
+				<string>com.googleusercontent.apps.50047733044-l3hdgkhpmg603v03b7fa7gni87kvpb6u</string>
+				<string>com.googleusercontent.apps.208971763371-tsg41fiftf6kho554dlv683lp3p8j5je</string>
 				<string>kakao9ef16b15112d4c1ad60660adc4c39a93</string>
 				<string>kakao5ed98b399cef5d1814850676530f5c4f</string>
 			</array>
@@ -37,8 +38,6 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
-	<key>GIDClientID</key>
-	<string>293608396742-iusea4k4n957hanuuadbohcgvjurtd8i.apps.googleusercontent.com</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>kakaokompassauth</string>
