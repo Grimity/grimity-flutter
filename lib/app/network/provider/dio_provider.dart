@@ -10,6 +10,8 @@ const Duration readTimeOutMls = Duration(milliseconds: 15000);
 
 @module
 abstract class DioProvider {
+  static late Dio instance;
+
   @lazySingleton
   Dio dio(ApiUrlProvider apiUrlProvider) {
     final Dio dio = Dio();
@@ -25,6 +27,7 @@ abstract class DioProvider {
     dio.interceptors.add(TalkerDioLogger(talker: TalkerFlutter.init()));
     dio.interceptors.add(TokenInterceptor());
 
+    instance = dio;
     return dio;
   }
 }
