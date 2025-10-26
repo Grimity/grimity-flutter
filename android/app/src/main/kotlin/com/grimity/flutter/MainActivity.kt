@@ -1,4 +1,4 @@
-package com.grimity.app
+package com.grimity.flutter
 
 import io.flutter.embedding.android.FlutterActivity
 
