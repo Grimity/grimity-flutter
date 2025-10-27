@@ -328,3 +328,6 @@ android/app/src/*/google-services.json
 
 # FVM Version Cache
 .fvm/
+
+# Ignore about git config files
+FASTLANE.md
