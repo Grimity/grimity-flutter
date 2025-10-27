@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_theme.dart';
 import 'package:grimity/app/environment/flavor.dart';
+import 'package:grimity/app/static/push_notification.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 import 'package:talker_riverpod_logger/talker_riverpod_logger.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -15,6 +18,13 @@ void runFlavoredApp() async {
 
   // Initialize talker
   final talker = TalkerFlutter.init();
+
+  // 안드로이드 상에서의 포그라운드 푸시 알림 구현을 위해 관련 플러그인 초기화.
+  if (Platform.isAndroid) {
+    await PushNotification.localNotificationPlugin.initialize(
+      PushNotification.localNotificationSettings,
+    );
+  }
 
   runApp(
     ProviderScope(
