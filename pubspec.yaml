@@ -61,7 +61,8 @@ dependencies:
   retrofit: ^4.4.2
 
   # OAuth
-  firebase_core: ^3.13.0
+  firebase_core: ^4.2.0
+  firebase_messaging: ^16.0.3
   google_sign_in: ^6.3.0
   kakao_flutter_sdk_user: ^1.9.7+3
 
@@ -88,6 +89,7 @@ dependencies:
   vector_graphics: ^1.1.18
   flutter_dotenv: ^5.2.1
   socket_io_client: ^3.1.2
+  flutter_local_notifications: ^19.5.0
 
 dev_dependencies:
   flutter_test:

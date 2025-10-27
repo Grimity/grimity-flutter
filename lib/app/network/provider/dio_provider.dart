@@ -8,13 +8,15 @@ import 'package:talker_flutter/talker_flutter.dart';
 const Duration connectionTimeOutMls = Duration(milliseconds: 15000);
 const Duration readTimeOutMls = Duration(milliseconds: 15000);
 
+late final Dio kDio;
+
 @module
 abstract class DioProvider {
   @lazySingleton
   Dio dio(ApiUrlProvider apiUrlProvider) {
-    final Dio dio = Dio();
+    kDio = Dio();
 
-    dio.options = BaseOptions(
+    kDio.options = BaseOptions(
       responseType: ResponseType.json,
       baseUrl: apiUrlProvider.apiUrl,
       contentType: Headers.jsonContentType,
@@ -22,9 +24,9 @@ abstract class DioProvider {
       receiveTimeout: readTimeOutMls,
     );
 
-    dio.interceptors.add(TalkerDioLogger(talker: TalkerFlutter.init()));
-    dio.interceptors.add(TokenInterceptor());
+    kDio.interceptors.add(TalkerDioLogger(talker: TalkerFlutter.init()));
+    kDio.interceptors.add(TokenInterceptor());
 
-    return dio;
+    return kDio;
   }
 }
