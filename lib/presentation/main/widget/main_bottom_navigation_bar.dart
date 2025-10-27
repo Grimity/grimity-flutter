@@ -28,6 +28,7 @@ class MainBottomNavigationBar extends ConsumerWidget {
           boxShadow: [BoxShadow(offset: Offset(0, -2), color: Colors.black.withValues(alpha: .04), blurRadius: 6)],
         ),
         child: Row(
+          spacing: 16,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children:
               MainNavigationItem.values
@@ -50,39 +51,35 @@ class _MainBottomNavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Expanded(
+      child: GrimityAnimationButton(
+        onTap: () => goBranch(item.index, isActive),
+        child: Center(child: Padding(padding: EdgeInsets.only(bottom: 12), child: _buildIcon())),
+      ),
+    );
+  }
+
+  Widget _buildIcon() {
     // my
     if (item == MainNavigationItem.my) {
-      Widget icon =
-          (userImageUrl != null)
-              ? GrimityUserImage(imageUrl: userImageUrl!, size: 22)
-              : SvgPicture.asset(item.icon.path, width: 22, height: 22);
-
-      if (isActive) {
-        icon = DecoratedBox(
-          position: DecorationPosition.foreground,
-          decoration: BoxDecoration(border: Border.all(width: 1.5, color: AppColor.gray700), shape: BoxShape.circle),
-          child: icon,
-        );
-      }
-
-      return Padding(
-        padding: EdgeInsets.only(bottom: 12),
-        child: GrimityAnimationButton(onTap: () => goBranch(item.index, isActive), child: icon),
+      return Container(
+        decoration:
+            isActive
+                ? BoxDecoration(border: Border.all(width: 2, color: AppColor.gray700), shape: BoxShape.circle)
+                : null,
+        child:
+            (userImageUrl != null)
+                ? GrimityUserImage(imageUrl: userImageUrl!, size: 22, decoration: BoxDecoration())
+                : SvgPicture.asset(item.icon.path, width: 22, height: 22),
       );
     }
 
     // home, ranking, following, board
-    return Padding(
-      padding: EdgeInsets.only(bottom: 12),
-      child: GrimityAnimationButton(
-        onTap: () => goBranch(item.index, isActive),
-        child: SvgPicture.asset(
-          item.icon.path,
-          width: 22,
-          height: 22,
-          colorFilter: ColorFilter.mode(isActive ? AppColor.gray700 : AppColor.gray500, BlendMode.srcIn),
-        ),
-      ),
+    return SvgPicture.asset(
+      item.icon.path,
+      width: 22,
+      height: 22,
+      colorFilter: ColorFilter.mode(isActive ? AppColor.gray700 : AppColor.gray500, BlendMode.srcIn),
     );
   }
 

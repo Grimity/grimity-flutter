@@ -8,17 +8,20 @@ import 'package:skeletonizer/skeletonizer.dart';
 class GrimityUserImage extends StatelessWidget {
   final String? imageUrl;
   final double size;
+  final BoxDecoration? decoration;
 
-  const GrimityUserImage({super.key, required this.imageUrl, this.size = 40});
+  const GrimityUserImage({super.key, required this.imageUrl, this.size = 40, this.decoration});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: AppColor.gray300,
-        border: Border.all(color: Colors.white, width: 2),
-        shape: BoxShape.circle,
-      ),
+      decoration:
+          decoration ??
+          BoxDecoration(
+            color: AppColor.gray300,
+            border: Border.all(color: Colors.white, width: 2),
+            shape: BoxShape.circle,
+          ),
       child:
           (imageUrl ?? '').isEmpty == true
               ? CircleAvatar(

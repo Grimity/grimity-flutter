@@ -16,18 +16,18 @@ case $1 in
     flutterfire config \
       --project=grimity-dev-4911f \
       --out=lib/firebase_options_dev.dart \
-      --ios-bundle-id=com.grimity.app.dev \
+      --ios-bundle-id=com.grimity.flutter.dev \
       --ios-out=ios/flavors/dev/GoogleService-Info.plist \
-      --android-package-name=com.grimity.app.dev \
+      --android-package-name=com.grimity.flutter.dev \
       --android-out=android/app/src/dev/google-services.json
     ;;
   prod)
      flutterfire config \
       --project=grimity \
       --out=lib/firebase_options_prod.dart \
-      --ios-bundle-id=com.grimity.app \
+      --ios-bundle-id=com.grimity.flutter \
       --ios-out=ios/flavors/prod/GoogleService-Info.plist \
-      --android-package-name=com.grimity.app \
+      --android-package-name=com.grimity.flutter \
       --android-out=android/app/src/prod/google-services.json
     ;;
   *)

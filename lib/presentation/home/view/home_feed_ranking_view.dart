@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
@@ -60,9 +59,9 @@ class _HomeRankingCarousel extends ConsumerWidget {
       options: CarouselOptions(
         enableInfiniteScroll: false,
         disableCenter: true,
-        viewportFraction: 0.6,
+        viewportFraction: 202 / 375,
         padEnds: false,
-        height: 252.h,
+        height: 252,
       ),
       itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
         return Container(
