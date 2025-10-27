@@ -28,7 +28,7 @@ class PushNotification {
       "token": token,
     };
 
-    await DioProvider.instance.put("/me/push-token", data: request);
+    await kDio.put("/me/push-token", data: request);
 
     // 새로운 FCM 토큰 값으로 기록.
     prefs.setString("fcm_token", token);
