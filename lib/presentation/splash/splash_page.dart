@@ -27,6 +27,12 @@ class SplashPage extends HookConsumerWidget {
                   colors: [Color(0xFF0B0B0B), Color(0xFF09302A)],
                   stops: [0.0, 1.0],
                 ),
+                // noise texture image 추가
+                image: DecorationImage(
+                  image: AssetImage('assets/images/noise_texture.png'),
+                  fit: BoxFit.cover,
+                  opacity: 0.1,
+                ),
               ),
             ),
           ),
