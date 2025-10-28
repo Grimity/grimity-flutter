@@ -1,6 +1,9 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:grimity/firebase_options_dev.dart' as dev_firebase;
+import 'package:grimity/firebase_options_prod.dart' as prod_firebase;
 
 enum Env {
   dev(type: 'DEV'),
@@ -44,5 +47,10 @@ enum Env {
   String? get googleSignInClientId => switch (this) {
     dev => Platform.isIOS ? dotenv.env['DEV_GOOGLE_SIGN_IN_CLIENT_ID']! : null,
     prod => Platform.isIOS ? dotenv.env['GOOGLE_SIGN_IN_CLIENT_ID']! : null,
+  };
+
+  FirebaseOptions get firebaseOption => switch (this) {
+    dev => dev_firebase.DefaultFirebaseOptions.currentPlatform,
+    prod => prod_firebase.DefaultFirebaseOptions.currentPlatform,
   };
 }

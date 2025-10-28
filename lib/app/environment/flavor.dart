@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:grimity/app/config/app_config.dart';
@@ -19,8 +20,12 @@ class Flavor {
     _env = type;
   }
 
+  /// [env]에 따라 초기 설정 및 초기화 진행
   Future<void> setup() async {
     WidgetsFlutterBinding.ensureInitialized();
+
+    // Firebase init
+    await Firebase.initializeApp(options: env.firebaseOption);
 
     // Load dotEnv
     await dotenv.load(fileName: env.dotFileName);
