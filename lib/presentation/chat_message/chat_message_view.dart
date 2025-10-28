@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_infinite_scroll_pagination/flutter_infinite_scroll_pagination.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grimity/app/config/app_color.dart';
+import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/app/extension/date_time_extension.dart';
 import 'package:grimity/presentation/chat_message/provider/chat_message_provider.dart';
 import 'package:grimity/presentation/chat_message/view/chat_message_image_gallery.dart';
 import 'package:grimity/presentation/chat_message/view/chat_message_fragment.dart';
@@ -34,9 +37,7 @@ class ChatMessageView extends ConsumerWidget {
             child: Builder(
               builder: (context) {
                 if (data.isLoading) {
-                  return Center(
-                    child: GrimityCircularProgressIndicator(),
-                  );
+                  return Center(child: GrimityCircularProgressIndicator());
                 }
 
                 return Stack(
@@ -49,15 +50,30 @@ class ChatMessageView extends ConsumerWidget {
                         separatorBuilder: (_, _) => SizedBox(height: 10),
                         shrinkWrap: true,
                         reverse: true,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 20,
-                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
                         itemCount: data.value!.messages.length,
                         itemBuilder: (context, index) {
-                          return ChatMessageFragment(
-                            chatId: chatId,
-                            model: data.value!.messages[index],
+                          final chatMessage = data.value!.messages[index];
+                          final prevMessage =
+                              index < data.value!.messages.length - 1 ? data.value!.messages[index + 1] : null;
+
+                          bool showDateHeader = shouldShowDateHeader(
+                            currentMessage: chatMessage,
+                            prevMessage: prevMessage,
+                          );
+
+                          return Column(
+                            children: [
+                              if (showDateHeader)
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: Text(
+                                    chatMessage.createdAt.toYearMonthDay,
+                                    style: AppTypeface.label2.copyWith(color: AppColor.gray400),
+                                  ),
+                                ),
+                              ChatMessageFragment(chatId: chatId, model: chatMessage),
+                            ],
                           );
                         },
                       ),
@@ -83,5 +99,14 @@ class ChatMessageView extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  // 채팅 메세지 리스트에서 날짜 헤더를 표시할 지 여부
+  bool shouldShowDateHeader({required ChatMessage currentMessage, required ChatMessage? prevMessage}) {
+    final currentDate = currentMessage.createdAt;
+    final prevDate = prevMessage?.createdAt;
+
+    // 첫 메세지이거나, 이전 메세지와 날짜가 다를 때만 true
+    return prevDate == null || !prevDate.isSameDay(currentDate);
   }
 }
