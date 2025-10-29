@@ -51,7 +51,7 @@ class LatestPostData extends _$LatestPostData {
 }
 
 @riverpod
-class LatestFeedData extends _$LatestFeedData {
+class LatestFeedData extends _$LatestFeedData with FeedMixin<Feeds> {
   @override
   FutureOr<Feeds> build() async {
     final GetLatestFeedsRequestParam param = GetLatestFeedsRequestParam(size: 10);
@@ -81,4 +81,22 @@ class LatestFeedData extends _$LatestFeedData {
       },
     );
   }
+
+  Future<void> toggleLike({required String feedId, required bool like}) => onToggleLike(
+    feedId: feedId,
+    like: like,
+    optimisticBuilder: (prev) {
+      return prev.copyWith(
+        feeds:
+            prev.feeds
+                .map(
+                  (e) =>
+                      e.id == feedId
+                          ? e.copyWith(likeCount: like ? e.likeCount! + 1 : e.likeCount! - 1, isLike: like)
+                          : e,
+                )
+                .toList(),
+      );
+    },
+  );
 }
