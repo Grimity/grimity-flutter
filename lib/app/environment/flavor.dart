@@ -26,9 +26,6 @@ class Flavor {
 
     // Firebase init
     await Firebase.initializeApp(
-      // Unhandled Exception: [core/duplicate-app] A Firebase App named "[DEFAULT]" already exists
-      // FlutterFire 이슈로 중복된 App named [DEFAULT] 해결을 위한 name 속성 추가
-      name: env.getString,
       options: env.firebaseOption,
     );
 
