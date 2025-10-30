@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -25,9 +26,7 @@ class Flavor {
     WidgetsFlutterBinding.ensureInitialized();
 
     // Firebase init
-    await Firebase.initializeApp(
-      options: env.firebaseOption,
-    );
+    await Firebase.initializeApp(options: env.firebaseOption);
 
     // Load dotEnv
     await dotenv.load(fileName: env.dotFileName);
@@ -40,5 +39,11 @@ class Flavor {
 
     // Initialize Kakao
     KakaoSdk.init(nativeAppKey: env.kakaoApiKey);
+
+    // Firebase Analytics init
+    await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(_env == Env.prod ? true : false);
+    if (_env == Env.prod) {
+      await FirebaseAnalytics.instance.logAppOpen();
+    }
   }
 }

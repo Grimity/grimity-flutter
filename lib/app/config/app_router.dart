@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -45,10 +46,14 @@ final rootNavigatorKey = GlobalKey<NavigatorState>();
 final shellNavigatorKey = GlobalKey<NavigatorState>();
 
 abstract final class AppRouter {
+  static final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
+  static final FirebaseAnalyticsObserver _observer = FirebaseAnalyticsObserver(analytics: _analytics);
+
   static final GoRouter _router = GoRouter(
     navigatorKey: rootNavigatorKey,
     initialLocation: SplashRoute.path,
     routes: $appRoutes,
+    observers: [_observer],
     // FIX: 카카오톡 App 로그인 시의 Routing 관련 문제 수정
     // Ref: https://github.com/kakao/kakao_flutter_sdk/issues/200
     redirect: (context, state) {
