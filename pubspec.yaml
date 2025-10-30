@@ -60,9 +60,12 @@ dependencies:
   mockito: ^5.4.5
   retrofit: ^4.4.2
 
-  # OAuth
+  # Firebase
   firebase_core: ^4.2.0
   firebase_messaging: ^16.0.3
+  firebase_analytics: ^12.0.3
+
+  # OAuth
   google_sign_in: ^6.3.0
   kakao_flutter_sdk_user: ^1.9.7+3
 
