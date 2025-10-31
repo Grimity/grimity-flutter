@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/service/toast_service.dart';
@@ -53,16 +52,13 @@ class BoardSearchBar extends HookConsumerWidget {
       child: Row(
         spacing: 6,
         children: [
-          SizedBox(
-            width: 110.w,
-            child: BoardSearchByDropdown(
-              type: searchQueryState.searchType,
-              onChanged: (searchType) {
-                if (searchType == null) return;
+          BoardSearchByDropdown(
+            type: searchQueryState.searchType,
+            onChanged: (searchType) {
+              if (searchType == null) return;
 
-                notifier.updateSearchType(searchType);
-              },
-            ),
+              notifier.updateSearchType(searchType);
+            },
           ),
           Expanded(
             child: GrimityTextField.small(

@@ -12,40 +12,42 @@ class BoardSearchByDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField<SearchType>(
-      value: type,
-      decoration: InputDecoration(
-        isDense: true,
-        filled: true,
-        fillColor: AppColor.gray00,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: AppColor.gray300),
+    return IntrinsicWidth(
+      child: DropdownButtonFormField<SearchType>(
+        value: type,
+        decoration: InputDecoration(
+          isDense: true,
+          filled: true,
+          fillColor: AppColor.gray00,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: AppColor.gray300),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: AppColor.gray300),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: AppColor.gray300),
+          ),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: AppColor.gray300),
+        dropdownColor: AppColor.gray00,
+        borderRadius: BorderRadius.circular(8),
+        icon: Assets.icons.common.arrowDown.svg(
+          width: 16,
+          height: 16,
+          colorFilter: ColorFilter.mode(AppColor.gray700, BlendMode.srcIn),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: AppColor.gray300),
-        ),
+        items:
+            SearchType.values.map((e) {
+              return DropdownMenuItem<SearchType>(
+                value: e,
+                child: Text(e.typeName, style: AppTypeface.label2.copyWith(color: AppColor.gray800)),
+              );
+            }).toList(),
+        onChanged: onChanged,
       ),
-      dropdownColor: AppColor.gray00,
-      borderRadius: BorderRadius.circular(8),
-      icon: Assets.icons.common.arrowDown.svg(
-        width: 16,
-        height: 16,
-        colorFilter: ColorFilter.mode(AppColor.gray700, BlendMode.srcIn),
-      ),
-      items:
-          SearchType.values.map((e) {
-            return DropdownMenuItem<SearchType>(
-              value: e,
-              child: Text(e.typeName, style: AppTypeface.label2.copyWith(color: AppColor.gray800)),
-            );
-          }).toList(),
-      onChanged: onChanged,
     );
   }
 }
