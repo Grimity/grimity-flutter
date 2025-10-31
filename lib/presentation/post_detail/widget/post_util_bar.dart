@@ -23,6 +23,8 @@ class PostUtilBar extends ConsumerWidget {
       shareUrl: AppConfig.buildPostUrl(post.id),
       onLikeTap: () => ref.read(postDetailDataProvider(post.id).notifier).toggleLike(postId: post.id, like: !isLike),
       onSaveTap: () => ref.read(postDetailDataProvider(post.id).notifier).toggleSave(postId: post.id, save: !isSave),
+      title: post.title,
+      thumbnail: post.thumbnail,
     );
   }
 }

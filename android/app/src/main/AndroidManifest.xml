@@ -27,6 +27,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <!-- 카카오 로그인 커스텀 URL 스킴 설정 -->
         <activity android:name="com.kakao.sdk.flutter.AuthCodeCustomTabsActivity"
             android:exported="true">
             <intent-filter android:label="kakao_login">
@@ -42,6 +44,29 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="kakao5ed98b399cef5d1814850676530f5c4f" android:host="oauth"/>
+            </intent-filter>
+        </activity>
+
+        <!-- 카카오톡 공유, 카카오톡 메시지 커스텀 URL 스킴 설정 -->
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:exported="true"
+            android:hardwareAccelerated="true"
+            android:launchMode="singleTop"
+            android:theme="@style/LaunchTheme"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter android:label="kakao_link">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="kakao9ef16b15112d4c1ad60660adc4c39a93" android:host="kakaolink" />
+            </intent-filter>
+            <intent-filter android:label="kakao_link_dev">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="kakao5ed98b399cef5d1814850676530f5c4f" android:host="kakaolink" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
