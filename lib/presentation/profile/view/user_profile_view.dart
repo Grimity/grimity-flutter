@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
+import 'package:grimity/app/config/app_config.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/login_provider.enum.dart';
@@ -106,7 +107,12 @@ class UserProfileView extends ConsumerWidget {
         title: '프로필 링크 공유',
         onTap: () {
           context.pop();
-          GrimityShareModalBottomSheet.show(context, url: user.url);
+          GrimityShareModalBottomSheet.show(
+            context,
+            url: AppConfig.buildUserUrl(user.url),
+            shareContentType: ShareContentType.profile,
+            nickname: user.name,
+          );
         },
       ),
       if (viewType == ProfileViewType.mine) ...[
@@ -135,22 +141,22 @@ class UserProfileView extends ConsumerWidget {
       context: context,
       builder:
           (builderContext) => GrimityDialog(
-        title: '정말 탈퇴하시겠어요?',
-        content: '계정 복구는 어려워요.',
-        cancelText: '취소',
-        confirmText: '탈퇴하기',
-        onCancel: () => builderContext.pop(),
-        onConfirm: () async {
-          final user = ref.read(userAuthProvider);
-          if (user == null) return;
+            title: '정말 탈퇴하시겠어요?',
+            content: '계정 복구는 어려워요.',
+            cancelText: '취소',
+            confirmText: '탈퇴하기',
+            onCancel: () => builderContext.pop(),
+            onConfirm: () async {
+              final user = ref.read(userAuthProvider);
+              if (user == null) return;
 
-          builderContext.pop();
-          await completeDeleteUserProcessUseCase.execute(LoginProviderX.fromString(user.provider ?? ''));
-          if (context.mounted) {
-            SignInRoute().go(context);
-          }
-        },
-      ),
+              builderContext.pop();
+              await completeDeleteUserProcessUseCase.execute(LoginProviderX.fromString(user.provider ?? ''));
+              if (context.mounted) {
+                SignInRoute().go(context);
+              }
+            },
+          ),
     );
   }
 }

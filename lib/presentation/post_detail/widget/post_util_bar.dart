@@ -15,7 +15,7 @@ class PostUtilBar extends ConsumerWidget {
     final isLike = post.isLike ?? false;
     final isSave = post.isSave ?? false;
 
-    return GrimityUtilBar(
+    return GrimityUtilBar.post(
       isLike: isLike,
       isSave: isSave,
       likeCount: post.likeCount ?? 0,
