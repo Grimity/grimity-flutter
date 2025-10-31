@@ -1,27 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
-import 'package:grimity/app/service/toast_service.dart';
+import 'package:grimity/app/util/share_util.dart';
 import 'package:grimity/gen/assets.gen.dart';
+
+enum ShareContentType { feed, post, profile }
+
+extension ShareContentTypeExtension on ShareContentType {
+  String buildShareText({String? nickname}) {
+    switch (this) {
+      case ShareContentType.feed:
+        return '이 그림 어때요?';
+      case ShareContentType.post:
+        return '이 글 같이 봐요!';
+      case ShareContentType.profile:
+        return '${nickname ?? ''}님의 프로필을 공유해보세요!';
+    }
+  }
+}
 
 /// 링크 공유 모달 바텀 시트
 class GrimityShareModalBottomSheet extends StatelessWidget {
-  const GrimityShareModalBottomSheet({super.key, required this.url});
+  const GrimityShareModalBottomSheet({super.key, required this.url, required this.shareContentType, this.nickname});
 
   final String url;
+  final ShareContentType shareContentType;
+  final String? nickname;
 
-  static void show(BuildContext context, {required String url}) {
+  static void show(
+    BuildContext context, {
+    required String url,
+    required ShareContentType shareContentType,
+    String? nickname,
+  }) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
       ),
-      builder: (context) => GrimityShareModalBottomSheet(url: url,),
+      builder:
+          (context) => GrimityShareModalBottomSheet(url: url, shareContentType: shareContentType, nickname: nickname),
     );
   }
 
@@ -38,10 +60,7 @@ class GrimityShareModalBottomSheet extends StatelessWidget {
             children: [
               Text("게시글 공유하기", style: AppTypeface.subTitle3),
               const Spacer(),
-              GestureDetector(
-                onTap: () => context.pop(),
-                child: Assets.icons.common.close.svg(width: 24, height: 24),
-              ),
+              GestureDetector(onTap: () => context.pop(), child: Assets.icons.common.close.svg(width: 24, height: 24)),
             ],
           ),
           Gap(16),
@@ -54,17 +73,21 @@ class GrimityShareModalBottomSheet extends StatelessWidget {
                 Text("링크 복사하기", style: AppTypeface.label2),
               ],
             ),
-            onTap: () {
-              Clipboard.setData(ClipboardData(text: url));
-              ToastService.show('링크가 복사되었어요.');
-              context.pop();
+            onTap: () async {
+              await ShareUtil.copyLinkToClipboard(url);
+              if (context.mounted) {
+                context.pop();
+              }
             },
           ),
           Gap(16),
           _BottomSheetButton(
             height: 54.w,
-            onTap: () {
-              // TODO X 공유
+            onTap: () async {
+              await ShareUtil.shareToTwitter(text: shareContentType.buildShareText(nickname: nickname), url: url);
+              if (context.mounted) {
+                context.pop();
+              }
             },
             child: Row(
               children: [

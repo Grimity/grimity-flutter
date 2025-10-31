@@ -18,6 +18,7 @@ class GrimityUtilBar extends StatelessWidget {
     required this.shareUrl,
     required this.onLikeTap,
     required this.onSaveTap,
+    required this.shareContentType,
   });
 
   final bool isLike;
@@ -25,9 +26,48 @@ class GrimityUtilBar extends StatelessWidget {
   final int likeCount;
   final int commentCount;
   final String shareUrl;
+  final ShareContentType shareContentType;
 
   final VoidCallback onLikeTap;
   final VoidCallback onSaveTap;
+
+  factory GrimityUtilBar.feed({
+    required bool isLike,
+    required bool isSave,
+    required int likeCount,
+    required int commentCount,
+    required String shareUrl,
+    required VoidCallback onLikeTap,
+    required VoidCallback onSaveTap,
+  }) => GrimityUtilBar(
+    isLike: isLike,
+    isSave: isSave,
+    likeCount: likeCount,
+    commentCount: commentCount,
+    shareUrl: shareUrl,
+    onLikeTap: onLikeTap,
+    onSaveTap: onSaveTap,
+    shareContentType: ShareContentType.feed,
+  );
+
+  factory GrimityUtilBar.post({
+    required bool isLike,
+    required bool isSave,
+    required int likeCount,
+    required int commentCount,
+    required String shareUrl,
+    required VoidCallback onLikeTap,
+    required VoidCallback onSaveTap,
+  }) => GrimityUtilBar(
+    isLike: isLike,
+    isSave: isSave,
+    likeCount: likeCount,
+    commentCount: commentCount,
+    shareUrl: shareUrl,
+    onLikeTap: onLikeTap,
+    onSaveTap: onSaveTap,
+    shareContentType: ShareContentType.post,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +98,8 @@ class GrimityUtilBar extends StatelessWidget {
             children: [
               GrimityAnimationButton(
                 child: Assets.icons.common.share.svg(width: 24, height: 24),
-                onTap: () => GrimityShareModalBottomSheet.show(context, url: shareUrl),
+                onTap:
+                    () => GrimityShareModalBottomSheet.show(context, url: shareUrl, shareContentType: shareContentType),
               ),
               Gap(20),
               GrimityAnimationButton(

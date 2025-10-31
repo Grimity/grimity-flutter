@@ -15,7 +15,7 @@ class FeedUtilBar extends ConsumerWidget {
     final isLike = feed.isLike ?? false;
     final isSave = feed.isSave ?? false;
 
-    return GrimityUtilBar(
+    return GrimityUtilBar.feed(
       isLike: isLike,
       isSave: isSave,
       likeCount: feed.likeCount ?? 0,

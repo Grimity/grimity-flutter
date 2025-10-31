@@ -25,6 +25,9 @@ class AppConfig {
   /// FeedUrl (ApiUrl + feeds/ + feedId)
   static String buildFeedUrl(String feedId) => '${instance._baseUrl}feeds/$feedId';
 
-  /// FeedUrl (ApiUrl + posts/ + postId)
+  /// PostUrl (ApiUrl + posts/ + postId)
   static String buildPostUrl(String postId) => '${instance._baseUrl}posts/$postId';
+
+  /// ProfileUrl (ApiUrl + userUrl)
+  static String buildUserUrl(String userUrl) => '${instance._baseUrl}$userUrl';
 }
