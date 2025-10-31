@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:grimity/app/config/app_config.dart';
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:kakao_flutter_sdk_share/kakao_flutter_sdk_share.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -36,19 +37,27 @@ class ShareUtil {
       content: Content(
         title: '그림 커뮤니티 그리미티',
         description: description,
-        // TODO 이미지가 없는 경우에 기본값
-        imageUrl: imageUrl != null ? Uri.parse(imageUrl) : null,
+        imageUrl: Uri.parse(imageUrl ?? AppConfig.defaultThumbnailUrl),
         link: Link(webUrl: Uri.parse(linkUrl), mobileWebUrl: Uri.parse(linkUrl)),
       ),
       buttons: [Button(title: '자세히 보기', link: Link(webUrl: Uri.parse(linkUrl), mobileWebUrl: Uri.parse(linkUrl)))],
     );
 
-    if (isKakaoTalkSharingAvailable) {
-      Uri uri = await ShareClient.instance.shareDefault(template: template);
-      await ShareClient.instance.launchKakaoTalk(uri);
-    } else {
-      Uri shareUrl = await WebSharerClient.instance.makeDefaultUrl(template: template);
-      await launchBrowserTab(shareUrl, popupOpen: true);
+    try {
+      if (isKakaoTalkSharingAvailable) {
+        Uri uri = await ShareClient.instance.shareDefault(template: template);
+        await ShareClient.instance.launchKakaoTalk(uri);
+      } else {
+        Uri shareUrl = await WebSharerClient.instance.makeDefaultUrl(template: template);
+        await launchBrowserTab(shareUrl, popupOpen: true);
+      }
+    } catch (error) {
+      // 공유 도중 혹은 완료 후 세션이 닫힌 정상적인 케이스
+      if (error is PlatformException && error.code == 'CANCELED') {
+        return;
+      }
+
+      ToastService.show('카카오톡 공유에 실패했습니다.');
     }
   }
 }
