@@ -19,6 +19,8 @@ class GrimityUtilBar extends StatelessWidget {
     required this.onLikeTap,
     required this.onSaveTap,
     required this.shareContentType,
+    required this.title,
+    required this.thumbnail,
   });
 
   final bool isLike;
@@ -27,6 +29,8 @@ class GrimityUtilBar extends StatelessWidget {
   final int commentCount;
   final String shareUrl;
   final ShareContentType shareContentType;
+  final String title;
+  final String? thumbnail;
 
   final VoidCallback onLikeTap;
   final VoidCallback onSaveTap;
@@ -37,6 +41,8 @@ class GrimityUtilBar extends StatelessWidget {
     required int likeCount,
     required int commentCount,
     required String shareUrl,
+    required String title,
+    required String? thumbnail,
     required VoidCallback onLikeTap,
     required VoidCallback onSaveTap,
   }) => GrimityUtilBar(
@@ -48,6 +54,8 @@ class GrimityUtilBar extends StatelessWidget {
     onLikeTap: onLikeTap,
     onSaveTap: onSaveTap,
     shareContentType: ShareContentType.feed,
+    title: title,
+    thumbnail: thumbnail,
   );
 
   factory GrimityUtilBar.post({
@@ -56,6 +64,8 @@ class GrimityUtilBar extends StatelessWidget {
     required int likeCount,
     required int commentCount,
     required String shareUrl,
+    required String title,
+    required String? thumbnail,
     required VoidCallback onLikeTap,
     required VoidCallback onSaveTap,
   }) => GrimityUtilBar(
@@ -67,6 +77,8 @@ class GrimityUtilBar extends StatelessWidget {
     onLikeTap: onLikeTap,
     onSaveTap: onSaveTap,
     shareContentType: ShareContentType.post,
+    title: title,
+    thumbnail: thumbnail,
   );
 
   @override
@@ -99,7 +111,13 @@ class GrimityUtilBar extends StatelessWidget {
               GrimityAnimationButton(
                 child: Assets.icons.common.share.svg(width: 24, height: 24),
                 onTap:
-                    () => GrimityShareModalBottomSheet.show(context, url: shareUrl, shareContentType: shareContentType),
+                    () => GrimityShareModalBottomSheet.show(
+                      context,
+                      url: shareUrl,
+                      shareContentType: shareContentType,
+                      description: title,
+                      imageUrl: thumbnail,
+                    ),
               ),
               Gap(20),
               GrimityAnimationButton(

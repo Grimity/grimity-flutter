@@ -112,6 +112,8 @@ class UserProfileView extends ConsumerWidget {
             url: AppConfig.buildUserUrl(user.url),
             shareContentType: ShareContentType.profile,
             nickname: user.name,
+            description: user.name,
+            imageUrl: user.image,
           );
         },
       ),

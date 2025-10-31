@@ -24,17 +24,33 @@ extension ShareContentTypeExtension on ShareContentType {
 
 /// 링크 공유 모달 바텀 시트
 class GrimityShareModalBottomSheet extends StatelessWidget {
-  const GrimityShareModalBottomSheet({super.key, required this.url, required this.shareContentType, this.nickname});
+  const GrimityShareModalBottomSheet({
+    super.key,
+    required this.url,
+    required this.shareContentType,
+    this.nickname,
+    required this.description,
+    required this.imageUrl,
+  });
 
   final String url;
   final ShareContentType shareContentType;
+
+  // 트위터 프로필 공유 시 사용 nickname
   final String? nickname;
+
+  // 카카오 공유시 사용
+  // [description] Feed,Post - 제목, Profile - 유저명
+  final String description;
+  final String? imageUrl;
 
   static void show(
     BuildContext context, {
     required String url,
     required ShareContentType shareContentType,
     String? nickname,
+    required String description,
+    required String? imageUrl,
   }) {
     showModalBottomSheet(
       context: context,
@@ -43,7 +59,13 @@ class GrimityShareModalBottomSheet extends StatelessWidget {
         borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
       ),
       builder:
-          (context) => GrimityShareModalBottomSheet(url: url, shareContentType: shareContentType, nickname: nickname),
+          (context) => GrimityShareModalBottomSheet(
+            url: url,
+            shareContentType: shareContentType,
+            nickname: nickname,
+            description: description,
+            imageUrl: imageUrl,
+          ),
     );
   }
 
@@ -100,8 +122,11 @@ class GrimityShareModalBottomSheet extends StatelessWidget {
           Gap(16),
           _BottomSheetButton(
             height: 54.w,
-            onTap: () {
-              // TODO 카카오톡 공유
+            onTap: () async {
+              await ShareUtil.shareToKakao(description: description, imageUrl: imageUrl, linkUrl: url);
+              if (context.mounted) {
+                context.pop();
+              }
             },
             child: Row(
               children: [
