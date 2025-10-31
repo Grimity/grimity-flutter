@@ -22,6 +22,9 @@ class AppConfig {
 
   static String get imageUrl => _instance._imageUrl;
 
+  /// 기본 썸네일 Url
+  static String get defaultThumbnailUrl => '${instance._baseUrl}image/thumbnail-default.png';
+
   /// FeedUrl (ApiUrl + feeds/ + feedId)
   static String buildFeedUrl(String feedId) => '${instance._baseUrl}feeds/$feedId';
 
