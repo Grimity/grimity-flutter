@@ -6,7 +6,6 @@ import 'package:grimity/app/config/app_const.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/login_provider.enum.dart';
-import 'package:grimity/domain/usecase/auth_usecases.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -63,7 +62,8 @@ class _LogoutTextButton extends ConsumerWidget {
         final user = ref.read(userAuthProvider);
         if (user == null) return;
         final provider = LoginProviderX.fromString(user.provider ?? '');
-        await completeLogoutProcessUseCase.execute(provider);
+
+        await ref.read(userAuthProvider.notifier).logout(provider);
         if (context.mounted) {
           SignInRoute().go(context);
         }
