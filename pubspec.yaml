@@ -71,6 +71,7 @@ dependencies:
   # OAuth
   google_sign_in: ^6.3.0
   kakao_flutter_sdk_user: ^1.9.7+3
+  sign_in_with_apple: ^7.0.1
 
   # Routing
   go_router: ^15.1.1

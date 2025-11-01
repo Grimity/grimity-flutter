@@ -44,7 +44,7 @@ class AuthRepositoryImpl extends AuthRepository {
         case LoginProvider.kakao:
           accessToken = await _oauthAPI.loginWithKakao();
         case LoginProvider.apple:
-          return Result.failure(Exception('Apple login is not implemented'));
+          accessToken = await _oauthAPI.loginWithApple();
       }
 
       return Result.success(accessToken);
@@ -77,7 +77,8 @@ class AuthRepositoryImpl extends AuthRepository {
           await _oauthAPI.logoutWithKakao();
           break;
         case LoginProvider.apple:
-          return Result.failure(Exception('Apple logout is not implemented'));
+          await _oauthAPI.logoutWithApple();
+          break;
       }
 
       return Result.success(null);
