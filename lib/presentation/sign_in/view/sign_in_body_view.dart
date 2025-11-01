@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -41,12 +43,14 @@ class SignInBodyView extends ConsumerWidget {
                   ref.read(signInProvider.notifier).login(ref, LoginProvider.google);
                 },
               ),
-              Gap(8),
-              AppleSSOButton(
-                onTap: () {
-                  ref.read(signInProvider.notifier).login(ref, LoginProvider.apple);
-                },
-              ),
+              if (Platform.isIOS) ...[
+                Gap(8),
+                AppleSSOButton(
+                  onTap: () {
+                    ref.read(signInProvider.notifier).login(ref, LoginProvider.apple);
+                  },
+                ),
+              ],
               Gap(36),
             ],
           ),
