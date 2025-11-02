@@ -100,13 +100,7 @@ abstract final class AppRouter {
       routes: [TypedGoRoute<FollowingRoute>(path: FollowingRoute.path, name: FollowingRoute.name)],
     ),
     TypedStatefulShellBranch<BoardBranchData>(
-      routes: [
-        TypedGoRoute<BoardRoute>(
-          path: BoardRoute.path,
-          name: BoardRoute.name,
-          routes: [TypedGoRoute<BoardSearchRoute>(path: BoardSearchRoute.path, name: BoardSearchRoute.name)],
-        ),
-      ],
+      routes: [TypedGoRoute<BoardRoute>(path: BoardRoute.path, name: BoardRoute.name)],
     ),
     TypedStatefulShellBranch<MyBranchData>(
       routes: [
@@ -183,10 +177,11 @@ class BoardRoute extends GoRouteData {
   Widget build(BuildContext context, GoRouterState state) => BoardPage();
 }
 
+@TypedGoRoute<BoardSearchRoute>(path: BoardSearchRoute.path, name: BoardSearchRoute.name)
 class BoardSearchRoute extends GoRouteData {
   BoardSearchRoute();
 
-  static const String path = 'search';
+  static const String path = '/boardSearch';
   static const String name = 'boardSearch';
 
   @override

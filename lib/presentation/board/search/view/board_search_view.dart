@@ -18,28 +18,30 @@ class BoardSearchView extends HookConsumerWidget {
     final scrollController = useScrollController();
     final searchPostsAsync = ref.watch(searchDataProvider);
 
-    return NestedScrollView(
-      controller: scrollController,
-      headerSliverBuilder: (context, innerBoxIsScrolled) {
-        return [boardSearchAppBar, SliverToBoxAdapter(child: boardSearchBar)];
-      },
-      body: searchPostsAsync.when(
-        data: (posts) {
-          if (posts.posts.isEmpty) {
-            return GrimityStateView.resultNull(title: '검색 결과가 없어요', subTitle: '다른 검색어를 입력해보세요');
-          }
-
-          return BoardSearchListView(
-            posts: posts.posts,
-            totalCount: posts.totalCount ?? 0,
-            scrollController: scrollController,
-          );
+    return Scaffold(
+      body: NestedScrollView(
+        controller: scrollController,
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [boardSearchAppBar, SliverToBoxAdapter(child: boardSearchBar)];
         },
-        loading:
-            () => Skeletonizer(
-              child: BoardSearchListView(posts: Post.emptyList, totalCount: 0, scrollController: scrollController),
-            ),
-        error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(searchDataProvider)),
+        body: searchPostsAsync.when(
+          data: (posts) {
+            if (posts.posts.isEmpty) {
+              return GrimityStateView.resultNull(title: '검색 결과가 없어요', subTitle: '다른 검색어를 입력해보세요');
+            }
+
+            return BoardSearchListView(
+              posts: posts.posts,
+              totalCount: posts.totalCount ?? 0,
+              scrollController: scrollController,
+            );
+          },
+          loading:
+              () => Skeletonizer(
+                child: BoardSearchListView(posts: Post.emptyList, totalCount: 0, scrollController: scrollController),
+              ),
+          error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(searchDataProvider)),
+        ),
       ),
     );
   }
