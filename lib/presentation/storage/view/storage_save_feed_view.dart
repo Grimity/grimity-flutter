@@ -4,8 +4,8 @@ import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
+import 'package:grimity/presentation/common/widget/grimity_infinite_scroll_pagination.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
-import 'package:grimity/presentation/home/hook/use_infinite_scroll_hook.dart';
 import 'package:grimity/presentation/storage/enum/storage_enum_item.dart';
 import 'package:grimity/presentation/storage/provider/storage_save_feed_data_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -23,11 +23,19 @@ class StorageSaveFeedView extends HookConsumerWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       child: saveFeed.when(
-        data:
-            (data) =>
-                data.feeds.isEmpty
-                    ? GrimityStateView.resultNull(subTitle: StorageTabType.saveFeed.emptyMessage)
-                    : _StorageSaveFeedListView(feeds: data.feeds),
+        data: (data) {
+          final feeds = data.feeds;
+
+          if (feeds.isEmpty) {
+            return GrimityStateView.resultNull(subTitle: StorageTabType.saveFeed.emptyMessage);
+          }
+
+          return GrimityInfiniteScrollPagination(
+            isEnabled: data.nextCursor != null,
+            onLoadMore: ref.read(saveFeedDataProvider.notifier).loadMore,
+            child: _StorageSaveFeedListView(feeds: feeds),
+          );
+        },
         loading: () => Skeletonizer(child: _StorageSaveFeedListView(feeds: Feed.emptyList)),
         error: (error, stackTrace) => GrimityStateView.error(onTap: () => ref.invalidate(saveFeedDataProvider)),
       ),
@@ -35,7 +43,7 @@ class StorageSaveFeedView extends HookConsumerWidget {
   }
 }
 
-class _StorageSaveFeedListView extends HookConsumerWidget {
+class _StorageSaveFeedListView extends ConsumerWidget {
   const _StorageSaveFeedListView({required this.feeds});
 
   final List<Feed> feeds;
@@ -43,16 +51,8 @@ class _StorageSaveFeedListView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final int rowCount = (feeds.length / 2).ceil();
-    final scrollController = useScrollController();
-
-    useInfiniteScrollHook(
-      ref: ref,
-      scrollController: scrollController,
-      loadFunction: () async => await ref.read(saveFeedDataProvider.notifier).loadMore(),
-    );
 
     return SingleChildScrollView(
-      controller: scrollController,
       child: ConstrainedBox(
         constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height),
         child: LayoutGrid(
