@@ -64,6 +64,7 @@ dependencies:
   firebase_core: ^4.2.0
   firebase_messaging: ^16.0.3
   firebase_analytics: ^12.0.3
+  firebase_crashlytics: ^5.0.3
 
   # Share
   kakao_flutter_sdk_share: ^1.9.7+3
