@@ -43,7 +43,9 @@ jobs:
       - name: Flutter 설치
         uses: subosito/flutter-action@v2
         with:
-          channel: main # latest version
+          # 참고: 항상 최신 버전으로 유지하도록 패치 요망
+          channel: stable
+          flutter-version: 3.35.7
 
       - name: 구성 파일 불러오기
         run: dart run git_config fetch --ssh
