@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -46,6 +49,16 @@ class Flavor {
     if (_env == Env.prod) {
       await FirebaseAnalytics.instance.logAppOpen();
     }
+
+    // Firebase Crashlytics init
+    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(_env == Env.prod ? true : false);
+    // Flutter 오류 보고
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+    // 비동기 오류 보고
+    PlatformDispatcher.instance.onError = (error, stack) {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      return true;
+    };
 
     // 세로 화면 고정.
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
