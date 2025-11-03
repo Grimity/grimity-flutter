@@ -72,8 +72,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            ./build/app/outputs/bundle/release/app-release.aab
-            ./build/ios/ipa/grimity.ipa
+            ./build/release.aab
+            ./build/release.ipa
           tag_name: v${{ github.event.inputs.VERSION_NAME }}
           name: "v${{ github.event.inputs.VERSION_NAME }} (Build ${{ github.event.inputs.BUILD_NUMBER }})"
           body: |
@@ -85,11 +85,10 @@ jobs:
             | **빌드 버전** | ${{ github.event.inputs.VERSION_NAME }} |
             | **빌드 번호** | ${{ github.event.inputs.BUILD_NUMBER }} |
             | **커밋 SHA** | ${{ github.sha }} |
-            | **날짜** | ${{ github.event.head_commit.timestamp }} |
 
             ## 대상 파일
-            - Android App Bundle: `app-release.aab`
-            - iOS IPA: `grimity.ipa`
+            - Android App Bundle: `release.aab`
+            - iOS IPA: `release.ipa`
 
             > [!WARNING]
             > 워커플로우에 의해 자동 업로드된 빌드 파일입니다.
