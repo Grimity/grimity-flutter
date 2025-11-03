@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_infinite_scroll_pagination/flutter_infinite_scroll_pagination.dart';
+import 'package:grimity/presentation/common/widget/grimity_loading_indicator.dart';
 import 'package:grimity/presentation/common/widget/grimity_refresh_indicator.dart';
 import 'package:grimity/presentation/following_feed/provider/following_feed_data_provider.dart';
-import 'package:grimity/presentation/home/hook/use_infinite_scroll_hook.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class FollowingFeedView extends HookConsumerWidget {
+class FollowingFeedView extends ConsumerWidget {
   const FollowingFeedView({super.key, required this.followFeedAppbar, required this.followingFeedListView});
 
   final Widget followFeedAppbar;
@@ -13,23 +13,17 @@ class FollowingFeedView extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final scrollController = useScrollController();
-
-    useInfiniteScrollHook(
-      ref: ref,
-      scrollController: scrollController,
-      loadFunction: () async => await ref.read(followingFeedDataProvider.notifier).loadMore(),
-    );
-
     return NestedScrollView(
       headerSliverBuilder: (context, innerBoxIsScrolled) => [followFeedAppbar],
       body: GrimityRefreshIndicator(
         onRefresh: () async {
           await Future.wait([ref.refresh(followingFeedDataProvider.future)]);
         },
-        child: CustomScrollView(
-          controller: scrollController,
-          slivers: [SliverToBoxAdapter(child: followingFeedListView)],
+        child: InfiniteScrollPagination(
+          isEnabled: ref.watch(followingFeedDataProvider).valueOrNull?.nextCursor != null,
+          loadingIndicator: GrimityLoadingIndicator.loadMore(),
+          onLoadMore: ref.read(followingFeedDataProvider.notifier).loadMore,
+          child: CustomScrollView(slivers: [SliverToBoxAdapter(child: followingFeedListView)]),
         ),
       ),
     );
