@@ -47,6 +47,9 @@ jobs:
           channel: stable
           flutter-version: 3.35.7
 
+      - name: FlutterFire CLI 설치
+        run: dart pub global activate flutterfire_cli
+
       - name: 구성 파일 불러오기
         run: dart run git_config fetch --ssh
 
