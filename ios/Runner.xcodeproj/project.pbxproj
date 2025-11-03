@@ -225,8 +225,8 @@
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				F4B57E58F0B4672E6EA63762 /* [CP] Embed Pods Frameworks */,
 				FF7B6AA7FFC3CE648DC813E8 /* [CP] Copy Pods Resources */,
-				94E39E2E5FA8C64572EE1C1F /* FlutterFire: "flutterfire upload-crashlytics-symbols" */,
 				2803404EDA8AAEE0B47A6DC8 /* FlutterFire: "flutterfire bundle-service-file" */,
+				94E39E2E5FA8C64572EE1C1F /* FlutterFire: "flutterfire upload-crashlytics-symbols" */,
 			);
 			buildRules = (
 			);
