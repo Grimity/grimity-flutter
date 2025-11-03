@@ -3,10 +3,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/domain/entity/users.dart';
+import 'package:grimity/presentation/common/widget/grimity_infinite_scroll_pagination.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/common/widget/system/sort/grimity_search_sort_header.dart';
 import 'package:grimity/presentation/common/widget/user_card/grimity_user_card.dart';
-import 'package:grimity/presentation/home/hook/use_infinite_scroll_hook.dart';
 import 'package:grimity/presentation/search/provider/search_user_data_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -20,36 +20,35 @@ class SearchUserTabView extends HookConsumerWidget with SearchUserMixin {
     useAutomaticKeepAlive();
 
     return searchUserState(ref).when(
-      data:
-          (users) =>
-              users.users.isEmpty
-                  ? GrimityStateView.resultNull(title: '검색 결과가 없어요', subTitle: '다른 검색어를 입력해보세요')
-                  : _SearchResultUserView(users: users),
+      data: (data) {
+        final users = data.users;
+
+        if (users.isEmpty) {
+          return GrimityStateView.resultNull(title: '검색 결과가 없어요', subTitle: '다른 검색어를 입력해보세요');
+        }
+
+        return GrimityInfiniteScrollPagination(
+          isEnabled: data.nextCursor != null,
+          onLoadMore: searchUserNotifier(ref).loadMore,
+          child: _SearchResultUserView(users: data),
+        );
+      },
       loading: () => Skeletonizer(child: _SearchResultUserView(users: Users(users: User.emptyList, totalCount: 0))),
       error: (e, s) => GrimityStateView.error(onTap: () => invalidateSearchUser(ref)),
     );
   }
 }
 
-class _SearchResultUserView extends HookConsumerWidget with SearchUserMixin {
+class _SearchResultUserView extends StatelessWidget {
   const _SearchResultUserView({required this.users});
 
   final Users users;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final scrollController = useScrollController();
-
-    useInfiniteScrollHook(
-      ref: ref,
-      scrollController: scrollController,
-      loadFunction: () async => await searchUserNotifier(ref).loadMore(),
-    );
-
+  Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16),
       child: CustomScrollView(
-        controller: scrollController,
         slivers: [
           SliverPadding(
             padding: EdgeInsets.symmetric(vertical: 8),

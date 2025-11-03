@@ -7,9 +7,9 @@ import 'package:grimity/app/enum/sort_type.enum.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/feeds.dart';
 import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
+import 'package:grimity/presentation/common/widget/grimity_infinite_scroll_pagination.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/common/widget/system/sort/grimity_search_sort_header.dart';
-import 'package:grimity/presentation/home/hook/use_infinite_scroll_hook.dart';
 import 'package:grimity/presentation/search/provider/search_feed_data_provider.dart';
 import 'package:grimity/presentation/search/provider/search_feed_sort_type_provider.dart';
 import 'package:grimity/presentation/search/provider/search_keyword_provider.dart';
@@ -25,36 +25,35 @@ class SearchFeedTabView extends HookConsumerWidget with SearchFeedMixin {
     useAutomaticKeepAlive();
 
     return searchFeedState(ref).when(
-      data:
-          (feeds) =>
-              feeds.feeds.isEmpty
-                  ? GrimityStateView.resultNull(title: '검색 결과가 없어요', subTitle: '다른 검색어를 입력해보세요')
-                  : _SearchResultFeedView(feeds: feeds),
+      data: (data) {
+        final feeds = data.feeds;
+
+        if (feeds.isEmpty) {
+          return GrimityStateView.resultNull(title: '검색 결과가 없어요', subTitle: '다른 검색어를 입력해보세요');
+        }
+
+        return GrimityInfiniteScrollPagination(
+          isEnabled: data.nextCursor != null,
+          onLoadMore: searchFeedNotifier(ref).loadMore,
+          child: _SearchResultFeedView(feeds: data),
+        );
+      },
       loading: () => Skeletonizer(child: _SearchResultFeedView(feeds: Feeds(feeds: Feed.emptyList, totalCount: 0))),
       error: (e, s) => GrimityStateView.error(onTap: () => invalidateSearchFeed(ref)),
     );
   }
 }
 
-class _SearchResultFeedView extends HookConsumerWidget with SearchFeedMixin {
+class _SearchResultFeedView extends StatelessWidget {
   const _SearchResultFeedView({required this.feeds});
 
   final Feeds feeds;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final scrollController = useScrollController();
-
-    useInfiniteScrollHook(
-      ref: ref,
-      scrollController: scrollController,
-      loadFunction: () async => await searchFeedNotifier(ref).loadMore(),
-    );
-
+  Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16),
       child: CustomScrollView(
-        controller: scrollController,
         slivers: [
           SliverPadding(
             padding: EdgeInsets.symmetric(vertical: 8),
