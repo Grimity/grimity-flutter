@@ -56,9 +56,7 @@ class PhotoSelect extends _$PhotoSelect {
   /// photo LoadMore
   Future<void> loadMore() async {
     final data = state.value;
-    if (data == null || data.isLoadingMore || !data.hasMore) return;
-
-    state = AsyncData(data.copyWith(isLoadingMore: true));
+    if (data == null || !data.hasMore) return;
 
     final nextPage = data.page + 1;
     final newAssets = await fetchPhotoUseCase.execute(nextPage);
@@ -68,11 +66,9 @@ class PhotoSelect extends _$PhotoSelect {
         final hasMore = newPhotos.length == 50;
         final updatedPhotos = [...data.photos, ...newPhotos];
 
-        state = AsyncData(data.copyWith(photos: updatedPhotos, page: nextPage, isLoadingMore: false, hasMore: hasMore));
+        state = AsyncData(data.copyWith(photos: updatedPhotos, page: nextPage, hasMore: hasMore));
       },
-      onFailure: (e) {
-        state = AsyncData(data.copyWith(isLoadingMore: false));
-      },
+      onFailure: (e) {},
     );
   }
 
@@ -141,7 +137,6 @@ abstract class PhotoSelectState with _$PhotoSelectState {
     @Default([]) List<ImageSourceItem> selected, // 선택된 이미지
     ImageSourceItem? thumbnailImage, // 썸네일 이미지
     @Default(0) int page,
-    @Default(false) bool isLoadingMore,
     @Default(true) bool hasMore,
   }) = _PhotoSelectState;
 }

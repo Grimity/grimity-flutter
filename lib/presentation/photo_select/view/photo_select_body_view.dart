@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grimity/presentation/common/widget/grimity_infinite_scroll_pagination.dart';
 import 'package:grimity/presentation/common/widget/grimity_loading_indicator.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/photo_select/provider/photo_select_provider.dart';
@@ -30,7 +31,13 @@ class PhotoSelectBodyView extends HookConsumerWidget with PhotoSelectMixin {
             // 선택적 권한인 경우 배너 표출
             if (!state.isAuth) PermissionRequestBanner(),
             if (state.selected.isNotEmpty) PhotoSelectedImageListView(state: state),
-            Expanded(child: PhotoSelectableGridView(galleryImages: state.photos, selectedImages: state.selected)),
+            Expanded(
+              child: GrimityInfiniteScrollPagination(
+                isEnabled: state.hasMore,
+                onLoadMore: photoNotifier(ref).loadMore,
+                child: PhotoSelectableGridView(galleryImages: state.photos, selectedImages: state.selected),
+              ),
+            ),
           ],
         );
       },
