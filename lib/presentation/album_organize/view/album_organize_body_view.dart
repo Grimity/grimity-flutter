@@ -7,9 +7,9 @@ import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/presentation/album_organize/provider/album_feed_data_provider.dart';
 import 'package:grimity/presentation/album_organize/provider/album_organize_provider.dart';
+import 'package:grimity/presentation/common/widget/grimity_infinite_scroll_pagination.dart';
 import 'package:grimity/presentation/common/widget/grimity_selectable_image_feed.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
-import 'package:grimity/presentation/home/hook/use_infinite_scroll_hook.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -20,40 +20,27 @@ class AlbumOrganizeBodyView extends HookConsumerWidget with AlbumOrganizeMixin {
   Widget build(BuildContext context, WidgetRef ref) {
     useAutomaticKeepAlive();
 
-    final scrollController = useScrollController();
     final state = albumOrganizeState(ref);
     final user = state.user;
     final currentAlbumId = state.currentAlbumId;
     final userAlbums = state.userAlbums;
     final albumFeeds = ref.watch(albumFeedDataProvider(user.id, currentAlbumId));
 
-    if (user.id.isNotEmpty) {
-      useInfiniteScrollHook(
-        ref: ref,
-        scrollController: scrollController,
-        loadFunction: () async {
-          final currentState = ref.read(albumFeedDataProvider(user.id, currentAlbumId)).valueOrNull;
-          if (currentState != null && currentState.nextCursor != null && currentState.nextCursor!.isNotEmpty) {
-            await ref.read(albumFeedDataProvider(user.id, currentAlbumId).notifier).loadMore();
-          }
-        },
-      );
-    }
-
-    return SingleChildScrollView(
-      controller: scrollController,
+    return GrimityInfiniteScrollPagination(
+      isEnabled: user.id.isNotEmpty && albumFeeds.valueOrNull?.nextCursor != null,
+      onLoadMore: ref.read(albumFeedDataProvider(user.id, currentAlbumId).notifier).loadMore,
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              currentAlbumId == null ? '전체 앨범' : userAlbums.firstWhere((e) => e.id == currentAlbumId).name,
-              style: AppTypeface.subTitle1.copyWith(color: AppColor.gray800),
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Text(
+                currentAlbumId == null ? '전체 앨범' : userAlbums.firstWhere((e) => e.id == currentAlbumId).name,
+                style: AppTypeface.subTitle1.copyWith(color: AppColor.gray800),
+              ),
             ),
-            Gap(16),
-            Padding(
-              padding: EdgeInsets.only(bottom: 52),
+            SliverToBoxAdapter(child: Gap(16)),
+            SliverToBoxAdapter(
               child: albumFeeds.when(
                 data: (data) => _buildSelectableFeedGrid(context, ref, feeds: data.feeds),
                 loading: () => Skeletonizer(child: _buildSelectableFeedGrid(context, ref, feeds: Feed.emptyList)),
