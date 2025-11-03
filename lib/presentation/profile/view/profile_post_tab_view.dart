@@ -23,13 +23,18 @@ class ProfilePostTabView extends HookConsumerWidget {
 
     return Padding(
       padding: EdgeInsets.only(left: 16.w, right: 16.w),
-      child: postsAsync.when(
-        data: (data) => _buildPostGrid(context, data),
-        loading: () => Skeletonizer(child: _buildPostGrid(context, Post.emptyList)),
-        error:
-            (error, stack) => ListView(
-              children: [GrimityStateView.error(onTap: () => ref.invalidate(profilePostsDataProvider(user.id)))],
+      child: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: postsAsync.when(
+              data: (data) => _buildPostGrid(context, data),
+              loading: () => Skeletonizer(child: _buildPostGrid(context, Post.emptyList)),
+              error:
+                  (error, stack) =>
+                      GrimityStateView.error(onTap: () => ref.invalidate(profilePostsDataProvider(user.id))),
             ),
+          ),
+        ],
       ),
     );
   }
@@ -44,17 +49,5 @@ class ProfilePostTabView extends HookConsumerWidget {
         onTap: () => PostUploadRoute().push(context),
       );
     }
-  }
-
-  double calculateAspectRatio(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final horizontalPadding = 32.w;
-    final crossAxisSpacing = 12.w;
-    final availableWidth = screenWidth - horizontalPadding;
-    final itemWidth = (availableWidth - crossAxisSpacing) / 2;
-
-    final textAreaHeight = 8 + (14.sp * 1.4) + 2 + (12.sp * 1.4);
-
-    return itemWidth / (itemWidth + textAreaHeight);
   }
 }
