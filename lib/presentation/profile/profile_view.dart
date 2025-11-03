@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_infinite_scroll_pagination/flutter_infinite_scroll_pagination.dart';
-import 'package:grimity/presentation/common/widget/grimity_loading_indicator.dart';
+import 'package:grimity/presentation/common/widget/grimity_infinite_scroll_pagination.dart';
 import 'package:grimity/presentation/common/widget/grimity_refresh_indicator.dart';
 import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
 import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
@@ -97,11 +96,10 @@ class ProfileView extends HookConsumerWidget {
                     ref.refresh(profileDataProvider(user.url).future),
                   ]);
                 },
-                child: InfiniteScrollPagination(
+                child: GrimityInfiniteScrollPagination(
                   isEnabled:
                       user.id.isNotEmpty &&
                       ref.watch(profileFeedsDataProvider(user.id)).valueOrNull?.nextCursor != null,
-                  loadingIndicator: GrimityLoadingIndicator.loadMore(),
                   onLoadMore: () => ref.read(profileFeedsDataProvider(user.id).notifier).loadMore(user.id),
                   child: feedTabView,
                 ),
@@ -115,13 +113,12 @@ class ProfileView extends HookConsumerWidget {
                       ref.refresh(profileDataProvider(user.url).future),
                     ]);
                   },
-                  child: InfiniteScrollPagination(
+                  child: GrimityInfiniteScrollPagination(
                     isEnabled:
                         (() {
                           final posts = ref.watch(profilePostsDataProvider(user.id)).valueOrNull;
                           return user.id.isNotEmpty && posts != null && posts.length % 10 == 0;
                         })(),
-                    loadingIndicator: GrimityLoadingIndicator.loadMore(),
                     onLoadMore: () => ref.read(profilePostsDataProvider(user.id).notifier).loadMore(user.id),
                     child: postTabView!,
                   ),

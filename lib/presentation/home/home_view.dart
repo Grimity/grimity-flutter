@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_infinite_scroll_pagination/flutter_infinite_scroll_pagination.dart';
 import 'package:gap/gap.dart';
-import 'package:grimity/presentation/common/widget/grimity_loading_indicator.dart';
+import 'package:grimity/presentation/common/widget/grimity_infinite_scroll_pagination.dart';
 import 'package:grimity/presentation/common/widget/grimity_refresh_indicator.dart';
 import 'package:grimity/presentation/home/provider/home_data_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -34,9 +33,8 @@ class HomeView extends ConsumerWidget {
             ref.refresh(latestFeedDataProvider.future),
           ]);
         },
-        child: InfiniteScrollPagination(
+        child: GrimityInfiniteScrollPagination(
           isEnabled: ref.watch(latestFeedDataProvider).valueOrNull?.nextCursor != null,
-          loadingIndicator: GrimityLoadingIndicator.loadMore(),
           onLoadMore: ref.read(latestFeedDataProvider.notifier).loadMore,
           child: CustomScrollView(
             slivers: [

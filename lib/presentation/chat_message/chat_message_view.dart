@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_infinite_scroll_pagination/flutter_infinite_scroll_pagination.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
@@ -8,6 +7,7 @@ import 'package:grimity/presentation/chat_message/provider/chat_message_provider
 import 'package:grimity/presentation/chat_message/view/chat_message_image_gallery.dart';
 import 'package:grimity/presentation/chat_message/view/chat_message_fragment.dart';
 import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
+import 'package:grimity/presentation/common/widget/grimity_infinite_scroll_pagination.dart';
 
 class ChatMessageView extends ConsumerWidget {
   const ChatMessageView({
@@ -42,7 +42,7 @@ class ChatMessageView extends ConsumerWidget {
 
                 return Stack(
                   children: [
-                    InfiniteScrollPagination(
+                    GrimityInfiniteScrollPagination(
                       isEnabled: data.value!.nextCursor != null,
                       onLoadMore: provider.loadMore,
                       reverse: true,

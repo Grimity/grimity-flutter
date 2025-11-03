@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_infinite_scroll_pagination/flutter_infinite_scroll_pagination.dart';
 import 'package:grimity/presentation/chat_new/provider/new_chat_provider.dart';
 import 'package:grimity/presentation/chat_new/view/new_chat_scroll_item_view.dart';
 import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
+import 'package:grimity/presentation/common/widget/grimity_infinite_scroll_pagination.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -50,7 +50,7 @@ class NewChatView extends StatelessWidget {
             children: [
               searchBarView,
               Expanded(
-                child: InfiniteScrollPagination(
+                child: GrimityInfiniteScrollPagination(
                   isEnabled: data.value!.nextCursor != null,
                   onLoadMore: ref.read(newChatProviderProvider.notifier).loadMore,
                   child: ListView.separated(
