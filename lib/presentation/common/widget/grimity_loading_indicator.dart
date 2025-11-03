@@ -16,6 +16,9 @@ class GrimityLoadingIndicator extends StatelessWidget {
   final bool useCenter;
   final EdgeInsetsGeometry padding;
 
+  // loadMore시 사용하는 로딩 위젯
+  factory GrimityLoadingIndicator.loadMore() => GrimityLoadingIndicator(padding: EdgeInsets.symmetric(vertical: 24));
+
   @override
   Widget build(BuildContext context) {
     final indicator = Padding(padding: padding, child: Lottie.asset(Assets.lottie.refresh, width: 24, height: 24));
