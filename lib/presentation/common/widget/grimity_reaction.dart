@@ -28,12 +28,7 @@ class GrimityReaction extends StatelessWidget {
     required int? likeCount,
     required int? viewCount,
     VoidCallback? onNameTap,
-  }) => GrimityReaction._(
-    name: name ?? '작성자 정보 없음',
-    likeCount: likeCount ?? 0,
-    viewCount: viewCount ?? 0,
-    onNameTap: onNameTap,
-  );
+  }) => GrimityReaction._(name: name, likeCount: likeCount ?? 0, viewCount: viewCount ?? 0, onNameTap: onNameTap);
 
   factory GrimityReaction.nameDateView({
     required String? name,
@@ -41,7 +36,7 @@ class GrimityReaction extends StatelessWidget {
     required int? viewCount,
     VoidCallback? onNameTap,
   }) => GrimityReaction._(
-    name: name ?? '작성자 정보 없음',
+    name: name,
     createdAt: createdAt ?? DateTime.now(),
     viewCount: viewCount ?? 0,
     onNameTap: onNameTap,
