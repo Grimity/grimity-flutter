@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_infinite_scroll_pagination/flutter_infinite_scroll_pagination.dart';
+import 'package:grimity/presentation/common/widget/grimity_loading_indicator.dart';
 import 'package:grimity/presentation/common/widget/grimity_refresh_indicator.dart';
 import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
 import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
@@ -9,7 +11,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/profile/widget/profile_app_bar.dart';
 import 'package:grimity/presentation/profile/widget/profile_tab_bar.dart';
-import 'package:grimity/presentation/home/hook/use_infinite_scroll_hook.dart';
 
 class ProfileView extends HookConsumerWidget {
   const ProfileView({
@@ -33,26 +34,6 @@ class ProfileView extends HookConsumerWidget {
     final nameOpacity = useState(0.0);
     final userProfileKey = useMemoized(() => GlobalKey());
     final tabController = useTabController(initialLength: postTabView == null ? 1 : 2);
-
-    if (user.id.isNotEmpty) {
-      useInfiniteScrollHook(
-        ref: ref,
-        scrollController: scrollController,
-        loadFunction: () async {
-          if (tabController.index == 0) {
-            final currentState = ref.read(profileFeedsDataProvider(user.id)).valueOrNull;
-            if (currentState != null && currentState.nextCursor != null && currentState.nextCursor!.isNotEmpty) {
-              await ref.read(profileFeedsDataProvider(user.id).notifier).loadMore(user.id);
-            }
-          } else if (tabController.index == 1) {
-            final currentState = ref.read(profilePostsDataProvider(user.id)).valueOrNull;
-            if (currentState != null && currentState.length >= 10) {
-              await ref.read(profilePostsDataProvider(user.id).notifier).loadMore(user.id);
-            }
-          }
-        },
-      );
-    }
 
     return SafeArea(
       child: NotificationListener<ScrollNotification>(
@@ -116,8 +97,16 @@ class ProfileView extends HookConsumerWidget {
                     ref.refresh(profileDataProvider(user.url).future),
                   ]);
                 },
-                child: feedTabView,
+                child: InfiniteScrollPagination(
+                  isEnabled:
+                      user.id.isNotEmpty &&
+                      ref.watch(profileFeedsDataProvider(user.id)).valueOrNull?.nextCursor != null,
+                  loadingIndicator: GrimityLoadingIndicator.loadMore(),
+                  onLoadMore: () => ref.read(profileFeedsDataProvider(user.id).notifier).loadMore(user.id),
+                  child: feedTabView,
+                ),
               ),
+
               if (postTabView != null)
                 GrimityRefreshIndicator(
                   onRefresh: () async {
@@ -126,7 +115,16 @@ class ProfileView extends HookConsumerWidget {
                       ref.refresh(profileDataProvider(user.url).future),
                     ]);
                   },
-                  child: postTabView!,
+                  child: InfiniteScrollPagination(
+                    isEnabled:
+                        (() {
+                          final posts = ref.watch(profilePostsDataProvider(user.id)).valueOrNull;
+                          return user.id.isNotEmpty && posts != null && posts.length % 10 == 0;
+                        })(),
+                    loadingIndicator: GrimityLoadingIndicator.loadMore(),
+                    onLoadMore: () => ref.read(profilePostsDataProvider(user.id).notifier).loadMore(user.id),
+                    child: postTabView!,
+                  ),
                 ),
             ],
           ),
