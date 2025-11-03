@@ -1,33 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/presentation/common/model/image_item_source.dart';
-import 'package:grimity/presentation/home/hook/use_infinite_scroll_hook.dart';
 import 'package:grimity/presentation/photo_select/provider/photo_select_provider.dart';
 import 'package:grimity/presentation/photo_select/widget/photo_asset_thumbnail_widget.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 /// 선택할 수 있는 이미지 ListView
-class PhotoSelectableGridView extends HookConsumerWidget with PhotoSelectMixin {
+class PhotoSelectableGridView extends StatelessWidget {
   final List<ImageSourceItem> selectedImages;
   final List<AssetEntity> galleryImages;
 
   const PhotoSelectableGridView({super.key, required this.selectedImages, required this.galleryImages});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final scrollController = useScrollController();
-
-    useInfiniteScrollHook(
-      ref: ref,
-      scrollController: scrollController,
-      loadFunction: () async => await photoNotifier(ref).loadMore(),
-    );
-
+  Widget build(BuildContext context) {
     return GridView.builder(
-      controller: scrollController,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         crossAxisSpacing: 2,
