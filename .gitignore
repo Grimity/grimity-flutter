@@ -334,3 +334,6 @@ android/app/src/*/google-services.json
 
 # Ignore about git config files
 FASTLANE.md
+
+# service account key for CI/CD automation
+/android/app/service-account.json
