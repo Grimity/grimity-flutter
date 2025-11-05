@@ -197,10 +197,19 @@ class PostUpload extends _$PostUpload {
       _updatePending(item.localPath, status: UploadStatus.uploading);
 
       try {
+        // 사이즈를 구하기 위한 이미지 디코딩
+        final decodedImage = await decodeImageFromList(await item.file.readAsBytes());
+
         // 1.Presigned URL 발급
         final urlResult = await getImageUploadUrlUseCase.execute(
-          GetImageUploadUrlRequest(type: PresignedType.post, ext: PresignedExt.webp),
+          GetImageUploadUrlRequest(
+            type: PresignedType.post,
+            ext: PresignedExt.webp,
+            width: decodedImage.width,
+            height: decodedImage.height,
+          ),
         );
+
         if (urlResult.isFailure) {
           _updatePending(item.localPath, status: UploadStatus.failed);
           ToastService.showError('이미지 업로드 주소 생성에 실패했습니다.');
