@@ -22,9 +22,11 @@ class GrimityCachedNetworkImage extends StatelessWidget {
   Widget build(BuildContext context) {
     int? cacheWidth, cacheHeight;
 
-    // 높이 기준으로 캐시 처리(임시)
+    // TODO: 높이 기준으로 캐시 처리(임시)
     if (true) {
       cacheHeight = height.cacheSize(context);
+    // TODO: 애널라이저 경고에 대한 임시 처리.
+    // ignore: dead_code
     } else {
       cacheWidth = width.cacheSize(context);
     }
