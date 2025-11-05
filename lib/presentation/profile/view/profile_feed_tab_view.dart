@@ -10,7 +10,7 @@ import 'package:grimity/domain/entity/album.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
+import 'package:grimity/presentation/common/widget/grimity_feed_grid.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/common/widget/system/sort/grimity_search_sort_header.dart';
 import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
@@ -72,21 +72,7 @@ class ProfileFeedTabView extends HookConsumerWidget {
 
   Widget _buildFeedGrid(BuildContext context, List<Feed> feeds) {
     if (feeds.isNotEmpty) {
-      return GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        padding: EdgeInsets.only(bottom: 20),
-        itemCount: feeds.length,
-        itemBuilder: (context, index) {
-          return GrimityImageFeed(feed: feeds[index], authorName: user.name);
-        },
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 12.w,
-          mainAxisSpacing: 20.w,
-          childAspectRatio: calculateAspectRatio(context),
-        ),
-      );
+      return Padding(padding: EdgeInsets.only(bottom: 20), child: GrimityFeedGrid(feeds: feeds));
     } else {
       if (viewType == ProfileViewType.other) {
         return GrimityStateView.resultNull(subTitle: '아직 업로드한 그림이 없어요');
@@ -141,18 +127,6 @@ class ProfileFeedTabView extends HookConsumerWidget {
       },
       padding: EdgeInsets.zero,
     );
-  }
-
-  double calculateAspectRatio(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final horizontalPadding = 32.w;
-    final crossAxisSpacing = 12.w;
-    final availableWidth = screenWidth - horizontalPadding;
-    final itemWidth = (availableWidth - crossAxisSpacing) / 2;
-
-    final textAreaHeight = 8 + (14.sp * 1.4) + 2 + (12.sp * 1.4);
-
-    return itemWidth / (itemWidth + textAreaHeight);
   }
 }
 
