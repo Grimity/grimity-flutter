@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:grimity/app/extension/image_extension.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_cached_network_image.dart';
@@ -69,10 +70,16 @@ class GrimityImage extends StatelessWidget {
         children: [
           GrimityCachedNetworkImage(
             imageUrl: imageUrl,
-            width:  width,
+            width: width,
             height: height,
             placeholder: (context, url) => Skeletonizer(child: SizedBox(width: width, height: height)),
-            errorWidget: (context, url, error) => Assets.images.imagePlaceholder.image(width: width, height: height),
+            errorWidget:
+                (context, url, error) => Assets.images.imagePlaceholder.image(
+                  width: width,
+                  height: height,
+                  cacheWidth: width.cacheSize(context),
+                  cacheHeight: height.cacheSize(context),
+                ),
           ),
           if (isLike != null) ...[
             Positioned.fill(
