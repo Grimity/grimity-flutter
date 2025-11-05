@@ -1,7 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_cached_network_image.dart';
 
 class GrimityProfileBackgroundImage extends StatelessWidget {
   const GrimityProfileBackgroundImage({super.key, this.url, this.height = 160.0});
@@ -12,7 +12,7 @@ class GrimityProfileBackgroundImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (url != null) {
-      return CachedNetworkImage(imageUrl: url!, fit: BoxFit.cover, width: double.maxFinite, height: height);
+      return GrimityCachedNetworkImage(imageUrl: url!, width: double.infinity, height: height);
     }
 
     return Container(
