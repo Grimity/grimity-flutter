@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/sort_type.enum.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/feeds.dart';
-import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
+import 'package:grimity/presentation/common/widget/grimity_feed_grid.dart';
 import 'package:grimity/presentation/common/widget/grimity_infinite_scroll_pagination.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/common/widget/system/sort/grimity_search_sort_header.dart';
@@ -59,7 +58,7 @@ class _SearchResultFeedView extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 8),
             sliver: SliverToBoxAdapter(child: _SearchFeedSortHeader(resultCount: feeds.totalCount ?? 0)),
           ),
-          SliverToBoxAdapter(child: _SearchFeedListView(feeds: feeds.feeds)),
+          _SearchFeedListView(feeds: feeds.feeds),
         ],
       ),
     );
@@ -103,23 +102,13 @@ class _SearchFeedListView extends ConsumerWidget with SearchFeedMixin {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final int rowCount = (feeds.length / 2).ceil();
     final searchKeyword = ref.watch(searchKeywordProvider);
 
-    return LayoutGrid(
-      columnSizes: [1.fr, 1.fr],
-      rowSizes: List.generate(rowCount, (_) => auto),
-      rowGap: 20,
-      columnGap: 12,
-      children: [
-        for (var feed in feeds)
-          GrimityImageFeed(
-            feed: feed,
-            keyword: searchKeyword,
-            onToggleLike:
-                () => searchFeedNotifier(ref).toggleLike(feedId: feed.id, like: feed.isLike == true ? false : true),
-          ),
-      ],
+    return GrimityFeedGrid.sliver(
+      feeds: feeds,
+      keyword: searchKeyword,
+      onToggleLike:
+          (feed) => searchFeedNotifier(ref).toggleLike(feedId: feed.id, like: feed.isLike == true ? false : true),
     );
   }
 }
