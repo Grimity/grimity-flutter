@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/feed.dart';
-import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
+import 'package:grimity/presentation/common/widget/grimity_feed_grid.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/home/provider/home_data_provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+
+class HomeLatestFeedTitle extends StatelessWidget {
+  const HomeLatestFeedTitle({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Text('최신 그림', style: AppTypeface.subTitle1),
+    );
+  }
+}
 
 class HomeLatestFeedView extends ConsumerWidget {
   const HomeLatestFeedView({super.key});
@@ -16,48 +26,19 @@ class HomeLatestFeedView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final latestFeed = ref.watch(latestFeedDataProvider);
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('최신 그림', style: AppTypeface.subTitle1),
-          const Gap(16),
-          latestFeed.when(
-            data: (data) => _LatestFeedListView(feeds: data.feeds),
-            loading: () => Skeletonizer(child: _LatestFeedListView(feeds: Feed.emptyList)),
-            error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(latestFeedDataProvider)),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _LatestFeedListView extends ConsumerWidget {
-  const _LatestFeedListView({required this.feeds});
-
-  final List<Feed> feeds;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final int rowCount = (feeds.length / 2).ceil();
-
-    return LayoutGrid(
-      columnSizes: [1.fr, 1.fr],
-      rowSizes: List.generate(rowCount, (_) => auto),
-      rowGap: 20,
-      columnGap: 12,
-      children: [
-        for (var feed in feeds)
-          GrimityImageFeed(
-            feed: feed,
+    return latestFeed.when(
+      data:
+          (data) => GrimityFeedGrid.sliver(
+            feeds: data.feeds,
             onToggleLike:
-                () => ref
+                (feed) => ref
                     .read(latestFeedDataProvider.notifier)
                     .toggleLike(feedId: feed.id, like: feed.isLike == true ? false : true),
           ),
-      ],
+      loading: () => SliverToBoxAdapter(child: Skeletonizer(child: GrimityFeedGrid(feeds: Feed.emptyList))),
+      error:
+          (e, s) =>
+              SliverToBoxAdapter(child: GrimityStateView.error(onTap: () => ref.invalidate(latestFeedDataProvider))),
     );
   }
 }
