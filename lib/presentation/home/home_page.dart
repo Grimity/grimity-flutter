@@ -20,6 +20,7 @@ class HomePage extends HookConsumerWidget {
       noticeView: const HomeNoticeView(),
       feedRankingView: const HomeFeedRankingView(),
       latestPostView: const HomeLatestPostView(),
+      latestFeedTitle: const HomeLatestFeedTitle(),
       latestFeedView: const HomeLatestFeedView(),
     );
   }

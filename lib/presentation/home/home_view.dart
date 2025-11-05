@@ -12,6 +12,7 @@ class HomeView extends ConsumerWidget {
     required this.noticeView,
     required this.feedRankingView,
     required this.latestPostView,
+    required this.latestFeedTitle,
     required this.latestFeedView,
   });
 
@@ -19,6 +20,7 @@ class HomeView extends ConsumerWidget {
   final Widget noticeView;
   final Widget feedRankingView;
   final Widget latestPostView;
+  final Widget latestFeedTitle;
   final Widget latestFeedView;
 
   @override
@@ -45,7 +47,9 @@ class HomeView extends ConsumerWidget {
               SliverToBoxAdapter(child: Gap(50)),
               SliverToBoxAdapter(child: latestPostView),
               SliverToBoxAdapter(child: Gap(50)),
-              SliverToBoxAdapter(child: latestFeedView),
+              SliverToBoxAdapter(child: latestFeedTitle),
+              SliverToBoxAdapter(child: Gap(16)),
+              SliverPadding(padding: EdgeInsets.symmetric(horizontal: 16), sliver: latestFeedView),
               SliverToBoxAdapter(child: Gap(16)),
             ],
           ),
