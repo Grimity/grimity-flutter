@@ -53,9 +53,17 @@ class UploadImage extends _$UploadImage {
     setUploading(true);
 
     try {
+      // 사이즈를 구하기 위한 이미지 디코딩
+      final decodedImage = await decodeImageFromList(await state.image!.readAsBytes());
+
       // Presigned URL 발급
       final presignedType = state.type == UploadImageType.profile ? PresignedType.profile : PresignedType.background;
-      final urlRequest = GetImageUploadUrlRequest(type: presignedType, ext: PresignedExt.webp);
+      final urlRequest = GetImageUploadUrlRequest(
+        type: presignedType,
+        ext: PresignedExt.webp,
+        width: decodedImage.width,
+        height: decodedImage.height,
+      );
       final urlResult = await getImageUploadUrlUseCase.execute(urlRequest);
 
       if (urlResult.isFailure) {

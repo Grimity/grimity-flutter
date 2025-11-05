@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:grimity/app/enum/presigned.enum.dart';
 import 'package:grimity/app/service/toast_service.dart';
@@ -11,17 +12,33 @@ import 'package:path_provider/path_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 class ImageUpload {
-  static Future<List<ImageUploadUrl>> uploadAssets(
-    List<ImageSourceItem> images,
-    PresignedType type,
-  ) async {
+  static Future<List<ImageUploadUrl>> uploadAssets(List<ImageSourceItem> images, PresignedType type) async {
     final imageAssets = images.whereType<AssetImageSource>().map((e) => e.asset).toList();
     if (imageAssets.isEmpty) return [];
 
-    final urlRequests = List.filled(
-      imageAssets.length,
-      GetImageUploadUrlRequest(type: type, ext: PresignedExt.webp),
+    // AssetEntity -> XFile 변환 (임시 파일 생성)
+    final xFileList = await _assetEntitiesToXFiles(imageAssets);
+    if (xFileList.contains(null)) {
+      ToastService.showError('이미지 파일을 읽을 수 없습니다.');
+      return [];
+    }
+
+    // 사이즈를 구하기 위한 이미지 디코딩 리스트
+    final decodedImageList = await Future.wait(
+      xFileList.map((image) async {
+        final bytes = await image!.readAsBytes();
+        return await decodeImageFromList(bytes);
+      }),
     );
+
+    final urlRequests = List.generate(imageAssets.length, (i) {
+      return GetImageUploadUrlRequest(
+        type: type,
+        ext: PresignedExt.webp,
+        width: decodedImageList[i].width,
+        height: decodedImageList[i].height,
+      );
+    });
 
     final urlResult = await getImageUploadUrlsUseCase.execute(urlRequests);
     if (urlResult.isFailure) {
@@ -29,14 +46,7 @@ class ImageUpload {
       return [];
     }
 
-    // 2. AssetEntity -> XFile 변환 (임시 파일 생성)
-    final xFileList = await _assetEntitiesToXFiles(imageAssets);
-    if (xFileList.contains(null)) {
-      ToastService.showError('이미지 파일을 읽을 수 없습니다.');
-      return [];
-    }
-
-    // 3. AWS 이미지 업로드
+    // AWS 이미지 업로드
     final uploadRequests = List.generate(
       urlResult.data.length,
       (index) => UploadImageRequest(url: urlResult.data[index].uploadUrl, filePath: xFileList[index]!.path),

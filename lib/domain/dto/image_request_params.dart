@@ -7,8 +7,12 @@ part 'image_request_params.g.dart';
 
 @freezed
 abstract class GetImageUploadUrlRequest with _$GetImageUploadUrlRequest {
-  const factory GetImageUploadUrlRequest({required PresignedType type, required PresignedExt ext}) =
-      _GetImageUploadUrlRequest;
+  const factory GetImageUploadUrlRequest({
+    required PresignedType type,
+    required PresignedExt ext,
+    required int width,
+    required int height,
+  }) = _GetImageUploadUrlRequest;
 
   factory GetImageUploadUrlRequest.fromJson(Map<String, dynamic> json) => _$GetImageUploadUrlRequestFromJson(json);
 }
