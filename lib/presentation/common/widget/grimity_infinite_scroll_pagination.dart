@@ -23,6 +23,7 @@ class GrimityInfiniteScrollPagination extends StatelessWidget {
   Widget build(BuildContext context) {
     return InfiniteScrollPagination(
       isEnabled: isEnabled,
+      preloadOffset: 500,
       loadingIndicator: GrimityLoadingIndicator.loadMore(),
       onLoadMore: onLoadMore,
       reverse: reverse,
