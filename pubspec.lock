@@ -730,10 +730,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_infinite_scroll_pagination
-      sha256: "9dd528306e3a76f154217842a9d5346caa7f73609b5493ee7dafb5c041b7b05c"
+      sha256: "9cbc9a3e4efebd6a574e084a15ef8057f5dece4e29cec1e7afc145d6ad9096fc"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "1.2.0"
   flutter_keyboard_visibility_linux:
     dependency: transitive
     description:

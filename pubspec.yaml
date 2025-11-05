@@ -35,7 +35,7 @@ dependencies:
   vsc_quill_delta_to_html: ^1.0.5
   flutter_quill_extensions: ^11.0.0
   custom_refresh_indicator: ^4.0.1
-  flutter_infinite_scroll_pagination: ^1.1.0
+  flutter_infinite_scroll_pagination: ^1.2.0
 
   # Annotation
   freezed_annotation: ^3.0.0
