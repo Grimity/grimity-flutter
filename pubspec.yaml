@@ -17,7 +17,6 @@ dependencies:
   cached_network_image: ^3.4.1
   carousel_slider: ^5.0.0
   flutter_animate: ^4.5.2
-  flutter_layout_grid: ^2.0.8
   flutter_screenutil: ^5.9.3
   flutter_svg: ^2.1.0
   fluttertoast: ^8.2.12
