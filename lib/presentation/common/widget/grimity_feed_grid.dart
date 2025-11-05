@@ -29,7 +29,11 @@ class GrimityFeedGrid extends StatelessWidget {
           final feed = feeds[index];
           return GrimityImageFeed(
             feed: feed,
-            onToggleLike: onToggleLike != null ? () => () => onToggleLike!(feed) : null,
+            onToggleLike: () {
+              if (onToggleLike != null) {
+                onToggleLike!(feed);
+              }
+            },
           );
         },
       );
@@ -45,7 +49,11 @@ class GrimityFeedGrid extends StatelessWidget {
         final feed = feeds[index];
         return GrimityImageFeed(
           feed: feed,
-          onToggleLike: onToggleLike != null ? () => () => onToggleLike!(feed) : null,
+          onToggleLike: () {
+            if (onToggleLike != null) {
+              onToggleLike!(feed);
+            }
+          },
         );
       },
     );
