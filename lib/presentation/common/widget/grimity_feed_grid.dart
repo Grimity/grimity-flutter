@@ -4,13 +4,14 @@ import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
 
 class GrimityFeedGrid extends StatelessWidget {
-  const GrimityFeedGrid({super.key, required this.feeds, this.onToggleLike, this.isSliver = false});
+  const GrimityFeedGrid({super.key, required this.feeds, this.onToggleLike, this.isSliver = false, this.keyword});
 
   final List<Feed> feeds;
   final void Function(Feed feed)? onToggleLike;
   final bool isSliver;
+  final String? keyword;
 
-  const GrimityFeedGrid.sliver({super.key, required this.feeds, this.onToggleLike}) : isSliver = true;
+  const GrimityFeedGrid.sliver({super.key, required this.feeds, this.onToggleLike, this.keyword}) : isSliver = true;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +30,7 @@ class GrimityFeedGrid extends StatelessWidget {
           final feed = feeds[index];
           return GrimityImageFeed(
             feed: feed,
+            keyword: keyword,
             onToggleLike: () {
               if (onToggleLike != null) {
                 onToggleLike!(feed);
@@ -49,6 +51,7 @@ class GrimityFeedGrid extends StatelessWidget {
         final feed = feeds[index];
         return GrimityImageFeed(
           feed: feed,
+          keyword: keyword,
           onToggleLike: () {
             if (onToggleLike != null) {
               onToggleLike!(feed);
