@@ -60,6 +60,11 @@ android {
             signingConfig = signingConfigs.getByName("keystore")
         }
 
+        getByName("profile") {
+            // `flutter run --profile`으로 빌드 할 때는 릴리스 키로 서명됩니다.
+            signingConfig = signingConfigs.getByName("keystore")
+        }
+
         debug {
             // `flutter run --debug`으로 빌드 할 때는 릴리스 키로 서명됩니다.
             signingConfig = signingConfigs.getByName("keystore")
