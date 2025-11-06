@@ -41,9 +41,10 @@ class ProfileFeedTabView extends HookConsumerWidget {
             : userAlbums.firstWhere((album) => album.id == selectedAlbumId).feedCount ?? 0;
 
     return Padding(
-      padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 12),
+      padding: EdgeInsets.only(left: 16.w, right: 16.w),
       child: CustomScrollView(
         slivers: [
+          SliverToBoxAdapter(child: SizedBox(height: 12)),
           SliverToBoxAdapter(
             child: Row(
               children: [
