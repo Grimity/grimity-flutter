@@ -13,6 +13,7 @@ import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_cached_network_image.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
 import 'package:grimity/presentation/common/widget/popup/grimity_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/common/widget/system/more/grimity_more_button.dart';
@@ -171,7 +172,7 @@ class _FollowingFeedCardImageCarousel extends StatelessWidget {
         final imageUrl = imageList[index];
         return Container(
           padding: EdgeInsets.only(left: index == 0 ? 16 : 4, right: index == imageList.length - 1 ? 16 : 4),
-          child: GestureDetector(
+          child: GrimityGesture(
             onTap: () {
               ImageViewerRoute(initialIndex: index, imageUrls: imageList).push(context);
             },

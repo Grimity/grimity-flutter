@@ -5,6 +5,7 @@ import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/extension/date_time_extension.dart';
 import 'package:grimity/data/model/chat/chat_response.dart';
 import 'package:grimity/presentation/chat/provider/chat_provider.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/system/check/grimity_check_box.dart';
 import 'package:grimity/presentation/common/widget/system/profile/grimity_user_image.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -28,8 +29,7 @@ class ChatScrollItem extends ConsumerWidget {
       value: idSelected,
       isVisible: isSelectMode,
       onSelect: () => provider.selectChat(model, !idSelected),
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
+      child: GrimityGesture(
         onTap: () {
           // 해당 채팅방 페이지로 이동.
           ChatMessageRoute(model.id).push(context);

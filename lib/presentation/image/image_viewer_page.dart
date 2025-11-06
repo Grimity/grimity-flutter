@@ -8,6 +8,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_cached_network_image.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:photo_view/photo_view.dart';
 
 class ImageViewerPage extends HookWidget {
@@ -25,8 +26,7 @@ class ImageViewerPage extends HookWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        leading: GestureDetector(
-          behavior: HitTestBehavior.translucent,
+        leading: GrimityGesture(
           onTap: () => context.pop(),
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
@@ -70,7 +70,7 @@ class ImageViewerPage extends HookWidget {
                   itemCount: imageUrls.length,
                   itemBuilder: (context, index) {
                     final isSelected = index == currentIndex.value;
-                    return GestureDetector(
+                    return GrimityGesture(
                       onTap: () => pageController.jumpToPage(index),
                       child: Container(
                         decoration: BoxDecoration(

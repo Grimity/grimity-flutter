@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/feed.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/grimity_image.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/presentation/common/widget/grimity_reaction.dart';
@@ -23,7 +24,7 @@ class GrimitySelectableImageFeed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return GrimityGesture(
       onTap: onToggleSelected,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

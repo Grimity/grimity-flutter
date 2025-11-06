@@ -3,6 +3,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 class GrimityCheckBox extends StatelessWidget {
   const GrimityCheckBox({super.key, required this.value, this.onChanged});
@@ -39,8 +40,7 @@ class GrimityCheckBox extends StatelessWidget {
     required String label,
     required VoidCallback onTap,
   }) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
+    return GrimityGesture(
       onTap: onTap,
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -65,8 +65,7 @@ class GrimityCheckBox extends StatelessWidget {
     required VoidCallback onSelect,
     required Widget child,
   }) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
+    return GrimityGesture(
       onTap: onSelect,
       child: IgnorePointer(
         ignoring: isVisible,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 /// 공통 더보기 버튼
 class GrimityMoreButton extends StatelessWidget {
@@ -15,8 +16,7 @@ class GrimityMoreButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
+    return GrimityGesture(
       onTap: onTap,
       child: Container(
         width: 30,

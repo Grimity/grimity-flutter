@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/text_field/grimity_text_field.dart';
 import 'package:grimity/presentation/common/widget/system/check/grimity_radio_button.dart';
 import 'package:grimity/presentation/report/provider/report_provider.dart';
@@ -97,7 +98,7 @@ class _ReportReasonTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return GrimityGesture(
       onTap: onTap,
       child: Row(
         spacing: 12,

@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/util/color_util.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/post_upload/widget/toolbar/parts/menu_archor_square.dart';
 import 'package:grimity/presentation/post_upload/widget/toolbar/parts/quill_toolbar_utils.dart';
 import 'package:grimity/gen/assets.gen.dart';
@@ -87,7 +88,7 @@ class ColorMenu extends HookWidget {
                   _colors.map((c) {
                     final isSelected = c.equalsHexCode(color);
 
-                    return GestureDetector(
+                    return GrimityGesture(
                       onTap: () {
                         final hex = c.toHexColor();
 

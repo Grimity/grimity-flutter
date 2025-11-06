@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 class ChatFloatingActionButton extends StatelessWidget {
   const ChatFloatingActionButton({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return GrimityGesture(
       onTap: () {
         // 새 메세지 보내기 페이지로 이동.
         NewChatRoute().push(context);

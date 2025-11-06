@@ -13,6 +13,7 @@ import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/button/grimity_follow_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_cached_network_image.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/grimity_reaction.dart';
 import 'package:grimity/presentation/common/widget/popup/grimity_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/common/widget/system/more/grimity_more_button.dart';
@@ -151,7 +152,7 @@ class _FeedImageListSection extends StatelessWidget {
           itemCount: imageUrls.length,
           itemBuilder: (context, index) {
             final imageUrl = imageUrls[index];
-            return GestureDetector(
+            return GrimityGesture(
               onTap: () {
                 ImageViewerRoute(initialIndex: index, imageUrls: imageUrls).push(context);
               },

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/data/model/user/follow_user_response.dart';
 import 'package:grimity/presentation/chat_new/provider/new_chat_provider.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/system/check/grimity_radio_button.dart';
 import 'package:grimity/presentation/common/widget/system/profile/grimity_user_profile.dart';
 
@@ -22,8 +23,7 @@ class NewChatScrollItemView extends ConsumerWidget {
 
     final isSelected = data.value!.selectedUserId == model.id;
 
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
+    return GrimityGesture(
       onTap: () {
         // 메세지를 보낼 대상으로 선택하기.
         provider.select(model);

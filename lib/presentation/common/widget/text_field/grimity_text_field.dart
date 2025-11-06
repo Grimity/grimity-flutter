@@ -6,6 +6,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/grimity.enum.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 class GrimityTextField extends HookWidget {
   const GrimityTextField.normal({
@@ -170,7 +171,7 @@ class GrimityTextField extends HookWidget {
       return Assets.icons.common.checkMark.svg();
     } else if (state == GrimityTextFieldState.disabled) {
       if (enabled == false) {
-        return GestureDetector(
+        return GrimityGesture(
           onTap: onEdit,
           child: Text('수정', style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
         );
@@ -179,12 +180,12 @@ class GrimityTextField extends HookWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            GestureDetector(
+            GrimityGesture(
               onTap: onCancel,
               child: Text('취소', style: AppTypeface.caption2.copyWith(color: AppColor.gray700)),
             ),
             Gap(24),
-            GestureDetector(
+            GrimityGesture(
               onTap: onSave,
               child: Text('완료', style: AppTypeface.caption2.copyWith(color: AppColor.main)),
             ),

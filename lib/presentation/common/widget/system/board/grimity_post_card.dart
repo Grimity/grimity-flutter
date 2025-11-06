@@ -6,6 +6,7 @@ import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/post_type.enum.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/grimity_highlight_text_span.dart';
 import 'package:grimity/presentation/common/widget/grimity_reaction.dart';
 import 'package:grimity/presentation/common/widget/system/chip/grimity_chip.dart';
@@ -20,7 +21,7 @@ class GrimityPostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return GrimityGesture(
       onTap: () => PostDetailRoute(id: post.id).push(context),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 16),

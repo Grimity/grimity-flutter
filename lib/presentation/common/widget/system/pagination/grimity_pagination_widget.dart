@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 /// 페이지네이션 페이지 표시를 위한 위젯
 ///
@@ -40,7 +41,7 @@ class GrimityPaginationWidget extends StatelessWidget {
           if (currentPage > 1)
             IconButton(onPressed: () => onPageSelected(currentPage - 1), icon: Icon(Icons.chevron_left, size: 24.w)),
           ..._getPageNumbers(currentPage: currentPage, totalPages: totalPages).map(
-            (page) => GestureDetector(
+            (page) => GrimityGesture(
               onTap: () {
                 if (page != currentPage) {
                   onPageSelected(page);

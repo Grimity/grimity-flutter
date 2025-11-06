@@ -7,6 +7,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/link.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/popup/grimity_select_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/common/widget/text_field/grimity_text_field.dart';
 import 'package:grimity/presentation/profile/enum/link_type_enum.dart';
@@ -29,8 +30,7 @@ class ProfileEditLink extends HookConsumerWidget {
           children: [
             Text("외부 링크", style: AppTypeface.caption1),
             const Spacer(),
-            GestureDetector(
-              behavior: HitTestBehavior.translucent,
+            GrimityGesture(
               onTap: () => profileEditNotifier.toggleLinkEditing(),
               child: Text(
                 profileEdit.isLinkEditing ? "완료" : "순서 편집",
@@ -76,7 +76,7 @@ class ProfileEditLink extends HookConsumerWidget {
           },
         ),
         Gap(10),
-        GestureDetector(
+        GrimityGesture(
           onTap:
               () => GrimitySelectModalBottomSheet.show(
                 context,
@@ -215,7 +215,7 @@ class LinkWidget extends HookConsumerWidget {
               child: Assets.icons.profileEdit.dragAndDrop.svg(width: 20, height: 20),
             ),
           ] else ...[
-            GestureDetector(
+            GrimityGesture(
               onTap: () => profileEditNotifier.deleteLink(link),
               child: Assets.icons.profileEdit.delete.svg(width: 20, height: 20),
             ),

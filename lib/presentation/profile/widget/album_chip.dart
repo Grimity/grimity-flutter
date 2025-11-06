@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 class AlbumChip extends StatelessWidget {
   const AlbumChip({super.key, required this.title, this.amount, required this.onTap, this.isSelected = false});
@@ -15,8 +16,7 @@ class AlbumChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
+    return GrimityGesture(
       onTap: onTap,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.w),

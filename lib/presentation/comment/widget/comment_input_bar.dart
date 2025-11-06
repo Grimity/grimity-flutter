@@ -7,6 +7,7 @@ import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/comment/enum/comment_type.dart';
 import 'package:grimity/presentation/comment/provider/comment_input_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CommentInputBar extends HookConsumerWidget {
@@ -87,7 +88,7 @@ class CommentInputBar extends HookConsumerWidget {
                     onChanged: (content) => notifier.updateContent(content),
                   ),
                 ),
-                GestureDetector(
+                GrimityGesture(
                   onTap:
                       !isNotEmpty || state.uploading
                           ? null

@@ -6,6 +6,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/util/share_util.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 enum ShareContentType { feed, post, profile }
 
@@ -82,7 +83,7 @@ class GrimityShareModalBottomSheet extends StatelessWidget {
             children: [
               Text("게시글 공유하기", style: AppTypeface.subTitle3),
               const Spacer(),
-              GestureDetector(onTap: () => context.pop(), child: Assets.icons.common.close.svg(width: 24, height: 24)),
+              GrimityGesture(onTap: () => context.pop(), child: Assets.icons.common.close.svg(width: 24, height: 24)),
             ],
           ),
           Gap(16),
@@ -152,7 +153,7 @@ class _BottomSheetButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return GrimityGesture(
       onTap: onTap,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 11, horizontal: 16),

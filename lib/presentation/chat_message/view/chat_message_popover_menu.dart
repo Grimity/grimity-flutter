@@ -4,6 +4,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/ux/popover.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/chat_message/provider/chat_message_provider.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 class ChatMessagePopoverMenu extends ConsumerWidget {
   const ChatMessagePopoverMenu({
@@ -47,8 +48,7 @@ class ChatMessagePopoverMenu extends ConsumerWidget {
     required SvgGenImage icon,
     required VoidCallback onTap,
   }) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
+    return GrimityGesture(
       onTap: onTap,
       child: Container(
         padding: EdgeInsets.all(8),

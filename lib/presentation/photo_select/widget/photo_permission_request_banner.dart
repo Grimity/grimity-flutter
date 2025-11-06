@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 class PermissionRequestBanner extends StatelessWidget {
@@ -18,7 +19,7 @@ class PermissionRequestBanner extends StatelessWidget {
             '권한 설정에서 모든 사진 접근 권한을 허용하면 더 많은 그림을 선택해 업로드 할 수 있어요',
             style: AppTypeface.label3.copyWith(color: AppColor.gray600),
           ),
-          GestureDetector(
+          GrimityGesture(
             onTap: () => PhotoManager.openSetting(),
             child: Row(
               children: [

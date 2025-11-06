@@ -6,6 +6,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 /// 공통 선택 모달 바텀 시트
 class GrimitySelectModalBottomSheet extends ConsumerWidget {
@@ -71,7 +72,7 @@ class GrimitySelectModalBottomSheet extends ConsumerWidget {
             children: [
               titleNode,
               const Spacer(),
-              GestureDetector(onTap: () => context.pop(), child: Assets.icons.common.close.svg(width: 24, height: 24)),
+              GrimityGesture(onTap: () => context.pop(), child: Assets.icons.common.close.svg(width: 24, height: 24)),
             ],
           ),
           Gap(24),
@@ -94,7 +95,7 @@ class GrimitySelectModalBottomSheet extends ConsumerWidget {
           ),
           Gap(24),
           if (onSave != null) ...[
-            GestureDetector(
+            GrimityGesture(
               onTap: onSave,
               child: Container(
                 decoration: BoxDecoration(color: AppColor.primary4, borderRadius: BorderRadius.circular(10)),
@@ -150,7 +151,7 @@ class _SelectBottomSheetButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return GrimityGesture(
       onTap: isDisabled ? null : onTap,
       child: Container(
         height: 52,

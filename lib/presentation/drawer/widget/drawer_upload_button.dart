@@ -3,14 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 class DrawerUploadButton extends StatelessWidget {
   const DrawerUploadButton({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
+    return GrimityGesture(
       onTap: () {
         Scaffold.of(context).closeEndDrawer();
         FeedUploadRoute().push(context);

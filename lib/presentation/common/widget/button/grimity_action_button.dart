@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/app/config/app_color.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 /// Action 에서 사용 되는 버튼
 class GrimityActionButton extends StatelessWidget {
@@ -35,10 +36,10 @@ class GrimityActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!showBadge) {
-      return GestureDetector(onTap: onTap, child: icon.svg(width: 24.w, height: 24.w));
+      return GrimityGesture(onTap: onTap, child: icon.svg(width: 24.w, height: 24.w));
     }
 
-    return GestureDetector(
+    return GrimityGesture(
       onTap: onTap,
       child: Stack(
         children: [

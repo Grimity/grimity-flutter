@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_const.dart';
 import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/system/check/grimity_check_box.dart';
 import 'package:grimity/presentation/sign_up/provider/sign_up_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -24,7 +25,7 @@ class SignUpTermAgreeWidget extends ConsumerWidget {
         const Gap(8),
         Row(
           children: [
-            GestureDetector(
+            GrimityGesture(
               onTap: () async {
                 await launchUrl(Uri.parse(AppConst.serviceTermsUrl));
               },
@@ -34,7 +35,7 @@ class SignUpTermAgreeWidget extends ConsumerWidget {
               ),
             ),
             Text(' 과 ', style: AppTypeface.caption1.copyWith(color: AppColor.gray600)),
-            GestureDetector(
+            GrimityGesture(
               onTap: () async {
                 await launchUrl(Uri.parse(AppConst.privacyPolicyUrl));
               },

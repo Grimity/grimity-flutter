@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/text_field/grimity_text_field.dart';
 
 class PostAddLinkBottomSheet extends HookWidget {
@@ -58,7 +59,7 @@ class PostAddLinkBottomSheet extends HookWidget {
             children: [
               Text('링크 추가', style: AppTypeface.subTitle3),
               const Spacer(),
-              GestureDetector(onTap: () => context.pop(), child: Assets.icons.common.close.svg(width: 24, height: 24)),
+              GrimityGesture(onTap: () => context.pop(), child: Assets.icons.common.close.svg(width: 24, height: 24)),
             ],
           ),
           Gap(24),
@@ -77,8 +78,7 @@ class PostAddLinkBottomSheet extends HookWidget {
             ),
           ),
           Gap(24),
-          GestureDetector(
-            behavior: HitTestBehavior.translucent,
+          GrimityGesture(
             onTap: () {
               final text = textController.value.text.trim();
               final url = _normalizeUrl(urlController.value.text);

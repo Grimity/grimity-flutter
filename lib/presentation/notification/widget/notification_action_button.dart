@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 class NotificationActionButton extends StatelessWidget {
   const NotificationActionButton({super.key, required this.title, required this.onTap, required this.icon});
@@ -13,7 +14,7 @@ class NotificationActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return GrimityGesture(
       onTap: onTap,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,

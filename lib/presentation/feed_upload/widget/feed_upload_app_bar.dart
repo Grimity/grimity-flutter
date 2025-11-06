@@ -8,6 +8,7 @@ import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/dialog/cancel_upload_dialog.dart';
 import 'package:grimity/presentation/common/provider/album_provider.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/popup/grimity_select_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/feed_upload/provider/feed_upload_provider.dart';
 import 'package:grimity/presentation/feed_upload/widget/feed_upload_complete_dialog.dart';
@@ -21,8 +22,7 @@ class FeedUploadAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       toolbarHeight: AppTheme.kToolbarHeight.height,
       leading: Center(
-        child: GestureDetector(
-          behavior: HitTestBehavior.translucent,
+        child: GrimityGesture(
           onTap: () => showCancelUploadDialog(context),
           child: Assets.icons.common.close.svg(width: 24.w, height: 24.w),
         ),
@@ -35,7 +35,7 @@ class FeedUploadAppBar extends StatelessWidget implements PreferredSizeWidget {
             data: (albums) {
               final selectedAlbum = albums.firstWhere((e) => e.id == ref.watch(feedUploadProvider).albumId);
 
-              return GestureDetector(
+              return GrimityGesture(
                 onTap:
                     () => GrimitySelectModalBottomSheet.show(
                       context,

@@ -4,6 +4,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/extension/date_time_extension.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
 
 class GrimityReaction extends StatelessWidget {
@@ -57,7 +58,7 @@ class GrimityReaction extends StatelessWidget {
       children: [
         if (name != null) ...[
           Flexible(
-            child: GestureDetector(
+            child: GrimityGesture(
               onTap: onNameTap,
               child: Text(
                 name!,
