@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide AppBar;
+import 'package:flutter_appbar/flutter_appbar.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:grimity/presentation/common/widget/grimity_infinite_scroll_pagination.dart';
 import 'package:grimity/presentation/common/widget/grimity_refresh_indicator.dart';
@@ -29,7 +30,6 @@ class ProfileView extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final scrollController = useScrollController();
     final nameOpacity = useState(0.0);
     final userProfileKey = useMemoized(() => GlobalKey());
     final tabController = useTabController(initialLength: postTabView == null ? 1 : 2);
@@ -38,9 +38,8 @@ class ProfileView extends HookConsumerWidget {
       child: NotificationListener<ScrollNotification>(
         onNotification: (scrollNotification) {
           if (scrollNotification is ScrollUpdateNotification) {
-            final offset = scrollController.offset;
-
             final RenderBox? renderBox = userProfileKey.currentContext?.findRenderObject() as RenderBox?;
+            final double offset = scrollNotification.metrics.pixels;
 
             if (renderBox != null) {
               final profileHeight = renderBox.size.height;
@@ -70,19 +69,19 @@ class ProfileView extends HookConsumerWidget {
           }
           return false;
         },
-        child: NestedScrollView(
-          controller: scrollController,
-          headerSliverBuilder: (context, innerBoxScrolled) {
-            return [
-              ProfileAppBar(userName: user.name, nameOpacity: nameOpacity.value, viewType: viewType),
-              SliverToBoxAdapter(child: Container(key: userProfileKey, child: userProfileView)),
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: ProfileTabBar(user: user, tabController: tabController, viewType: viewType),
-              ),
-            ];
-          },
-          body: TabBarView(
+        child: AppBarConnection(
+          appBars: [
+            AppBar(
+              behavior: AbsoluteAppBarBehavior(),
+              body: ProfileAppBar(userName: user.name, nameOpacity: nameOpacity.value, viewType: viewType),
+            ),
+            AppBar(behavior: MaterialAppBarBehavior(), body: Container(key: userProfileKey, child: userProfileView)),
+            AppBar(
+              behavior: MaterialAppBarBehavior(floating: true),
+              body: ProfileTabBar(user: user, tabController: tabController, viewType: viewType),
+            ),
+          ],
+          child: TabBarView(
             controller: tabController,
             physics: const NeverScrollableScrollPhysics(),
             children: [

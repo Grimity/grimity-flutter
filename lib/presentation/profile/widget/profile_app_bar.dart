@@ -15,15 +15,11 @@ class ProfileAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverPersistentHeader(
-      pinned: true,
-      floating: false,
-      delegate: _ProfileAppBarDelegate(name: userName, nameOpacity: nameOpacity, viewType: viewType),
-    );
+    return _ProfileAppBarDelegate(name: userName, nameOpacity: nameOpacity, viewType: viewType);
   }
 }
 
-class _ProfileAppBarDelegate extends SliverPersistentHeaderDelegate {
+class _ProfileAppBarDelegate extends StatelessWidget {
   const _ProfileAppBarDelegate({required this.name, required this.nameOpacity, required this.viewType});
 
   final String name;
@@ -31,8 +27,9 @@ class _ProfileAppBarDelegate extends SliverPersistentHeaderDelegate {
   final ProfileViewType viewType;
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(BuildContext context) {
     return Container(
+      height: AppTheme.kToolbarHeight.height,
       color: Colors.white,
       alignment: Alignment.centerLeft,
       child: Row(
@@ -74,13 +71,4 @@ class _ProfileAppBarDelegate extends SliverPersistentHeaderDelegate {
       ),
     );
   }
-
-  @override
-  double get maxExtent => AppTheme.kToolbarHeight.height;
-
-  @override
-  double get minExtent => AppTheme.kToolbarHeight.height;
-
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) => true;
 }
