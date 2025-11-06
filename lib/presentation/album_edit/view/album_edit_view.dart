@@ -4,6 +4,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/presentation/album_edit/provider/album_edit_provider.dart';
 import 'package:grimity/presentation/album_edit/view/album_reorderable_list_view.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 
 class AlbumEditListView extends ConsumerWidget {
@@ -23,8 +24,7 @@ class AlbumEditListView extends ConsumerWidget {
             Text('앨범 목록', style: AppTypeface.caption1.copyWith(color: AppColor.gray800)),
             const Spacer(),
             if (albums.isNotEmpty)
-              GestureDetector(
-                behavior: HitTestBehavior.translucent,
+              GrimityGesture(
                 onTap: () => ref.read(albumEditProvider.notifier).toggleIsAlbumSorting(),
                 child: Text(
                   isSorting ? '완료' : '순서 편집',

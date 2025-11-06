@@ -7,6 +7,7 @@ import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/login_provider.enum.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -27,14 +28,14 @@ class SettingFooter extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  GestureDetector(
+                  GrimityGesture(
                     onTap: () async {
                       await launchUrl(Uri.parse(AppConst.privacyPolicyUrl));
                     },
                     child: Text('개인정보취급방침', style: AppTypeface.caption2.copyWith(color: AppColor.gray500)),
                   ),
                   GrimityGrayCircle(),
-                  GestureDetector(
+                  GrimityGesture(
                     onTap: () async {
                       await launchUrl(Uri.parse(AppConst.serviceTermsUrl));
                     },

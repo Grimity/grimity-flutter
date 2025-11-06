@@ -7,6 +7,7 @@ import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/presentation/common/enum/upload_image_type.dart';
 import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/popup/grimity_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/common/widget/system/profile/grimity_profile_background_image.dart';
 import 'package:grimity/presentation/profile_edit/provider/profile_edit_provider.dart';
@@ -44,7 +45,7 @@ class _ProfileEditBackgroundEditButton extends ConsumerWidget {
       bottom: 16,
       child: Align(
         alignment: Alignment.bottomRight,
-        child: GestureDetector(
+        child: GrimityGesture(
           onTap: isUploading ? null : () => _showBackgroundImageBottomSheet(context, ref),
           child: Container(
             width: 69.w,

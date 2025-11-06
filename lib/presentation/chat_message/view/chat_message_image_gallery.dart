@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/chat_message/provider/chat_message_provider.dart';
 import 'package:grimity/presentation/common/model/image_item_source.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/photo_select/widget/photo_asset_thumbnail_widget.dart';
 
 class ChatMessageImageGallery extends ConsumerWidget {
@@ -45,7 +46,7 @@ class ChatMessageImageGallery extends ConsumerWidget {
               // TODO: 이미지 선택 취소 버튼.
               Align(
                 alignment: Alignment.topRight,
-                child: GestureDetector(
+                child: GrimityGesture(
                   onTap: () => provider.removeInputImage(inputImage),
                   child: Padding(
                     padding: EdgeInsets.all(2),

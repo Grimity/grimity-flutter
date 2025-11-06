@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/presentation/common/model/image_item_source.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/photo_select/provider/photo_select_provider.dart';
 import 'package:grimity/presentation/photo_select/widget/photo_asset_thumbnail_widget.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -43,7 +44,7 @@ class _PhotoSelectableImageThumbnail extends ConsumerWidget with PhotoSelectMixi
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return GestureDetector(
+    return GrimityGesture(
       onTap: () => photoNotifier(ref).toggleImageSelection(ImageSourceItem.asset(asset)),
       child: Stack(
         children: [

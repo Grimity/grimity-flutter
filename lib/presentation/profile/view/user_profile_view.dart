@@ -16,6 +16,7 @@ import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/alert/grimity_dialog.dart';
 import 'package:grimity/presentation/common/widget/button/grimity_follow_button.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/popup/grimity_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/common/widget/system/more/grimity_more_button.dart';
 import 'package:grimity/presentation/common/widget/popup/grimity_share_modal_bottom_sheet.dart';
@@ -68,7 +69,7 @@ class UserProfileView extends ConsumerWidget {
       left: 53,
       child: Align(
         alignment: Alignment.topLeft,
-        child: GestureDetector(
+        child: GrimityGesture(
           onTap: () => context.push(ProfileEditRoute.path, extra: user),
           child: Container(
             width: 26,
@@ -194,7 +195,7 @@ class _UserProfile extends StatelessWidget {
   }
 
   Widget _buildUserFollowerCount(BuildContext context) {
-    return GestureDetector(
+    return GrimityGesture(
       onTap: viewType == ProfileViewType.mine ? () => FollowRoute().push(context) : null,
       child: Row(
         children: [
@@ -245,8 +246,7 @@ class _UserProfile extends StatelessWidget {
 
           return Padding(
             padding: EdgeInsets.only(bottom: index < 2 ? 6 : 0),
-            child: GestureDetector(
-              behavior: HitTestBehavior.translucent,
+            child: GrimityGesture(
               onTap: () async => await launchUrl(Uri.parse(e.link)),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -266,7 +266,7 @@ class _UserProfile extends StatelessWidget {
                         ),
                         if (index == 2 && user.links!.length > 3) ...[
                           Gap(12),
-                          GestureDetector(
+                          GrimityGesture(
                             onTap: () => showProfileLinkBottomSheet(context, user.links!),
                             child: Text(
                               '외 링크 ${user.links!.length - 3}개',

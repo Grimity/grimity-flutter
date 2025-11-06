@@ -8,6 +8,7 @@ import 'package:grimity/app/extension/date_time_extension.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_feed_grid.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/ranking/provider/popluar_feed_data_provider.dart';
 import 'package:grimity/presentation/ranking/provider/popular_feed_ranking_option_provider.dart';
@@ -36,7 +37,7 @@ class PopularFeedView extends ConsumerWidget {
             children:
                 FeedRankingType.values
                     .map(
-                      (type) => GestureDetector(
+                      (type) => GrimityGesture(
                         onTap: () => ref.read(popularFeedRankingOptionProvider.notifier).setType(type),
                         child: Container(
                           padding: EdgeInsets.symmetric(vertical: 8, horizontal: 14),
@@ -75,7 +76,7 @@ class PopularFeedView extends ConsumerWidget {
                           '${option.baseDate.oneWeekBeforeFormatted} - ${option.baseDate.isSameDay(DateTime.now()) ? '오늘' : option.baseDate.toYearMonthDay}',
                           style: AppTypeface.label2.copyWith(color: AppColor.gray700),
                         )
-                        : GestureDetector(
+                        : GrimityGesture(
                           onTap: () => MonthPickerBottomSheet.show(context, option.baseDate),
                           child: Row(
                             spacing: 6,
@@ -96,7 +97,7 @@ class PopularFeedView extends ConsumerWidget {
                 Row(
                   spacing: 12,
                   children: [
-                    GestureDetector(
+                    GrimityGesture(
                       onTap:
                           option.isPreviousAvailable
                               ? () => ref.read(popularFeedRankingOptionProvider.notifier).goToPrevious()
@@ -115,7 +116,7 @@ class PopularFeedView extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    GestureDetector(
+                    GrimityGesture(
                       onTap:
                           option.isNextAvailable
                               ? () => ref.read(popularFeedRankingOptionProvider.notifier).goToNext()

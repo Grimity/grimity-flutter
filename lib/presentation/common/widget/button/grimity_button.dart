@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 enum ButtonSize { large, medium, small, round }
 
@@ -405,8 +406,7 @@ class GrimityButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
+    return GrimityGesture(
       onTap: buttonStatus == ButtonStatus.on ? onTap : null,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),

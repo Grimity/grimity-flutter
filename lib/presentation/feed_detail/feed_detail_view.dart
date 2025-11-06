@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/domain/entity/feed.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/drawer/main_app_drawer.dart';
 
 class FeedDetailView extends HookWidget {
@@ -65,8 +66,7 @@ class FeedDetailView extends HookWidget {
     return Scaffold(
       endDrawer: MainAppDrawer(),
       body: SafeArea(
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
+        child: GrimityGesture(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Stack(
             children: [

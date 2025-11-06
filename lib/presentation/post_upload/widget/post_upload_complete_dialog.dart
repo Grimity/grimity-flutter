@@ -7,6 +7,7 @@ import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/alert/grimity_dialog.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 void showUploadCompleteDialog(BuildContext context, String link) {
   showDialog(
@@ -22,7 +23,7 @@ void showUploadCompleteDialog(BuildContext context, String link) {
             context.pop();
             context.pop();
           },
-          linkWidget: GestureDetector(
+          linkWidget: GrimityGesture(
             onTap: () {
               Clipboard.setData(ClipboardData(text: link));
               ToastService.show('링크가 복사되었어요');
@@ -48,7 +49,7 @@ void showUploadCompleteDialog(BuildContext context, String link) {
             spacing: 6,
             children: [
               Expanded(
-                child: GestureDetector(
+                child: GrimityGesture(
                   onTap: () {
                     /// TODO X 공유
                   },
@@ -71,7 +72,7 @@ void showUploadCompleteDialog(BuildContext context, String link) {
                 ),
               ),
               Expanded(
-                child: GestureDetector(
+                child: GrimityGesture(
                   onTap: () {
                     /// TODO 카카오톡 공유
                   },

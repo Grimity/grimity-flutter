@@ -5,6 +5,7 @@ import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_theme.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 class NotificationAppBar extends StatelessWidget implements PreferredSizeWidget {
   const NotificationAppBar({super.key});
@@ -16,7 +17,7 @@ class NotificationAppBar extends StatelessWidget implements PreferredSizeWidget 
       title: Text('알림', style: AppTypeface.subTitle3),
       titleSpacing: 0,
       actions: [
-        GestureDetector(
+        GrimityGesture(
           onTap: () => SettingRoute().push(context),
           child: Assets.icons.common.setting.svg(width: 24.w, height: 24.w),
         ),

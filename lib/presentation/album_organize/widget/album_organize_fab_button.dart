@@ -5,6 +5,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/album_organize/provider/album_organize_provider.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 class AlbumOrganizeFabButton extends ConsumerWidget with AlbumOrganizeMixin {
   const AlbumOrganizeFabButton({super.key, required this.title, required this.asset, required this.onTap});
@@ -18,7 +19,7 @@ class AlbumOrganizeFabButton extends ConsumerWidget with AlbumOrganizeMixin {
     final state = albumOrganizeState(ref);
     final activeButton = state.ids.isNotEmpty && !state.uploading;
 
-    return GestureDetector(
+    return GrimityGesture(
       onTap: activeButton ? onTap : null,
       child: Container(
         decoration: BoxDecoration(

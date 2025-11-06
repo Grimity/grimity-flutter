@@ -5,6 +5,7 @@ import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/model/image_item_source.dart';
 import 'package:grimity/presentation/common/widget/grimity_cached_network_image.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/feed_upload/provider/feed_upload_provider.dart';
 import 'package:grimity/presentation/feed_upload/widget/feed_upload_add_image_button.dart';
 import 'package:grimity/presentation/photo_select/widget/photo_asset_thumbnail_widget.dart';
@@ -84,7 +85,7 @@ class _FeedUploadSelectedImage extends StatelessWidget {
         Positioned(
           left: 8,
           top: 8,
-          child: GestureDetector(
+          child: GrimityGesture(
             onTap: isThumbnail ? null : () => onThumbnailTap.call(),
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
@@ -112,7 +113,7 @@ class _FeedUploadSelectedImage extends StatelessWidget {
         Positioned(
           right: 8,
           top: 8,
-          child: GestureDetector(
+          child: GrimityGesture(
             onTap: () => onRemoveTap.call(),
             child: Container(
               padding: EdgeInsets.all(4),

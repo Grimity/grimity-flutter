@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 class GrimityDialog extends Dialog {
   const GrimityDialog({
@@ -62,7 +63,7 @@ class GrimityDialog extends Dialog {
               children: [
                 if (cancelText != null) ...[
                   Expanded(
-                    child: GestureDetector(
+                    child: GrimityGesture(
                       onTap: onCancel ?? () => Navigator.of(context).pop(),
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: 11.h),
@@ -80,7 +81,7 @@ class GrimityDialog extends Dialog {
                 ],
                 if (confirmText != null) ...[
                   Expanded(
-                    child: GestureDetector(
+                    child: GrimityGesture(
                       onTap: onConfirm ?? () => Navigator.of(context).pop(),
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: 11.h),

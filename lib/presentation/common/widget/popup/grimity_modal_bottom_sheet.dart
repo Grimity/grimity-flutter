@@ -6,6 +6,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/report.enum.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 class GrimityModalBottomSheet extends StatelessWidget {
   final List<GrimityModalButtonModel> buttons;
@@ -32,8 +33,7 @@ class GrimityModalBottomSheet extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           ...buttons.map(
-            (button) => GestureDetector(
-              behavior: HitTestBehavior.translucent,
+            (button) => GrimityGesture(
               onTap: button.onTap,
               child: Container(
                 width: double.maxFinite,
@@ -82,7 +82,7 @@ class _BottomSheetButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return GrimityGesture(
       onTap: onTap,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 11, horizontal: 16),

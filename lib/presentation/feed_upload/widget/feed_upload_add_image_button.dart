@@ -5,13 +5,14 @@ import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/enum/upload_image_type.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 class FeedUploadAddImageButton extends StatelessWidget {
   const FeedUploadAddImageButton({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return GrimityGesture(
       onTap: () => PhotoSelectRoute(type: UploadImageType.feed).push(context),
       child: Container(
         width: 160,

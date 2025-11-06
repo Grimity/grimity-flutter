@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 class GrimityAnimationButton extends HookWidget {
   const GrimityAnimationButton({super.key, required this.child, required this.onTap});
@@ -12,8 +13,7 @@ class GrimityAnimationButton extends HookWidget {
   Widget build(BuildContext context) {
     final animationController = useAnimationController(duration: const Duration(milliseconds: 160));
 
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
+    return GrimityGesture(
       onTap: () {
         onTap();
         animationController.forward(from: 0);

@@ -11,6 +11,7 @@ import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_feed_grid.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/common/widget/system/sort/grimity_search_sort_header.dart';
 import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
@@ -87,7 +88,7 @@ class ProfileFeedTabView extends HookConsumerWidget {
   }
 
   Widget _buildAlbumEdit(BuildContext context, WidgetRef ref) {
-    return GestureDetector(
+    return GrimityGesture(
       onTap:
           () => AlbumEditRoute(user.albums ?? <Album>[]).push(context).then((_) => ref.invalidate(profileDataProvider)),
       child: Container(

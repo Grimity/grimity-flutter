@@ -6,6 +6,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/link.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/profile/enum/link_type_enum.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -40,7 +41,7 @@ class GrimityProfileLinkBottomSheet extends StatelessWidget {
             children: [
               Text("프로필 링크", style: AppTypeface.subTitle3),
               const Spacer(),
-              GestureDetector(onTap: () => context.pop(), child: Assets.icons.common.close.svg(width: 24, height: 24)),
+              GrimityGesture(onTap: () => context.pop(), child: Assets.icons.common.close.svg(width: 24, height: 24)),
             ],
           ),
           Gap(24),
@@ -70,8 +71,7 @@ class _LinkItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
+    return GrimityGesture(
       onTap: () async {
         if (link.linkName == '이메일') {
           await launchUrl(Uri.parse('mailto:${link.link}'));

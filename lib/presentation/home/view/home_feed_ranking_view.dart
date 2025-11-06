@@ -6,6 +6,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/feed.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/home/provider/home_data_provider.dart';
@@ -26,7 +27,7 @@ class HomeFeedRankingView extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('주간 랭킹', style: AppTypeface.subTitle1),
-              GestureDetector(
+              GrimityGesture(
                 onTap: () => RankingRoute().go(context),
                 child: Text('더보기', style: AppTypeface.caption1.copyWith(color: AppColor.gray600)),
               ),

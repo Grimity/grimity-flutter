@@ -8,6 +8,7 @@ import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/post_type.enum.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/dialog/cancel_upload_dialog.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/popup/grimity_select_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/post_upload/provider/post_upload_page_argument_provider.dart';
 import 'package:grimity/presentation/post_upload/provider/post_upload_provider.dart';
@@ -21,8 +22,7 @@ class PostUploadAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       toolbarHeight: AppTheme.kToolbarHeight.height,
       leading: Center(
-        child: GestureDetector(
-          behavior: HitTestBehavior.translucent,
+        child: GrimityGesture(
           onTap: () => showCancelUploadDialog(context),
           child: Assets.icons.common.close.svg(width: 24.w, height: 24.w),
         ),
@@ -31,7 +31,7 @@ class PostUploadAppBar extends StatelessWidget implements PreferredSizeWidget {
         builder: (context, ref, child) {
           final type = ref.watch(postUploadProvider).type;
 
-          return GestureDetector(
+          return GrimityGesture(
             onTap: () {
               GrimitySelectModalBottomSheet.show(
                 context,

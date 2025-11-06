@@ -4,6 +4,7 @@ import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/enum/upload_image_type.dart';
 import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/popup/grimity_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/common/widget/system/profile/grimity_profile_image.dart';
 import 'package:grimity/presentation/profile_edit/provider/upload_image_provider.dart';
@@ -21,8 +22,7 @@ class ProfileEditProfileImage extends ConsumerWidget {
       top: -40,
       child: Align(
         alignment: Alignment.topLeft,
-        child: GestureDetector(
-          behavior: HitTestBehavior.translucent,
+        child: GrimityGesture(
           onTap: isUploading ? null : () => _showProfileImageBottomSheet(context, ref),
           child: Stack(
             children: [

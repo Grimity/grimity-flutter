@@ -9,6 +9,7 @@ import 'package:grimity/data/model/user/user_base_response.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/chat_message/components/show_delete_chat_dialog.dart';
 import 'package:grimity/presentation/chat_message/provider/chat_message_provider.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/popup/grimity_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/common/widget/system/profile/grimity_user_image.dart';
 
@@ -85,8 +86,7 @@ class _BodyArea extends StatelessWidget {
         ),
 
         // 더보기 버튼 표시.
-        GestureDetector(
-          behavior: HitTestBehavior.opaque,
+        GrimityGesture(
           onTap: () => openBottomSheet(context),
           child: Container(
             width: 50,

@@ -6,6 +6,7 @@ import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/extension/date_time_extension.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/system/profile/grimity_user_profile.dart';
 import 'package:grimity/presentation/notification/provider/notification_data_provider.dart';
 import 'package:grimity/domain/entity/notification.dart';
@@ -46,7 +47,7 @@ class NotificationWidget extends ConsumerWidget {
               ),
             ),
             Gap(8),
-            GestureDetector(
+            GrimityGesture(
               onTap: () => notifier.deleteNotification(notification.id),
               child: Assets.icons.common.close.svg(
                 width: 20,

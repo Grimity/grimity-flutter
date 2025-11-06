@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_theme.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/profile_edit/provider/profile_edit_provider.dart';
 import 'package:grimity/presentation/profile_edit/widget/profile_edit_cancel_dialog.dart';
 
@@ -18,8 +19,7 @@ class ProfileEditAppBar extends ConsumerWidget implements PreferredSizeWidget {
     return AppBar(
       toolbarHeight: AppTheme.kToolbarHeight.height,
       leading: Center(
-        child: GestureDetector(
-          behavior: HitTestBehavior.translucent,
+        child: GrimityGesture(
           onTap: () {
             if (state.isSaved) {
               context.pop();

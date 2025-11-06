@@ -5,6 +5,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_theme.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 class ReportAppBar extends StatelessWidget implements PreferredSizeWidget {
   const ReportAppBar({super.key});
@@ -14,8 +15,7 @@ class ReportAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       toolbarHeight: AppTheme.kToolbarHeight.height,
       leading: Center(
-        child: GestureDetector(
-          behavior: HitTestBehavior.translucent,
+        child: GrimityGesture(
           onTap: () => context.pop(),
           child: Assets.icons.common.close.svg(width: 24.w, height: 24.w),
         ),

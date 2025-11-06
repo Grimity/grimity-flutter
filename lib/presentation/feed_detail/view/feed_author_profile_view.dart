@@ -7,6 +7,7 @@ import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/grimity_image.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/common/widget/system/profile/grimity_user_image.dart';
@@ -120,7 +121,7 @@ class _AuthorFeeds extends ConsumerWidget {
           ...feeds.map(
             (feed) => Row(
               children: [
-                GestureDetector(
+                GrimityGesture(
                   onTap: () => FeedDetailRoute(id: feed.id).push(context),
                   child: AspectRatio(aspectRatio: 1.0, child: GrimityImage.small(imageUrl: feed.thumbnail ?? '')),
                 ),
@@ -130,7 +131,7 @@ class _AuthorFeeds extends ConsumerWidget {
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 30),
-            child: GestureDetector(
+            child: GrimityGesture(
               onTap: () => ProfileRoute(url: url).go(context),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

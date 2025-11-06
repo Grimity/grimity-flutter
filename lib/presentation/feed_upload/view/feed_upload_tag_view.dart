@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/feed_upload/provider/feed_upload_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -32,8 +33,7 @@ class FeedUploadTagView extends HookConsumerWidget {
       return () => focusNode.removeListener(listener);
     }, [focusNode]);
 
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
+    return GrimityGesture(
       onTap: () {
         if (!focusNode.hasFocus) {
           focusNode.requestFocus();

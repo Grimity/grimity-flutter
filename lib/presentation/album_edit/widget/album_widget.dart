@@ -8,6 +8,7 @@ import 'package:grimity/domain/entity/album.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/album_edit/provider/album_edit_provider.dart';
 import 'package:grimity/presentation/album_edit/widget/album_delete_dialog.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/text_field/grimity_text_field.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -63,7 +64,7 @@ class AlbumWidget extends HookConsumerWidget {
                 child: Assets.icons.profileEdit.dragAndDrop.svg(width: 20, height: 20),
               ),
             ] else ...[
-              GestureDetector(
+              GrimityGesture(
                 onTap: () => showAlbumDeleteDialog(context, ref, album),
                 child: Assets.icons.common.close.svg(
                   width: 24.w,

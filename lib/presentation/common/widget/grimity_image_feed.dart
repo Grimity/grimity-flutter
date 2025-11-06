@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/feed.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/grimity_highlight_text_span.dart';
 import 'package:grimity/presentation/common/widget/grimity_image.dart';
 import 'package:grimity/presentation/common/widget/grimity_reaction.dart';
@@ -27,7 +28,7 @@ class GrimityImageFeed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return GrimityGesture(
       onTap: () => FeedDetailRoute(id: feed.id).push(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

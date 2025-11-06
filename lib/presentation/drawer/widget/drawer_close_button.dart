@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 class DrawerCloseButton extends StatelessWidget {
   const DrawerCloseButton({super.key});
@@ -9,7 +10,7 @@ class DrawerCloseButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.centerRight,
-      child: GestureDetector(
+      child: GrimityGesture(
         onTap: () => Scaffold.of(context).closeEndDrawer(),
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 16.h),

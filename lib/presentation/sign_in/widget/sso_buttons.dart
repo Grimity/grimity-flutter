@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 class AppleSSOButton extends StatelessWidget {
   const AppleSSOButton({super.key, required this.onTap});
@@ -48,8 +49,7 @@ class _SSOButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
+    return GrimityGesture(
       onTap: onTap,
       child: Container(
         width: 283,

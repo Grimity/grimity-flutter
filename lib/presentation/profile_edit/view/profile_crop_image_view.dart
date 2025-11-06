@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ProfileCropImageView extends HookConsumerWidget {
@@ -18,7 +19,7 @@ class ProfileCropImageView extends HookConsumerWidget {
       appBar: AppBar(
         backgroundColor: Colors.black,
         leading: Center(
-          child: GestureDetector(
+          child: GrimityGesture(
             onTap: () => context.pop(),
             child: Assets.icons.profileEdit.arrowLeft.svg(width: 24, height: 24),
           ),

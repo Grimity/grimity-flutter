@@ -11,6 +11,7 @@ import 'package:grimity/presentation/chat_message/provider/chat_message_provider
 import 'package:grimity/presentation/chat_message/view/chat_message_image_view.dart';
 import 'package:grimity/presentation/chat_message/view/chat_message_popover_menu.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 class ChatMessageFragment extends ConsumerStatefulWidget {
   const ChatMessageFragment({
@@ -66,7 +67,7 @@ class _ChatMessageFragmentState extends ConsumerState<ChatMessageFragment> {
           alignment: isMe ? Alignment.topRight : Alignment.topLeft,
           child: CompositedTransformTarget(
             link: layerLink,
-            child: GestureDetector(
+            child: GrimityGesture(
               onTap: () {
                 if (!isMe) {
                   // 좋아요, 답장과 같은 액션 버튼 표시.

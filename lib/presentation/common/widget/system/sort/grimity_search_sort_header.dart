@@ -3,6 +3,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/sort_type.enum.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 class GrimitySearchSortHeader extends StatelessWidget {
   const GrimitySearchSortHeader({
@@ -77,8 +78,7 @@ class _ArrangeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
+    return GrimityGesture(
       onTap: onTap,
       child: Row(
         spacing: 6,
