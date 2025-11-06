@@ -22,7 +22,7 @@ class GrimityProfileImage extends StatelessWidget {
           url?.isNotEmpty ?? false
               ? ClipRRect(
                 borderRadius: BorderRadius.circular(100),
-                child: GrimityCachedNetworkImage(imageUrl: url!, width: 80, height: 80),
+                child: GrimityCachedNetworkImage.cover(imageUrl: url!, width: 80, height: 80),
               )
               : Center(
                 child: Assets.icons.profile.person.svg(

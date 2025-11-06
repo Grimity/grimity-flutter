@@ -1,9 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/model/image_item_source.dart';
+import 'package:grimity/presentation/common/widget/grimity_cached_network_image.dart';
 import 'package:grimity/presentation/photo_select/provider/photo_select_provider.dart';
 import 'package:grimity/presentation/photo_select/widget/photo_asset_thumbnail_widget.dart';
 
@@ -55,11 +55,10 @@ class _PhotoSelectedImageThumbnail extends ConsumerWidget with PhotoSelectMixin 
                 child:
                     imageSource is AssetImageSource
                         ? PhotoAssetThumbnailWidget(asset: (imageSource as AssetImageSource).asset, size: 54)
-                        : CachedNetworkImage(
+                        : GrimityCachedNetworkImage.cover(
                           imageUrl: (imageSource as RemoteImageSource).url,
                           width: 54,
                           height: 54,
-                          fit: BoxFit.cover,
                         ),
               ),
             ),

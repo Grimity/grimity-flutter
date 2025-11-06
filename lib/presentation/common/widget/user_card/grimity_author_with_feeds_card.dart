@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/app/extension/image_extension.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/provider/author_with_feeds_provider.dart';
 import 'package:grimity/presentation/common/widget/button/grimity_button.dart';
@@ -60,7 +61,12 @@ class GrimityAuthorWithFeedsCard extends StatelessWidget {
                     ),
                   );
                 } else {
-                  return Expanded(child: AspectRatio(aspectRatio: 1, child: Assets.images.imagePlaceholder.image()));
+                  return Expanded(
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: Assets.images.imagePlaceholder.image(height: 110.h, cacheHeight: 110.h.cacheSize(context)),
+                    ),
+                  );
                 }
               }),
             ),

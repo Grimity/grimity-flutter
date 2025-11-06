@@ -12,7 +12,7 @@ class GrimityProfileBackgroundImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (url != null) {
-      return GrimityCachedNetworkImage(imageUrl: url!, width: double.infinity, height: height);
+      return GrimityCachedNetworkImage.cover(imageUrl: url!, width: double.infinity, height: height);
     }
 
     return Container(

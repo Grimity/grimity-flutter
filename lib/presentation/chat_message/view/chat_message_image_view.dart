@@ -1,15 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/widgets.dart';
+import 'package:grimity/app/extension/image_extension.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_cached_network_image.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class ChatMessageImageView extends StatelessWidget {
-  const ChatMessageImageView({
-    super.key,
-    required this.imageUrl,
-    this.width,
-    this.height,
-  });
+  const ChatMessageImageView({super.key, required this.imageUrl, this.width, this.height});
 
   final String imageUrl;
   final double? width;
@@ -25,16 +21,15 @@ class ChatMessageImageView extends StatelessWidget {
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
-      child: CachedNetworkImage(
-        width: width,
-        height: height,
+      child: GrimityCachedNetworkImage.cover(
+        width: w,
+        height: h,
         imageUrl: imageUrl,
-        fit: BoxFit.cover,
         placeholder: (context, url) {
           return Skeletonizer(child: SizedBox(width: w, height: h));
         },
         errorWidget: (context, error, stackTrace) {
-          return Assets.images.imagePlaceholder.image(width: w, height: h);
+          return Assets.images.imagePlaceholder.image(width: w, height: h, cacheWidth: w.cacheSize(context));
         },
       ),
     );

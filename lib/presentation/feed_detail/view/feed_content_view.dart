@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,10 +7,12 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/report.enum.dart';
+import 'package:grimity/app/extension/image_extension.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/button/grimity_follow_button.dart';
+import 'package:grimity/presentation/common/widget/grimity_cached_network_image.dart';
 import 'package:grimity/presentation/common/widget/grimity_reaction.dart';
 import 'package:grimity/presentation/common/widget/popup/grimity_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/common/widget/system/more/grimity_more_button.dart';
@@ -120,7 +121,11 @@ class _FeedAuthorInfoSection extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-              GrimityReaction.dateLikeView(createdAt: feed.createdAt, likeCount: feed.likeCount, viewCount: feed.viewCount),
+              GrimityReaction.dateLikeView(
+                createdAt: feed.createdAt,
+                likeCount: feed.likeCount,
+                viewCount: feed.viewCount,
+              ),
             ],
           ),
         ),
@@ -150,12 +155,14 @@ class _FeedImageListSection extends StatelessWidget {
               onTap: () {
                 ImageViewerRoute(initialIndex: index, imageUrls: imageUrls).push(context);
               },
-              child: CachedNetworkImage(
+              child: GrimityCachedNetworkImage.fitWidth(
                 imageUrl: imageUrl,
                 width: 343.w,
-                fit: BoxFit.fitWidth,
-                placeholder: (_, __) => Assets.images.imagePlaceholder.image(width: 343.w),
-                errorWidget: (_, __, ___) => Assets.images.imagePlaceholder.image(width: 343.w),
+                placeholder:
+                    (_, __) => Assets.images.imagePlaceholder.image(width: 343.w, cacheWidth: 343.w.cacheSize(context)),
+                errorWidget:
+                    (_, __, ___) =>
+                        Assets.images.imagePlaceholder.image(width: 343.w, cacheWidth: 343.w.cacheSize(context)),
               ),
             );
           },

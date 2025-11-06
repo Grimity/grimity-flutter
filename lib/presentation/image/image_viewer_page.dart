@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/widget/grimity_cached_network_image.dart';
 import 'package:photo_view/photo_view.dart';
 
 class ImageViewerPage extends HookWidget {
@@ -75,12 +76,7 @@ class ImageViewerPage extends HookWidget {
                         decoration: BoxDecoration(
                           border: isSelected ? Border.all(color: AppColor.main, width: 1) : null,
                         ),
-                        child: CachedNetworkImage(
-                          imageUrl: imageUrls[index],
-                          width: 48.h,
-                          height: 48.h,
-                          fit: BoxFit.cover,
-                        ),
+                        child: GrimityCachedNetworkImage.cover(imageUrl: imageUrls[index], width: 48.h, height: 48.h),
                       ),
                     );
                   },

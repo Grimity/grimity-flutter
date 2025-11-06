@@ -68,7 +68,7 @@ class GrimityImage extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       child: Stack(
         children: [
-          GrimityCachedNetworkImage(
+          GrimityCachedNetworkImage.cover(
             imageUrl: imageUrl,
             width: width,
             height: height,

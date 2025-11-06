@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,9 +8,11 @@ import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/report.enum.dart';
 import 'package:grimity/app/extension/date_time_extension.dart';
+import 'package:grimity/app/extension/image_extension.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
+import 'package:grimity/presentation/common/widget/grimity_cached_network_image.dart';
 import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
 import 'package:grimity/presentation/common/widget/popup/grimity_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/common/widget/system/more/grimity_more_button.dart';
@@ -177,11 +178,15 @@ class _FollowingFeedCardImageCarousel extends StatelessWidget {
             child: Stack(
               fit: StackFit.expand,
               children: [
-                CachedNetworkImage(
+                GrimityCachedNetworkImage.fitWidth(
                   imageUrl: imageUrl,
-                  fit: BoxFit.fitWidth,
-                  placeholder: (_, __) => Assets.images.imagePlaceholder.image(width: 343.w),
-                  errorWidget: (_, __, ___) => Assets.images.imagePlaceholder.image(width: 343.w),
+                  width: 343.w,
+                  placeholder:
+                      (_, __) =>
+                          Assets.images.imagePlaceholder.image(width: 343.w, cacheWidth: 343.w.cacheSize(context)),
+                  errorWidget:
+                      (_, __, ___) =>
+                          Assets.images.imagePlaceholder.image(width: 343.w, cacheWidth: 343.w.cacheSize(context)),
                 ),
                 Positioned(
                   right: 12,
