@@ -106,6 +106,8 @@ class GrimityCachedNetworkImage extends StatelessWidget {
       fit: fit,
       placeholder: placeholder,
       errorWidget: errorWidget,
+      fadeInDuration: Duration(milliseconds: 300),
+      fadeInCurve: Curves.easeInOut,
     );
   }
 
