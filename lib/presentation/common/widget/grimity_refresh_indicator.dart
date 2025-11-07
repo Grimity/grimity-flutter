@@ -1,8 +1,6 @@
-import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_refresh_indicator/flutter_refresh_indicator.dart';
 import 'package:grimity/app/service/toast_service.dart';
-import 'package:grimity/gen/assets.gen.dart';
-import 'package:lottie/lottie.dart';
 
 /// 공통 PullToRefresh 인디케이터
 class GrimityRefreshIndicator extends StatelessWidget {
@@ -24,30 +22,8 @@ class GrimityRefreshIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomRefreshIndicator(
+    return PullToRefresh(
       onRefresh: _runRefresh,
-      offsetToArmed: 60.0,
-      builder: (context, child, controller) {
-        const height = 60.0;
-        final val = controller.value.clamp(0.0, 1.0);
-        final step = (val * 10).floor().clamp(0, 9);
-        final state = controller.state;
-
-        final indicator = switch (state) {
-          IndicatorState.dragging ||
-          IndicatorState.armed => Assets.icons.refresh.values[step].svg(width: 24, height: 24),
-          IndicatorState.loading => Lottie.asset(Assets.lottie.refresh, width: 24, height: 24),
-          _ => const SizedBox.shrink(),
-        };
-
-        return Stack(
-          alignment: Alignment.topCenter,
-          children: [
-            SizedBox(height: height, child: indicator),
-            Transform.translate(offset: Offset(0, height * val), child: child),
-          ],
-        );
-      },
       child: child,
     );
   }
