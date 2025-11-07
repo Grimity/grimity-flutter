@@ -22,7 +22,7 @@ class DrawerProfile extends ConsumerWidget {
         Gap(2),
         Row(
           children: [
-            Text("팔로워", style: AppTypeface.label3.copyWith(color: AppColor.gray600)),
+            Text("팔로잉", style: AppTypeface.label3.copyWith(color: AppColor.gray600)),
             Gap(4),
             Text("${user?.followingCount}", style: AppTypeface.label2.copyWith(color: AppColor.gray700)),
             Gap(8),
