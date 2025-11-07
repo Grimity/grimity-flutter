@@ -1081,10 +1081,10 @@ packages:
     dependency: "direct dev"
     description:
       name: git_config
-      sha256: f7406176e77a4ef33521289f296ac9ffa16c6fbc61ac0cc27161b978c0285186
+      sha256: fd23152e6acf0401442cb27ff2c031b028379a4fe57d1f34ccb3ac242dc19b10
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0"
+    version: "1.1.0"
   glob:
     dependency: transitive
     description:
