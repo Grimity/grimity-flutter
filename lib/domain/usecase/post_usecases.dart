@@ -1,6 +1,7 @@
 import 'package:grimity/app/di/di_setup.dart';
 import 'package:grimity/domain/usecase/post/create_post_usecase.dart';
 import 'package:grimity/domain/usecase/post/delete_post_usecase.dart';
+import 'package:grimity/domain/usecase/post/get_notices_usecase.dart';
 import 'package:grimity/domain/usecase/post/get_posts_usecase.dart';
 import 'package:grimity/domain/usecase/post/get_post_detail_usecase.dart';
 import 'package:grimity/domain/usecase/post/like_post_usecase.dart';
@@ -12,6 +13,7 @@ import 'package:grimity/domain/usecase/post/update_post_usecase.dart';
 
 final createPostUseCase = getIt<CreatePostUseCase>();
 final getPostsUseCase = getIt<GetPostsUseCase>();
+final getNoticesUseCase = getIt<GetNoticesUseCase>();
 final searchPostsUseCase = getIt<SearchPostsUseCase>();
 final updatePostUseCase = getIt<UpdatePostUseCase>();
 final getPostDetailUseCase = getIt<GetPostDetailUseCase>();

@@ -28,7 +28,7 @@ class GrimityPostCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (showPostType && post.type != null) ...[GrimityChip.dark(PostType.valueToName(post.type!)), Gap(6)],
+            if (showPostType && post.type != null) ...[_buildPostTypeChip(post.type!), Gap(6)],
             Row(
               children: [
                 if (post.thumbnail != null) ...[Assets.icons.home.image.svg(width: 16, height: 16), const Gap(6)],
@@ -75,5 +75,10 @@ class GrimityPostCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildPostTypeChip(String type) {
+    final postType = PostType.fromString(type);
+    return postType.isLightChip ? GrimityChip.light(postType.typeName) : GrimityChip.dark(postType.typeName);
   }
 }

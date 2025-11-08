@@ -10,6 +10,8 @@ abstract class PostRepository {
 
   Future<Result<Posts>> getPosts(int page, int size, PostType type);
 
+  Future<Result<List<Post>>> getNotices();
+
   Future<Result<void>> updatePost(String id, CreatePostRequest request);
 
   Future<Result<Posts>> searchPosts(int page, int size, String keyword, SearchType searchBy);

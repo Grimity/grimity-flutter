@@ -3,6 +3,7 @@ import 'package:grimity/app/enum/post_type.enum.dart';
 import 'package:grimity/app/enum/search_type.enum.dart';
 import 'package:grimity/data/model/common/id_response.dart';
 import 'package:grimity/data/model/post/post_detail_response.dart';
+import 'package:grimity/data/model/post/post_response.dart';
 import 'package:grimity/data/model/post/posts_response.dart';
 import 'package:grimity/domain/dto/post_comments_request_params.dart';
 import 'package:injectable/injectable.dart';
@@ -21,6 +22,9 @@ abstract class PostAPI {
 
   @GET('/posts')
   Future<PostsResponse> getPosts(@Query('page') int page, @Query('size') int size, @Query('type') PostType type);
+
+  @GET('/posts/notices')
+  Future<List<PostResponse>> getNotices();
 
   @PUT('/posts/{id}')
   Future<void> updatePost(@Path('id') String id, @Body() CreatePostRequest request);
