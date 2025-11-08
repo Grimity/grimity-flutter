@@ -17,6 +17,10 @@ on:
         default: ""
         type: string
 
+env:
+  # 참고: 항상 최신 버전으로 유지하도록 패치 요망
+  FLUTTER_VERSION: 3.35.7
+
 jobs:
   deploy:
     runs-on: macos-latest
@@ -40,12 +44,17 @@ jobs:
       - name: Android SDK 설치
         uses: android-actions/setup-android@v3
 
+      - name: Flutter SDK 캐시
+        uses: actions/cache@v3
+        with:
+          path: /Users/runner/hostedtoolcache/flutter
+          key: ${{ runner.os }}-flutter-${{ env.FLUTTER_VERSION }}
+
       - name: Flutter 설치
         uses: subosito/flutter-action@v2
         with:
-          # 참고: 항상 최신 버전으로 유지하도록 패치 요망
           channel: stable
-          flutter-version: 3.35.7
+          flutter-version: ${{ env.FLUTTER_VERSION }}
 
       - name: FlutterFire CLI 설치
         run: dart pub global activate flutterfire_cli
