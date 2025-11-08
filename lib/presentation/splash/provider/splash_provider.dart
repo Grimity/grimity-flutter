@@ -1,5 +1,4 @@
 import 'package:grimity/app/config/app_router.dart';
-import 'package:grimity/app/static/push_notification.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/provider/user_subscribe_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -27,9 +26,6 @@ class Splash extends _$Splash {
       SignInRoute().push(ref.context);
       return;
     }
-
-    // 푸시 알림 초기화.
-    PushNotification.initializeAll();
 
     // 유저 정보 조회 성공 시 메인 화면으로 이동
     if (!ref.context.mounted) return;

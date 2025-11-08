@@ -1,4 +1,5 @@
 import 'package:grimity/app/enum/login_provider.enum.dart';
+import 'package:grimity/app/static/push_notification.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/domain/usecase/auth_usecases.dart';
 import 'package:grimity/domain/usecase/me_usecases.dart';
@@ -24,6 +25,9 @@ class UserAuth extends _$UserAuth {
     result.fold(
       onSuccess: (data) {
         state = data;
+
+        // 푸시 알림 초기화.
+        PushNotification.initializeAll();
       },
       onFailure: (error) {
         state = null;
@@ -52,6 +56,9 @@ class UserAuth extends _$UserAuth {
     result.fold(
       onSuccess: (data) {
         state = data;
+
+        // 푸시 알림 초기화.
+        PushNotification.initializeAll();
       },
       onFailure: (error) {
         if (error.toString().contains('USER')) {
