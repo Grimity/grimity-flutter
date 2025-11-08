@@ -8,7 +8,7 @@ enum PostType {
   @JsonValue('FEEDBACK')
   feedback('피드백'),
   @JsonValue('NOTICE')
-  notice('공지사항'),
+  notice('공지'),
   @JsonValue('ALL')
   all('전체');
 
@@ -38,19 +38,7 @@ enum PostType {
     }
   }
 
-  static String valueToName(String value) {
-    switch (value) {
-      case 'NORMAL':
-        return '일반';
-      case 'QUESTION':
-        return '질문';
-      case 'FEEDBACK':
-        return '피드백';
-      case 'NOTICE':
-        return '공지사항';
-      case 'ALL':
-        return '전체';
-    }
-    return '';
-  }
+  // Chip 스타일 구분
+  // 공지 사항의 경우 Light Chip 사용
+  bool get isLightChip => this == notice;
 }
