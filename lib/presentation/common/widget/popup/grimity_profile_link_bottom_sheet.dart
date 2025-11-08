@@ -31,12 +31,11 @@ class GrimityProfileLinkBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.only(left: 16, right: 16, bottom: 24 + MediaQuery.of(context).padding.bottom, top: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Gap(24),
           Row(
             children: [
               Text("프로필 링크", style: AppTypeface.subTitle3),
@@ -57,7 +56,6 @@ class GrimityProfileLinkBottomSheet extends StatelessWidget {
               },
             ),
           ),
-          Gap(24),
         ],
       ),
     );

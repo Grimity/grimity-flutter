@@ -62,12 +62,11 @@ class GrimitySelectModalBottomSheet extends ConsumerWidget {
     final titleNode = titleWidget ?? Text(title!, style: AppTypeface.subTitle3);
     final models = buttons ?? buttonsBuilder?.call(ref) ?? [];
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.only(left: 16, right: 16, bottom: 24 + MediaQuery.of(context).padding.bottom, top: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Gap(24),
           Row(
             children: [
               titleNode,
@@ -93,8 +92,8 @@ class GrimitySelectModalBottomSheet extends ConsumerWidget {
                       .toList(),
             ),
           ),
-          Gap(24),
           if (onSave != null) ...[
+            Gap(24),
             GrimityGesture(
               onTap: onSave,
               child: Container(
@@ -103,7 +102,6 @@ class GrimitySelectModalBottomSheet extends ConsumerWidget {
                 child: Center(child: Text('저장', style: AppTypeface.label2.copyWith(color: AppColor.gray00))),
               ),
             ),
-            Gap(24),
           ],
         ],
       ),
