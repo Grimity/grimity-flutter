@@ -149,7 +149,8 @@ class FeedUpload extends _$FeedUpload {
       // 4.2 update
       else {
         final remoteImages = state.images.whereType<RemoteImageSource>().map((e) => e.url).toList();
-        final remoteImageCards = remoteImages.map((e) => 'feed/${e.split('/').last}').toList();
+        // imageUrl 제거 처리 후 나머지 path 사용
+        final remoteImageCards = remoteImages.map((e) => e.replaceFirst(AppConfig.imageUrl, '')).toList();
         cards = [...remoteImageCards, ...cards];
 
         final updateFeedRequest = UpdateFeedUseCaseParam(
