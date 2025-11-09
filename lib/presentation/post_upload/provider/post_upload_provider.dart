@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/quill_delta.dart';
-import 'package:grimity/app/config/app_config.dart';
 import 'package:grimity/app/enum/post_type.enum.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/app/enum/presigned.enum.dart';
@@ -309,8 +308,8 @@ class PostUpload extends _$PostUpload {
   }
 
   /// 게시글 업로드
-  /// 성공 시 PostUrl, 실패 시 null
-  Future<String?> postUpload(QuillController controller) async {
+  /// 성공 시 Post, 실패 시 null
+  Future<Post?> postUpload(QuillController controller) async {
     if (!state.canUpload) {
       return null;
     }
@@ -327,15 +326,12 @@ class PostUpload extends _$PostUpload {
     }
 
     try {
-      String postUrl;
+      Post uploadedPost;
+      final content = DeltaUtil.deltaToHtml(state.contentData);
 
       // create
       if (state.postId == null) {
-        final createPostRequest = CreatePostRequest(
-          title: state.title,
-          content: DeltaUtil.deltaToHtml(state.contentData),
-          type: state.type,
-        );
+        final createPostRequest = CreatePostRequest(title: state.title, content: content, type: state.type);
 
         final createPostResult = await createPostUseCase.execute(createPostRequest);
         if (createPostResult.isFailure) {
@@ -343,17 +339,20 @@ class PostUpload extends _$PostUpload {
           return null;
         }
 
-        postUrl = AppConfig.buildPostUrl(createPostResult.data);
+        uploadedPost = Post(
+          id: createPostResult.data,
+          title: state.title,
+          type: state.type.toJson(),
+          createdAt: DateTime.now(),
+          content: content,
+          thumbnail: extractImageUrlFromHtml(content),
+        );
       }
       // update
       else {
         UpdatePostWithIdRequestParam request = UpdatePostWithIdRequestParam(
           id: state.postId!,
-          param: CreatePostRequest(
-            title: state.title,
-            content: DeltaUtil.deltaToHtml(state.contentData),
-            type: state.type,
-          ),
+          param: CreatePostRequest(title: state.title, content: content, type: state.type),
         );
 
         final createPostResult = await updatePostUseCase.execute(request);
@@ -362,8 +361,16 @@ class PostUpload extends _$PostUpload {
           return null;
         }
 
-        postUrl = AppConfig.buildPostUrl(state.postId!);
         ref.invalidate(postDetailDataProvider(state.postId!));
+
+        uploadedPost = Post(
+          id: state.postId!,
+          title: state.title,
+          type: state.type.toJson(),
+          createdAt: DateTime.now(),
+          content: content,
+          thumbnail: extractImageUrlFromHtml(content),
+        );
       }
 
       // Post와 관련된 provider 갱신되도록 처리
@@ -371,11 +378,22 @@ class PostUpload extends _$PostUpload {
       ref.invalidate(boardPostDataProvider);
       ref.invalidate(profilePostsDataProvider);
 
-      // PostUrl 반환
-      return postUrl;
+      return uploadedPost;
     } finally {
       _setUploading(false);
     }
+  }
+
+  /// HTML 문자열에서 첫 번째 이미지 URL(src)을 추출.
+  /// 없으면 null 반환.
+  String? extractImageUrlFromHtml(String html) {
+    final regex = RegExp(
+      r'<img[^>]+src="([^">]+)"', // img 태그의 src 속성값 추출
+      caseSensitive: false,
+    );
+
+    final match = regex.firstMatch(html);
+    return match?.group(1);
   }
 }
 
