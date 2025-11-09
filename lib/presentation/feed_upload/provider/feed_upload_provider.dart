@@ -105,8 +105,8 @@ class FeedUpload extends _$FeedUpload {
   }
 
   /// 피드 업로드
-  /// 성공 시 FeedUrl, 실패 시 null
-  Future<String?> feedUpload() async {
+  /// 성공 시 Feed, 실패 시 null
+  Future<Feed?> feedUpload() async {
     if (state.uploading ||
         state.images.isEmpty ||
         state.title.isEmpty ||
@@ -117,9 +117,10 @@ class FeedUpload extends _$FeedUpload {
     _setUploading(true);
 
     try {
-      final thumbnailIndex = state.images.indexOf(state.thumbnailImage ?? state.images.first);
-      String feedUrl;
+      // 업로드 된 후 Feed 정보
+      Feed? uploadedFeed;
       List<String> cards = [];
+      final thumbnailIndex = state.images.indexOf(state.thumbnailImage ?? state.images.first);
 
       if (state.images.isNotEmpty) {
         final urlResult = await ImageUpload.uploadAssets(state.images, PresignedType.feed);
@@ -129,12 +130,13 @@ class FeedUpload extends _$FeedUpload {
       // 4. 피드 생성/수정 요청
       // 4.1 create
       if (state.feedId == null) {
+        final thumbnail = cards[thumbnailIndex];
         final createFeedRequest = CreateFeedRequest(
           title: state.title,
           cards: cards,
           content: state.content,
           tags: state.tags,
-          thumbnail: cards[thumbnailIndex],
+          thumbnail: thumbnail,
           albumId: state.albumId == 'all' ? null : state.albumId,
         );
 
@@ -144,7 +146,14 @@ class FeedUpload extends _$FeedUpload {
           return null;
         }
 
-        feedUrl = AppConfig.buildFeedUrl(createFeedResult.data);
+        uploadedFeed = Feed(
+          id: createFeedResult.data,
+          title: state.title,
+          cards: cards.map((imagePath) => AppConfig.buildImageUrl(imagePath)).toList(),
+          content: state.content,
+          tags: state.tags,
+          thumbnail: AppConfig.buildImageUrl(thumbnail),
+        );
       }
       // 4.2 update
       else {
@@ -152,6 +161,7 @@ class FeedUpload extends _$FeedUpload {
         // imageUrl 제거 처리 후 나머지 path 사용
         final remoteImageCards = remoteImages.map((e) => e.replaceFirst(AppConfig.imageUrl, '')).toList();
         cards = [...remoteImageCards, ...cards];
+        final thumbnail = cards[thumbnailIndex];
 
         final updateFeedRequest = UpdateFeedUseCaseParam(
           id: state.feedId!,
@@ -160,7 +170,7 @@ class FeedUpload extends _$FeedUpload {
             cards: cards,
             content: state.content,
             tags: state.tags,
-            thumbnail: cards[thumbnailIndex],
+            thumbnail: thumbnail,
             albumId: state.albumId == 'all' ? null : state.albumId,
           ),
         );
@@ -171,8 +181,17 @@ class FeedUpload extends _$FeedUpload {
           return null;
         }
 
-        feedUrl = AppConfig.buildFeedUrl(state.feedId!);
+        // 업데이트의 경우 갱신
         ref.invalidate(feedDetailDataProvider(state.feedId!));
+
+        uploadedFeed = Feed(
+          id: state.feedId!,
+          title: state.title,
+          cards: cards.map((imagePath) => AppConfig.buildImageUrl(imagePath)).toList(),
+          content: state.content,
+          tags: state.tags,
+          thumbnail: AppConfig.buildImageUrl(thumbnail),
+        );
       }
 
       // Feed와 관련된 provider 갱신되도록 처리
@@ -180,8 +199,8 @@ class FeedUpload extends _$FeedUpload {
       ref.invalidate(profileDataProvider);
       ref.invalidate(profileFeedsDataProvider);
 
-      // FeedUrl 반환
-      return feedUrl;
+      // 업로드된 Feed 정보 반환
+      return uploadedFeed;
     } finally {
       _setUploading(false);
     }

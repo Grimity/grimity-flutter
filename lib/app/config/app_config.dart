@@ -25,12 +25,15 @@ class AppConfig {
   /// 기본 썸네일 Url
   static String get defaultThumbnailUrl => '${instance._baseUrl}image/thumbnail-default.png';
 
-  /// FeedUrl (ApiUrl + feeds/ + feedId)
+  /// FeedUrl (baseUrl + feeds/ + feedId)
   static String buildFeedUrl(String feedId) => '${instance._baseUrl}feeds/$feedId';
 
-  /// PostUrl (ApiUrl + posts/ + postId)
+  /// PostUrl (baseUrl + posts/ + postId)
   static String buildPostUrl(String postId) => '${instance._baseUrl}posts/$postId';
 
-  /// ProfileUrl (ApiUrl + userUrl)
+  /// ProfileUrl (baseUrl + userUrl)
   static String buildUserUrl(String userUrl) => '${instance._baseUrl}$userUrl';
+
+  /// imageUrl
+  static String buildImageUrl(String imagePath ) => '${instance._imageUrl}$imagePath';
 }

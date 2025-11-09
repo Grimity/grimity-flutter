@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
+import 'package:grimity/app/config/app_config.dart';
 import 'package:grimity/app/config/app_typeface.dart';
-import 'package:grimity/app/service/toast_service.dart';
+import 'package:grimity/app/util/share_util.dart';
+import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/alert/grimity_dialog.dart';
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
+import 'package:grimity/presentation/common/widget/popup/grimity_share_modal_bottom_sheet.dart';
 
-void showUploadCompleteDialog(BuildContext context, String link) {
+void showUploadCompleteDialog(BuildContext context, Feed feed) {
+  final feedUrl = AppConfig.buildFeedUrl(feed.id);
+
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -24,10 +28,7 @@ void showUploadCompleteDialog(BuildContext context, String link) {
             context.pop();
           },
           linkWidget: GrimityGesture(
-            onTap: () {
-              Clipboard.setData(ClipboardData(text: link));
-              ToastService.show('링크가 복사되었어요');
-            },
+            onTap: () => ShareUtil.copyLinkToClipboard(feedUrl),
             child: Container(
               decoration: BoxDecoration(border: Border(bottom: BorderSide(color: AppColor.gray500, width: 1))),
               child: Row(
@@ -50,9 +51,7 @@ void showUploadCompleteDialog(BuildContext context, String link) {
             children: [
               Expanded(
                 child: GrimityGesture(
-                  onTap: () {
-                    /// TODO X 공유
-                  },
+                  onTap: () => ShareUtil.shareToTwitter(text: ShareContentType.feed.buildShareText(), url: feedUrl),
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 11),
                     decoration: BoxDecoration(
@@ -73,9 +72,8 @@ void showUploadCompleteDialog(BuildContext context, String link) {
               ),
               Expanded(
                 child: GrimityGesture(
-                  onTap: () {
-                    /// TODO 카카오톡 공유
-                  },
+                  onTap:
+                      () => ShareUtil.shareToKakao(description: feed.title, imageUrl: feed.thumbnail, linkUrl: feedUrl),
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 11),
                     decoration: BoxDecoration(
