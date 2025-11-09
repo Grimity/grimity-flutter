@@ -30,17 +30,17 @@ class SearchView extends HookConsumerWidget {
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [
               SearchAppBar(),
-              if (keyword.isNotEmpty)
-                SliverPersistentHeader(pinned: true, delegate: SearchTabBar(tabController: tabController)),
+              SliverPersistentHeader(pinned: true, delegate: SearchTabBar(tabController: tabController)),
             ];
           },
-          body:
-              keyword.isEmpty
-                  ? recommendTagView
-                  : TabBarView(
-                    controller: tabController,
-                    children: [searchFeedTabView, searchUserTabView, searchPostTabView],
-                  ),
+          body: TabBarView(
+            controller: tabController,
+            children:
+                // 검색을 진행하지 않았을때는 각 탭에 추천 태그를 표시.
+                keyword.isEmpty
+                    ? [recommendTagView, recommendTagView, recommendTagView]
+                    : [searchFeedTabView, searchUserTabView, searchPostTabView],
+          ),
         ),
       ),
     );
