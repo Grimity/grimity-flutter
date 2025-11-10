@@ -84,7 +84,11 @@ class FeedUploadAppBar extends StatelessWidget implements PreferredSizeWidget {
                       ? () async {
                         final uploadedFeed = await ref.read(feedUploadProvider.notifier).feedUpload();
                         if (uploadedFeed != null && context.mounted) {
-                          showUploadCompleteDialog(context, uploadedFeed);
+                          showUploadCompleteDialog(
+                            context,
+                            uploadedFeed,
+                            ref.read(feedUploadProvider.notifier).isNewUpload,
+                          );
                         }
                       }
                       : null,

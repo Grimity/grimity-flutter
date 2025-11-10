@@ -25,6 +25,8 @@ class FeedUpload extends _$FeedUpload {
     return FeedUploadState();
   }
 
+  bool get isNewUpload => state.feedId == null;
+
   void initializeForEdit(Feed feed) {
     state = state.copyWith(
       albumId: feed.album?.id ?? 'all',
@@ -129,7 +131,7 @@ class FeedUpload extends _$FeedUpload {
 
       // 4. 피드 생성/수정 요청
       // 4.1 create
-      if (state.feedId == null) {
+      if (isNewUpload) {
         final thumbnail = cards[thumbnailIndex];
         final createFeedRequest = CreateFeedRequest(
           title: state.title,

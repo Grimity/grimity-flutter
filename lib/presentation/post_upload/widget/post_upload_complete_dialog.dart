@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_config.dart';
+import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/util/share_util.dart';
 import 'package:grimity/domain/entity/post.dart';
@@ -11,21 +12,32 @@ import 'package:grimity/presentation/common/widget/alert/grimity_dialog.dart';
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/popup/grimity_share_modal_bottom_sheet.dart';
 
-void showUploadCompleteDialog(BuildContext context, Post post) {
+void showUploadCompleteDialog(BuildContext context, Post post, bool isNewUpload) {
   final postUrl = AppConfig.buildPostUrl(post.id);
 
   showDialog(
     context: context,
     barrierDismissible: false,
     builder:
-        (context) => GrimityDialog(
+        (dialogContext) => GrimityDialog(
           icon: Assets.icons.feedUpload.uploadSuccess,
           title: '게시글이 업로드 되었어요',
           content: '업로드 소식을 공유해보세요',
           confirmText: '닫기',
           onConfirm: () {
-            context.pop();
-            context.pop();
+            // 다이얼로그 Pop
+            dialogContext.pop();
+
+            // 신규 게시글 업로드 시
+            // 게시글 업로드 페이지를 업로드된 페이지로 변경
+            if (isNewUpload) {
+              PostDetailRoute(id: post.id).pushReplacement(context);
+            }
+            // 게시글 수정 시
+            // 게시글 업로드 페이지 Pop 처리
+            else {
+              context.pop();
+            }
           },
           linkWidget: GrimityGesture(
             onTap: () => ShareUtil.copyLinkToClipboard(postUrl),

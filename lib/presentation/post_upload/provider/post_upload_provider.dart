@@ -33,6 +33,8 @@ class PostUpload extends _$PostUpload {
   @override
   PostUploadState build() => PostUploadState();
 
+  bool get isNewUpload => state.postId == null;
+
   void initializeForEdit(Post post) {
     state = state.copyWith(
       title: post.title,
@@ -330,7 +332,7 @@ class PostUpload extends _$PostUpload {
       final content = DeltaUtil.deltaToHtml(state.contentData);
 
       // create
-      if (state.postId == null) {
+      if (isNewUpload) {
         final createPostRequest = CreatePostRequest(title: state.title, content: content, type: state.type);
 
         final createPostResult = await createPostUseCase.execute(createPostRequest);

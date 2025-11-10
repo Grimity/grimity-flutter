@@ -71,7 +71,11 @@ class PostUploadAppBar extends StatelessWidget implements PreferredSizeWidget {
                             .read(postUploadProvider.notifier)
                             .postUpload(ref.read(postUploadQuillControllerArgumentProvider));
                         if (uploadedPost != null && context.mounted) {
-                          showUploadCompleteDialog(context, uploadedPost);
+                          showUploadCompleteDialog(
+                            context,
+                            uploadedPost,
+                            ref.read(postUploadProvider.notifier).isNewUpload,
+                          );
                         }
                       }
                       : null,
