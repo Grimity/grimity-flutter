@@ -1,5 +1,6 @@
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/app/enum/grimity.enum.dart';
+import 'package:grimity/app/util/device_info_util.dart';
 import 'package:grimity/app/util/validator_util.dart';
 import 'package:grimity/domain/dto/auth_request_params.dart';
 import 'package:grimity/domain/entity/user.dart';
@@ -104,6 +105,7 @@ class SignUp extends _$SignUp {
     final param = RegisterRequestParam(
       provider: authCredential.provider!.name,
       providerAccessToken: authCredential.providerAccessToken!,
+      deviceId: await DeviceInfoUtil.getDeviceId(),
       name: state.nickname,
       url: state.url,
     );

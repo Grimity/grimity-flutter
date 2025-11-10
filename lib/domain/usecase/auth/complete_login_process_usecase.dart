@@ -1,6 +1,7 @@
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/app/base/use_case.dart';
 import 'package:grimity/app/enum/login_provider.enum.dart';
+import 'package:grimity/app/util/device_info_util.dart';
 import 'package:grimity/domain/dto/auth_request_params.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/domain/usecase/auth_usecases.dart';
@@ -24,7 +25,11 @@ class CompleteLoginProcessUseCase extends ParamWithRefUseCase<LoginProvider, Res
       }
 
       // 발급된 AccessToken으로 Grimity 로그인
-      final param = LoginRequestParam(provider: provider.name, providerAccessToken: oauthAccessToken.data);
+      final param = LoginRequestParam(
+        provider: provider.name,
+        providerAccessToken: oauthAccessToken.data,
+        deviceId: await DeviceInfoUtil.getDeviceId(),
+      );
       final loginResult = await loginUseCase.execute(param);
 
       if (loginResult.isFailure) {
