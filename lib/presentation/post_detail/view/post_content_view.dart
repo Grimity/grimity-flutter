@@ -10,7 +10,6 @@ import 'package:grimity/app/config/app_typeface_editor.dart';
 import 'package:grimity/app/enum/report.enum.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
-import 'package:grimity/presentation/common/widget/button/grimity_follow_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_reaction.dart';
 import 'package:grimity/presentation/common/widget/popup/grimity_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/common/widget/system/more/grimity_more_button.dart';
@@ -103,8 +102,6 @@ class _PostAuthorInfoSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        // GrimityUserImage(imageUrl: post.author?.image, size: 30),
-        // Gap(8),
         Flexible(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,7 +120,6 @@ class _PostAuthorInfoSection extends StatelessWidget {
             ],
           ),
         ),
-        if (!isMine) ...[if (post.author != null) GrimityFollowButton(url: post.author!.url), Gap(10)],
         GrimityMoreButton.decorated(onTap: onMoreTap),
       ],
     );
