@@ -10,6 +10,7 @@ import 'package:grimity/app/config/app_typeface_editor.dart';
 import 'package:grimity/app/enum/report.enum.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/grimity_reaction.dart';
 import 'package:grimity/presentation/common/widget/popup/grimity_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/common/widget/system/more/grimity_more_button.dart';
@@ -106,11 +107,14 @@ class _PostAuthorInfoSection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                post.author?.name ?? '작성자 정보 없음',
-                style: AppTypeface.label2.copyWith(color: AppColor.gray700),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+              GrimityGesture(
+                onTap: () => ProfileRoute(url: post.author!.url).go(context),
+                child: Text(
+                  post.author?.name ?? '작성자 정보 없음',
+                  style: AppTypeface.label2.copyWith(color: AppColor.gray700),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
               GrimityReaction.dateLikeView(
                 createdAt: post.createdAt,

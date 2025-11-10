@@ -116,11 +116,14 @@ class _FeedAuthorInfoSection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                feed.author?.name ?? '작성자 정보 없음',
-                style: AppTypeface.label2.copyWith(color: AppColor.gray700),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+              GrimityGesture(
+                onTap: () => ProfileRoute(url: feed.author!.url).go(context),
+                child: Text(
+                  feed.author?.name ?? '작성자 정보 없음',
+                  style: AppTypeface.label2.copyWith(color: AppColor.gray700),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
               GrimityReaction.dateLikeView(
                 createdAt: feed.createdAt,
