@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/app/config/app_router.dart';
+import 'package:grimity/app/static/push_notification.dart';
 import 'package:grimity/presentation/chat/provider/chat_provider.dart';
 import 'package:grimity/presentation/chat/view/chat_scroll_item.dart';
 import 'package:grimity/presentation/chat/widgets/chat_floating_action_button.dart';
@@ -8,7 +11,7 @@ import 'package:grimity/presentation/common/widget/grimity_circular_progress_ind
 import 'package:grimity/presentation/common/widget/grimity_refresh_indicator.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 
-class ChatView extends StatelessWidget {
+class ChatView extends ConsumerStatefulWidget {
   const ChatView({
     super.key,
     required this.drawerView,
@@ -23,10 +26,33 @@ class ChatView extends StatelessWidget {
   final Widget searchBarView;
 
   @override
+  ConsumerState<ChatView> createState() => _ChatViewState();
+}
+
+class _ChatViewState extends ConsumerState<ChatView> {
+  StreamSubscription? _subscription;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // 새 메세지가 전송된 경우, 채팅 목록 새로고침.
+    _subscription = PushNotification.stream.listen((message) {
+      ref.read(chatProviderProvider.notifier).refresh();
+    });
+  }
+
+  @override
+  void dispose() {
+    _subscription?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer: drawerView,
-      appBar: appbarView,
+      endDrawer: widget.drawerView,
+      appBar: widget.appbarView,
       body: Consumer(
         builder: (context, ref, _) {
           final provider = ref.read(chatProviderProvider.notifier);
@@ -59,8 +85,8 @@ class ChatView extends StatelessWidget {
               Column(
                 spacing: 16,
                 children: [
-                  searchBarView,
-                  toolBarView,
+                  widget.searchBarView,
+                  widget.toolBarView,
                   Expanded(
                     child: GrimityRefreshIndicator(
                       onRefresh: provider.refresh,
