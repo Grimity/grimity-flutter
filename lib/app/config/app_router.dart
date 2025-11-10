@@ -104,8 +104,11 @@ abstract final class AppRouter {
     ),
     TypedStatefulShellBranch<MyBranchData>(
       routes: [
-        TypedGoRoute<MyRoute>(path: MyRoute.path, name: MyRoute.name),
-        TypedGoRoute<ProfileRoute>(path: MyRoute.path + ProfileRoute.path, name: ProfileRoute.name),
+        TypedGoRoute<MyRoute>(
+          path: MyRoute.path,
+          name: MyRoute.name,
+          routes: [TypedGoRoute<ProfileRoute>(path: ProfileRoute.path, name: ProfileRoute.name)],
+        ),
       ],
     ),
   ],
@@ -244,25 +247,12 @@ class ProfileRoute extends GoRouteData {
 
   const ProfileRoute({required this.url});
 
-  static const String path = '/profile/:url';
+  static const String path = 'profile/:url';
   static const String name = 'profile';
 
   @override
-  Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return CustomTransitionPage(
-      key: state.pageKey,
-      child: ProfilePage(url: url),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        return SlideTransition(
-          position: Tween<Offset>(
-            begin: const Offset(1, 0), // 오른쪽에서 시작
-            end: Offset.zero,
-          ).animate(animation),
-          child: child,
-        );
-      },
-      transitionDuration: const Duration(milliseconds: 200),
-    );
+  Widget build(BuildContext context, GoRouterState state) {
+    return ProfilePage(url: url);
   }
 }
 
