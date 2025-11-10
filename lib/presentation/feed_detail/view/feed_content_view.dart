@@ -99,7 +99,7 @@ class _FeedTitleSection extends StatelessWidget {
   }
 }
 
-class _FeedAuthorInfoSection extends StatelessWidget {
+class _FeedAuthorInfoSection extends ConsumerWidget {
   const _FeedAuthorInfoSection({required this.feed, required this.isMine, required this.onMoreTap});
 
   final Feed feed;
@@ -107,24 +107,22 @@ class _FeedAuthorInfoSection extends StatelessWidget {
   final VoidCallback onMoreTap;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final myUrl = ref.read(userAuthProvider)?.url;
+
     return Row(
       children: [
-        GrimityUserImage(imageUrl: feed.author?.image, size: 30),
+        GrimityGesture(
+          onTap: () => AppRouter.goProfile(context, targetUrl: feed.author!.url, myUrl: myUrl),
+          child: GrimityUserImage(imageUrl: feed.author?.image, size: 30),
+        ),
         Gap(8),
         Flexible(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Consumer(
-                builder: (context, ref, child) {
-                  final myUrl = ref.read(userAuthProvider)?.url;
-
-                  return GrimityGesture(
-                    onTap: () => AppRouter.goProfile(context, targetUrl: feed.author!.url, myUrl: myUrl),
-                    child: child,
-                  );
-                },
+              GrimityGesture(
+                onTap: () => AppRouter.goProfile(context, targetUrl: feed.author!.url, myUrl: myUrl),
                 child: Text(
                   feed.author?.name ?? '작성자 정보 없음',
                   style: AppTypeface.label2.copyWith(color: AppColor.gray700),

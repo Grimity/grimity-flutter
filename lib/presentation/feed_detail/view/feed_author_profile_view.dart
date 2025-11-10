@@ -69,23 +69,31 @@ class FeedAuthorProfileView extends ConsumerWidget {
   }
 }
 
-class _AuthorProfile extends StatelessWidget {
+class _AuthorProfile extends ConsumerWidget {
   final User? profile;
 
   const _AuthorProfile({required this.profile});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final myUrl = ref.read(userAuthProvider)?.url;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         children: [
-          GrimityUserImage(imageUrl: profile?.image, size: 30),
+          GrimityGesture(
+            onTap: () => goProfile(context, myUrl),
+            child: GrimityUserImage(imageUrl: profile?.image, size: 30),
+          ),
           Gap(8),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(profile?.name ?? '', style: AppTypeface.label2.copyWith(color: AppColor.gray700)),
+              GrimityGesture(
+                onTap: () => goProfile(context, myUrl),
+                child: Text(profile?.name ?? '', style: AppTypeface.label2.copyWith(color: AppColor.gray700)),
+              ),
               RichText(
                 text: TextSpan(
                   children: [
@@ -102,6 +110,12 @@ class _AuthorProfile extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void goProfile(BuildContext context, String? myUrl) {
+    if (profile != null) {
+      AppRouter.goProfile(context, targetUrl: profile!.url, myUrl: myUrl);
+    }
   }
 }
 
