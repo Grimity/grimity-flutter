@@ -60,7 +60,7 @@ class FollowingFeedCard extends ConsumerWidget {
                             title: '유저 프로필로 이동',
                             onTap: () {
                               context.pop();
-                              ProfileRoute(url: feed.author!.url).go(context);
+                              AppRouter.goProfile(context, targetUrl: feed.author!.url);
                             },
                           ),
                         ];

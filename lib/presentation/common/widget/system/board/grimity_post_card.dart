@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
@@ -6,6 +7,7 @@ import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/post_type.enum.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/grimity_highlight_text_span.dart';
 import 'package:grimity/presentation/common/widget/grimity_reaction.dart';
@@ -61,14 +63,20 @@ class GrimityPostCard extends StatelessWidget {
               normal: AppTypeface.label3.copyWith(color: AppColor.gray700),
             ),
             const Gap(4),
-            GrimityReaction.nameDateView(
-              name: post.author?.name,
-              createdAt: post.createdAt,
-              viewCount: post.viewCount,
-              onNameTap: () {
-                if (post.author != null) {
-                  ProfileRoute(url: post.author!.url).go(context);
-                }
+            Consumer(
+              builder: (context, ref, child) {
+                final myUrl = ref.read(userAuthProvider)?.url;
+
+                return GrimityReaction.nameDateView(
+                  name: post.author?.name,
+                  createdAt: post.createdAt,
+                  viewCount: post.viewCount,
+                  onNameTap: () {
+                    if (post.author != null) {
+                      AppRouter.goProfile(context, targetUrl: post.author!.url, myUrl: myUrl);
+                    }
+                  },
+                );
               },
             ),
           ],

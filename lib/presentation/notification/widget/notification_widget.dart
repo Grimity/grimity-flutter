@@ -6,6 +6,7 @@ import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/extension/date_time_extension.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/system/profile/grimity_user_profile.dart';
 import 'package:grimity/presentation/notification/provider/notification_data_provider.dart';
@@ -22,11 +23,12 @@ class NotificationWidget extends ConsumerWidget {
 
     return InkWell(
       onTap: () {
+        final myUrl = ref.read(userAuthProvider)?.url;
         if (notification.isRead == false) {
           notifier.markNotificationAsRead(notification.id);
         }
 
-        AppRouter.handleServerUrl(context, notification.link);
+        AppRouter.handleServerUrl(context, notification.link, myUrl: myUrl);
       },
       child: Container(
         padding: EdgeInsets.all(16),

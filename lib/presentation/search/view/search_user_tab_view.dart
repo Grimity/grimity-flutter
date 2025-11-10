@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
+import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/domain/entity/users.dart';
+import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_infinite_scroll_pagination.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/common/widget/system/sort/grimity_search_sort_header.dart';
@@ -84,6 +86,11 @@ class _SearchUserSliverListView extends ConsumerWidget with SearchUserMixin {
         final user = users[index];
         return GrimityUserCard(
           user: user,
+          onTap: () {
+            final myUrl = ref.read(userAuthProvider)?.url;
+
+            AppRouter.goProfile(context, targetUrl: user.url, myUrl: myUrl);
+          },
           onFollowTap:
               () => searchUserNotifier(ref).toggleFollow(id: user.id, follow: user.isFollowing == false ? true : false),
         );
