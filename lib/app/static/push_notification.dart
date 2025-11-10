@@ -109,7 +109,7 @@ class PushNotification {
     }
 
     final notification = message.notification;
-    if (notification != null && Platform.isAndroid) {
+    if (notification != null) {
       localNotificationPlugin.show(
         notification.hashCode,
         notification.title,
