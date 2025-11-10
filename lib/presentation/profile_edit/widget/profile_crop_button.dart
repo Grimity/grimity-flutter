@@ -16,7 +16,7 @@ class ProfileCropButton extends ConsumerWidget {
     final uploadImage = ref.read(uploadImageProvider(type));
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.only(left: 16, right: 16, bottom: MediaQuery.of(context).padding.bottom),
       child: GrimityButton.large(
         text: uploadImage.type == UploadImageType.profile ? '프로필 저장' : '커버 저장',
         style: ButtonStyleType.line,
