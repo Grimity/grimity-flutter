@@ -202,10 +202,13 @@ class _UserProfile extends StatelessWidget {
           Text('팔로워', style: AppTypeface.label3.copyWith(color: AppColor.gray600)),
           Gap(4),
           Text(user.followerCount.toString(), style: AppTypeface.label2.copyWith(color: AppColor.gray700)),
-          Gap(8),
-          Text('팔로잉', style: AppTypeface.label3.copyWith(color: AppColor.gray600)),
-          Gap(4),
-          Text(user.followingCount.toString(), style: AppTypeface.label2.copyWith(color: AppColor.gray700)),
+          // 내 프로필의 경우에만 팔로잉 표시
+          if (viewType == ProfileViewType.mine) ...[
+            Gap(8),
+            Text('팔로잉', style: AppTypeface.label3.copyWith(color: AppColor.gray600)),
+            Gap(4),
+            Text(user.followingCount.toString(), style: AppTypeface.label2.copyWith(color: AppColor.gray700)),
+          ],
         ],
       ),
     );
