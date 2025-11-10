@@ -60,14 +60,11 @@ class _ChatViewState extends ConsumerState<ChatView> {
 
           // 현재 데이터를 불러오고 있는 경우.
           if (data.isLoading) {
-            return Center(
-              child: GrimityCircularProgressIndicator(),
-            );
+            return Center(child: GrimityCircularProgressIndicator());
           }
 
           // 현재 주고 받은 메세지가 아직 없는 경우.
-          if (data.value!.chats.isEmpty
-           && data.value!.keyword == null) {
+          if (data.value!.chats.isEmpty && data.value!.keyword == null) {
             return ListView(
               children: [
                 GrimityStateView.commentReply(
@@ -108,10 +105,7 @@ class _ChatViewState extends ConsumerState<ChatView> {
               // 오른쪽 하단 액션 버튼 표시.
               Align(
                 alignment: Alignment.bottomRight,
-                child: Padding(
-                  padding: EdgeInsets.only(right: 16, bottom: 16),
-                  child: ChatFloatingActionButton(),
-                ),
+                child: Padding(padding: EdgeInsets.only(right: 16, bottom: 16), child: ChatFloatingActionButton()),
               ),
             ],
           );

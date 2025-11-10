@@ -241,19 +241,28 @@ class GrimityTextField extends HookWidget {
             counterText: '',
             hintText: hintText,
             hintStyle: AppTypeface.label2.copyWith(color: AppColor.gray500),
-            border: isBorderless ? InputBorder.none : OutlineInputBorder(
-              borderSide: BorderSide(color: _enabledBorderColor),
-              borderRadius: _borderRadius,
-            ),
-            focusedBorder: isBorderless ? InputBorder.none : OutlineInputBorder(
-              borderSide: BorderSide(color: _enabledBorderColor),
-              borderRadius: _borderRadius,
-            ),
-            enabledBorder: isBorderless ? InputBorder.none : OutlineInputBorder(borderSide: BorderSide(color: _borderColor), borderRadius: _borderRadius),
-            disabledBorder: isBorderless ? InputBorder.none : OutlineInputBorder(
-              borderSide: BorderSide(color: _borderColor),
-              borderRadius: _borderRadius,
-            ),
+            border:
+                isBorderless
+                    ? InputBorder.none
+                    : OutlineInputBorder(
+                      borderSide: BorderSide(color: _enabledBorderColor),
+                      borderRadius: _borderRadius,
+                    ),
+            focusedBorder:
+                isBorderless
+                    ? InputBorder.none
+                    : OutlineInputBorder(
+                      borderSide: BorderSide(color: _enabledBorderColor),
+                      borderRadius: _borderRadius,
+                    ),
+            enabledBorder:
+                isBorderless
+                    ? InputBorder.none
+                    : OutlineInputBorder(borderSide: BorderSide(color: _borderColor), borderRadius: _borderRadius),
+            disabledBorder:
+                isBorderless
+                    ? InputBorder.none
+                    : OutlineInputBorder(borderSide: BorderSide(color: _borderColor), borderRadius: _borderRadius),
             filled: true,
             fillColor: _fillColor,
             prefix:

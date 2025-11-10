@@ -3,10 +3,7 @@ import 'package:grimity/app/di/di_setup.dart';
 import 'package:grimity/data/data_source/remote/chat_api.dart';
 import 'package:grimity/presentation/common/widget/alert/grimity_dialog.dart';
 
-Future<void> showDeleteChatDialog({
-  required BuildContext context,
-  required String chatId,
-}) {
+Future<void> showDeleteChatDialog({required BuildContext context, required String chatId}) {
   return showDialog(
     context: context,
     builder: (context) {

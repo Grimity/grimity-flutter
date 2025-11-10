@@ -26,9 +26,7 @@ class Popover {
       builder: (context) {
         return Stack(
           children: [
-            Positioned.fill(
-              child: GrimityGesture(onTap: hide),
-            ),
+            Positioned.fill(child: GrimityGesture(onTap: hide)),
             CompositedTransformFollower(
               link: targetLink,
               targetAnchor: targetAnchor,

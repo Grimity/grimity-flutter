@@ -14,10 +14,7 @@ import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/text_field/grimity_text_field.dart';
 
 class ChatMessageField extends ConsumerWidget {
-  const ChatMessageField({
-    super.key,
-    required this.chatId,
-  });
+  const ChatMessageField({super.key, required this.chatId});
 
   final String chatId;
 
@@ -37,9 +34,7 @@ class ChatMessageField extends ConsumerWidget {
         padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         decoration: BoxDecoration(
           color: AppColor.gray100,
-          border: isVisibleReply
-            ? Border(top: BorderSide(color: AppColor.gray300))
-            : null,
+          border: isVisibleReply ? Border(top: BorderSide(color: AppColor.gray300)) : null,
         ),
         child: SafeArea(
           child: Column(
@@ -55,9 +50,7 @@ class ChatMessageField extends ConsumerWidget {
                   GrimityButton.round(
                     text: "전송",
                     onTap: provider.submit,
-                    status: !data.isLoading && data.value!.canSubmit
-                      ? ButtonStatus.on
-                      : ButtonStatus.off,
+                    status: !data.isLoading && data.value!.canSubmit ? ButtonStatus.on : ButtonStatus.off,
                   ),
                 ],
               ),
@@ -76,7 +69,6 @@ class _TextField extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _TextFieldState();
-
 }
 
 class _TextFieldState extends ConsumerState<_TextField> {
@@ -107,8 +99,9 @@ class _TextFieldState extends ConsumerState<_TextField> {
           // 이미지 추가 액션 버튼 표시.
           GrimityGesture(
             onTap: () async {
-              final List<ImageSourceItem>? pickedImages
-                  = await PhotoSelectRoute(type: UploadImageType.chat).push(context);
+              final List<ImageSourceItem>? pickedImages = await PhotoSelectRoute(
+                type: UploadImageType.chat,
+              ).push(context);
 
               // 사용자가 메세지에 함께 보낼 이미지를 선택한 경우.
               if (pickedImages != null && pickedImages.isNotEmpty) {
@@ -117,11 +110,7 @@ class _TextFieldState extends ConsumerState<_TextField> {
             },
             child: Padding(
               padding: EdgeInsets.all(16).copyWith(right: 8),
-              child: SvgPicture.asset(
-                Assets.icons.profileEdit.camera.path,
-                color: AppColor.gray700,
-                width: 20,
-              ),
+              child: SvgPicture.asset(Assets.icons.profileEdit.camera.path, color: AppColor.gray700, width: 20),
             ),
           ),
 
@@ -162,31 +151,17 @@ class _ReplyView extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             spacing: 4,
             children: [
-              Assets.icons.chatMessage.deliver.svg(
-                width: 14,
-                height: 14,
-                color: AppColor.gray600,
-              ),
-              Text(
-                "${user.name}님께 답장보내기",
-                style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
-              ),
+              Assets.icons.chatMessage.deliver.svg(width: 14, height: 14, color: AppColor.gray600),
+              Text("${user.name}님께 답장보내기", style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
             ],
           ),
           Builder(
             builder: (context) {
               if (model.content == null) {
-                return ChatMessageImageView(
-                  imageUrl: model.image!,
-                  width: 60,
-                  height: 60,
-                );
+                return ChatMessageImageView(imageUrl: model.image!, width: 60, height: 60);
               }
 
-              return Text(
-                model.content!,
-                style: AppTypeface.caption2.copyWith(color: AppColor.gray800),
-              );
+              return Text(model.content!, style: AppTypeface.caption2.copyWith(color: AppColor.gray800));
             },
           ),
         ],

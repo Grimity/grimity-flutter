@@ -22,10 +22,7 @@ class IconSquareButton extends StatelessWidget {
       width: 32,
       height: 32,
       padding: EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(4),
-        color: active ? activeColor : AppColor.gray00,
-      ),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: active ? activeColor : AppColor.gray00),
       child: onTap != null ? GrimityAnimationButton(onTap: onTap!, child: child) : child,
     );
   }

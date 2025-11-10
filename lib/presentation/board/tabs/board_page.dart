@@ -12,10 +12,6 @@ class BoardPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tabList = [PostType.all, PostType.question, PostType.feedback];
 
-    return BoardView(
-      boardAppBar: BoardAppBar(),
-      boardSearchBar: BoardSearchBar(),
-      tabList: tabList,
-    );
+    return BoardView(boardAppBar: BoardAppBar(), boardSearchBar: BoardSearchBar(), tabList: tabList);
   }
 }

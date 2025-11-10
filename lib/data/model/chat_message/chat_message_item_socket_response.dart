@@ -14,5 +14,6 @@ abstract class ChatMessageItemSocketResponse with _$ChatMessageItemSocketRespons
     required ChatMessageReplyResponse? replyTo,
   }) = _ChatMessageItemSocketResponse;
 
-  factory ChatMessageItemSocketResponse.fromJson(Map<String, dynamic> json) => _$ChatMessageItemSocketResponseFromJson(json);
+  factory ChatMessageItemSocketResponse.fromJson(Map<String, dynamic> json) =>
+      _$ChatMessageItemSocketResponseFromJson(json);
 }

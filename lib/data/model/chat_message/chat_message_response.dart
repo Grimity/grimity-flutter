@@ -6,10 +6,8 @@ part 'chat_message_response.g.dart';
 
 @freezed
 abstract class ChatMessageResponse with _$ChatMessageResponse {
-  const factory ChatMessageResponse({
-    required String? nextCursor,
-    required List<ChatMessageItemResponse> messages,
-  }) = _ChatMessageResponse;
+  const factory ChatMessageResponse({required String? nextCursor, required List<ChatMessageItemResponse> messages}) =
+      _ChatMessageResponse;
 
   factory ChatMessageResponse.fromJson(Map<String, dynamic> json) => _$ChatMessageResponseFromJson(json);
 }

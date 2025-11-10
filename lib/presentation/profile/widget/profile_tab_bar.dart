@@ -15,20 +15,21 @@ class ProfileTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return GrimityTabBar.medium(
       tabController: tabController,
-      buildTabs: (currentIndex) => [
-        GrimityTab.medium(
-          text: '그림',
-          count: user.feedCount ?? 0,
-          tabStatus: currentIndex == 0 ? GrimityTabStatus.on : GrimityTabStatus.off,
-        ),
+      buildTabs:
+          (currentIndex) => [
+            GrimityTab.medium(
+              text: '그림',
+              count: user.feedCount ?? 0,
+              tabStatus: currentIndex == 0 ? GrimityTabStatus.on : GrimityTabStatus.off,
+            ),
 
-        if (viewType == ProfileViewType.mine)
-          GrimityTab.medium(
-            text: '글',
-            count: user.postCount ?? 0,
-            tabStatus: currentIndex == 1 ? GrimityTabStatus.on : GrimityTabStatus.off,
-          ),
-      ],
+            if (viewType == ProfileViewType.mine)
+              GrimityTab.medium(
+                text: '글',
+                count: user.postCount ?? 0,
+                tabStatus: currentIndex == 1 ? GrimityTabStatus.on : GrimityTabStatus.off,
+              ),
+          ],
     );
   }
 }

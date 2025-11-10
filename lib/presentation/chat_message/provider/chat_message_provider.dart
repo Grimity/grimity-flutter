@@ -44,7 +44,7 @@ abstract class ChatMessage with _$ChatMessage {
       createdAt: response.createdAt,
       userId: response.user.id,
       isLike: response.isLike,
-      replyTo: response.replyTo
+      replyTo: response.replyTo,
     );
   }
 }
@@ -114,11 +114,9 @@ class ChatMessageProvider extends _$ChatMessageProvider {
 
     _socket = io.io(
       Flavor.env.apiUrl,
-      io.OptionBuilder()
-          .setTransports(['websocket'])
-          .enableAutoConnect()
-          .setAuth({'accessToken': token!.accessToken})
-          .build(),
+      io.OptionBuilder().setTransports(['websocket']).enableAutoConnect().setAuth({
+        'accessToken': token!.accessToken,
+      }).build(),
     );
 
     // 소켓 연결 시 채팅방에 대한 입장 상태를 서버에 알림.
@@ -192,11 +190,7 @@ class ChatMessageProvider extends _$ChatMessageProvider {
       ),
     );
 
-    state = AsyncData(_state.copyWith(
-      inputMessage: "",
-      inputImages: [],
-      inputReply: null,
-    ));
+    state = AsyncData(_state.copyWith(inputMessage: "", inputImages: [], inputReply: null));
   }
 
   /// 다음 페이지에 대한 추가 데이터를 불러옵니다.
@@ -218,28 +212,26 @@ class ChatMessageProvider extends _$ChatMessageProvider {
     final availableSpace = maxImages - currentImages.length;
     final imagesToAdd = newImages.take(availableSpace).toList();
 
-    state = AsyncData(_state.copyWith(
-      inputImages: [...currentImages, ...imagesToAdd],
-    ));
+    state = AsyncData(_state.copyWith(inputImages: [...currentImages, ...imagesToAdd]));
   }
 
   /// 상대방에게 보낼 이미지 목록에서 주어진 이미지를 제거합니다.
   void removeInputImage(ImageSourceItem image) {
-    state = AsyncData(_state.copyWith(
-      inputImages: _state.inputImages.where((e) => e != image).toList(),
-    ));
+    state = AsyncData(_state.copyWith(inputImages: _state.inputImages.where((e) => e != image).toList()));
   }
 
   /// 주어진 메세지를 답장할 메세지로서 정의합니다.
   void setInputReply(ChatMessage message) {
-    state = AsyncData(_state.copyWith(
-      inputReply: ChatMessageReplyResponse(
-        id: message.id,
-        content: message.content,
-        image: message.image,
-        createdAt: message.createdAt,
+    state = AsyncData(
+      _state.copyWith(
+        inputReply: ChatMessageReplyResponse(
+          id: message.id,
+          content: message.content,
+          image: message.image,
+          createdAt: message.createdAt,
+        ),
       ),
-    ));
+    );
   }
 
   /// 주어진 문자열을 현재 작성 중인 메시지 내용으로 정의합니다.
@@ -251,17 +243,17 @@ class ChatMessageProvider extends _$ChatMessageProvider {
   void addMessages(List<ChatMessage> newMessages) {
     final prevIds = _state.messages.map((m) => m.id).toSet();
     final filtered = newMessages.where((m) => !prevIds.contains(m.id));
-    final sorted = [..._state.messages, ...filtered]
-      ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    final sorted = [..._state.messages, ...filtered]..sort((a, b) => b.createdAt.compareTo(a.createdAt));
 
     state = AsyncData(_state.copyWith(messages: sorted));
   }
 
-  /// 주로 기존 메세지를 수정하기 위해서 사용됩니다.  
+  /// 주로 기존 메세지를 수정하기 위해서 사용됩니다.
   void updateMessageById(String id, ChatMessage Function(ChatMessage) updater) {
-    final updatedMessages = _state.messages.map((m) {
-      return m.id == id ? updater(m) : m;
-    }).toList();
+    final updatedMessages =
+        _state.messages.map((m) {
+          return m.id == id ? updater(m) : m;
+        }).toList();
 
     state = AsyncData(_state.copyWith(messages: updatedMessages));
   }

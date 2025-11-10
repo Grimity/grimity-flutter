@@ -8,10 +8,7 @@ part 'album_provider.g.dart';
 @riverpod
 Future<List<Album>> albums(Ref ref) async {
   final result = await getMyAlbumsUseCase.execute();
-  return result.fold(
-    onSuccess: (albums) => albums,
-    onFailure: (_) => <Album>[],
-  );
+  return result.fold(onSuccess: (albums) => albums, onFailure: (_) => <Album>[]);
 }
 
 /// 전체 앨범이 포함된 앨범 리스트

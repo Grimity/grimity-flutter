@@ -53,10 +53,7 @@ class MonthPickerBottomSheet extends HookConsumerWidget {
                 Gap(20),
                 GrimityGesture(onTap: () => selectedYear.value++, child: Icon(Icons.chevron_right, size: 26)),
                 const Spacer(),
-                GrimityGesture(
-                  onTap: () => context.pop(),
-                  child: Assets.icons.common.close.svg(width: 24, height: 24),
-                ),
+                GrimityGesture(onTap: () => context.pop(), child: Assets.icons.common.close.svg(width: 24, height: 24)),
               ],
             ),
             Gap(24),

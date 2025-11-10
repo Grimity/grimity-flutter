@@ -29,9 +29,9 @@ class PopularAuthorView extends ConsumerWidget {
         authorWithFeedsAsync.when(
           data:
               (authorWithFeedsList) =>
-          authorWithFeedsList.isEmpty
-              ? SizedBox.shrink()
-              : _PopularAuthorCarousel(authorWithFeedsList: authorWithFeedsList),
+                  authorWithFeedsList.isEmpty
+                      ? SizedBox.shrink()
+                      : _PopularAuthorCarousel(authorWithFeedsList: authorWithFeedsList),
           loading: () => Skeletonizer(child: _PopularAuthorCarousel(authorWithFeedsList: AuthorWithFeeds.emptyList)),
           error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(authorWithFeedsDataProvider)),
         ),
@@ -71,11 +71,11 @@ class _PopularAuthorCarousel extends HookConsumerWidget {
                 authorWithFeeds: authorWithFeeds,
                 onFollowTab:
                     () => ref
-                    .read(authorWithFeedsDataProvider.notifier)
-                    .toggleFollow(
-                  id: authorWithFeeds.user.id,
-                  follow: authorWithFeeds.user.isFollowing == false ? true : false,
-                ),
+                        .read(authorWithFeedsDataProvider.notifier)
+                        .toggleFollow(
+                          id: authorWithFeeds.user.id,
+                          follow: authorWithFeeds.user.isFollowing == false ? true : false,
+                        ),
               ),
             );
           },

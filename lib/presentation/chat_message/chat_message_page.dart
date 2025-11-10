@@ -5,10 +5,7 @@ import 'package:grimity/presentation/chat_message/view/chat_message_field.dart';
 import 'package:grimity/presentation/drawer/main_app_drawer.dart';
 
 class ChatMessagePage extends StatelessWidget {
-  const ChatMessagePage({
-    super.key,
-    required this.chatId,
-  });
+  const ChatMessagePage({super.key, required this.chatId});
 
   final String chatId;
 

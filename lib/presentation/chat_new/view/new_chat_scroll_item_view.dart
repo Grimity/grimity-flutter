@@ -8,10 +8,7 @@ import 'package:grimity/presentation/common/widget/system/profile/grimity_user_p
 
 // 사용자가 팔로우하고 있는 사용자 정보를 표시합니다.
 class NewChatScrollItemView extends ConsumerWidget {
-  const NewChatScrollItemView({
-    super.key,
-    required this.model,
-  });
+  const NewChatScrollItemView({super.key, required this.model});
 
   final FollowUserResponse model;
 
@@ -32,16 +29,9 @@ class NewChatScrollItemView extends ConsumerWidget {
         spacing: 16,
         children: [
           Expanded(
-            child: GrimityUserProfile.fromString(
-              imageUrl: model.image,
-              title: model.name,
-              subTitle: "@${model.url}",
-            ),
+            child: GrimityUserProfile.fromString(imageUrl: model.image, title: model.name, subTitle: "@${model.url}"),
           ),
-          GrimityRadioButton(
-            value: isSelected,
-            onTap: () => provider.select(model),
-          ),
+          GrimityRadioButton(value: isSelected, onTap: () => provider.select(model)),
         ],
       ),
     );

@@ -14,11 +14,7 @@ import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 class ChatMessageFragment extends ConsumerStatefulWidget {
-  const ChatMessageFragment({
-    super.key,
-    required this.chatId,
-    required this.model,
-  });
+  const ChatMessageFragment({super.key, required this.chatId, required this.model});
 
   final String chatId;
   final ChatMessage model;
@@ -39,11 +35,7 @@ class _ChatMessageFragmentState extends ConsumerState<ChatMessageFragment> {
       builder: (popover) {
         return Padding(
           padding: EdgeInsets.only(left: 10),
-          child: ChatMessagePopoverMenu(
-            chatId: widget.chatId,
-            message: widget.model,
-            popover: popover,
-          ),
+          child: ChatMessagePopoverMenu(chatId: widget.chatId, message: widget.model, popover: popover),
         );
       },
     );
@@ -86,14 +78,11 @@ class _ChatMessageFragmentState extends ConsumerState<ChatMessageFragment> {
                       mainAxisSize: MainAxisSize.min,
                       spacing: 6,
                       children: [
-                        if (model.replyTo != null)
-                          _ReplyView(isMe: isMe, model: model.replyTo!, chatId: widget.chatId),
+                        if (model.replyTo != null) _ReplyView(isMe: isMe, model: model.replyTo!, chatId: widget.chatId),
 
-                        if (model.image != null)
-                          ChatMessageImageView(imageUrl: model.image!),
+                        if (model.image != null) ChatMessageImageView(imageUrl: model.image!),
 
-                        if (model.content != null)
-                          _MessageBubble(isMe: isMe, text: model.content!),
+                        if (model.content != null) _MessageBubble(isMe: isMe, text: model.content!),
                       ],
                     ),
 
@@ -108,7 +97,7 @@ class _ChatMessageFragmentState extends ConsumerState<ChatMessageFragment> {
                 ),
               ),
             ),
-          )
+          ),
         );
       },
     );
@@ -116,10 +105,7 @@ class _ChatMessageFragmentState extends ConsumerState<ChatMessageFragment> {
 }
 
 class _MessageBubble extends StatelessWidget {
-  const _MessageBubble({
-    required this.isMe,
-    required this.text,
-  });
+  const _MessageBubble({required this.isMe, required this.text});
 
   final bool isMe;
   final String text;
@@ -130,7 +116,7 @@ class _MessageBubble extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       decoration: BoxDecoration(
         color: isMe ? AppColor.secandary1 : AppColor.gray300,
-        borderRadius: switch(isMe) {
+        borderRadius: switch (isMe) {
           true => BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
@@ -145,22 +131,13 @@ class _MessageBubble extends StatelessWidget {
           ),
         },
       ),
-      child: Text(
-        text,
-        style: AppTypeface.label2.copyWith(
-          color: isMe ? AppColor.gray00 : AppColor.gray800,
-        ),
-      ),
+      child: Text(text, style: AppTypeface.label2.copyWith(color: isMe ? AppColor.gray00 : AppColor.gray800)),
     );
   }
 }
 
 class _ReplyView extends ConsumerWidget {
-  const _ReplyView({
-    required this.isMe,
-    required this.model,
-    required this.chatId,
-  });
+  const _ReplyView({required this.isMe, required this.model, required this.chatId});
 
   final bool isMe;
   final ChatMessageReplyResponse model;
@@ -175,27 +152,16 @@ class _ReplyView extends ConsumerWidget {
       crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
       spacing: 6,
       children: [
-        Text(
-          isMe ? "${user.name}님에게 답장" : "나에게 답장",
-          style: AppTypeface.caption2.copyWith(color: AppColor.gray500),
-        ),
+        Text(isMe ? "${user.name}님에게 답장" : "나에게 답장", style: AppTypeface.caption2.copyWith(color: AppColor.gray500)),
         Row(
           mainAxisSize: MainAxisSize.min,
           spacing: 6,
           children: [
-            Assets.icons.chatMessage.deliver.svg(
-              color: AppColor.gray500,
-              width: 18,
-              height: 18,
-            ),
+            Assets.icons.chatMessage.deliver.svg(color: AppColor.gray500, width: 18, height: 18),
             Builder(
               builder: (context) {
                 if (model.content == null) {
-                  return ChatMessageImageView(
-                    imageUrl: model.image!,
-                    width: 60,
-                    height: 60,
-                  );
+                  return ChatMessageImageView(imageUrl: model.image!, width: 60, height: 60);
                 }
 
                 return Container(
@@ -206,9 +172,7 @@ class _ReplyView extends ConsumerWidget {
                   ),
                   child: Text(
                     model.content!,
-                    style: AppTypeface.caption2.copyWith(
-                      color: isMe ? AppColor.gray800 : AppColor.gray00,
-                    ),
+                    style: AppTypeface.caption2.copyWith(color: isMe ? AppColor.gray800 : AppColor.gray00),
                   ),
                 );
               },

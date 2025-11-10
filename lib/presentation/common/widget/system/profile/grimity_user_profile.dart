@@ -20,12 +20,8 @@ class GrimityUserProfile extends StatelessWidget {
   final Widget Function()? subTitleBuilder;
 
   /// 기본형 String 기반
-  factory GrimityUserProfile.fromString({
-    String? imageUrl,
-    required String title,
-    String? subTitle,
-    Key? key,
-  }) => GrimityUserProfile._(key: key, imageUrl: imageUrl, title: title, subTitle: subTitle);
+  factory GrimityUserProfile.fromString({String? imageUrl, required String title, String? subTitle, Key? key}) =>
+      GrimityUserProfile._(key: key, imageUrl: imageUrl, title: title, subTitle: subTitle);
 
   /// Builder 기반
   factory GrimityUserProfile.fromBuilder({

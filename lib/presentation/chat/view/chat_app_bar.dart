@@ -9,10 +9,7 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(
-        "DM",
-        style: AppTypeface.subTitle3.copyWith(color: AppColor.primary4),
-      ),
+      title: Text("DM", style: AppTypeface.subTitle3.copyWith(color: AppColor.primary4)),
       titleSpacing: 0,
       bottom: const PreferredSize(
         preferredSize: Size.fromHeight(1),

@@ -1,0 +1,48 @@
+name: Flutter Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: SSH 키 설정
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Flutter SDK 캐시
+        uses: actions/cache@v3
+        with:
+          path: /opt/hostedtoolcache/flutter
+          key: ${{ runner.os }}-flutter-${{ vars.FLUTTER_VERSION }}
+
+      - name: Flutter 설치
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ vars.FLUTTER_VERSION }}
+
+      - name: 종속성 설치
+        run: flutter pub get
+
+      - name: Dart 포맷 검사
+        run: dart format --set-exit-if-changed .
+
+      - name: Dart 전처리 빌드
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: 구성 파일 불러오기
+        run: dart run git_config fetch --ssh
+
+      - name: 애널라이저 검사
+        run: flutter analyze --fatal-warnings

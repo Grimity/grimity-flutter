@@ -9,11 +9,7 @@ class NewChatSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(16),
-      color: AppColor.gray100,
-      child: _SearchTextField(),
-    );
+    return Container(padding: EdgeInsets.all(16), color: AppColor.gray100, child: _SearchTextField());
   }
 }
 

@@ -7,12 +7,7 @@ import 'package:grimity/presentation/chat_message/provider/chat_message_provider
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 class ChatMessagePopoverMenu extends ConsumerWidget {
-  const ChatMessagePopoverMenu({
-    super.key,
-    required this.chatId,
-    required this.popover,
-    required this.message,
-  });
+  const ChatMessagePopoverMenu({super.key, required this.chatId, required this.popover, required this.message});
 
   final String chatId;
   final Popover popover;
@@ -31,23 +26,20 @@ class ChatMessagePopoverMenu extends ConsumerWidget {
           onTap: () {
             provider.likeMessage(message, !message.isLike);
             popover.hide();
-          }
+          },
         ),
         createButtonWidget(
           icon: Assets.icons.chatMessage.deliver,
           onTap: () {
             provider.setInputReply(message);
             popover.hide();
-          }
+          },
         ),
       ],
     );
   }
 
-  Widget createButtonWidget({
-    required SvgGenImage icon,
-    required VoidCallback onTap,
-  }) {
+  Widget createButtonWidget({required SvgGenImage icon, required VoidCallback onTap}) {
     return GrimityGesture(
       onTap: onTap,
       child: Container(

@@ -125,10 +125,7 @@ class ProfileEdit extends _$ProfileEdit {
 
   /// 유효성 체크
   Future<bool> validate() async {
-    await Future.wait([
-      checkNicknameDuplicate(),
-      checkUrlValidity(),
-    ]);
+    await Future.wait([checkNicknameDuplicate(), checkUrlValidity()]);
 
     return state.nicknameState == GrimityTextFieldState.normal && state.urlState == GrimityTextFieldState.normal;
   }

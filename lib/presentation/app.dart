@@ -18,9 +18,7 @@ void runFlavoredApp() async {
   final talker = TalkerFlutter.init();
 
   // 포그라운드 푸시 알림 구현을 위해 관련 플러그인 초기화.
-  await PushNotification.localNotificationPlugin.initialize(
-    PushNotification.localNotificationSettings,
-  );
+  await PushNotification.localNotificationPlugin.initialize(PushNotification.localNotificationSettings);
 
   runApp(
     ProviderScope(

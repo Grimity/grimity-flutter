@@ -22,9 +22,6 @@ class GrimityRefreshIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PullToRefresh(
-      onRefresh: _runRefresh,
-      child: child,
-    );
+    return PullToRefresh(onRefresh: _runRefresh, child: child);
   }
 }

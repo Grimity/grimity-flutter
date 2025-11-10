@@ -7,10 +7,7 @@ import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/photo_select/widget/photo_asset_thumbnail_widget.dart';
 
 class ChatMessageImageGallery extends ConsumerWidget {
-  const ChatMessageImageGallery({
-    super.key,
-    required this.chatId,
-  });
+  const ChatMessageImageGallery({super.key, required this.chatId});
 
   final String chatId;
 
@@ -48,10 +45,7 @@ class ChatMessageImageGallery extends ConsumerWidget {
                 alignment: Alignment.topRight,
                 child: GrimityGesture(
                   onTap: () => provider.removeInputImage(inputImage),
-                  child: Padding(
-                    padding: EdgeInsets.all(2),
-                    child: Assets.icons.chatMessage.remove.svg(),
-                  ),
+                  child: Padding(padding: EdgeInsets.all(2), child: Assets.icons.chatMessage.remove.svg()),
                 ),
               ),
             ],

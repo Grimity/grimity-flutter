@@ -38,34 +38,34 @@ class BoardView extends HookConsumerWidget {
         controller: tabController,
         physics: NeverScrollableScrollPhysics(),
         children:
-        tabList.map((type) {
-          final postAsync = ref.watch(boardPostDataProvider(type));
+            tabList.map((type) {
+              final postAsync = ref.watch(boardPostDataProvider(type));
 
-          return postAsync.when(
-            data:
-                (posts) => GrimityRefreshIndicator(
-              onRefresh: () async {
-                await Future.wait([ref.refresh(boardPostDataProvider(type).future)]);
-              },
-              child: BoardListView(
-                posts: posts.posts,
-                totalCount: posts.totalCount ?? 0,
-                type: type,
-                scrollController: scrollController,
-              ),
-            ),
-            loading:
-                () => Skeletonizer(
-              child: BoardListView(
-                posts: Post.emptyList,
-                totalCount: 0,
-                type: type,
-                scrollController: scrollController,
-              ),
-            ),
-            error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(boardPostDataProvider(type))),
-          );
-        }).toList(),
+              return postAsync.when(
+                data:
+                    (posts) => GrimityRefreshIndicator(
+                      onRefresh: () async {
+                        await Future.wait([ref.refresh(boardPostDataProvider(type).future)]);
+                      },
+                      child: BoardListView(
+                        posts: posts.posts,
+                        totalCount: posts.totalCount ?? 0,
+                        type: type,
+                        scrollController: scrollController,
+                      ),
+                    ),
+                loading:
+                    () => Skeletonizer(
+                      child: BoardListView(
+                        posts: Post.emptyList,
+                        totalCount: 0,
+                        type: type,
+                        scrollController: scrollController,
+                      ),
+                    ),
+                error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(boardPostDataProvider(type))),
+              );
+            }).toList(),
       ),
     );
   }

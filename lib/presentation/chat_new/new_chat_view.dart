@@ -7,12 +7,7 @@ import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class NewChatView extends StatelessWidget {
-  const NewChatView({
-    super.key,
-    required this.appBarView,
-    required this.searchBarView,
-    required this.sibmitButtonView,
-  });
+  const NewChatView({super.key, required this.appBarView, required this.searchBarView, required this.sibmitButtonView});
 
   final PreferredSizeWidget appBarView;
   final Widget searchBarView;
@@ -28,21 +23,13 @@ class NewChatView extends StatelessWidget {
 
           // 현재 데이터를 불러오고 있는 경우.
           if (data.isLoading) {
-            return Center(
-              child: GrimityCircularProgressIndicator(),
-            );
+            return Center(child: GrimityCircularProgressIndicator());
           }
 
           // 현재 팔로잉하고 있는 사용자가 아예 없는 경우.
-          if (data.value!.followings.isEmpty
-           && data.value!.keyword == null) {
+          if (data.value!.followings.isEmpty && data.value!.keyword == null) {
             return ListView(
-              children: [
-                GrimityStateView.user(
-                  title: "아직 팔로우하는 작가가 없어요",
-                  subTitle: "관심 있는 작가를 팔로우하고\n메세지를 주고 받아보세요",
-                ),
-              ],
+              children: [GrimityStateView.user(title: "아직 팔로우하는 작가가 없어요", subTitle: "관심 있는 작가를 팔로우하고\n메세지를 주고 받아보세요")],
             );
           }
 

@@ -40,9 +40,7 @@ class NewChatProvider extends _$NewChatProvider {
   // ignore: avoid_build_context_in_providers
   void submit(BuildContext context) async {
     assert(state.value?.selectedUserId != null);
-    final response = await getIt<ChatAPI>().createChat(
-      CreateChatRequest(targetUserId: state.value!.selectedUserId!),
-    );
+    final response = await getIt<ChatAPI>().createChat(CreateChatRequest(targetUserId: state.value!.selectedUserId!));
 
     // 메세지 뷰어 페이지로 이동.
     if (context.mounted) {
@@ -59,11 +57,7 @@ class NewChatProvider extends _$NewChatProvider {
   /// 다음 페이지에 대한 추가 데이터를 불러옵니다.
   Future<void> loadMore() async {
     assert(state.value?.nextCursor != null);
-    final response = await getIt<MeAPI>().getMyFollowings(
-      null,
-      state.value?.nextCursor,
-      state.value?.keyword,
-    );
+    final response = await getIt<MeAPI>().getMyFollowings(null, state.value?.nextCursor, state.value?.keyword);
 
     state = AsyncData(
       state.value!.copyWith(
@@ -80,18 +74,10 @@ class NewChatProvider extends _$NewChatProvider {
 
   /// 현재 설정된 검색 키워드를 기반으로 데이터를 다시 불러옵니다.
   Future<void> refresh() async {
-    final response = await getIt<MeAPI>().getMyFollowings(
-      null,
-      null,
-      _keyword,
-    );
+    final response = await getIt<MeAPI>().getMyFollowings(null, null, _keyword);
 
     state = AsyncData(
-      state.value!.copyWith(
-        followings: response.followings,
-        nextCursor: response.nextCursor,
-        keyword: _keyword,
-      ),
+      state.value!.copyWith(followings: response.followings, nextCursor: response.nextCursor, keyword: _keyword),
     );
   }
 }

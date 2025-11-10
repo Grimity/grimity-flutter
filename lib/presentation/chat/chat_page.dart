@@ -14,7 +14,7 @@ class ChatPage extends StatelessWidget {
       drawerView: MainAppDrawer(),
       appbarView: ChatAppBar(),
       toolBarView: ChatToolBar(),
-      searchBarView: ChatSearchBar()
+      searchBarView: ChatSearchBar(),
     );
   }
 }

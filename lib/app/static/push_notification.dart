@@ -42,10 +42,7 @@ class PushNotification {
     if (sentToken == token) return;
 
     // 멀티 디바이스 지원을 위해 디바이스 아이디도 포함.
-    final request = {
-      "deviceId": await DeviceInfoUtil.getDeviceId(),
-      "token": token,
-    };
+    final request = {"deviceId": await DeviceInfoUtil.getDeviceId(), "token": token};
 
     await kDio.put("/me/push-token", data: request);
 
@@ -117,18 +114,14 @@ class PushNotification {
         NotificationDetails(
           // Android 알림 전송 설정.
           android: AndroidNotificationDetails(
-            'default_channel', 
+            'default_channel',
             'Default',
             channelDescription: 'default channel',
             importance: Importance.max,
             priority: Priority.high,
           ),
           // iOS 알림 전송 설정.
-          iOS: DarwinNotificationDetails(
-            presentAlert: true,
-            presentBadge: true,
-            presentSound: true,
-          ),
+          iOS: DarwinNotificationDetails(presentAlert: true, presentBadge: true, presentSound: true),
         ),
       );
     }

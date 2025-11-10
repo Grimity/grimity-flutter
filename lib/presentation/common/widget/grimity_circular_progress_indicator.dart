@@ -7,11 +7,7 @@ class GrimityCircularProgressIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: CircularProgressIndicator(
-        color: AppColor.main,
-        backgroundColor: AppColor.gray300,
-        strokeWidth: 2,
-      ),
+      child: CircularProgressIndicator(color: AppColor.main, backgroundColor: AppColor.gray300, strokeWidth: 2),
     );
   }
 }

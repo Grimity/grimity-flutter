@@ -90,7 +90,6 @@ class PostDetailView extends HookWidget {
                     grayGap,
                     SliverToBoxAdapter(child: PostLatestView()),
                     SliverToBoxAdapter(child: Gap(22)),
-
                   ],
                 ),
               ),

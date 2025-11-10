@@ -47,21 +47,14 @@ class ChatProvider extends _$ChatProvider {
     assert(_state.nextCursor != null);
     final response = await getIt<ChatAPI>().search(null, _state.nextCursor, _state.keyword);
 
-    state = AsyncData(_state.copyWith(
-      chats: [..._state.chats, ...response.chats],
-      nextCursor: response.nextCursor,
-    ));
+    state = AsyncData(_state.copyWith(chats: [..._state.chats, ...response.chats], nextCursor: response.nextCursor));
   }
 
   /// 현재 데이터를 모두 버리고 다시 처음부터 데이터를 불러옵니다.
   Future<void> refresh() async {
     final response = await getIt<ChatAPI>().search(null, null, _keyword);
 
-    state = AsyncData(_state.copyWith(
-      chats: response.chats,
-      keyword: _keyword,
-      nextCursor: response.nextCursor,
-    ));
+    state = AsyncData(_state.copyWith(chats: response.chats, keyword: _keyword, nextCursor: response.nextCursor));
   }
 
   /// 현재 선택 상태 여부를 정의합니다.
@@ -91,9 +84,7 @@ class ChatProvider extends _$ChatProvider {
   /// 모든 채팅을 대상으로 선택 여부를 정의합니다.
   void selectChatAll(bool value) {
     if (value) {
-      state = AsyncData(_state.copyWith(
-        selectedChats: _state.chats.map((e) => e.id).toList()
-      ));
+      state = AsyncData(_state.copyWith(selectedChats: _state.chats.map((e) => e.id).toList()));
     } else {
       state = AsyncData(_state.copyWith(selectedChats: []));
     }

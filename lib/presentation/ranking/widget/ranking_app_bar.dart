@@ -16,11 +16,7 @@ class RankingAppBar extends StatelessWidget {
       snap: false,
       centerTitle: false,
       title: Text('랭킹', style: AppTypeface.subTitle3.copyWith(color: AppColor.primary4)),
-      actions: [
-        GrimityActionButton.search(context),
-        Gap(20.w),
-        GrimityActionButton.menu(context),
-      ],
+      actions: [GrimityActionButton.search(context), Gap(20.w), GrimityActionButton.menu(context)],
       bottom: const PreferredSize(
         preferredSize: Size.fromHeight(1),
         child: Divider(height: 1, color: AppColor.gray300),

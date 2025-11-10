@@ -35,5 +35,5 @@ class AppConfig {
   static String buildUserUrl(String userUrl) => '${instance._baseUrl}$userUrl';
 
   /// imageUrl
-  static String buildImageUrl(String imagePath ) => '${instance._imageUrl}$imagePath';
+  static String buildImageUrl(String imagePath) => '${instance._imageUrl}$imagePath';
 }

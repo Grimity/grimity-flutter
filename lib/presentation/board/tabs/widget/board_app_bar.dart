@@ -16,11 +16,7 @@ class BoardAppBar extends StatelessWidget {
       snap: false,
       centerTitle: false,
       title: Text('자유 게시판', style: AppTypeface.subTitle3.copyWith(color: AppColor.primary4)),
-      actions: [
-        GrimityActionButton.search(context),
-        Gap(20.w),
-        GrimityActionButton.menu(context),
-      ],
+      actions: [GrimityActionButton.search(context), Gap(20.w), GrimityActionButton.menu(context)],
     );
   }
 }

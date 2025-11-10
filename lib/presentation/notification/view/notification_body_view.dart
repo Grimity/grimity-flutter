@@ -31,7 +31,7 @@ class NotificationBodyView extends ConsumerWidget {
                   icon: Assets.icons.common.view,
                 ),
                 Gap(8),
-                VerticalDivider(color: AppColor.gray300, width: 1,),
+                VerticalDivider(color: AppColor.gray300, width: 1),
                 Gap(8),
                 NotificationActionButton(
                   title: '전체 삭제',
@@ -40,7 +40,7 @@ class NotificationBodyView extends ConsumerWidget {
                 ),
               ],
             ),
-          )
+          ),
         ),
         SliverList.separated(
           itemBuilder: (context, index) {
@@ -55,4 +55,3 @@ class NotificationBodyView extends ConsumerWidget {
     );
   }
 }
-

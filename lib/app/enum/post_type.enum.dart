@@ -17,10 +17,7 @@ enum PostType {
   const PostType(this.typeName);
 
   static PostType fromString(String value) {
-    return PostType.values.firstWhere(
-      (e) => e.toJson() == value,
-      orElse: () => PostType.normal,
-    );
+    return PostType.values.firstWhere((e) => e.toJson() == value, orElse: () => PostType.normal);
   }
 
   String toJson() {

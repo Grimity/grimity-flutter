@@ -34,14 +34,8 @@ abstract class ChatAPI {
   Future<UserBaseResponse> getUserByChat(@Path('id') String id);
 
   @PUT("/chats/{id}/join")
-  Future<void> join(
-    @Path('id') String id,
-    @Body() SocketChatRequest request,
-  );
+  Future<void> join(@Path('id') String id, @Body() SocketChatRequest request);
 
   @PUT("/chats/{id}/leave")
-  Future<void> leave(
-    @Path('id') String id,
-    @Body() SocketChatRequest request,
-  );
+  Future<void> leave(@Path('id') String id, @Body() SocketChatRequest request);
 }

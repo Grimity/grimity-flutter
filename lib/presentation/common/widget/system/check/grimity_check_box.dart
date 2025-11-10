@@ -35,25 +35,15 @@ class GrimityCheckBox extends StatelessWidget {
     );
   }
 
-  static withLabeled({
-    required bool value,
-    required String label,
-    required VoidCallback onTap,
-  }) {
+  static withLabeled({required bool value, required String label, required VoidCallback onTap}) {
     return GrimityGesture(
       onTap: onTap,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         spacing: 8,
         children: [
-          GrimityCheckBox(
-            value: value,
-            onChanged: (_) => onTap(),
-          ),
-          Text(
-            label,
-            style: AppTypeface.caption1.copyWith(color: AppColor.gray700),
-          ),
+          GrimityCheckBox(value: value, onChanged: (_) => onTap()),
+          Text(label, style: AppTypeface.caption1.copyWith(color: AppColor.gray700)),
         ],
       ),
     );
@@ -80,10 +70,7 @@ class GrimityCheckBox extends StatelessWidget {
                 opacity: isVisible ? 1 : 0,
                 duration: Duration(milliseconds: 250),
                 curve: Curves.ease,
-                child: Padding(
-                  padding: EdgeInsets.only(right: 16),
-                  child: GrimityCheckBox(value: value),
-                ),
+                child: Padding(padding: EdgeInsets.only(right: 16), child: GrimityCheckBox(value: value)),
               ),
             ),
             Expanded(child: child),

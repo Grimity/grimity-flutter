@@ -14,10 +14,7 @@ import 'package:grimity/presentation/common/widget/popup/grimity_modal_bottom_sh
 import 'package:grimity/presentation/common/widget/system/profile/grimity_user_image.dart';
 
 class ChatMessageAppBar extends ConsumerWidget implements PreferredSizeWidget {
-  const ChatMessageAppBar({
-    super.key,
-    required this.chatId,
-  });
+  const ChatMessageAppBar({super.key, required this.chatId});
 
   final String chatId;
 
@@ -26,10 +23,7 @@ class ChatMessageAppBar extends ConsumerWidget implements PreferredSizeWidget {
     final data = ref.watch(chatMessageProviderProvider(chatId: chatId));
 
     return AppBar(
-      title: data.isLoading ? SizedBox() : _BodyArea(
-        chatId: chatId,
-        model: data.value!.opponentUser
-      ),
+      title: data.isLoading ? SizedBox() : _BodyArea(chatId: chatId, model: data.value!.opponentUser),
       titleSpacing: 0,
       bottom: const PreferredSize(
         preferredSize: Size.fromHeight(1),
@@ -43,30 +37,27 @@ class ChatMessageAppBar extends ConsumerWidget implements PreferredSizeWidget {
 }
 
 class _BodyArea extends StatelessWidget {
-  const _BodyArea({
-    required this.chatId,
-    required this.model,
-  });
+  const _BodyArea({required this.chatId, required this.model});
 
   final String chatId;
   final UserBaseResponse model;
 
   void openBottomSheet(BuildContext context) {
-    GrimityModalBottomSheet.show(context, buttons: [
-      GrimityModalButtonModel(
-        title: "신고하기",
-        onTap: () {
-          Navigator.pop(context);
+    GrimityModalBottomSheet.show(
+      context,
+      buttons: [
+        GrimityModalButtonModel(
+          title: "신고하기",
+          onTap: () {
+            Navigator.pop(context);
 
-          // 신고 페이지로 이동.
-          ReportRoute(refType: ReportRefType.chat, refId: chatId).push(context);
-        },
-      ),
-      GrimityModalButtonModel(
-        title: "채팅방 나가기",
-        onTap: () => showDeleteChatDialog(context: context, chatId: chatId),
-      )
-    ]);
+            // 신고 페이지로 이동.
+            ReportRoute(refType: ReportRefType.chat, refId: chatId).push(context);
+          },
+        ),
+        GrimityModalButtonModel(title: "채팅방 나가기", onTap: () => showDeleteChatDialog(context: context, chatId: chatId)),
+      ],
+    );
   }
 
   @override
@@ -78,12 +69,7 @@ class _BodyArea extends StatelessWidget {
         GrimityUserImage(imageUrl: model.image, size: 30),
 
         // 사용자 이름 표시.
-        Expanded(
-          child: Text(
-            model.name,
-            style: AppTypeface.subTitle3.copyWith(color: AppColor.primary4),
-          ),
-        ),
+        Expanded(child: Text(model.name, style: AppTypeface.subTitle3.copyWith(color: AppColor.primary4))),
 
         // 더보기 버튼 표시.
         GrimityGesture(

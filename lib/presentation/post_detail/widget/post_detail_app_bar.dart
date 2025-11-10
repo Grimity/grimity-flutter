@@ -12,9 +12,7 @@ class PostDetailAppBar extends StatelessWidget {
       floating: false,
       snap: false,
       centerTitle: false,
-      actions: [
-        GrimityActionButton.menu(context),
-      ],
+      actions: [GrimityActionButton.menu(context)],
       bottom: const PreferredSize(
         preferredSize: Size.fromHeight(1),
         child: Divider(height: 1, color: AppColor.gray300),

@@ -11,10 +11,7 @@ import 'package:grimity/presentation/common/widget/system/profile/grimity_user_i
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ChatScrollItem extends ConsumerWidget {
-  const ChatScrollItem({
-    super.key,
-    required this.model,
-  });
+  const ChatScrollItem({super.key, required this.model});
 
   final ChatResponse model;
 
@@ -48,23 +45,17 @@ class ChatScrollItem extends ConsumerWidget {
                     spacing: 4,
                     children: [
                       // 사용자 이름 표시.
-                      Text(
-                        model.opponentUser.name, 
-                        style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
-                      ),
+                      Text(model.opponentUser.name, style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
                       CircleAvatar(backgroundColor: AppColor.gray400, radius: 1),
                       Text(
-                        model.lastMessage?.createdAt.toRelativeTime()
-                                  ?? model.enteredAt.toRelativeTime(), 
+                        model.lastMessage?.createdAt.toRelativeTime() ?? model.enteredAt.toRelativeTime(),
                         style: AppTypeface.caption1.copyWith(color: AppColor.gray600),
                       ),
                     ],
                   ),
                   // 최근 메세지 내용 표시.
                   Text(
-                    model.lastMessage == null
-                      ? "최근 메세지가 없습니다."
-                      : model.lastMessage?.content ?? "사진을 보냈습니다.", 
+                    model.lastMessage == null ? "최근 메세지가 없습니다." : model.lastMessage?.content ?? "사진을 보냈습니다.",
                     style: AppTypeface.label3.copyWith(color: AppColor.gray800),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
@@ -73,8 +64,7 @@ class ChatScrollItem extends ConsumerWidget {
               ),
             ),
 
-            if (model.unreadCount > 0)
-              _UnreadIndicator(unreadCount: model.unreadCount)
+            if (model.unreadCount > 0) _UnreadIndicator(unreadCount: model.unreadCount),
           ],
         ),
       ),
@@ -91,10 +81,7 @@ class _UnreadIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 1, horizontal: 6),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(1e10),
-        color: AppColor.accentRed,
-      ),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(1e10), color: AppColor.accentRed),
       child: Text(
         unreadCount > 99 ? "99+" : unreadCount.toString(),
         style: AppTypeface.caption1.copyWith(color: AppColor.gray00),

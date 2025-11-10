@@ -57,12 +57,8 @@ abstract class DeleteFeedsRequest with _$DeleteFeedsRequest {
 
 @freezed
 abstract class SearchFeedRequest with _$SearchFeedRequest {
-  const factory SearchFeedRequest({
-    String? cursor,
-    int? size,
-    required String keyword,
-    required SortType sort,
-  }) = _SearchFeedRequest;
+  const factory SearchFeedRequest({String? cursor, int? size, required String keyword, required SortType sort}) =
+      _SearchFeedRequest;
 
   factory SearchFeedRequest.fromJson(Map<String, dynamic> json) => _$SearchFeedRequestFromJson(json);
 }

@@ -13,10 +13,8 @@ class FollowingFeedAppBar extends StatelessWidget {
       floating: false,
       snap: false,
       centerTitle: false,
-      title: Text('팔로잉', style: AppTypeface.subTitle3.copyWith(color: AppColor.primary4),),
-      actions: [
-        GrimityActionButton.menu(context),
-      ],
+      title: Text('팔로잉', style: AppTypeface.subTitle3.copyWith(color: AppColor.primary4)),
+      actions: [GrimityActionButton.menu(context)],
       bottom: const PreferredSize(
         preferredSize: Size.fromHeight(1),
         child: Divider(height: 1, color: AppColor.gray300),

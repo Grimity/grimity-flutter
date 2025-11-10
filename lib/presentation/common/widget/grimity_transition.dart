@@ -2,10 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 
 class GrimityTransition extends StatelessWidget {
-  const GrimityTransition({
-    super.key,
-    required this.child,
-  });
+  const GrimityTransition({super.key, required this.child});
 
   final Widget child;
 

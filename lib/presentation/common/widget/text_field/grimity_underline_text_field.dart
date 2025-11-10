@@ -113,8 +113,7 @@ class GrimityUnderlineTextField extends HookWidget {
   TextStyle get _textStyle {
     if (useBodyTextStyle) {
       return AppTypeface.body1;
-    }
-    else {
+    } else {
       return AppTypeface.label2;
     }
   }

@@ -8,9 +8,6 @@ class FollowingFeedPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FollowingFeedView(
-      followFeedAppbar: FollowingFeedAppBar(),
-      followingFeedListView: FollowingFeedListView(),
-    );
+    return FollowingFeedView(followFeedAppbar: FollowingFeedAppBar(), followingFeedListView: FollowingFeedListView());
   }
 }

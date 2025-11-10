@@ -17,11 +17,7 @@ class BoardSearchAppBar extends StatelessWidget {
       centerTitle: false,
       title: Text('검색', style: AppTypeface.subTitle3.copyWith(color: AppColor.primary4)),
       titleSpacing: 0,
-      actions: [
-        GrimityActionButton.search(context),
-        Gap(20.w),
-        GrimityActionButton.menu(context),
-      ],
+      actions: [GrimityActionButton.search(context), Gap(20.w), GrimityActionButton.menu(context)],
     );
   }
 }
