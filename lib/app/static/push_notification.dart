@@ -18,6 +18,11 @@ class PushNotification {
   static final localNotificationPlugin = FlutterLocalNotificationsPlugin();
   static final localNotificationSettings = InitializationSettings(
     android: AndroidInitializationSettings("@mipmap/ic_launcher"),
+    iOS: DarwinInitializationSettings(
+      requestSoundPermission: false,
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+    ),
   );
 
   // 앱이 포그라운드 상태일 때 Firebase FCM에서 수신한 새 푸시 메시지를 처리하는 스트림입니다.
@@ -59,20 +64,13 @@ class PushNotification {
       alert: true,
       badge: true,
       sound: true,
-      provisional: true, // 조용한 알림 허용
+      provisional: false, // 조용한 알림 비활성화
     );
 
     // 사용자가 알림 권한을 거부한 경우.
     if (settings.authorizationStatus == AuthorizationStatus.denied) {
       return false;
     }
-
-    // iOS 포그라운드 알림 표시 허용.
-    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
 
     return true;
   }
@@ -104,8 +102,11 @@ class PushNotification {
   /// 앱이 포그라운드인 상태에서 푸시 알림 메시지가 전송되었을 때 호출됩니다.
   /// iOS 에서는 이미 설정상으로 포그라운드 상태의 알림을 표시할 수 있도록
   /// 설정했으므로 이를 생략합니다.
-  static void onForegroundMessage(RemoteMessage message) {
-    _streamController.add(message);
+  static void onForegroundMessage(RemoteMessage message) async {
+    if (_streamController.hasListener) {
+      _streamController.add(message);
+      return;
+    }
 
     final notification = message.notification;
     if (notification != null && Platform.isAndroid) {
@@ -121,6 +122,12 @@ class PushNotification {
             channelDescription: 'default channel',
             importance: Importance.max,
             priority: Priority.high,
+          ),
+          // iOS 알림 전송 설정.
+          iOS: DarwinNotificationDetails(
+            presentAlert: true,
+            presentBadge: true,
+            presentSound: true,
           ),
         ),
       );
