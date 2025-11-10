@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/feed.dart';
+import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/grimity_highlight_text_span.dart';
 import 'package:grimity/presentation/common/widget/grimity_image.dart';
@@ -47,14 +49,20 @@ class GrimityImageFeed extends StatelessWidget {
           const Gap(8),
           Flexible(child: GrimityHighlightTextSpan(text: feed.title, keyword: keyword, normal: AppTypeface.label2)),
           const Gap(2),
-          GrimityReaction.nameLikeView(
-            name: feed.author?.name ?? authorName,
-            likeCount: feed.likeCount,
-            viewCount: feed.viewCount,
-            onNameTap: () {
-              if (feed.author != null) {
-                ProfileRoute(url: feed.author!.url).go(context);
-              }
+          Consumer(
+            builder: (context, ref, child) {
+              final myUrl = ref.read(userAuthProvider)?.url;
+
+              return GrimityReaction.nameLikeView(
+                name: feed.author?.name ?? authorName,
+                likeCount: feed.likeCount,
+                viewCount: feed.viewCount,
+                onNameTap: () {
+                  if (feed.author != null) {
+                    AppRouter.goProfile(context, targetUrl: feed.author!.url, myUrl: myUrl);
+                  }
+                },
+              );
             },
           ),
         ],

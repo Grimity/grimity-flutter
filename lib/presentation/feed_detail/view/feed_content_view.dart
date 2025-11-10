@@ -79,7 +79,7 @@ class FeedContentView extends ConsumerWidget {
                 title: '유저 프로필로 이동',
                 onTap: () {
                   context.pop();
-                  ProfileRoute(url: feed.author!.url).go(context);
+                  AppRouter.goProfile(context, targetUrl: feed.author!.url);
                 },
               ),
             ];
@@ -116,8 +116,15 @@ class _FeedAuthorInfoSection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              GrimityGesture(
-                onTap: () => ProfileRoute(url: feed.author!.url).go(context),
+              Consumer(
+                builder: (context, ref, child) {
+                  final myUrl = ref.read(userAuthProvider)?.url;
+
+                  return GrimityGesture(
+                    onTap: () => AppRouter.goProfile(context, targetUrl: feed.author!.url, myUrl: myUrl),
+                    child: child,
+                  );
+                },
                 child: Text(
                   feed.author?.name ?? '작성자 정보 없음',
                   style: AppTypeface.label2.copyWith(color: AppColor.gray700),

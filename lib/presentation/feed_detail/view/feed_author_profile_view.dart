@@ -7,6 +7,7 @@ import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/grimity_image.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
@@ -129,27 +130,34 @@ class _AuthorFeeds extends ConsumerWidget {
               ],
             ),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30),
-            child: GrimityGesture(
-              onTap: () => ProfileRoute(url: url).go(context),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(16),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: AppColor.mainSecondary),
-                    child: Assets.icons.common.arrowRight.svg(
-                      width: 20,
-                      height: 20,
-                      colorFilter: ColorFilter.mode(AppColor.main, BlendMode.srcIn),
-                    ),
+          Consumer(
+            builder: (context, ref, child) {
+              final myUrl = ref.read(userAuthProvider)?.url;
+
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30),
+                child: GrimityGesture(
+                  onTap: () => AppRouter.goProfile(context, targetUrl: url, myUrl: myUrl),
+                  child: child,
+                ),
+              );
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: AppColor.mainSecondary),
+                  child: Assets.icons.common.arrowRight.svg(
+                    width: 20,
+                    height: 20,
+                    colorFilter: ColorFilter.mode(AppColor.main, BlendMode.srcIn),
                   ),
-                  Gap(10),
-                  Text('작품', style: AppTypeface.caption1.copyWith(color: AppColor.main)),
-                  Text('더보기', style: AppTypeface.caption1.copyWith(color: AppColor.main)),
-                ],
-              ),
+                ),
+                Gap(10),
+                Text('작품', style: AppTypeface.caption1.copyWith(color: AppColor.main)),
+                Text('더보기', style: AppTypeface.caption1.copyWith(color: AppColor.main)),
+              ],
             ),
           ),
           Gap(16),

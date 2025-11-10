@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/common/widget/button/grimity_button.dart';
@@ -11,9 +10,10 @@ import 'package:grimity/presentation/common/widget/system/profile/grimity_profil
 import 'package:grimity/presentation/common/widget/system/profile/grimity_user_image.dart';
 
 class GrimityUserCard extends StatelessWidget {
-  const GrimityUserCard({super.key, required this.user, required this.onFollowTap});
+  const GrimityUserCard({super.key, required this.user, required this.onTap, required this.onFollowTap});
 
   final User user;
+  final VoidCallback onTap;
   final VoidCallback onFollowTap;
 
   final double _coverHeight = 110;
@@ -23,7 +23,7 @@ class GrimityUserCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GrimityGesture(
-      onTap: () => ProfileRoute(url: user.url).go(context),
+      onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadiusGeometry.circular(12),
