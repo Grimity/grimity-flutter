@@ -11,7 +11,8 @@ part 'comment_input_provider.freezed.dart';
 
 @riverpod
 class CommentInput extends _$CommentInput {
-  FocusNode? _focusNode;
+  FocusNode? focusNode;
+  VoidCallback? requestFocus;
 
   @override
   CommentInputState build(CommentType type) {
@@ -64,9 +65,6 @@ class CommentInput extends _$CommentInput {
   void setUploading(bool uploading) {
     state = state.copyWith(uploading: uploading);
   }
-
-  void setFocusNode(FocusNode? focusNode) => _focusNode = focusNode;
-  FocusNode? get focusNode => _focusNode;
 }
 
 @freezed

@@ -111,9 +111,8 @@ class GrimityUtilBar extends ConsumerWidget {
               Gap(20),
               GrimityGesture(
                 onTap: () {
-                  final notifier = ref.watch(commentInputProvider(commentType).notifier);
-                  assert(notifier.focusNode != null);
-                  notifier.focusNode?.requestFocus();
+                  final notifier = ref.read(commentInputProvider(commentType).notifier);
+                  notifier.requestFocus?.call();
                 },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
