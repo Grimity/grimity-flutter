@@ -1,4 +1,5 @@
 import 'package:grimity/app/config/app_router.dart';
+import 'package:grimity/domain/usecase/system_usecases.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/provider/user_subscribe_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -11,8 +12,12 @@ class Splash extends _$Splash {
   @override
   void build() {}
 
-  // TODO: 앱 버전 체크 로직 추가
   Future<void> checkAppVersion() async {
+    final result = await getAppVersionUseCase.execute();
+
+    // TODO: 업데이트 기능 정의 후 앱 버전에 따른 로직 처리 필요
+    if (result.isSuccess) {}
+
     return;
   }
 
