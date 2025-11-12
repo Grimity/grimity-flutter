@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/presentation/comment/enum/comment_type.dart';
@@ -10,6 +11,8 @@ part 'comment_input_provider.freezed.dart';
 
 @riverpod
 class CommentInput extends _$CommentInput {
+  FocusNode? _focusNode;
+
   @override
   CommentInputState build(CommentType type) {
     return CommentInputState();
@@ -61,6 +64,9 @@ class CommentInput extends _$CommentInput {
   void setUploading(bool uploading) {
     state = state.copyWith(uploading: uploading);
   }
+
+  void setFocusNode(FocusNode? focusNode) => _focusNode = focusNode;
+  FocusNode? get focusNode => _focusNode;
 }
 
 @freezed

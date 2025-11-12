@@ -19,6 +19,7 @@ class CommentInputBar extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = useTextEditingController();
+    final focusNode = useFocusNode();
     final state = ref.watch(commentInputProvider(commentType));
     final notifier = ref.read(commentInputProvider(commentType).notifier);
     final isNotEmpty = state.content.trim().isNotEmpty;
@@ -30,6 +31,14 @@ class CommentInputBar extends HookConsumerWidget {
 
       return null;
     }, [state.content]);
+
+    useEffect(() {
+      notifier.setFocusNode(focusNode);
+
+      return () {
+        notifier.setFocusNode(null);
+      };
+    }, [focusNode]);
 
     return Column(
       children: [
@@ -73,6 +82,7 @@ class CommentInputBar extends HookConsumerWidget {
                 Expanded(
                   child: TextField(
                     controller: controller,
+                    focusNode: focusNode,
                     maxLines: 5,
                     minLines: 1,
                     maxLength: 1000,
