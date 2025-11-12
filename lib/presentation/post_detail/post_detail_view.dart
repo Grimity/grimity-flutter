@@ -83,7 +83,15 @@ class PostDetailView extends HookConsumerWidget {
         );
 
         assert(commentInputNotifier.focusNode != null);
-        commentInputNotifier.focusNode?.requestFocus();
+        final focusNode = commentInputNotifier.focusNode;
+
+        // 이미 포커스된 경우 해제한 뒤, 프레임 종료 후 다시 포커스를 요청.
+        if (focusNode?.hasFocus ?? false) {
+          focusNode?.unfocus();
+          await WidgetsBinding.instance.endOfFrame;
+        }
+
+        focusNode?.requestFocus();
       };
 
       return null;
