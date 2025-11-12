@@ -33,10 +33,10 @@ class CommentInputBar extends HookConsumerWidget {
     }, [state.content]);
 
     useEffect(() {
-      notifier.setFocusNode(focusNode);
+      notifier.focusNode = focusNode;
 
       return () {
-        notifier.setFocusNode(null);
+        notifier.focusNode = null;
       };
     }, [focusNode]);
 
