@@ -8,12 +8,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class SearchView extends HookConsumerWidget {
   const SearchView({
     super.key,
+    this.initialKeyword,
     required this.recommendTagView,
     required this.searchFeedTabView,
     required this.searchUserTabView,
     required this.searchPostTabView,
   });
 
+  final String? initialKeyword;
   final Widget recommendTagView;
   final Widget searchFeedTabView;
   final Widget searchUserTabView;
@@ -23,6 +25,16 @@ class SearchView extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final keyword = ref.watch(searchKeywordProvider);
     final tabController = useTabController(initialLength: 3);
+
+    // 초기 키워드가 있는 경우 searchKeyword update
+    useEffect(() {
+      if (initialKeyword != null && initialKeyword!.isNotEmpty) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          ref.read(searchKeywordProvider.notifier).setKeyword(initialKeyword!);
+        });
+      }
+      return null;
+    }, [initialKeyword]);
 
     return Scaffold(
       body: SafeArea(

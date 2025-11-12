@@ -501,11 +501,14 @@ class NotificationRoute extends GoRouteData {
 
 @TypedGoRoute<SearchRoute>(path: SearchRoute.path, name: SearchRoute.name)
 class SearchRoute extends GoRouteData {
-  const SearchRoute();
+  const SearchRoute({this.keyword});
+
+  // 검색 초기 키워드.
+  final String? keyword;
 
   static const String path = '/search';
   static const String name = 'search';
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => SearchPage();
+  Widget build(BuildContext context, GoRouterState state) => SearchPage(keyword: keyword);
 }

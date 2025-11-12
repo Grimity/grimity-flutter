@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
+import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/tag.dart';
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
@@ -68,9 +69,7 @@ class _PopularTagCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GrimityGesture(
-      onTap: () {
-        // TODO 태그 검색
-      },
+      onTap: () => SearchRoute(keyword: tag.tagName).push(context),
       child: SizedBox(
         width: 120.w,
         child: Stack(
