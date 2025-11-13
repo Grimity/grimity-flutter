@@ -80,19 +80,20 @@ class FollowingFeedCard extends ConsumerWidget {
                 Gap(8),
                 GrimityGesture(
                   onTap: () => _pushFeedDetail(context, feed.id),
-                  child: Text(feed.title, style: AppTypeface.subTitle4.copyWith(color: AppColor.gray800)),
-                ),
-                Gap(6),
-                GrimityGesture(
-                  onTap: () => _pushFeedDetail(context, feed.id),
-                  child: ReadMoreText(
-                    feed.content ?? '',
-                    style: AppTypeface.label3.copyWith(color: AppColor.gray800),
-                    trimMode: TrimMode.Line,
-                    trimLines: 3,
-                    trimExpandedText: '',
-                    trimCollapsedText: '더보기',
-                    moreStyle: AppTypeface.label2.copyWith(color: AppColor.main),
+                  child: Column(
+                    children: [
+                      Text(feed.title, style: AppTypeface.subTitle4.copyWith(color: AppColor.gray800)),
+                      Gap(6),
+                      ReadMoreText(
+                        feed.content ?? '',
+                        style: AppTypeface.label3.copyWith(color: AppColor.gray800),
+                        trimMode: TrimMode.Line,
+                        trimLines: 3,
+                        trimExpandedText: '',
+                        trimCollapsedText: '더보기',
+                        moreStyle: AppTypeface.label2.copyWith(color: AppColor.main),
+                      ),
+                    ],
                   ),
                 ),
               ],
