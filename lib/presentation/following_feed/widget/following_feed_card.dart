@@ -40,11 +40,18 @@ class FollowingFeedCard extends ConsumerWidget {
               children: [
                 Row(
                   children: [
-                    GrimityUserImage(imageUrl: feed.author?.image ?? '', size: 24),
-                    Gap(6),
-                    Text(
-                      feed.author?.name ?? '작성자 정보 없음',
-                      style: AppTypeface.caption1.copyWith(color: AppColor.gray600),
+                    GrimityGesture(
+                      onTap: () => _goProfile(context),
+                      child: Row(
+                        children: [
+                          GrimityUserImage(imageUrl: feed.author?.image ?? '', size: 24),
+                          Gap(6),
+                          Text(
+                            feed.author?.name ?? '작성자 정보 없음',
+                            style: AppTypeface.caption1.copyWith(color: AppColor.gray600),
+                          ),
+                        ],
+                      ),
                     ),
                     GrimityGrayCircle(),
                     Text(
@@ -60,7 +67,7 @@ class FollowingFeedCard extends ConsumerWidget {
                             title: '유저 프로필로 이동',
                             onTap: () {
                               context.pop();
-                              AppRouter.goProfile(context, targetUrl: feed.author!.url);
+                              _goProfile(context);
                             },
                           ),
                         ];
@@ -71,16 +78,22 @@ class FollowingFeedCard extends ConsumerWidget {
                   ],
                 ),
                 Gap(8),
-                Text(feed.title, style: AppTypeface.subTitle4.copyWith(color: AppColor.gray800)),
+                GrimityGesture(
+                  onTap: () => _goProfile(context),
+                  child: Text(feed.title, style: AppTypeface.subTitle4.copyWith(color: AppColor.gray800)),
+                ),
                 Gap(6),
-                ReadMoreText(
-                  feed.content ?? '',
-                  style: AppTypeface.label3.copyWith(color: AppColor.gray800),
-                  trimMode: TrimMode.Line,
-                  trimLines: 3,
-                  trimExpandedText: '',
-                  trimCollapsedText: '더보기',
-                  moreStyle: AppTypeface.label2.copyWith(color: AppColor.main),
+                GrimityGesture(
+                  onTap: () => _goProfile(context),
+                  child: ReadMoreText(
+                    feed.content ?? '',
+                    style: AppTypeface.label3.copyWith(color: AppColor.gray800),
+                    trimMode: TrimMode.Line,
+                    trimLines: 3,
+                    trimExpandedText: '',
+                    trimCollapsedText: '더보기',
+                    moreStyle: AppTypeface.label2.copyWith(color: AppColor.main),
+                  ),
                 ),
               ],
             ),
@@ -121,22 +134,25 @@ class FollowingFeedCard extends ConsumerWidget {
             Gap(16),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                decoration: BoxDecoration(color: AppColor.gray200, borderRadius: BorderRadius.circular(12)),
-                child: Row(
-                  children: [
-                    GrimityUserImage(imageUrl: feed.comment!.writer?.image ?? '', size: 24),
-                    Gap(6),
-                    Flexible(
-                      child: Text(
-                        feed.comment!.content,
-                        style: AppTypeface.caption2.copyWith(color: AppColor.gray700),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+              child: GrimityGesture(
+                onTap: () => _goProfile(context),
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  decoration: BoxDecoration(color: AppColor.gray200, borderRadius: BorderRadius.circular(12)),
+                  child: Row(
+                    children: [
+                      GrimityUserImage(imageUrl: feed.comment!.writer?.image ?? '', size: 24),
+                      Gap(6),
+                      Flexible(
+                        child: Text(
+                          feed.comment!.content,
+                          style: AppTypeface.caption2.copyWith(color: AppColor.gray700),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -151,6 +167,13 @@ class FollowingFeedCard extends ConsumerWidget {
     padding: EdgeInsets.symmetric(horizontal: 16),
     child: Container(width: 343.w, height: 343.w, color: AppColor.gray400),
   );
+
+  // 프로필 이동
+  void _goProfile(BuildContext context) {
+    if (feed.author != null) {
+      AppRouter.goProfile(context, targetUrl: feed.author!.url);
+    }
+  }
 }
 
 class _FollowingFeedCardImageCarousel extends StatelessWidget {
