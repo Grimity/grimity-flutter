@@ -1,5 +1,5 @@
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:grimity/app/environment/environment_enum.dart';
+import 'package:grimity/app/environment/flavor.dart';
 
 extension StringExtension on String {
   /// 리사이즈를 지원하는 이미지 크기(너비 기준) 목록.
@@ -17,7 +17,7 @@ extension StringExtension on String {
     );
 
     final parsedUri = Uri.parse(this);
-    final newImageUri = Uri.parse(Env.dev.imageUrl);
+    final newImageUri = Uri.parse(Flavor.env.imageUrl);
     final queryParameters = {"s": closest.toStringAsFixed(0)};
 
     try {
