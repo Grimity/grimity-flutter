@@ -12,7 +12,7 @@ class IncrementFeedViewCountUseCase extends UseCase<String, Result<void>> {
   final FeedRepository _feedRepository;
 
   @override
-  FutureOr<Result<void>> execute(String id) async {
+  Future<Result<void>> execute(String id) async {
     return await _feedRepository.incrementFeedViewCount(id);
   }
 }
