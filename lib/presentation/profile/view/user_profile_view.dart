@@ -154,7 +154,7 @@ class UserProfileView extends ConsumerWidget {
               if (user == null) return;
 
               builderContext.pop();
-              await completeDeleteUserProcessUseCase.execute(LoginProviderX.fromString(user.provider ?? ''));
+              await completeDeleteUserProcessUseCase.execute(LoginProvider.fromString(user.provider ?? ''));
               if (context.mounted) {
                 SignInRoute().go(context);
               }

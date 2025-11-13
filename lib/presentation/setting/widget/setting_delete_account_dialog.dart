@@ -22,7 +22,7 @@ void showDeleteAccountDialog(BuildContext context, WidgetRef ref) {
             if (user == null) return;
 
             builderContext.pop();
-            await completeDeleteUserProcessUseCase.execute(LoginProviderX.fromString(user.provider ?? ''));
+            await completeDeleteUserProcessUseCase.execute(LoginProvider.fromString(user.provider ?? ''));
             if (context.mounted) {
               SignInRoute().go(context);
             }

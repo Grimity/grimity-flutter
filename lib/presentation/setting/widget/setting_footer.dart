@@ -62,7 +62,7 @@ class _LogoutTextButton extends ConsumerWidget {
       onPressed: () async {
         final user = ref.read(userAuthProvider);
         if (user == null) return;
-        final provider = LoginProviderX.fromString(user.provider ?? '');
+        final provider = LoginProvider.fromString(user.provider ?? '');
 
         await ref.read(userAuthProvider.notifier).logout(provider);
         if (context.mounted) {

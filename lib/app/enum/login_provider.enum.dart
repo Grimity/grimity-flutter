@@ -1,6 +1,8 @@
-enum LoginProvider { apple, google, kakao }
+enum LoginProvider {
+  apple,
+  google,
+  kakao;
 
-extension LoginProviderX on LoginProvider {
   static LoginProvider fromString(String value) {
     switch (value.toUpperCase()) {
       case 'APPLE':
