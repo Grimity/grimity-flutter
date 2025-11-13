@@ -18,7 +18,10 @@ extension StringExtension on String {
 
     final parsedUri = Uri.parse(this);
     final newImageUri = Uri.parse(Flavor.env.imageUrl);
-    final queryParameters = {"s": closest.toStringAsFixed(0)};
+    final queryParameters = {
+      ...parsedUri.queryParameters,
+      "s": closest.toStringAsFixed(0),
+    };
 
     try {
       return parsedUri
