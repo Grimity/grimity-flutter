@@ -7,31 +7,29 @@ extension StringExtension on String {
 
   /// 지원되는 가장 가까운 너비를 기준으로 크기 조정용 새로운 이미지 URL을 반환합니다.
   String getResizeUrl(int width) {
-    if (width == 0 || width == double.infinity) {
-      return this;
-    }
-
-    // 지원되는 리사이즈 크기 중 가장 가까운 크기.
-    int closest = supportResizeWidths.reduce(
-      (a, b) => (a - width).abs() < (b - width).abs() ? a : b,
-    );
-
-    final parsedUri = Uri.parse(this);
-    final newImageUri = Uri.parse(Flavor.env.imageUrl);
-    final queryParameters = {
-      ...parsedUri.queryParameters,
-      "s": closest.toStringAsFixed(0),
-    };
+    if (width <= 0) return this;
 
     try {
+      // 지원되는 리사이즈 크기 중 가장 가까운 크기.
+      int closest = supportResizeWidths.reduce(
+        (a, b) => (a - width).abs() < (b - width).abs() ? a : b,
+      );
+
+      final parsedUri = Uri.parse(this);
+      final newImageUri = Uri.parse(Flavor.env.imageUrl);
+      final queryParameters = {
+        ...parsedUri.queryParameters,
+        "s": closest.toStringAsFixed(0),
+      };
+
       return parsedUri
           .replace(
             host: newImageUri.host,
             queryParameters: queryParameters,
           )
           .toString();
-    } catch (error) {
-      FirebaseCrashlytics.instance.recordError(error, StackTrace.current);
+    } catch (error, stack) {
+      FirebaseCrashlytics.instance.recordError(error, stack);
       return this;
     }
   }
