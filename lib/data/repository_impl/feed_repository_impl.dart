@@ -159,4 +159,14 @@ class FeedRepositoryImpl extends FeedRepository {
       return Result.failure(e);
     }
   }
+
+  @override
+  Future<Result<void>> incrementFeedViewCount(String id) async {
+    try {
+      await _feedAPI.incrementFeedViewCount(id);
+      return Result.success(null);
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
 }
