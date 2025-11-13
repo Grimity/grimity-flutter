@@ -11,18 +11,26 @@ import 'package:grimity/app/di/di_setup.dart';
 import 'package:grimity/app/environment/environment_enum.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
+enum FlavorType {
+  dev,
+  prod,
+}
+
 class Flavor {
   Flavor._();
 
   static final Flavor _instance = Flavor._();
   static late Env _env;
+  static late FlavorType _type;
 
   static Flavor get instance => _instance;
 
   static Env get env => _env;
+  static FlavorType get type => _type;
 
-  static void initialize(Env type) {
-    _env = type;
+  static void initialize(Env dev, FlavorType type) {
+    _env = dev;
+    _type = type;
   }
 
   /// [env]에 따라 초기 설정 및 초기화 진행
