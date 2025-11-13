@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:grimity/app/extension/image_extension.dart';
+import 'package:grimity/app/extension/string_extension.dart';
 
 class GrimityCachedNetworkImage extends StatelessWidget {
   const GrimityCachedNetworkImage.cover({
@@ -98,7 +99,7 @@ class GrimityCachedNetworkImage extends StatelessWidget {
     }
 
     return CachedNetworkImage(
-      imageUrl: imageUrl,
+      imageUrl: imageUrl.getResizeUrl(cacheWidth ?? 0),
       width: width,
       height: height,
       memCacheWidth: cacheWidth,
