@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/app/base/use_case.dart';
 import 'package:grimity/domain/entity/feeds.dart';
@@ -17,7 +20,15 @@ class GetFollowingFeedsUseCase extends UseCase<GetFollowingFeedsRequestParam, Re
 
     if (result.isSuccess) {
       for (final feed in result.data.feeds) {
-        incrementFeedViewCountUseCase.execute(feed.id);
+        incrementFeedViewCountUseCase.execute(feed.id).catchError((error, stack) {
+          FirebaseCrashlytics.instance.recordError(
+            error,
+            stack,
+            reason: '피드 조회수 증가 실패',
+          );
+
+          return Result.failure(error);
+        });
       }
     }
 
