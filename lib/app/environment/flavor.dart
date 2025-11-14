@@ -28,6 +28,9 @@ class Flavor {
   static Env get env => _env;
   static FlavorType get type => _type;
 
+  static bool get isProd => type == FlavorType.prod;
+  static bool get isDev => type == FlavorType.dev;
+
   static void initialize(Env dev, FlavorType type) {
     _env = dev;
     _type = type;
