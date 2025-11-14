@@ -65,4 +65,7 @@ abstract class FeedAPI {
 
   @DELETE('/feeds/{id}/save')
   Future<void> removeSavedFeed(@Path('id') String id);
+
+  @PUT('/feeds/{id}/view')
+  Future<void> incrementFeedViewCount(@Path('id') String id);
 }

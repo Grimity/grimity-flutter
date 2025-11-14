@@ -29,4 +29,6 @@ abstract class FeedRepository {
   Future<Result<void>> saveFeed(String id);
 
   Future<Result<void>> removeSavedFeed(String id);
+
+  Future<Result<void>> incrementFeedViewCount(String id);
 }
