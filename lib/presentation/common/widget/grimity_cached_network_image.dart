@@ -99,7 +99,7 @@ class GrimityCachedNetworkImage extends StatelessWidget {
     }
 
     return CachedNetworkImage(
-      imageUrl: imageUrl.getResizeUrl(cacheWidth ?? 0),
+      imageUrl: imageUrl.getResizeUrl(cacheWidth ?? cacheHeight ?? 0),
       width: width,
       height: height,
       memCacheWidth: cacheWidth,

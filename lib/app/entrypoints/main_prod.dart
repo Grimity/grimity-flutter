@@ -4,7 +4,7 @@ import 'package:grimity/presentation/app.dart';
 
 /// prod
 void main() async {
-  Flavor.initialize(Env.prod);
+  Flavor.initialize(Env.prod, FlavorType.prod);
 
   return runFlavoredApp();
 }
