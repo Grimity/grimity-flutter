@@ -69,12 +69,6 @@ jobs:
           version-name: ${{ github.event.inputs.VERSION_NAME }}
           build-number: ${{ github.event.inputs.BUILD_NUMBER }}
           release-note: ${{ github.event.inputs.RELEASE_NOTE }}
-          match-repository: Grimity/grimity-flutter-certs
-          match-password: ${{ secrets.MATCH_PASSWORD }}
-          appstore-connect-issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
-          appstore-connect-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
-          appstore-connect-key: ${{ secrets.APP_STORE_CONNECT_KEY }}
-          appstore-team-id: ${{ secrets.APP_STORE_TEAM_ID }}
           build-extra: --flavor prod --target lib/app/entrypoints/main_prod.dart
 
       - name: Artifacts 업로드
