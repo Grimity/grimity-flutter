@@ -227,16 +227,16 @@ class NewChatRoute extends GoRouteData {
 
 @TypedGoRoute<ChatMessageRoute>(path: ChatMessageRoute.path, name: ChatMessageRoute.name)
 class ChatMessageRoute extends GoRouteData {
-  const ChatMessageRoute(this.$extra);
+  const ChatMessageRoute(this.id);
 
-  final String $extra;
+  final String id;
 
-  static const String path = '/chatMessage';
+  static const String path = '/chatMessage/:id';
   static const String name = 'chatMessage';
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return ChatMessagePage(chatId: $extra);
+    return ChatMessagePage(chatId: id);
   }
 }
 
