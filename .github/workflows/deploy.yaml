@@ -34,11 +34,25 @@ jobs:
           distribution: "temurin"
           java-version: 17
 
-      - name: Android SDK 캐시
+      - name: Android NDK 캐시
         uses: actions/cache@v3
         with:
-          path: /usr/local/lib/android/sdk
-          key: android-sdk-${{ runner.os }}
+          path: /usr/local/lib/android/sdk/ndk
+          key: android-ndk-${{ runner.os }}
+
+      - name: Android Cmake 캐시
+        uses: actions/cache@v3
+        with:
+          path: /usr/local/lib/android/sdk/cmake
+          key: android-cmake-${{ runner.os }}
+
+      - name: Gradle 캐시
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
 
       - name: Android SDK 설치
         uses: android-actions/setup-android@v3
@@ -166,7 +180,9 @@ jobs:
             | --- | --- |
             | **빌드 버전** | ${{ github.event.inputs.VERSION_NAME }} |
             | **빌드 번호** | ${{ github.event.inputs.BUILD_NUMBER }} |
+            | **출시 노트** | ${{ github.event.inputs.RELEASE_NOTE }} |
             | **커밋 SHA** | ${{ github.sha }} |
+            | **Flutter 버전** | ${{ vars.FLUTTER_VERSION }} |
 
             ## 대상 파일
             - Android App Bundle: `release.aab`
