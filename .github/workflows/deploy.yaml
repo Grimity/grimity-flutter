@@ -34,17 +34,11 @@ jobs:
           distribution: "temurin"
           java-version: 17
 
-      - name: Android NDK 캐시
-        uses: actions/cache@v3
-        with:
-          path: /usr/local/lib/android/sdk/ndk
-          key: android-ndk-${{ runner.os }}
-
-      - name: Android Cmake 캐시
+      - name: Cmake 캐시
         uses: actions/cache@v3
         with:
           path: /usr/local/lib/android/sdk/cmake
-          key: android-cmake-${{ runner.os }}
+          key: cmake-${{ runner.os }}
 
       - name: Gradle 캐시
         uses: actions/cache@v3
