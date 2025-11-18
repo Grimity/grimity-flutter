@@ -90,11 +90,11 @@ class PushNotification {
     // 백그라운드 조차 아닌 앱이 완전히 꺼진 상태에서의 알림 클릭 후 앱 실행된 경우.
     RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
     if (initialMessage != null) {
-      onBackgroundMessage(initialMessage);
+      onBackgroundMessageClicked(initialMessage);
     }
 
     // 앱이 메시지 클릭된 이후 백그라운드에서 포그라운드로 전환된 경우.
-    FirebaseMessaging.onMessageOpenedApp.listen(onBackgroundMessage);
+    FirebaseMessaging.onMessageOpenedApp.listen(onBackgroundMessageClicked);
 
     // 앱 실행 여부와 상관 없이 백그라운드나 종료 상태에서 메시지가 도착했을 경우.
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
@@ -151,8 +151,8 @@ class PushNotification {
     }
   }
 
-  /// 앱이 백그라운드인 상태에서 푸시 알림 메시지가 전송되었을 때 호출됩니다.
-  static void onBackgroundMessage(RemoteMessage message) async {
+  /// 앱이 백그라운드 또는 종료된 상태에서 사용자가 푸시 알림을 클릭했을 때 호출됩니다.
+  static void onBackgroundMessageClicked(RemoteMessage message) async {
     onMessageClicked(message);
   }
 
@@ -165,6 +165,7 @@ class PushNotification {
 
       // 사용자가 클릭한 알림 읽음 처리.
       if (event == "newNotification") {
+        assert(data != null, "서버에서는 알림 형태의 푸시 메시지라면 항상 데이터를 같이 전달해야 합니다.");
         final model = NotificationResponse.fromJson(data);
         markNotificationAsReadUseCase.execute(model.id);
       }
