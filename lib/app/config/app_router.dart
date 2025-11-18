@@ -207,8 +207,8 @@ class BoardSearchRoute extends GoRouteData {
 class ChatRoute extends GoRouteData {
   const ChatRoute();
 
-  static const String path = '/chat';
-  static const String name = 'chat';
+  static const String path = '/chatMessage';
+  static const String name = 'chatMessage';
 
   @override
   Widget build(BuildContext context, GoRouterState state) => ChatPage();
@@ -231,8 +231,8 @@ class ChatMessageRoute extends GoRouteData {
 
   final String id;
 
-  static const String path = '/chatMessage/:id';
-  static const String name = 'chatMessage';
+  static const String path = '/chats/:id';
+  static const String name = 'chats';
 
   @override
   Widget build(BuildContext context, GoRouterState state) {

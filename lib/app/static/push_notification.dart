@@ -1,9 +1,15 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart' hide NotificationResponse;
+import 'package:go_router/go_router.dart';
+import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/network/provider/dio_provider.dart';
 import 'package:grimity/app/util/device_info_util.dart';
+import 'package:grimity/data/model/notification/notification_response.dart';
+import 'package:grimity/domain/usecase/notifications_usecases.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // 백그라운드에서 FCM 푸시를 받는 진입점.
@@ -80,6 +86,18 @@ class PushNotification {
 
     FirebaseMessaging.instance.onTokenRefresh.listen(onTokenRefresh);
     FirebaseMessaging.onMessage.listen(onForegroundMessage);
+
+    // 백그라운드 조차 아닌 앱이 완전히 꺼진 상태에서의 알림 클릭 후 앱 실행된 경우.
+    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+    if (initialMessage != null) {
+      onBackgroundMessage(initialMessage);
+    }
+
+    // 앱이 메시지 클릭된 이후 백그라운드에서 포그라운드로 전환된 경우.
+    FirebaseMessaging.onMessageOpenedApp.listen(onBackgroundMessage);
+
+    // 앱 실행 여부와 상관 없이 백그라운드나 종료 상태에서 메시지가 도착했을 경우.
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   }
 
   /// 사용자가 로그인 상태이고 알림 권한을 허용한 경우에만 토큰 초기화를 수행합니다.
@@ -88,6 +106,19 @@ class PushNotification {
     if (!hasPermission) return;
 
     await initializeToken();
+  }
+
+  // 포그라운드 푸시 알림 구현을 위해 관련 플러그인 초기화를 수행합니다.
+  static Future<void> initializePlugin() async {
+    await PushNotification.localNotificationPlugin.initialize(
+      PushNotification.localNotificationSettings,
+      onDidReceiveNotificationResponse: (response) {
+        assert(response.payload != null, "FlutterLocalNotificationsPlugin.show 호출 시에 payload를 정의하지 않았을 수 있음.");
+
+        final map = jsonDecode(response.payload!);
+        onMessageClicked(RemoteMessage.fromMap(map));
+      },
+    );
   }
 
   /// 앱이 포그라운드인 상태에서 푸시 알림 메시지가 전송되었을 때 호출됩니다.
@@ -115,7 +146,46 @@ class PushNotification {
           // iOS 알림 전송 설정.
           iOS: DarwinNotificationDetails(presentAlert: true, presentBadge: true, presentSound: true),
         ),
+        payload: jsonEncode(message.toMap()),
       );
     }
+  }
+
+  /// 앱이 백그라운드인 상태에서 푸시 알림 메시지가 전송되었을 때 호출됩니다.
+  static void onBackgroundMessage(RemoteMessage message) async {
+    onMessageClicked(message);
+  }
+
+  /// 사용자가 앱의 생명주기와 상관없이 특정 알림을 클릭했을 경우 호출됩니다.
+  static void onMessageClicked(RemoteMessage message) {
+    if (message.data.isNotEmpty) {
+      final data = message.data['data']; // 메시지에 포함된 JSON 데이터
+      final event = message.data['event']; // 이벤트 종류, 예: 'newNotification'
+      final deepLink = message.data['deepLink']; // 딥링크 경로, 예: '/posts/123'
+
+      // 사용자가 클릭한 알림 읽음 처리.
+      if (event == "newNotification") {
+        final model = NotificationResponse.fromJson(data);
+        markNotificationAsReadUseCase.execute(model.id);
+      }
+
+      // 주어진 딥링크 경로로 페이지 이동.
+      if (deepLink != null) {
+        handleDeepLink(deepLink);
+      }
+    }
+  }
+
+  /// 위젯 트리가 아직 준비되지 않은 상태에서도 주어진 딥링크를 스케쥴링하여 이를 적절히 처리합니다.
+  static void handleDeepLink(String link) {
+    final context = rootNavigatorKey.currentContext;
+
+    // 내비게이션 Context가 모두 초기화될 때까지 디링크 처리 보류.
+    if (context == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => handleDeepLink(link));
+      return;
+    }
+
+    context.push(link);
   }
 }
