@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -74,11 +73,6 @@ class PushNotification {
 
   /// APNs와 FCM 토큰을 초기화하고 갱신을 포함하여 이를 서버와 동기화합니다.
   static Future<void> initializeToken() async {
-    if (Platform.isIOS) {
-      final String? apnsToken = await FirebaseMessaging.instance.getAPNSToken();
-      if (apnsToken == null) return;
-    }
-
     final String? fcmToken = await FirebaseMessaging.instance.getToken();
     if (fcmToken != null) {
       await syncToken(fcmToken);
