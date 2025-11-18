@@ -91,8 +91,6 @@ class PushNotification {
   }
 
   /// 앱이 포그라운드인 상태에서 푸시 알림 메시지가 전송되었을 때 호출됩니다.
-  /// iOS 에서는 이미 설정상으로 포그라운드 상태의 알림을 표시할 수 있도록
-  /// 설정했으므로 이를 생략합니다.
   static void onForegroundMessage(RemoteMessage message) async {
     if (_streamController.hasListener) {
       _streamController.add(message);
