@@ -9,6 +9,7 @@ import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/network/provider/dio_provider.dart';
 import 'package:grimity/app/util/device_info_util.dart';
 import 'package:grimity/data/model/notification/notification_response.dart';
+import 'package:grimity/data/model/push_notification/push_notification_data_response.dart';
 import 'package:grimity/domain/usecase/notifications_usecases.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -159,14 +160,15 @@ class PushNotification {
   /// 사용자가 앱의 생명주기와 상관없이 특정 알림을 클릭했을 경우 호출됩니다.
   static void onMessageClicked(RemoteMessage message) {
     if (message.data.isNotEmpty) {
-      final data = message.data['data']; // 메시지에 포함된 JSON 데이터
-      final event = message.data['event']; // 이벤트 종류, 예: 'newNotification'
-      final deepLink = message.data['deepLink']; // 딥링크 경로, 예: '/posts/123'
+      final response = PushNotificationDataResponse.fromJson(message.data);
+      final data = response.data; // 메시지에 포함된 JSON 데이터
+      final event = response.event; // 이벤트 종류, 예: 'newNotification'
+      final deepLink = response.deepLink; // 딥링크 경로, 예: '/posts/123'
 
       // 사용자가 클릭한 알림 읽음 처리.
       if (event == "newNotification") {
         assert(data != null, "서버에서는 알림 형태의 푸시 메시지라면 항상 데이터를 같이 전달해야 합니다.");
-        final model = NotificationResponse.fromJson(data);
+        final model = NotificationResponse.fromJson(jsonDecode(data!));
         markNotificationAsReadUseCase.execute(model.id);
       }
 
