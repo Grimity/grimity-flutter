@@ -21,7 +21,11 @@ abstract class ChatState with _$ChatState {
 
 @riverpod
 class ChatProvider extends _$ChatProvider {
-  ChatState get _state => state.value!;
+  ChatState get _state {
+    assert(state.value != null, "주로 채팅 목록(Chat) 페이지를 거치지 않은 상태에서 예외가 발생할 수 있습니다.");
+    return state.value!;
+  }
+
   String? _keyword;
 
   @override
@@ -55,6 +59,13 @@ class ChatProvider extends _$ChatProvider {
     final response = await getIt<ChatAPI>().search(null, null, _keyword);
 
     state = AsyncData(_state.copyWith(chats: response.chats, keyword: _keyword, nextCursor: response.nextCursor));
+  }
+
+  /// 단순히 데이터를 최신 상태로 유지하도록 보장하기만 합니다.
+  Future<void> ensureUpdated() async {
+    if (state.hasValue) {
+      refresh();
+    }
   }
 
   /// 현재 선택 상태 여부를 정의합니다.

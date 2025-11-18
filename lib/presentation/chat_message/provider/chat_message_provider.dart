@@ -92,7 +92,7 @@ class ChatMessageProvider extends _$ChatMessageProvider {
       _socket.dispose();
 
       // 변경되었을 수 있는 메시지 내용 때문에 채팅 목록 새로고침.
-      ref.read(chatProviderProvider.notifier).refresh();
+      ref.read(chatProviderProvider.notifier).ensureUpdated();
     });
 
     final historyResponse = responses[1] as ChatMessageResponse;

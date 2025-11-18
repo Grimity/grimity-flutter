@@ -8,8 +8,11 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_config.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/app/di/di_setup.dart';
 import 'package:grimity/app/enum/login_provider.enum.dart';
 import 'package:grimity/app/enum/report.enum.dart';
+import 'package:grimity/data/data_source/remote/chat_api.dart';
+import 'package:grimity/domain/dto/chat_request_params.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/domain/usecase/me_usecases.dart';
 import 'package:grimity/gen/assets.gen.dart';
@@ -129,8 +132,15 @@ class UserProfileView extends ConsumerWidget {
       ] else ...[
         GrimityModalButtonModel(
           title: '메세지 보내기',
-          onTap: () {
+          onTap: () async {
             context.pop();
+
+            final request = CreateChatRequest(targetUserId: user.id);
+            final response = await getIt<ChatAPI>().createChat(request);
+
+            if (context.mounted) {
+              ChatMessageRoute(response.id).push(context);
+            }
           },
         ),
         GrimityModalButtonModel.report(context: context, refType: ReportRefType.user, refId: user.id),
