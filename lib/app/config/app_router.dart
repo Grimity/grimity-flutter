@@ -114,13 +114,9 @@ abstract final class AppRouter {
     TypedStatefulShellBranch<BoardBranchData>(
       routes: [TypedGoRoute<BoardRoute>(path: BoardRoute.path, name: BoardRoute.name)],
     ),
-    TypedStatefulShellBranch<MyBranchData>(
+    TypedStatefulShellBranch<ChatBranchData>(
       routes: [
-        TypedGoRoute<MyRoute>(
-          path: MyRoute.path,
-          name: MyRoute.name,
-          routes: [TypedGoRoute<ProfileRoute>(path: ProfileRoute.path, name: ProfileRoute.name)],
-        ),
+        TypedGoRoute<ChatRoute>(path: ChatRoute.path, name: ChatRoute.name),
       ],
     ),
   ],
@@ -203,7 +199,10 @@ class BoardSearchRoute extends GoRouteData {
   Widget build(BuildContext context, GoRouterState state) => BoardSearchPage();
 }
 
-@TypedGoRoute<ChatRoute>(path: ChatRoute.path, name: ChatRoute.name)
+class ChatBranchData extends StatefulShellBranchData {
+  const ChatBranchData();
+}
+
 class ChatRoute extends GoRouteData {
   const ChatRoute();
 
@@ -240,10 +239,7 @@ class ChatMessageRoute extends GoRouteData {
   }
 }
 
-class MyBranchData extends StatefulShellBranchData {
-  const MyBranchData();
-}
-
+@TypedGoRoute<MyRoute>(path: MyRoute.path, name: MyRoute.name)
 class MyRoute extends GoRouteData {
   const MyRoute();
 
@@ -254,12 +250,13 @@ class MyRoute extends GoRouteData {
   Widget build(BuildContext context, GoRouterState state) => ProfilePage(url: null);
 }
 
+@TypedGoRoute<ProfileRoute>(path: ProfileRoute.path, name: ProfileRoute.name)
 class ProfileRoute extends GoRouteData {
   final String url;
 
   const ProfileRoute({required this.url});
 
-  static const String path = ':url';
+  static const String path = '/profile/:url';
   static const String name = 'userProfile';
 
   @override

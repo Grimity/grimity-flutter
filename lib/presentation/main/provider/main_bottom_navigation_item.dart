@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/gen/assets.gen.dart';
 
@@ -6,7 +7,7 @@ enum MainNavigationItem {
   ranking,
   following,
   board,
-  my;
+  chatMessage;
 
   const MainNavigationItem();
 
@@ -20,8 +21,8 @@ enum MainNavigationItem {
         return Assets.icons.main.following;
       case MainNavigationItem.board:
         return Assets.icons.main.board;
-      case MainNavigationItem.my:
-        return Assets.icons.main.defaultProfile;
+      case MainNavigationItem.chatMessage:
+        return Assets.icons.main.message;
     }
   }
 
@@ -35,8 +36,23 @@ enum MainNavigationItem {
         return FollowRoute.name;
       case MainNavigationItem.board:
         return BoardRoute.name;
-      case MainNavigationItem.my:
-        return MyRoute.name;
+      case MainNavigationItem.chatMessage:
+        return ChatRoute.name;
+    }
+  }
+
+  // Fab Tap시 화면 전환 처리.
+  void onFabTap(BuildContext context) {
+    switch (this) {
+      case MainNavigationItem.board:
+        PostUploadRoute().push(context);
+        break;
+      case MainNavigationItem.chatMessage:
+        NewChatRoute().push(context);
+        break;
+      default:
+        FeedUploadRoute().push(context);
+        break;
     }
   }
 }
