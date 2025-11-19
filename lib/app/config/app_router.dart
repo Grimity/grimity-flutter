@@ -69,24 +69,12 @@ abstract final class AppRouter {
 
   static GoRouter router(WidgetRef ref) => _router;
 
-  /// 프로필 이동
-  /// [targetUrl]과 [myUrl]을 비교.
-  /// 같은 경우 내 프로필로 이동.
-  /// 다른 경우 해당 유저 프로필로 이동.
-  static void goProfile(BuildContext context, {required String targetUrl, String? myUrl}) {
-    if (myUrl == targetUrl) {
-      MyRoute().go(context);
-    } else {
-      ProfileRoute(url: targetUrl).go(context);
-    }
-  }
-
   // URL을 내부 라우팅으로 이동
   static void handleServerUrl(BuildContext context, String url, {String? myUrl}) {
     final parsed = ExternalLinkParser.parse(url);
     switch (parsed.type) {
       case ExternalLinkType.profile:
-        AppRouter.goProfile(context, targetUrl: parsed.url!, myUrl: myUrl);
+        ProfileRoute(url: parsed.url!).push(context);
         break;
       case ExternalLinkType.post:
         context.push('/posts/${parsed.id}');
@@ -237,17 +225,6 @@ class ChatMessageRoute extends GoRouteData {
   Widget build(BuildContext context, GoRouterState state) {
     return ChatMessagePage(chatId: id);
   }
-}
-
-@TypedGoRoute<MyRoute>(path: MyRoute.path, name: MyRoute.name)
-class MyRoute extends GoRouteData {
-  const MyRoute();
-
-  static const String path = '/profile';
-  static const String name = 'myProfile';
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) => ProfilePage(url: null);
 }
 
 @TypedGoRoute<ProfileRoute>(path: ProfileRoute.path, name: ProfileRoute.name)

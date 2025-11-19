@@ -41,7 +41,7 @@ class FollowingFeedCard extends ConsumerWidget {
                 Row(
                   children: [
                     GrimityGesture(
-                      onTap: () => _goProfile(context, feed.author?.url),
+                      onTap: () => _pushProfile(context, feed.author?.url),
                       child: Row(
                         children: [
                           GrimityUserImage(imageUrl: feed.author?.image ?? '', size: 24),
@@ -67,7 +67,7 @@ class FollowingFeedCard extends ConsumerWidget {
                             title: '유저 프로필로 이동',
                             onTap: () {
                               context.pop();
-                              _goProfile(context, feed.author?.url);
+                              _pushProfile(context, feed.author?.url);
                             },
                           ),
                         ];
@@ -169,9 +169,9 @@ class FollowingFeedCard extends ConsumerWidget {
     child: Container(width: 343.w, height: 343.w, color: AppColor.gray400),
   );
 
-  void _goProfile(BuildContext context, String? profileUrl) {
+  void _pushProfile(BuildContext context, String? profileUrl) {
     if (profileUrl != null) {
-      AppRouter.goProfile(context, targetUrl: profileUrl);
+      ProfileRoute(url: profileUrl).push(context);
     }
   }
 

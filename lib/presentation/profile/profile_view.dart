@@ -34,10 +34,8 @@ class ProfileView extends HookConsumerWidget {
     final userProfileKey = useMemoized(() => GlobalKey());
     final tabController = useTabController(initialLength: postTabView == null ? 1 : 2);
 
-    return Container(
-      // 페이지 이동 시 뒤의 페이지가 보이는 문제가 있어 색상 지정 처리.
-      color: Colors.white,
-      child: SafeArea(
+    return Scaffold(
+      body: SafeArea(
         child: NotificationListener<ScrollNotification>(
           onNotification: (scrollNotification) {
             if (scrollNotification is ScrollUpdateNotification) {

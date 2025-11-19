@@ -79,7 +79,7 @@ class FeedContentView extends ConsumerWidget {
                 title: '유저 프로필로 이동',
                 onTap: () {
                   context.pop();
-                  AppRouter.goProfile(context, targetUrl: feed.author!.url);
+                  ProfileRoute(url: feed.author!.url).push(context);
                 },
               ),
             ];
@@ -99,7 +99,7 @@ class _FeedTitleSection extends StatelessWidget {
   }
 }
 
-class _FeedAuthorInfoSection extends ConsumerWidget {
+class _FeedAuthorInfoSection extends StatelessWidget {
   const _FeedAuthorInfoSection({required this.feed, required this.isMine, required this.onMoreTap});
 
   final Feed feed;
@@ -107,13 +107,11 @@ class _FeedAuthorInfoSection extends ConsumerWidget {
   final VoidCallback onMoreTap;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final myUrl = ref.read(userAuthProvider)?.url;
-
+  Widget build(BuildContext context) {
     return Row(
       children: [
         GrimityGesture(
-          onTap: () => AppRouter.goProfile(context, targetUrl: feed.author!.url, myUrl: myUrl),
+          onTap: () => ProfileRoute(url: feed.author!.url).push(context),
           child: GrimityUserImage(imageUrl: feed.author?.image, size: 30),
         ),
         Gap(8),
@@ -122,7 +120,7 @@ class _FeedAuthorInfoSection extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               GrimityGesture(
-                onTap: () => AppRouter.goProfile(context, targetUrl: feed.author!.url, myUrl: myUrl),
+                onTap: () => ProfileRoute(url: feed.author!.url).push(context),
                 child: Text(
                   feed.author?.name ?? '작성자 정보 없음',
                   style: AppTypeface.label2.copyWith(color: AppColor.gray700),
