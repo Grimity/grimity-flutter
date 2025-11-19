@@ -14,7 +14,7 @@ class ChatAppBar extends StatelessWidget {
       snap: false,
       centerTitle: false,
       title: Text("DM", style: AppTypeface.subTitle3.copyWith(color: AppColor.primary4)),
-      actions: [GrimityActionButton.menu(context)],
+      actions: [GrimityActionButton.user(context)],
     );
   }
 }

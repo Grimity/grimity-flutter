@@ -62,7 +62,7 @@ class _ProfileAppBarDelegate extends StatelessWidget {
           ] else ...[
             GrimityActionButton.search(context),
             Gap(20.w),
-            GrimityActionButton.menu(context),
+            GrimityActionButton.user(context),
             Gap(20.w),
           ],
         ],
