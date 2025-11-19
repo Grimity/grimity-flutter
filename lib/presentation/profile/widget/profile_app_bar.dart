@@ -34,15 +34,13 @@ class _ProfileAppBarDelegate extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: Row(
         children: [
-          if (viewType == ProfileViewType.other) ...[
-            IconButton(
-              onPressed: () => Navigator.of(context).maybePop(),
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
-              icon: Icon(Icons.arrow_back_ios_new_outlined, size: 24.w),
-            ),
-            Gap(4.w),
-          ],
+          IconButton(
+            onPressed: () => Navigator.of(context).maybePop(),
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            icon: Icon(Icons.arrow_back_ios_new_outlined, size: 24.w),
+          ),
+          Gap(4.w),
           Expanded(
             child: AnimatedOpacity(
               duration: const Duration(milliseconds: 100),

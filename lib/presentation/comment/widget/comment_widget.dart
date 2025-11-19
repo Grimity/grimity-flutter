@@ -205,7 +205,7 @@ class CommentWidget extends ConsumerWidget {
                 title: '유저 프로필로 이동',
                 onTap: () {
                   context.pop();
-                  AppRouter.goProfile(context, targetUrl: comment.writer!.url);
+                  ProfileRoute(url: comment.writer!.url).push(context);
                 },
               ),
             ];

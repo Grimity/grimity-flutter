@@ -7,7 +7,6 @@ import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/grimity_image.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
@@ -69,21 +68,19 @@ class FeedAuthorProfileView extends ConsumerWidget {
   }
 }
 
-class _AuthorProfile extends ConsumerWidget {
+class _AuthorProfile extends StatelessWidget {
   final User? profile;
 
   const _AuthorProfile({required this.profile});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final myUrl = ref.read(userAuthProvider)?.url;
-
+  Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         children: [
           GrimityGesture(
-            onTap: () => goProfile(context, myUrl),
+            onTap: () => goProfile(context),
             child: GrimityUserImage(imageUrl: profile?.image, size: 30),
           ),
           Gap(8),
@@ -91,7 +88,7 @@ class _AuthorProfile extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               GrimityGesture(
-                onTap: () => goProfile(context, myUrl),
+                onTap: () => goProfile(context),
                 child: Text(profile?.name ?? '', style: AppTypeface.label2.copyWith(color: AppColor.gray700)),
               ),
               RichText(
@@ -112,9 +109,9 @@ class _AuthorProfile extends ConsumerWidget {
     );
   }
 
-  void goProfile(BuildContext context, String? myUrl) {
+  void goProfile(BuildContext context) {
     if (profile != null) {
-      AppRouter.goProfile(context, targetUrl: profile!.url, myUrl: myUrl);
+      ProfileRoute(url: profile!.url).push(context);
     }
   }
 }
@@ -144,34 +141,27 @@ class _AuthorFeeds extends ConsumerWidget {
               ],
             ),
           ),
-          Consumer(
-            builder: (context, ref, child) {
-              final myUrl = ref.read(userAuthProvider)?.url;
-
-              return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30),
-                child: GrimityGesture(
-                  onTap: () => AppRouter.goProfile(context, targetUrl: url, myUrl: myUrl),
-                  child: child,
-                ),
-              );
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: AppColor.mainSecondary),
-                  child: Assets.icons.common.arrowRight.svg(
-                    width: 20,
-                    height: 20,
-                    colorFilter: ColorFilter.mode(AppColor.main, BlendMode.srcIn),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 30),
+            child: GrimityGesture(
+              onTap: () => ProfileRoute(url: url).push(context),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: AppColor.mainSecondary),
+                    child: Assets.icons.common.arrowRight.svg(
+                      width: 20,
+                      height: 20,
+                      colorFilter: ColorFilter.mode(AppColor.main, BlendMode.srcIn),
+                    ),
                   ),
-                ),
-                Gap(10),
-                Text('작품', style: AppTypeface.caption1.copyWith(color: AppColor.main)),
-                Text('더보기', style: AppTypeface.caption1.copyWith(color: AppColor.main)),
-              ],
+                  Gap(10),
+                  Text('작품', style: AppTypeface.caption1.copyWith(color: AppColor.main)),
+                  Text('더보기', style: AppTypeface.caption1.copyWith(color: AppColor.main)),
+                ],
+              ),
             ),
           ),
           Gap(16),
