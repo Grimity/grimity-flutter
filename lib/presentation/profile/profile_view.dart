@@ -76,9 +76,12 @@ class ProfileView extends HookConsumerWidget {
                 behavior: AbsoluteAppBarBehavior(),
                 body: ProfileAppBar(userName: user.name, nameOpacity: nameOpacity.value, viewType: viewType),
               ),
-              AppBar(behavior: MaterialAppBarBehavior(), body: Container(key: userProfileKey, child: userProfileView)),
               AppBar(
-                behavior: MaterialAppBarBehavior(floating: true),
+                behavior: MaterialAppBarBehavior(alignAnimation: false),
+                body: Container(key: userProfileKey, child: userProfileView),
+              ),
+              AppBar(
+                behavior: AbsoluteAppBarBehavior(),
                 body: ProfileTabBar(user: user, tabController: tabController, viewType: viewType),
               ),
             ],
