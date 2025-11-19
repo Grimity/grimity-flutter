@@ -56,6 +56,7 @@ enum DrawerMenuItem {
     return this == DrawerMenuItem.home ||
         this == DrawerMenuItem.paint ||
         this == DrawerMenuItem.board ||
-        this == DrawerMenuItem.following;
+        this == DrawerMenuItem.following ||
+        this == DrawerMenuItem.chat;
   }
 }
