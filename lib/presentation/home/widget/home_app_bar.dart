@@ -40,7 +40,7 @@ class HomeAppBar extends ConsumerWidget {
           orElse: () => GrimityActionButton.notification(onTap: () => onNotificationTap()),
         ),
         Gap(20.w),
-        GrimityActionButton.menu(context),
+        GrimityActionButton.user(context),
       ],
       bottom: const PreferredSize(
         preferredSize: Size.fromHeight(1),
