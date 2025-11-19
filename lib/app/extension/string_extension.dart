@@ -13,8 +13,11 @@ extension StringExtension on String {
       // 지원되는 리사이즈 크기 중 요청된 너비보다 크거나 같은 가장 작은 크기를 찾습니다.
       int closest = supportResizeWidths.firstWhere(
         (size) => size >= width,
-        orElse: () => supportResizeWidths.last,
+        orElse: () => -1,
       );
+
+      // 지원되는 리사이즈 크기보다 큰 경우.
+      if (closest == -1) return this;
 
       final parsedUri = Uri.parse(this);
       final newImageUri = Uri.parse(Flavor.env.imageUrl);
