@@ -6,7 +6,6 @@ import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/static/push_notification.dart';
 import 'package:grimity/presentation/chat/provider/chat_provider.dart';
 import 'package:grimity/presentation/chat/view/chat_scroll_item.dart';
-import 'package:grimity/presentation/chat/widgets/chat_floating_action_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
 import 'package:grimity/presentation/common/widget/grimity_refresh_indicator.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
@@ -14,14 +13,12 @@ import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 class ChatView extends ConsumerStatefulWidget {
   const ChatView({
     super.key,
-    required this.drawerView,
     required this.appbarView,
     required this.toolBarView,
     required this.searchBarView,
   });
 
-  final Widget drawerView;
-  final PreferredSizeWidget appbarView;
+  final Widget appbarView;
   final Widget toolBarView;
   final Widget searchBarView;
 
@@ -50,10 +47,13 @@ class _ChatViewState extends ConsumerState<ChatView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      endDrawer: widget.drawerView,
-      appBar: widget.appbarView,
+    return NestedScrollView(
+      headerSliverBuilder:
+          (context, innerBoxIsScrolled) => [
+            widget.appbarView,
+          ],
       body: SafeArea(
+        top: false,
         child: Consumer(
           builder: (context, ref, _) {
             final provider = ref.read(chatProviderProvider.notifier);
@@ -78,35 +78,25 @@ class _ChatViewState extends ConsumerState<ChatView> {
               );
             }
 
-            return Stack(
+            return Column(
+              spacing: 16,
               children: [
-                Column(
-                  spacing: 16,
-                  children: [
-                    widget.searchBarView,
-                    widget.toolBarView,
-                    Expanded(
-                      child: GrimityRefreshIndicator(
-                        onRefresh: provider.refresh,
-                        child: ListView.separated(
-                          separatorBuilder: (context, index) {
-                            return SizedBox(height: 16);
-                          },
-                          padding: EdgeInsets.all(16),
-                          itemCount: data.value!.chats.length,
-                          itemBuilder: (context, index) {
-                            return ChatScrollItem(model: data.value!.chats[index]);
-                          },
-                        ),
-                      ),
+                widget.searchBarView,
+                widget.toolBarView,
+                Expanded(
+                  child: GrimityRefreshIndicator(
+                    onRefresh: provider.refresh,
+                    child: ListView.separated(
+                      separatorBuilder: (context, index) {
+                        return SizedBox(height: 16);
+                      },
+                      padding: EdgeInsets.all(16),
+                      itemCount: data.value!.chats.length,
+                      itemBuilder: (context, index) {
+                        return ChatScrollItem(model: data.value!.chats[index]);
+                      },
                     ),
-                  ],
-                ),
-
-                // 오른쪽 하단 액션 버튼 표시.
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Padding(padding: EdgeInsets.only(right: 16, bottom: 16), child: ChatFloatingActionButton()),
+                  ),
                 ),
               ],
             );
