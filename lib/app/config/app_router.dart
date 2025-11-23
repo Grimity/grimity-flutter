@@ -115,8 +115,21 @@ class AppShellRoute extends StatefulShellRouteData {
   static final GlobalKey<NavigatorState> $navigatorKey = shellNavigatorKey;
 
   @override
-  Widget builder(BuildContext context, GoRouterState state, StatefulNavigationShell navigationShell) {
+  Widget builder(
+    BuildContext context,
+    GoRouterState state,
+    StatefulNavigationShell navigationShell,
+  ) {
     return MainAppShell(navigationShell: navigationShell);
+  }
+
+  @override
+  Page<void> pageBuilder(
+    BuildContext context,
+    GoRouterState state,
+    StatefulNavigationShell navigationShell,
+  ) {
+    return SplashRoute.defaultBuildPage(context, state, builder(context, state, navigationShell));
   }
 }
 
@@ -273,6 +286,34 @@ class SplashRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => const SplashPage();
+
+  /// 스프레시 관련 페이지에서 사용하는 전환 애니메이션 빌더.
+  static get transitionsBuilder => (
+    context,
+    animation,
+    secondaryAnimation,
+    child,
+  ) {
+    return FadeTransition(opacity: animation, child: child);
+  };
+
+  /// 스프레시 관련 페이지에서 사용되는 [buildPage] 함수의 공통 선언입니다.
+  static Page<void> defaultBuildPage(
+    BuildContext context,
+    GoRouterState state,
+    Widget child,
+  ) {
+    return CustomTransitionPage(
+      key: state.pageKey,
+      child: child,
+      transitionsBuilder: transitionsBuilder,
+    );
+  }
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return defaultBuildPage(context, state, build(context, state));
+  }
 }
 
 @TypedGoRoute<SignInRoute>(path: SignInRoute.path, name: SignInRoute.name)
@@ -284,6 +325,11 @@ class SignInRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => const SignInPage();
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return SplashRoute.defaultBuildPage(context, state, build(context, state));
+  }
 }
 
 @TypedGoRoute<SignUpRoute>(path: SignUpRoute.path, name: SignUpRoute.name)
