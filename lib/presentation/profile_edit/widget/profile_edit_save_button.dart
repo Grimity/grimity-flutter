@@ -11,7 +11,12 @@ class ProfileEditSaveButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return SafeArea(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: EdgeInsets.only(
+          top: 4,
+          left: 16,
+          right: 16,
+          bottom: 24,
+        ),
         child: GrimityButton.large(
           text: '변경 내용 저장',
           onTap: () async {
