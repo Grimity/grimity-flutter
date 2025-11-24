@@ -170,6 +170,8 @@ jobs:
   pubspec:
     runs-on: ubuntu-latest
     needs: ready
+    permissions:
+      contents: write # push 권한
     steps:
       - uses: actions/checkout@v4
         with:
