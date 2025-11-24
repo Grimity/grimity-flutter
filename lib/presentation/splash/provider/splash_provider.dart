@@ -1,8 +1,11 @@
 import 'package:grimity/app/config/app_router.dart';
+import 'package:grimity/app/environment/flavor.dart';
+import 'package:grimity/app/update/version.dart';
 import 'package:grimity/domain/usecase/system_usecases.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/provider/user_subscribe_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'splash_provider.g.dart';
@@ -12,31 +15,41 @@ class Splash extends _$Splash {
   @override
   void build() {}
 
-  Future<void> checkAppVersion() async {
-    final result = await getAppVersionUseCase.execute();
+  // 앱 업데이트 필요 여부 반환.
+  Future<bool> checkUserAndRoute(WidgetRef ref) async {
+    // 앱 업데이트 필요 여부.
+    final needUpdate = await checkNeedUpdate();
 
-    // TODO: 업데이트 기능 정의 후 앱 버전에 따른 로직 처리 필요
-    if (result.isSuccess) {}
-
-    return;
-  }
-
-  Future<void> checkUserAndRoute(WidgetRef ref) async {
     // 유저 정보 조회 시도
     // 조회 실패 시 로그인 화면으로 이동
     await ref.read(userAuthProvider.notifier).getUser();
     if (ref.read(userAuthProvider) == null) {
-      if (!ref.context.mounted) return;
+      if (!ref.context.mounted) return false;
 
       SignInRoute().push(ref.context);
-      return;
+      return needUpdate;
     }
 
     // 유저 정보 조회 성공 시 메인 화면으로 이동
-    if (!ref.context.mounted) return;
+    if (!ref.context.mounted) return false;
 
     // 유저 정보 로그인 시도 후 구독 여부 조회
     ref.read(userSubscribeProvider.notifier).getSubscription();
     HomeRoute().go(ref.context);
+    return needUpdate;
+  }
+
+  Future<bool> checkNeedUpdate() async {
+    // 개발 환경은 앱 업데이트 필요 여부 false
+    if (Flavor.isDev) return false;
+
+    final result = await getAppVersionUseCase.execute();
+    final packageInfo = await PackageInfo.fromPlatform();
+    if (result.isFailure) return false;
+
+    final serverVersion = Version.parse(result.data.version);
+    final currentVersion = Version.parse(packageInfo.version);
+
+    return currentVersion.isNeedForceUpdate(serverVersion);
   }
 }

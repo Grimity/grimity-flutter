@@ -100,6 +100,7 @@ dependencies:
   flutter_local_notifications: ^19.5.0
   flutter_launcher_icons: ^0.14.4
   visibility_detector: ^0.4.0+2
+  package_info_plus: ^9.0.0
 
 dev_dependencies:
   flutter_test:
