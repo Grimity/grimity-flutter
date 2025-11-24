@@ -14,10 +14,12 @@ class SplashPage extends HookConsumerWidget {
     useEffect(() {
       ref.read(splashProvider.notifier).checkUserAndRoute(ref).then(
         (needUpdate) {
-          // 화면 이동 이후 UpdateDialog 표시.
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            showAppUpdateDialog(context);
-          });
+          if (needUpdate) {
+            // 화면 이동 이후 UpdateDialog 표시.
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              showAppUpdateDialog(context);
+            });
+          }
         },
       );
       return null;
