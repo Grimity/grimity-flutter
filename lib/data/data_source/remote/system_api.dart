@@ -12,8 +12,10 @@ abstract class SystemAPI {
   factory SystemAPI(Dio dio, {@Named('baseUrl') String baseUrl}) = _SystemAPI;
 
   @GET('/health-check')
+  @Headers({'withToken': "false"})
   Future<void> healthCheck();
 
   @GET('/app-version')
+  @Headers({'withToken': "false"})
   Future<AppVersionResponse> getAppVersion();
 }
