@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/presentation/app_update/show_app_update_dialog.dart';
 import 'package:grimity/presentation/splash/provider/splash_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -17,7 +18,10 @@ class SplashPage extends HookConsumerWidget {
           if (needUpdate) {
             // 화면 이동 이후 UpdateDialog 표시.
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              showAppUpdateDialog(context);
+              final currentContext = rootNavigatorKey.currentContext;
+              if (currentContext != null) {
+                showAppUpdateDialog(currentContext);
+              }
             });
           }
         },
