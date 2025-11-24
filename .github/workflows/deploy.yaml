@@ -21,7 +21,7 @@ jobs:
   ready:
     runs-on: ubuntu-latest
     outputs:
-      BUILD_NUMBER: ${{ steps.build-number.outputs.BUILD_NUMBER }}
+      BUILD_NUMBER: ${{ steps.build_number.outputs.BUILD_NUMBER }}
     steps:
       - uses: actions/checkout@v4
 
@@ -38,6 +38,7 @@ jobs:
           flutter-version: ${{ vars.FLUTTER_VERSION }}
 
       - name: Build Number 설정
+        id: build_number
         run: |
           if [ -z "${{ github.event.inputs.BUILD_NUMBER }}" ]; then
             VERSION=$(dart run tools/get_version.dart)
@@ -45,6 +46,9 @@ jobs:
           else
             BN="${{ github.event.inputs.BUILD_NUMBER }}"
           fi
+
+          # Build Number +1
+          BN=$((BN + 1))
 
           echo "BUILD_NUMBER=$BN" >> $GITHUB_OUTPUT
 
@@ -190,6 +194,11 @@ jobs:
         with:
           channel: stable
           flutter-version: ${{ vars.FLUTTER_VERSION }}
+
+      - name: Git 설정
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
 
       - name: Pubspec 수정
         run: |
