@@ -9,7 +9,7 @@ on:
         type: string
       BUILD_NUMBER:
         description: "빌드 번호 입력 (e.g. 43)"
-        required: true
+        required: false
         type: number
       RELEASE_NOTE:
         description: "출시 노트 (자동 검토 제출)"
@@ -18,8 +18,39 @@ on:
         type: string
 
 jobs:
+  ready:
+    runs-on: ubuntu-latest
+    outputs:
+      BUILD_NUMBER: ${{ steps.build-number.outputs.BUILD_NUMBER }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Flutter SDK 캐시
+        uses: actions/cache@v3
+        with:
+          path: /opt/hostedtoolcache/flutter
+          key: ${{ runner.os }}-flutter-${{ vars.FLUTTER_VERSION }}
+
+      - name: Flutter 설치
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ vars.FLUTTER_VERSION }}
+
+      - name: Build Number 설정
+        run: |
+          if [ -z "${{ github.event.inputs.BUILD_NUMBER }}" ]; then
+            VERSION=$(dart run tools/get_version.dart)
+            BN="${VERSION##*-}"
+          else
+            BN="${{ github.event.inputs.BUILD_NUMBER }}"
+          fi
+
+          echo "BUILD_NUMBER=$BN" >> $GITHUB_OUTPUT
+
   android:
     runs-on: ubuntu-latest
+    needs: ready
     steps:
       - uses: actions/checkout@v4
 
@@ -76,7 +107,7 @@ jobs:
           app-id: "com.grimity.flutter"
           platform: android
           version-name: ${{ github.event.inputs.VERSION_NAME }}
-          build-number: ${{ github.event.inputs.BUILD_NUMBER }}
+          build-number: ${{ needs.ready.outputs.BUILD_NUMBER }}
           release-note: ${{ github.event.inputs.RELEASE_NOTE }}
           build-extra: --flavor prod --target lib/app/entrypoints/main_prod.dart
 
@@ -88,6 +119,7 @@ jobs:
 
   ios:
     runs-on: macos-latest
+    needs: ready
     steps:
       - uses: actions/checkout@v4
 
@@ -123,7 +155,7 @@ jobs:
           app-id: "com.grimity.flutter"
           platform: ios
           version-name: ${{ github.event.inputs.VERSION_NAME }}
-          build-number: ${{ github.event.inputs.BUILD_NUMBER }}
+          build-number: ${{ needs.ready.outputs.BUILD_NUMBER }}
           release-note: ${{ github.event.inputs.RELEASE_NOTE }}
           match-repository: Grimity/grimity-flutter-certs
           match-password: ${{ secrets.MATCH_PASSWORD }}
@@ -139,9 +171,37 @@ jobs:
           name: ios-ipa
           path: ./build/release.ipa
 
+  pubspec:
+    runs-on: ubuntu-latest
+    needs: ready
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Flutter SDK 캐시
+        uses: actions/cache@v3
+        with:
+          path: /opt/hostedtoolcache/flutter
+          key: ${{ runner.os }}-flutter-${{ vars.FLUTTER_VERSION }}
+
+      - name: Flutter 설치
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ vars.FLUTTER_VERSION }}
+
+      - name: Pubspec 수정
+        run: |
+          VERSION="${{ github.event.inputs.VERSION_NAME }}-${{ needs.ready.outputs.BUILD_NUMBER }}"
+          dart run tools/set_version.dart --version "$VERSION"
+          git add .
+          git commit -m "pubspec.yaml 버전을 $VERSION으로 업데이트"
+          git push origin main
+
   release:
     runs-on: ubuntu-latest
-    needs: [android, ios]
+    needs: [ready, android, ios]
     permissions:
       contents: write # push, release 등 권한
       packages: write
@@ -165,7 +225,7 @@ jobs:
             ./build/release.aab
             ./build/release.ipa
           tag_name: v${{ github.event.inputs.VERSION_NAME }}
-          name: "v${{ github.event.inputs.VERSION_NAME }} (Build ${{ github.event.inputs.BUILD_NUMBER }})"
+          name: "v${{ github.event.inputs.VERSION_NAME }} (Build ${{ needs.ready.outputs.BUILD_NUMBER }})"
           body: |
             ## 배포 정보
             > 해당 빌드는 [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})으로 체크아웃되고 배포되었습니다.
@@ -173,7 +233,7 @@ jobs:
             | 항목 | 값 |
             | --- | --- |
             | **빌드 버전** | ${{ github.event.inputs.VERSION_NAME }} |
-            | **빌드 번호** | ${{ github.event.inputs.BUILD_NUMBER }} |
+            | **빌드 번호** | ${{ needs.ready.outputs.BUILD_NUMBER }} |
             | **출시 노트** | ${{ github.event.inputs.RELEASE_NOTE }} |
             | **커밋 SHA** | ${{ github.sha }} |
             | **Flutter 버전** | ${{ vars.FLUTTER_VERSION }} |
