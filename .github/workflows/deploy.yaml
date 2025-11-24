@@ -7,10 +7,6 @@ on:
         description: "버전 입력 (e.g. 1.2.3)"
         required: true
         type: string
-      BUILD_NUMBER:
-        description: "빌드 번호 입력 (e.g. 43)"
-        required: false
-        type: number
       RELEASE_NOTE:
         description: "출시 노트 (자동 검토 제출)"
         required: false
@@ -40,12 +36,8 @@ jobs:
       - name: Build Number 설정
         id: build_number
         run: |
-          if [ -z "${{ github.event.inputs.BUILD_NUMBER }}" ]; then
-            VERSION=$(dart run tools/get_version.dart)
-            BN="${VERSION##*-}"
-          else
-            BN="${{ github.event.inputs.BUILD_NUMBER }}"
-          fi
+          VERSION=$(dart run tools/get_version.dart)
+          BN="${VERSION##*-}"
 
           # Build Number +1
           BN=$((BN + 1))
