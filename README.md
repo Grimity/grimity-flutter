@@ -10,7 +10,7 @@
 
 | 종속성 | 최소 버전 | 권장 버전 |
 | ---- | ------- | ------- |
-| Flutter SDK | >= 3.7.2 | [최신 버전](https://github.com/flutter/flutter)
+| Flutter SDK | >= 3.35.7 | [최신 버전](https://github.com/flutter/flutter)
 
 ### 🚀 자동화 배포
 자동화 배포를 위한 CI/CD 에서는 Fastlane을 통한 GitHub Actions를 사용합니다.
@@ -22,6 +22,9 @@
 
 ### 🗂️ 초기 세팅하기
 최상위 경로를 기준으로 터미널에 아래와 같이 입력하세요.
+
+> [!NOTE]
+> 해당 CLI는 앱을 빌드 하는데 필수적인 설정 파일들을 불러오고 build_runner와 같은 Dart 전처리를 수행하는 등의 작업을 수행합니다.
 
 ```bash
 dart run tools/setup.dart
