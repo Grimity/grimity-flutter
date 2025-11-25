@@ -1,7 +1,7 @@
 name: grimity
 description: 그림쟁이들을 위한 그림 커뮤니티, 그리미티에 대한 Flutter 기반의 모바일 애플리케이션입니다.
 publish_to: none
-version: 1.0.0-11
+version: 1.0.0-12
 
 environment:
   sdk: ^3.7.2
@@ -160,6 +160,7 @@ flutter_gen:
 
   integrations:
     flutter_svg: true
+
 
 
 
