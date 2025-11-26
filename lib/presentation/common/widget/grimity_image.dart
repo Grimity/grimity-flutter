@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:grimity/app/extension/image_extension.dart';
 import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_cached_network_image.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -13,20 +12,12 @@ class GrimityImage extends StatelessWidget {
     required this.width,
     required this.height,
     this.index,
-    this.isLike,
-    this.onToggleLike,
-    this.isSave,
-    this.onToggleSave,
   });
 
   const GrimityImage.big({
     super.key,
     required this.imageUrl,
     this.index,
-    this.isLike,
-    this.onToggleLike,
-    this.isSave,
-    this.onToggleSave,
   }) : width = 205,
        height = 205;
 
@@ -34,10 +25,6 @@ class GrimityImage extends StatelessWidget {
     super.key,
     required this.imageUrl,
     this.index,
-    this.isLike,
-    this.onToggleLike,
-    this.isSave,
-    this.onToggleSave,
   }) : width = 165,
        height = 165;
 
@@ -45,10 +32,6 @@ class GrimityImage extends StatelessWidget {
     super.key,
     required this.imageUrl,
     this.index,
-    this.isLike,
-    this.onToggleLike,
-    this.isSave,
-    this.onToggleSave,
   }) : width = 130,
        height = 130;
 
@@ -57,10 +40,6 @@ class GrimityImage extends StatelessWidget {
   final double height;
 
   final int? index;
-  final bool? isLike;
-  final VoidCallback? onToggleLike;
-  final bool? isSave;
-  final VoidCallback? onToggleSave;
 
   @override
   Widget build(BuildContext context) {
@@ -81,38 +60,6 @@ class GrimityImage extends StatelessWidget {
                   cacheHeight: height.cacheSize(context),
                 ),
           ),
-          if (isLike != null) ...[
-            Positioned.fill(
-              right: 10,
-              bottom: 10,
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child: GrimityAnimationButton(
-                  onTap: () => onToggleLike?.call(),
-                  child:
-                      isLike!
-                          ? Assets.icons.common.heartFill.svg(width: 24, height: 24)
-                          : Assets.icons.common.heart.svg(width: 24, height: 24),
-                ),
-              ),
-            ),
-          ],
-          if (isSave != null) ...[
-            Positioned.fill(
-              right: 10,
-              bottom: 10,
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child: GrimityAnimationButton(
-                  onTap: () => onToggleSave?.call(),
-                  child:
-                      isSave!
-                          ? Assets.icons.common.saveFill.svg(width: 24, height: 24)
-                          : Assets.icons.common.save.svg(width: 24, height: 24),
-                ),
-              ),
-            ),
-          ],
           if (index != null && index! <= 3) ...[
             Positioned.fill(
               left: 10,

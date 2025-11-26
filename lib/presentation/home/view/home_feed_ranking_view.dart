@@ -48,13 +48,13 @@ class HomeFeedRankingView extends ConsumerWidget {
   }
 }
 
-class _HomeRankingCarousel extends ConsumerWidget {
+class _HomeRankingCarousel extends StatelessWidget {
   const _HomeRankingCarousel({required this.feeds});
 
   final List<Feed> feeds;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return CarouselSlider.builder(
       itemCount: feeds.length,
       options: CarouselOptions(
@@ -77,10 +77,6 @@ class _HomeRankingCarousel extends ConsumerWidget {
                 child: GrimityImageFeed(
                   feed: feed,
                   index: itemIndex,
-                  onToggleLike:
-                      () => ref
-                          .read(feedRankingDataProvider.notifier)
-                          .toggleLike(feedId: feed.id, like: feed.isLike == true ? false : true),
                 ),
               );
             },

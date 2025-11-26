@@ -33,19 +33,13 @@ class FeedRecommendFeedView extends ConsumerWidget {
   }
 }
 
-class _RecommendFeedListView extends ConsumerWidget {
+class _RecommendFeedListView extends StatelessWidget {
   const _RecommendFeedListView({required this.feeds});
 
   final List<Feed> feeds;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return GrimityFeedGrid(
-      feeds: feeds,
-      onToggleLike:
-          (feed) => ref
-              .read(feedRecommendFeedDataProvider.notifier)
-              .toggleLike(feedId: feed.id, like: feed.isLike == true ? false : true),
-    );
+  Widget build(BuildContext context) {
+    return GrimityFeedGrid(feeds: feeds);
   }
 }

@@ -15,16 +15,12 @@ class GrimityImageFeed extends StatelessWidget {
     this.authorName,
     this.index,
     this.keyword,
-    this.onToggleLike,
-    this.onToggleSave,
   });
 
   final Feed feed;
   final String? authorName;
   final int? index;
   final String? keyword;
-  final VoidCallback? onToggleLike;
-  final VoidCallback? onToggleSave;
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +34,6 @@ class GrimityImageFeed extends StatelessWidget {
             child: GrimityImage.big(
               imageUrl: feed.thumbnail ?? '',
               index: index,
-              isLike: feed.isLike,
-              onToggleLike: onToggleLike,
-              isSave: feed.isSave,
-              onToggleSave: onToggleSave,
             ),
           ),
           const Gap(8),

@@ -1,13 +1,12 @@
 import 'package:grimity/domain/entity/feeds.dart';
 import 'package:grimity/domain/usecase/feed/get_latest_feeds_usecase.dart';
 import 'package:grimity/domain/usecase/feed_usecases.dart';
-import 'package:grimity/presentation/common/mixin/feed_mixin.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'feed_recommend_feed_data_provider.g.dart';
 
 @riverpod
-class FeedRecommendFeedData extends _$FeedRecommendFeedData with FeedMixin<Feeds> {
+class FeedRecommendFeedData extends _$FeedRecommendFeedData {
   @override
   FutureOr<Feeds> build() async {
     final GetLatestFeedsRequestParam param = GetLatestFeedsRequestParam(size: 8);
@@ -16,12 +15,4 @@ class FeedRecommendFeedData extends _$FeedRecommendFeedData with FeedMixin<Feeds
 
     return result.fold(onSuccess: (feeds) => feeds, onFailure: (e) => Feeds(feeds: [], nextCursor: ''));
   }
-
-  Future<void> toggleLike({required String feedId, required bool like}) => onToggleLike(
-    feedId: feedId,
-    like: like,
-    optimisticBuilder: (prev) {
-      return prev.copyWith(feeds: prev.feeds.map((e) => e.id == feedId ? e.copyWith(isLike: like) : e).toList());
-    },
-  );
 }

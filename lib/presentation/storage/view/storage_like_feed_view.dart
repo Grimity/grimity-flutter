@@ -42,22 +42,16 @@ class StorageLikeFeedView extends HookConsumerWidget {
   }
 }
 
-class _StorageLikeFeedListView extends ConsumerWidget {
+class _StorageLikeFeedListView extends StatelessWidget {
   const _StorageLikeFeedListView({required this.feeds});
 
   final List<Feed> feeds;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        GrimityFeedGrid.sliver(
-          feeds: feeds,
-          onToggleLike:
-              (feed) => ref
-                  .read(likeFeedDataProvider.notifier)
-                  .toggleLike(feedId: feed.id, like: feed.isLike == true ? false : true),
-        ),
+        GrimityFeedGrid.sliver(feeds: feeds),
       ],
     );
   }

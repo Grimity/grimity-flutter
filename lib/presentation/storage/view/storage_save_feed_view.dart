@@ -42,22 +42,16 @@ class StorageSaveFeedView extends HookConsumerWidget {
   }
 }
 
-class _StorageSaveFeedListView extends ConsumerWidget {
+class _StorageSaveFeedListView extends StatelessWidget {
   const _StorageSaveFeedListView({required this.feeds});
 
   final List<Feed> feeds;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        GrimityFeedGrid.sliver(
-          feeds: feeds,
-          onToggleSave:
-              (feed) => ref
-                  .read(saveFeedDataProvider.notifier)
-                  .toggleSave(feedId: feed.id, save: feed.isSave == true ? false : true),
-        ),
+        GrimityFeedGrid.sliver(feeds: feeds),
       ],
     );
   }

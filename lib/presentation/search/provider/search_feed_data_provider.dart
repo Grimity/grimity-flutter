@@ -3,7 +3,6 @@ import 'package:grimity/app/enum/sort_type.enum.dart';
 import 'package:grimity/domain/dto/feeds_request_param.dart';
 import 'package:grimity/domain/entity/feeds.dart';
 import 'package:grimity/domain/usecase/feed_usecases.dart';
-import 'package:grimity/presentation/common/mixin/feed_mixin.dart';
 import 'package:grimity/presentation/search/provider/search_feed_sort_type_provider.dart';
 import 'package:grimity/presentation/search/provider/search_keyword_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -11,7 +10,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'search_feed_data_provider.g.dart';
 
 @riverpod
-class SearchFeedData extends _$SearchFeedData with FeedMixin<Feeds> {
+class SearchFeedData extends _$SearchFeedData {
   @override
   FutureOr<Feeds> build({required String keyword, required SortType sort}) async {
     final param = SearchFeedRequest(size: 10, keyword: keyword, sort: sort);
@@ -38,24 +37,6 @@ class SearchFeedData extends _$SearchFeedData with FeedMixin<Feeds> {
       },
     );
   }
-
-  Future<void> toggleLike({required String feedId, required bool like}) => onToggleLike(
-    feedId: feedId,
-    like: like,
-    optimisticBuilder: (prev) {
-      return prev.copyWith(
-        feeds:
-            prev.feeds
-                .map(
-                  (e) =>
-                      e.id == feedId
-                          ? e.copyWith(likeCount: like ? e.likeCount! + 1 : e.likeCount! - 1, isLike: like)
-                          : e,
-                )
-                .toList(),
-      );
-    },
-  );
 }
 
 mixin class SearchFeedMixin {

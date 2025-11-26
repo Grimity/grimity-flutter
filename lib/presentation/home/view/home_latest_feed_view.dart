@@ -27,14 +27,7 @@ class HomeLatestFeedView extends ConsumerWidget {
     final latestFeed = ref.watch(latestFeedDataProvider);
 
     return latestFeed.when(
-      data:
-          (data) => GrimityFeedGrid.sliver(
-            feeds: data.feeds,
-            onToggleLike:
-                (feed) => ref
-                    .read(latestFeedDataProvider.notifier)
-                    .toggleLike(feedId: feed.id, like: feed.isLike == true ? false : true),
-          ),
+      data: (data) => GrimityFeedGrid.sliver(feeds: data.feeds),
       loading: () => SliverToBoxAdapter(child: Skeletonizer(child: GrimityFeedGrid(feeds: Feed.emptyList))),
       error:
           (e, s) =>
