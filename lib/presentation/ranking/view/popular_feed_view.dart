@@ -152,19 +152,13 @@ class PopularFeedView extends ConsumerWidget {
   }
 }
 
-class _PopularFeedListView extends ConsumerWidget {
+class _PopularFeedListView extends StatelessWidget {
   const _PopularFeedListView({required this.feeds});
 
   final List<Feed> feeds;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return GrimityFeedGrid(
-      feeds: feeds,
-      onToggleLike:
-          (feed) => ref
-              .read(popularFeedRankingDataProvider.notifier)
-              .toggleLike(feedId: feed.id, like: feed.isLike == true ? false : true),
-    );
+  Widget build(BuildContext context) {
+    return GrimityFeedGrid(feeds: feeds);
   }
 }

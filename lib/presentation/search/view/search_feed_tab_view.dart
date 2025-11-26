@@ -107,8 +107,6 @@ class _SearchFeedListView extends ConsumerWidget with SearchFeedMixin {
     return GrimityFeedGrid.sliver(
       feeds: feeds,
       keyword: searchKeyword,
-      onToggleLike:
-          (feed) => searchFeedNotifier(ref).toggleLike(feedId: feed.id, like: feed.isLike == true ? false : true),
     );
   }
 }

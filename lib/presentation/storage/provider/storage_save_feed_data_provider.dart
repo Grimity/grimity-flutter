@@ -1,14 +1,13 @@
 import 'package:grimity/domain/entity/feeds.dart';
 import 'package:grimity/domain/usecase/me/get_save_feeds_usecase.dart';
 import 'package:grimity/domain/usecase/me_usecases.dart';
-import 'package:grimity/presentation/common/mixin/feed_mixin.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'storage_save_feed_data_provider.g.dart';
 
 // 저장한 그림 데이터
 @riverpod
-class SaveFeedData extends _$SaveFeedData with FeedMixin<Feeds> {
+class SaveFeedData extends _$SaveFeedData {
   @override
   FutureOr<Feeds> build() async {
     final GetSaveFeedsRequestParam param = GetSaveFeedsRequestParam(size: 10);
@@ -38,12 +37,4 @@ class SaveFeedData extends _$SaveFeedData with FeedMixin<Feeds> {
       },
     );
   }
-
-  Future<void> toggleSave({required String feedId, required bool save}) => onToggleSave(
-    feedId: feedId,
-    save: save,
-    optimisticBuilder: (prev) {
-      return prev.copyWith(feeds: prev.feeds.map((e) => e.id == feedId ? e.copyWith(isSave: save) : e).toList());
-    },
-  );
 }

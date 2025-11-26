@@ -7,16 +7,12 @@ class GrimityFeedGrid extends StatelessWidget {
   const GrimityFeedGrid({
     super.key,
     required this.feeds,
-    this.onToggleLike,
-    this.onToggleSave,
     this.isSliver = false,
     this.keyword,
     this.authorName,
   });
 
   final List<Feed> feeds;
-  final void Function(Feed feed)? onToggleLike;
-  final void Function(Feed feed)? onToggleSave;
   final bool isSliver;
   final String? keyword;
   final String? authorName;
@@ -24,8 +20,6 @@ class GrimityFeedGrid extends StatelessWidget {
   const GrimityFeedGrid.sliver({
     super.key,
     required this.feeds,
-    this.onToggleLike,
-    this.onToggleSave,
     this.keyword,
     this.authorName,
   }) : isSliver = true;
@@ -49,8 +43,6 @@ class GrimityFeedGrid extends StatelessWidget {
             feed: feed,
             keyword: keyword,
             authorName: authorName,
-            onToggleLike: () => onToggleLike?.call(feed),
-            onToggleSave: () => onToggleSave?.call(feed),
           );
         },
       );
@@ -68,8 +60,6 @@ class GrimityFeedGrid extends StatelessWidget {
           feed: feed,
           keyword: keyword,
           authorName: authorName,
-          onToggleLike: () => onToggleLike?.call(feed),
-          onToggleSave: () => onToggleSave?.call(feed),
         );
       },
     );
