@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/app/extension/build_context_extension.dart';
 import 'package:grimity/presentation/common/model/image_item_source.dart';
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/photo_select/provider/photo_select_provider.dart';
@@ -13,13 +14,17 @@ class PhotoSelectableGridView extends StatelessWidget {
   final List<ImageSourceItem> selectedImages;
   final List<AssetEntity> galleryImages;
 
-  const PhotoSelectableGridView({super.key, required this.selectedImages, required this.galleryImages});
+  const PhotoSelectableGridView({
+    super.key,
+    required this.selectedImages,
+    required this.galleryImages,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: context.feedRowCount,
         crossAxisSpacing: 2,
         mainAxisSpacing: 2,
       ),
@@ -28,7 +33,11 @@ class PhotoSelectableGridView extends StatelessWidget {
         final isSelected = selectedImages.contains(ImageSourceItem.asset(asset));
         final selectionIndex = selectedImages.indexOf(ImageSourceItem.asset(asset)) + 1;
 
-        return _PhotoSelectableImageThumbnail(asset: asset, isSelected: isSelected, selectionIndex: selectionIndex);
+        return _PhotoSelectableImageThumbnail(
+          asset: asset,
+          isSelected: isSelected,
+          selectionIndex: selectionIndex,
+        );
       },
       itemCount: galleryImages.length,
     );
@@ -40,7 +49,11 @@ class _PhotoSelectableImageThumbnail extends ConsumerWidget with PhotoSelectMixi
   final bool isSelected;
   final int? selectionIndex;
 
-  const _PhotoSelectableImageThumbnail({required this.asset, required this.isSelected, this.selectionIndex});
+  const _PhotoSelectableImageThumbnail({
+    required this.asset,
+    required this.isSelected,
+    this.selectionIndex,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

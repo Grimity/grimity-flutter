@@ -9,7 +9,12 @@ class PhotoAssetThumbnailWidget extends StatefulWidget {
   final double size;
   final BoxFit fit;
 
-  const PhotoAssetThumbnailWidget({super.key, required this.asset, this.size = 256, this.fit = BoxFit.cover});
+  const PhotoAssetThumbnailWidget({
+    super.key,
+    required this.asset,
+    this.size = 512,
+    this.fit = BoxFit.cover,
+  });
 
   @override
   State<PhotoAssetThumbnailWidget> createState() => _PhotoAssetThumbnailWidgetState();
@@ -21,8 +26,12 @@ class _PhotoAssetThumbnailWidgetState extends State<PhotoAssetThumbnailWidget> {
   @override
   void initState() {
     super.initState();
+
     _thumbnailFuture = widget.asset.thumbnailDataWithSize(
-      ThumbnailSize(widget.size.toInt(), widget.size.toInt()),
+      ThumbnailSize(
+        widget.size.toInt(),
+        widget.size.toInt(),
+      ),
     );
   }
 
@@ -32,7 +41,14 @@ class _PhotoAssetThumbnailWidgetState extends State<PhotoAssetThumbnailWidget> {
       future: _thumbnailFuture,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return Image.memory(snapshot.data!, fit: widget.fit, width: widget.size, height: widget.size);
+          return Image.memory(
+            snapshot.data!,
+            fit: widget.fit,
+            width: double.infinity,
+            height: double.infinity,
+            cacheWidth: widget.size.toInt(),
+            cacheHeight: widget.size.toInt(),
+          );
         }
 
         return _PhotoAssetThumbnailLoadingWidget();

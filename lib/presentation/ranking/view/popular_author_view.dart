@@ -1,4 +1,4 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
@@ -45,24 +45,30 @@ class _PopularAuthorCarousel extends HookConsumerWidget {
 
   final List<AuthorWithFeeds> authorWithFeedsList;
 
+  static final viewportFraction = 0.92;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = useState(0);
+    final pageController = usePageController(viewportFraction: viewportFraction);
     final visibleUserCount = authorWithFeedsList.length > 5 ? 5 : authorWithFeedsList.length;
+
+    useEffect(() {
+      pageController.addListener(() {
+        currentIndex.value = pageController.page!.toInt();
+      });
+
+      return null;
+    }, [pageController]);
 
     return Column(
       spacing: 16,
       children: [
-        CarouselSlider.builder(
+        ExpandablePageView.builder(
+          padEnds: false,
           itemCount: visibleUserCount,
-          options: CarouselOptions(
-            enableInfiniteScroll: false,
-            disableCenter: true,
-            padEnds: false,
-            viewportFraction: 0.92,
-            onPageChanged: (index, reason) => currentIndex.value = index,
-          ),
-          itemBuilder: (context, index, realIndex) {
+          controller: pageController,
+          itemBuilder: (context, index) {
             final authorWithFeeds = authorWithFeedsList[index];
 
             return Padding(

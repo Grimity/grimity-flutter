@@ -209,8 +209,7 @@ class _FollowingFeedCardImageCarousel extends StatelessWidget {
                   imageUrl: imageUrl,
                   width: 343,
                   placeholder:
-                      (_, __) =>
-                          Assets.images.imagePlaceholder.image(width: 343, cacheWidth: 343.cacheSize(context)),
+                      (_, __) => Assets.images.imagePlaceholder.image(width: 343, cacheWidth: 343.cacheSize(context)),
                   errorWidget:
                       (_, __, ___) =>
                           Assets.images.imagePlaceholder.image(width: 343, cacheWidth: 343.cacheSize(context)),
