@@ -35,6 +35,13 @@ class GrimityImage extends StatelessWidget {
   }) : width = 130,
        height = 130;
 
+  const GrimityImage.infinity({
+    super.key,
+    required this.imageUrl,
+    this.index,
+  }) : width = double.infinity,
+       height = double.infinity;
+
   final String imageUrl;
   final double width;
   final double height;
@@ -43,6 +50,21 @@ class GrimityImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (width.isInfinite || height.isInfinite) {
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          return buildImageWidget(
+            constraints.maxWidth,
+            constraints.maxHeight,
+          );
+        },
+      );
+    }
+
+    return buildImageWidget(width, height);
+  }
+
+  Widget buildImageWidget(double width, double height) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
       child: Stack(

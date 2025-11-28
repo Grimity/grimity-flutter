@@ -60,9 +60,8 @@ class _HomeRankingCarousel extends StatelessWidget {
       options: CarouselOptions(
         enableInfiniteScroll: false,
         disableCenter: true,
-        viewportFraction: 202 / 375,
+        viewportFraction: 1 / 2,
         padEnds: false,
-        height: 252,
       ),
       itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
         return Container(
