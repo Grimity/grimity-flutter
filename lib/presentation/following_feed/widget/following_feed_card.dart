@@ -80,6 +80,7 @@ class FollowingFeedCard extends ConsumerWidget {
                 GrimityGesture(
                   onTap: () => _pushFeedDetail(context, feed.id),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(feed.title, style: AppTypeface.subTitle4.copyWith(color: AppColor.gray800)),
                       Gap(6),
