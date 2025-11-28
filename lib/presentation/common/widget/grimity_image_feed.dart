@@ -31,7 +31,7 @@ class GrimityImageFeed extends StatelessWidget {
         children: [
           AspectRatio(
             aspectRatio: 1.0,
-            child: GrimityImage.big(
+            child: GrimityImage.infinity(
               imageUrl: feed.thumbnail ?? '',
               index: index,
             ),
