@@ -22,7 +22,7 @@ class AuthorWithFeedsData extends _$AuthorWithFeedsData with UserMixin<List<Auth
     final authorWithFeeds = await Future.wait(
       users.map((user) async {
         final feedResult = await getUserFeedsUseCase.execute(
-          GetUserFeedsRequestParams(id: user.id, size: 3, sort: SortType.latest),
+          GetUserFeedsRequestParams(id: user.id, size: 5, sort: SortType.latest),
         );
         final feeds = feedResult.fold(onSuccess: (feeds) => feeds.feeds, onFailure: (e) => <Feed>[]);
         return AuthorWithFeeds(user: user, feeds: feeds);
