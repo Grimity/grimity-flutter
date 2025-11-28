@@ -55,7 +55,7 @@ class _PopularAuthorCarousel extends HookConsumerWidget {
 
     useEffect(() {
       pageController.addListener(() {
-        currentIndex.value = pageController.page!.toInt();
+        currentIndex.value = pageController.page!.round();
       });
 
       return null;
