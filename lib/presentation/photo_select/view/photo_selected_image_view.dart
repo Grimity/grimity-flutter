@@ -47,6 +47,8 @@ class _PhotoSelectedImageThumbnail extends ConsumerWidget with PhotoSelectMixin 
           clipBehavior: Clip.none,
           children: [
             Container(
+              width: 54,
+              height: 54,
               decoration: BoxDecoration(
                 border: Border.all(color: AppColor.gray300, width: 1),
                 borderRadius: BorderRadius.circular(8),
@@ -55,7 +57,7 @@ class _PhotoSelectedImageThumbnail extends ConsumerWidget with PhotoSelectMixin 
                 borderRadius: BorderRadius.circular(8),
                 child:
                     imageSource is AssetImageSource
-                        ? PhotoAssetThumbnailWidget(asset: (imageSource as AssetImageSource).asset, size: 54)
+                        ? PhotoAssetThumbnailWidget(asset: (imageSource as AssetImageSource).asset, size: 256)
                         : GrimityCachedNetworkImage.cover(
                           imageUrl: (imageSource as RemoteImageSource).url,
                           width: 54,

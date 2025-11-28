@@ -28,6 +28,7 @@ class GrimityImageFeed extends StatelessWidget {
       onTap: () => FeedDetailRoute(id: feed.id).push(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           AspectRatio(
             aspectRatio: 1.0,

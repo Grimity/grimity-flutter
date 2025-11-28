@@ -1,10 +1,12 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/app/extension/build_context_extension.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
@@ -48,34 +50,42 @@ class HomeFeedRankingView extends ConsumerWidget {
   }
 }
 
-class _HomeRankingCarousel extends StatelessWidget {
+class _HomeRankingCarousel extends HookWidget {
   const _HomeRankingCarousel({required this.feeds});
 
   final List<Feed> feeds;
 
   @override
   Widget build(BuildContext context) {
-    return CarouselSlider.builder(
+    final rowCount = context.feedRowCount;
+    final pageController = usePageController(viewportFraction: 1 / rowCount);
+
+    if (feeds.isEmpty) {
+      // 운영 서버에서는 주간 랭킹이 없을리가 없지만, 로직이 바뀌면서 피드가
+      // 아예 비어있으면 예외가 발생하여 텍스트를 표기하도록 예외 처리를 함.
+      return Padding(
+        padding: EdgeInsets.all(15),
+        child: Text("주간 랭킹 없음", style: AppTypeface.label3),
+      );
+    }
+
+    return ExpandablePageView.builder(
+      padEnds: false,
       itemCount: feeds.length,
-      options: CarouselOptions(
-        enableInfiniteScroll: false,
-        disableCenter: true,
-        viewportFraction: 1 / 2,
-        padEnds: false,
-      ),
-      itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
+      controller: pageController,
+      itemBuilder: (context, index) {
         return Container(
           width: double.infinity,
           padding: EdgeInsets.only(right: 12),
           child: LayoutBuilder(
             builder: (context, constraints) {
-              final feed = feeds[itemIndex];
+              final feed = feeds[index];
 
               return SizedBox(
                 width: constraints.maxWidth,
                 child: GrimityImageFeed(
                   feed: feed,
-                  index: itemIndex,
+                  index: index,
                 ),
               );
             },

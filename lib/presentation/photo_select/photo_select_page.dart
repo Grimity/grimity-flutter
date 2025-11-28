@@ -15,7 +15,10 @@ class PhotoSelectPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ProviderScope(
       overrides: [photoSelectTypeArgumentProvider.overrideWithValue(type)],
-      child: PhotoSelectView(photoSelectAppBar: PhotoSelectAppBar(), photoSelectBodyView: PhotoSelectBodyView()),
+      child: PhotoSelectView(
+        photoSelectAppBar: PhotoSelectAppBar(),
+        photoSelectBodyView: PhotoSelectBodyView(),
+      ),
     );
   }
 }

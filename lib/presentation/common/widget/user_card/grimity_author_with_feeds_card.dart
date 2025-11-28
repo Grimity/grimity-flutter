@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/app/extension/build_context_extension.dart';
 import 'package:grimity/app/extension/image_extension.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/provider/author_with_feeds_provider.dart';
@@ -29,6 +30,7 @@ class GrimityAuthorWithFeedsCard extends StatelessWidget {
         border: Border.all(color: AppColor.gray300, width: 1),
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             children: [
@@ -46,29 +48,26 @@ class GrimityAuthorWithFeedsCard extends StatelessWidget {
             ],
           ),
           Gap(20),
-          SizedBox(
-            height: 110,
-            child: Row(
-              spacing: 4,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.generate(3, (index) {
-                if (index < feeds.length) {
-                  return Expanded(
-                    child: AspectRatio(
-                      aspectRatio: 1.0,
-                      child: GrimityImage.small(imageUrl: feeds[index].thumbnail ?? ''),
-                    ),
-                  );
-                } else {
-                  return Expanded(
-                    child: AspectRatio(
-                      aspectRatio: 1,
-                      child: Assets.images.imagePlaceholder.image(height: 110, cacheHeight: 110.cacheSize(context)),
-                    ),
-                  );
-                }
-              }),
-            ),
+          Row(
+            spacing: 4,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.generate(context.authorFeedRowCount, (index) {
+              if (index < feeds.length) {
+                return Expanded(
+                  child: AspectRatio(
+                    aspectRatio: 1.0,
+                    child: GrimityImage.infinity(imageUrl: feeds[index].thumbnail ?? ''),
+                  ),
+                );
+              } else {
+                return Expanded(
+                  child: AspectRatio(
+                    aspectRatio: 1.0,
+                    child: Assets.images.imagePlaceholder.image(height: 110, cacheHeight: 110.cacheSize(context)),
+                  ),
+                );
+              }
+            }),
           ),
         ],
       ),
