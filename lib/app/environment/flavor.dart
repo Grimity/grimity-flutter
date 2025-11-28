@@ -4,10 +4,13 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:grimity/app/config/app_config.dart';
 import 'package:grimity/app/di/di_setup.dart';
+import 'package:grimity/app/enum/grimity.enum.dart';
 import 'package:grimity/app/environment/environment_enum.dart';
+import 'package:grimity/app/util/device_info_util.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 enum FlavorType {
@@ -25,9 +28,11 @@ class Flavor {
   static Flavor get instance => _instance;
 
   static Env get env => _env;
+
   static FlavorType get type => _type;
 
   static bool get isProd => type == FlavorType.prod;
+
   static bool get isDev => type == FlavorType.dev;
 
   static void initialize(Env dev, FlavorType type) {
@@ -69,5 +74,15 @@ class Flavor {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
       return true;
     };
+
+    // 화면 방향
+    // - 모바일 : 세로 고정
+    // - 태블릿 : 가로/세로 회전 허용
+    if (await DeviceInfoUtil.getAppDevice() == GrimityAppDevice.mobile.name) {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+    }
   }
 }
