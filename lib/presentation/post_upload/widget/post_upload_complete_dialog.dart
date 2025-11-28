@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_config.dart';
@@ -44,7 +43,7 @@ void showUploadCompleteDialog(BuildContext context, Post post, bool isNewUpload)
             child: Container(
               decoration: BoxDecoration(border: Border(bottom: BorderSide(color: AppColor.gray500, width: 1))),
               child: Row(
-                spacing: 2.w,
+                spacing: 2,
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

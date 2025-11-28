@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
@@ -87,7 +86,7 @@ class GrimityShareModalBottomSheet extends StatelessWidget {
           ),
           Gap(16),
           _BottomSheetButton(
-            height: 54.w,
+            height: 54,
             child: Row(
               children: [
                 Assets.icons.profile.link.svg(width: 24, height: 24),
@@ -104,7 +103,7 @@ class GrimityShareModalBottomSheet extends StatelessWidget {
           ),
           Gap(16),
           _BottomSheetButton(
-            height: 54.w,
+            height: 54,
             onTap: () async {
               await ShareUtil.shareToTwitter(text: shareContentType.buildShareText(nickname: nickname), url: url);
               if (context.mounted) {
@@ -121,7 +120,7 @@ class GrimityShareModalBottomSheet extends StatelessWidget {
           ),
           Gap(16),
           _BottomSheetButton(
-            height: 54.w,
+            height: 54,
             onTap: () async {
               await ShareUtil.shareToKakao(description: description, imageUrl: imageUrl, linkUrl: url);
               if (context.mounted) {
@@ -156,7 +155,7 @@ class _BottomSheetButton extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 11, horizontal: 16),
         width: double.maxFinite,
-        height: height ?? 42.w,
+        height: height ?? 42,
         decoration: BoxDecoration(border: Border.all(color: AppColor.gray300), borderRadius: BorderRadius.circular(12)),
         child: child,
       ),

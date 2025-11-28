@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_theme.dart';
@@ -19,7 +18,7 @@ class NotificationAppBar extends StatelessWidget implements PreferredSizeWidget 
       actions: [
         GrimityGesture(
           onTap: () => SettingRoute().push(context),
-          child: Assets.icons.common.setting.svg(width: 24.w, height: 24.w),
+          child: Assets.icons.common.setting.svg(width: 24, height: 24),
         ),
       ],
       bottom: const PreferredSize(

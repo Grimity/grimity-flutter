@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/grimity.enum.dart';
@@ -24,13 +23,13 @@ class GrimityToast extends StatelessWidget {
             : AppColor.statusNegative.withValues(alpha: 0.8);
 
     return Container(
-          padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.w),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.r), color: backgroundColor),
+          padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: backgroundColor),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              icon.svg(width: 16.w, height: 16.w),
-              SizedBox(width: 8.w),
+              icon.svg(width: 16, height: 16),
+              SizedBox(width: 8),
               Text(message, style: AppTypeface.caption1.copyWith(color: Colors.white)),
             ],
           ),

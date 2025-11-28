@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_theme.dart';
@@ -35,23 +34,16 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ScreenUtilInit(
-      designSize: const Size(375, 812),
-      minTextAdapt: true,
-      useInheritedMediaQuery: true,
-      builder: (context, child) {
-        return MaterialApp.router(
-          localizationsDelegates: [
-            GlobalMaterialLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            FlutterQuillLocalizations.delegate,
-          ],
-          routerConfig: AppRouter.router(ref),
-          theme: AppTheme.appTheme,
-          builder: (context, child) => FToastBuilder()(context, child),
-        );
-      },
+    return MaterialApp.router(
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        FlutterQuillLocalizations.delegate,
+      ],
+      routerConfig: AppRouter.router(ref),
+      theme: AppTheme.appTheme,
+      builder: (context, child) => FToastBuilder()(context, child),
     );
   }
 }

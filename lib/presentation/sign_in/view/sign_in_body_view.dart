@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/enum/login_provider.enum.dart';
@@ -24,12 +23,12 @@ class SignInBodyView extends ConsumerWidget {
             children: [
               Text(
                 "그림이\n시작이 되는 커뮤니티",
-                style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.w600, color: AppColor.gray00),
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight.w600, color: AppColor.gray00),
               ),
               Gap(8),
               Text(
                 "그리고, 좋아하고, 연결되는 곳",
-                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w400, color: AppColor.gray00),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: AppColor.gray00),
               ),
               Gap(40),
               KakaoSSOButton(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
 
@@ -28,8 +27,8 @@ class GrimityFeedGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final delegate = SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 2,
-      crossAxisSpacing: 12.w,
-      mainAxisSpacing: 20.h,
+      crossAxisSpacing: 12,
+      mainAxisSpacing: 20,
       childAspectRatio: _calculateAspectRatio(context),
     );
 
@@ -68,13 +67,13 @@ class GrimityFeedGrid extends StatelessWidget {
   // GridView 내 아이템 비율
   double _calculateAspectRatio(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width; // 전체 화면 너비
-    final horizontalPadding = 32.w; // 좌우 여백 합
-    final crossAxisSpacing = 12.w; // 아이템 간격
+    final horizontalPadding = 32; // 좌우 여백 합
+    final crossAxisSpacing = 12; // 아이템 간격
     final availableWidth = screenWidth - horizontalPadding; // 실제 카드들이 들어갈 총 공간
     final itemWidth = (availableWidth - crossAxisSpacing) / 2; // 아이템 하나 당 너비
 
     // 카드 하단에 들어갈 텍스트 높이 계산
-    final textAreaHeight = 8 + (14.sp * 1.4) + 2 + (12.sp * 1.4);
+    final textAreaHeight = 8 + (14 * 1.4) + 2 + (12 * 1.4);
 
     // 한 칸당 아이템 너비 / (한 칸당 아이템 너비 + 텍스트 영역 높이)
     return itemWidth / (itemWidth + textAreaHeight);

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_theme.dart';
@@ -24,7 +23,7 @@ class FeedUploadAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: Center(
         child: GrimityGesture(
           onTap: () => showCancelUploadDialog(context),
-          child: Assets.icons.common.close.svg(width: 24.w, height: 24.w),
+          child: Assets.icons.common.close.svg(width: 24, height: 24),
         ),
       ),
       title: Consumer(

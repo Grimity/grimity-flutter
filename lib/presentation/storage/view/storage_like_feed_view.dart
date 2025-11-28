@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/presentation/common/widget/grimity_feed_grid.dart';
 import 'package:grimity/presentation/common/widget/grimity_infinite_scroll_pagination.dart';
@@ -20,7 +19,7 @@ class StorageLikeFeedView extends HookConsumerWidget {
     final likeFeed = ref.watch(likeFeedDataProvider);
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: likeFeed.when(
         data: (data) {
           final feeds = data.feeds;

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grimity/app/config/app_color.dart';
 
 abstract class AppTypefaceEditor {
@@ -9,13 +8,13 @@ abstract class AppTypefaceEditor {
   static TextStyle get editorFontFamily => TextStyle(fontFamily: 'Pretendard');
 
   static TextStyle get paragraph =>
-      editorFontFamily.copyWith(fontSize: 16.sp, fontWeight: FontWeight.w500, height: 24 / 16, color: AppColor.gray800);
+      editorFontFamily.copyWith(fontSize: 16, fontWeight: FontWeight.w500, height: 24 / 16, color: AppColor.gray800);
 
   static TextStyle get h1 =>
-      editorFontFamily.copyWith(fontSize: 32.sp, fontWeight: FontWeight.w700, height: 38 / 32, color: AppColor.gray800);
+      editorFontFamily.copyWith(fontSize: 32, fontWeight: FontWeight.w700, height: 38 / 32, color: AppColor.gray800);
 
   static TextStyle get h2 =>
-      editorFontFamily.copyWith(fontSize: 24.sp, fontWeight: FontWeight.w600, height: 30 / 24, color: AppColor.gray800);
+      editorFontFamily.copyWith(fontSize: 24, fontWeight: FontWeight.w600, height: 30 / 24, color: AppColor.gray800);
 
   // p { padding-bottom: 6px }
   static const _pBottom = VerticalSpacing(0, 6);

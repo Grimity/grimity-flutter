@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
@@ -27,10 +26,10 @@ class HomeAppBar extends ConsumerWidget {
       floating: false,
       snap: false,
       centerTitle: false,
-      title: Assets.images.logo.svg(width: 90.w, height: 27.h),
+      title: Assets.images.logo.svg(width: 90, height: 27),
       actions: [
         GrimityActionButton.search(context),
-        Gap(20.w),
+        Gap(20),
         notificationAsync.maybeWhen(
           data: (notifications) {
             final hasUnRead = notifications.where((n) => !n.isRead).isNotEmpty;
@@ -39,7 +38,7 @@ class HomeAppBar extends ConsumerWidget {
           },
           orElse: () => GrimityActionButton.notification(onTap: () => onNotificationTap()),
         ),
-        Gap(20.w),
+        Gap(20),
         GrimityActionButton.user(context),
       ],
       bottom: const PreferredSize(

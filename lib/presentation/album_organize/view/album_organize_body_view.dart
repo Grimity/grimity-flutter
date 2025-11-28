@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
@@ -77,8 +76,8 @@ class AlbumOrganizeBodyView extends HookConsumerWidget with AlbumOrganizeMixin {
       },
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        crossAxisSpacing: 12.w,
-        mainAxisSpacing: 20.w,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 20,
         childAspectRatio: _calculateAspectRatio(context),
       ),
     );
@@ -86,12 +85,12 @@ class AlbumOrganizeBodyView extends HookConsumerWidget with AlbumOrganizeMixin {
 
   double _calculateAspectRatio(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final horizontalPadding = 32.w;
-    final crossAxisSpacing = 12.w;
+    final horizontalPadding = 32;
+    final crossAxisSpacing = 12;
     final availableWidth = screenWidth - horizontalPadding;
     final itemWidth = (availableWidth - crossAxisSpacing) / 2;
 
-    final textAreaHeight = 8 + (14.sp * 1.4) + 2 + (12.sp * 1.4);
+    final textAreaHeight = 8 + (14 * 1.4) + 2 + (12 * 1.4);
 
     return itemWidth / (itemWidth + textAreaHeight);
   }

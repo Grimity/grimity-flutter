@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/text_field/grimity_text_field.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_theme.dart';
 import 'package:grimity/presentation/search/provider/search_keyword_provider.dart';
@@ -31,9 +30,9 @@ class _SearchAppBarDelegate extends SliverPersistentHeaderDelegate {
         children: [
           GrimityGesture(
             onTap: () => Navigator.of(context).maybePop(),
-            child: Icon(Icons.arrow_back_ios_new_outlined, size: 24.w),
+            child: Icon(Icons.arrow_back_ios_new_outlined, size: 24),
           ),
-          Gap(8.w),
+          Gap(8),
           Expanded(child: _SearchTextField()),
         ],
       ),

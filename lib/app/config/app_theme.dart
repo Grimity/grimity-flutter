@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 
 class AppTheme {
@@ -14,12 +13,12 @@ class AppTheme {
       centerTitle: false,
       titleTextStyle: AppTypeface.subTitle3,
       toolbarHeight: kToolbarHeight.height,
-      titleSpacing: 16.w,
-      actionsPadding: EdgeInsets.only(right: 16.w),
+      titleSpacing: 16,
+      actionsPadding: EdgeInsets.only(right: 16),
     ),
   );
 
-  static Size get kToolbarHeight => Size.fromHeight(48.h);
+  static Size get kToolbarHeight => Size.fromHeight(48);
 
-  static Size get kBottomBarHeight => Size.fromHeight(52.h);
+  static Size get kBottomBarHeight => Size.fromHeight(52);
 }

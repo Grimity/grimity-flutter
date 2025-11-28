@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
@@ -42,7 +41,7 @@ class ProfileFeedTabView extends HookConsumerWidget {
             : userAlbums.firstWhere((album) => album.id == selectedAlbumId).feedCount ?? 0;
 
     return Padding(
-      padding: EdgeInsets.only(left: 16.w, right: 16.w),
+      padding: EdgeInsets.only(left: 16, right: 16),
       child: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(child: SizedBox(height: 12)),
@@ -94,10 +93,10 @@ class ProfileFeedTabView extends HookConsumerWidget {
           () => AlbumEditRoute(user.albums ?? <Album>[]).push(context).then((_) => ref.invalidate(profileDataProvider)),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50.r),
+          borderRadius: BorderRadius.circular(50),
           border: Border.all(color: AppColor.gray300),
         ),
-        padding: EdgeInsets.all(10.w),
+        padding: EdgeInsets.all(10),
         child: Assets.icons.profile.editFolder.svg(width: 16, height: 16),
       ),
     );
@@ -146,7 +145,7 @@ class _ProfileAlbumHeader extends HookConsumerWidget {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Wrap(
-              spacing: 6.w,
+              spacing: 6,
               children: [
                 AlbumChip(
                   title: '전체',
@@ -169,7 +168,7 @@ class _ProfileAlbumHeader extends HookConsumerWidget {
             top: 0,
             bottom: 0,
             child: Container(
-              width: 20.w,
+              width: 20,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.centerLeft,

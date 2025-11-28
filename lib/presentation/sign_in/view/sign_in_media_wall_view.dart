@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // TODO: Refactor
 class SignInMediaWallView extends StatefulWidget {
@@ -39,27 +38,27 @@ class _SignInMediaWallViewState extends State<SignInMediaWallView> {
     super.initState();
 
     _images1 = [
-      ImageItem(path: 'assets/images/sign_up/1.png', height: 210.w),
-      ImageItem(path: 'assets/images/sign_up/2.png', height: 250.w),
-      ImageItem(path: 'assets/images/sign_up/3.png', height: 210.w),
-      ImageItem(path: 'assets/images/sign_up/4.png', height: 210.w),
-      ImageItem(path: 'assets/images/sign_up/5.png', height: 114.w),
+      ImageItem(path: 'assets/images/sign_up/1.png', height: 210),
+      ImageItem(path: 'assets/images/sign_up/2.png', height: 250),
+      ImageItem(path: 'assets/images/sign_up/3.png', height: 210),
+      ImageItem(path: 'assets/images/sign_up/4.png', height: 210),
+      ImageItem(path: 'assets/images/sign_up/5.png', height: 114),
     ];
 
     _images2 = [
-      ImageItem(path: 'assets/images/sign_up/6.png', height: 250.w),
-      ImageItem(path: 'assets/images/sign_up/7.png', height: 210.w),
-      ImageItem(path: 'assets/images/sign_up/8.png', height: 114.w),
-      ImageItem(path: 'assets/images/sign_up/9.png', height: 210.w),
-      ImageItem(path: 'assets/images/sign_up/10.png', height: 210.w),
+      ImageItem(path: 'assets/images/sign_up/6.png', height: 250),
+      ImageItem(path: 'assets/images/sign_up/7.png', height: 210),
+      ImageItem(path: 'assets/images/sign_up/8.png', height: 114),
+      ImageItem(path: 'assets/images/sign_up/9.png', height: 210),
+      ImageItem(path: 'assets/images/sign_up/10.png', height: 210),
     ];
 
     _images3 = [
-      ImageItem(path: 'assets/images/sign_up/11.png', height: 250.w),
-      ImageItem(path: 'assets/images/sign_up/12.png', height: 210.w),
-      ImageItem(path: 'assets/images/sign_up/13.png', height: 114.w),
-      ImageItem(path: 'assets/images/sign_up/14.png', height: 210.w),
-      ImageItem(path: 'assets/images/sign_up/15.png', height: 210.w),
+      ImageItem(path: 'assets/images/sign_up/11.png', height: 250),
+      ImageItem(path: 'assets/images/sign_up/12.png', height: 210),
+      ImageItem(path: 'assets/images/sign_up/13.png', height: 114),
+      ImageItem(path: 'assets/images/sign_up/14.png', height: 210),
+      ImageItem(path: 'assets/images/sign_up/15.png', height: 210),
     ];
 
     // 1열: 위로 스크롤
@@ -110,7 +109,7 @@ class _SignInMediaWallViewState extends State<SignInMediaWallView> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final baseImageWidth = 150.w;
+    final baseImageWidth = 150;
     final columnGap = 15;
 
     final column2X = (screenWidth - baseImageWidth) / 2;
@@ -121,7 +120,7 @@ class _SignInMediaWallViewState extends State<SignInMediaWallView> {
       children: [
         Positioned(
           left: column1X,
-          width: 160.w,
+          width: 160,
           height: MediaQuery.of(context).size.height,
           child: ListView.builder(
             controller: _controller1,
@@ -135,7 +134,7 @@ class _SignInMediaWallViewState extends State<SignInMediaWallView> {
         ),
         Positioned(
           left: column2X,
-          width: 160.w,
+          width: 160,
           height: MediaQuery.of(context).size.height,
           child: ListView.builder(
             controller: _controller2,
@@ -149,7 +148,7 @@ class _SignInMediaWallViewState extends State<SignInMediaWallView> {
         ),
         Positioned(
           left: column3X,
-          width: 160.w,
+          width: 160,
           height: MediaQuery.of(context).size.height,
           child: ListView.builder(
             controller: _controller3,
@@ -169,7 +168,7 @@ class _SignInMediaWallViewState extends State<SignInMediaWallView> {
     return Align(
       alignment: Alignment.center,
       child: Container(
-        width: 150.w,
+        width: 150,
         height: imageItem.height,
         margin: EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(

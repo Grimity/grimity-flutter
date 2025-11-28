@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
@@ -48,8 +47,8 @@ class _ProfileEditBackgroundEditButton extends ConsumerWidget {
         child: GrimityGesture(
           onTap: isUploading ? null : () => _showBackgroundImageBottomSheet(context, ref),
           child: Container(
-            width: 69.w,
-            height: 34.w,
+            width: 69,
+            height: 34,
             decoration: BoxDecoration(
               color: AppColor.gray00,
               borderRadius: BorderRadius.circular(8),

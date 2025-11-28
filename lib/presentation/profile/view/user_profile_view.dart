@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
@@ -97,7 +96,7 @@ class UserProfileView extends ConsumerWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            if (viewType == ProfileViewType.other) ...[GrimityFollowButton(url: user.url), Gap(10.w)],
+            if (viewType == ProfileViewType.other) ...[GrimityFollowButton(url: user.url), Gap(10)],
             GrimityMoreButton.decorated(onTap: () => _showMoreBottomSheet(context, ref)),
           ],
         ),
