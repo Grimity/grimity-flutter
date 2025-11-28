@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/common/widget/grimity_infinite_scroll_pagination.dart';
@@ -22,7 +21,7 @@ class FollowerUserView extends HookConsumerWidget {
     final users = ref.watch(followersDataProvider);
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: users.when(
         data: (data) {
           final users = data.users;
@@ -59,7 +58,7 @@ class _FollowerUserListView extends ConsumerWidget {
           onFollowTap: () => ref.read(followersDataProvider.notifier).deleteFollower(user.id),
         );
       },
-      separatorBuilder: (context, index) => Gap(16.h),
+      separatorBuilder: (context, index) => Gap(16),
       itemCount: users.length,
     );
   }

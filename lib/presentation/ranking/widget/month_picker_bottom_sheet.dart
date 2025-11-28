@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
@@ -38,7 +37,7 @@ class MonthPickerBottomSheet extends HookConsumerWidget {
     final now = DateTime.now();
 
     return SizedBox(
-      height: 450.h,
+      height: 450,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: Column(

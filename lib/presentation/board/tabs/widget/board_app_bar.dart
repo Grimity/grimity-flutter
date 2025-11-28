@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
@@ -16,7 +15,7 @@ class BoardAppBar extends StatelessWidget {
       snap: false,
       centerTitle: false,
       title: Text('자유 게시판', style: AppTypeface.subTitle3.copyWith(color: AppColor.primary4)),
-      actions: [GrimityActionButton.search(context), Gap(20.w), GrimityActionButton.user(context)],
+      actions: [GrimityActionButton.search(context), Gap(20), GrimityActionButton.user(context)],
     );
   }
 }

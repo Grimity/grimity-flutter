@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
@@ -48,7 +47,7 @@ class GrimityAuthorWithFeedsCard extends StatelessWidget {
           ),
           Gap(20),
           SizedBox(
-            height: 110.h,
+            height: 110,
             child: Row(
               spacing: 4,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -64,7 +63,7 @@ class GrimityAuthorWithFeedsCard extends StatelessWidget {
                   return Expanded(
                     child: AspectRatio(
                       aspectRatio: 1,
-                      child: Assets.images.imagePlaceholder.image(height: 110.h, cacheHeight: 110.h.cacheSize(context)),
+                      child: Assets.images.imagePlaceholder.image(height: 110, cacheHeight: 110.cacheSize(context)),
                     ),
                   );
                 }

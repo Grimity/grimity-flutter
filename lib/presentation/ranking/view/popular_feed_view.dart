@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
@@ -111,7 +110,7 @@ class PopularFeedView extends ConsumerWidget {
                         ),
                         child: Icon(
                           Icons.chevron_left,
-                          size: 18.w,
+                          size: 18,
                           color: option.isPreviousAvailable ? null : AppColor.gray300,
                         ),
                       ),
@@ -130,7 +129,7 @@ class PopularFeedView extends ConsumerWidget {
                         ),
                         child: Icon(
                           Icons.chevron_right,
-                          size: 18.w,
+                          size: 18,
                           color: option.isNextAvailable ? null : AppColor.gray300,
                         ),
                       ),

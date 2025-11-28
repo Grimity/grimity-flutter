@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/presentation/app_update/show_app_update_dialog.dart';
 import 'package:grimity/presentation/splash/provider/splash_provider.dart';
@@ -54,8 +53,8 @@ class SplashPage extends HookConsumerWidget {
             child: Align(
               alignment: Alignment.center,
               child: Assets.images.logo.svg(
-                width: 190.w,
-                height: 54.h,
+                width: 190,
+                height: 54,
                 colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
               ),
             ),

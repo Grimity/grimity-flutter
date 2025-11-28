@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/enum/grimity.enum.dart';
@@ -67,8 +66,8 @@ class AlbumWidget extends HookConsumerWidget {
               GrimityGesture(
                 onTap: () => showAlbumDeleteDialog(context, ref, album),
                 child: Assets.icons.common.close.svg(
-                  width: 24.w,
-                  height: 24.w,
+                  width: 24,
+                  height: 24,
                   colorFilter: ColorFilter.mode(AppColor.gray600, BlendMode.srcIn),
                 ),
               ),

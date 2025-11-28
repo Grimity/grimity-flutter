@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_router.dart';
@@ -103,7 +102,7 @@ class CommentWidget extends ConsumerWidget {
                             ),
                             GrimityAnimationButton(
                               onTap: () => _showCommentMoreBottomSheet(context, ref, isMyComment),
-                              child: Assets.icons.common.moreHoriz.svg(width: 20.w, height: 20.w),
+                              child: Assets.icons.common.moreHoriz.svg(width: 20, height: 20),
                             ),
                           ],
                         ),
@@ -128,8 +127,8 @@ class CommentWidget extends ConsumerWidget {
                             GrimityAnimationButton(
                               child:
                                   isLike
-                                      ? Assets.icons.common.heartFill.svg(width: 20.w, height: 20.w)
-                                      : Assets.icons.common.heart.svg(width: 20.w, height: 20.w),
+                                      ? Assets.icons.common.heartFill.svg(width: 20, height: 20)
+                                      : Assets.icons.common.heart.svg(width: 20, height: 20),
                               onTap:
                                   () => ref
                                       .read(commentsDataProvider(commentType, id).notifier)

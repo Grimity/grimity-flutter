@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
@@ -32,7 +31,7 @@ class _DrawerMenuListTile extends StatelessWidget {
           context.push(drawerMenuItem.path);
         }
       },
-      minLeadingWidth: 10.w,
+      minLeadingWidth: 10,
       leading: SvgPicture.asset(drawerMenuItem.icon.path, width: 16),
       title: Text(drawerMenuItem.title, style: AppTypeface.label1.copyWith(color: AppColor.gray600)),
     );

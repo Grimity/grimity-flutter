@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/domain/entity/user.dart';
@@ -22,7 +21,7 @@ class ProfilePostTabView extends HookConsumerWidget {
     final postsAsync = ref.watch(profilePostsDataProvider(user.id));
 
     return Padding(
-      padding: EdgeInsets.only(left: 16.w, right: 16.w),
+      padding: EdgeInsets.only(left: 16, right: 16),
       child: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(

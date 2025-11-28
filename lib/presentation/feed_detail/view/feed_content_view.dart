@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
@@ -164,12 +163,12 @@ class _FeedImageListSection extends StatelessWidget {
               },
               child: GrimityCachedNetworkImage.fitWidth(
                 imageUrl: imageUrl,
-                width: 343.w,
+                width: 343,
                 placeholder:
-                    (_, __) => Assets.images.imagePlaceholder.image(width: 343.w, cacheWidth: 343.w.cacheSize(context)),
+                    (_, __) => Assets.images.imagePlaceholder.image(width: 343, cacheWidth: 343.cacheSize(context)),
                 errorWidget:
                     (_, __, ___) =>
-                        Assets.images.imagePlaceholder.image(width: 343.w, cacheWidth: 343.w.cacheSize(context)),
+                        Assets.images.imagePlaceholder.image(width: 343, cacheWidth: 343.cacheSize(context)),
               ),
             );
           },
@@ -188,7 +187,7 @@ class _FeedContentSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(content, style: TextStyle(fontSize: 16.sp, height: 1.6, letterSpacing: 0, fontWeight: FontWeight.w500));
+    return Text(content, style: TextStyle(fontSize: 16, height: 1.6, letterSpacing: 0, fontWeight: FontWeight.w500));
   }
 }
 

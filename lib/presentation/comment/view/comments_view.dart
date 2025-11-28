@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/domain/entity/comment.dart';
@@ -31,11 +30,11 @@ class CommentsView extends ConsumerWidget {
     final commentsAsync = ref.watch(commentsDataProvider(commentType, id));
 
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 30.h),
+      padding: EdgeInsets.symmetric(vertical: 30),
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            padding: EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               spacing: 6,
               children: [

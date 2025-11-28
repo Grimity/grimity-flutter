@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/common/widget/button/grimity_button.dart';
@@ -31,7 +30,7 @@ class FollowUserTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(minHeight: 56.h),
+      constraints: BoxConstraints(minHeight: 56),
       child: Row(
         children: [
           Expanded(
@@ -41,7 +40,7 @@ class FollowUserTile extends StatelessWidget {
               subTitle: user.description ?? '',
             ),
           ),
-          Gap(20.w),
+          Gap(20),
           switch (followType) {
             FollowType.follower => GrimityButton.deleteFollower(onTap: onFollowTap),
             FollowType.following => GrimityButton.follow(isFollowing: true, onTap: onFollowTap),

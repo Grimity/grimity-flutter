@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_theme.dart';
 import 'package:grimity/app/config/app_typeface.dart';
@@ -38,9 +37,9 @@ class _ProfileAppBarDelegate extends StatelessWidget {
             onPressed: () => Navigator.of(context).maybePop(),
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
-            icon: Icon(Icons.arrow_back_ios_new_outlined, size: 24.w),
+            icon: Icon(Icons.arrow_back_ios_new_outlined, size: 24),
           ),
-          Gap(4.w),
+          Gap(4),
           Expanded(
             child: AnimatedOpacity(
               duration: const Duration(milliseconds: 100),
@@ -51,16 +50,16 @@ class _ProfileAppBarDelegate extends StatelessWidget {
           const Spacer(),
           if (viewType == ProfileViewType.mine) ...[
             GrimityActionButton.search(context),
-            Gap(20.w),
+            Gap(20),
             GrimityActionButton.storage(context),
-            Gap(20.w),
+            Gap(20),
             GrimityActionButton.setting(context),
-            Gap(16.w),
+            Gap(16),
           ] else ...[
             GrimityActionButton.search(context),
-            Gap(20.w),
+            Gap(20),
             GrimityActionButton.user(context),
-            Gap(20.w),
+            Gap(20),
           ],
         ],
       ),

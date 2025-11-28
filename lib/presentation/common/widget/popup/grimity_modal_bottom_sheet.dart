@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
@@ -87,7 +86,7 @@ class _BottomSheetButton extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 11, horizontal: 16),
         width: double.maxFinite,
-        height: 42.w,
+        height: 42,
         decoration: BoxDecoration(border: Border.all(color: AppColor.gray300), borderRadius: BorderRadius.circular(12)),
         child: child,
       ),

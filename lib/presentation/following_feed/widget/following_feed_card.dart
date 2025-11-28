@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
@@ -166,7 +165,7 @@ class FollowingFeedCard extends ConsumerWidget {
   // 스켈레톤 효과를 위한 팔로잉 피드 사진 플레이스 홀더
   Widget get _imageSkeleton => Padding(
     padding: EdgeInsets.symmetric(horizontal: 16),
-    child: Container(width: 343.w, height: 343.w, color: AppColor.gray400),
+    child: Container(width: 343, height: 343, color: AppColor.gray400),
   );
 
   void _pushProfile(BuildContext context, String? profileUrl) {
@@ -208,13 +207,13 @@ class _FollowingFeedCardImageCarousel extends StatelessWidget {
               children: [
                 GrimityCachedNetworkImage.fitWidth(
                   imageUrl: imageUrl,
-                  width: 343.w,
+                  width: 343,
                   placeholder:
                       (_, __) =>
-                          Assets.images.imagePlaceholder.image(width: 343.w, cacheWidth: 343.w.cacheSize(context)),
+                          Assets.images.imagePlaceholder.image(width: 343, cacheWidth: 343.cacheSize(context)),
                   errorWidget:
                       (_, __, ___) =>
-                          Assets.images.imagePlaceholder.image(width: 343.w, cacheWidth: 343.w.cacheSize(context)),
+                          Assets.images.imagePlaceholder.image(width: 343, cacheWidth: 343.cacheSize(context)),
                 ),
                 Positioned(
                   right: 12,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
@@ -45,7 +44,7 @@ class _PopularTagListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 170.h,
+      height: 170,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
@@ -71,7 +70,7 @@ class _PopularTagCard extends StatelessWidget {
     return GrimityGesture(
       onTap: () => SearchRoute(keyword: tag.tagName).push(context),
       child: SizedBox(
-        width: 120.w,
+        width: 120,
         child: Stack(
           children: [
             GrimityImage.big(imageUrl: tag.thumbnail),

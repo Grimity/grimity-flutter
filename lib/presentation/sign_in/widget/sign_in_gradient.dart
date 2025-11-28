@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignInGradient extends StatelessWidget {
   const SignInGradient({super.key});
@@ -11,7 +10,7 @@ class SignInGradient extends StatelessWidget {
         alignment: Alignment.bottomCenter,
         child: Container(
           width: double.maxFinite,
-          height: 600.h,
+          height: 600,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [Colors.black.withValues(alpha: 0.8), Colors.black.withValues(alpha: 0.7), Colors.transparent],

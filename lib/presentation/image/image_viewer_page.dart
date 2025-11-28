@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
@@ -29,10 +28,10 @@ class ImageViewerPage extends HookWidget {
         leading: GrimityGesture(
           onTap: () => context.pop(),
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
             child: Assets.icons.common.close.svg(
-              width: 24.w,
-              height: 24.w,
+              width: 24,
+              height: 24,
               colorFilter: ColorFilter.mode(AppColor.gray00, BlendMode.srcIn),
             ),
           ),
@@ -62,9 +61,9 @@ class ImageViewerPage extends HookWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 16.h, bottom: 32.h, left: 16.h),
+              padding: EdgeInsets.only(top: 16, bottom: 32, left: 16),
               child: SizedBox(
-                height: 48.h,
+                height: 48,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemCount: imageUrls.length,
@@ -76,7 +75,7 @@ class ImageViewerPage extends HookWidget {
                         decoration: BoxDecoration(
                           border: isSelected ? Border.all(color: AppColor.main, width: 1) : null,
                         ),
-                        child: GrimityCachedNetworkImage.cover(imageUrl: imageUrls[index], width: 48.h, height: 48.h),
+                        child: GrimityCachedNetworkImage.cover(imageUrl: imageUrls[index], width: 48, height: 48),
                       ),
                     );
                   },

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
@@ -33,13 +32,13 @@ class GrimityPaginationWidget extends StatelessWidget {
     if (totalPages < 1) return SizedBox.shrink();
 
     return Padding(
-      padding: EdgeInsets.only(top: 30.h, bottom: 40.h),
+      padding: EdgeInsets.only(top: 30, bottom: 40),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        spacing: 6.w,
+        spacing: 6,
         children: [
           if (currentPage > 1)
-            IconButton(onPressed: () => onPageSelected(currentPage - 1), icon: Icon(Icons.chevron_left, size: 24.w)),
+            IconButton(onPressed: () => onPageSelected(currentPage - 1), icon: Icon(Icons.chevron_left, size: 24)),
           ..._getPageNumbers(currentPage: currentPage, totalPages: totalPages).map(
             (page) => GrimityGesture(
               onTap: () {
@@ -48,15 +47,15 @@ class GrimityPaginationWidget extends StatelessWidget {
                 }
               },
               child: Container(
-                width: 36.w,
-                height: 36.w,
+                width: 36,
+                height: 36,
                 color: page == currentPage ? AppColor.gray200 : Colors.white,
                 child: Center(child: Text(page.toString(), style: AppTypeface.body1.copyWith(color: AppColor.gray700))),
               ),
             ),
           ),
           if (currentPage < totalPages)
-            IconButton(onPressed: () => onPageSelected(currentPage + 1), icon: Icon(Icons.chevron_right, size: 24.w)),
+            IconButton(onPressed: () => onPageSelected(currentPage + 1), icon: Icon(Icons.chevron_right, size: 24)),
         ],
       ),
     );

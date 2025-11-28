@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/gen/assets.gen.dart';
@@ -20,7 +19,7 @@ class GrimityActionButton extends StatelessWidget {
   /// Search Action Button
   factory GrimityActionButton.search(BuildContext context) => GrimityActionButton._(
     onTap: () => SearchRoute().push(context),
-    child: Assets.icons.common.search.svg(width: 24.w, height: 24.w),
+    child: Assets.icons.common.search.svg(width: 24, height: 24),
   );
 
   /// User Action Button
@@ -34,9 +33,9 @@ class GrimityActionButton extends StatelessWidget {
           return (userImageUrl != null)
               ? GrimityUserImage(
                 imageUrl: userImageUrl,
-                size: 24.w,
+                size: 24,
               )
-              : SvgPicture.asset(Assets.icons.main.defaultProfile.path, width: 24.w, height: 24.w);
+              : SvgPicture.asset(Assets.icons.main.defaultProfile.path, width: 24, height: 24);
         },
       ),
     );
@@ -45,13 +44,13 @@ class GrimityActionButton extends StatelessWidget {
   /// Storage Action Button
   factory GrimityActionButton.storage(BuildContext context) => GrimityActionButton._(
     onTap: () => StorageRoute().push(context),
-    child: Assets.icons.common.storage.svg(width: 24.w, height: 24.w),
+    child: Assets.icons.common.storage.svg(width: 24, height: 24),
   );
 
   /// Storage Action Button
   factory GrimityActionButton.setting(BuildContext context) => GrimityActionButton._(
     onTap: () => SettingRoute().push(context),
-    child: Assets.icons.common.setting.svg(width: 24.w, height: 24.w),
+    child: Assets.icons.common.setting.svg(width: 24, height: 24),
   );
 
   /// Notification Action Button
@@ -59,7 +58,7 @@ class GrimityActionButton extends StatelessWidget {
       GrimityActionButton._(
         onTap: onTap,
         showBadge: showBadge,
-        child: Assets.icons.common.notification.svg(width: 24.w, height: 24.w),
+        child: Assets.icons.common.notification.svg(width: 24, height: 24),
       );
 
   @override
@@ -76,8 +75,8 @@ class GrimityActionButton extends StatelessWidget {
           Positioned(
             right: 2,
             child: Container(
-              width: 4.w,
-              height: 4.w,
+              width: 4,
+              height: 4,
               decoration: BoxDecoration(color: AppColor.main, shape: BoxShape.circle),
             ),
           ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
@@ -90,7 +89,7 @@ class PostAddLinkBottomSheet extends HookWidget {
               height: 42,
               decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: AppColor.primary4),
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 child: Center(child: Text('추가', style: AppTypeface.label2.copyWith(color: AppColor.gray00))),
               ),
             ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
@@ -19,11 +18,11 @@ class AlbumChip extends StatelessWidget {
     return GrimityGesture(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.w),
+        padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         decoration: BoxDecoration(
           color: isSelected ? AppColor.main : AppColor.gray00,
           border: Border.all(color: isSelected ? AppColor.main : AppColor.gray200),
-          borderRadius: BorderRadius.circular(50.r),
+          borderRadius: BorderRadius.circular(50),
         ),
         child: Row(
           children: [
@@ -35,7 +34,7 @@ class AlbumChip extends StatelessWidget {
                       : AppTypeface.label2.copyWith(color: AppColor.gray700),
             ),
             if (amount != null) ...[
-              Gap(4.w),
+              Gap(4),
               Text(
                 amount!,
                 style: AppTypeface.caption2.copyWith(color: isSelected ? AppColor.gray00 : AppColor.gray600),

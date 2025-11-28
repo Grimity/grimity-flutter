@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
@@ -17,7 +16,7 @@ class BoardSearchAppBar extends StatelessWidget {
       centerTitle: false,
       title: Text('검색', style: AppTypeface.subTitle3.copyWith(color: AppColor.primary4)),
       titleSpacing: 0,
-      actions: [GrimityActionButton.search(context), Gap(20.w), GrimityActionButton.user(context)],
+      actions: [GrimityActionButton.search(context), Gap(20), GrimityActionButton.user(context)],
     );
   }
 }

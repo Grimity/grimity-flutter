@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/post_upload/widget/toolbar/parts/menu_archor_square.dart';
@@ -36,7 +35,7 @@ class HeaderMenu extends StatelessWidget {
       child: Container(
         width: 96,
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 10),
-        child: Text(label, style: TextStyle(fontSize: label == '제목1' ? 18.sp : 16.sp, fontWeight: FontWeight.w600)),
+        child: Text(label, style: TextStyle(fontSize: label == '제목1' ? 18 : 16, fontWeight: FontWeight.w600)),
       ),
     );
   }

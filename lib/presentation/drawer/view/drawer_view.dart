@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 
@@ -21,12 +20,12 @@ class DrawerView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       backgroundColor: AppColor.gray00,
-      width: 260.w,
+      width: 260,
       child: SafeArea(
         child: ListView(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              padding: EdgeInsets.symmetric(horizontal: 16),
               child: Column(children: [closeButton, profileWidget, Gap(24), uploadButton, Gap(24)]),
             ),
             Divider(height: 1, color: AppColor.gray300),
