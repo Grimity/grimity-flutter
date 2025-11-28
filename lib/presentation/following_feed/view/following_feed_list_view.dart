@@ -21,7 +21,7 @@ class FollowingFeedListView extends ConsumerWidget {
 
         return feedList.isEmpty ? FollowingFeedEmptyView() : _FeedListView(feeds: feedList);
       },
-      loading: () => Skeletonizer(child: _FeedListView(feeds: Feed.emptyList)),
+      loading: () => Skeletonizer(child: _FeedListView(feeds: Feed.createEmptyList(context))),
       error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(followingFeedDataProvider)),
     );
   }

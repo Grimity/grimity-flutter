@@ -60,7 +60,7 @@ class ProfileFeedTabView extends HookConsumerWidget {
           SliverToBoxAdapter(
             child: feedsAsync.when(
               data: (data) => _buildFeedGrid(context, data.feeds),
-              loading: () => Skeletonizer(child: _buildFeedGrid(context, Feed.emptyList)),
+              loading: () => Skeletonizer(child: _buildFeedGrid(context, Feed.createEmptyList(context))),
               error:
                   (error, stack) =>
                       GrimityStateView.error(onTap: () => ref.invalidate(profileFeedsDataProvider(user.id))),

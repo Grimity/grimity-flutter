@@ -42,7 +42,10 @@ class AlbumOrganizeBodyView extends HookConsumerWidget with AlbumOrganizeMixin {
             SliverToBoxAdapter(
               child: albumFeeds.when(
                 data: (data) => _buildSelectableFeedGrid(context, ref, feeds: data.feeds),
-                loading: () => Skeletonizer(child: _buildSelectableFeedGrid(context, ref, feeds: Feed.emptyList)),
+                loading:
+                    () => Skeletonizer(
+                      child: _buildSelectableFeedGrid(context, ref, feeds: Feed.createEmptyList(context)),
+                    ),
                 error:
                     (error, stackTrace) => GrimityStateView.error(
                       onTap: () => ref.invalidate(albumFeedDataProvider(user.id, currentAlbumId)),

@@ -37,7 +37,10 @@ class SearchFeedTabView extends HookConsumerWidget with SearchFeedMixin {
           child: _SearchResultFeedView(feeds: data),
         );
       },
-      loading: () => Skeletonizer(child: _SearchResultFeedView(feeds: Feeds(feeds: Feed.emptyList, totalCount: 0))),
+      loading:
+          () => Skeletonizer(
+            child: _SearchResultFeedView(feeds: Feeds(feeds: Feed.createEmptyList(context), totalCount: 0)),
+          ),
       error: (e, s) => GrimityStateView.error(onTap: () => invalidateSearchFeed(ref)),
     );
   }

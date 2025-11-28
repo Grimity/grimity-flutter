@@ -24,7 +24,7 @@ class FeedRecommendFeedView extends ConsumerWidget {
           Gap(16),
           recommendFeed.when(
             data: (data) => _RecommendFeedListView(feeds: data.feeds),
-            loading: () => Skeletonizer(child: _RecommendFeedListView(feeds: Feed.emptyList)),
+            loading: () => Skeletonizer(child: _RecommendFeedListView(feeds: Feed.createEmptyList(context))),
             error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(feedRecommendFeedDataProvider)),
           ),
         ],
