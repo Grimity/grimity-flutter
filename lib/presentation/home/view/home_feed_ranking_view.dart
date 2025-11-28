@@ -70,6 +70,8 @@ class _HomeRankingCarousel extends HookWidget {
     }
 
     return ExpandablePageView.builder(
+      animationDuration: Duration.zero,
+      animationCurve: Curves.linear,
       padEnds: false,
       itemCount: feeds.length,
       controller: pageController,
