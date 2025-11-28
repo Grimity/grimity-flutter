@@ -46,8 +46,6 @@ class _PhotoAssetThumbnailWidgetState extends State<PhotoAssetThumbnailWidget> {
             fit: widget.fit,
             width: double.infinity,
             height: double.infinity,
-            cacheWidth: widget.size.toInt(),
-            cacheHeight: widget.size.toInt(),
           );
         }
 
