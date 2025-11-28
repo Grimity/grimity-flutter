@@ -68,6 +68,8 @@ class _PopularAuthorCarousel extends HookConsumerWidget {
       spacing: 16,
       children: [
         ExpandablePageView.builder(
+          animationDuration: Duration.zero,
+          animationCurve: Curves.linear,
           padEnds: false,
           itemCount: visibleUserCount,
           controller: pageController,
