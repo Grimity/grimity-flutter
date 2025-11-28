@@ -52,3 +52,18 @@ dart pub global activate flutterfire_cli
 ```bash
 dart run build_runner watch --delete-conflicting-outputs
 ```
+
+### 🔥 앱 빌드 & 실행
+해당 프로젝트는 **Flavor**를 사용합니다. 따라서 앱을 실행할 때는 환경에 맞는 엔트리포인트와 함께 아래 명령어를 터미널에 입력해야 합니다.
+
+#### 개발 서버
+
+```bash
+flutter run --profile --flavor dev --target lib/app/entrypoints/main_dev.dart
+```
+
+#### 운영 서버
+
+```bash
+flutter run --profile --flavor prod --target lib/app/entrypoints/main_prod.dart
+```
