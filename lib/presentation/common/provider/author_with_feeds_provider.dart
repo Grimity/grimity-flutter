@@ -1,5 +1,7 @@
+import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/app/enum/sort_type.enum.dart';
+import 'package:grimity/app/extension/build_context_extension.dart';
 import 'package:grimity/domain/dto/users_request_params.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/user.dart';
@@ -55,11 +57,11 @@ class AuthorWithFeedsData extends _$AuthorWithFeedsData with UserMixin<List<Auth
 abstract class AuthorWithFeeds with _$AuthorWithFeeds {
   const factory AuthorWithFeeds({required User user, required List<Feed> feeds}) = _AuthorWithFeeds;
 
-  factory AuthorWithFeeds.empty() => AuthorWithFeeds(user: User.empty(), feeds: Feed.emptyList);
+  factory AuthorWithFeeds.empty(BuildContext context) {
+    return AuthorWithFeeds(user: User.empty(), feeds: Feed.createEmptyList(context));
+  }
 
-  static List<AuthorWithFeeds> get emptyList => [
-    AuthorWithFeeds.empty(),
-    AuthorWithFeeds.empty(),
-    AuthorWithFeeds.empty(),
-  ];
+  static List<AuthorWithFeeds> createEmptyList(BuildContext context) {
+    return List.generate(context.feedRowCount + 1, (_) => AuthorWithFeeds.empty(context));
+  }
 }

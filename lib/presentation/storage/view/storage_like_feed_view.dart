@@ -34,7 +34,7 @@ class StorageLikeFeedView extends HookConsumerWidget {
             child: _StorageLikeFeedListView(feeds: feeds),
           );
         },
-        loading: () => Skeletonizer(child: _StorageLikeFeedListView(feeds: Feed.emptyList)),
+        loading: () => Skeletonizer(child: _StorageLikeFeedListView(feeds: Feed.createEmptyList(context))),
         error: (error, stackTrace) => GrimityStateView.error(onTap: () => ref.invalidate(likeFeedDataProvider)),
       ),
     );

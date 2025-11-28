@@ -49,7 +49,7 @@ class FeedAuthorProfileView extends ConsumerWidget {
           spacing: 16,
           children: [
             Skeletonizer(child: _AuthorProfile(profile: User.empty())),
-            Skeletonizer(child: _AuthorFeeds(feeds: Feed.emptyList, url: author.url)),
+            Skeletonizer(child: _AuthorFeeds(feeds: Feed.createEmptyList(context), url: author.url)),
           ],
         ),
       );

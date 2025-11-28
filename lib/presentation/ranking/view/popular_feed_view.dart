@@ -142,7 +142,7 @@ class PopularFeedView extends ConsumerWidget {
           Gap(16),
           popularFeed.when(
             data: (feeds) => feeds.isEmpty ? SizedBox.shrink() : _PopularFeedListView(feeds: feeds),
-            loading: () => Skeletonizer(child: _PopularFeedListView(feeds: Feed.emptyList)),
+            loading: () => Skeletonizer(child: _PopularFeedListView(feeds: Feed.createEmptyList(context))),
             error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(popularFeedRankingDataProvider)),
           ),
         ],

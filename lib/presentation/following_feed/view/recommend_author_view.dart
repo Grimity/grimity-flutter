@@ -25,7 +25,9 @@ class FollowingFeedRecommendAuthorListView extends ConsumerWidget {
           authorWithFeedsAsync.when(
             data: (authorWithFeedsList) => _AuthorWithFeedsListView(authorWithFeedsList: authorWithFeedsList),
             loading:
-                () => Skeletonizer(child: _AuthorWithFeedsListView(authorWithFeedsList: AuthorWithFeeds.emptyList)),
+                () => Skeletonizer(
+                  child: _AuthorWithFeedsListView(authorWithFeedsList: AuthorWithFeeds.createEmptyList(context)),
+                ),
             error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(authorWithFeedsDataProvider)),
           ),
         ],

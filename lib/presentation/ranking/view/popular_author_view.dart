@@ -32,7 +32,10 @@ class PopularAuthorView extends ConsumerWidget {
                   authorWithFeedsList.isEmpty
                       ? SizedBox.shrink()
                       : _PopularAuthorCarousel(authorWithFeedsList: authorWithFeedsList),
-          loading: () => Skeletonizer(child: _PopularAuthorCarousel(authorWithFeedsList: AuthorWithFeeds.emptyList)),
+          loading:
+              () => Skeletonizer(
+                child: _PopularAuthorCarousel(authorWithFeedsList: AuthorWithFeeds.createEmptyList(context)),
+              ),
           error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(authorWithFeedsDataProvider)),
         ),
       ],

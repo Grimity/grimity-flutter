@@ -34,7 +34,7 @@ class StorageSaveFeedView extends HookConsumerWidget {
             child: _StorageSaveFeedListView(feeds: feeds),
           );
         },
-        loading: () => Skeletonizer(child: _StorageSaveFeedListView(feeds: Feed.emptyList)),
+        loading: () => Skeletonizer(child: _StorageSaveFeedListView(feeds: Feed.createEmptyList(context))),
         error: (error, stackTrace) => GrimityStateView.error(onTap: () => ref.invalidate(saveFeedDataProvider)),
       ),
     );
