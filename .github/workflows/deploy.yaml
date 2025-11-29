@@ -36,13 +36,10 @@ jobs:
       - name: Build Number 설정
         id: build_number
         run: |
-          VERSION=$(dart run tools/get_version.dart)
-          BN="${VERSION##*-}"
+          BUILD_NUMBER=$(dart run pubspec_version_tool get --only-build-number)
+          BUILD_NUMBER=$((BUILD_NUMBER + 1))
 
-          # Build Number +1
-          BN=$((BN + 1))
-
-          echo "BUILD_NUMBER=$BN" >> $GITHUB_OUTPUT
+          echo "BUILD_NUMBER=$BUILD_NUMBER" >> $GITHUB_OUTPUT
 
   android:
     runs-on: ubuntu-latest
@@ -197,7 +194,7 @@ jobs:
       - name: Pubspec 수정
         run: |
           VERSION="${{ github.event.inputs.VERSION_NAME }}-${{ needs.ready.outputs.BUILD_NUMBER }}"
-          dart run tools/set_version.dart --version "$VERSION"
+          dart run pubspec_version_tool set "$VERSION"
           git add .
           git commit -m "pubspec.yaml 버전을 $VERSION으로 업데이트"
           git push origin main
