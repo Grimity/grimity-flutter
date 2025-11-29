@@ -19,10 +19,18 @@ Future<void> ensureFastlaneInstalled() async {
 }
 
 /// Fastlane match 명령을 실행하며 주어진 타입의 프로비저닝 프로필을 동기화합니다.
-Future<void> runFastlaneMatch(String profile) async {
+Future<void> runFastlaneMatch(String profile, String appId) async {
   await run(
     "fastlane",
-    ["match", profile, "--readonly", "--git_url", kFastlaneRepository],
+    [
+      "match",
+      profile,
+      "--readonly",
+      "--git_url",
+      kFastlaneRepository,
+      "--app_identifier",
+      appId,
+    ],
     environment: {
       "MATCH_PASSWORD": dotenv["MATCH_PASSWORD"]!,
     },
@@ -32,14 +40,14 @@ Future<void> runFastlaneMatch(String profile) async {
 void main() async {
   await run("dart", ["run", "git_config", "fetch"]);
 
-  dotenv = DotEnv()..load();
+  dotenv = DotEnv()..load([".env"]);
 
   // Mac 환경은 앱 서명 키를 공유하기 위해서 Fastlane을 사용하도록 함.
   if (Platform.isMacOS) {
     await ensureFastlaneInstalled();
-    await runFastlaneMatch("development");
-    await runFastlaneMatch("appstore");
-    await runFastlaneMatch("adhoc");
+    await runFastlaneMatch("development", "com.grimity.flutter.dev"); // dev
+    await runFastlaneMatch("appstore", "com.grimity.flutter"); // prod
+    await runFastlaneMatch("adhoc", "com.grimity.flutter"); // prod
   }
 
   await run("dart", ["run", "build_runner", "build", "--delete-conflicting-outputs"]);
