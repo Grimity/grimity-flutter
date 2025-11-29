@@ -13,9 +13,13 @@ late final DotEnv dotenv;
 /// Fastlane이 설치되어 있는지 확인하고 없다면 brew를 통해 Fastlane을 설치합니다
 Future<void> ensureFastlaneInstalled() async {
   final result = await Process.run("brew", ["list", "fastlane"]);
-  if (result.exitCode == 0) return;
 
-  run("brew", ["install", "fastlane"]);
+  // 이미 설치되어 있다면 버전 업데이트 시도.
+  if (result.exitCode == 0) {
+    await run("brew", ["upgrade", "fastlane"]);
+  } else {
+    await run("brew", ["install", "fastlane"]);
+  }
 }
 
 /// Fastlane match 명령을 실행하며 주어진 타입의 프로비저닝 프로필을 동기화합니다.
