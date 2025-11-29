@@ -28,6 +28,7 @@ class GrimitySelectableImageFeed extends StatelessWidget {
       onTap: onToggleSelected,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           AspectRatio(
             aspectRatio: 1.0,

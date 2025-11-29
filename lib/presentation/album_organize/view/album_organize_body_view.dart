@@ -1,3 +1,4 @@
+import 'package:dynamic_height_list_view/dynamic_height_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
@@ -62,40 +63,31 @@ class AlbumOrganizeBodyView extends HookConsumerWidget with AlbumOrganizeMixin {
   Widget _buildSelectableFeedGrid(BuildContext context, WidgetRef ref, {required List<Feed> feeds}) {
     final state = albumOrganizeState(ref);
 
-    return GridView.builder(
+    return CustomScrollView(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      padding: EdgeInsets.only(bottom: 20),
-      itemCount: feeds.length,
-      itemBuilder: (context, index) {
-        final feed = feeds[index];
-        final containFeed = state.ids.contains(feed.id);
+      slivers: [
+        SliverPadding(
+          padding: EdgeInsets.only(bottom: 20),
+          sliver: SliverDynamicHeightGridView(
+            crossAxisCount: context.feedRowCount,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 20,
+            itemCount: feeds.length,
+            builder: (context, index) {
+              final feed = feeds[index];
+              final containFeed = state.ids.contains(feed.id);
 
-        return GrimitySelectableImageFeed(
-          feed: feed,
-          authorName: state.user.name,
-          selected: containFeed,
-          onToggleSelected: () => albumOrganizeNotifier(ref).toggleFeed(feed.id),
-        );
-      },
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 20,
-        childAspectRatio: _calculateAspectRatio(context),
-      ),
+              return GrimitySelectableImageFeed(
+                feed: feed,
+                authorName: state.user.name,
+                selected: containFeed,
+                onToggleSelected: () => albumOrganizeNotifier(ref).toggleFeed(feed.id),
+              );
+            },
+          ),
+        ),
+      ],
     );
-  }
-
-  double _calculateAspectRatio(BuildContext context) {
-    final screenWidth = context.deviceSize.width;
-    final horizontalPadding = 32;
-    final crossAxisSpacing = 12;
-    final availableWidth = screenWidth - horizontalPadding;
-    final itemWidth = (availableWidth - crossAxisSpacing) / 2;
-
-    final textAreaHeight = 8 + (14 * 1.4) + 2 + (12 * 1.4);
-
-    return itemWidth / (itemWidth + textAreaHeight);
   }
 }
