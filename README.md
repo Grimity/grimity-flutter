@@ -8,9 +8,9 @@
 <a href="https://pub.dev/packages/dio"><img src="https://github.com/user-attachments/assets/8ea8acf8-d09e-4b3b-837e-daa799b99b08"></a>
 <a href="https://pub.dev/packages/retrofit"><img src="https://github.com/user-attachments/assets/93e98556-e40b-4841-8025-c439dc0c9c3f"></a>
 
-| 종속성 | 최소 버전 | 권장 버전 |
+| 종속성 | 최소 버전 | 배포 버전 |
 | ---- | ------- | ------- |
-| Flutter SDK | >= 3.35.7 | [최신 버전](https://github.com/flutter/flutter)
+| Flutter SDK | >= 3.35.7 | [FLUTTER_VERSION](https://github.com/Grimity/grimity-flutter/settings/variables/actions) |
 
 ### 🚀 자동화 배포
 자동화 배포를 위한 CI/CD 에서는 Fastlane을 통한 GitHub Actions를 사용합니다.
