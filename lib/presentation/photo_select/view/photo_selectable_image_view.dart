@@ -24,7 +24,7 @@ class PhotoSelectableGridView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: context.feedRowCount,
+        crossAxisCount: context.photoRowCount,
         crossAxisSpacing: 2,
         mainAxisSpacing: 2,
       ),
