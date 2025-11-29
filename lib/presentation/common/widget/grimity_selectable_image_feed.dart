@@ -40,7 +40,7 @@ class GrimitySelectableImageFeed extends StatelessWidget {
               ),
               child: Stack(
                 children: [
-                  GrimityImage.big(imageUrl: feed.thumbnail ?? ''),
+                  GrimityImage.infinity(imageUrl: feed.thumbnail ?? ''),
                   Positioned(
                     right: 12,
                     top: 12,
