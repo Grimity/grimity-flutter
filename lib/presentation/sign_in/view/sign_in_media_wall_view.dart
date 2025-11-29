@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:grimity/app/extension/build_context_extension.dart';
 
 // TODO: Refactor
 class SignInMediaWallView extends StatefulWidget {
@@ -108,7 +109,7 @@ class _SignInMediaWallViewState extends State<SignInMediaWallView> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
+    final screenWidth = context.deviceSize.width;
     final baseImageWidth = 150;
     final columnGap = 15;
 
@@ -121,7 +122,7 @@ class _SignInMediaWallViewState extends State<SignInMediaWallView> {
         Positioned(
           left: column1X,
           width: 160,
-          height: MediaQuery.of(context).size.height,
+          height: context.deviceSize.height,
           child: ListView.builder(
             controller: _controller1,
             physics: const NeverScrollableScrollPhysics(),
@@ -135,7 +136,7 @@ class _SignInMediaWallViewState extends State<SignInMediaWallView> {
         Positioned(
           left: column2X,
           width: 160,
-          height: MediaQuery.of(context).size.height,
+          height: context.deviceSize.height,
           child: ListView.builder(
             controller: _controller2,
             physics: const NeverScrollableScrollPhysics(),
@@ -149,7 +150,7 @@ class _SignInMediaWallViewState extends State<SignInMediaWallView> {
         Positioned(
           left: column3X,
           width: 160,
-          height: MediaQuery.of(context).size.height,
+          height: context.deviceSize.height,
           child: ListView.builder(
             controller: _controller3,
             physics: const NeverScrollableScrollPhysics(),

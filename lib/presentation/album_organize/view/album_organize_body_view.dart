@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/app/extension/build_context_extension.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/presentation/album_organize/provider/album_feed_data_provider.dart';
 import 'package:grimity/presentation/album_organize/provider/album_organize_provider.dart';
@@ -87,7 +88,7 @@ class AlbumOrganizeBodyView extends HookConsumerWidget with AlbumOrganizeMixin {
   }
 
   double _calculateAspectRatio(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
+    final screenWidth = context.deviceSize.width;
     final horizontalPadding = 32;
     final crossAxisSpacing = 12;
     final availableWidth = screenWidth - horizontalPadding;
