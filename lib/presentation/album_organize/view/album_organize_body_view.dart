@@ -1,7 +1,6 @@
 import 'package:dynamic_height_list_view/dynamic_height_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/extension/build_context_extension.dart';
@@ -30,64 +29,72 @@ class AlbumOrganizeBodyView extends HookConsumerWidget with AlbumOrganizeMixin {
     return GrimityInfiniteScrollPagination(
       isEnabled: user.id.isNotEmpty && albumFeeds.valueOrNull?.nextCursor != null,
       onLoadMore: ref.read(albumFeedDataProvider(user.id, currentAlbumId).notifier).loadMore,
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
+      child: CustomScrollView(
+        slivers: [
+          SliverPadding(
+            padding: EdgeInsets.only(top: 24, left: 16, right: 16),
+            sliver: SliverToBoxAdapter(
               child: Text(
                 currentAlbumId == null ? '전체 앨범' : userAlbums.firstWhere((e) => e.id == currentAlbumId).name,
                 style: AppTypeface.subTitle1.copyWith(color: AppColor.gray800),
               ),
             ),
-            SliverToBoxAdapter(child: Gap(16)),
-            SliverToBoxAdapter(
-              child: albumFeeds.when(
-                data: (data) => _buildSelectableFeedGrid(context, ref, feeds: data.feeds),
-                loading:
-                    () => Skeletonizer(
-                      child: _buildSelectableFeedGrid(context, ref, feeds: Feed.createEmptyList(context)),
-                    ),
-                error:
-                    (error, stackTrace) => GrimityStateView.error(
-                      onTap: () => ref.invalidate(albumFeedDataProvider(user.id, currentAlbumId)),
-                    ),
-              ),
-            ),
-          ],
-        ),
+          ),
+          albumFeeds.when(
+            data: (data) => _buildSelectableFeedGrid(context, ref, feeds: data.feeds),
+            loading:
+                () => _buildSelectableFeedGrid(
+                  context,
+                  ref,
+                  isSkeleton: true,
+                  feeds: Feed.createEmptyList(context),
+                ),
+            error: (error, stackTrace) {
+              return SliverToBoxAdapter(
+                child: GrimityStateView.error(
+                  onTap: () => ref.invalidate(albumFeedDataProvider(user.id, currentAlbumId)),
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildSelectableFeedGrid(BuildContext context, WidgetRef ref, {required List<Feed> feeds}) {
+  Widget _buildSelectableFeedGrid(
+    BuildContext context,
+    WidgetRef ref, {
+    bool isSkeleton = false,
+    required List<Feed> feeds,
+  }) {
     final state = albumOrganizeState(ref);
 
-    return CustomScrollView(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      slivers: [
-        SliverPadding(
-          padding: EdgeInsets.only(bottom: 20),
-          sliver: SliverDynamicHeightGridView(
-            crossAxisCount: context.feedRowCount,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 20,
-            itemCount: feeds.length,
-            builder: (context, index) {
-              final feed = feeds[index];
-              final containFeed = state.ids.contains(feed.id);
+    return SliverPadding(
+      padding: EdgeInsets.only(
+        top: 16,
+        left: 16,
+        right: 16,
+        bottom: 20,
+      ),
+      sliver: SliverDynamicHeightGridView(
+        crossAxisCount: context.feedRowCount,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 20,
+        itemCount: feeds.length,
+        builder: (context, index) {
+          final feed = feeds[index];
+          final containFeed = state.ids.contains(feed.id);
+          final child = GrimitySelectableImageFeed(
+            feed: feed,
+            authorName: state.user.name,
+            selected: containFeed,
+            onToggleSelected: () => albumOrganizeNotifier(ref).toggleFeed(feed.id),
+          );
 
-              return GrimitySelectableImageFeed(
-                feed: feed,
-                authorName: state.user.name,
-                selected: containFeed,
-                onToggleSelected: () => albumOrganizeNotifier(ref).toggleFeed(feed.id),
-              );
-            },
-          ),
-        ),
-      ],
+          return isSkeleton ? Skeletonizer(child: child) : child;
+        },
+      ),
     );
   }
 }
