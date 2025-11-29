@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:grimity/app/extension/build_context_extension.dart';
+import 'package:grimity/gen/assets.gen.dart';
 
 // TODO: Refactor
 class SignInMediaWallView extends StatefulWidget {
@@ -39,27 +40,27 @@ class _SignInMediaWallViewState extends State<SignInMediaWallView> {
     super.initState();
 
     _images1 = [
-      ImageItem(path: 'assets/images/sign_up/1.png', height: 210),
-      ImageItem(path: 'assets/images/sign_up/2.png', height: 250),
-      ImageItem(path: 'assets/images/sign_up/3.png', height: 210),
-      ImageItem(path: 'assets/images/sign_up/4.png', height: 210),
-      ImageItem(path: 'assets/images/sign_up/5.png', height: 114),
+      ImageItem(path: Assets.images.signUp.a1.path, height: 210),
+      ImageItem(path: Assets.images.signUp.a2.path, height: 250),
+      ImageItem(path: Assets.images.signUp.a3.path, height: 210),
+      ImageItem(path: Assets.images.signUp.a4.path, height: 210),
+      ImageItem(path: Assets.images.signUp.a5.path, height: 114),
     ];
 
     _images2 = [
-      ImageItem(path: 'assets/images/sign_up/6.png', height: 250),
-      ImageItem(path: 'assets/images/sign_up/7.png', height: 210),
-      ImageItem(path: 'assets/images/sign_up/8.png', height: 114),
-      ImageItem(path: 'assets/images/sign_up/9.png', height: 210),
-      ImageItem(path: 'assets/images/sign_up/10.png', height: 210),
+      ImageItem(path: Assets.images.signUp.a6.path, height: 250),
+      ImageItem(path: Assets.images.signUp.a7.path, height: 210),
+      ImageItem(path: Assets.images.signUp.a8.path, height: 114),
+      ImageItem(path: Assets.images.signUp.a9.path, height: 210),
+      ImageItem(path: Assets.images.signUp.a10.path, height: 210),
     ];
 
     _images3 = [
-      ImageItem(path: 'assets/images/sign_up/11.png', height: 250),
-      ImageItem(path: 'assets/images/sign_up/12.png', height: 210),
-      ImageItem(path: 'assets/images/sign_up/13.png', height: 114),
-      ImageItem(path: 'assets/images/sign_up/14.png', height: 210),
-      ImageItem(path: 'assets/images/sign_up/15.png', height: 210),
+      ImageItem(path: Assets.images.signUp.a11.path, height: 250),
+      ImageItem(path: Assets.images.signUp.a12.path, height: 210),
+      ImageItem(path: Assets.images.signUp.a13.path, height: 114),
+      ImageItem(path: Assets.images.signUp.a14.path, height: 210),
+      ImageItem(path: Assets.images.signUp.a15.path, height: 210),
     ];
 
     // 1열: 위로 스크롤

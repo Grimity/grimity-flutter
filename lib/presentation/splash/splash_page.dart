@@ -33,7 +33,7 @@ class SplashPage extends HookConsumerWidget {
         children: [
           Positioned.fill(
             child: Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
@@ -42,7 +42,7 @@ class SplashPage extends HookConsumerWidget {
                 ),
                 // noise texture image 추가
                 image: DecorationImage(
-                  image: AssetImage('assets/images/noise_texture.png'),
+                  image: AssetImage(Assets.images.noiseTexture.path),
                   fit: BoxFit.cover,
                   opacity: 0.1,
                 ),
