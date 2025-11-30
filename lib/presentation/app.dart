@@ -32,6 +32,15 @@ void runFlavoredApp() async {
 class App extends ConsumerWidget {
   const App({super.key});
 
+  /// 해당 빌더는 라우트마다 공통으로 적용되는 위젯 래퍼를 구성합니다.
+  static Widget routerBuilder(BuildContext context, Widget? child) {
+    return GestureDetector(
+      // 빈 화면에 클릭하면 현재 포커스가 정상적으로 취소되도록 이를 보장합니다.
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: FToastBuilder()(context, child),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
@@ -43,7 +52,7 @@ class App extends ConsumerWidget {
       ],
       routerConfig: AppRouter.router(ref),
       theme: AppTheme.appTheme,
-      builder: (context, child) => FToastBuilder()(context, child),
+      builder: routerBuilder,
     );
   }
 }

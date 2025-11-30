@@ -5,7 +5,6 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/presentation/comment/enum/comment_type.dart';
 import 'package:grimity/presentation/comment/provider/comment_input_provider.dart';
-import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/drawer/main_app_drawer.dart';
 import 'package:grimity/presentation/post_detail/view/post_latest_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -100,55 +99,52 @@ class PostDetailView extends HookConsumerWidget {
     return Scaffold(
       endDrawer: MainAppDrawer(),
       body: SafeArea(
-        child: GrimityGesture(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: Stack(
-            children: [
-              NotificationListener<ScrollNotification>(
-                onNotification: (notification) {
-                  updateBarVisibility();
-                  return false;
-                },
-                child: CustomScrollView(
-                  controller: scrollController,
-                  slivers: [
-                    postDetailAppBar,
-                    SliverToBoxAdapter(child: Gap(16)),
-                    SliverToBoxAdapter(
-                      child: Builder(
-                        builder: (context) {
-                          // 위치 추적용 context 저장
-                          postContentContextRef.value = context;
-                          return postContentView;
-                        },
-                      ),
+        child: Stack(
+          children: [
+            NotificationListener<ScrollNotification>(
+              onNotification: (notification) {
+                updateBarVisibility();
+                return false;
+              },
+              child: CustomScrollView(
+                controller: scrollController,
+                slivers: [
+                  postDetailAppBar,
+                  SliverToBoxAdapter(child: Gap(16)),
+                  SliverToBoxAdapter(
+                    child: Builder(
+                      builder: (context) {
+                        // 위치 추적용 context 저장
+                        postContentContextRef.value = context;
+                        return postContentView;
+                      },
                     ),
-                    grayGap,
-                    SliverToBoxAdapter(child: postCommentsView),
-                    grayGap,
-                    SliverToBoxAdapter(child: PostLatestView()),
-                    SliverToBoxAdapter(child: Gap(22)),
-                  ],
-                ),
+                  ),
+                  grayGap,
+                  SliverToBoxAdapter(child: postCommentsView),
+                  grayGap,
+                  SliverToBoxAdapter(child: PostLatestView()),
+                  SliverToBoxAdapter(child: Gap(22)),
+                ],
               ),
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: AnimatedSwitcher(
-                  duration: Duration(milliseconds: 200),
-                  child:
-                      showCommentInputBar.value
-                          ? postCommentInputBar
-                          : Container(
-                            color: AppColor.gray00,
-                            padding: EdgeInsets.symmetric(horizontal: 16),
-                            child: postUtilBar,
-                          ),
-                ),
+            ),
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: AnimatedSwitcher(
+                duration: Duration(milliseconds: 200),
+                child:
+                    showCommentInputBar.value
+                        ? postCommentInputBar
+                        : Container(
+                          color: AppColor.gray00,
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: postUtilBar,
+                        ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
