@@ -1,14 +1,15 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:grimity/data/model/feed/feed_response.dart';
+import 'package:grimity/data/model/feed/feed_base_response.dart';
 import 'package:grimity/data/model/user/user_base_response.dart';
 import 'package:grimity/domain/entity/comment.dart';
 import 'package:grimity/domain/entity/feed.dart';
 
 part 'following_feed_response.freezed.dart';
+
 part 'following_feed_response.g.dart';
 
 @Freezed(copyWith: false)
-abstract class FollowingFeedResponse with _$FollowingFeedResponse implements FeedResponse {
+abstract class FollowingFeedResponse with _$FollowingFeedResponse implements FeedBaseResponse {
   const FollowingFeedResponse._();
 
   const factory FollowingFeedResponse({

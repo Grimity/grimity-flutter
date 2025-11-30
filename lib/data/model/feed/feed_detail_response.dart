@@ -1,14 +1,15 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/data/model/album/album_base_response.dart';
-import 'package:grimity/data/model/feed/feed_response.dart';
-import 'package:grimity/data/model/user/user_base_response.dart';
+import 'package:grimity/data/model/feed/feed_base_response.dart';
+import 'package:grimity/data/model/user/user_base_with_blocked_response.dart';
 import 'package:grimity/domain/entity/feed.dart';
 
 part 'feed_detail_response.freezed.dart';
+
 part 'feed_detail_response.g.dart';
 
 @Freezed(copyWith: false)
-abstract class FeedDetailResponse with _$FeedDetailResponse implements FeedResponse {
+abstract class FeedDetailResponse with _$FeedDetailResponse implements FeedBaseResponse {
   const FeedDetailResponse._();
 
   const factory FeedDetailResponse({
@@ -21,7 +22,7 @@ abstract class FeedDetailResponse with _$FeedDetailResponse implements FeedRespo
     required int likeCount,
     required String content,
     required List<String> tags,
-    required UserBaseResponse author,
+    required UserBaseWithBlockedResponse author,
     required bool isLike,
     required bool isSave,
     required int commentCount,
