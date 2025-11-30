@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/extension/date_time_extension.dart';
@@ -8,8 +7,9 @@ import 'package:grimity/presentation/chat_message/view/chat_message_image_galler
 import 'package:grimity/presentation/chat_message/view/chat_message_fragment.dart';
 import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
 import 'package:grimity/presentation/common/widget/grimity_infinite_scroll_pagination.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ChatMessageView extends ConsumerWidget {
+class ChatMessageView extends HookConsumerWidget {
   const ChatMessageView({
     super.key,
     required this.chatId,

@@ -6,7 +6,11 @@ import 'package:grimity/app/enum/grimity.enum.dart';
 import 'package:grimity/gen/assets.gen.dart';
 
 class GrimityToast extends StatelessWidget {
-  const GrimityToast({super.key, required this.message, required this.type});
+  const GrimityToast({
+    super.key,
+    required this.message,
+    required this.type,
+  });
 
   /// 토스트 메시지
   final String message;

@@ -5,13 +5,14 @@ import 'package:grimity/app/di/di_setup.dart';
 import 'package:grimity/app/enum/presigned.enum.dart';
 import 'package:grimity/app/environment/flavor.dart';
 import 'package:grimity/app/image/image_upload.dart';
+import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/data/data_source/remote/chat_api.dart';
 import 'package:grimity/data/data_source/remote/chat_message_api.dart';
 import 'package:grimity/data/model/chat_message/chat_message_item_response.dart';
 import 'package:grimity/data/model/chat_message/chat_message_reply_response.dart';
 import 'package:grimity/data/model/chat_message/chat_message_response.dart';
 import 'package:grimity/data/model/chat_message/chat_message_socket_response.dart';
-import 'package:grimity/data/model/user/user_base_response.dart';
+import 'package:grimity/data/model/user/user_base_with_blocked_response.dart';
 import 'package:grimity/domain/dto/chat_message_request_params.dart';
 import 'package:grimity/domain/dto/chat_request_params.dart';
 import 'package:grimity/domain/entity/image_upload_url.dart';
@@ -52,7 +53,7 @@ abstract class ChatMessage with _$ChatMessage {
 @freezed
 abstract class ChatMessageState with _$ChatMessageState {
   const factory ChatMessageState({
-    required UserBaseResponse opponentUser,
+    required UserBaseWithBlockedResponse opponentUser,
     required String inputMessage,
     required List<ImageSourceItem> inputImages,
     required ChatMessageReplyResponse? inputReply,
@@ -63,7 +64,7 @@ abstract class ChatMessageState with _$ChatMessageState {
 
 extension ChatMessageStateExtension on ChatMessageState {
   /// 현재 메세지를 대상에게 보낼 수 있는지에 대한 여부.
-  bool get canSubmit => inputImages.isNotEmpty || inputMessage.trim().isNotEmpty;
+  bool get canSubmit => (inputImages.isNotEmpty || inputMessage.trim().isNotEmpty) && !opponentUser.isBlocked;
 }
 
 @riverpod
@@ -96,15 +97,21 @@ class ChatMessageProvider extends _$ChatMessageProvider {
     });
 
     final historyResponse = responses[1] as ChatMessageResponse;
-
-    return ChatMessageState(
-      opponentUser: responses[0] as UserBaseResponse,
+    final state = ChatMessageState(
+      opponentUser: responses[0] as UserBaseWithBlockedResponse,
       inputMessage: "",
       inputImages: [],
       inputReply: null,
       nextCursor: historyResponse.nextCursor,
       messages: historyResponse.messages.map(ChatMessage.fromItemResponse).toList(),
     );
+
+    // 상대방이 차단한 경우, 별도의 안내 토스트 표시.
+    if (state.opponentUser.isBlocked) {
+      ToastService.showError("차단된 계정입니다.");
+    }
+
+    return state;
   }
 
   /// 실시간 대화를 위해서 웹소켓을 연결합니다.
@@ -171,6 +178,7 @@ class ChatMessageProvider extends _$ChatMessageProvider {
 
   /// 사용자가 활성화된 '전송' 버튼을 눌렀을 때 호출됩니다.
   void submit() async {
+    assert(!_state.opponentUser.isBlocked, "차단한 유저에게는 메세지를 보낼 수 없습니다.");
     final uploadImages = <ImageUploadUrl>[];
 
     // 사용자가 대상에게 보낼 메세지에 이미지를 포함시킨 경우.
