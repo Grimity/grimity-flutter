@@ -10,7 +10,10 @@ class BlockedUsersData extends _$BlockedUsersData with UserMixin<List<User>> {
   @override
   FutureOr<List<User>> build() async {
     final result = await getBlockedUsersUseCase.execute();
-    return result.fold(onSuccess: (users) => users, onFailure: (e) => []);
+    return result.fold(
+      onSuccess: (users) => users,
+      onFailure: (e) => throw e,
+    );
   }
 
   Future<void> unblockUser(String id) => onUnblockUser(
