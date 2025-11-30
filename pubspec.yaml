@@ -1,7 +1,7 @@
 name: grimity
 description: 그림쟁이들을 위한 그림 커뮤니티, 그리미티에 대한 Flutter 기반의 모바일 애플리케이션입니다.
 publish_to: none
-version: 1.0.0-13
+version: 1.0.0-14
 
 environment:
   sdk: ^3.7.2
@@ -63,7 +63,7 @@ dependencies:
   mockito: ^5.4.5
   retrofit: ^4.4.2
 
-  # Firebase
+  # Utils
   firebase_core: ^4.2.0
   firebase_messaging: ^16.0.3
   firebase_analytics: ^12.0.3
@@ -82,8 +82,6 @@ dependencies:
   flutter_riverpod: ^2.6.1
   hooks_riverpod: ^2.6.1
   riverpod_annotation: ^2.6.1
-
-  # Utils
   collection: ^1.19.1
   device_info_plus: ^11.4.0
   flutter_gen: ^5.10.0
@@ -146,7 +144,6 @@ flutter:
     - assets/images/
     - assets/images/sign_up/
     - assets/lottie/
-
   fonts:
     - family: Pretendard
       fonts:
