@@ -47,7 +47,7 @@ class FeedContentView extends ConsumerWidget {
           _FeedContentSection(content: feed.content ?? ''),
           Gap(20),
           if (feed.tags != null) _FeedTagSection(tags: feed.tags!),
-          FeedUtilBar(feed: feed),
+          if (feed.author?.isBlocked == false) FeedUtilBar(feed: feed),
         ],
       ),
     );
@@ -135,7 +135,10 @@ class _FeedAuthorInfoSection extends StatelessWidget {
             ],
           ),
         ),
-        if (!isMine) ...[if (feed.author != null) GrimityFollowButton(url: feed.author!.url), Gap(10)],
+        if (feed.author != null && !isMine && feed.author!.isFollowing == false && feed.author!.isBlocked == false) ...[
+          GrimityFollowButton(url: feed.author!.url),
+          Gap(10),
+        ],
         GrimityMoreButton.decorated(onTap: onMoreTap),
       ],
     );
