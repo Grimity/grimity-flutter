@@ -49,66 +49,86 @@ class GrimityCachedNetworkImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int? cacheWidth, cacheHeight;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double? width = this.width;
+        double? height = this.height;
 
-    switch (fit) {
-      // [BoxFit.cover]인 경우 짧은 변 기준으로 캐싱 처리
-      case BoxFit.cover:
-        final originSize = parseImageSizeFromUrl(imageUrl);
-        if (originSize == null) {
-          // 사이즈를 파싱할 수 없으면 높이 기준
-          cacheHeight = height?.cacheSize(context);
-        } else {
-          final isLandscape = originSize.width > originSize.height;
-          if (isLandscape) {
-            cacheHeight = height?.cacheSize(context);
-          } else {
-            cacheWidth = width?.cacheSize(context);
-          }
+        // 주어진 가로 크기가 무한이라면 부모의 제약 조건을 따름.
+        if (width?.isInfinite ?? false == true) {
+          width = constraints.maxWidth;
         }
-        break;
 
-      // [BoxFit.fitWidth]인 경우 Width 기준으로 캐싱 처리
-      case BoxFit.fitWidth:
-        cacheWidth = width?.cacheSize(context);
-        break;
-
-      // [BoxFit.fitHeight]인 경우 Height 기준으로 캐싱 처리
-      case BoxFit.fitHeight:
-        cacheHeight = height?.cacheSize(context);
-        break;
-
-      // [BoxFit.contain]인 경우 긴 변 기준으로 캐싱
-      case BoxFit.contain:
-        final originSize = parseImageSizeFromUrl(imageUrl);
-        if (originSize == null) {
-          // 사이즈를 파싱할 수 없으면 높이 기준
-          cacheHeight = height?.cacheSize(context);
-        } else {
-          final isLandscape = originSize.width > originSize.height;
-          if (isLandscape) {
-            cacheWidth = width?.cacheSize(context);
-          } else {
-            cacheHeight = height?.cacheSize(context);
-          }
+        // 주어진 세로 크기가 무한이라면 부모의 제약 조건을 따름.
+        if (height?.isInfinite ?? false == true) {
+          height = constraints.maxHeight;
         }
-        break;
 
-      default:
-        break;
-    }
+        int? cacheWidth, cacheHeight;
 
-    return CachedNetworkImage(
-      imageUrl: imageUrl.getResizeUrl(cacheWidth ?? cacheHeight ?? 0),
-      width: width,
-      height: height,
-      memCacheWidth: cacheWidth,
-      memCacheHeight: cacheHeight,
-      fit: fit,
-      placeholder: placeholder,
-      errorWidget: errorWidget,
-      fadeInDuration: Duration(milliseconds: 300),
-      fadeInCurve: Curves.easeInOut,
+        assert(width?.isFinite ?? true, "주어진 이미지 크기가 무한이 될 수 있으려면 부모의 유한한 제약 조건이 필요합니다.");
+        assert(height?.isFinite ?? true, "주어진 이미지 크기가 무한이 될 수 있으려면 부모의 유한한 제약 조건이 필요합니다.");
+
+        switch (fit) {
+          // [BoxFit.cover]인 경우 짧은 변 기준으로 캐싱 처리
+          case BoxFit.cover:
+            final originSize = parseImageSizeFromUrl(imageUrl);
+            if (originSize == null) {
+              // 사이즈를 파싱할 수 없으면 높이 기준
+              cacheHeight = height?.cacheSize(context);
+            } else {
+              final isLandscape = originSize.width > originSize.height;
+              if (isLandscape) {
+                cacheHeight = height?.cacheSize(context);
+              } else {
+                cacheWidth = width?.cacheSize(context);
+              }
+            }
+            break;
+
+          // [BoxFit.fitWidth]인 경우 Width 기준으로 캐싱 처리
+          case BoxFit.fitWidth:
+            cacheWidth = width?.cacheSize(context);
+            break;
+
+          // [BoxFit.fitHeight]인 경우 Height 기준으로 캐싱 처리
+          case BoxFit.fitHeight:
+            cacheHeight = height?.cacheSize(context);
+            break;
+
+          // [BoxFit.contain]인 경우 긴 변 기준으로 캐싱
+          case BoxFit.contain:
+            final originSize = parseImageSizeFromUrl(imageUrl);
+            if (originSize == null) {
+              // 사이즈를 파싱할 수 없으면 높이 기준
+              cacheHeight = height?.cacheSize(context);
+            } else {
+              final isLandscape = originSize.width > originSize.height;
+              if (isLandscape) {
+                cacheWidth = width?.cacheSize(context);
+              } else {
+                cacheHeight = height?.cacheSize(context);
+              }
+            }
+            break;
+
+          default:
+            break;
+        }
+
+        return CachedNetworkImage(
+          imageUrl: imageUrl.getResizeUrl(cacheWidth ?? cacheHeight ?? 0),
+          width: width,
+          height: height,
+          memCacheWidth: cacheWidth,
+          memCacheHeight: cacheHeight,
+          fit: fit,
+          placeholder: placeholder,
+          errorWidget: errorWidget,
+          fadeInDuration: Duration(milliseconds: 300),
+          fadeInCurve: Curves.easeInOut,
+        );
+      },
     );
   }
 
