@@ -67,11 +67,13 @@ class GrimityUserCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Positioned(
-                    top: 26,
-                    right: 0,
-                    child: GrimityButton.follow(isFollowing: user.isFollowing ?? false, onTap: onFollowTap),
-                  ),
+
+                  if (!(user.isBlocking ?? false))
+                    Positioned(
+                      top: 26,
+                      right: 0,
+                      child: GrimityButton.follow(isFollowing: user.isFollowing ?? false, onTap: onFollowTap),
+                    ),
                 ],
               ),
             ),
