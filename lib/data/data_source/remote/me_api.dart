@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:grimity/data/model/album/album_base_response.dart';
+import 'package:grimity/data/model/user/my_blockings_response.dart';
 import 'package:grimity/data/model/user/my_followers_response.dart';
 import 'package:grimity/data/model/user/my_followings_response.dart';
 import 'package:grimity/data/model/feed/my_like_feeds_response.dart';
@@ -69,4 +70,7 @@ abstract class MeAPI {
 
   @PUT('/me/subscribe')
   Future<void> updateSubscription(@Body() UpdateSubscriptionRequestParam request);
+
+  @GET('/me/blockings')
+  Future<MyBlockingsResponse> getBlockedUsers();
 }

@@ -60,4 +60,10 @@ abstract class UsersAPI {
 
   @DELETE('/users/{id}/follow')
   Future<void> unfollowUserById(@Path('id') String id);
+
+  @PUT('/users/{id}/block')
+  Future<void> blockUserById(@Path('id') String id);
+
+  @DELETE('/users/{id}/block')
+  Future<void> unblockUserById(@Path('id') String id);
 }

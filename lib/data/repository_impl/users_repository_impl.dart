@@ -136,4 +136,24 @@ class UsersRepositoryImpl extends UsersRepository {
       return Result.failure(e);
     }
   }
+
+  @override
+  Future<Result<void>> blockUserById(String id) async {
+    try {
+      await _usersAPI.blockUserById(id);
+      return Result.success(null);
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
+
+  @override
+  Future<Result<void>> unblockUserById(String id) async {
+    try {
+      await _usersAPI.unblockUserById(id);
+      return Result.success(null);
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
 }

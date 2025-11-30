@@ -4,6 +4,7 @@ import 'package:grimity/domain/usecase/me/delete_background_image_usecase.dart';
 import 'package:grimity/domain/usecase/me/delete_follower_usecase.dart';
 import 'package:grimity/domain/usecase/me/delete_profile_image_usecase.dart';
 import 'package:grimity/domain/usecase/me/delete_user_usecase.dart';
+import 'package:grimity/domain/usecase/me/get_blocked_users_usecase.dart';
 import 'package:grimity/domain/usecase/me/get_like_feeds_usecase.dart';
 import 'package:grimity/domain/usecase/me/get_me_usecase.dart';
 import 'package:grimity/domain/usecase/me/get_my_albums_usecase.dart';
@@ -39,3 +40,5 @@ final getSavePostsUseCase = getIt<GetSavePostsUseCase>();
 
 final getSubscriptionUseCase = getIt<GetSubscriptionUseCase>();
 final updateSubscriptionUseCase = getIt<UpdateSubscriptionUseCase>();
+
+final getBlockedUsersUseCase = getIt<GetBlockedUsersUseCase>();

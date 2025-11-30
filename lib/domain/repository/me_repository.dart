@@ -39,4 +39,6 @@ abstract class MeRepository {
   Future<Result<Subscription>> getSubscription();
 
   Future<Result<void>> updateSubscription(UpdateSubscriptionRequestParam request);
+
+  Future<Result<List<User>>> getBlockedUsers();
 }
