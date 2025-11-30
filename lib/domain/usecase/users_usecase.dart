@@ -1,4 +1,5 @@
 import 'package:grimity/app/di/di_setup.dart';
+import 'package:grimity/domain/usecase/users/block_user_usecase.dart';
 import 'package:grimity/domain/usecase/users/follow_user_usecase.dart';
 import 'package:grimity/domain/usecase/users/name_check_usecase.dart';
 import 'package:grimity/domain/usecase/users/search_user_usecase.dart';
@@ -7,6 +8,7 @@ import 'package:grimity/domain/usecase/users/get_user_profile_usecase.dart';
 import 'package:grimity/domain/usecase/users/get_user_meta_usecase.dart';
 import 'package:grimity/domain/usecase/users/get_user_feeds_usecase.dart';
 import 'package:grimity/domain/usecase/users/get_user_posts_usecase.dart';
+import 'package:grimity/domain/usecase/users/unblock_user_usecase.dart';
 import 'package:grimity/domain/usecase/users/unfollow_user_usecase.dart';
 
 final nameCheckUseCase = getIt<NameCheckUseCase>();
@@ -20,3 +22,5 @@ final getUserFeedsUseCase = getIt<GetUserFeedsUseCase>();
 final getUserPostsUseCase = getIt<GetUserPostsUseCase>();
 final followUserByIdUseCase = getIt<FollowUserByIdUseCase>();
 final unfollowUserByIdUseCase = getIt<UnfollowUserByIdUseCase>();
+final blockUserByIdUseCase = getIt<BlockUserByIdUseCase>();
+final unblockUserByIdUseCase = getIt<UnblockUserByIdUseCase>();

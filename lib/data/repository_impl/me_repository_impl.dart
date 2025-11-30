@@ -1,6 +1,7 @@
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/data/data_source/remote/me_api.dart';
 import 'package:grimity/data/model/album/album_base_response.dart';
+import 'package:grimity/data/model/user/my_blockings_response.dart';
 import 'package:grimity/data/model/user/my_followers_response.dart';
 import 'package:grimity/data/model/user/my_followings_response.dart';
 import 'package:grimity/data/model/feed/my_like_feeds_response.dart';
@@ -178,6 +179,16 @@ class MeRepositoryImpl extends MeRepository {
     try {
       await _meAPI.updateSubscription(request);
       return Result.success(null);
+    } on Exception catch (e) {
+      return Result.failure(e);
+    }
+  }
+
+  @override
+  Future<Result<List<User>>> getBlockedUsers() async {
+    try {
+      final result = await _meAPI.getBlockedUsers();
+      return Result.success(result.toEntity());
     } on Exception catch (e) {
       return Result.failure(e);
     }

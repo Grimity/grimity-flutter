@@ -27,4 +27,8 @@ abstract class UsersRepository {
   Future<Result<void>> followUserById(String id);
 
   Future<Result<void>> unfollowUserById(String id);
+
+  Future<Result<void>> blockUserById(String id);
+
+  Future<Result<void>> unblockUserById(String id);
 }
