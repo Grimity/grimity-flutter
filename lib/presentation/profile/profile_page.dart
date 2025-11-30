@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
@@ -19,6 +21,7 @@ class ProfilePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final showBlockedToast = useState(false);
     final myUrl = ref.watch(userAuthProvider)?.url ?? '';
     final viewType = url == null || url == myUrl ? ProfileViewType.mine : ProfileViewType.other;
     final profileAsync = ref.watch(profileDataProvider(url ?? myUrl));
@@ -26,6 +29,13 @@ class ProfilePage extends HookConsumerWidget {
     return profileAsync.when(
       data: (user) {
         user ??= User.empty();
+
+        if (user.isBlocked == true && !showBlockedToast.value) {
+          showBlockedToast.value = true;
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            ToastService.showError('차단당한 계정입니다.');
+          });
+        }
 
         return ProfileView(
           user: user,

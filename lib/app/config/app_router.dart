@@ -10,6 +10,7 @@ import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/album_organize/album_organize_page.dart';
+import 'package:grimity/presentation/block/blocked_users_page.dart';
 import 'package:grimity/presentation/board/tabs/board_page.dart';
 import 'package:grimity/presentation/board/search/board_search_page.dart';
 import 'package:grimity/presentation/chat_message/chat_message_page.dart';
@@ -531,4 +532,15 @@ class SearchRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => SearchPage(keyword: keyword);
+}
+
+@TypedGoRoute<BlockedUsersRoute>(path: BlockedUsersRoute.path, name: BlockedUsersRoute.name)
+class BlockedUsersRoute extends GoRouteData {
+  const BlockedUsersRoute();
+
+  static const String path = '/blocked-users';
+  static const String name = 'blocked-users';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => BlockedUsersPage();
 }

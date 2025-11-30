@@ -36,4 +36,18 @@ class ProfileData extends _$ProfileData with UserMixin<User?> {
       },
     );
   }
+
+  Future<void> blockUser(String id) => onBlockUser(
+    id: id,
+    optimisticBuilder: (prev) {
+      return prev?.copyWith(isBlocking: true);
+    },
+  );
+
+  Future<void> unblockUser(String id) => onUnblockUser(
+    id: id,
+    optimisticBuilder: (prev) {
+      return prev?.copyWith(isBlocking: false);
+    },
+  );
 }
