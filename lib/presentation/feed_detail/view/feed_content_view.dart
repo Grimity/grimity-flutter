@@ -135,7 +135,7 @@ class _FeedAuthorInfoSection extends StatelessWidget {
             ],
           ),
         ),
-        if (feed.author != null && !isMine && feed.author!.isFollowing == false && feed.author!.isBlocked == false) ...[
+        if (feed.author != null && !isMine && feed.author!.isBlocking == false && feed.author!.isBlocked == false) ...[
           GrimityFollowButton(url: feed.author!.url),
           Gap(10),
         ],
