@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/comment/enum/comment_type.dart';
@@ -13,35 +14,50 @@ import 'package:grimity/presentation/feed_detail/view/feed_content_view.dart';
 import 'package:grimity/presentation/feed_detail/view/feed_recommend_feed_view.dart';
 import 'package:grimity/presentation/feed_detail/widget/feed_detail_app_bar.dart';
 import 'package:grimity/presentation/feed_detail/widget/feed_util_bar.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 /// 피드 상세 페이지
-class FeedDetailPage extends ConsumerWidget {
+class FeedDetailPage extends HookConsumerWidget {
   final String feedId;
 
   const FeedDetailPage({super.key, required this.feedId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final showBlockedToast = useState(false);
     final feedAsync = ref.watch(feedDetailDataProvider(feedId));
 
     return feedAsync.when(
       data: (feed) {
         feed ??= Feed.empty();
+        final isBlockedUser = feed.author?.isBlocked == true;
+
+        if (isBlockedUser && !showBlockedToast.value) {
+          showBlockedToast.value = true;
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            ToastService.showError('차단당한 계정입니다.');
+          });
+        }
+
         return FeedDetailView(
           feed: feed,
           feedDetailAppBar: FeedDetailAppBar(),
           feedContentView: FeedContentView(feed: feed),
-          feedCommentsView: CommentsView(
-            id: feed.id,
-            authorId: feed.author?.id ?? '',
-            commentCount: feed.commentCount ?? 0,
-            commentType: CommentType.feed,
-          ),
+          feedCommentsView:
+              isBlockedUser
+                  ? SizedBox.shrink()
+                  : CommentsView(
+                    id: feed.id,
+                    authorId: feed.author?.id ?? '',
+                    commentCount: feed.commentCount ?? 0,
+                    commentType: CommentType.feed,
+                  ),
           feedAuthorProfileView: FeedAuthorProfileView(author: feed.author ?? User.empty()),
           feedRecommendFeedView: FeedRecommendFeedView(),
-          feedCommentInputBar: CommentInputBar(id: feed.id, commentType: CommentType.feed),
-          feedUtilBar: FeedUtilBar(feed: feed),
+          feedCommentInputBar:
+              isBlockedUser ? SizedBox.shrink() : CommentInputBar(id: feed.id, commentType: CommentType.feed),
+          feedUtilBar: isBlockedUser ? SizedBox.shrink() : FeedUtilBar(feed: feed),
         );
       },
       loading: () {
