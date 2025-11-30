@@ -107,7 +107,6 @@ mixin UserMixin<T> {
         ToastService.show('차단이 완료되었어요.');
       },
       onFailure: (e) {
-        state = AsyncValue.error(e, StackTrace.current);
         state = AsyncValue.data(prev);
         ToastService.show('차단이 실패했어요.');
       },
@@ -131,10 +130,9 @@ mixin UserMixin<T> {
 
     result.fold(
       onSuccess: (_) {
-        ToastService.show('차단 해제가 완료되었어요');
+        ToastService.show('차단 해제가 완료되었어요.');
       },
       onFailure: (e) {
-        state = AsyncValue.error(e, StackTrace.current);
         state = AsyncValue.data(prev);
         ToastService.show('차단 해제가 실패했어요.');
       },
