@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:grimity/data/model/chat/chat_search_response.dart';
 import 'package:grimity/data/model/common/id_response.dart';
-import 'package:grimity/data/model/user/user_base_response.dart';
+import 'package:grimity/data/model/user/user_base_with_blocked_response.dart';
 import 'package:grimity/domain/dto/chat_request_params.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
@@ -31,7 +31,7 @@ abstract class ChatAPI {
   Future<void> batchDeleteChat(@Body() BatchDeleteChatRequest request);
 
   @GET("/chats/{id}/user")
-  Future<UserBaseResponse> getUserByChat(@Path('id') String id);
+  Future<UserBaseWithBlockedResponse> getUserByChat(@Path('id') String id);
 
   @PUT("/chats/{id}/join")
   Future<void> join(@Path('id') String id, @Body() SocketChatRequest request);

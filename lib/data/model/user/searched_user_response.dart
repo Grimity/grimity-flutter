@@ -3,6 +3,7 @@ import 'package:grimity/data/model/user/user_base_response.dart';
 import 'package:grimity/domain/entity/user.dart';
 
 part 'searched_user_response.freezed.dart';
+
 part 'searched_user_response.g.dart';
 
 @Freezed(copyWith: false)
@@ -16,6 +17,8 @@ abstract class SearchedUserResponse with _$SearchedUserResponse implements UserB
     String? backgroundImage,
     required bool isFollowing,
     required int followerCount,
+    required bool isBlocking,
+    required bool isBlocked,
   }) = _SearchedUserResponse;
 
   factory SearchedUserResponse.fromJson(Map<String, dynamic> json) => _$SearchedUserResponseFromJson(json);
@@ -32,6 +35,8 @@ extension SearchedUserResponseX on SearchedUserResponse {
       backgroundImage: backgroundImage,
       isFollowing: isFollowing,
       followerCount: followerCount,
+      isBlocking: isBlocking,
+      isBlocked: isBlocked,
     );
   }
 }

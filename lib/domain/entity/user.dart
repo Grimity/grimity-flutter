@@ -3,6 +3,7 @@ import 'package:grimity/domain/entity/album.dart';
 import 'package:grimity/domain/entity/link.dart';
 
 part 'user.freezed.dart';
+
 part 'user.g.dart';
 
 @freezed
@@ -25,6 +26,8 @@ abstract class User with _$User {
     List<Album>? albums,
     String? provider,
     String? email,
+    bool? isBlocked,
+    bool? isBlocking,
   }) = _User;
 
   factory User.empty() => const User(

@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/domain/entity/user.dart';
 
 part 'user_base_response.freezed.dart';
+
 part 'user_base_response.g.dart';
 
 @Freezed(copyWith: false)
