@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 /// 주어진 [Popover] 인스턴스에 따라 해당 오버레이에 표시할 위젯을 생성합니다.
 typedef PopoverBuilder = Widget Function(Popover popover);
@@ -26,7 +25,12 @@ class Popover {
       builder: (context) {
         return Stack(
           children: [
-            Positioned.fill(child: GrimityGesture(onTap: hide)),
+            Positioned.fill(
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: hide,
+              ),
+            ),
             CompositedTransformFollower(
               link: targetLink,
               targetAnchor: targetAnchor,
