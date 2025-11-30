@@ -3,6 +3,7 @@ import 'package:flutter_appbar/flutter_appbar.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:grimity/presentation/common/widget/grimity_infinite_scroll_pagination.dart';
 import 'package:grimity/presentation/common/widget/grimity_refresh_indicator.dart';
+import 'package:grimity/presentation/drawer/main_app_drawer.dart';
 import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
 import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
 import 'package:grimity/presentation/profile/provider/profile_feeds_data_provider.dart';
@@ -34,6 +35,7 @@ class ProfileView extends HookConsumerWidget {
     final tabController = useTabController(initialLength: postTabView == null ? 1 : 2);
 
     return Scaffold(
+      endDrawer: MainAppDrawer(),
       body: SafeArea(
         child: AppBarConnection(
           appBars: [
