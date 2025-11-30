@@ -6,6 +6,15 @@ import 'package:grimity/domain/usecase/post_comments_usecases.dart';
 enum CommentType { feed, post }
 
 extension CommentTypeX on CommentType {
+  String get hintText {
+    switch (this) {
+      case CommentType.feed:
+        return "이 그림, 어떻게 느껴졌나요?";
+      case CommentType.post:
+        return "댓글을 입력해주세요";
+    }
+  }
+
   UseCase get createCommentUseCase {
     switch (this) {
       case CommentType.feed:

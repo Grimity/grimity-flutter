@@ -88,7 +88,7 @@ class CommentInputBar extends HookConsumerWidget {
                     keyboardType: TextInputType.multiline,
                     style: AppTypeface.label2.copyWith(color: AppColor.gray800),
                     decoration: InputDecoration(
-                      hintText: "이 그림, 어떻게 느껴졌나요?",
+                      hintText: commentType.hintText,
                       border: InputBorder.none,
                       hintStyle: AppTypeface.label2.copyWith(color: AppColor.gray500),
                       counterText: '',
