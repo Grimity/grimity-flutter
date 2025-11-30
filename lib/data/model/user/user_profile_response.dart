@@ -5,6 +5,7 @@ import 'package:grimity/data/model/user/user_base_response.dart';
 import 'package:grimity/domain/entity/user.dart';
 
 part 'user_profile_response.freezed.dart';
+
 part 'user_profile_response.g.dart';
 
 @Freezed(copyWith: false)
@@ -14,6 +15,7 @@ abstract class UserProfileResponse with _$UserProfileResponse implements UserBas
     required String name,
     String? image,
     required String url,
+    required bool isBlocked,
     required String description,
     String? backgroundImage,
     required List<LinkResponse> links,
@@ -22,6 +24,7 @@ abstract class UserProfileResponse with _$UserProfileResponse implements UserBas
     required int feedCount,
     required int postCount,
     required bool isFollowing,
+    required bool isBlocking,
     required List<AlbumWithCountResponse> albums,
   }) = _UserProfileResponse;
 
@@ -35,6 +38,7 @@ extension UserProfileResponseX on UserProfileResponse {
       name: name,
       image: image,
       url: url,
+      isBlocked: isBlocked,
       description: description,
       backgroundImage: backgroundImage,
       links: links.map((e) => e.toEntity()).toList(),
@@ -43,6 +47,7 @@ extension UserProfileResponseX on UserProfileResponse {
       feedCount: feedCount,
       postCount: postCount,
       isFollowing: isFollowing,
+      isBlocking: isBlocking,
       albums: albums.map((e) => e.toEntity()).toList(),
     );
   }

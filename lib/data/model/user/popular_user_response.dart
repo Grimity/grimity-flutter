@@ -3,6 +3,7 @@ import 'package:grimity/data/model/user/user_base_response.dart';
 import 'package:grimity/domain/entity/user.dart';
 
 part 'popular_user_response.freezed.dart';
+
 part 'popular_user_response.g.dart';
 
 @Freezed(copyWith: false)
@@ -16,6 +17,8 @@ abstract class PopularUserResponse with _$PopularUserResponse implements UserBas
     required int followerCount,
     required bool isFollowing,
     required List<String> thumbnails,
+    required bool isBlocking,
+    required bool isBlocked,
   }) = _PopularUserResponse;
 
   factory PopularUserResponse.fromJson(Map<String, dynamic> json) => _$PopularUserResponseFromJson(json);
@@ -31,6 +34,8 @@ extension PopularUserResponseX on PopularUserResponse {
       description: description,
       followerCount: followerCount,
       isFollowing: isFollowing,
+      isBlocking: isBlocking,
+      isBlocked: isBlocked,
     );
   }
 }
