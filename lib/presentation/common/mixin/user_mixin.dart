@@ -86,4 +86,58 @@ mixin UserMixin<T> {
       },
     );
   }
+
+  /// User block
+  /// - [id]: 차단할 대상 유저의 고유 ID
+  /// - [optimisticBuilder]: 현재 상태를 인자로 받아 낙관적(optimistic) UI 상태를 반환하는 함수
+  Future<void> onBlockUser({
+    required String id,
+    required T Function(T prev) optimisticBuilder,
+  }) async {
+    final prev = state.valueOrNull;
+    if (prev == null) return;
+
+    final optimistic = optimisticBuilder(prev);
+    state = AsyncValue.data(optimistic);
+
+    final result = await blockUserByIdUseCase.execute(id);
+
+    result.fold(
+      onSuccess: (_) {
+        ToastService.show('차단이 완료되었어요.');
+      },
+      onFailure: (e) {
+        state = AsyncValue.error(e, StackTrace.current);
+        state = AsyncValue.data(prev);
+        ToastService.show('차단이 실패했어요.');
+      },
+    );
+  }
+
+  /// User block
+  /// - [id]: 차단할 대상 유저의 고유 ID
+  /// - [optimisticBuilder]: 현재 상태를 인자로 받아 낙관적(optimistic) UI 상태를 반환하는 함수
+  Future<void> onUnblockUser({
+    required String id,
+    required T Function(T prev) optimisticBuilder,
+  }) async {
+    final prev = state.valueOrNull;
+    if (prev == null) return;
+
+    final optimistic = optimisticBuilder(prev);
+    state = AsyncValue.data(optimistic);
+
+    final result = await unblockUserByIdUseCase.execute(id);
+
+    result.fold(
+      onSuccess: (_) {
+        ToastService.show('차단 해제가 완료되었어요');
+      },
+      onFailure: (e) {
+        state = AsyncValue.error(e, StackTrace.current);
+        state = AsyncValue.data(prev);
+        ToastService.show('차단 해제가 실패했어요.');
+      },
+    );
+  }
 }

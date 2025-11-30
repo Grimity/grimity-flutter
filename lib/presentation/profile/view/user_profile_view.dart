@@ -26,6 +26,7 @@ import 'package:grimity/presentation/common/widget/system/profile/grimity_profil
 import 'package:grimity/presentation/common/widget/system/profile/grimity_profile_image.dart';
 import 'package:grimity/presentation/profile/enum/link_type_enum.dart';
 import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
+import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
 import 'package:grimity/presentation/profile/widget/profile_bottom_sheet.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -96,7 +97,10 @@ class UserProfileView extends ConsumerWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            if (viewType == ProfileViewType.other) ...[GrimityFollowButton(url: user.url), Gap(10)],
+            if (viewType == ProfileViewType.other && user.isBlocking == false && user.isBlocked == false) ...[
+              GrimityFollowButton(url: user.url),
+              Gap(10),
+            ],
             GrimityMoreButton.decorated(onTap: () => _showMoreBottomSheet(context, ref)),
           ],
         ),
@@ -128,21 +132,44 @@ class UserProfileView extends ConsumerWidget {
             showDeleteAccountDialog(context, ref);
           },
         ),
-      ] else ...[
         GrimityModalButtonModel(
-          title: '메세지 보내기',
-          onTap: () async {
+          title: '차단 목록',
+          onTap: () {
             context.pop();
-
-            final request = CreateChatRequest(targetUserId: user.id);
-            final response = await getIt<ChatAPI>().createChat(request);
-
-            if (context.mounted) {
-              ChatMessageRoute(response.id).push(context);
-            }
+            BlockedUsersRoute().push(context);
           },
         ),
+      ] else ...[
+        if (user.isBlocking == false && user.isBlocked == false)
+          GrimityModalButtonModel(
+            title: '메세지 보내기',
+            onTap: () async {
+              context.pop();
+
+              final request = CreateChatRequest(targetUserId: user.id);
+              final response = await getIt<ChatAPI>().createChat(request);
+
+              if (context.mounted) {
+                ChatMessageRoute(response.id).push(context);
+              }
+            },
+          ),
         GrimityModalButtonModel.report(context: context, refType: ReportRefType.user, refId: user.id),
+        user.isBlocking == true
+            ? GrimityModalButtonModel(
+              title: '차단 해제',
+              onTap: () async {
+                context.pop();
+                ref.read(profileDataProvider(user.url).notifier).unblockUser(user.id);
+              },
+            )
+            : GrimityModalButtonModel(
+              title: '차단하기',
+              onTap: () async {
+                context.pop();
+                ref.read(profileDataProvider(user.url).notifier).blockUser(user.id);
+              },
+            ),
       ],
     ];
     GrimityModalBottomSheet.show(context, buttons: buttons);
