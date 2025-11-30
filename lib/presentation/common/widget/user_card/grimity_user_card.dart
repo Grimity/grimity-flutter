@@ -68,7 +68,7 @@ class GrimityUserCard extends StatelessWidget {
                     ],
                   ),
 
-                  if (!(user.isBlocking ?? false))
+                  if (user.isBlocking == false && user.isBlocked == false)
                     Positioned(
                       top: 26,
                       right: 0,
