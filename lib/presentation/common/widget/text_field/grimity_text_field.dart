@@ -24,6 +24,7 @@ class GrimityTextField extends HookWidget {
     this.keyboardType,
     this.textInputAction,
     this.maxLength,
+    this.minLines,
     this.maxLines,
     this.hintText,
     this.errorText,
@@ -48,6 +49,7 @@ class GrimityTextField extends HookWidget {
     this.keyboardType,
     this.textInputAction,
     this.maxLength,
+    this.minLines,
     this.maxLines,
     this.hintText,
     this.errorText,
@@ -72,6 +74,7 @@ class GrimityTextField extends HookWidget {
     this.keyboardType,
     this.textInputAction,
     this.maxLength,
+    this.minLines,
     this.maxLines,
     this.hintText,
     this.errorText,
@@ -99,6 +102,7 @@ class GrimityTextField extends HookWidget {
 
   final bool enabled;
   final int? maxLength;
+  final int? minLines;
   final int? maxLines;
   final String? hintText;
   final String? errorText;
@@ -235,6 +239,8 @@ class GrimityTextField extends HookWidget {
           keyboardType: keyboardType,
           textInputAction: textInputAction,
           style: AppTypeface.label2,
+          minLines: minLines,
+          maxLines: maxLines,
           maxLength: maxLength,
           decoration: InputDecoration(
             contentPadding: _contentPadding,
@@ -272,7 +278,6 @@ class GrimityTextField extends HookWidget {
             suffixIconConstraints: const BoxConstraints(minWidth: 18, minHeight: 18),
             suffixIcon: _suffixIcon,
           ),
-          maxLines: maxLines,
         )
         .animate(
           autoPlay: false,

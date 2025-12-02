@@ -44,10 +44,11 @@ class ChatMessageField extends ConsumerWidget {
               if (isVisibleReply) _ReplyView(chatId: chatId),
 
               Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 spacing: 12,
                 children: [
                   Expanded(child: _TextField(chatId: chatId)),
-                  GrimityButton.round(
+                  GrimityButton.medium(
                     text: "전송",
                     onTap: provider.submit,
                     status: !data.isLoading && data.value!.canSubmit ? ButtonStatus.on : ButtonStatus.off,
@@ -92,48 +93,43 @@ class _TextFieldState extends ConsumerState<_TextField> {
 
     return IgnorePointer(
       ignoring: !isEnabled,
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: AppColor.gray300),
-          borderRadius: BorderRadius.circular(8),
-          color: isEnabled ? AppColor.gray00 : AppColor.gray200,
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // 이미지 추가 액션 버튼 표시.
-            GrimityGesture(
-              onTap: () async {
-                final List<ImageSourceItem>? pickedImages = await PhotoSelectRoute(
-                  type: UploadImageType.chat,
-                ).push(context);
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // 이미지 추가 액션 버튼 표시.
+          GrimityGesture(
+            onTap: () async {
+              final List<ImageSourceItem>? pickedImages = await PhotoSelectRoute(
+                type: UploadImageType.chat,
+              ).push(context);
 
-                // 사용자가 메세지에 함께 보낼 이미지를 선택한 경우.
-                if (pickedImages != null && pickedImages.isNotEmpty) {
-                  provider.addInputImages(pickedImages);
-                }
-              },
-              child: Padding(
-                padding: EdgeInsets.all(16).copyWith(right: 8),
-                child: SvgPicture.asset(
-                  Assets.icons.profileEdit.camera.path,
-                  color: isEnabled ? AppColor.gray700 : AppColor.gray500,
-                  width: 20,
-                ),
+              // 사용자가 메세지에 함께 보낼 이미지를 선택한 경우.
+              if (pickedImages != null && pickedImages.isNotEmpty) {
+                provider.addInputImages(pickedImages);
+              }
+            },
+            child: Padding(
+              padding: EdgeInsets.only(right: 8),
+              child: SvgPicture.asset(
+                Assets.icons.profileEdit.camera.path,
+                color: isEnabled ? AppColor.gray700 : AppColor.gray500,
+                width: 24,
               ),
             ),
-
-            // 메세지 입력 필드 표시.
-            Expanded(
-              child: GrimityTextField.borderless(
-                hintText: isEnabled ? "메세지 입력" : "메세지 입력이 불가능합니다",
-                onChanged: provider.setInputMessage,
-                onSubmitted: provider.setInputMessage,
-                controller: _textEditingController,
-              ),
+          ),
+          // 메세지 입력 필드 표시.
+          Expanded(
+            child: GrimityTextField.normal(
+              enabled: isEnabled,
+              hintText: isEnabled ? "메세지 입력" : "메세지 입력이 불가능합니다",
+              onChanged: provider.setInputMessage,
+              onSubmitted: provider.setInputMessage,
+              controller: _textEditingController,
+              minLines: 1,
+              maxLines: 4,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
