@@ -630,6 +630,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.5.2"
+  flutter_app_badge:
+    dependency: "direct main"
+    description:
+      name: flutter_app_badge
+      sha256: "561451b670106f227bbf85e7c57fd384db6ef3cbb8edfcbb27ff54efe3e989d7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   flutter_appbar:
     dependency: "direct main"
     description:
