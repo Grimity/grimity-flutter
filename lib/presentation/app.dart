@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_badge/flutter_app_badge.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -18,6 +19,9 @@ void runFlavoredApp() async {
 
   // 포그라운드 푸시 알림 구현을 위해 관련 플러그인 초기화.
   await PushNotification.initializePlugin();
+
+  // 항상 사용자가 앱을 실행한 경우 알림 배지를 초기화합니다.
+  FlutterAppBadge.count(0);
 
   runApp(
     ProviderScope(
