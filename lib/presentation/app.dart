@@ -32,9 +32,14 @@ void runFlavoredApp() async {
   );
 }
 
-class App extends ConsumerWidget {
+class App extends ConsumerStatefulWidget {
   const App({super.key});
 
+  @override
+  ConsumerState<App> createState() => _AppState();
+}
+
+class _AppState extends ConsumerState<App> with WidgetsBindingObserver {
   /// 해당 빌더는 라우트마다 공통으로 적용되는 위젯 래퍼를 구성합니다.
   static Widget routerBuilder(BuildContext context, Widget? child) {
     return GestureDetector(
@@ -45,7 +50,21 @@ class App extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // 앱이 백그라운드로 가거나 종료될 때 배지와 알림 초기화.
+    if (state == AppLifecycleState.paused || state == AppLifecycleState.detached) {
+      PushNotification.clearAll();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp.router(
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
