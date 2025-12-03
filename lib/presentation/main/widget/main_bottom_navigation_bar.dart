@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
@@ -35,7 +36,7 @@ class MainBottomNavigationBar extends StatelessWidget {
   }
 }
 
-class _MainBottomNavItem extends StatelessWidget {
+class _MainBottomNavItem extends ConsumerWidget {
   const _MainBottomNavItem({required this.item, required this.navigationShell});
 
   final MainNavigationItem item;
@@ -44,18 +45,22 @@ class _MainBottomNavItem extends StatelessWidget {
   bool get isActive => navigationShell.currentIndex == item.index;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Expanded(
       child: GrimityAnimationButton(
         onTap: () => goBranch(item.index, isActive),
         child: Center(
           child: Padding(
             padding: EdgeInsets.only(bottom: 12),
-            child: SvgPicture.asset(
-              item.icon.path,
-              width: 22,
-              height: 22,
-              colorFilter: ColorFilter.mode(isActive ? AppColor.gray700 : AppColor.gray500, BlendMode.srcIn),
+            child: item.build(
+              context,
+              ref,
+              SvgPicture.asset(
+                item.icon.path,
+                width: 22,
+                height: 22,
+                colorFilter: ColorFilter.mode(isActive ? AppColor.gray700 : AppColor.gray500, BlendMode.srcIn),
+              ),
             ),
           ),
         ),

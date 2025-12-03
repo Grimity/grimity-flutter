@@ -18,6 +18,7 @@ abstract class User with _$User {
     List<Link>? links,
     DateTime? createdAt,
     bool? hasNotification,
+    bool? hasUnreadChatMessage,
     int? followerCount,
     int? followingCount,
     int? feedCount,

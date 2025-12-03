@@ -20,6 +20,7 @@ abstract class MyProfileResponse with _$MyProfileResponse implements UserBaseRes
     required List<LinkResponse> links,
     required DateTime createdAt,
     required bool hasNotification,
+    required bool hasUnreadChatMessage,
     required int followerCount,
     required int followingCount,
   }) = _MyProfileResponse;
@@ -41,6 +42,7 @@ extension MyProfileResponseX on MyProfileResponse {
       links: links.map((e) => e.toEntity()).toList(),
       createdAt: createdAt,
       hasNotification: hasNotification,
+      hasUnreadChatMessage: hasUnreadChatMessage,
       followerCount: followerCount,
       followingCount: followingCount,
     );

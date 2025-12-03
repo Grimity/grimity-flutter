@@ -1,5 +1,9 @@
+import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 
 enum DrawerMenuItem {
   home("홈"),
@@ -58,5 +62,50 @@ enum DrawerMenuItem {
         this == DrawerMenuItem.board ||
         this == DrawerMenuItem.following ||
         this == DrawerMenuItem.chat;
+  }
+
+  /// 현재 배지를 표시할 수 있는지에 대한 여부.
+  bool shouldVisibleBadge(WidgetRef ref) {
+    if (this == DrawerMenuItem.chat) {
+      return ref.watch(userAuthProvider)?.hasUnreadChatMessage ?? false;
+    }
+
+    return false;
+  }
+
+  Widget build(
+    BuildContext context,
+    WidgetRef ref,
+    Widget child,
+  ) {
+    return shouldVisibleBadge(ref) ? badgeWith(child: child) : child;
+  }
+
+  /// 배지를 표시하도록 위젯 트리를 재구성합니다.
+  Widget badgeWith({required Widget child}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 3,
+      children: [
+        child,
+        Positioned.fill(
+          child: Align(
+            alignment: Alignment.topRight,
+            child: Transform.translate(
+              offset: Offset(0, 3),
+              child: Container(
+                width: 5,
+                height: 5,
+                decoration: BoxDecoration(
+                  color: AppColor.main,
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
