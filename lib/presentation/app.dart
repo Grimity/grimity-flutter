@@ -6,6 +6,7 @@ import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_theme.dart';
 import 'package:grimity/app/environment/flavor.dart';
 import 'package:grimity/app/static/push_notification.dart';
+import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 import 'package:talker_riverpod_logger/talker_riverpod_logger.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -49,15 +50,22 @@ class _AppState extends ConsumerState<App> with WidgetsBindingObserver {
     );
   }
 
+  /// 새로운 포그라운드 메세지가 도착한 경우 호출됩니다.
+  Future<void> onForegroundMessage() async {
+    await ref.read(userAuthProvider.notifier).getUser();
+  }
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    PushNotification.addListener(onForegroundMessage);
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    PushNotification.removeListener(onForegroundMessage);
     super.dispose();
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
@@ -10,17 +11,19 @@ class DrawerMenuListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [...DrawerMenuItem.values.map((e) => _DrawerMenuListTile(drawerMenuItem: e))]);
+    return Column(
+      children: DrawerMenuItem.values.map((e) => _DrawerMenuListTile(drawerMenuItem: e)).toList(),
+    );
   }
 }
 
-class _DrawerMenuListTile extends StatelessWidget {
+class _DrawerMenuListTile extends ConsumerWidget {
   const _DrawerMenuListTile({required this.drawerMenuItem});
 
   final DrawerMenuItem drawerMenuItem;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
       dense: true,
       onTap: () {
@@ -33,7 +36,11 @@ class _DrawerMenuListTile extends StatelessWidget {
       },
       minLeadingWidth: 10,
       leading: SvgPicture.asset(drawerMenuItem.icon.path, width: 16),
-      title: Text(drawerMenuItem.title, style: AppTypeface.label1.copyWith(color: AppColor.gray600)),
+      title: drawerMenuItem.build(
+        context,
+        ref,
+        Text(drawerMenuItem.title, style: AppTypeface.label1.copyWith(color: AppColor.gray600)),
+      ),
     );
   }
 }

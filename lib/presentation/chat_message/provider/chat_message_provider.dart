@@ -19,6 +19,7 @@ import 'package:grimity/domain/entity/image_upload_url.dart';
 import 'package:grimity/domain/usecase/auth_usecases.dart';
 import 'package:grimity/presentation/chat/provider/chat_provider.dart';
 import 'package:grimity/presentation/common/model/image_item_source.dart';
+import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
@@ -94,6 +95,9 @@ class ChatMessageProvider extends _$ChatMessageProvider {
 
       // 변경되었을 수 있는 메시지 내용 때문에 채팅 목록 새로고침.
       ref.read(chatProviderProvider.notifier).ensureUpdated();
+
+      // [User.hasUnreadChatMessage]와 같은 중간에 변경되었을 수 있는 사용자 정보 새로고침.
+      ref.read(userAuthProvider.notifier).getUser();
     });
 
     final historyResponse = responses[1] as ChatMessageResponse;
