@@ -70,6 +70,12 @@ class _AppState extends ConsumerState<App> with WidgetsBindingObserver {
   }
 
   @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     // 앱이 백그라운드로 가거나 종료될 때 배지와 알림 초기화.
     if (state == AppLifecycleState.paused || state == AppLifecycleState.detached) {
