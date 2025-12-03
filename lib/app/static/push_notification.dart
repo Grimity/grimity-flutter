@@ -112,8 +112,8 @@ class PushNotification {
 
   // 포그라운드 푸시 알림 구현을 위해 관련 플러그인 초기화를 수행합니다.
   static Future<void> initializePlugin() async {
-    await PushNotification.localNotificationPlugin.initialize(
-      PushNotification.localNotificationSettings,
+    await localNotificationPlugin.initialize(
+      localNotificationSettings,
       onDidReceiveNotificationResponse: (response) {
         assert(response.payload != null, "FlutterLocalNotificationsPlugin.show 호출 시에 payload를 정의하지 않았을 수 있음.");
 
@@ -123,11 +123,16 @@ class PushNotification {
     );
   }
 
+  /// 앱과 관련된 모든 알림 또는 뱃지를 초기화합니다.
+  static Future<void> clearAll() async {
+    localNotificationPlugin.cancelAll();
+
+    // 알림 배지도 함께 초기화합니다.
+    FlutterAppBadge.count(0);
+  }
+
   /// 앱이 포그라운드인 상태에서 푸시 알림 메시지가 전송되었을 때 호출됩니다.
   static void onForegroundMessage(RemoteMessage message) async {
-    // 포그라운드 상태에서는 별도의 알림 배지를 표시할 필요가 없음.
-    FlutterAppBadge.count(0);
-
     if (_streamController.hasListener) {
       _streamController.add(message);
       return;
@@ -147,9 +152,15 @@ class PushNotification {
             channelDescription: 'default channel',
             importance: Importance.max,
             priority: Priority.high,
+            number: 0,
           ),
           // iOS 알림 전송 설정.
-          iOS: DarwinNotificationDetails(presentAlert: true, presentBadge: true, presentSound: true),
+          iOS: DarwinNotificationDetails(
+            presentAlert: true,
+            presentSound: true,
+            presentBadge: false,
+            badgeNumber: 0,
+          ),
         ),
         payload: jsonEncode(message.toMap()),
       );
