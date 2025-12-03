@@ -33,9 +33,9 @@ class PushNotification {
   );
 
   /// 앱이 포그라운드 상태일 때 Firebase FCM에서 수신한 새 푸시 메시지를 단순히 수신하는 리스너 목록입니다.
-  static final streamListeners = <VoidCallback>[];
+  static final _listeners = <VoidCallback>[];
 
-  /// 앱이 포그라운드 상태일 때 Firebase FCM에서 수신한 새 푸시 메시지를 처리하는 스트림입니다.
+  /// 앱이 포그라운드 상태일 때 Firebase FCM에서 수신한 새 푸시 메시지를 처리하고 소비하는 스트림입니다.
   static final _streamController = StreamController<RemoteMessage>.broadcast();
 
   /// 외부에서 해당 스트림을 구독하여 실시간으로 푸시 이벤트를 처리할 수 있습니다.
@@ -213,17 +213,17 @@ class PushNotification {
   }
 
   static void addListener(VoidCallback callback) {
-    assert(!streamListeners.contains(callback));
-    streamListeners.add(callback);
+    assert(!_listeners.contains(callback));
+    _listeners.add(callback);
   }
 
   static void removeListener(VoidCallback callback) {
-    assert(streamListeners.contains(callback));
-    streamListeners.remove(callback);
+    assert(_listeners.contains(callback));
+    _listeners.remove(callback);
   }
 
   static void notifyListeners() {
-    for (final listener in streamListeners) {
+    for (final listener in _listeners) {
       listener.call();
     }
   }
