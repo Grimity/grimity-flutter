@@ -2,13 +2,14 @@ import Flutter
 import UIKit
 
 @main
-@objc class AppDelegate: FlutterAppDelegate {
+@objc class AppDelegate: FlutterAppDelegate, UNUserNotificationCenterDelegate {
   override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     if #available(iOS 10.0, *) {
-      UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
+      UNUserNotificationCenter.current().delegate = self
+      UIApplication.shared.applicationIconBadgeNumber = 0
     }
 
     GeneratedPluginRegistrant.register(with: self)
