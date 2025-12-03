@@ -9,7 +9,6 @@ import UIKit
   ) -> Bool {
     if #available(iOS 10.0, *) {
       UNUserNotificationCenter.current().delegate = self
-      UIApplication.shared.applicationIconBadgeNumber = 0
     }
 
     GeneratedPluginRegistrant.register(with: self)
