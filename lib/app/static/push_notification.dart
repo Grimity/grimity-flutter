@@ -136,12 +136,7 @@ class PushNotification {
 
   /// 앱이 포그라운드인 상태에서 푸시 알림 메시지가 전송되었을 때 호출됩니다.
   static void onForegroundMessage(RemoteMessage message) async {
-<<<<<<< HEAD
     notifyListeners();
-=======
-    // 포그라운드 상태에서는 별도의 알림 배지를 표시할 필요가 없음.
-    FlutterAppBadge.count(0);
->>>>>>> 234f22c (특정 조건에서 알림 배지 초기화되도록 수정)
 
     if (_streamController.hasListener) {
       _streamController.add(message);
