@@ -42,6 +42,9 @@ class PushNotification {
   /// 예: 채팅 목록 화면에서 새 메시지 수신 시 UI 갱신
   static Stream<RemoteMessage> get stream => _streamController.stream;
 
+  /// 증복으로 관련 리스너와 초기화 작업을 수행하지 않기 위해 이를 기록합니다.
+  static bool hasInitCalled = false;
+
   /// 클라이언트의 현재 FCM 토큰을 서버와 동기화합니다.
   /// 기존에 서버 측에 전송된 토큰과 동일하면 아무 작업도 수행하지 않으며,
   /// 새로운 토큰일 경우 로컬에 이를 저장하고 서버에 업데이트 요청을 합니다.
@@ -109,8 +112,9 @@ class PushNotification {
   static Future<void> initializeAll() async {
     final hasPermission = await initPermission();
     if (!hasPermission) return;
+    if (!hasInitCalled) await initializeToken();
 
-    await initializeToken();
+    hasInitCalled = true;
   }
 
   // 포그라운드 푸시 알림 구현을 위해 관련 플러그인 초기화를 수행합니다.

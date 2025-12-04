@@ -9,6 +9,13 @@
             "program": "lib/app/entrypoints/main_dev.dart",
         },
         {
+            "name": "APP-Grimity (prod)",
+            "request": "launch",
+            "type": "dart",
+            "args": ["--flavor", "prod"],
+            "program": "lib/app/entrypoints/main_prod.dart",
+        },
+        {
             "name": "APP-Grimity (profile mode)",
             "request": "launch",
             "type": "dart",
