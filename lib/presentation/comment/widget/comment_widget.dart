@@ -13,6 +13,7 @@ import 'package:grimity/presentation/comment/provider/comment_input_provider.dar
 import 'package:grimity/presentation/comment/provider/comments_data_provider.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
+import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
 import 'package:grimity/presentation/common/widget/popup/grimity_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/common/widget/system/profile/grimity_user_image.dart';
@@ -57,6 +58,11 @@ class CommentWidget extends ConsumerWidget {
 
   bool get isChild => parentComment != null;
 
+  /// 사용자 프로필 페이지로 이동.
+  void goProfile(BuildContext context) {
+    ProfileRoute(url: comment.writer!.url).push(context);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isAuthor = authorId == comment.writer?.id;
@@ -88,9 +94,12 @@ class CommentWidget extends ConsumerWidget {
                           children: [
                             Row(
                               children: [
-                                Text(
-                                  comment.isDeletedComment ? '탈퇴한 사용자' : comment.writer!.name,
-                                  style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
+                                GrimityGesture(
+                                  onTap: () => goProfile(context),
+                                  child: Text(
+                                    comment.isDeletedComment ? '탈퇴한 사용자' : comment.writer!.name,
+                                    style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
+                                  ),
                                 ),
                                 if (isAuthor) ...[Gap(4), GrimityChip.light('작성자')],
                                 GrimityGrayCircle(),
@@ -204,7 +213,7 @@ class CommentWidget extends ConsumerWidget {
                 title: '유저 프로필로 이동',
                 onTap: () {
                   context.pop();
-                  ProfileRoute(url: comment.writer!.url).push(context);
+                  goProfile(context);
                 },
               ),
             ];
