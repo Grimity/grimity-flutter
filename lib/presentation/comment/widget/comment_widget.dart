@@ -59,7 +59,7 @@ class CommentWidget extends ConsumerWidget {
   bool get isChild => parentComment != null;
 
   /// 사용자 프로필 페이지로 이동.
-  void goProfile(BuildContext context) {
+  void _goProfile(BuildContext context) {
     ProfileRoute(url: comment.writer!.url).push(context);
   }
 
@@ -95,7 +95,7 @@ class CommentWidget extends ConsumerWidget {
                             Row(
                               children: [
                                 GrimityGesture(
-                                  onTap: () => goProfile(context),
+                                  onTap: () => _goProfile(context),
                                   child: Text(
                                     comment.isDeletedComment ? '탈퇴한 사용자' : comment.writer!.name,
                                     style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
@@ -213,7 +213,7 @@ class CommentWidget extends ConsumerWidget {
                 title: '유저 프로필로 이동',
                 onTap: () {
                   context.pop();
-                  goProfile(context);
+                  _goProfile(context);
                 },
               ),
             ];
