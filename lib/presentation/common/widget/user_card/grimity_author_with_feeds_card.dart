@@ -21,7 +21,7 @@ class GrimityAuthorWithFeedsCard extends StatelessWidget {
   final VoidCallback onFollowTab;
 
   /// 인기 유저의 프로필 페이지로 이동.
-  void goProfile(BuildContext context) {
+  void _goProfile(BuildContext context) {
     final user = authorWithFeeds.user;
     ProfileRoute(url: user.url).push(context);
   }
@@ -32,7 +32,7 @@ class GrimityAuthorWithFeedsCard extends StatelessWidget {
     final feeds = authorWithFeeds.feeds;
 
     return GrimityGesture(
-      onTap: () => goProfile(context),
+      onTap: () => _goProfile(context),
       child: Container(
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
