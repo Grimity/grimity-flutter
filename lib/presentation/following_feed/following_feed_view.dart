@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:grimity/presentation/common/widget/grimity_infinite_scroll_pagination.dart';
 import 'package:grimity/presentation/common/widget/grimity_refresh_indicator.dart';
 import 'package:grimity/presentation/following_feed/provider/following_feed_data_provider.dart';
@@ -21,7 +22,12 @@ class FollowingFeedView extends ConsumerWidget {
         child: GrimityInfiniteScrollPagination(
           isEnabled: ref.watch(followingFeedDataProvider).valueOrNull?.nextCursor != null,
           onLoadMore: ref.read(followingFeedDataProvider.notifier).loadMore,
-          child: CustomScrollView(slivers: [SliverToBoxAdapter(child: followingFeedListView)]),
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(child: followingFeedListView),
+              SliverToBoxAdapter(child: Gap(16)),
+            ],
+          ),
         ),
       ),
     );
