@@ -89,7 +89,10 @@ class _TextFieldState extends ConsumerState<_TextField> {
     final providerFamily = chatMessageProviderProvider(chatId: widget.chatId);
     final provider = ref.read(providerFamily.notifier);
     final state = ref.watch(providerFamily);
-    final isEnabled = !(state.valueOrNull?.opponentUser.isBlocked ?? false);
+    final opponentUser = state.valueOrNull?.opponentUser;
+    final isBlocked = opponentUser?.isBlocked ?? false;
+    final isBlocking = opponentUser?.isBlocking ?? false;
+    final isEnabled = !(isBlocked || isBlocking);
 
     return IgnorePointer(
       ignoring: !isEnabled,
