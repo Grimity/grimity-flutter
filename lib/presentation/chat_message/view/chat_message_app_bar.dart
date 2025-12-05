@@ -5,7 +5,7 @@ import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_theme.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/report.enum.dart';
-import 'package:grimity/data/model/user/user_base_with_blocked_response.dart';
+import 'package:grimity/data/model/user/opponent_user_response.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/chat_message/components/show_delete_chat_dialog.dart';
 import 'package:grimity/presentation/chat_message/provider/chat_message_provider.dart';
@@ -40,7 +40,7 @@ class _BodyArea extends StatelessWidget {
   const _BodyArea({required this.chatId, required this.model});
 
   final String chatId;
-  final UserBaseWithBlockedResponse model;
+  final OpponentUserResponse model;
 
   void openBottomSheet(BuildContext context) {
     GrimityModalBottomSheet.show(
