@@ -4,13 +4,7 @@
 <a href="https://play.google.com/store/apps/details?id=com.grimity.flutter"><img width="150" alt="Google Play" src="https://github.com/user-attachments/assets/a52f82bb-850b-4c2f-911b-a397dfdba3fc" /></a>
 <a href="https://apps.apple.com/us/app/%EA%B7%B8%EB%A6%AC%EB%AF%B8%ED%8B%B0/id6754501709"><img width="150" alt="App Store" src="https://github.com/user-attachments/assets/efcd3eba-02e8-45ef-ba62-885094000b61" /></a>
 
-<img width="110" alt="1" src="https://github.com/user-attachments/assets/90f6bfb3-f446-4875-b491-d1dbe56cbf72" />
-<img width="110" alt="2" src="https://github.com/user-attachments/assets/bb558418-2547-469d-9dcc-fc6b565fdca9" />
-<img width="110" alt="3" src="https://github.com/user-attachments/assets/36a8c64d-ff9e-4cd9-9f4e-f058171dc6f1" />
-<img width="110" alt="4" src="https://github.com/user-attachments/assets/f008680f-4d2c-4284-a793-baca4f10acb0" />
-<img width="110" alt="5" src="https://github.com/user-attachments/assets/41635a60-cafb-4046-af8e-61b1aaafbff0" />
-<img width="110" alt="6" src="https://github.com/user-attachments/assets/02f5f296-cfaf-4f2c-98c1-9bad584c94bb" />
-<img width="110" alt="7" src="https://github.com/user-attachments/assets/41f96d7a-a95d-4688-9451-9679aafe2afb" />
+<img width="3667" height="1080" src="https://github.com/user-attachments/assets/d617c22c-0c61-4b49-ad9c-95ca59336b8e" />
 
 ### 🔗 관련 종속성
 <a href="https://riverpod.dev/"><img src="https://github.com/user-attachments/assets/ae070ff6-5c2b-43a8-ae97-8f34114093d0"></a>
