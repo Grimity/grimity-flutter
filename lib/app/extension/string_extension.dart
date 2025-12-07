@@ -44,15 +44,18 @@ extension StringExtension on String {
   /// 문자열 형태의 URL에서 이미지 고유 크기(가로, 세로)를 추출하고 이를 반환합니다.
   Size? getImageSize() {
     final match = imageSizeSuffixRegExp.firstMatch(this);
-    if (match != null) {
-      final width = int.tryParse(match.group(1) ?? '');
-      final height = int.tryParse(match.group(2) ?? '');
-
-      assert(width != null && width > 0);
-      assert(height != null && height > 0);
-      return Size(width?.toDouble() ?? 0, height?.toDouble() ?? 0);
+    if (match == null) {
+      return null;
     }
 
-    return null;
+    final width = int.tryParse(match.group(1) ?? '');
+    final height = int.tryParse(match.group(2) ?? '');
+
+    if (width == null || width <= 0 || height == null || height <= 0) {
+      assert(false, 'Failed to parse valid image size from URL: $this');
+      return null;
+    }
+
+    return Size(width.toDouble(), height.toDouble());
   }
 }
