@@ -40,7 +40,6 @@ class ChatMessageImageGallery extends ConsumerWidget {
                 child: PhotoAssetThumbnailWidget(asset: imageAsset.asset),
               ),
 
-              // TODO: 이미지 선택 취소 버튼.
               Align(
                 alignment: Alignment.topRight,
                 child: GrimityGesture(

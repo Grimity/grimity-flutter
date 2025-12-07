@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:grimity/app/extension/image_extension.dart';
-import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_cached_network_image.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 class GrimityImage extends StatelessWidget {
   const GrimityImage({
@@ -73,14 +70,6 @@ class GrimityImage extends StatelessWidget {
             imageUrl: imageUrl,
             width: width,
             height: height,
-            placeholder: (context, url) => Skeletonizer(child: SizedBox(width: width, height: height)),
-            errorWidget:
-                (context, url, error) => Assets.images.imagePlaceholder.image(
-                  width: width,
-                  height: height,
-                  cacheWidth: width.cacheSize(context),
-                  cacheHeight: height.cacheSize(context),
-                ),
           ),
           if (index != null && index! <= 3) ...[
             Positioned.fill(

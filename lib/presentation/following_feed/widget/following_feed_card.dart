@@ -7,7 +7,6 @@ import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/report.enum.dart';
 import 'package:grimity/app/extension/date_time_extension.dart';
-import 'package:grimity/app/extension/image_extension.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
@@ -209,11 +208,6 @@ class _FollowingFeedCardImageCarousel extends StatelessWidget {
                 GrimityCachedNetworkImage.fitWidth(
                   imageUrl: imageUrl,
                   width: 343,
-                  placeholder:
-                      (_, __) => Assets.images.imagePlaceholder.image(width: 343, cacheWidth: 343.cacheSize(context)),
-                  errorWidget:
-                      (_, __, ___) =>
-                          Assets.images.imagePlaceholder.image(width: 343, cacheWidth: 343.cacheSize(context)),
                 ),
                 Positioned(
                   right: 12,
