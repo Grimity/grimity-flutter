@@ -7,7 +7,6 @@ import 'package:grimity/presentation/common/widget/grimity_cached_network_image.
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/system/check/grimity_check_box.dart';
 import 'package:grimity/presentation/post_upload/provider/post_upload_provider.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 class DeletableImageBuilder extends EmbedBuilder {
   DeletableImageBuilder();
@@ -33,8 +32,6 @@ class DeletableImageBuilder extends EmbedBuilder {
               imageUrl: imageUrl,
               width: width,
               height: height,
-              placeholder: (context, url) => Skeletonizer(child: SizedBox(width: width, height: height)),
-              errorWidget: (context, url, error) => Skeletonizer(child: SizedBox(width: width, height: height)),
             )
             : Image.file(File(imageUrl), fit: BoxFit.cover);
 

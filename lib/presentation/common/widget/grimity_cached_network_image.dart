@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:grimity/app/extension/image_extension.dart';
 import 'package:grimity/app/extension/string_extension.dart';
+import 'package:grimity/gen/assets.gen.dart';
 
 class GrimityCachedNetworkImage extends StatelessWidget {
   const GrimityCachedNetworkImage.cover({
@@ -72,7 +73,7 @@ class GrimityCachedNetworkImage extends StatelessWidget {
         switch (fit) {
           // [BoxFit.cover]인 경우 짧은 변 기준으로 캐싱 처리
           case BoxFit.cover:
-            final originSize = parseImageSizeFromUrl(imageUrl);
+            final originSize = imageUrl.getImageSize();
             if (originSize == null) {
               // 사이즈를 파싱할 수 없으면 높이 기준
               cacheHeight = height?.cacheSize(context);
@@ -98,7 +99,7 @@ class GrimityCachedNetworkImage extends StatelessWidget {
 
           // [BoxFit.contain]인 경우 긴 변 기준으로 캐싱
           case BoxFit.contain:
-            final originSize = parseImageSizeFromUrl(imageUrl);
+            final originSize = imageUrl.getImageSize();
             if (originSize == null) {
               // 사이즈를 파싱할 수 없으면 높이 기준
               cacheHeight = height?.cacheSize(context);
@@ -123,31 +124,37 @@ class GrimityCachedNetworkImage extends StatelessWidget {
           memCacheWidth: cacheWidth,
           memCacheHeight: cacheHeight,
           fit: fit,
-          placeholder: placeholder,
-          errorWidget: errorWidget,
+          placeholder: placeholder ?? defaultPlaceholder,
+          errorWidget: errorWidget ?? defaultErrorWidget,
           fadeInDuration: Duration(milliseconds: 300),
           fadeInCurve: Curves.easeInOut,
+          fadeOutDuration: Duration(milliseconds: 300),
+          fadeOutCurve: Curves.easeInOut,
+          placeholderFadeInDuration: Duration(milliseconds: 300),
         );
       },
     );
   }
 
-  /// URL 끝에서 `_WIDTHxHEIGHT` 패턴을 찾아 원본 이미지 사이즈를 반환
-  /// 예: https://.../image_1300x800.webp → Size(1300, 800)
-  ///
-  /// 반환값:
-  /// - 성공: Size(width, height)
-  /// - 실패: null
-  Size? parseImageSizeFromUrl(String url) {
-    final regex = RegExp(r'_([0-9]+)x([0-9]+)(?:\.[a-zA-Z]+)?(?:\?.*)?$');
-    final match = regex.firstMatch(url);
+  /// [CachedNetworkImage]에 대한 [placeholder]의 기본 빌더입니다.
+  Widget defaultPlaceholder(BuildContext context, String imageUrl) {
+    final Widget child = Assets.images.imagePlaceholder.image(
+      width: width,
+      height: height,
+      fit: BoxFit.cover,
+    );
 
-    if (match == null) return null;
+    final imageSize = imageUrl.getImageSize();
 
-    final width = double.tryParse(match.group(1)!);
-    final height = double.tryParse(match.group(2)!);
+    return SizedBox(
+      width: width,
+      height: height,
+      child: imageSize != null ? AspectRatio(aspectRatio: imageSize.aspectRatio, child: child) : child,
+    );
+  }
 
-    if (width == null || height == null) return null;
-    return Size(width, height);
+  /// [CachedNetworkImage]에 대한 [errorWidget]의 기본 빌더입니다.
+  Widget defaultErrorWidget(BuildContext context, String imageUrl, Object _) {
+    return defaultPlaceholder(context, imageUrl);
   }
 }

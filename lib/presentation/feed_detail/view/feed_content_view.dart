@@ -6,9 +6,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/report.enum.dart';
-import 'package:grimity/app/extension/image_extension.dart';
 import 'package:grimity/domain/entity/feed.dart';
-import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/button/grimity_follow_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_cached_network_image.dart';
@@ -164,15 +162,7 @@ class _FeedImageListSection extends StatelessWidget {
               onTap: () {
                 ImageViewerRoute(initialIndex: index, imageUrls: imageUrls).push(context);
               },
-              child: GrimityCachedNetworkImage.fitWidth(
-                imageUrl: imageUrl,
-                width: 343,
-                placeholder:
-                    (_, __) => Assets.images.imagePlaceholder.image(width: 343, cacheWidth: 343.cacheSize(context)),
-                errorWidget:
-                    (_, __, ___) =>
-                        Assets.images.imagePlaceholder.image(width: 343, cacheWidth: 343.cacheSize(context)),
-              ),
+              child: GrimityCachedNetworkImage.fitWidth(imageUrl: imageUrl, width: 343),
             );
           },
           separatorBuilder: (_, __) => Gap(8),
