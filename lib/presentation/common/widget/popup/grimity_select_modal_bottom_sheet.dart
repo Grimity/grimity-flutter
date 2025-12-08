@@ -74,21 +74,23 @@ class GrimitySelectModalBottomSheet extends ConsumerWidget {
             ],
           ),
           Gap(24),
-          SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 8,
-              children:
-                  models
-                      .map(
-                        (e) => _SelectBottomSheetButton(
-                          title: e.title,
-                          onTap: e.onTap,
-                          isSelected: e.isSelected,
-                          isDisabled: e.isDisabled,
-                        ),
-                      )
-                      .toList(),
+          Flexible(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 8,
+                children:
+                    models
+                        .map(
+                          (e) => _SelectBottomSheetButton(
+                            title: e.title,
+                            onTap: e.onTap,
+                            isSelected: e.isSelected,
+                            isDisabled: e.isDisabled,
+                          ),
+                        )
+                        .toList(),
+              ),
             ),
           ),
           if (onSave != null) ...[
