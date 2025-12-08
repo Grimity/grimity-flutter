@@ -173,16 +173,13 @@ class LinkWidget extends HookConsumerWidget {
       child: Row(
         children: [
           if (!LinkType.isCustomLinkType(link.linkName)) ...[
-            SizedBox(
-              width: 120,
-              child: ProfileEditDropdown(
-                link: link,
-                onChanged: (val) {
-                  if (val != null) {
-                    profileEditNotifier.updateLinkName(link, val);
-                  }
-                },
-              ),
+            ProfileEditDropdown(
+              link: link,
+              onChanged: (val) {
+                if (val != null) {
+                  profileEditNotifier.updateLinkName(link, val);
+                }
+              },
             ),
           ] else ...[
             SizedBox(

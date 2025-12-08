@@ -13,37 +13,39 @@ class ProfileEditDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField<String>(
-      value: link.linkName,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.all(16),
-        isDense: true,
-        fillColor: Colors.white,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppColor.gray300),
+    return IntrinsicWidth(
+      child: DropdownButtonFormField<String>(
+        value: link.linkName,
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.all(16),
+          isDense: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: AppColor.gray300),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: AppColor.gray300),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: AppColor.gray300),
+          ),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppColor.gray300),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppColor.gray300),
-        ),
+        style: AppTypeface.label2,
+        dropdownColor: AppColor.gray00,
+        borderRadius: BorderRadius.circular(12),
+        icon: Assets.icons.common.arrowDown.svg(width: 16, height: 16),
+        items:
+            LinkType.values.map((e) => e.linkName).toList().map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value, style: AppTypeface.label2.copyWith(color: AppColor.gray800)),
+              );
+            }).toList(),
+        onChanged: onChanged,
       ),
-      style: AppTypeface.label2,
-      dropdownColor: AppColor.gray00,
-      borderRadius: BorderRadius.circular(12),
-      icon: Assets.icons.common.arrowDown.svg(width: 16, height: 16),
-      items:
-          LinkType.values.map((e) => e.linkName).toList().map((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value, style: AppTypeface.label2.copyWith(color: AppColor.gray800)),
-            );
-          }).toList(),
-      onChanged: onChanged,
     );
   }
 }
