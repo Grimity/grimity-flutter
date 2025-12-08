@@ -54,10 +54,10 @@ class GrimityActionButton extends StatelessWidget {
   );
 
   /// Notification Action Button
-  factory GrimityActionButton.notification({required VoidCallback onTap, bool showBadge = false}) =>
+  factory GrimityActionButton.notification(BuildContext context, {required bool hasNotification}) =>
       GrimityActionButton._(
-        onTap: onTap,
-        showBadge: showBadge,
+        onTap: () => NotificationRoute().push(context),
+        showBadge: hasNotification,
         child: Assets.icons.common.notification.svg(width: 24, height: 24),
       );
 
