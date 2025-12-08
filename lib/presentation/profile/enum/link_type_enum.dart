@@ -26,7 +26,7 @@ enum LinkType {
     } else if (linkName == LinkType.email.linkName) {
       return Assets.icons.profile.mail.image(width: width, height: height);
     } else {
-      return Assets.icons.profile.web.image(width: width, height: height);
+      return Assets.icons.profile.link.image(width: width, height: height);
     }
   }
 
