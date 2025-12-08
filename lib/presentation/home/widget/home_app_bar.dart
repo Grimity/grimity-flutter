@@ -2,25 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/button/grimity_action_button.dart';
-import 'package:grimity/presentation/notification/provider/notification_data_provider.dart';
 
-class HomeAppBar extends ConsumerWidget {
+class HomeAppBar extends StatelessWidget {
   const HomeAppBar({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final notificationAsync = ref.watch(notificationDataProvider);
-
-    onNotificationTap() {
-      // 홈 화면 진입시 데이터가 수신되서 알림 화면 진입시 데이터가 최신 데이터가 아닐 수 있음
-      // 따라서 데이터 리프래시 처리하여 재수신 하게 함
-      ref.invalidate(notificationDataProvider);
-      NotificationRoute().push(context);
-    }
-
+  Widget build(BuildContext context) {
     return SliverAppBar(
       pinned: true,
       floating: false,
@@ -30,13 +20,12 @@ class HomeAppBar extends ConsumerWidget {
       actions: [
         GrimityActionButton.search(context),
         Gap(20),
-        notificationAsync.maybeWhen(
-          data: (notifications) {
-            final hasUnRead = notifications.where((n) => !n.isRead).isNotEmpty;
+        Consumer(
+          builder: (context, ref, child) {
+            final hasNotification = ref.watch(userAuthProvider)?.hasNotification ?? false;
 
-            return GrimityActionButton.notification(onTap: () => onNotificationTap(), showBadge: hasUnRead);
+            return GrimityActionButton.notification(context, hasNotification: hasNotification);
           },
-          orElse: () => GrimityActionButton.notification(onTap: () => onNotificationTap()),
         ),
         Gap(20),
         GrimityActionButton.user(context),

@@ -1,5 +1,6 @@
 import 'package:grimity/domain/entity/notification.dart';
 import 'package:grimity/domain/usecase/notifications_usecases.dart';
+import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'notification_data_provider.g.dart';
@@ -11,6 +12,11 @@ class NotificationData extends _$NotificationData {
     final result = await getNotificationsUseCase.execute();
 
     return result.fold(onSuccess: (List<Notification> notifications) => notifications, onFailure: (e) => []);
+  }
+
+  /// 알림 처리 후 User 업데이트
+  Future<void> _updateUser() async {
+    ref.read(userAuthProvider.notifier).getUser();
   }
 
   /// 알림 읽음 처리(성공 가정, 실패시 복원)
@@ -35,7 +41,9 @@ class NotificationData extends _$NotificationData {
 
     // 실패 시 복원
     result.fold(
-      onSuccess: (_) {},
+      onSuccess: (_) {
+        _updateUser();
+      },
       onFailure: (e) {
         state = AsyncData(prevState);
       },
@@ -61,7 +69,9 @@ class NotificationData extends _$NotificationData {
 
     // 실패 시 복원
     result.fold(
-      onSuccess: (_) {},
+      onSuccess: (_) {
+        _updateUser();
+      },
       onFailure: (e) {
         state = AsyncData(prevState);
       },
@@ -87,7 +97,9 @@ class NotificationData extends _$NotificationData {
 
     // 실패 시 복원
     result.fold(
-      onSuccess: (_) {},
+      onSuccess: (_) {
+        _updateUser();
+      },
       onFailure: (e) {
         state = AsyncData(prevState);
       },
@@ -112,7 +124,9 @@ class NotificationData extends _$NotificationData {
 
     // 실패 시 복원
     result.fold(
-      onSuccess: (_) {},
+      onSuccess: (_) {
+        _updateUser();
+      },
       onFailure: (e) {
         state = AsyncData(prevState);
       },
