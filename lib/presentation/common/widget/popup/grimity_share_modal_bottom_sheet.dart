@@ -89,7 +89,7 @@ class GrimityShareModalBottomSheet extends StatelessWidget {
             height: 54,
             child: Row(
               children: [
-                Assets.icons.profile.link.svg(width: 24, height: 24),
+                Assets.icons.profile.copyLink.svg(width: 24, height: 24),
                 Gap(8),
                 Text("링크 복사하기", style: AppTypeface.label2),
               ],
