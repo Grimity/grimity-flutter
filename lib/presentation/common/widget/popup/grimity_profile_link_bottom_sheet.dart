@@ -80,12 +80,18 @@ class _LinkItem extends StatelessWidget {
         children: [
           LinkType.getLinkImage(link.linkName, 28, 28),
           Gap(14),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(link.linkName, style: AppTypeface.label1),
-              Text(link.link, style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
-            ],
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(link.linkName, style: AppTypeface.label1),
+                Text(
+                  link.link,
+                  style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
           ),
         ],
       ),
