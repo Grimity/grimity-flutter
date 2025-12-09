@@ -189,6 +189,9 @@ class LinkWidget extends HookConsumerWidget {
                 focusNode: linkNameFocusNode,
                 hintText: link.linkName,
                 maxLines: 1,
+                onChanged: (val) {
+                  profileEditNotifier.updateLinkName(link, val);
+                },
               ),
             ),
           ],
