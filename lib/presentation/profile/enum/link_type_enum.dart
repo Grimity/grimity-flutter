@@ -15,13 +15,16 @@ enum LinkType {
 
   const LinkType(this.linkName, this.defaultLink);
 
-  static Image getLinkImage(String linkName, double width, double height) {
-    final type = LinkType.values.firstWhere(
-      (e) => e.linkName == linkName,
-      orElse: () => LinkType.custom,
-    );
+  static final Map<String, LinkType> _byLinkName = {
+    for (var type in values) type.linkName: type,
+  };
 
-    switch (type) {
+  static LinkType fromLinkName(String linkName) {
+    return _byLinkName[linkName] ?? LinkType.custom;
+  }
+
+  static Image getLinkImage(String linkName, double width, double height) {
+    switch (fromLinkName(linkName)) {
       case LinkType.x:
         return Assets.icons.profile.x.image(width: width, height: height);
       case LinkType.instagram:
@@ -38,12 +41,7 @@ enum LinkType {
   }
 
   static bool isCustomLinkType(String linkName) {
-    final type = LinkType.values.firstWhere(
-      (e) => e.linkName == linkName,
-      orElse: () => LinkType.custom,
-    );
-
-    return type == LinkType.custom;
+    return fromLinkName(linkName) == LinkType.custom;
   }
 
   static String displayLink(Link link) {
