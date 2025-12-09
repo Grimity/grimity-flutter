@@ -16,31 +16,34 @@ enum LinkType {
   const LinkType(this.linkName, this.defaultLink);
 
   static Image getLinkImage(String linkName, double width, double height) {
-    if (linkName == LinkType.x.linkName) {
-      return Assets.icons.profile.x.image(width: width, height: height);
-    } else if (linkName == LinkType.instagram.linkName) {
-      return Assets.icons.profile.instagram.image(width: width, height: height);
-    } else if (linkName == LinkType.youtube.linkName) {
-      return Assets.icons.profile.youtube.image(width: width, height: height);
-    } else if (linkName == LinkType.pixiv.linkName) {
-      return Assets.icons.profile.pixiv.image(width: width, height: height);
-    } else if (linkName == LinkType.email.linkName) {
-      return Assets.icons.profile.mail.image(width: width, height: height);
-    } else {
-      return Assets.icons.profile.link.image(width: width, height: height);
+    final type = LinkType.values.firstWhere(
+      (e) => e.linkName == linkName,
+      orElse: () => LinkType.custom,
+    );
+
+    switch (type) {
+      case LinkType.x:
+        return Assets.icons.profile.x.image(width: width, height: height);
+      case LinkType.instagram:
+        return Assets.icons.profile.instagram.image(width: width, height: height);
+      case LinkType.youtube:
+        return Assets.icons.profile.youtube.image(width: width, height: height);
+      case LinkType.pixiv:
+        return Assets.icons.profile.pixiv.image(width: width, height: height);
+      case LinkType.email:
+        return Assets.icons.profile.mail.image(width: width, height: height);
+      case LinkType.custom:
+        return Assets.icons.profile.link.image(width: width, height: height);
     }
   }
 
   static bool isCustomLinkType(String linkName) {
-    if (linkName == LinkType.x.linkName ||
-        linkName == LinkType.instagram.linkName ||
-        linkName == LinkType.youtube.linkName ||
-        linkName == LinkType.pixiv.linkName ||
-        linkName == LinkType.email.linkName) {
-      return false;
-    }
+    final type = LinkType.values.firstWhere(
+      (e) => e.linkName == linkName,
+      orElse: () => LinkType.custom,
+    );
 
-    return true;
+    return type == LinkType.custom;
   }
 
   static String displayLink(Link link) {
