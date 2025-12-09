@@ -1,8 +1,8 @@
 # 🖌️ Grimity
 그림쟁이들을 위한 그림 커뮤니티, 그리미티에 대한 Flutter 기반의 모바일 애플리케이션입니다.
 
-<a href="https://play.google.com/store/apps/details?id=com.grimity.flutter"><img width="239" height="71" alt="Google Play" src="https://github.com/user-attachments/assets/cb3b771c-a41b-4878-9606-75dc6a5555a0" />
-<a href="https://apps.apple.com/us/app/%EA%B7%B8%EB%A6%AC%EB%AF%B8%ED%8B%B0/id6754501709"><img width="213" height="71" alt="App Store" src="https://github.com/user-attachments/assets/a00afbda-3e96-4d2b-9f7c-ef6b3bf2129e" /></a>
+<a href="https://play.google.com/store/apps/details?id=com.grimity.flutter"><img height="50" alt="Google Play" src="https://github.com/user-attachments/assets/cb3b771c-a41b-4878-9606-75dc6a5555a0" />
+<a href="https://apps.apple.com/us/app/%EA%B7%B8%EB%A6%AC%EB%AF%B8%ED%8B%B0/id6754501709"><img height="50" alt="App Store" src="https://github.com/user-attachments/assets/a00afbda-3e96-4d2b-9f7c-ef6b3bf2129e" /></a>
 
 
 <img width="3667" height="1080" src="https://github.com/user-attachments/assets/d617c22c-0c61-4b49-ad9c-95ca59336b8e" />
