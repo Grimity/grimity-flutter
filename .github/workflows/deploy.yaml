@@ -87,6 +87,11 @@ jobs:
           channel: stable
           flutter-version: ${{ vars.FLUTTER_VERSION }}
 
+      - name: Pubspec 수정
+        run: |
+          VERSION="${{ github.event.inputs.VERSION_NAME }}-${{ needs.ready.outputs.BUILD_NUMBER }}"
+          dart run pubspec_version_tool set "$VERSION"
+
       - name: 구성 파일 불러오기
         run: dart run git_config fetch --ssh
 
@@ -132,6 +137,11 @@ jobs:
         with:
           channel: stable
           flutter-version: ${{ vars.FLUTTER_VERSION }}
+
+      - name: Pubspec 수정
+        run: |
+          VERSION="${{ github.event.inputs.VERSION_NAME }}-${{ needs.ready.outputs.BUILD_NUMBER }}"
+          dart run pubspec_version_tool set "$VERSION"
 
       - name: FlutterFire CLI 설치
         run: dart pub global activate flutterfire_cli
