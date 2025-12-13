@@ -28,7 +28,7 @@ class _AntiSizedBrokenRenderBox extends RenderProxyBox {
     child!.layout(constraints, parentUsesSize: true);
 
     // 레이아웃 결과가 0 으로 깨진 경우.
-    if (child!.size.width == 0 || child!.size.height == 0) {
+    if (child!.size.isEmpty) {
       size = _cachedSize ?? child!.size;
     } else {
       size = child!.size;
