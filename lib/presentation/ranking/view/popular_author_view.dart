@@ -6,6 +6,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/presentation/common/provider/author_with_feeds_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
+import 'package:grimity/presentation/common/widget/layout/anti_broken.dart';
 import 'package:grimity/presentation/common/widget/user_card/grimity_author_with_feeds_card.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -67,29 +68,31 @@ class _PopularAuthorCarousel extends HookConsumerWidget {
     return Column(
       spacing: 16,
       children: [
-        ExpandablePageView.builder(
-          animationDuration: Duration.zero,
-          animationCurve: Curves.linear,
-          padEnds: false,
-          itemCount: visibleUserCount,
-          controller: pageController,
-          itemBuilder: (context, index) {
-            final authorWithFeeds = authorWithFeedsList[index];
+        AntiSizedBroken(
+          child: ExpandablePageView.builder(
+            animationDuration: Duration.zero,
+            animationCurve: Curves.linear,
+            padEnds: false,
+            itemCount: visibleUserCount,
+            controller: pageController,
+            itemBuilder: (context, index) {
+              final authorWithFeeds = authorWithFeedsList[index];
 
-            return Padding(
-              padding: EdgeInsets.only(left: index == 0 ? 16 : 4, right: index == visibleUserCount - 1 ? 16 : 4),
-              child: GrimityAuthorWithFeedsCard(
-                authorWithFeeds: authorWithFeeds,
-                onFollowTab:
-                    () => ref
-                        .read(authorWithFeedsDataProvider.notifier)
-                        .toggleFollow(
-                          id: authorWithFeeds.user.id,
-                          follow: authorWithFeeds.user.isFollowing == false ? true : false,
-                        ),
-              ),
-            );
-          },
+              return Padding(
+                padding: EdgeInsets.only(left: index == 0 ? 16 : 4, right: index == visibleUserCount - 1 ? 16 : 4),
+                child: GrimityAuthorWithFeedsCard(
+                  authorWithFeeds: authorWithFeeds,
+                  onFollowTab:
+                      () => ref
+                          .read(authorWithFeedsDataProvider.notifier)
+                          .toggleFollow(
+                            id: authorWithFeeds.user.id,
+                            follow: authorWithFeeds.user.isFollowing == false ? true : false,
+                          ),
+                ),
+              );
+            },
+          ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

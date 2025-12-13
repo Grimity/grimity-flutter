@@ -11,6 +11,7 @@ import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
+import 'package:grimity/presentation/common/widget/layout/anti_broken.dart';
 import 'package:grimity/presentation/home/provider/home_data_provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -37,12 +38,14 @@ class HomeFeedRankingView extends ConsumerWidget {
           ),
         ),
         const Gap(16),
-        Padding(
-          padding: const EdgeInsets.only(left: 12),
-          child: feedRanking.when(
-            data: (data) => _HomeRankingCarousel(feeds: data),
-            loading: () => Skeletonizer(child: _HomeRankingCarousel(feeds: Feed.createEmptyList(context))),
-            error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(feedRankingDataProvider)),
+        AntiSizedBroken(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 12),
+            child: feedRanking.when(
+              data: (data) => _HomeRankingCarousel(feeds: data),
+              loading: () => Skeletonizer(child: _HomeRankingCarousel(feeds: Feed.createEmptyList(context))),
+              error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(feedRankingDataProvider)),
+            ),
           ),
         ),
       ],
