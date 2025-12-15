@@ -99,6 +99,7 @@ dependencies:
   visibility_detector: ^0.4.0+2
   package_info_plus: ^9.0.0
   flutter_app_badge: ^2.0.2
+  gal: ^2.3.2
 
 dev_dependencies:
   flutter_test:
