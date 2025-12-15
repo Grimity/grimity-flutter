@@ -39,4 +39,7 @@ extension DateTimeExtension on DateTime {
 
   /// 같은 달인지 비교
   bool isSameMonth(DateTime other) => year == other.year && month == other.month;
+
+  /// millisecondsSinceEpoch
+  String get epochMillis => millisecondsSinceEpoch.toString();
 }

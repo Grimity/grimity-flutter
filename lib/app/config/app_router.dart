@@ -425,15 +425,16 @@ class FeedDetailRoute extends GoRouteData {
 class ImageViewerRoute extends GoRouteData {
   final int initialIndex;
   final List<String> imageUrls;
+  final bool enableSave;
 
-  const ImageViewerRoute({required this.initialIndex, required this.imageUrls});
+  const ImageViewerRoute({required this.initialIndex, required this.imageUrls, this.enableSave = false});
 
   static const String path = '/image-viewer';
   static const String name = 'image-viewer';
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return ImageViewerPage(imageUrls: imageUrls, initialIndex: initialIndex);
+    return ImageViewerPage(imageUrls: imageUrls, initialIndex: initialIndex, enableSave: enableSave);
   }
 }
 

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/app/config/app_color.dart';
+import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/ux/popover.dart';
 import 'package:grimity/data/model/chat_message/chat_message_reply_response.dart';
@@ -27,6 +28,7 @@ class _ChatMessageFragmentState extends ConsumerState<ChatMessageFragment> {
   final LayerLink layerLink = LayerLink();
 
   Popover? _popover;
+
   Popover createPopover() {
     return Popover(
       targetLink: layerLink,
@@ -66,6 +68,12 @@ class _ChatMessageFragmentState extends ConsumerState<ChatMessageFragment> {
                   (_popover = createPopover()).show(context);
                 }
               },
+              onLongPress:
+                  model.image == null
+                      ? null
+                      : () {
+                        ImageViewerRoute(imageUrls: [model.image!], initialIndex: 0, enableSave: true).push(context);
+                      },
               child: Container(
                 constraints: BoxConstraints(
                   // 100px 더 작게 제약하되 최대 240px으로 수평 크기를 제한.
