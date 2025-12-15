@@ -47,10 +47,7 @@ class ImageViewerAppBar extends StatelessWidget implements PreferredSizeWidget {
               final isSaving = ref.watch(imageSaveProvider).isLoading;
 
               return GrimityGesture(
-                onTap:
-                    isSaving
-                        ? null
-                        : () => ref.read(imageSaveProvider.notifier).saveByUrl(imageUrls[currentIndex]),
+                onTap: isSaving ? null : () => ref.read(imageSaveProvider.notifier).saveByUrl(imageUrls[currentIndex]),
                 child: Assets.icons.common.download.svg(
                   width: 24,
                   height: 24,
