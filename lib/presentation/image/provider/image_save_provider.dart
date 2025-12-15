@@ -18,6 +18,7 @@ class ImageSave extends _$ImageSave {
     if (state.isLoading) return;
 
     state = AsyncLoading();
+    String? tempPath;
 
     try {
       // 권한 요청
@@ -32,7 +33,7 @@ class ImageSave extends _$ImageSave {
       // 임시 파일 경로
       final ext = _extractExtensionFromUrl(imageUrl);
       final fileName = 'grimity_${DateTime.now().epochMillis}.$ext';
-      final tempPath = '${Directory.systemTemp.path}/$fileName';
+      tempPath = '${Directory.systemTemp.path}/$fileName';
 
       // 이미지 다운로드
       await kDio.download(imageUrl, tempPath);
@@ -42,15 +43,17 @@ class ImageSave extends _$ImageSave {
 
       state = AsyncData(null);
       ToastService.show('이미지 저장이 완료되었어요.');
-
-      // 임시 파일 삭제
-      final f = File(tempPath);
-      if (await f.exists()) {
-        await f.delete();
-      }
     } catch (e, st) {
       state = AsyncError(e, st);
       ToastService.showError('이미지 저장에 실패했습니다.');
+    } finally {
+      // 임시 파일 삭제
+      if (tempPath != null) {
+        final f = File(tempPath);
+        if (await f.exists()) {
+          await f.delete();
+        }
+      }
     }
   }
 
