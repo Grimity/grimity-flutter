@@ -1,25 +1,50 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 
-class GrimityTransition extends StatelessWidget {
-  const GrimityTransition({super.key, required this.child});
+class GrimityTransition {
+  GrimityTransition._();
 
-  final Widget child;
+  static final switchDuration = Duration(milliseconds: 250);
+  static final switchInCurve = Curves.ease;
+  static final switchOutCurve = Curves.ease.flipped;
 
-  @override
-  Widget build(BuildContext context) {
+  /// 해당 위젯은 축 기반 전환 애니메이션을 구현합니다.
+  static Widget axis({
+    SharedAxisTransitionType transitionType = SharedAxisTransitionType.vertical,
+    required dynamic value,
+    required Widget child,
+  }) {
     return PageTransitionSwitcher(
-      duration: Duration(milliseconds: 250),
+      duration: switchDuration,
       transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
         return SharedAxisTransition(
           animation: primaryAnimation,
           secondaryAnimation: secondaryAnimation,
-          transitionType: SharedAxisTransitionType.vertical,
           fillColor: Colors.transparent,
+          transitionType: transitionType,
           child: child,
         );
       },
-      child: child,
+      child: KeyedSubtree(key: ValueKey(value), child: child),
     );
+  }
+
+  /// 해당 위젯은 페이드 전환 애니메이션을 구현합니다.
+  static Widget fade({
+    required dynamic value,
+    required Widget child,
+  }) {
+    return AnimatedSwitcher(
+      duration: switchDuration,
+      switchInCurve: switchInCurve,
+      switchOutCurve: switchOutCurve,
+      transitionBuilder: _fadeTransitionBuilder,
+      child: KeyedSubtree(key: ValueKey(value), child: child),
+    );
+  }
+
+  /// 페이드 전환을 위한 애니메이션 빌더입니다.
+  static Widget _fadeTransitionBuilder(Widget child, Animation<double> animation) {
+    return FadeTransition(opacity: animation, child: child);
   }
 }
