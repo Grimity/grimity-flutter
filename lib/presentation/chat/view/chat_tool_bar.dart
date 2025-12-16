@@ -22,9 +22,9 @@ class ChatToolBar extends ConsumerWidget {
       alignment: Alignment.center,
       padding: EdgeInsets.symmetric(horizontal: 16),
       height: 30,
-      child: GrimityTransition(
+      child: GrimityTransition.axis(
+        value: isSelectMode,
         child: Builder(
-          key: ValueKey(isSelectMode),
           builder: (context) {
             if (isSelectMode) {
               return Row(

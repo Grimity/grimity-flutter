@@ -6,6 +6,7 @@ import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/app/extension/async_value_extension.dart';
 import 'package:grimity/app/extension/build_context_extension.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
@@ -41,7 +42,7 @@ class HomeFeedRankingView extends ConsumerWidget {
         AntiSizedBroken(
           child: Padding(
             padding: const EdgeInsets.only(left: 12),
-            child: feedRanking.when(
+            child: feedRanking.fadeWhen(
               data: (data) => _HomeRankingCarousel(feeds: data),
               loading: () => Skeletonizer(child: _HomeRankingCarousel(feeds: Feed.createEmptyList(context))),
               error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(feedRankingDataProvider)),
