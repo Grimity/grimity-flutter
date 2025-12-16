@@ -38,13 +38,7 @@ class GrimityTransition {
       duration: switchDuration,
       switchInCurve: switchInCurve,
       switchOutCurve: switchOutCurve,
-      transitionBuilder: _fadeTransitionBuilder,
       child: KeyedSubtree(key: ValueKey(value), child: child),
     );
-  }
-
-  /// 페이드 전환을 위한 애니메이션 빌더입니다.
-  static Widget _fadeTransitionBuilder(Widget child, Animation<double> animation) {
-    return FadeTransition(opacity: animation, child: child);
   }
 }
