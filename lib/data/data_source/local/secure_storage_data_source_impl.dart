@@ -1,3 +1,4 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:grimity/data/data_source/local/settings_local_data_source.dart';
 import 'package:injectable/injectable.dart';
@@ -18,7 +19,13 @@ class SecureStorageDataSourceImpl implements SettingsLocalDataSource {
 
   @override
   Future<dynamic> loadSetting(String key) async {
-    return await secureStorage.read(key: key, iOptions: iOptions);
+    try {
+      return await secureStorage.read(key: key, iOptions: iOptions);
+    } catch (error, stack) {
+      FirebaseCrashlytics.instance.recordError(error, stack);
+      await removeSetting(key);
+      return null;
+    }
   }
 
   @override
