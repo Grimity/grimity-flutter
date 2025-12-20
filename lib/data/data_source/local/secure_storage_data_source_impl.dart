@@ -30,7 +30,12 @@ class SecureStorageDataSourceImpl implements SettingsLocalDataSource {
 
   @override
   Future<void> removeSetting(String key) async {
-    return await secureStorage.delete(key: key, iOptions: iOptions);
+    try {
+      return await secureStorage.delete(key: key, iOptions: iOptions);
+    } catch (error, stack) {
+      FirebaseCrashlytics.instance.recordError(error, stack);
+      await clearSetting();
+    }
   }
 
   @override
