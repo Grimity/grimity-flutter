@@ -27,18 +27,20 @@ import 'package:grimity/presentation/common/widget/system/profile/grimity_profil
 import 'package:grimity/presentation/profile/enum/link_type_enum.dart';
 import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
 import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
+import 'package:grimity/presentation/profile/provider/profile_view_type_argument_provider.dart';
 import 'package:grimity/presentation/profile/widget/profile_bottom_sheet.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UserProfileView extends ConsumerWidget {
-  const UserProfileView({super.key, required this.user, required this.viewType});
+  const UserProfileView({super.key, required this.user});
 
   final User user;
-  final ProfileViewType viewType;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final viewType = ref.watch(profileViewTypeArgumentProvider);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -48,10 +50,10 @@ class UserProfileView extends ConsumerWidget {
           child: Stack(
             clipBehavior: Clip.none,
             children: [
-              _UserProfile(user: user, viewType: viewType),
+              _UserProfile(user: user),
               _buildProfileImage(),
               if (viewType == ProfileViewType.mine) _buildEditButton(context),
-              _buildButtons(context, ref),
+              _buildButtons(context, ref, viewType),
             ],
           ),
         ),
@@ -89,7 +91,7 @@ class UserProfileView extends ConsumerWidget {
   }
 
   // 팔로잉/언팔로우 버튼, 더보기 버튼
-  Widget _buildButtons(BuildContext context, WidgetRef ref) {
+  Widget _buildButtons(BuildContext context, WidgetRef ref, ProfileViewType viewType) {
     return Positioned.fill(
       top: 14,
       child: Align(
@@ -101,14 +103,14 @@ class UserProfileView extends ConsumerWidget {
               GrimityFollowButton(url: user.url),
               Gap(10),
             ],
-            GrimityMoreButton.decorated(onTap: () => _showMoreBottomSheet(context, ref)),
+            GrimityMoreButton.decorated(onTap: () => _showMoreBottomSheet(context, ref, viewType)),
           ],
         ),
       ),
     );
   }
 
-  void _showMoreBottomSheet(BuildContext context, WidgetRef ref) {
+  void _showMoreBottomSheet(BuildContext context, WidgetRef ref, ProfileViewType viewType) {
     final List<GrimityModalButtonModel> buttons = [
       GrimityModalButtonModel(
         title: '프로필 링크 공유',
@@ -200,21 +202,22 @@ class UserProfileView extends ConsumerWidget {
   }
 }
 
-class _UserProfile extends StatelessWidget {
-  const _UserProfile({required this.user, required this.viewType});
+class _UserProfile extends ConsumerWidget {
+  const _UserProfile({required this.user});
 
   final User user;
-  final ProfileViewType viewType;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final viewType = ref.watch(profileViewTypeArgumentProvider);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Gap(40),
         _buildUserName(),
         Gap(2),
-        _buildUserFollowerCount(context),
+        _buildUserFollowerCount(context, viewType),
         _buildUserDescription(),
         _buildUserLinks(context),
         Gap(16),
@@ -230,7 +233,7 @@ class _UserProfile extends StatelessWidget {
     return Text(user.name, style: AppTypeface.subTitle1);
   }
 
-  Widget _buildUserFollowerCount(BuildContext context) {
+  Widget _buildUserFollowerCount(BuildContext context, ProfileViewType viewType) {
     return GrimityGesture(
       onTap: viewType == ProfileViewType.mine ? () => FollowRoute().push(context) : null,
       child: Row(

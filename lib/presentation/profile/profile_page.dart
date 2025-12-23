@@ -6,6 +6,7 @@ import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
 import 'package:grimity/presentation/profile/profile_view.dart';
+import 'package:grimity/presentation/profile/provider/profile_view_type_argument_provider.dart';
 import 'package:grimity/presentation/profile/view/user_profile_view.dart';
 import 'package:grimity/presentation/profile/view/profile_feed_tab_view.dart';
 import 'package:grimity/presentation/profile/view/profile_post_tab_view.dart';
@@ -26,39 +27,42 @@ class ProfilePage extends HookConsumerWidget {
     final viewType = url == null || url == myUrl ? ProfileViewType.mine : ProfileViewType.other;
     final profileAsync = ref.watch(profileDataProvider(url ?? myUrl));
 
-    return profileAsync.when(
-      data: (user) {
-        user ??= User.empty();
+    return ProviderScope(
+      overrides: [
+        profileViewTypeArgumentProvider.overrideWithValue(viewType),
+      ],
+      child: profileAsync.when(
+        data: (user) {
+          user ??= User.empty();
 
-        if (user.isBlocked == true && !showBlockedToast.value) {
-          showBlockedToast.value = true;
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            ToastService.showError('차단당한 계정입니다.');
-          });
-        }
+          if (user.isBlocked == true && !showBlockedToast.value) {
+            showBlockedToast.value = true;
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              ToastService.showError('차단당한 계정입니다.');
+            });
+          }
 
-        return ProfileView(
-          user: user,
-          viewType: viewType,
-          userProfileView: UserProfileView(user: user, viewType: viewType),
-          feedTabView: ProfileFeedTabView(user: user, viewType: viewType),
-          postTabView: viewType == ProfileViewType.mine ? ProfilePostTabView(user: user) : null,
-        );
-      },
-      loading: () {
-        final emptyUser = User.empty();
+          return ProfileView(
+            user: user,
+            userProfileView: UserProfileView(user: user),
+            feedTabView: ProfileFeedTabView(user: user),
+            postTabView: viewType == ProfileViewType.mine ? ProfilePostTabView(user: user) : null,
+          );
+        },
+        loading: () {
+          final emptyUser = User.empty();
 
-        return ProfileView(
-          user: emptyUser,
-          viewType: viewType,
-          userProfileView: UserProfileView(user: emptyUser, viewType: viewType),
-          feedTabView: ProfileFeedTabView(user: emptyUser, viewType: viewType),
-          postTabView: viewType == ProfileViewType.mine ? ProfilePostTabView(user: emptyUser) : null,
-        );
-      },
-      error:
-          (e, s) =>
-              SafeArea(child: GrimityStateView.error(onTap: () => ref.invalidate(profileDataProvider(url ?? myUrl)))),
+          return ProfileView(
+            user: emptyUser,
+            userProfileView: UserProfileView(user: emptyUser),
+            feedTabView: ProfileFeedTabView(user: emptyUser),
+            postTabView: viewType == ProfileViewType.mine ? ProfilePostTabView(user: emptyUser) : null,
+          );
+        },
+        error:
+            (e, s) =>
+                SafeArea(child: GrimityStateView.error(onTap: () => ref.invalidate(profileDataProvider(url ?? myUrl)))),
+      ),
     );
   }
 }

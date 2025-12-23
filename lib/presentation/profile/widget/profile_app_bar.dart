@@ -1,32 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_theme.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/presentation/common/widget/button/grimity_action_button.dart';
 import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
+import 'package:grimity/presentation/profile/provider/profile_view_type_argument_provider.dart';
 
 class ProfileAppBar extends StatelessWidget {
-  const ProfileAppBar({super.key, required this.userName, required this.nameOpacity, required this.viewType});
+  const ProfileAppBar({super.key, required this.userName, required this.nameOpacity});
 
   final String userName;
   final double nameOpacity;
-  final ProfileViewType viewType;
 
   @override
   Widget build(BuildContext context) {
-    return _ProfileAppBarDelegate(name: userName, nameOpacity: nameOpacity, viewType: viewType);
+    return _ProfileAppBarDelegate(name: userName, nameOpacity: nameOpacity);
   }
 }
 
-class _ProfileAppBarDelegate extends StatelessWidget {
-  const _ProfileAppBarDelegate({required this.name, required this.nameOpacity, required this.viewType});
+class _ProfileAppBarDelegate extends ConsumerWidget {
+  const _ProfileAppBarDelegate({required this.name, required this.nameOpacity});
 
   final String name;
   final double nameOpacity;
-  final ProfileViewType viewType;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final viewType = ref.watch(profileViewTypeArgumentProvider);
+
     return Container(
       height: AppTheme.kToolbarHeight.height,
       color: Colors.white,
