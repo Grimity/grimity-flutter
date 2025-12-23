@@ -4,7 +4,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:grimity/presentation/common/widget/grimity_infinite_scroll_pagination.dart';
 import 'package:grimity/presentation/common/widget/grimity_refresh_indicator.dart';
 import 'package:grimity/presentation/drawer/main_app_drawer.dart';
-import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
 import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
 import 'package:grimity/presentation/profile/provider/profile_feeds_data_provider.dart';
 import 'package:grimity/presentation/profile/provider/profile_posts_data_provider.dart';
@@ -17,14 +16,12 @@ class ProfileView extends HookConsumerWidget {
   const ProfileView({
     super.key,
     required this.user,
-    required this.viewType,
     required this.userProfileView,
     required this.feedTabView,
     required this.postTabView,
   });
 
   final User user;
-  final ProfileViewType viewType;
   final Widget userProfileView;
   final Widget feedTabView;
   final Widget? postTabView;
@@ -41,7 +38,7 @@ class ProfileView extends HookConsumerWidget {
           appBars: [
             AppBar(
               behavior: AbsoluteAppBarBehavior(),
-              body: ProfileAppBar(userName: user.name, nameOpacity: nameOpacity.value, viewType: viewType),
+              body: ProfileAppBar(userName: user.name, nameOpacity: nameOpacity.value),
             ),
             AppBar.builder(
               behavior: MaterialAppBarBehavior(alignAnimation: false),
@@ -71,7 +68,7 @@ class ProfileView extends HookConsumerWidget {
             ),
             AppBar(
               behavior: AbsoluteAppBarBehavior(),
-              body: ProfileTabBar(user: user, tabController: tabController, viewType: viewType),
+              body: ProfileTabBar(user: user, tabController: tabController),
             ),
           ],
           child: TabBarView(

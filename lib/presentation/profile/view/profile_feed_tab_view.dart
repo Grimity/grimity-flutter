@@ -16,6 +16,7 @@ import 'package:grimity/presentation/common/widget/system/sort/grimity_search_so
 import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
 import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
 import 'package:grimity/presentation/profile/provider/profile_feeds_data_provider.dart';
+import 'package:grimity/presentation/profile/provider/profile_view_type_argument_provider.dart';
 import 'package:grimity/presentation/profile/provider/selected_album_provider.dart';
 import 'package:grimity/presentation/profile/provider/selected_sort_type_provider.dart';
 import 'package:grimity/presentation/profile/widget/album_chip.dart';
@@ -23,10 +24,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class ProfileFeedTabView extends HookConsumerWidget {
-  const ProfileFeedTabView({super.key, required this.user, required this.viewType});
+  const ProfileFeedTabView({super.key, required this.user});
 
   final User user;
-  final ProfileViewType viewType;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -39,6 +39,7 @@ class ProfileFeedTabView extends HookConsumerWidget {
         selectedAlbumId == null
             ? user.feedCount ?? 0
             : userAlbums.firstWhere((album) => album.id == selectedAlbumId).feedCount ?? 0;
+    final viewType = ref.watch(profileViewTypeArgumentProvider);
 
     return Padding(
       padding: EdgeInsets.only(left: 16, right: 16),
@@ -56,11 +57,13 @@ class ProfileFeedTabView extends HookConsumerWidget {
           ),
           // 해당 앨범의 피드 갯수가 0개가 아닐때 표시
           if (selectedAlbumFeedCount != 0)
-            SliverToBoxAdapter(child: _buildSortHeader(context, ref, selectedAlbumId, selectedAlbumFeedCount)),
+            SliverToBoxAdapter(
+              child: _buildSortHeader(context, ref, selectedAlbumId, selectedAlbumFeedCount, viewType),
+            ),
           SliverToBoxAdapter(
             child: feedsAsync.when(
-              data: (data) => _buildFeedGrid(context, data.feeds),
-              loading: () => Skeletonizer(child: _buildFeedGrid(context, Feed.createEmptyList(context))),
+              data: (data) => _buildFeedGrid(context, data.feeds, viewType),
+              loading: () => Skeletonizer(child: _buildFeedGrid(context, Feed.createEmptyList(context), viewType)),
               error:
                   (error, stack) =>
                       GrimityStateView.error(onTap: () => ref.invalidate(profileFeedsDataProvider(user.id))),
@@ -71,7 +74,7 @@ class ProfileFeedTabView extends HookConsumerWidget {
     );
   }
 
-  Widget _buildFeedGrid(BuildContext context, List<Feed> feeds) {
+  Widget _buildFeedGrid(BuildContext context, List<Feed> feeds, ProfileViewType viewType) {
     if (feeds.isNotEmpty) {
       return Padding(padding: EdgeInsets.only(bottom: 20), child: GrimityFeedGrid(feeds: feeds));
     } else {
@@ -102,7 +105,13 @@ class ProfileFeedTabView extends HookConsumerWidget {
     );
   }
 
-  Widget _buildSortHeader(BuildContext context, WidgetRef ref, String? selectedAlbumId, int selectedAlbumFeedCount) {
+  Widget _buildSortHeader(
+    BuildContext context,
+    WidgetRef ref,
+    String? selectedAlbumId,
+    int selectedAlbumFeedCount,
+    ProfileViewType viewType,
+  ) {
     return GrimitySearchSortHeader(
       resultCount: selectedAlbumFeedCount,
       onOrganizeTap:

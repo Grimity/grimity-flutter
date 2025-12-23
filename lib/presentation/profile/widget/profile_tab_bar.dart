@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/common/widget/system/tabs/grimity_tab.dart';
 import 'package:grimity/presentation/common/widget/system/tabs/grimity_tab_bar.dart';
 import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
+import 'package:grimity/presentation/profile/provider/profile_view_type_argument_provider.dart';
 
-class ProfileTabBar extends StatelessWidget {
-  const ProfileTabBar({super.key, required this.user, required this.tabController, required this.viewType});
+class ProfileTabBar extends ConsumerWidget {
+  const ProfileTabBar({super.key, required this.user, required this.tabController});
 
   final User user;
   final TabController tabController;
-  final ProfileViewType viewType;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final viewType = ref.watch(profileViewTypeArgumentProvider);
+
     return GrimityTabBar.medium(
       tabController: tabController,
       buildTabs:
