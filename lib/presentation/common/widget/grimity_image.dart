@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_cached_network_image.dart';
 
 class GrimityImage extends StatelessWidget {
@@ -77,7 +77,13 @@ class GrimityImage extends StatelessWidget {
               top: 10,
               child: Align(
                 alignment: Alignment.topLeft,
-                child: SvgPicture.asset('assets/icons/home/ranking_${index! + 1}.svg', width: 26, height: 26),
+                child: switch (index!) {
+                  0 => Assets.icons.home.ranking1.svg(width: 26, height: 26),
+                  1 => Assets.icons.home.ranking2.svg(width: 26, height: 26),
+                  2 => Assets.icons.home.ranking3.svg(width: 26, height: 26),
+                  3 => Assets.icons.home.ranking4.svg(width: 26, height: 26),
+                  _ => const SizedBox.shrink(),
+                },
               ),
             ),
           ],
