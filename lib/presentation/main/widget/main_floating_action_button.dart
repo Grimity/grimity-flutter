@@ -12,7 +12,7 @@ class MainFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final assetImage =
-        currentIndex == MainNavigationItem.board.index ? Assets.icons.main.addPost : Assets.icons.main.add;
+        currentIndex == MainNavigationItem.board.index ? Assets.icons.icon.plusPost : Assets.icons.icon.plus;
 
     return GrimityGesture(
       onTap: () => MainNavigationItem.values[currentIndex].onFabTap(context),
@@ -20,7 +20,12 @@ class MainFloatingActionButton extends StatelessWidget {
         width: 48,
         height: 48,
         decoration: BoxDecoration(shape: BoxShape.circle, color: AppColor.primary4),
-        child: assetImage.svg(width: 24, height: 24, fit: BoxFit.scaleDown),
+        child: assetImage.svg(
+          width: 24,
+          height: 24,
+          fit: BoxFit.scaleDown,
+          colorFilter: ColorFilter.mode(AppColor.gray00, BlendMode.srcIn),
+        ),
       ),
     );
   }

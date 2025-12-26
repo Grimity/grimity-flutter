@@ -102,7 +102,11 @@ class ProfileEditLink extends HookConsumerWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Assets.icons.profileEdit.add.svg(width: 20, height: 20),
+                Assets.icons.icon.plus.svg(
+                  width: 12,
+                  height: 12,
+                  colorFilter: ColorFilter.mode(AppColor.gray700, BlendMode.srcIn),
+                ),
                 Gap(4),
                 Text("링크 추가", style: AppTypeface.caption1),
               ],
