@@ -13,7 +13,7 @@ class AppleSSOButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _SSOButton(onTap: onTap, name: '애플', icon: Assets.icons.common.apple.svg());
+    return _SSOButton(onTap: onTap, name: '애플', icon: Assets.icons.brand.apple.svg());
   }
 }
 
@@ -24,7 +24,7 @@ class GoogleSSOButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _SSOButton(onTap: onTap, name: '구글', icon: Assets.icons.common.google.svg());
+    return _SSOButton(onTap: onTap, name: '구글', icon: Assets.icons.brand.google.svg());
   }
 }
 
@@ -35,7 +35,7 @@ class KakaoSSOButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _SSOButton(onTap: onTap, name: '카카오', icon: Assets.icons.common.kakaotalk.svg());
+    return _SSOButton(onTap: onTap, name: '카카오', icon: Assets.icons.brand.kakaotalk.svg());
   }
 }
 

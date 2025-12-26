@@ -96,7 +96,7 @@ void showUploadCompleteDialog(BuildContext context, Feed feed, bool isNewUpload)
                       mainAxisAlignment: MainAxisAlignment.center,
                       spacing: 4,
                       children: [
-                        Assets.icons.common.kakaotalk.svg(width: 16, height: 16),
+                        Assets.icons.brand.kakaotalk.svg(width: 16, height: 16),
                         Text('카카오톡에 공유', style: AppTypeface.label2.copyWith(color: AppColor.primary5)),
                       ],
                     ),
