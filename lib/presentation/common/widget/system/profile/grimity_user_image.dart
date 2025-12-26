@@ -25,7 +25,7 @@ class GrimityUserImage extends StatelessWidget {
           (imageUrl ?? '').isEmpty == true
               ? CircleAvatar(
                 radius: size / 2,
-                child: SvgPicture.asset(Assets.icons.main.defaultProfile.path, width: size),
+                child: SvgPicture.asset(Assets.icons.icon.defaultProfile.path, width: size),
               )
               : ClipOval(
                 child: GrimityCachedNetworkImage.cover(
