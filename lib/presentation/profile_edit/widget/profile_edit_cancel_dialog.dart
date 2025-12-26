@@ -10,7 +10,7 @@ void showCancelEditDialog(BuildContext context) {
         (dialogContext) => GrimityDialog(
           title: '변경 사항을 취소하고 나갈까요?',
           content: '작성한 내용들은 저장되지 않아요',
-          icon: Assets.icons.common.success,
+          icon: Assets.icons.illust.success,
           cancelText: '취소',
           confirmText: '나가기',
           onCancel: () => dialogContext.pop(),

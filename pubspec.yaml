@@ -140,6 +140,7 @@ flutter:
     - assets/icons/editor/
     - assets/icons/chat/
     - assets/icons/chat_message/
+    - assets/icons/illust/
     - assets/images/
     - assets/images/sign_up/
     - assets/lottie/

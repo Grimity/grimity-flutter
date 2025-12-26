@@ -19,7 +19,7 @@ void showUploadCompleteDialog(BuildContext context, Feed feed, bool isNewUpload)
     barrierDismissible: false,
     builder:
         (dialogContext) => GrimityDialog(
-          icon: Assets.icons.feedUpload.uploadSuccess,
+          icon: Assets.icons.illust.uploadSuccess,
           title: '그림이 업로드 되었어요',
           content: '업로드 소식을 공유해보세요',
           confirmText: '닫기',
