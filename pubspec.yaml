@@ -130,16 +130,14 @@ flutter:
     - .env
     - assets/icons/
     - assets/icons/common/
-    - assets/icons/drawer/
     - assets/icons/home/
     - assets/icons/main/
     - assets/icons/profile/
     - assets/icons/profile_edit/
-    - assets/icons/drawer/
     - assets/icons/feed_upload/
     - assets/icons/editor/
-    - assets/icons/chat/
     - assets/icons/chat_message/
+    - assets/icons/icon/
     - assets/icons/illust/
     - assets/images/
     - assets/images/sign_up/

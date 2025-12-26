@@ -44,13 +44,13 @@ class GrimityActionButton extends StatelessWidget {
   /// Storage Action Button
   factory GrimityActionButton.storage(BuildContext context) => GrimityActionButton._(
     onTap: () => StorageRoute().push(context),
-    child: Assets.icons.common.storage.svg(width: 24, height: 24),
+    child: Assets.icons.icon.storage.svg(width: 24, height: 24),
   );
 
   /// Storage Action Button
   factory GrimityActionButton.setting(BuildContext context) => GrimityActionButton._(
     onTap: () => SettingRoute().push(context),
-    child: Assets.icons.common.setting.svg(width: 24, height: 24),
+    child: Assets.icons.icon.setting.svg(width: 24, height: 24),
   );
 
   /// Notification Action Button

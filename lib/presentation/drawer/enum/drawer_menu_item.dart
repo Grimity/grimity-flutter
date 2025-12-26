@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/gen/assets.gen.dart';
@@ -21,19 +22,42 @@ enum DrawerMenuItem {
   SvgGenImage get icon {
     switch (this) {
       case DrawerMenuItem.home:
-        return Assets.icons.drawer.home;
+        return Assets.icons.icon.home;
       case DrawerMenuItem.paint:
-        return Assets.icons.drawer.paint;
+        return Assets.icons.icon.paint;
       case DrawerMenuItem.board:
-        return Assets.icons.drawer.board;
+        return Assets.icons.icon.board;
       case DrawerMenuItem.following:
-        return Assets.icons.drawer.following;
+        return Assets.icons.icon.following;
       case DrawerMenuItem.chat:
-        return Assets.icons.drawer.chat;
+        return Assets.icons.icon.message;
       case DrawerMenuItem.storage:
-        return Assets.icons.drawer.storage;
+        return Assets.icons.icon.storageFilled;
       case DrawerMenuItem.setting:
-        return Assets.icons.drawer.setting;
+        return Assets.icons.icon.settingFilled;
+    }
+  }
+
+  Widget buildIcon() {
+    switch (this) {
+      case DrawerMenuItem.home:
+      case DrawerMenuItem.paint:
+      case DrawerMenuItem.board:
+      case DrawerMenuItem.following:
+      case DrawerMenuItem.chat:
+        return SvgPicture.asset(
+          width: 16,
+          height: 16,
+          icon.path,
+          colorFilter: ColorFilter.mode(AppColor.gray500, BlendMode.srcIn),
+        );
+      case DrawerMenuItem.storage:
+      case DrawerMenuItem.setting:
+        return SvgPicture.asset(
+          width: 16,
+          height: 16,
+          icon.path,
+        );
     }
   }
 

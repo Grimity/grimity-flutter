@@ -18,7 +18,7 @@ class NotificationAppBar extends StatelessWidget implements PreferredSizeWidget 
       actions: [
         GrimityGesture(
           onTap: () => SettingRoute().push(context),
-          child: Assets.icons.common.setting.svg(width: 24, height: 24),
+          child: Assets.icons.icon.setting.svg(width: 24, height: 24),
         ),
       ],
       bottom: const PreferredSize(

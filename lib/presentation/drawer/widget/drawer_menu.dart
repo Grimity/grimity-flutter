@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_typeface.dart';
@@ -35,7 +34,7 @@ class _DrawerMenuListTile extends ConsumerWidget {
         }
       },
       minLeadingWidth: 10,
-      leading: SvgPicture.asset(drawerMenuItem.icon.path, width: 16),
+      leading: drawerMenuItem.buildIcon(),
       title: drawerMenuItem.build(
         context,
         ref,
