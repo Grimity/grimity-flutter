@@ -51,7 +51,7 @@ class GrimityStateView extends StatelessWidget {
     ButtonColorType buttonColor = ButtonColorType.mono,
     ButtonStyleType buttonStyleType = ButtonStyleType.solid,
   }) => GrimityStateView._(
-    icon: Assets.icons.common.user,
+    icon: Assets.icons.illust.user,
     title: title,
     subTitle: subTitle,
     buttonText: buttonText,
@@ -79,7 +79,7 @@ class GrimityStateView extends StatelessWidget {
     ButtonColorType buttonColor = ButtonColorType.mono,
     ButtonStyleType buttonStyleType = ButtonStyleType.solid,
   }) => GrimityStateView._(
-    icon: Assets.icons.common.resultNull,
+    icon: Assets.icons.illust.resultNull,
     title: title,
     subTitle: subTitle,
     buttonText: buttonText,
@@ -107,7 +107,7 @@ class GrimityStateView extends StatelessWidget {
     ButtonColorType buttonColor = ButtonColorType.mono,
     ButtonStyleType buttonStyleType = ButtonStyleType.solid,
   }) => GrimityStateView._(
-    icon: Assets.icons.common.illust,
+    icon: Assets.icons.illust.illust,
     title: title,
     subTitle: subTitle,
     buttonText: buttonText,
@@ -135,7 +135,7 @@ class GrimityStateView extends StatelessWidget {
     ButtonColorType buttonColor = ButtonColorType.mono,
     ButtonStyleType buttonStyleType = ButtonStyleType.solid,
   }) => GrimityStateView._(
-    icon: Assets.icons.common.commentReply,
+    icon: Assets.icons.illust.reply,
     title: title,
     subTitle: subTitle,
     buttonText: buttonText,
@@ -163,7 +163,7 @@ class GrimityStateView extends StatelessWidget {
     ButtonColorType buttonColor = ButtonColorType.mono,
     ButtonStyleType buttonStyleType = ButtonStyleType.solid,
   }) => GrimityStateView._(
-    icon: Assets.icons.common.warning,
+    icon: Assets.icons.illust.warning,
     title: title,
     subTitle: subTitle,
     buttonText: buttonText,
@@ -182,7 +182,7 @@ class GrimityStateView extends StatelessWidget {
     VoidCallback? onTap,
     EdgeInsetsGeometry padding = const EdgeInsets.symmetric(vertical: 80),
   }) => GrimityStateView._(
-    icon: Assets.icons.common.resultNull,
+    icon: Assets.icons.illust.resultNull,
     title: '오류가 발생했어요',
     subTitle: '잠시 후 다시 시도해 주세요',
     buttonText: '재시도',
