@@ -17,15 +17,15 @@ enum MainNavigationItem {
   SvgGenImage get icon {
     switch (this) {
       case MainNavigationItem.home:
-        return Assets.icons.main.home;
+        return Assets.icons.icon.home;
       case MainNavigationItem.ranking:
-        return Assets.icons.main.paint;
+        return Assets.icons.icon.paint;
       case MainNavigationItem.following:
-        return Assets.icons.main.following;
+        return Assets.icons.icon.following;
       case MainNavigationItem.board:
-        return Assets.icons.main.board;
+        return Assets.icons.icon.board;
       case MainNavigationItem.chatMessage:
-        return Assets.icons.main.message;
+        return Assets.icons.icon.message;
     }
   }
 

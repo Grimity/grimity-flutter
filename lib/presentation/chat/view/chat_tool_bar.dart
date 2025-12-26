@@ -69,7 +69,7 @@ class ChatToolBar extends ConsumerWidget {
                 GrimityButton.round(
                   text: "편집",
                   style: ButtonStyleType.line,
-                  prefixIcon: Assets.icons.chat.edit,
+                  prefixIcon: Assets.icons.icon.setting,
                   onTap: () => provider.setSelectMode(true),
                 ),
               ],
