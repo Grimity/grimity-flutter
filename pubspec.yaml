@@ -129,7 +129,6 @@ flutter:
   assets:
     - .env
     - assets/icons/
-    - assets/icons/common/
     - assets/icons/editor/
     - assets/icons/icon/
     - assets/icons/illust/

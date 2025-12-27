@@ -96,7 +96,7 @@ class GrimityUnderlineTextField extends HookWidget {
 
   Widget? get _suffixWidget {
     if (state == GrimityTextFieldState.success) {
-      return Assets.icons.common.checkMark.svg();
+      return Assets.icons.icon.checkMark.svg();
     } else if (maxLength != null && focusNode?.hasFocus == true) {
       return Row(
         mainAxisSize: MainAxisSize.min,

@@ -79,7 +79,7 @@ class CommentWidget extends ConsumerWidget {
                 children: [
                   if (isChild) ...[
                     Gap(16),
-                    Padding(padding: EdgeInsets.all(6), child: Assets.icons.common.commentReplyPointer.svg()),
+                    Padding(padding: EdgeInsets.all(6), child: Assets.icons.icon.commentReplyPointer.svg()),
                   ],
                   if (commentType == CommentType.feed) ...[
                     GrimityUserImage(imageUrl: comment.writer!.image, size: 24),

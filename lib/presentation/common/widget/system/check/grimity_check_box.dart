@@ -26,7 +26,7 @@ class GrimityCheckBox extends StatelessWidget {
           borderRadius: BorderRadius.circular(5),
           border: value ? null : Border.all(color: AppColor.gray400, width: 1),
         ),
-        child: Assets.icons.common.check.svg(
+        child: Assets.icons.icon.check.svg(
           width: 12,
           height: 12,
           colorFilter: ColorFilter.mode(value ? AppColor.gray00 : AppColor.gray300, BlendMode.srcIn),
