@@ -34,7 +34,7 @@ class BoardSearchByDropdown extends StatelessWidget {
         ),
         dropdownColor: AppColor.gray00,
         borderRadius: BorderRadius.circular(8),
-        icon: Assets.icons.common.arrowDown.svg(
+        icon: Assets.icons.icon.chevronDown.svg(
           width: 16,
           height: 16,
           colorFilter: ColorFilter.mode(AppColor.gray700, BlendMode.srcIn),
