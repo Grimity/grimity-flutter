@@ -29,7 +29,7 @@ class ChatMessagePopoverMenu extends ConsumerWidget {
           },
         ),
         createButtonWidget(
-          icon: Assets.icons.chatMessage.deliver,
+          icon: Assets.icons.icon.deliverRightFromTop,
           onTap: () {
             provider.setInputReply(message);
             popover.hide();
