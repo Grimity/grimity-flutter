@@ -139,6 +139,7 @@ flutter:
     - assets/icons/icon/
     - assets/icons/illust/
     - assets/icons/brand/
+    - assets/icons/ranking/
     - assets/images/
     - assets/images/sign_up/
     - assets/lottie/

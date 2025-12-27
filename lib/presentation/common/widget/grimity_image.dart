@@ -78,10 +78,10 @@ class GrimityImage extends StatelessWidget {
               child: Align(
                 alignment: Alignment.topLeft,
                 child: switch (index!) {
-                  0 => Assets.icons.home.ranking1.svg(width: 26, height: 26),
-                  1 => Assets.icons.home.ranking2.svg(width: 26, height: 26),
-                  2 => Assets.icons.home.ranking3.svg(width: 26, height: 26),
-                  3 => Assets.icons.home.ranking4.svg(width: 26, height: 26),
+                  0 => Assets.icons.ranking.rankingBadge1.svg(width: 26, height: 26),
+                  1 => Assets.icons.ranking.rankingBadge2.svg(width: 26, height: 26),
+                  2 => Assets.icons.ranking.rankingBadge3.svg(width: 26, height: 26),
+                  3 => Assets.icons.ranking.rankingBadge4.svg(width: 26, height: 26),
                   _ => const SizedBox.shrink(),
                 },
               ),
