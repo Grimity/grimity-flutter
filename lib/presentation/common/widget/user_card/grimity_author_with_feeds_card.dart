@@ -73,7 +73,10 @@ class GrimityAuthorWithFeedsCard extends StatelessWidget {
                   return Expanded(
                     child: AspectRatio(
                       aspectRatio: 1.0,
-                      child: Assets.images.imagePlaceholder.image(height: 110, cacheHeight: 110.cacheSize(context)),
+                      child: Assets.images.image.imagePlaceholder.image(
+                        height: 110,
+                        cacheHeight: 110.cacheSize(context),
+                      ),
                     ),
                   );
                 }
