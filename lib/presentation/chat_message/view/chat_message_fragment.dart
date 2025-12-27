@@ -209,7 +209,7 @@ class _LikeBadge extends StatelessWidget {
           color: AppColor.gray00,
           border: Border.all(color: AppColor.gray300),
         ),
-        child: Assets.icons.chatMessage.heartFilled.svg(width: 12, height: 12),
+        child: Assets.icons.icon.heartSharpFilled.svg(width: 12, height: 12),
       ),
     );
   }

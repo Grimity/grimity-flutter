@@ -103,8 +103,8 @@ class GrimityUtilBar extends ConsumerWidget {
                 onTap: onLikeTap,
                 child:
                     isLike
-                        ? Assets.icons.common.heartFill.svg(width: 24, height: 24)
-                        : Assets.icons.common.heart.svg(width: 24, height: 24),
+                        ? Assets.icons.icon.heartFilled.svg(width: 24, height: 24)
+                        : Assets.icons.icon.heart.svg(width: 24, height: 24),
               ),
               Gap(6),
               Text('$likeCount', style: AppTypeface.label3.copyWith(color: AppColor.gray700)),
@@ -143,8 +143,8 @@ class GrimityUtilBar extends ConsumerWidget {
                 onTap: onSaveTap,
                 child:
                     isSave
-                        ? Assets.icons.common.saveFill.svg(width: 24, height: 24)
-                        : Assets.icons.common.save.svg(width: 24, height: 24),
+                        ? Assets.icons.icon.saveFilled.svg(width: 24, height: 24)
+                        : Assets.icons.icon.save.svg(width: 24, height: 24),
               ),
             ],
           ),

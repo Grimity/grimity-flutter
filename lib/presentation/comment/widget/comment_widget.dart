@@ -136,8 +136,8 @@ class CommentWidget extends ConsumerWidget {
                             GrimityAnimationButton(
                               child:
                                   isLike
-                                      ? Assets.icons.common.heartFill.svg(width: 20, height: 20)
-                                      : Assets.icons.common.heart.svg(width: 20, height: 20),
+                                      ? Assets.icons.icon.heartFilled.svg(width: 18, height: 18)
+                                      : Assets.icons.icon.heart.svg(width: 18, height: 18),
                               onTap:
                                   () => ref
                                       .read(commentsDataProvider(commentType, id).notifier)
