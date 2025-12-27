@@ -111,7 +111,7 @@ class CommentWidget extends ConsumerWidget {
                             ),
                             GrimityAnimationButton(
                               onTap: () => _showCommentMoreBottomSheet(context, ref, isMyComment),
-                              child: Assets.icons.common.moreHoriz.svg(width: 20, height: 20),
+                              child: Assets.icons.icon.more.svg(width: 20, height: 20),
                             ),
                           ],
                         ),

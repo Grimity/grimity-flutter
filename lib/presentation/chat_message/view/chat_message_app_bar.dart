@@ -78,7 +78,11 @@ class _BodyArea extends StatelessWidget {
             width: 50,
             height: 50,
             alignment: Alignment.center,
-            child: Assets.icons.chatMessage.more.svg(),
+            child: Assets.icons.icon.more.svg(
+              width: 24,
+              height: 24,
+              colorFilter: ColorFilter.mode(AppColor.primary5, BlendMode.srcIn),
+            ),
           ),
         ),
       ],

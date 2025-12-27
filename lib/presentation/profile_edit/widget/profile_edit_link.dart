@@ -215,12 +215,12 @@ class LinkWidget extends HookConsumerWidget {
           if (isLinkEditing) ...[
             ReorderableDragStartListener(
               index: index,
-              child: Assets.icons.profileEdit.dragAndDrop.svg(width: 20, height: 20),
+              child: Assets.icons.icon.dragAndDrop.svg(width: 20, height: 20),
             ),
           ] else ...[
             GrimityGesture(
               onTap: () => profileEditNotifier.deleteLink(link),
-              child: Assets.icons.profileEdit.delete.svg(width: 20, height: 20),
+              child: Assets.icons.icon.delete.svg(width: 20, height: 20),
             ),
           ],
         ],
