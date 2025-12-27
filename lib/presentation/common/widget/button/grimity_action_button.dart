@@ -58,7 +58,7 @@ class GrimityActionButton extends StatelessWidget {
       GrimityActionButton._(
         onTap: () => NotificationRoute().push(context),
         showBadge: hasNotification,
-        child: Assets.icons.common.notification.svg(width: 24, height: 24),
+        child: Assets.icons.icon.notification.svg(width: 24, height: 24),
       );
 
   @override
