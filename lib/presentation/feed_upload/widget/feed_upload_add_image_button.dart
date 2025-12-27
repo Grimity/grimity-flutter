@@ -21,7 +21,7 @@ class FeedUploadAddImageButton extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Assets.icons.feedUpload.image.svg(width: 22, height: 27.5),
+            Assets.icons.icon.imagePlaceholderRect.svg(width: 22, height: 27.5),
             Gap(16.5),
             Text('JPG / PNG', style: AppTypeface.caption2.copyWith(color: AppColor.gray500)),
             Text('1장 당 10MB 이내', style: AppTypeface.caption2.copyWith(color: AppColor.gray500)),

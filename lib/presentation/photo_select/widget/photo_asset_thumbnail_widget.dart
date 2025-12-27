@@ -60,7 +60,7 @@ class _PhotoAssetThumbnailLoadingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(color: Color(0xFF000000).withValues(alpha: 0.02)),
-      child: Center(child: Assets.icons.home.image.svg(width: 32, height: 32)),
+      child: Center(child: Assets.icons.icon.imagePlaceholder.svg(width: 32, height: 32)),
     );
   }
 }

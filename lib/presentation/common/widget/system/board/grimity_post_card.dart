@@ -31,7 +31,10 @@ class GrimityPostCard extends StatelessWidget {
             if (showPostType && post.type != null) ...[_buildPostTypeChip(post.type!), Gap(6)],
             Row(
               children: [
-                if (post.thumbnail != null) ...[Assets.icons.home.image.svg(width: 16, height: 16), const Gap(6)],
+                if (post.thumbnail != null) ...[
+                  Assets.icons.icon.imagePlaceholder.svg(width: 16, height: 16),
+                  const Gap(6),
+                ],
                 Flexible(
                   child: GrimityHighlightTextSpan(
                     text: post.title,
