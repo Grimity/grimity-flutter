@@ -20,7 +20,7 @@ class GrimityToast extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final icon = type == GrimityToastType.verbose ? Assets.icons.common.successSmall : Assets.icons.common.cautionSmall;
+    final icon = type == GrimityToastType.verbose ? Assets.icons.icon.successSmall : Assets.icons.icon.cautionSmall;
     final backgroundColor =
         type == GrimityToastType.verbose
             ? AppColor.primary4.withValues(alpha: 0.8)

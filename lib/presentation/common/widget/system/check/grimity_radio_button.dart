@@ -14,8 +14,8 @@ class GrimityRadioButton extends StatelessWidget {
       onTap: onTap,
       child:
           value
-              ? Assets.icons.common.radioOn.svg(width: 24, height: 24)
-              : Assets.icons.common.radioOff.svg(width: 24, height: 24),
+              ? Assets.icons.icon.radioOn.svg(width: 24, height: 24)
+              : Assets.icons.icon.radioOff.svg(width: 24, height: 24),
     );
   }
 }
