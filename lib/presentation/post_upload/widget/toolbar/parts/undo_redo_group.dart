@@ -23,7 +23,7 @@ class UndoRedoGroup extends StatelessWidget {
         IconSquareButton(
           onTap: controller.hasRedo ? controller.redo : null,
           child: Assets.icons.editor.redo.svg(
-            colorFilter: ColorFilter.mode(controller.hasUndo ? AppColor.gray700 : AppColor.gray500, BlendMode.srcIn),
+            colorFilter: ColorFilter.mode(controller.hasRedo ? AppColor.gray700 : AppColor.gray500, BlendMode.srcIn),
           ),
         ),
       ],
