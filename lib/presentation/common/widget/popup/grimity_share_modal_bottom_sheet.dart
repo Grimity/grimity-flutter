@@ -89,7 +89,11 @@ class GrimityShareModalBottomSheet extends StatelessWidget {
             height: 54,
             child: Row(
               children: [
-                Assets.icons.profile.copyLink.svg(width: 24, height: 24),
+                Assets.icons.icon.link.svg(
+                  width: 16,
+                  height: 16,
+                  colorFilter: ColorFilter.mode(AppColor.gray600, BlendMode.srcIn),
+                ),
                 Gap(8),
                 Text("링크 복사하기", style: AppTypeface.label2),
               ],

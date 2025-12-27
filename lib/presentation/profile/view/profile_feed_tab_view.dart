@@ -100,7 +100,7 @@ class ProfileFeedTabView extends HookConsumerWidget {
           border: Border.all(color: AppColor.gray300),
         ),
         padding: EdgeInsets.all(10),
-        child: Assets.icons.profile.editFolder.svg(width: 16, height: 16),
+        child: Assets.icons.icon.albumEdit.svg(width: 16, height: 16),
       ),
     );
   }
