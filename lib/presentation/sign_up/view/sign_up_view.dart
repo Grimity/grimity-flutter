@@ -52,20 +52,22 @@ class SignUpView extends ConsumerWidget {
                     child: child,
                   );
                 },
-                child:
-                    signUpRef.signUpViewState == SignUpViewState.nickname
-                        ? SignUpNicknameView(
-                          key: const ValueKey('nickname'),
-                          nicknameTextField: nicknameTextField,
-                          termAgreeWidget: termAgreeWidget,
-                          checkNicknameButton: checkNicknameButton,
-                        )
-                        : SignUpUrlView(
-                          key: const ValueKey('url'),
-                          nickname: signUpRef.nickname,
-                          urlTextField: urlTextField,
-                          registerButton: registerButton,
-                        ),
+                child: SafeArea(
+                  child:
+                      signUpRef.signUpViewState == SignUpViewState.nickname
+                          ? SignUpNicknameView(
+                            key: const ValueKey('nickname'),
+                            nicknameTextField: nicknameTextField,
+                            termAgreeWidget: termAgreeWidget,
+                            checkNicknameButton: checkNicknameButton,
+                          )
+                          : SignUpUrlView(
+                            key: const ValueKey('url'),
+                            nickname: signUpRef.nickname,
+                            urlTextField: urlTextField,
+                            registerButton: registerButton,
+                          ),
+                ),
               ),
             ),
           ],
