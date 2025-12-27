@@ -20,7 +20,7 @@ class GrimityProfileBackgroundImage extends StatelessWidget {
       width: double.maxFinite,
       height: height,
       color: AppColor.gray300,
-      child: Assets.images.logo.svg(
+      child: Assets.icons.icon.logo.svg(
         width: 126,
         colorFilter: ColorFilter.mode(AppColor.primary5.withValues(alpha: 0.08), BlendMode.srcIn),
       ),
