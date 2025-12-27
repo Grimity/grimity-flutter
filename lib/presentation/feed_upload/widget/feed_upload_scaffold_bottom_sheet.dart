@@ -36,7 +36,7 @@ class FeedUploadScaffoldBottomSheet extends StatelessWidget {
                         FocusScope.of(context).unfocus();
                       }
                     },
-                    child: Assets.icons.feedUpload.keyboard.svg(width: 24, height: 24),
+                    child: Assets.icons.icon.keyboard.svg(width: 24, height: 24),
                   ),
                   Gap(16),
                   GrimityAnimationButton(

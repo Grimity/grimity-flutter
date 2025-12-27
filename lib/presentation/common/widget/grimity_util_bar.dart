@@ -128,7 +128,7 @@ class GrimityUtilBar extends ConsumerWidget {
           Row(
             children: [
               GrimityAnimationButton(
-                child: Assets.icons.common.share.svg(width: 24, height: 24),
+                child: Assets.icons.icon.share.svg(width: 24, height: 24),
                 onTap:
                     () => GrimityShareModalBottomSheet.show(
                       context,
