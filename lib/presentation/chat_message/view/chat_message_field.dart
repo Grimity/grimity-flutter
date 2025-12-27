@@ -114,7 +114,7 @@ class _TextFieldState extends ConsumerState<_TextField> {
             child: Padding(
               padding: EdgeInsets.only(right: 8),
               child: SvgPicture.asset(
-                Assets.icons.profileEdit.camera.path,
+                Assets.icons.icon.camera.path,
                 color: isEnabled ? AppColor.gray700 : AppColor.gray500,
                 width: 24,
               ),
