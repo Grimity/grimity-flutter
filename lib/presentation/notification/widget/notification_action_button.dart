@@ -19,7 +19,14 @@ class NotificationActionButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          icon.svg(width: 16, height: 16),
+          icon.svg(
+            width: 16,
+            height: 16,
+            colorFilter: ColorFilter.mode(
+              AppColor.gray500,
+              BlendMode.srcIn,
+            ),
+          ),
           Gap(6),
           Text(title, style: AppTypeface.caption2.copyWith(color: AppColor.gray700)),
         ],

@@ -75,13 +75,27 @@ class GrimityReaction extends StatelessWidget {
           GrimityGrayCircle(),
         ],
         if (likeCount != null) ...[
-          Assets.icons.common.like.svg(width: 16, height: 16),
+          Assets.icons.icon.heartSharp.svg(
+            width: 16,
+            height: 16,
+            colorFilter: ColorFilter.mode(
+              AppColor.gray600,
+              BlendMode.srcIn,
+            ),
+          ),
           Gap(2),
           Text(likeCount.toString(), style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
           GrimityGrayCircle(),
         ],
         if (viewCount != null) ...[
-          Assets.icons.common.view.svg(width: 16, height: 16),
+          Assets.icons.icon.eye.svg(
+            width: 16,
+            height: 16,
+            colorFilter: ColorFilter.mode(
+              AppColor.gray600,
+              BlendMode.srcIn,
+            ),
+          ),
           Gap(2),
           Text(viewCount.toString(), style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
         ],
