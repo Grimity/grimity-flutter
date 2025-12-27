@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/chat_message/provider/chat_message_provider.dart';
 import 'package:grimity/presentation/common/model/image_item_source.dart';
@@ -44,7 +45,24 @@ class ChatMessageImageGallery extends ConsumerWidget {
                 alignment: Alignment.topRight,
                 child: GrimityGesture(
                   onTap: () => provider.removeInputImage(inputImage),
-                  child: Padding(padding: EdgeInsets.all(2), child: Assets.icons.chatMessage.remove.svg()),
+                  child: Padding(
+                    padding: EdgeInsets.all(2),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.6),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      width: 16,
+                      height: 16,
+                      child: Center(
+                        child: Assets.icons.icon.delete.svg(
+                          width: 8,
+                          height: 8,
+                          colorFilter: ColorFilter.mode(AppColor.gray00, BlendMode.srcIn),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],

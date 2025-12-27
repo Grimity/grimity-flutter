@@ -31,7 +31,7 @@ class AlbumOrganizeFabView extends ConsumerWidget with AlbumOrganizeMixin {
         if (userAlbums.isNotEmpty)
           AlbumOrganizeFabButton(
             title: '앨범 이동',
-            asset: Assets.icons.common.deliver,
+            asset: Assets.icons.icon.deliver,
             onTap: () => _showMoveBottomSheet(context, ref, state.ids.length),
           ),
       ],

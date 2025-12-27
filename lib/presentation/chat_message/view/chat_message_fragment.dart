@@ -165,7 +165,7 @@ class _ReplyView extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           spacing: 6,
           children: [
-            Assets.icons.chatMessage.deliver.svg(color: AppColor.gray500, width: 18, height: 18),
+            Assets.icons.icon.deliverRightFromTop.svg(color: AppColor.gray500, width: 18, height: 18),
             Builder(
               builder: (context) {
                 if (model.content == null) {

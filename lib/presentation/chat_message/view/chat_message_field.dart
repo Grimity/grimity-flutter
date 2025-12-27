@@ -160,7 +160,7 @@ class _ReplyView extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             spacing: 4,
             children: [
-              Assets.icons.chatMessage.deliver.svg(width: 14, height: 14, color: AppColor.gray600),
+              Assets.icons.icon.deliverRightFromTop.svg(width: 14, height: 14, color: AppColor.gray600),
               Text("${user.name}님께 답장보내기", style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
             ],
           ),
