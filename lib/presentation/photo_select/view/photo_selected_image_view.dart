@@ -77,7 +77,7 @@ class _PhotoSelectedImageThumbnail extends ConsumerWidget with PhotoSelectMixin 
                   ),
                   child: Padding(
                     padding: EdgeInsets.all(4),
-                    child: Assets.icons.common.close.svg(
+                    child: Assets.icons.icon.close.svg(
                       width: 10,
                       height: 10,
                       colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),

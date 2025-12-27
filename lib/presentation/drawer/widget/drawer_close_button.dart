@@ -13,7 +13,7 @@ class DrawerCloseButton extends StatelessWidget {
         onTap: () => Scaffold.of(context).closeEndDrawer(),
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 16),
-          child: Assets.icons.common.close.svg(width: 24, height: 24),
+          child: Assets.icons.icon.close.svg(width: 24, height: 24),
         ),
       ),
     );

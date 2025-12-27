@@ -121,7 +121,7 @@ class _FeedUploadSelectedImage extends StatelessWidget {
                 color: Color(0xFF23252B).withValues(alpha: 0.8),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Assets.icons.common.close.svg(
+              child: Assets.icons.icon.close.svg(
                 width: 16,
                 height: 16,
                 colorFilter: ColorFilter.mode(AppColor.gray300, BlendMode.srcIn),

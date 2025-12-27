@@ -15,7 +15,7 @@ class AlbumEditAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: Center(
         child: GrimityGesture(
           onTap: () => context.pop(),
-          child: Assets.icons.common.close.svg(width: 24, height: 24),
+          child: Assets.icons.icon.close.svg(width: 24, height: 24),
         ),
       ),
       title: Text('앨범 편집', style: AppTypeface.subTitle3),

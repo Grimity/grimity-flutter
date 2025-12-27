@@ -58,7 +58,7 @@ class PostAddLinkBottomSheet extends HookWidget {
             children: [
               Text('링크 추가', style: AppTypeface.subTitle3),
               const Spacer(),
-              GrimityGesture(onTap: () => context.pop(), child: Assets.icons.common.close.svg(width: 24, height: 24)),
+              GrimityGesture(onTap: () => context.pop(), child: Assets.icons.icon.close.svg(width: 24, height: 24)),
             ],
           ),
           Gap(24),

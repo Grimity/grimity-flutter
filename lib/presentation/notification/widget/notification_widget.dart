@@ -51,7 +51,7 @@ class NotificationWidget extends ConsumerWidget {
             Gap(8),
             GrimityGesture(
               onTap: () => notifier.deleteNotification(notification.id),
-              child: Assets.icons.common.close.svg(
+              child: Assets.icons.icon.close.svg(
                 width: 20,
                 height: 20,
                 colorFilter: ColorFilter.mode(AppColor.gray500, BlendMode.srcIn),
