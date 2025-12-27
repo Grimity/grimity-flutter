@@ -116,7 +116,7 @@ class GrimityShareModalBottomSheet extends StatelessWidget {
             },
             child: Row(
               children: [
-                Assets.icons.profile.xOutlined.image(width: 24, height: 24),
+                Assets.images.profile.xOutlined.image(width: 24, height: 24),
                 Gap(8),
                 Text("X로 공유", style: AppTypeface.label2),
               ],
@@ -133,7 +133,7 @@ class GrimityShareModalBottomSheet extends StatelessWidget {
             },
             child: Row(
               children: [
-                Assets.icons.profile.kakaotalk.image(width: 24, height: 24),
+                Assets.images.profile.kakaotalk.image(width: 24, height: 24),
                 Gap(8),
                 Text("카카오톡으로 공유", style: AppTypeface.label2),
               ],
