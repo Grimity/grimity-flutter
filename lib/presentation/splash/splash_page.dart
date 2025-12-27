@@ -42,7 +42,7 @@ class SplashPage extends HookConsumerWidget {
                 ),
                 // noise texture image 추가
                 image: DecorationImage(
-                  image: AssetImage(Assets.images.noiseTexture.path),
+                  image: AssetImage(Assets.images.image.noiseTexture.path),
                   fit: BoxFit.cover,
                   opacity: 0.1,
                 ),

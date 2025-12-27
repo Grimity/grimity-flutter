@@ -138,7 +138,7 @@ class GrimityCachedNetworkImage extends StatelessWidget {
 
   /// [CachedNetworkImage]에 대한 [placeholder]의 기본 빌더입니다.
   Widget defaultPlaceholder(BuildContext context, String imageUrl) {
-    final Widget child = Assets.images.imagePlaceholder.image(
+    final Widget child = Assets.images.image.imagePlaceholder.image(
       width: width,
       height: height,
       fit: BoxFit.cover,

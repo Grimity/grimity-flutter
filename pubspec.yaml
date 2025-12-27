@@ -128,7 +128,6 @@ flutter:
 
   assets:
     - .env
-    - assets/icons/
     - assets/icons/editor/
     - assets/icons/icon/
     - assets/icons/illust/
@@ -137,6 +136,7 @@ flutter:
     - assets/images/
     - assets/images/sign_up/
     - assets/images/profile/
+    - assets/images/image/
     - assets/lottie/
   fonts:
     - family: Pretendard

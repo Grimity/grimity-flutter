@@ -20,8 +20,8 @@ class _Banner {
 class HomeNoticeView extends StatelessWidget {
   const HomeNoticeView({super.key});
 
-  static final small = _Banner(asset: Assets.images.noticeBannerSmall, width: 1372, height: 320);
-  static final large = _Banner(asset: Assets.images.noticeBannerLarge, width: 4380, height: 360);
+  static final small = _Banner(asset: Assets.images.image.noticeBannerSmall, width: 1372, height: 320);
+  static final large = _Banner(asset: Assets.images.image.noticeBannerLarge, width: 4380, height: 360);
 
   @override
   Widget build(BuildContext context) {
