@@ -23,7 +23,10 @@ class ImportMenu extends ConsumerWidget {
       icon: Assets.icons.editor.import.svg(),
       menuChildren: [
         _menuItem(
-          icon: Assets.icons.editor.carmera.svg(),
+          icon: Assets.icons.icon.camera.svg(
+            width: 22,
+            height: 22,
+          ),
           label: '그림 업로드',
           onTap: () async {
             await PhotoSelectRoute(type: UploadImageType.post).push(context);

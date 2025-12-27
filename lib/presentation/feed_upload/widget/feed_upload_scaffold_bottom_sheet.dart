@@ -41,7 +41,7 @@ class FeedUploadScaffoldBottomSheet extends StatelessWidget {
                   Gap(16),
                   GrimityAnimationButton(
                     onTap: () => PhotoSelectRoute(type: UploadImageType.feed).push(context),
-                    child: Assets.icons.feedUpload.camera.svg(width: 24, height: 24),
+                    child: Assets.icons.icon.camera.svg(width: 24, height: 24),
                   ),
                   Spacer(),
                   Consumer(

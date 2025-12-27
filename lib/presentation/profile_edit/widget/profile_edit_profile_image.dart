@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/enum/upload_image_type.dart';
@@ -43,7 +44,13 @@ class ProfileEditProfileImage extends ConsumerWidget {
                     border: Border.all(color: Colors.white, width: 4),
                     shape: BoxShape.circle,
                   ),
-                  child: Center(child: Assets.icons.profileEdit.camera.svg(width: 30, height: 30)),
+                  child: Center(
+                    child: Assets.icons.icon.camera.svg(
+                      width: 30,
+                      height: 30,
+                      colorFilter: ColorFilter.mode(AppColor.gray00, BlendMode.srcIn),
+                    ),
+                  ),
                 ),
               ],
             ],
