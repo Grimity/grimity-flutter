@@ -74,7 +74,7 @@ void showUploadCompleteDialog(BuildContext context, Post post, bool isNewUpload)
                       mainAxisAlignment: MainAxisAlignment.center,
                       spacing: 4,
                       children: [
-                        Assets.icons.common.x.svg(width: 16, height: 16),
+                        Assets.icons.brand.x.svg(width: 16, height: 16),
                         Text('X에 공유', style: AppTypeface.label2.copyWith(color: AppColor.primary5)),
                       ],
                     ),
