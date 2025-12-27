@@ -28,7 +28,7 @@ class GrimityMoreButton extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 )
                 : null,
-        child: Center(child: Assets.icons.common.moreHoriz.svg(width: 20, height: 20)),
+        child: Center(child: Assets.icons.icon.more.svg(width: 20, height: 20)),
       ),
     );
   }

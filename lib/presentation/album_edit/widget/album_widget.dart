@@ -60,7 +60,7 @@ class AlbumWidget extends HookConsumerWidget {
             if (ref.watch(albumEditProvider).isAlbumSorting) ...[
               ReorderableDragStartListener(
                 index: index,
-                child: Assets.icons.profileEdit.dragAndDrop.svg(width: 20, height: 20),
+                child: Assets.icons.icon.dragAndDrop.svg(width: 20, height: 20),
               ),
             ] else ...[
               GrimityGesture(
