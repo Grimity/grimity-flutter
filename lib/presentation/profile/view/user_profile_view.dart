@@ -83,7 +83,7 @@ class UserProfileView extends ConsumerWidget {
               borderRadius: BorderRadius.circular(12),
               color: Colors.black.withValues(alpha: 0.5),
             ),
-            child: Center(child: Assets.icons.profile.edit.svg(width: 16, height: 16)),
+            child: Center(child: Assets.icons.icon.edit.svg(width: 16, height: 16)),
           ),
         ),
       ),

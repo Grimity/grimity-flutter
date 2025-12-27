@@ -25,7 +25,7 @@ class GrimityProfileImage extends StatelessWidget {
                 child: GrimityCachedNetworkImage.cover(imageUrl: url!, width: 80, height: 80),
               )
               : Center(
-                child: Assets.icons.profile.person.svg(
+                child: Assets.icons.icon.person.svg(
                   width: 30,
                   height: 30,
                   colorFilter: ColorFilter.mode(AppColor.primary5.withValues(alpha: 0.08), BlendMode.srcIn),
