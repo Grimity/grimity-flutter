@@ -19,7 +19,7 @@ class GrimityActionButton extends StatelessWidget {
   /// Search Action Button
   factory GrimityActionButton.search(BuildContext context) => GrimityActionButton._(
     onTap: () => SearchRoute().push(context),
-    child: Assets.icons.common.search.svg(width: 24, height: 24),
+    child: Assets.icons.icon.search.svg(width: 24, height: 24),
   );
 
   /// User Action Button

@@ -118,7 +118,7 @@ class GrimityUtilBar extends ConsumerWidget {
                   mainAxisSize: MainAxisSize.min,
                   spacing: 6,
                   children: [
-                    Assets.icons.common.reply.svg(width: 24, height: 24),
+                    Assets.icons.icon.reply.svg(width: 24, height: 24),
                     Text('$commentCount', style: AppTypeface.label3.copyWith(color: AppColor.gray700)),
                   ],
                 ),

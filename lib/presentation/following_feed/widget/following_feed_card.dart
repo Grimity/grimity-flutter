@@ -124,7 +124,7 @@ class FollowingFeedCard extends ConsumerWidget {
                 Gap(6),
                 Text('${feed.likeCount ?? 0}', style: AppTypeface.label3.copyWith(color: AppColor.gray700)),
                 Gap(20),
-                Assets.icons.common.reply.svg(width: 24, height: 24),
+                Assets.icons.icon.reply.svg(width: 24, height: 24),
                 Gap(6),
                 Text('${feed.commentCount ?? 0}', style: AppTypeface.label3.copyWith(color: AppColor.gray700)),
               ],
