@@ -28,7 +28,7 @@ class NotificationBodyView extends ConsumerWidget {
                 NotificationActionButton(
                   title: '전체 읽음',
                   onTap: () => notifier.markAllNotificationAsRead(),
-                  icon: Assets.icons.common.view,
+                  icon: Assets.icons.icon.eye,
                 ),
                 Gap(8),
                 VerticalDivider(color: AppColor.gray300, width: 1),
@@ -36,7 +36,7 @@ class NotificationBodyView extends ConsumerWidget {
                 NotificationActionButton(
                   title: '전체 삭제',
                   onTap: () => notifier.deleteAllNotification(),
-                  icon: Assets.icons.common.delete,
+                  icon: Assets.icons.icon.trash,
                 ),
               ],
             ),
