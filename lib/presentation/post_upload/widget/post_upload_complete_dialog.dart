@@ -47,7 +47,7 @@ void showUploadCompleteDialog(BuildContext context, Post post, bool isNewUpload)
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Assets.icons.common.link.svg(
+                  Assets.icons.icon.linkMinimalistic.svg(
                     width: 16,
                     height: 16,
                     colorFilter: ColorFilter.mode(AppColor.gray600, BlendMode.srcIn),

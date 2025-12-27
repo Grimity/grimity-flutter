@@ -97,7 +97,7 @@ class _FeedUploadSelectedImage extends StatelessWidget {
               child: Row(
                 spacing: 2,
                 children: [
-                  Assets.icons.common.check.svg(
+                  Assets.icons.icon.check.svg(
                     colorFilter: ColorFilter.mode(isThumbnail ? AppColor.gray00 : AppColor.gray500, BlendMode.srcIn),
                   ),
                   Text(

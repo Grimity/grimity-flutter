@@ -125,7 +125,7 @@ class _MonthButton extends ConsumerWidget {
           children: [
             Text('$month월', style: AppTypeface.label2.copyWith(color: AppColor.gray800)),
             if (isSelected)
-              Assets.icons.common.checkMark.svg(
+              Assets.icons.icon.checkMark.svg(
                 width: 16,
                 height: 16,
                 colorFilter: ColorFilter.mode(AppColor.main, BlendMode.srcIn),

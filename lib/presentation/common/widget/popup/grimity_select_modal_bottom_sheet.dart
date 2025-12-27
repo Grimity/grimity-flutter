@@ -164,7 +164,7 @@ class _SelectBottomSheetButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(title, style: AppTypeface.label2.copyWith(color: _textColor)),
-            if (isSelected) Assets.icons.common.checkMark.svg(),
+            if (isSelected) Assets.icons.icon.checkMark.svg(),
           ],
         ),
       ),

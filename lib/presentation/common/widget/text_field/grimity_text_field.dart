@@ -172,7 +172,7 @@ class GrimityTextField extends HookWidget {
     }
 
     if (state == GrimityTextFieldState.success) {
-      return Assets.icons.common.checkMark.svg();
+      return Assets.icons.icon.checkMark.svg();
     } else if (state == GrimityTextFieldState.disabled) {
       if (enabled == false) {
         return GrimityGesture(
