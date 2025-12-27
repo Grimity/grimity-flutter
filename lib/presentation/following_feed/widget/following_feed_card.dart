@@ -118,8 +118,8 @@ class FollowingFeedCard extends ConsumerWidget {
                           .toggleLike(feedId: feed.id, like: !(feed.isLike ?? false)),
                   child:
                       feed.isLike ?? false
-                          ? Assets.icons.common.heartFill.svg(width: 24, height: 24)
-                          : Assets.icons.common.heart.svg(width: 24, height: 24),
+                          ? Assets.icons.icon.heartFilled.svg(width: 24, height: 24)
+                          : Assets.icons.icon.heart.svg(width: 24, height: 24),
                 ),
                 Gap(6),
                 Text('${feed.likeCount ?? 0}', style: AppTypeface.label3.copyWith(color: AppColor.gray700)),

@@ -22,7 +22,7 @@ class ChatMessagePopoverMenu extends ConsumerWidget {
       spacing: 6,
       children: [
         createButtonWidget(
-          icon: Assets.icons.chatMessage.heart,
+          icon: Assets.icons.icon.heartSharp,
           onTap: () {
             provider.likeMessage(message, !message.isLike);
             popover.hide();
