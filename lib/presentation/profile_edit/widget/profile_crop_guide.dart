@@ -12,7 +12,7 @@ class ProfileGuide extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Assets.icons.profileEdit.move.svg(width: 32, height: 32),
+        Assets.icons.icon.move.svg(width: 32, height: 32),
         Gap(18),
         Text('사진을 끌어서 위치를 조정해보세요', style: AppTypeface.label2.copyWith(color: AppColor.gray00)),
       ],

@@ -131,7 +131,6 @@ flutter:
     - assets/icons/
     - assets/icons/common/
     - assets/icons/profile/
-    - assets/icons/profile_edit/
     - assets/icons/editor/
     - assets/icons/chat_message/
     - assets/icons/icon/

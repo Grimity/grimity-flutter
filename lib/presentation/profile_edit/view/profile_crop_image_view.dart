@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -21,11 +22,24 @@ class ProfileCropImageView extends HookConsumerWidget {
         leading: Center(
           child: GrimityGesture(
             onTap: () => context.pop(),
-            child: Assets.icons.profileEdit.arrowLeft.svg(width: 24, height: 24),
+            child: Assets.icons.icon.chevronLeftThick.svg(
+              width: 24,
+              height: 24,
+              colorFilter: ColorFilter.mode(AppColor.gray00, BlendMode.srcIn),
+            ),
           ),
         ),
       ),
-      body: Column(children: [cropImage, Gap(16), cropGuide, Gap(150), cropButton, Gap(16)]),
+      body: Column(
+        children: [
+          cropImage,
+          Gap(16),
+          cropGuide,
+          Gap(150),
+          cropButton,
+          Gap(16),
+        ],
+      ),
     );
   }
 }

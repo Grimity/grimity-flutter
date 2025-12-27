@@ -36,7 +36,7 @@ class ProfileEditDropdown extends StatelessWidget {
         style: AppTypeface.label2,
         dropdownColor: AppColor.gray00,
         borderRadius: BorderRadius.circular(12),
-        icon: Assets.icons.common.arrowDown.svg(width: 16, height: 16),
+        icon: Assets.icons.icon.chevronDown.svg(width: 16, height: 16),
         items:
             LinkType.values.map((linkType) {
               return DropdownMenuItem<String>(

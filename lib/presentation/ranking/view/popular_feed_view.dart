@@ -84,7 +84,7 @@ class PopularFeedView extends ConsumerWidget {
                                 option.baseDate.toMonthText,
                                 style: AppTypeface.label2.copyWith(color: AppColor.gray700),
                               ),
-                              Assets.icons.common.arrowDown.svg(
+                              Assets.icons.icon.chevronDown.svg(
                                 width: 16,
                                 colorFilter: ColorFilter.mode(AppColor.gray700, BlendMode.srcIn),
                               ),

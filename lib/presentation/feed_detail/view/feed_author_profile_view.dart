@@ -151,7 +151,7 @@ class _AuthorFeeds extends ConsumerWidget {
                   Container(
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: AppColor.mainSecondary),
-                    child: Assets.icons.common.arrowRight.svg(
+                    child: Assets.icons.icon.arrowRight.svg(
                       width: 20,
                       height: 20,
                       colorFilter: ColorFilter.mode(AppColor.main, BlendMode.srcIn),
