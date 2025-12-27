@@ -52,7 +52,7 @@ class SplashPage extends HookConsumerWidget {
           Positioned.fill(
             child: Align(
               alignment: Alignment.center,
-              child: Assets.images.logo.svg(
+              child: Assets.icons.icon.logo.svg(
                 width: 190,
                 height: 54,
                 colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),

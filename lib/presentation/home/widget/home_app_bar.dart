@@ -16,7 +16,7 @@ class HomeAppBar extends StatelessWidget {
       floating: false,
       snap: false,
       centerTitle: false,
-      title: Assets.images.logo.svg(width: 90, height: 27),
+      title: Assets.icons.icon.logo.svg(width: 90, height: 27),
       actions: [
         GrimityActionButton.search(context),
         Gap(20),
