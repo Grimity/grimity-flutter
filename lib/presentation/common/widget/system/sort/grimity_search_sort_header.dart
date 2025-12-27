@@ -84,7 +84,7 @@ class _ArrangeButton extends StatelessWidget {
         spacing: 6,
         children: [
           Text('그림 정리', style: AppTypeface.caption2.copyWith(color: AppColor.gray700)),
-          Assets.icons.common.sync.svg(width: 16, height: 16),
+          Assets.icons.icon.sync.svg(width: 16, height: 16),
         ],
       ),
     );

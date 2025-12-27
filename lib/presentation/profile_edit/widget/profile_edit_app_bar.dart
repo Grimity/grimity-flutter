@@ -26,7 +26,7 @@ class ProfileEditAppBar extends ConsumerWidget implements PreferredSizeWidget {
               showCancelEditDialog(context);
             }
           },
-          child: Assets.icons.common.close.svg(width: 24, height: 24),
+          child: Assets.icons.icon.close.svg(width: 24, height: 24),
         ),
       ),
       title: Text('프로필 편집', style: AppTypeface.subTitle3),

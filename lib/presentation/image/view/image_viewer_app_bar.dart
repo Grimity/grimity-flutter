@@ -23,7 +23,7 @@ class ImageViewerAppBar extends StatelessWidget implements PreferredSizeWidget {
         onTap: () => context.pop(),
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-          child: Assets.icons.common.close.svg(
+          child: Assets.icons.icon.close.svg(
             width: 24,
             height: 24,
             colorFilter: ColorFilter.mode(AppColor.gray00, BlendMode.srcIn),
@@ -48,7 +48,7 @@ class ImageViewerAppBar extends StatelessWidget implements PreferredSizeWidget {
 
               return GrimityGesture(
                 onTap: isSaving ? null : () => ref.read(imageSaveProvider.notifier).saveByUrl(imageUrls[currentIndex]),
-                child: Assets.icons.common.download.svg(
+                child: Assets.icons.icon.download.svg(
                   width: 24,
                   height: 24,
                   colorFilter: ColorFilter.mode(AppColor.gray00, BlendMode.srcIn),

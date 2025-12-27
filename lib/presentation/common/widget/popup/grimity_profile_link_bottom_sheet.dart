@@ -39,7 +39,7 @@ class GrimityProfileLinkBottomSheet extends StatelessWidget {
             children: [
               Text("프로필 링크", style: AppTypeface.subTitle3),
               const Spacer(),
-              GrimityGesture(onTap: () => context.pop(), child: Assets.icons.common.close.svg(width: 24, height: 24)),
+              GrimityGesture(onTap: () => context.pop(), child: Assets.icons.icon.close.svg(width: 24, height: 24)),
             ],
           ),
           Gap(24),

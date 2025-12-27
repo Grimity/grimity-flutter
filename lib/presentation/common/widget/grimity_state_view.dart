@@ -188,7 +188,7 @@ class GrimityStateView extends StatelessWidget {
     buttonText: '재시도',
     onTap: onTap,
     padding: padding,
-    buttonPrefixIcon: Assets.icons.common.retry,
+    buttonPrefixIcon: Assets.icons.icon.refresh,
     buttonSize: ButtonSize.medium,
     buttonStatus: ButtonStatus.on,
     buttonColorType: ButtonColorType.mono,

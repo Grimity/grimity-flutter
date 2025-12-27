@@ -23,7 +23,7 @@ class PostUploadAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: Center(
         child: GrimityGesture(
           onTap: () => showCancelUploadDialog(context),
-          child: Assets.icons.common.close.svg(width: 24, height: 24),
+          child: Assets.icons.icon.close.svg(width: 24, height: 24),
         ),
       ),
       title: Consumer(

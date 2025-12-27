@@ -65,7 +65,7 @@ class AlbumWidget extends HookConsumerWidget {
             ] else ...[
               GrimityGesture(
                 onTap: () => showAlbumDeleteDialog(context, ref, album),
-                child: Assets.icons.common.close.svg(
+                child: Assets.icons.icon.close.svg(
                   width: 24,
                   height: 24,
                   colorFilter: ColorFilter.mode(AppColor.gray600, BlendMode.srcIn),

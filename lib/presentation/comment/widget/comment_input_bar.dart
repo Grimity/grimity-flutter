@@ -62,7 +62,7 @@ class CommentInputBar extends HookConsumerWidget {
                   ),
                   GrimityAnimationButton(
                     onTap: () => notifier.clearReplyState(),
-                    child: Assets.icons.common.close.svg(width: 14, height: 14),
+                    child: Assets.icons.icon.close.svg(width: 14, height: 14),
                   ),
                 ],
               ),

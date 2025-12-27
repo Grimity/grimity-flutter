@@ -23,7 +23,7 @@ class AlbumOrganizeFabView extends ConsumerWidget with AlbumOrganizeMixin {
       children: [
         AlbumOrganizeFabButton(
           title: '선택 삭제',
-          asset: Assets.icons.common.close,
+          asset: Assets.icons.icon.close,
           onTap: () => _showDeleteDialog(context, ref),
         ),
 

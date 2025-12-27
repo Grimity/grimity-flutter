@@ -81,7 +81,7 @@ class GrimityShareModalBottomSheet extends StatelessWidget {
             children: [
               Text("게시글 공유하기", style: AppTypeface.subTitle3),
               const Spacer(),
-              GrimityGesture(onTap: () => context.pop(), child: Assets.icons.common.close.svg(width: 24, height: 24)),
+              GrimityGesture(onTap: () => context.pop(), child: Assets.icons.icon.close.svg(width: 24, height: 24)),
             ],
           ),
           Gap(16),

@@ -54,7 +54,7 @@ class ChatToolBar extends ConsumerWidget {
                       GrimityButton.round(
                         text: "닫기",
                         style: ButtonStyleType.line,
-                        prefixIcon: Assets.icons.common.close,
+                        prefixIcon: Assets.icons.icon.close,
                         onTap: () => provider.setSelectMode(false),
                       ),
                     ],
