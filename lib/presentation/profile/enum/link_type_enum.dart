@@ -26,17 +26,17 @@ enum LinkType {
   static Image getLinkImage(String linkName, double width, double height) {
     switch (fromLinkName(linkName)) {
       case LinkType.x:
-        return Assets.icons.profile.x.image(width: width, height: height);
+        return Assets.images.profile.x.image(width: width, height: height);
       case LinkType.instagram:
-        return Assets.icons.profile.instagram.image(width: width, height: height);
+        return Assets.images.profile.instagram.image(width: width, height: height);
       case LinkType.youtube:
-        return Assets.icons.profile.youtube.image(width: width, height: height);
+        return Assets.images.profile.youtube.image(width: width, height: height);
       case LinkType.pixiv:
-        return Assets.icons.profile.pixiv.image(width: width, height: height);
+        return Assets.images.profile.pixiv.image(width: width, height: height);
       case LinkType.email:
-        return Assets.icons.profile.mail.image(width: width, height: height);
+        return Assets.images.profile.mail.image(width: width, height: height);
       case LinkType.custom:
-        return Assets.icons.profile.link.image(width: width, height: height);
+        return Assets.images.profile.link.image(width: width, height: height);
     }
   }
 
