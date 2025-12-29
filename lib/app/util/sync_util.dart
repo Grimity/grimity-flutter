@@ -2,15 +2,14 @@ import 'package:flutter/foundation.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/post.dart';
 
-typedef NotifierGetId<T> = String Function(T value);
+/// 변경되거나 변경될 수 있는 데이터에 대한 오래된 인스턴스들을 재갱신시키기 위해 사용됩니다.
+class SyncUtil<T> {
+  SyncUtil(this.getId);
 
-class NotifierUtil<T> {
-  NotifierUtil(this.getId);
+  final String Function(T value) getId;
 
-  final NotifierGetId<T> getId;
-
-  static final feed = NotifierUtil<Feed>((feed) => feed.id);
-  static final post = NotifierUtil<Post>((post) => post.id);
+  static final feed = SyncUtil<Feed>((feed) => feed.id);
+  static final post = SyncUtil<Post>((post) => post.id);
 
   final _listeners = <String, List<ValueChanged<T>>>{};
 

@@ -7,7 +7,7 @@ import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/report.enum.dart';
 import 'package:grimity/app/extension/date_time_extension.dart';
-import 'package:grimity/app/util/notifier_util.dart';
+import 'package:grimity/app/util/sync_util.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
@@ -45,12 +45,12 @@ class _FollowingFeedCardState extends ConsumerState<FollowingFeedCard> {
   @override
   void initState() {
     super.initState();
-    NotifierUtil.feed.listen(feed, onFeedUpdate);
+    SyncUtil.feed.listen(feed, onFeedUpdate);
   }
 
   @override
   void dispose() {
-    NotifierUtil.feed.cancel(feed, onFeedUpdate);
+    SyncUtil.feed.cancel(feed, onFeedUpdate);
     super.dispose();
   }
 
