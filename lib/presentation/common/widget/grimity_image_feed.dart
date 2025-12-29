@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/app/util/notifier_util.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/grimity_highlight_text_span.dart';
 import 'package:grimity/presentation/common/widget/grimity_image.dart';
 import 'package:grimity/presentation/common/widget/grimity_reaction.dart';
 
-class GrimityImageFeed extends StatelessWidget {
+class GrimityImageFeed extends StatefulWidget {
   const GrimityImageFeed({
     super.key,
     required this.feed,
@@ -23,6 +24,31 @@ class GrimityImageFeed extends StatelessWidget {
   final String? keyword;
 
   @override
+  State<GrimityImageFeed> createState() => _GrimityImageFeedState();
+}
+
+class _GrimityImageFeedState extends State<GrimityImageFeed> {
+  late Feed feed = widget.feed;
+
+  void onFeedUpdate(Feed newFeed) {
+    if (mounted) {
+      setState(() => feed = newFeed);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    NotifierUtil.feed.listen(feed, onFeedUpdate);
+  }
+
+  @override
+  void dispose() {
+    NotifierUtil.feed.cancel(feed, onFeedUpdate);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GrimityGesture(
       onTap: () => FeedDetailRoute(id: feed.id).push(context),
@@ -34,14 +60,16 @@ class GrimityImageFeed extends StatelessWidget {
             aspectRatio: 1.0,
             child: GrimityImage.infinity(
               imageUrl: feed.thumbnail ?? '',
-              index: index,
+              index: widget.index,
             ),
           ),
           const Gap(8),
-          Flexible(child: GrimityHighlightTextSpan(text: feed.title, keyword: keyword, normal: AppTypeface.label2)),
+          Flexible(
+            child: GrimityHighlightTextSpan(text: feed.title, keyword: widget.keyword, normal: AppTypeface.label2),
+          ),
           const Gap(2),
           GrimityReaction.nameLikeView(
-            name: feed.author?.name ?? authorName,
+            name: feed.author?.name ?? widget.authorName,
             likeCount: feed.likeCount,
             viewCount: feed.viewCount,
             onNameTap: () {
