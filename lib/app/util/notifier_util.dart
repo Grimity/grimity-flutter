@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:grimity/domain/entity/feed.dart';
+import 'package:grimity/domain/entity/post.dart';
 
 typedef NotifierGetId<T> = String Function(T value);
 
@@ -9,6 +10,7 @@ class NotifierUtil<T> {
   final NotifierGetId<T> getId;
 
   static final feed = NotifierUtil<Feed>((feed) => feed.id);
+  static final post = NotifierUtil<Post>((post) => post.id);
 
   final _listeners = <String, List<ValueChanged<T>>>{};
 

@@ -29,5 +29,6 @@ abstract class Post with _$Post {
     content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
     createdAt: DateTime.now(),
   );
+
   static List<Post> get emptyList => [Post.empty(), Post.empty(), Post.empty()];
 }

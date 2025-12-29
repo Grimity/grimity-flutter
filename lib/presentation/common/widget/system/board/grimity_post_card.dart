@@ -4,6 +4,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/post_type.enum.dart';
+import 'package:grimity/app/util/notifier_util.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
@@ -12,12 +13,42 @@ import 'package:grimity/presentation/common/widget/grimity_reaction.dart';
 import 'package:grimity/presentation/common/widget/system/chip/grimity_chip.dart';
 
 /// 게시글 위젯
-class GrimityPostCard extends StatelessWidget {
+class GrimityPostCard extends StatefulWidget {
+  const GrimityPostCard({
+    super.key,
+    required this.post,
+    this.showPostType = false,
+    this.keyword,
+  });
+
   final Post post;
   final bool showPostType;
   final String? keyword;
 
-  const GrimityPostCard({super.key, required this.post, this.showPostType = false, this.keyword});
+  @override
+  State<GrimityPostCard> createState() => _GrimityPostCardState();
+}
+
+class _GrimityPostCardState extends State<GrimityPostCard> {
+  late Post post = widget.post;
+
+  void onPostUpdate(Post newPost) {
+    if (mounted) {
+      setState(() => post = newPost);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    NotifierUtil.post.listen(post, onPostUpdate);
+  }
+
+  @override
+  void dispose() {
+    NotifierUtil.post.cancel(post, onPostUpdate);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +59,7 @@ class GrimityPostCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (showPostType && post.type != null) ...[_buildPostTypeChip(post.type!), Gap(6)],
+            if (widget.showPostType && post.type != null) ...[_buildPostTypeChip(post.type!), Gap(6)],
             Row(
               children: [
                 if (post.thumbnail != null) ...[
@@ -38,7 +69,7 @@ class GrimityPostCard extends StatelessWidget {
                 Flexible(
                   child: GrimityHighlightTextSpan(
                     text: post.title,
-                    keyword: keyword,
+                    keyword: widget.keyword,
                     normal: AppTypeface.label1.copyWith(color: AppColor.gray800),
                   ),
                 ),
@@ -60,7 +91,7 @@ class GrimityPostCard extends StatelessWidget {
             const Gap(4),
             GrimityHighlightTextSpan(
               text: post.content,
-              keyword: keyword,
+              keyword: widget.keyword,
               normal: AppTypeface.label3.copyWith(color: AppColor.gray700),
             ),
             const Gap(4),
