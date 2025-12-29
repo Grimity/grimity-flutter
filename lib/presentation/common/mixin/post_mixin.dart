@@ -1,4 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grimity/app/util/notifier_util.dart';
+import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/domain/usecase/post_usecases.dart';
 
 mixin PostMixin<T> {
@@ -27,6 +29,9 @@ mixin PostMixin<T> {
         state = AsyncValue.data(prev);
       },
     );
+
+    assert(state.value is Post);
+    NotifierUtil.post.notify(state.value as Post);
   }
 
   /// Post save, remove
@@ -50,5 +55,8 @@ mixin PostMixin<T> {
         state = AsyncValue.data(prev);
       },
     );
+
+    assert(state.value is Post);
+    NotifierUtil.post.notify(state.value as Post);
   }
 }

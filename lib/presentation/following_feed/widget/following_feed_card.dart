@@ -7,6 +7,7 @@ import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/report.enum.dart';
 import 'package:grimity/app/extension/date_time_extension.dart';
+import 'package:grimity/app/util/notifier_util.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
@@ -20,13 +21,41 @@ import 'package:grimity/presentation/following_feed/provider/following_feed_data
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:readmore/readmore.dart';
 
-class FollowingFeedCard extends ConsumerWidget {
-  const FollowingFeedCard({super.key, required this.feed});
+class FollowingFeedCard extends ConsumerStatefulWidget {
+  const FollowingFeedCard({
+    super.key,
+    required this.feed,
+  });
 
   final Feed feed;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<FollowingFeedCard> createState() => _FollowingFeedCardState();
+}
+
+class _FollowingFeedCardState extends ConsumerState<FollowingFeedCard> {
+  late Feed feed = widget.feed;
+
+  void onFeedUpdate(Feed newFeed) {
+    if (mounted) {
+      setState(() => feed = newFeed);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    NotifierUtil.feed.listen(feed, onFeedUpdate);
+  }
+
+  @override
+  void dispose() {
+    NotifierUtil.feed.cancel(feed, onFeedUpdate);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 16),
       child: Column(
