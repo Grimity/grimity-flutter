@@ -1,5 +1,7 @@
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:grimity/app/environment/flavor.dart';
+import 'package:grimity/app/exception/login_canceled_exception.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -26,7 +28,7 @@ class OAuthAPIImpl extends OAuthAPI {
       final GoogleSignInAccount? googleUser = await GoogleSignIn(clientId: Flavor.env.googleSignInClientId).signIn();
 
       if (googleUser == null) {
-        throw Exception('Google sign in failed');
+        throw const LoginCanceledException();
       }
 
       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
@@ -49,6 +51,26 @@ class OAuthAPIImpl extends OAuthAPI {
       }
 
       return token.accessToken;
+    } on PlatformException catch (e) {
+      if (e.code == 'CANCELED') {
+        throw const LoginCanceledException();
+      }
+      rethrow;
+    } on KakaoAuthException catch (e) {
+      if (e.error == AuthErrorCause.accessDenied) {
+        throw const LoginCanceledException();
+      }
+      rethrow;
+    } on KakaoApiException catch (e) {
+      if (e.code == ApiErrorCause.accessDenied) {
+        throw const LoginCanceledException();
+      }
+      rethrow;
+    } on KakaoClientException catch (e) {
+      if (e.reason == ClientErrorCause.cancelled) {
+        throw const LoginCanceledException();
+      }
+      rethrow;
     } catch (e) {
       rethrow;
     }
@@ -62,6 +84,11 @@ class OAuthAPIImpl extends OAuthAPI {
       );
 
       return credential.identityToken!;
+    } on SignInWithAppleAuthorizationException catch (e) {
+      if (e.code == AuthorizationErrorCode.canceled) {
+        throw const LoginCanceledException();
+      }
+      rethrow;
     } catch (e) {
       rethrow;
     }
