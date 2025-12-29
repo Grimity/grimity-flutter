@@ -4,7 +4,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/post_type.enum.dart';
-import 'package:grimity/app/util/notifier_util.dart';
+import 'package:grimity/app/util/sync_util.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
@@ -41,12 +41,12 @@ class _GrimityPostCardState extends State<GrimityPostCard> {
   @override
   void initState() {
     super.initState();
-    NotifierUtil.post.listen(post, onPostUpdate);
+    SyncUtil.post.listen(post, onPostUpdate);
   }
 
   @override
   void dispose() {
-    NotifierUtil.post.cancel(post, onPostUpdate);
+    SyncUtil.post.cancel(post, onPostUpdate);
     super.dispose();
   }
 

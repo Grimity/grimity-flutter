@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:grimity/app/util/notifier_util.dart';
+import 'package:grimity/app/util/sync_util.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/usecase/feed_usecases.dart';
 
@@ -31,7 +31,7 @@ mixin FeedMixin<T> {
     );
 
     assert(state.value is Feed);
-    NotifierUtil.feed.notify(state.value as Feed);
+    SyncUtil.feed.notify(state.value as Feed);
   }
 
   /// Feed save, remove
@@ -57,6 +57,6 @@ mixin FeedMixin<T> {
     );
 
     assert(state.value is Feed);
-    NotifierUtil.feed.notify(state.value as Feed);
+    SyncUtil.feed.notify(state.value as Feed);
   }
 }
