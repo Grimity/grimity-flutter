@@ -14,7 +14,13 @@ class FollowingFeedData extends _$FollowingFeedData with FeedMixin<Feeds> {
 
     final result = await getFollowingFeedsUseCase.execute(param);
 
-    return result.fold(onSuccess: (feeds) => feeds, onFailure: (e) => Feeds(feeds: [], nextCursor: ''));
+    return result.fold(
+      onSuccess: (feeds) {
+        notifyFeeds(feeds.feeds);
+        return feeds;
+      },
+      onFailure: (e) => Feeds(feeds: [], nextCursor: ''),
+    );
   }
 
   // Infinite Scroll
@@ -29,6 +35,7 @@ class FollowingFeedData extends _$FollowingFeedData with FeedMixin<Feeds> {
 
     result.fold(
       onSuccess: (newFeeds) {
+        notifyFeeds(newFeeds.feeds);
         final updatedFeeds = Feeds(feeds: [...currentState.feeds, ...newFeeds.feeds], nextCursor: newFeeds.nextCursor);
         state = AsyncValue.data(updatedFeeds);
       },

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:grimity/app/service/toast_service.dart';
-import 'package:grimity/app/util/sync_util.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/comment/enum/comment_type.dart';
@@ -32,12 +31,6 @@ class FeedDetailPage extends HookConsumerWidget {
     return feedAsync.when(
       data: (feed) {
         feed ??= Feed.empty();
-
-        // 데이터 로드 이후 변경된 사항이 있을 수 있음. (예: 조회수)
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          SyncUtil.feed.notify(feed!);
-        });
-
         final isBlockedUser = feed.author?.isBlocked == true;
 
         if (isBlockedUser && !showBlockedToast.value) {

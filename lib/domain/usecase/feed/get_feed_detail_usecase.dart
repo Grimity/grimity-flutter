@@ -18,18 +18,25 @@ class GetFeedDetailUseCase extends UseCase<String, Result<Feed>> {
   FutureOr<Result<Feed>> execute(String id) async {
     final result = await _feedRepository.getFeedDetail(id);
 
-    if (result.isSuccess) {
-      incrementFeedViewCountUseCase.execute(id).catchError((error, stack) {
-        FirebaseCrashlytics.instance.recordError(
-          error,
-          stack,
-          reason: '피드 조회수 증가 실패',
+    return result.fold(
+      onSuccess: (feed) {
+        // Feed 조회수 API 비동기 호출.
+        incrementFeedViewCountUseCase.execute(id).catchError((error, stack) {
+          FirebaseCrashlytics.instance.recordError(
+            error,
+            stack,
+            reason: '피드 조회수 증가 실패',
+          );
+
+          return Result.failure(error);
+        });
+
+        // 조회수 증가 API 결과에 상관 없이 +1 조회수 응답.
+        return Result.success(
+          feed.copyWith(viewCount: (feed.viewCount ?? 0) + 1),
         );
-
-        return Result.failure(error);
-      });
-    }
-
-    return result;
+      },
+      onFailure: (error) => Result.failure(error),
+    );
   }
 }

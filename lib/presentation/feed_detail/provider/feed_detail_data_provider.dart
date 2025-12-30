@@ -12,7 +12,13 @@ class FeedDetailData extends _$FeedDetailData with FeedMixin<Feed?> {
   FutureOr<Feed?> build(String feedId) async {
     final result = await getFeedDetailUseCase.execute(feedId);
 
-    return result.fold(onSuccess: (feed) => feed, onFailure: (e) => null);
+    return result.fold(
+      onSuccess: (feed) {
+        notifyFeed(feed);
+        return feed;
+      },
+      onFailure: (e) => null,
+    );
   }
 
   /// 피드 삭제
