@@ -1,3 +1,4 @@
+import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/feeds.dart';
 import 'package:grimity/domain/usecase/feed/get_following_feeds_usecase.dart';
 import 'package:grimity/domain/usecase/feed_usecases.dart';
@@ -21,6 +22,16 @@ class FollowingFeedData extends _$FollowingFeedData with FeedMixin<Feeds> {
       },
       onFailure: (e) => Feeds(feeds: [], nextCursor: ''),
     );
+  }
+
+  @override
+  Feed? getNotifyFeed(Feeds value, String feedId) {
+    for (final feed in value.feeds) {
+      if (feed.id == feedId) {
+        return feed;
+      }
+    }
+    return null;
   }
 
   // Infinite Scroll
