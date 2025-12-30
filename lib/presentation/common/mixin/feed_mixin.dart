@@ -8,12 +8,28 @@ mixin FeedMixin<T> {
 
   set state(AsyncValue<T> value);
 
+  /// State 에서 알림 대상 Feed 추출
+  Feed? getNotifyFeed(T value, String feedId);
+
+  /// Feed 알림
   void notifyFeed(Feed feed) {
     SyncUtil.feed.notify(feed);
   }
 
+  /// Feeds 알림
   void notifyFeeds(List<Feed> feeds) {
     for (final feed in feeds) {
+      notifyFeed(feed);
+    }
+  }
+
+  /// feedId 기준 정의된 [getNotifyFeed]로 Feed를 찾아 알림
+  void notifyFeedById(String feedId) {
+    final value = state.valueOrNull;
+    if (value == null) return;
+
+    final feed = getNotifyFeed(value, feedId);
+    if (feed != null) {
       notifyFeed(feed);
     }
   }
@@ -33,15 +49,14 @@ mixin FeedMixin<T> {
     final result = like ? await likeFeedUseCase.execute(feedId) : await unlikeFeedUseCase.execute(feedId);
 
     result.fold(
-      onSuccess: (_) {},
+      onSuccess: (_) {
+        notifyFeedById(feedId);
+      },
       onFailure: (e) {
         state = AsyncValue.error(e, StackTrace.current);
         state = AsyncValue.data(prev);
       },
     );
-
-    assert(state.value is Feed);
-    notifyFeed(state.value as Feed);
   }
 
   /// Feed save, remove
@@ -59,14 +74,13 @@ mixin FeedMixin<T> {
     final result = save ? await saveFeedUseCase.execute(feedId) : await removeSavedFeedUseCase.execute(feedId);
 
     result.fold(
-      onSuccess: (_) {},
+      onSuccess: (_) {
+        notifyFeedById(feedId);
+      },
       onFailure: (e) {
         state = AsyncValue.error(e, StackTrace.current);
         state = AsyncValue.data(prev);
       },
     );
-
-    assert(state.value is Feed);
-    notifyFeed(state.value as Feed);
   }
 }

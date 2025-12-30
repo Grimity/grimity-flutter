@@ -21,6 +21,12 @@ class FeedDetailData extends _$FeedDetailData with FeedMixin<Feed?> {
     );
   }
 
+  @override
+  Feed? getNotifyFeed(Feed? value, String feedId) {
+    if (value == null) return null;
+    return value.id == feedId ? value : null;
+  }
+
   /// 피드 삭제
   FutureOr<bool> deleteFeed(String id) async {
     final currentState = state.valueOrNull;
