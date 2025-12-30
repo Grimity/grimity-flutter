@@ -8,6 +8,32 @@ mixin PostMixin<T> {
 
   set state(AsyncValue<T> value);
 
+  /// State 에서 알림 대상 Feed 추출
+  Post? getNotifyPost(T value, String postId);
+
+  /// Post 알림
+  void notifyPost(Post post) {
+    SyncUtil.post.notify(post);
+  }
+
+  /// Posts 알림
+  void notifyPosts(List<Post> posts) {
+    for (final post in posts) {
+      notifyPost(post);
+    }
+  }
+
+  /// postId 기준 정의된 [getNotifyPost]로 Post를 찾아 알림
+  void notifyPostById(String postId) {
+    final value = state.valueOrNull;
+    if (value == null) return;
+
+    final post = getNotifyPost(value, postId);
+    if (post != null) {
+      notifyPost(post);
+    }
+  }
+
   /// Post Like/unLike
   Future<void> onToggleLike({
     required String postId,
@@ -23,15 +49,14 @@ mixin PostMixin<T> {
     final result = like ? await likePostUseCase.execute(postId) : await unlikePostUseCase.execute(postId);
 
     result.fold(
-      onSuccess: (_) {},
+      onSuccess: (_) {
+        notifyPostById(postId);
+      },
       onFailure: (e) {
         state = AsyncValue.error(e, StackTrace.current);
         state = AsyncValue.data(prev);
       },
     );
-
-    assert(state.value is Post);
-    SyncUtil.post.notify(state.value as Post);
   }
 
   /// Post save, remove
@@ -49,14 +74,13 @@ mixin PostMixin<T> {
     final result = save ? await savePostUseCase.execute(postId) : await removeSavedPostUseCase.execute(postId);
 
     result.fold(
-      onSuccess: (_) {},
+      onSuccess: (_) {
+        notifyPostById(postId);
+      },
       onFailure: (e) {
         state = AsyncValue.error(e, StackTrace.current);
         state = AsyncValue.data(prev);
       },
     );
-
-    assert(state.value is Post);
-    SyncUtil.post.notify(state.value as Post);
   }
 }

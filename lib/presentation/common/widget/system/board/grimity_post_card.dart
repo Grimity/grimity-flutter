@@ -34,7 +34,7 @@ class _GrimityPostCardState extends State<GrimityPostCard> {
 
   void onPostUpdate(Post newPost) {
     if (mounted) {
-      setState(() => post = newPost);
+      setState(() => post = post.mergeWithoutContent(newPost));
     }
   }
 

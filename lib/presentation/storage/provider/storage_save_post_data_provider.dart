@@ -1,3 +1,4 @@
+import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/domain/entity/posts.dart';
 import 'package:grimity/domain/usecase/me/get_save_posts_usecase.dart';
 import 'package:grimity/domain/usecase/me_usecases.dart';
@@ -15,12 +16,28 @@ class SavePostData extends _$SavePostData with PaginationMixin, PostMixin<Posts>
     return await _fetch(currentPage);
   }
 
+  @override
+  Post? getNotifyPost(Posts value, String postId) {
+    for (final post in value.posts) {
+      if (post.id == postId) {
+        return post;
+      }
+    }
+    return null;
+  }
+
   Future<Posts> _fetch(int page) async {
     final GetSavePostsRequestParam param = GetSavePostsRequestParam(page: currentPage, size: size);
 
     final result = await getSavePostsUseCase.execute(param);
 
-    return result.fold(onSuccess: (posts) => posts, onFailure: (e) => Posts(posts: [], totalCount: 0));
+    return result.fold(
+      onSuccess: (posts) {
+        notifyPosts(posts.posts);
+        return posts;
+      },
+      onFailure: (e) => Posts(posts: [], totalCount: 0),
+    );
   }
 
   Future<void> goToPage(int page) async {
@@ -29,11 +46,18 @@ class SavePostData extends _$SavePostData with PaginationMixin, PostMixin<Posts>
     state = await AsyncValue.guard(() => _fetch(page));
   }
 
-  Future<void> toggleSave({required String postId, required bool save}) => onToggleSave(
+  Future<void> removeSave({required String postId}) => onToggleSave(
     postId: postId,
-    save: save,
+    save: false,
     optimisticBuilder: (prev) {
-      return prev.copyWith(posts: prev.posts.map((e) => e.id == postId ? e.copyWith(isSave: save) : e).toList());
+      return prev.copyWith(
+        posts:
+            prev.posts
+                .where(
+                  (e) => e.id != postId,
+                )
+                .toList(),
+      );
     },
   );
 }

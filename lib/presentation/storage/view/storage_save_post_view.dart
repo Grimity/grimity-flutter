@@ -60,10 +60,7 @@ class _StorageSavePostListView extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   child: GrimityAnimationButton(
-                    onTap:
-                        () => ref
-                            .read(savePostDataProvider.notifier)
-                            .toggleSave(postId: post.id, save: post.isSave == true ? false : true),
+                    onTap: () => ref.read(savePostDataProvider.notifier).removeSave(postId: post.id),
                     child:
                         post.isSave == true
                             ? Assets.icons.icon.saveFilled.svg(width: 20, height: 20)

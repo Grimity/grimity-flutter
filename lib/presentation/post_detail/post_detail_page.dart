@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:grimity/app/util/sync_util.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/presentation/comment/enum/comment_type.dart';
 import 'package:grimity/presentation/comment/view/comments_view.dart';
@@ -25,12 +24,6 @@ class PostDetailPage extends ConsumerWidget {
     return postAsync.when(
       data: (post) {
         post ??= Post.empty();
-
-        // 데이터 로드 이후 변경된 사항이 있을 수 있음. (예: 조회수)
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          SyncUtil.post.notify(post!);
-        });
-
         return PostDetailView(
           post: post,
           postDetailAppBar: PostDetailAppBar(),
