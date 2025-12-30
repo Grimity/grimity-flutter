@@ -8,6 +8,16 @@ mixin FeedMixin<T> {
 
   set state(AsyncValue<T> value);
 
+  void notifyFeed(Feed feed) {
+    SyncUtil.feed.notify(feed);
+  }
+
+  void notifyFeeds(List<Feed> feeds) {
+    for (final feed in feeds) {
+      notifyFeed(feed);
+    }
+  }
+
   /// Feed Like/unLike
   Future<void> onToggleLike({
     required String feedId,
@@ -31,7 +41,7 @@ mixin FeedMixin<T> {
     );
 
     assert(state.value is Feed);
-    SyncUtil.feed.notify(state.value as Feed);
+    notifyFeed(state.value as Feed);
   }
 
   /// Feed save, remove
@@ -57,6 +67,6 @@ mixin FeedMixin<T> {
     );
 
     assert(state.value is Feed);
-    SyncUtil.feed.notify(state.value as Feed);
+    notifyFeed(state.value as Feed);
   }
 }
