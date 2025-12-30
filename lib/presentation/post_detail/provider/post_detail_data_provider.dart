@@ -12,7 +12,19 @@ class PostDetailData extends _$PostDetailData with PostMixin<Post?> {
   FutureOr<Post?> build(String postId) async {
     final result = await getPostDetailUseCase.execute(postId);
 
-    return result.fold(onSuccess: (post) => post, onFailure: (e) => null);
+    return result.fold(
+      onSuccess: (post) {
+        notifyPost(post);
+        return post;
+      },
+      onFailure: (e) => null,
+    );
+  }
+
+  @override
+  Post? getNotifyPost(Post? value, String postId) {
+    if (value == null) return null;
+    return value.id == postId ? value : null;
   }
 
   /// 게시글 삭제
