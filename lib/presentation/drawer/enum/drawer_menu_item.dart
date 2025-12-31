@@ -113,19 +113,14 @@ enum DrawerMenuItem {
       spacing: 3,
       children: [
         child,
-        Positioned.fill(
-          child: Align(
-            alignment: Alignment.topRight,
-            child: Transform.translate(
-              offset: Offset(0, 3),
-              child: Container(
-                width: 5,
-                height: 5,
-                decoration: BoxDecoration(
-                  color: AppColor.main,
-                  shape: BoxShape.circle,
-                ),
-              ),
+        Transform.translate(
+          offset: Offset(0, 3),
+          child: Container(
+            width: 5,
+            height: 5,
+            decoration: BoxDecoration(
+              color: AppColor.main,
+              shape: BoxShape.circle,
             ),
           ),
         ),
