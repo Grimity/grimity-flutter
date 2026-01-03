@@ -29,7 +29,12 @@ class GrimityPostFeed extends StatelessWidget {
         final post = posts[index];
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: cardHorizontalPadding),
-          child: GrimityPostCard(post: post, showPostType: showPostType, keyword: keyword),
+          child: GrimityPostCard(
+            key: ValueKey(post.id),
+            post: post,
+            showPostType: showPostType,
+            keyword: keyword,
+          ),
         );
       },
     );
