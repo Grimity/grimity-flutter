@@ -16,7 +16,7 @@ class GrimityImageFeed extends StatefulWidget {
     this.authorName,
     this.index,
     this.keyword,
-  }) : super(key : key ?? ValueKey(feed.id));
+  }) : super(key: key ?? ValueKey(feed.id));
 
   final Feed feed;
   final String? authorName;
@@ -48,8 +48,8 @@ class _GrimityImageFeedState extends State<GrimityImageFeed> {
     if (oldWidget.feed.id != widget.feed.id) {
       SyncUtil.feed.cancel(oldWidget.feed, onFeedUpdate);
       SyncUtil.feed.listen(widget.feed, onFeedUpdate);
+      feed = widget.feed;
     }
-    feed = widget.feed;
   }
 
   @override

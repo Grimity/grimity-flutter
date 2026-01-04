@@ -50,8 +50,10 @@ class _GrimityPostCardState extends State<GrimityPostCard> {
     if (oldWidget.post.id != widget.post.id) {
       SyncUtil.post.cancel(oldWidget.post, onPostUpdate);
       SyncUtil.post.listen(widget.post, onPostUpdate);
+      post = widget.post;
+    } else if (oldWidget.post != widget.post) {
+      post = post.mergeWithoutContent(widget.post);
     }
-    post = widget.post;
   }
 
   @override
