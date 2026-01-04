@@ -10,13 +10,13 @@ import 'package:grimity/presentation/common/widget/grimity_image.dart';
 import 'package:grimity/presentation/common/widget/grimity_reaction.dart';
 
 class GrimityImageFeed extends StatefulWidget {
-  const GrimityImageFeed({
-    super.key,
+  GrimityImageFeed({
+    Key? key,
     required this.feed,
     this.authorName,
     this.index,
     this.keyword,
-  });
+  }) : super(key : key ?? ValueKey(feed.id));
 
   final Feed feed;
   final String? authorName;
@@ -40,6 +40,16 @@ class _GrimityImageFeedState extends State<GrimityImageFeed> {
   void initState() {
     super.initState();
     SyncUtil.feed.listen(feed, onFeedUpdate);
+  }
+
+  @override
+  void didUpdateWidget(covariant GrimityImageFeed oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.feed.id != widget.feed.id) {
+      SyncUtil.feed.cancel(oldWidget.feed, onFeedUpdate);
+      SyncUtil.feed.listen(widget.feed, onFeedUpdate);
+    }
+    feed = widget.feed;
   }
 
   @override

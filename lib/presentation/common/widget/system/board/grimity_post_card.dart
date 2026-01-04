@@ -14,12 +14,12 @@ import 'package:grimity/presentation/common/widget/system/chip/grimity_chip.dart
 
 /// 게시글 위젯
 class GrimityPostCard extends StatefulWidget {
-  const GrimityPostCard({
-    super.key,
+  GrimityPostCard({
+    Key? key,
     required this.post,
     this.showPostType = false,
     this.keyword,
-  });
+  }) : super(key: key ?? ValueKey(post.id));
 
   final Post post;
   final bool showPostType;
@@ -42,6 +42,16 @@ class _GrimityPostCardState extends State<GrimityPostCard> {
   void initState() {
     super.initState();
     SyncUtil.post.listen(post, onPostUpdate);
+  }
+
+  @override
+  void didUpdateWidget(covariant GrimityPostCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.post.id != widget.post.id) {
+      SyncUtil.post.cancel(oldWidget.post, onPostUpdate);
+      SyncUtil.post.listen(widget.post, onPostUpdate);
+    }
+    post = widget.post;
   }
 
   @override
