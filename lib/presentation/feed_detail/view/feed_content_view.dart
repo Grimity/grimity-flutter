@@ -108,7 +108,7 @@ class _FeedAuthorInfoSection extends StatelessWidget {
     return Row(
       children: [
         GrimityGesture(
-          onTap: () => ProfileRoute(url: feed.author!.url).push(context),
+          onTap: feed.author == null ? null : () => ProfileRoute(url: feed.author!.url).push(context),
           child: GrimityUserImage(imageUrl: feed.author?.image, size: 30),
         ),
         Gap(8),
@@ -117,7 +117,7 @@ class _FeedAuthorInfoSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               GrimityGesture(
-                onTap: () => ProfileRoute(url: feed.author!.url).push(context),
+                onTap: feed.author == null ? null : () => ProfileRoute(url: feed.author!.url).push(context),
                 child: Text(
                   feed.author?.name ?? '작성자 정보 없음',
                   style: AppTypeface.label2.copyWith(color: AppColor.gray700),
