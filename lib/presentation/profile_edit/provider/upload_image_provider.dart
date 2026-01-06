@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:grimity/app/enum/presigned.enum.dart';
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/domain/dto/image_request_params.dart';
@@ -25,14 +26,21 @@ class UploadImage extends _$UploadImage {
   }
 
   Future<bool> pickImage(UploadImageType type) async {
-    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (state.isPicking) return false;
+    setPicking(true);
 
-    if (image == null) {
-      return false;
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return false;
+      state = state.copyWith(image: image, type: type);
+
+      return true;
+    } on PlatformException catch (e) {
+      if (e.code == 'already_active') return false;
+      rethrow;
+    } finally {
+      setPicking(false);
     }
-
-    state = state.copyWith(image: image, type: type);
-    return true;
   }
 
   Future<void> setMemoryImage(MemoryImage image) async {
@@ -128,20 +136,31 @@ class UploadImage extends _$UploadImage {
   void setUploading(bool isUploading) {
     state = state.copyWith(isUploading: isUploading);
   }
+
+  void setPicking(bool isPicking) {
+    state = state.copyWith(isPicking: isPicking);
+  }
 }
 
 class UploadImageState {
   final XFile? image;
   final UploadImageType type;
   final bool isUploading;
+  final bool isPicking;
 
-  UploadImageState({this.image, required this.type, this.isUploading = false});
+  UploadImageState({
+    this.image,
+    required this.type,
+    this.isUploading = false,
+    this.isPicking = false,
+  });
 
-  UploadImageState copyWith({XFile? image, UploadImageType? type, bool? isUploading}) {
+  UploadImageState copyWith({XFile? image, UploadImageType? type, bool? isUploading, bool? isPicking}) {
     return UploadImageState(
       image: image ?? this.image,
       type: type ?? this.type,
       isUploading: isUploading ?? this.isUploading,
+      isPicking: isPicking ?? this.isPicking,
     );
   }
 }
