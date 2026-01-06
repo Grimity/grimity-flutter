@@ -1,4 +1,5 @@
 name: 자동화 배포
+run-name: "자동화 배포 v${{ inputs.VERSION_NAME }} (#${{ github.run_number }})"
 
 on:
   workflow_dispatch:
