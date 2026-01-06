@@ -21,14 +21,15 @@ class ProfileCropButton extends ConsumerWidget {
         text: uploadImage.type == UploadImageType.profile ? '프로필 저장' : '커버 저장',
         style: ButtonStyleType.line,
         onTap: () async {
+          final notifier = ref.read(uploadImageProvider(type).notifier);
           final cropImage = await controller.onCropImage();
 
-          if (cropImage != null) {
-            await ref.read(uploadImageProvider(type).notifier).setMemoryImage(cropImage);
-            // updateImage의 시간이 너무 오래걸려서 비동기로 처리
-            // isUploading으로 상태 관리
-            ref.read(uploadImageProvider(type).notifier).updateImage();
-          }
+          if (cropImage == null) return;
+
+          await notifier.setMemoryImage(cropImage);
+          // updateImage의 시간이 너무 오래걸려서 비동기로 처리
+          // isUploading으로 상태 관리
+          notifier.updateImage();
 
           if (context.mounted) {
             Navigator.pop(context);
