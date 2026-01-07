@@ -18,13 +18,13 @@ class MainAppShell extends StatefulWidget {
 class _MainAppShellState extends State<MainAppShell> {
   @override
   Widget build(BuildContext context) {
-    final canPop = widget.navigationShell.currentIndex == 0;
+    final canPop = widget.navigationShell.currentIndex == MainNavigationItem.home.index;
     final showFab =
         GoRouter.of(context).state.name == MainNavigationItem.values[widget.navigationShell.currentIndex].name;
 
     return GrimityPopScope(
       canPop: canPop,
-      callback: () => widget.navigationShell.goBranch(0),
+      callback: () => widget.navigationShell.goBranch(MainNavigationItem.home.index),
       child: Scaffold(
         endDrawer: MainAppDrawer(),
         body: widget.navigationShell,
