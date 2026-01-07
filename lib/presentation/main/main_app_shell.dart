@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimity/presentation/common/widget/grimity_pop_scope.dart';
 import 'package:grimity/presentation/drawer/main_app_drawer.dart';
 import 'package:grimity/presentation/main/provider/main_bottom_navigation_item.dart';
 import 'package:grimity/presentation/main/widget/main_bottom_navigation_bar.dart';
@@ -17,15 +18,20 @@ class MainAppShell extends StatefulWidget {
 class _MainAppShellState extends State<MainAppShell> {
   @override
   Widget build(BuildContext context) {
+    final canPop = widget.navigationShell.currentIndex == 0;
     final showFab =
         GoRouter.of(context).state.name == MainNavigationItem.values[widget.navigationShell.currentIndex].name;
 
-    return Scaffold(
-      endDrawer: MainAppDrawer(),
-      body: widget.navigationShell,
-      bottomNavigationBar: MainBottomNavigationBar(navigationShell: widget.navigationShell),
-      floatingActionButton:
-          showFab ? MainFloatingActionButton(currentIndex: widget.navigationShell.currentIndex) : null,
+    return GrimityPopScope(
+      canPop: canPop,
+      callback: () => widget.navigationShell.goBranch(0),
+      child: Scaffold(
+        endDrawer: MainAppDrawer(),
+        body: widget.navigationShell,
+        bottomNavigationBar: MainBottomNavigationBar(navigationShell: widget.navigationShell),
+        floatingActionButton:
+            showFab ? MainFloatingActionButton(currentIndex: widget.navigationShell.currentIndex) : null,
+      ),
     );
   }
 }
