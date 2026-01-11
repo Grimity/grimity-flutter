@@ -102,7 +102,6 @@ jobs:
       - name: 빌드 및 배포
         uses: MTtankkeo/flutter-fastlane-action@main
         with:
-          draft: true # 초안 업로드 여부 (임시 설정)
           app-id: "com.grimity.flutter"
           platform: android
           version-name: ${{ github.event.inputs.VERSION_NAME }}
