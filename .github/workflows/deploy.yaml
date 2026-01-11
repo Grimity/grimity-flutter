@@ -107,6 +107,7 @@ jobs:
           version-name: ${{ github.event.inputs.VERSION_NAME }}
           build-number: ${{ needs.ready.outputs.BUILD_NUMBER }}
           release-note: ${{ github.event.inputs.RELEASE_NOTE }}
+          release-note-language: ko-KR
           build-extra: --flavor prod --target lib/app/entrypoints/main_prod.dart
 
       - name: Artifacts 업로드
@@ -160,6 +161,7 @@ jobs:
           version-name: ${{ github.event.inputs.VERSION_NAME }}
           build-number: ${{ needs.ready.outputs.BUILD_NUMBER }}
           release-note: ${{ github.event.inputs.RELEASE_NOTE }}
+          release-note-language: ko-KR
           match-repository: Grimity/grimity-flutter-certs
           match-password: ${{ secrets.MATCH_PASSWORD }}
           appstore-connect-issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
