@@ -6,7 +6,7 @@ import 'package:grimity/presentation/common/widget/alert/grimity_dialog.dart';
 import 'package:grimity/presentation/feed_detail/provider/feed_detail_data_provider.dart';
 
 void showDeleteFeedDialog(String feedId, BuildContext context, WidgetRef ref) {
-  final router = AppRouter.router(ref);
+  final router = ref.read(routerProvider);
 
   showDialog(
     context: context,

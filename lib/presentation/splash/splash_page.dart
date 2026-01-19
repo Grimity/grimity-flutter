@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:grimity/app/config/app_router.dart';
+import 'package:grimity/app/linking/initialize_app_provider.dart';
 import 'package:grimity/presentation/app_update/show_app_update_dialog.dart';
 import 'package:grimity/presentation/splash/provider/splash_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -14,6 +15,9 @@ class SplashPage extends HookConsumerWidget {
     useEffect(() {
       ref.read(splashProvider.notifier).checkUserAndRoute(ref).then(
         (needUpdate) {
+          // 앱 초기화 완료 여부 설정
+          ref.read(initializeAppProvider.notifier).set(true);
+
           if (needUpdate) {
             // 화면 이동 이후 UpdateDialog 표시.
             WidgetsBinding.instance.addPostFrameCallback((_) {
