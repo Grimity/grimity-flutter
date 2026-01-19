@@ -6,7 +6,7 @@ import 'package:grimity/presentation/common/widget/alert/grimity_dialog.dart';
 import 'package:grimity/presentation/post_detail/provider/post_detail_data_provider.dart';
 
 void showDeletePostDialog(String postId, BuildContext context, WidgetRef ref) {
-  final router = AppRouter.router(ref);
+  final router = ref.read(routerProvider);
 
   showDialog(
     context: context,

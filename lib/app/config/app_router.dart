@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:grimity/app/enum/report.enum.dart';
 import 'package:grimity/app/linking/external_link.dart';
 import 'package:grimity/app/linking/external_link_parser.dart';
+import 'package:grimity/app/linking/initialize_app_provider.dart';
 import 'package:grimity/domain/entity/album.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/post.dart';
@@ -40,21 +41,22 @@ import 'package:grimity/presentation/sign_in/sign_in_page.dart';
 import 'package:grimity/presentation/sign_up/sign_up_page.dart';
 import 'package:grimity/presentation/splash/splash_page.dart';
 import 'package:grimity/presentation/storage/storage_page.dart';
+import 'package:grimity/app/linking/pending_deep_link_provider.dart';
+import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_router.g.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 final shellNavigatorKey = GlobalKey<NavigatorState>();
 
-abstract final class AppRouter {
-  static final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
-  static final FirebaseAnalyticsObserver _observer = FirebaseAnalyticsObserver(analytics: _analytics);
-
-  static final GoRouter _router = GoRouter(
+@riverpod
+GoRouter router(Ref ref) {
+  return GoRouter(
     navigatorKey: rootNavigatorKey,
     initialLocation: SplashRoute.path,
     routes: $appRoutes,
-    observers: [_observer],
+    observers: [AppRouter.observer],
     // FIX: 카카오톡 App 로그인 시의 Routing 관련 문제 수정
     // Ref: https://github.com/kakao/kakao_flutter_sdk/issues/200
     redirect: (context, state) {
@@ -64,18 +66,59 @@ abstract final class AppRouter {
         return SignInRoute.path;
       }
 
+      final isWebLink = uri.scheme == 'http' || uri.scheme == 'https';
+
+      // 웹 링크(딥링크)인 경우 redirect 처리
+      if (isWebLink) {
+        final parsed = ExternalLinkParser.parse(uri.toString());
+        final isLogin = ref.read(userAuthProvider) != null;
+        final initializeApp = ref.read(initializeAppProvider);
+        final pendingDeepLinkNotifier = ref.read(pendingDeepLinkProvider.notifier);
+
+        /// [ColdStart]인 경우
+        if (initializeApp == false) {
+          // 유효하지 않은 경로는 딥링크 세팅 없이 스플래시 페이지 이동 처리
+          if (parsed.type == ExternalLinkType.unknown) {
+            return SplashRoute.path;
+          }
+
+          // 유효한 경로는 딥링크 세팅 후 스플래시 페이지 이동 처리
+          Future.microtask(() => pendingDeepLinkNotifier.setLink(parsed.location));
+          return SplashRoute.path;
+        }
+        /// [WarmStart]인 경우
+        else {
+          // 유효하지 않은 경로는 딥링크 세팅 없이 로그인 여부에 따라
+          if (parsed.type == ExternalLinkType.unknown) {
+            return isLogin ? HomeRoute.path : SignInRoute.path;
+          }
+
+          if (isLogin) {
+            // 로그인 된 사용자의 경우 딥링크 세팅 후 홈 페이지로 이동
+            pendingDeepLinkNotifier.setLink(parsed.location);
+            return HomeRoute.path;
+          } else {
+            // 로그인되지 않은 사용자의 경우 딥링크 세팅 없이 회원가입 페이지로 이동
+            return SignInRoute.path;
+          }
+        }
+      }
+
       return null;
     },
   );
+}
 
-  static GoRouter router(WidgetRef ref) => _router;
+abstract final class AppRouter {
+  static final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
+  static final FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: _analytics);
 
   // URL을 내부 라우팅으로 이동
   static void handleServerUrl(BuildContext context, String url, {String? myUrl}) {
     final parsed = ExternalLinkParser.parse(url);
     switch (parsed.type) {
       case ExternalLinkType.profile:
-        ProfileRoute(url: parsed.url!).push(context);
+        context.push('/profile/${parsed.url!}');
         break;
       case ExternalLinkType.post:
         context.push('/posts/${parsed.id}');

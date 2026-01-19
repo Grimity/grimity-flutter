@@ -29,7 +29,7 @@ class SignIn extends _$SignIn {
   Future<void> login(WidgetRef widgetRef, LoginProvider provider) async {
     try {
       // 비동기 통신 이후 widgetRef가 dispose 될 수 있어 라우터 참조
-      final router = AppRouter.router(widgetRef);
+      final router = widgetRef.read(routerProvider);
 
       // login 시도
       await ref.read(userAuthProvider.notifier).login(provider);

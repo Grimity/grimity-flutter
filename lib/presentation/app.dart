@@ -5,6 +5,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_theme.dart';
 import 'package:grimity/app/environment/flavor.dart';
+import 'package:grimity/app/linking/initialize_app_provider.dart';
+import 'package:grimity/app/linking/pending_deep_link_provider.dart';
 import 'package:grimity/app/static/push_notification.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -79,6 +81,21 @@ class _AppState extends ConsumerState<App> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    // [WarmStart] 딥링크 이벤트 처리
+    ref.listen(pendingDeepLinkProvider, (previous, next) {
+      // initializeApp 플래그를 통해 [ColdStart] 처리는 여기서 하지 않음
+      final initializeApp = ref.read(initializeAppProvider);
+
+      if (next != null && initializeApp == true) {
+        final link = ref.read(pendingDeepLinkProvider.notifier).consume();
+        if (link != null) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            ref.read(routerProvider).push(link);
+          });
+        }
+      }
+    });
+
     return MaterialApp.router(
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
@@ -86,7 +103,7 @@ class _AppState extends ConsumerState<App> with WidgetsBindingObserver {
         GlobalWidgetsLocalizations.delegate,
         FlutterQuillLocalizations.delegate,
       ],
-      routerConfig: AppRouter.router(ref),
+      routerConfig: ref.watch(routerProvider),
       theme: AppTheme.appTheme,
       builder: routerBuilder,
     );
