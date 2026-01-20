@@ -1,4 +1,5 @@
 import 'package:grimity/app/config/app_config.dart';
+import 'package:grimity/app/util/validator_util.dart';
 
 import 'external_link.dart';
 
@@ -34,8 +35,7 @@ class ExternalLinkParser {
     // /:userPath  (예약어 충돌 방지)
     if (segs.length == 1) {
       final url = segs.first;
-      const reserved = {'posts', 'feeds'};
-      if (!reserved.contains(url)) {
+      if (!ValidatorUtil.forbiddenUrls.contains(url)) {
         return ExternalLink(ExternalLinkType.profile, url: url);
       }
     }
