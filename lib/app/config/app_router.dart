@@ -1,7 +1,7 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimity/app/config/app_analytics.dart';
 import 'package:grimity/app/enum/report.enum.dart';
 import 'package:grimity/app/linking/external_link.dart';
 import 'package:grimity/app/linking/external_link_parser.dart';
@@ -56,7 +56,7 @@ GoRouter router(Ref ref) {
     navigatorKey: rootNavigatorKey,
     initialLocation: SplashRoute.path,
     routes: $appRoutes,
-    observers: [AppRouter.observer],
+    observers: [AppAnalytics.observer],
     // FIX: 카카오톡 App 로그인 시의 Routing 관련 문제 수정
     // Ref: https://github.com/kakao/kakao_flutter_sdk/issues/200
     redirect: (context, state) {
@@ -107,29 +107,6 @@ GoRouter router(Ref ref) {
       return null;
     },
   );
-}
-
-abstract final class AppRouter {
-  static final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
-  static final FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: _analytics);
-
-  // URL을 내부 라우팅으로 이동
-  static void handleServerUrl(BuildContext context, String url, {String? myUrl}) {
-    final parsed = ExternalLinkParser.parse(url);
-    switch (parsed.type) {
-      case ExternalLinkType.profile:
-        context.push('/profile/${parsed.url!}');
-        break;
-      case ExternalLinkType.post:
-        context.push('/posts/${parsed.id}');
-        break;
-      case ExternalLinkType.feed:
-        context.push('/feeds/${parsed.id}');
-        break;
-      case ExternalLinkType.unknown:
-        break;
-    }
-  }
 }
 
 @TypedStatefulShellRoute<AppShellRoute>(
@@ -292,6 +269,8 @@ class ProfileRoute extends GoRouteData {
 
   static const String path = '/profile/:url';
   static const String name = 'userProfile';
+
+  static String makePath(String url) => '/profile/$url';
 
   @override
   Widget build(BuildContext context, GoRouterState state) => ProfilePage(url: url);
@@ -458,6 +437,8 @@ class FeedDetailRoute extends GoRouteData {
   static const String path = '/feeds/:id';
   static const String name = 'feed-detail';
 
+  static String makePath(String id) => '/profile/$id';
+
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return FeedDetailPage(feedId: id);
@@ -489,6 +470,8 @@ class PostDetailRoute extends GoRouteData {
 
   static const String path = '/posts/:id';
   static const String name = 'post-detail';
+
+  static String makePath(String id) => '/posts/$id';
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
