@@ -1,6 +1,7 @@
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/widgets.dart';
 import 'package:grimity/app/environment/flavor.dart';
+import 'package:grimity/app/util/validator_util.dart';
 
 extension StringExtension on String {
   /// 리사이즈를 지원하는 이미지 크기(너비 기준) 목록.
@@ -57,5 +58,17 @@ extension StringExtension on String {
     }
 
     return Size(width.toDouble(), height.toDouble());
+  }
+
+  String? getUrlCheckMessage() {
+    if (!ValidatorUtil.isValidUrl(this)) {
+      return '숫자, 영문(소문자), 언더바(_)만 입력 가능합니다.';
+    }
+
+    if (ValidatorUtil.isForbiddenUrl(this)) {
+      return '사용할 수 없는 URL입니다.';
+    }
+
+    return null;
   }
 }

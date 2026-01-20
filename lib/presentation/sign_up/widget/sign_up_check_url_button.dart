@@ -14,7 +14,7 @@ class SignUpCheckUrlButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isEnabled =
-        ValidatorUtil.isValidUrl(ref.watch(signUpProvider).url) &&
+        ValidatorUtil.isAvailableUrl(ref.watch(signUpProvider).url) &&
         ref.watch(signUpProvider).urlState != GrimityTextFieldState.error;
 
     return Padding(
