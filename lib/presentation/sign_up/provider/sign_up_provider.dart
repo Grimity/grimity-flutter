@@ -1,5 +1,6 @@
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/app/enum/grimity.enum.dart';
+import 'package:grimity/app/extension/string_extension.dart';
 import 'package:grimity/app/util/device_info_util.dart';
 import 'package:grimity/app/util/validator_util.dart';
 import 'package:grimity/domain/dto/auth_request_params.dart';
@@ -65,18 +66,18 @@ class SignUp extends _$SignUp {
 
   /// URL 유효성 검증
   Future<void> checkUrlValidity() async {
-    if (!ValidatorUtil.isValidUrl(state.url) || state.isUrlChecking) return;
+    if (!ValidatorUtil.isAvailableUrl(state.url) || state.isUrlChecking) return;
 
     state = state.copyWith(isUrlChecking: true);
 
     try {
-      final bool isAvailable = ValidatorUtil.isValidUrl(state.url);
+      final bool isAvailable = ValidatorUtil.isAvailableUrl(state.url);
 
       if (!isAvailable) {
         state = state.copyWith(
           isUrlChecking: false,
           urlState: GrimityTextFieldState.error,
-          urlCheckMessage: '숫자, 영문(소문자), 언더바(_)만 입력 가능합니다.',
+          urlCheckMessage: state.url.getUrlCheckMessage(),
         );
         return;
       }
@@ -115,7 +116,9 @@ class SignUp extends _$SignUp {
 
   /// 유효성 검사
   bool isInformationValid() {
-    return ValidatorUtil.isValidNickname(state.nickname) && ValidatorUtil.isValidUrl(state.url) && state.isTermsAgreed;
+    return ValidatorUtil.isValidNickname(state.nickname) &&
+        ValidatorUtil.isAvailableUrl(state.url) &&
+        state.isTermsAgreed;
   }
 }
 

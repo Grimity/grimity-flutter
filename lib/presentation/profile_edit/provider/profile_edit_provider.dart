@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/app/enum/grimity.enum.dart';
+import 'package:grimity/app/extension/string_extension.dart';
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/app/util/validator_util.dart';
 import 'package:grimity/domain/dto/me_request_params.dart';
@@ -10,6 +11,7 @@ import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'profile_edit_provider.freezed.dart';
+
 part 'profile_edit_provider.g.dart';
 
 /// 프로필 수정 상태를 관리하는 프로바이더
@@ -166,11 +168,11 @@ class ProfileEdit extends _$ProfileEdit {
 
   /// URL 유효성 검증
   Future<void> checkUrlValidity() async {
-    if (!ValidatorUtil.isValidUrl(state.url) || state.isUrlChecking) {
+    if (!ValidatorUtil.isAvailableUrl(state.url) || state.isUrlChecking) {
       state = state.copyWith(
         isUrlChecking: false,
         urlState: GrimityTextFieldState.error,
-        urlCheckMessage: '숫자, 영문(소문자), 언더바(_)만 입력 가능합니다.',
+        urlCheckMessage: state.url.getUrlCheckMessage(),
       );
       return;
     }
@@ -178,13 +180,13 @@ class ProfileEdit extends _$ProfileEdit {
     state = state.copyWith(isUrlChecking: true);
 
     try {
-      final bool isAvailable = ValidatorUtil.isValidUrl(state.url);
+      final bool isAvailable = ValidatorUtil.isAvailableUrl(state.url);
 
       if (!isAvailable) {
         state = state.copyWith(
           isUrlChecking: false,
           urlState: GrimityTextFieldState.error,
-          urlCheckMessage: '숫자, 영문(소문자), 언더바(_)만 입력 가능합니다.',
+          urlCheckMessage: state.url.getUrlCheckMessage(),
         );
         return;
       }

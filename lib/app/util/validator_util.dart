@@ -1,4 +1,27 @@
 class ValidatorUtil {
+  static List<String> forbiddenUrls = [
+    "popular",
+    "board",
+    "following",
+    "search",
+    "write",
+    "posts",
+    "feeds",
+    "mypage",
+    "ranking",
+    "direct",
+    "admin", // 추가 가능
+    "home",
+  ];
+
+  static bool isAvailableUrl(String url) {
+    return isValidUrl(url) && !isForbiddenUrl(url);
+  }
+
+  static bool isForbiddenUrl(String url) {
+    return forbiddenUrls.contains(url);
+  }
+
   static bool isValidUrl(String url) {
     // 숫자, 영문(소문자), 언더바(_), 2 ~ 12자
     return RegExp(r'^[a-z0-9_]{2,12}$').hasMatch(url);
