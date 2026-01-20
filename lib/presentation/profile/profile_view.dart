@@ -29,7 +29,8 @@ class ProfileView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final nameOpacity = useState(0.0);
-    final tabController = useTabController(initialLength: postTabView == null ? 1 : 2);
+    final tabLength = postTabView == null ? 1 : 2;
+    final tabController = useTabController(initialLength: tabLength, keys: [tabLength]);
 
     return Scaffold(
       endDrawer: MainAppDrawer(),
