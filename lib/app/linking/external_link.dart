@@ -1,3 +1,5 @@
+import 'package:grimity/app/config/app_router.dart';
+
 enum ExternalLinkType {
   profile,
   post,
@@ -17,9 +19,9 @@ class ExternalLink {
   final String? id;
 
   String get location => switch (type) {
-    ExternalLinkType.profile => '/profile/$url',
-    ExternalLinkType.post => '/posts/$id',
-    ExternalLinkType.feed => '/feeds/$id',
+    ExternalLinkType.profile => ProfileRoute.makePath(url!),
+    ExternalLinkType.post => PostDetailRoute.makePath(id!),
+    ExternalLinkType.feed => FeedDetailRoute.makePath(id!),
     ExternalLinkType.unknown => throw UnimplementedError('unknown은 location을 사용할 수 없습니다.'),
   };
 }
