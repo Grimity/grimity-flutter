@@ -437,7 +437,7 @@ class FeedDetailRoute extends GoRouteData {
   static const String path = '/feeds/:id';
   static const String name = 'feed-detail';
 
-  static String makePath(String id) => '/profile/$id';
+  static String makePath(String id) => '/feeds/$id';
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
