@@ -35,9 +35,8 @@ class ProfileEditSaveButton extends ConsumerWidget {
               ref.invalidate(profileDataProvider);
 
               // 변경된 URL 기준으로 프로필 페이지 pushReplacement
-              Future.delayed(
-                const Duration(milliseconds: 100),
-                () => router.pushReplacement(ProfileRoute.makePath(newUrl)),
+              WidgetsBinding.instance.addPostFrameCallback(
+                (timeStamp) => router.pushReplacement(ProfileRoute.makePath(newUrl)),
               );
             }
           },

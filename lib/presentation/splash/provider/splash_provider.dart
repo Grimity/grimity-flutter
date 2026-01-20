@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/environment/flavor.dart';
 import 'package:grimity/app/linking/pending_deep_link_provider.dart';
@@ -41,9 +42,9 @@ class Splash extends _$Splash {
 
     /// [ColdStart] 딥링크 처리
     if (pendingLink != null) {
-      Future.delayed(const Duration(milliseconds: 100), () {
-        ref.read(routerProvider).push(pendingLink);
-      });
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => ref.read(routerProvider).push(pendingLink),
+      );
     }
 
     return needUpdate;
