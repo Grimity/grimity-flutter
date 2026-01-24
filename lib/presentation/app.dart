@@ -8,6 +8,7 @@ import 'package:grimity/app/environment/flavor.dart';
 import 'package:grimity/app/linking/initialize_app_provider.dart';
 import 'package:grimity/app/linking/pending_deep_link_provider.dart';
 import 'package:grimity/app/static/push_notification.dart';
+import 'package:grimity/app/util/pointer_event_filter.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 import 'package:talker_riverpod_logger/talker_riverpod_logger.dart';
@@ -15,6 +16,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 void runFlavoredApp() async {
   await Flavor.instance.setup();
+
+  // iPadOS 26.1+ 가짜 터치 이벤트 필터링
+  PointerEventFilter.install();
 
   // Initialize talker
   final talker = TalkerFlutter.init();
