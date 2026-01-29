@@ -6,7 +6,7 @@ part 'search_feed_sort_type_provider.g.dart';
 @riverpod
 class SearchFeedSortType extends _$SearchFeedSortType {
   @override
-  SortType build() => SortType.accuracy;
+  SortType build() => SortType.latest;
 
   void update(SortType sortType) {
     if (state == sortType) return;

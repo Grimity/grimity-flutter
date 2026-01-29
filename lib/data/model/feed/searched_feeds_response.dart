@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/data/model/feed/searched_feed_response.dart';
-import 'package:grimity/data/model/shared/cursor_and_count_response.dart';
+import 'package:grimity/data/model/shared/cursor_response.dart';
 import 'package:grimity/domain/entity/feeds.dart';
 
 part 'searched_feeds_response.freezed.dart';
@@ -8,12 +8,11 @@ part 'searched_feeds_response.freezed.dart';
 part 'searched_feeds_response.g.dart';
 
 @Freezed(copyWith: false)
-abstract class SearchedFeedsResponse with _$SearchedFeedsResponse implements CursorAndCountResponse {
+abstract class SearchedFeedsResponse with _$SearchedFeedsResponse implements CursorResponse {
   const SearchedFeedsResponse._();
 
   const factory SearchedFeedsResponse({
     String? nextCursor,
-    required int totalCount,
     required List<SearchedFeedResponse> feeds,
   }) = _SearchedFeedsResponse;
 
@@ -22,6 +21,6 @@ abstract class SearchedFeedsResponse with _$SearchedFeedsResponse implements Cur
 
 extension SearchedFeedsResponseX on SearchedFeedsResponse {
   Feeds toEntity() {
-    return Feeds(feeds: feeds.toEntity(), nextCursor: nextCursor, totalCount: totalCount);
+    return Feeds(feeds: feeds.toEntity(), nextCursor: nextCursor);
   }
 }
