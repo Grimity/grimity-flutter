@@ -6,7 +6,6 @@ import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/domain/entity/users.dart';
 import 'package:grimity/presentation/common/widget/grimity_infinite_scroll_pagination.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
-import 'package:grimity/presentation/common/widget/system/sort/grimity_search_sort_header.dart';
 import 'package:grimity/presentation/common/widget/user_card/grimity_user_card.dart';
 import 'package:grimity/presentation/search/provider/search_user_data_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -34,7 +33,7 @@ class SearchUserTabView extends HookConsumerWidget with SearchUserMixin {
           child: _SearchResultUserView(users: data),
         );
       },
-      loading: () => Skeletonizer(child: _SearchResultUserView(users: Users(users: User.emptyList, totalCount: 0))),
+      loading: () => Skeletonizer(child: _SearchResultUserView(users: Users(users: User.emptyList))),
       error: (e, s) => GrimityStateView.error(onTap: () => invalidateSearchUser(ref)),
     );
   }
@@ -51,25 +50,11 @@ class _SearchResultUserView extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16),
       child: CustomScrollView(
         slivers: [
-          SliverPadding(
-            padding: EdgeInsets.symmetric(vertical: 8),
-            sliver: SliverToBoxAdapter(child: _SearchUserSortHeader(resultCount: users.totalCount ?? 0)),
-          ),
+          SliverPadding(padding: EdgeInsets.symmetric(vertical: 16)),
           _SearchUserSliverListView(users: users.users),
         ],
       ),
     );
-  }
-}
-
-class _SearchUserSortHeader extends StatelessWidget {
-  const _SearchUserSortHeader({required this.resultCount});
-
-  final int resultCount;
-
-  @override
-  Widget build(BuildContext context) {
-    return GrimitySearchSortHeader(resultCount: resultCount, padding: EdgeInsets.zero);
   }
 }
 
