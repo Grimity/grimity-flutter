@@ -8,9 +8,7 @@ enum SortType {
   @JsonValue('oldest')
   oldest('오래된순'),
   @JsonValue('popular')
-  popular('인기순'),
-  @JsonValue('accuracy')
-  accuracy('정확도순');
+  popular('인기순');
 
   final String typeName;
 
@@ -18,5 +16,5 @@ enum SortType {
 
   static List<SortType> get profileFeedSortValues => [latest, like, oldest];
 
-  static List<SortType> get searchFeedSortValues => [latest, popular, accuracy];
+  static List<SortType> get searchFeedSortValues => [latest, popular];
 }

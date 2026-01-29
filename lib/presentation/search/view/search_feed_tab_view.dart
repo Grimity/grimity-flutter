@@ -39,7 +39,7 @@ class SearchFeedTabView extends HookConsumerWidget with SearchFeedMixin {
       },
       loading:
           () => Skeletonizer(
-            child: _SearchResultFeedView(feeds: Feeds(feeds: Feed.createEmptyList(context), totalCount: 0)),
+            child: _SearchResultFeedView(feeds: Feeds(feeds: Feed.createEmptyList(context))),
           ),
       error: (e, s) => GrimityStateView.error(onTap: () => invalidateSearchFeed(ref)),
     );
@@ -59,7 +59,7 @@ class _SearchResultFeedView extends StatelessWidget {
         slivers: [
           SliverPadding(
             padding: EdgeInsets.symmetric(vertical: 8),
-            sliver: SliverToBoxAdapter(child: _SearchFeedSortHeader(resultCount: feeds.totalCount ?? 0)),
+            sliver: SliverToBoxAdapter(child: _SearchFeedSortHeader()),
           ),
           _SearchFeedListView(feeds: feeds.feeds),
         ],
@@ -69,16 +69,13 @@ class _SearchResultFeedView extends StatelessWidget {
 }
 
 class _SearchFeedSortHeader extends ConsumerWidget {
-  const _SearchFeedSortHeader({required this.resultCount});
-
-  final int resultCount;
+  const _SearchFeedSortHeader();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final sortType = ref.watch(searchFeedSortTypeProvider);
 
     return GrimitySearchSortHeader(
-      resultCount: resultCount,
       sortValue: sortType,
       sortItems:
           SortType.searchFeedSortValues
