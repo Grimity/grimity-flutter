@@ -50,7 +50,7 @@ class _SearchResultUserView extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16),
       child: CustomScrollView(
         slivers: [
-          SliverPadding(padding: EdgeInsets.symmetric(vertical: 16)),
+          SliverGap(32),
           _SearchUserSliverListView(users: users.users),
         ],
       ),
