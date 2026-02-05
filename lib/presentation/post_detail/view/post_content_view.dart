@@ -8,6 +8,7 @@ import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/config/app_typeface_editor.dart';
 import 'package:grimity/app/enum/report.enum.dart';
+import 'package:grimity/app/util/color_util.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
@@ -158,6 +159,8 @@ class _PostContentSection extends StatelessWidget {
             return {'font-size': '24px', 'font-weight': '600', 'line-height': '30px', 'margin': '0 0 14px 0'};
           case 'p':
             return {'font-size': '16px', 'font-weight': '500', 'line-height': '24px', 'margin': '0 0 6px 0'};
+          case 'a':
+            return {'color': AppColor.link.toHexColor(), 'text-decoration': 'none'};
           case 'strong':
           case 'b':
             return {'font-weight': '700'};

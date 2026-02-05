@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -18,6 +19,7 @@ import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
 import 'package:grimity/presentation/common/widget/popup/grimity_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/common/widget/system/profile/grimity_user_image.dart';
 import 'package:grimity/presentation/common/widget/system/chip/grimity_chip.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CommentWidget extends ConsumerWidget {
   const CommentWidget({
@@ -124,9 +126,11 @@ class CommentWidget extends ConsumerWidget {
                                   text: '@${comment.mentionedUser!.name} ',
                                   style: AppTypeface.label3.copyWith(color: AppColor.main),
                                 ),
-                              TextSpan(
+                              LinkifySpan(
                                 text: comment.content,
                                 style: AppTypeface.label3.copyWith(color: AppColor.gray800),
+                                linkStyle: AppTypeface.label3.copyWith(color: AppColor.link),
+                                onOpen: (link) => launchUrl(Uri.parse(link.url)),
                               ),
                             ],
                           ),
