@@ -130,7 +130,10 @@ class CommentWidget extends ConsumerWidget {
                                 text: comment.content,
                                 style: AppTypeface.label3.copyWith(color: AppColor.gray800),
                                 linkStyle: AppTypeface.label3.copyWith(color: AppColor.link),
-                                onOpen: (link) => launchUrl(Uri.parse(link.url)),
+                                onOpen: (link) async {
+                                  final linkUri = Uri.parse(link.url);
+                                  await launchUrl(linkUri, mode: LaunchMode.externalApplication);
+                                },
                               ),
                             ],
                           ),
