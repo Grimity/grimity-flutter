@@ -6,7 +6,6 @@ import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/presentation/setting/widget/setting_action_tile.dart';
 import 'package:grimity/presentation/setting/widget/setting_contact_options_bottom_sheet.dart';
 import 'package:grimity/presentation/setting/widget/setting_delete_account_dialog.dart';
-import 'package:grimity/presentation/setting/widget/setting_footer.dart';
 import 'package:grimity/presentation/setting/widget/setting_notification_section.dart';
 
 class SettingBodyView extends ConsumerWidget {
@@ -24,7 +23,6 @@ class SettingBodyView extends ConsumerWidget {
           SettingActionTile(title: '문의하기', onTap: () => showContactOptionsBottomSheet(context)),
           divider,
           SettingActionTile(title: '회원 탈퇴', onTap: () => showDeleteAccountDialog(context, ref)),
-          SettingFooter(),
         ],
       ),
     );

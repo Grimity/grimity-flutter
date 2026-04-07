@@ -14,6 +14,7 @@ import 'package:grimity/presentation/album_organize/album_organize_page.dart';
 import 'package:grimity/presentation/block/blocked_users_page.dart';
 import 'package:grimity/presentation/board/tabs/board_page.dart';
 import 'package:grimity/presentation/board/search/board_search_page.dart';
+import 'package:grimity/presentation/business_info/business_info_page.dart';
 import 'package:grimity/presentation/chat_message/chat_message_page.dart';
 import 'package:grimity/presentation/chat_new/new_chat_page.dart';
 import 'package:grimity/presentation/common/enum/upload_image_type.dart';
@@ -570,4 +571,15 @@ class BlockedUsersRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => BlockedUsersPage();
+}
+
+@TypedGoRoute<BusinessInfoRoute>(path: BusinessInfoRoute.path, name: BusinessInfoRoute.name)
+class BusinessInfoRoute extends GoRouteData {
+  const BusinessInfoRoute();
+
+  static const String path = '/business-info';
+  static const String name = 'business-info';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const BusinessInfoPage();
 }

@@ -36,4 +36,7 @@ abstract class AppColor {
 
   // Accent
   static const Color accentRed = Color(0xFFF5506C);
+
+  // HTML
+  static const Color link = Color(0xFF0000EF);
 }
