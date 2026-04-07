@@ -56,12 +56,12 @@ class GrimityCachedNetworkImage extends StatelessWidget {
         double? height = this.height;
 
         // 주어진 가로 크기가 무한이라면 부모의 제약 조건을 따름.
-        if (width?.isInfinite ?? false == true) {
+        if (width?.isInfinite == true) {
           width = constraints.maxWidth;
         }
 
         // 주어진 세로 크기가 무한이라면 부모의 제약 조건을 따름.
-        if (height?.isInfinite ?? false == true) {
+        if (height?.isInfinite == true) {
           height = constraints.maxHeight;
         }
 

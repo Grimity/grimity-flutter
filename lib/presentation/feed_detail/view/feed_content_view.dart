@@ -162,7 +162,7 @@ class _FeedImageListSection extends StatelessWidget {
               onTap: () {
                 ImageViewerRoute(initialIndex: index, imageUrls: imageUrls).push(context);
               },
-              child: GrimityCachedNetworkImage.fitWidth(imageUrl: imageUrl, width: 343),
+              child: GrimityCachedNetworkImage.fitWidth(imageUrl: imageUrl),
             );
           },
           separatorBuilder: (_, __) => Gap(8),
