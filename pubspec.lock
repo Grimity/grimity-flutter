@@ -915,6 +915,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.6.1"
+  flutter_scroll_bottom_sheet:
+    dependency: transitive
+    description:
+      name: flutter_scroll_bottom_sheet
+      sha256: "29b003ac49b0d0853f85404648d724c7b1db151469f13064138bcffc25480a4c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.1"
   flutter_secure_storage:
     dependency: "direct main"
     description:
@@ -975,10 +983,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_svg
-      sha256: d44bf546b13025ec7353091516f6881f1d4c633993cb109c3916c3a0159dadf1
+      sha256: "1ded017b39c8e15c8948ea855070a5ff8ff8b3d5e83f3446e02d6bb12add7ad9"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.4"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -1101,6 +1109,42 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  gds:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: main
+      resolved-ref: "71998aaafe64ec347c8d6a456f080d8f9fc7b711"
+      url: "https://github.com/Grimity/gds-flutter"
+    source: git
+    version: "0.0.1"
+  gds_components:
+    dependency: transitive
+    description:
+      path: "packages/components"
+      ref: "71998aaafe64ec347c8d6a456f080d8f9fc7b711"
+      resolved-ref: "71998aaafe64ec347c8d6a456f080d8f9fc7b711"
+      url: "https://github.com/Grimity/gds-flutter"
+    source: git
+    version: "0.0.1"
+  gds_foundation:
+    dependency: transitive
+    description:
+      path: "packages/foundation"
+      ref: "71998aaafe64ec347c8d6a456f080d8f9fc7b711"
+      resolved-ref: "71998aaafe64ec347c8d6a456f080d8f9fc7b711"
+      url: "https://github.com/Grimity/gds-flutter"
+    source: git
+    version: "0.0.1"
+  gds_tokens:
+    dependency: transitive
+    description:
+      path: "packages/tokens"
+      ref: "71998aaafe64ec347c8d6a456f080d8f9fc7b711"
+      resolved-ref: "71998aaafe64ec347c8d6a456f080d8f9fc7b711"
+      url: "https://github.com/Grimity/gds-flutter"
+    source: git
+    version: "0.0.1"
   gesture_x_detector:
     dependency: transitive
     description:
@@ -2603,5 +2647,5 @@ packages:
     source: hosted
     version: "1.0.6"
 sdks:
-  dart: ">=3.9.0-0 <4.0.0"
-  flutter: ">=3.32.0"
+  dart: ">=3.9.2 <4.0.0"
+  flutter: ">=3.35.0"
