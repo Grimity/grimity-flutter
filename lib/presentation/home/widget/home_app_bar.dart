@@ -1,16 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gap/gap.dart';
-import 'package:grimity/app/config/app_color.dart';
+import 'package:gds/gds.dart';
+import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
-import 'package:grimity/presentation/common/widget/button/grimity_action_button.dart';
 
-class HomeAppBar extends StatelessWidget {
+class HomeAppBar extends ConsumerWidget {
   const HomeAppBar({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.gdsColors;
+    final User? user = ref.watch(userAuthProvider);
+    final bool hasNotification = user?.hasNotification ?? false;
+    Widget notificationAction = GdsGesture(
+      onTap: () => NotificationRoute().push(context),
+      child: GdsIcon.bellOutline.build(color: colors.icon.grayBold, width: 24, height: 24),
+    );
+    if (hasNotification) {
+      notificationAction = Stack(
+        clipBehavior: Clip.none,
+        children: [
+          notificationAction,
+          Positioned(
+            right: 2,
+            child: Container(
+              width: 4,
+              height: 4,
+              decoration: BoxDecoration(color: colors.status.notification, shape: BoxShape.circle),
+            ),
+          ),
+        ],
+      );
+    }
     return SliverAppBar(
       pinned: true,
       floating: false,
@@ -18,21 +41,24 @@ class HomeAppBar extends StatelessWidget {
       centerTitle: false,
       title: Assets.icons.icon.logo.svg(width: 90, height: 27),
       actions: [
-        GrimityActionButton.search(context),
-        Gap(20),
-        Consumer(
-          builder: (context, ref, child) {
-            final hasNotification = ref.watch(userAuthProvider)?.hasNotification ?? false;
-
-            return GrimityActionButton.notification(context, hasNotification: hasNotification);
-          },
+        GdsGesture(
+          onTap: () => SearchRoute().push(context),
+          child: GdsIcon.magnifierOutline.build(color: colors.icon.grayBold, width: 24, height: 24),
         ),
-        Gap(20),
-        GrimityActionButton.user(context),
+        const SizedBox(width: GdsSpacing.spacing20),
+        notificationAction,
+        const SizedBox(width: GdsSpacing.spacing20),
+        GdsGesture(
+          onTap: () => Scaffold.of(context).openEndDrawer(),
+          child: GdsPersonAvatar(
+            size: GdsAvatarSize.xs,
+            imageUrl: user?.image,
+          ),
+        ),
       ],
       bottom: const PreferredSize(
         preferredSize: Size.fromHeight(1),
-        child: Divider(height: 1, color: AppColor.gray300),
+        child: Divider(height: 1, color: GdsColors.gray30),
       ),
     );
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/presentation/common/widget/grimity_infinite_scroll_pagination.dart';
 import 'package:grimity/presentation/common/widget/grimity_refresh_indicator.dart';
 import 'package:grimity/presentation/home/provider/home_data_provider.dart';
@@ -40,17 +40,20 @@ class HomeView extends ConsumerWidget {
           onLoadMore: ref.read(latestFeedDataProvider.notifier).loadMore,
           child: CustomScrollView(
             slivers: [
-              SliverToBoxAdapter(child: Gap(16)),
+              const SliverToBoxAdapter(child: SizedBox(height: GdsSpacing.spacing16)),
               SliverToBoxAdapter(child: noticeView),
-              SliverToBoxAdapter(child: Gap(24)),
+              const SliverToBoxAdapter(child: SizedBox(height: GdsSpacing.spacing24)),
               SliverToBoxAdapter(child: feedRankingView),
-              SliverToBoxAdapter(child: Gap(50)),
+              const SliverToBoxAdapter(child: SizedBox(height: GdsSpacing.spacing48)),
               SliverToBoxAdapter(child: latestPostView),
-              SliverToBoxAdapter(child: Gap(50)),
+              const SliverToBoxAdapter(child: SizedBox(height: GdsSpacing.spacing48)),
               SliverToBoxAdapter(child: latestFeedTitle),
-              SliverToBoxAdapter(child: Gap(16)),
-              SliverPadding(padding: EdgeInsets.symmetric(horizontal: 16), sliver: latestFeedView),
-              SliverToBoxAdapter(child: Gap(16)),
+              const SliverToBoxAdapter(child: SizedBox(height: GdsSpacing.spacing16)),
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: GdsSpacing.spacing16),
+                sliver: latestFeedView,
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: GdsSpacing.spacing16)),
             ],
           ),
         ),
