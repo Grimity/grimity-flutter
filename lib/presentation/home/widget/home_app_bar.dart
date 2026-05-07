@@ -12,8 +12,12 @@ class HomeAppBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.gdsColors;
-    final User? user = ref.watch(userAuthProvider);
-    final bool hasNotification = user?.hasNotification ?? false;
+    final hasNotification = ref.watch(
+      userAuthProvider.select((user) => user?.hasNotification ?? false),
+    );
+    final userImage = ref.watch(
+      userAuthProvider.select((user) => user?.image),
+    );
     Widget notificationAction = GdsGesture(
       onTap: () => NotificationRoute().push(context),
       child: GdsIcon.bellOutline.build(color: colors.icon.grayBold, width: 24, height: 24),
@@ -52,7 +56,7 @@ class HomeAppBar extends ConsumerWidget {
           onTap: () => Scaffold.of(context).openEndDrawer(),
           child: GdsPersonAvatar(
             size: GdsAvatarSize.xs,
-            imageUrl: user?.image,
+            imageUrl: userImage,
           ),
         ),
       ],
