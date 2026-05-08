@@ -3,7 +3,7 @@ import 'package:grimity/app/config/app_const.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/extension/image_extension.dart';
 import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
+import 'package:gds/gds.dart';
 
 class _Banner {
   const _Banner({
@@ -32,7 +32,7 @@ class HomeNoticeView extends StatelessWidget {
 
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
-          child: GrimityGesture(
+          child: GdsGesture(
             onTap: () => PostDetailRoute(id: AppConst.usageGuidePostId).push(context),
             child: banner.asset.image(
               cacheWidth: banner.width.cacheSize(context),

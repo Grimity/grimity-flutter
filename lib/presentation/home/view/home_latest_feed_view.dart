@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/presentation/common/widget/grimity_feed_grid.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/home/provider/home_data_provider.dart';
+import 'package:grimity/presentation/home/widget/home_section_header.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class HomeLatestFeedTitle extends StatelessWidget {
@@ -12,9 +12,8 @@ class HomeLatestFeedTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Text('최신 그림', style: AppTypeface.subTitle1),
+    return const HomeSectionHeader(
+      title: '최신 그림',
     );
   }
 }
