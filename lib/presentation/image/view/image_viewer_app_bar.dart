@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
-import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/app/config/app_theme.dart';
-import 'package:grimity/app/config/app_typeface.dart';
-import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/image/provider/image_save_provider.dart';
 
 class ImageViewerAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -17,17 +13,15 @@ class ImageViewerAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.gdsColors;
+
     return AppBar(
-      backgroundColor: Colors.black,
-      leading: GrimityGesture(
+      backgroundColor: colors.bg.black,
+      leading: GdsGesture(
         onTap: () => context.pop(),
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-          child: Assets.icons.icon.close.svg(
-            width: 24,
-            height: 24,
-            colorFilter: ColorFilter.mode(AppColor.gray00, BlendMode.srcIn),
-          ),
+          padding: EdgeInsets.symmetric(vertical: GdsSpacing.spacing12, horizontal: GdsSpacing.spacing16),
+          child: GdsIcon.xMark.build(color: GdsColors.white, width: 24, height: 24),
         ),
       ),
       titleSpacing: 0,
@@ -36,8 +30,8 @@ class ImageViewerAppBar extends StatelessWidget implements PreferredSizeWidget {
               ? null
               : Row(
                 children: [
-                  Text('${currentIndex + 1} ', style: AppTypeface.body1.copyWith(color: AppColor.main)),
-                  Text('/ ${imageUrls.length}', style: AppTypeface.body1.copyWith(color: AppColor.gray00)),
+                  Text('${currentIndex + 1} ', style: GdsTypography.body1SB.copyWith(color: colors.text.primaryNormal)),
+                  Text('/ ${imageUrls.length}', style: GdsTypography.body1R.copyWith(color: GdsColors.white)),
                 ],
               ),
       actions: [
@@ -46,13 +40,9 @@ class ImageViewerAppBar extends StatelessWidget implements PreferredSizeWidget {
             builder: (context, ref, child) {
               final isSaving = ref.watch(imageSaveProvider).isLoading;
 
-              return GrimityGesture(
+              return GdsGesture(
                 onTap: isSaving ? null : () => ref.read(imageSaveProvider.notifier).saveByUrl(imageUrls[currentIndex]),
-                child: Assets.icons.icon.download.svg(
-                  width: 24,
-                  height: 24,
-                  colorFilter: ColorFilter.mode(AppColor.gray00, BlendMode.srcIn),
-                ),
+                child: GdsIcon.download.build(color: GdsColors.white, width: 24, height: 24),
               );
             },
           ),
@@ -61,5 +51,5 @@ class ImageViewerAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => AppTheme.kToolbarHeight;
+  Size get preferredSize => const Size.fromHeight(48);
 }
