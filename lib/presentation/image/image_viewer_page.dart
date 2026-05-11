@@ -17,7 +17,7 @@ class ImageViewerPage extends HookWidget {
     final pageController = usePageController(initialPage: initialIndex);
 
     return Scaffold(
-      backgroundColor: GdsColors.black,
+      backgroundColor: context.gdsColors.bg.black,
       appBar: ImageViewerAppBar(
         imageUrls: imageUrls,
         currentIndex: currentIndex.value,

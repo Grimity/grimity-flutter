@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimity/app/config/app_theme.dart';
 import 'package:grimity/presentation/image/provider/image_save_provider.dart';
 
 class ImageViewerAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -21,7 +22,7 @@ class ImageViewerAppBar extends StatelessWidget implements PreferredSizeWidget {
         onTap: () => context.pop(),
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: GdsSpacing.spacing12, horizontal: GdsSpacing.spacing16),
-          child: GdsIcon.xMark.build(color: GdsColors.white, width: 24, height: 24),
+          child: GdsIcon.xMark.build(color: colors.icon.inverse, width: 24, height: 24),
         ),
       ),
       titleSpacing: 0,
@@ -31,7 +32,7 @@ class ImageViewerAppBar extends StatelessWidget implements PreferredSizeWidget {
               : Row(
                 children: [
                   Text('${currentIndex + 1} ', style: GdsTypography.body1SB.copyWith(color: colors.text.primaryNormal)),
-                  Text('/ ${imageUrls.length}', style: GdsTypography.body1R.copyWith(color: GdsColors.white)),
+                  Text('/ ${imageUrls.length}', style: GdsTypography.body1R.copyWith(color: colors.text.inverse)),
                 ],
               ),
       actions: [
@@ -42,7 +43,7 @@ class ImageViewerAppBar extends StatelessWidget implements PreferredSizeWidget {
 
               return GdsGesture(
                 onTap: isSaving ? null : () => ref.read(imageSaveProvider.notifier).saveByUrl(imageUrls[currentIndex]),
-                child: GdsIcon.download.build(color: GdsColors.white, width: 24, height: 24),
+                child: GdsIcon.download.build(color: colors.icon.inverse, width: 24, height: 24),
               );
             },
           ),
@@ -51,5 +52,5 @@ class ImageViewerAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(48);
+  Size get preferredSize => AppTheme.kToolbarHeight;
 }
