@@ -23,10 +23,13 @@ class HomeLatestPostView extends ConsumerWidget {
           onMoreTap: () => BoardRoute().go(context),
         ),
         const SizedBox(height: GdsSpacing.spacing8),
-        latestPost.when(
-          data: (data) => GrimityPostFeed(posts: data),
-          loading: () => Skeletonizer(child: GrimityPostFeed(posts: Post.emptyList)),
-          error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(latestPostDataProvider)),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: GdsSpacing.spacing16),
+          child: latestPost.when(
+            data: (data) => GrimityPostFeed(posts: data),
+            loading: () => Skeletonizer(child: GrimityPostFeed(posts: Post.emptyList)),
+            error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(latestPostDataProvider)),
+          ),
         ),
       ],
     );

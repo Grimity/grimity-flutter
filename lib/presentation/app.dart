@@ -108,7 +108,10 @@ class _AppState extends ConsumerState<App> with WidgetsBindingObserver {
         FlutterQuillLocalizations.delegate,
       ],
       routerConfig: ref.watch(routerProvider),
-      theme: AppTheme.appTheme,
+      theme: AppTheme.appTheme.copyWith(
+        // TODO: 개발 중에는 앱 전체적으로 다크 모드로 고정. (시스템 다크 모드와 무관하게)
+        brightness: Brightness.dark,
+      ),
       builder: routerBuilder,
     );
   }
