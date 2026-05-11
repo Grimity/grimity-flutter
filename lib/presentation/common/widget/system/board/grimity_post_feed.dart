@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/presentation/common/widget/system/board/grimity_post_card.dart';
 
@@ -19,12 +18,11 @@ class GrimityPostFeed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
+    return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: posts.length,
       padding: EdgeInsets.zero,
-      separatorBuilder: (context, index) => Divider(color: AppColor.gray300, height: 1, thickness: 1),
       itemBuilder: (context, index) {
         final post = posts[index];
         return Padding(

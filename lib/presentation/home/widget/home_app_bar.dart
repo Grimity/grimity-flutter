@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gds/gds.dart';
 import 'package:grimity/app/config/app_router.dart';
-import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 
 class HomeAppBar extends ConsumerWidget {
@@ -10,58 +9,25 @@ class HomeAppBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colors = context.gdsColors;
+    // 사용자 아바타 이미지 URL 가져오기
+    final avatarImage = ref.watch(
+      userAuthProvider.select((user) => user?.image),
+    );
+
+    // 알림 여부 가져오기
     final hasNotification = ref.watch(
       userAuthProvider.select((user) => user?.hasNotification ?? false),
     );
-    final userImage = ref.watch(
-      userAuthProvider.select((user) => user?.image),
-    );
-    Widget notificationAction = GdsGesture(
-      onTap: () => NotificationRoute().push(context),
-      child: GdsIcon.bellOutline.build(color: colors.icon.grayBold, width: 24, height: 24),
-    );
-    if (hasNotification) {
-      notificationAction = Stack(
-        clipBehavior: Clip.none,
-        children: [
-          notificationAction,
-          Positioned(
-            right: 2,
-            child: Container(
-              width: 4,
-              height: 4,
-              decoration: BoxDecoration(color: colors.status.notification, shape: BoxShape.circle),
-            ),
-          ),
-        ],
-      );
-    }
-    return SliverAppBar(
-      pinned: true,
-      floating: false,
-      snap: false,
-      centerTitle: false,
-      title: Assets.icons.icon.logo.svg(width: 90, height: 27),
-      actions: [
-        GdsGesture(
-          onTap: () => SearchRoute().push(context),
-          child: GdsIcon.magnifierOutline.build(color: colors.icon.grayBold, width: 24, height: 24),
+
+    return SliverToBoxAdapter(
+      child: SafeArea(
+        child: GdsTopNavigation.main(
+          onSearch: () => SearchRoute().push(context),
+          onAvatar: () => NotificationRoute().push(context),
+          onNotification: () => Scaffold.of(context).openEndDrawer(),
+          avatarImageUrl: avatarImage,
+          hasNotification: hasNotification,
         ),
-        const SizedBox(width: GdsSpacing.spacing20),
-        notificationAction,
-        const SizedBox(width: GdsSpacing.spacing20),
-        GdsGesture(
-          onTap: () => Scaffold.of(context).openEndDrawer(),
-          child: GdsPersonAvatar(
-            size: GdsAvatarSize.xs,
-            imageUrl: userImage,
-          ),
-        ),
-      ],
-      bottom: const PreferredSize(
-        preferredSize: Size.fromHeight(1),
-        child: Divider(height: 1, color: GdsColors.gray30),
       ),
     );
   }
