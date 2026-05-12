@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/presentation/common/widget/grimity_pop_scope.dart';
 import 'package:grimity/presentation/drawer/main_app_drawer.dart';
@@ -18,6 +19,7 @@ class MainAppShell extends StatefulWidget {
 class _MainAppShellState extends State<MainAppShell> {
   @override
   Widget build(BuildContext context) {
+    final colors = context.gdsColors;
     final canPop = widget.navigationShell.currentIndex == MainNavigationItem.home.index;
     final showFab =
         GoRouter.of(context).state.name == MainNavigationItem.values[widget.navigationShell.currentIndex].name;
@@ -26,6 +28,7 @@ class _MainAppShellState extends State<MainAppShell> {
       canPop: canPop,
       callback: () => widget.navigationShell.goBranch(MainNavigationItem.home.index),
       child: Scaffold(
+        backgroundColor: colors.bg.primary,
         endDrawer: MainAppDrawer(),
         body: widget.navigationShell,
         bottomNavigationBar: MainBottomNavigationBar(navigationShell: widget.navigationShell),

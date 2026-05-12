@@ -23,8 +23,8 @@ class HomeAppBar extends ConsumerWidget {
       child: SafeArea(
         child: GdsTopNavigation.main(
           onSearch: () => SearchRoute().push(context),
-          onAvatar: () => NotificationRoute().push(context),
-          onNotification: () => Scaffold.of(context).openEndDrawer(),
+          onAvatar: () => Scaffold.of(context).openEndDrawer(),
+          onNotification: () => NotificationRoute().push(context),
           avatarImageUrl: avatarImage,
           hasNotification: hasNotification,
         ),
