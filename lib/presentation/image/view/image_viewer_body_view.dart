@@ -1,11 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
-import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/presentation/common/widget/grimity_cached_network_image.dart';
-import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
-import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/presentation/image/provider/image_save_provider.dart';
 import 'package:photo_view/photo_view.dart';
 
@@ -16,12 +14,18 @@ class ImageViewerBodyView extends StatelessWidget {
     required this.currentIndex,
     required this.pageController,
     required this.onPageChanged,
+    required this.isZoomed,
+    required this.onZoomChanged,
+    required this.onClose,
   });
 
   final List<String> imageUrls;
   final int currentIndex;
   final PageController pageController;
   final ValueChanged<int> onPageChanged;
+  final bool isZoomed;
+  final ValueChanged<bool> onZoomChanged;
+  final VoidCallback onClose;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +39,9 @@ class ImageViewerBodyView extends StatelessWidget {
                   imageUrls: imageUrls,
                   pageController: pageController,
                   onPageChanged: onPageChanged,
+                  isZoomed: isZoomed,
+                  onZoomChanged: onZoomChanged,
+                  onClose: onClose,
                 ),
               ),
               if (imageUrls.length > 1)
@@ -51,7 +58,7 @@ class ImageViewerBodyView extends StatelessWidget {
             builder: (context, ref, child) {
               final isSaving = ref.watch(imageSaveProvider).isLoading;
 
-              if (isSaving) return Center(child: GrimityCircularProgressIndicator());
+              if (isSaving) return Center(child: GdsCircularLoading());
 
               return SizedBox.shrink();
             },
@@ -67,24 +74,69 @@ class _ImageViewerPageView extends StatelessWidget {
     required this.imageUrls,
     required this.pageController,
     required this.onPageChanged,
+    required this.isZoomed,
+    required this.onZoomChanged,
+    required this.onClose,
   });
 
   final List<String> imageUrls;
   final PageController pageController;
   final ValueChanged<int> onPageChanged;
+  final bool isZoomed;
+  final ValueChanged<bool> onZoomChanged;
+  final VoidCallback onClose;
 
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
       controller: pageController,
       itemCount: imageUrls.length,
+      physics: isZoomed ? const NeverScrollableScrollPhysics() : const ClampingScrollPhysics(),
       onPageChanged: onPageChanged,
       itemBuilder: (context, index) {
-        return PhotoView(
-          imageProvider: CachedNetworkImageProvider(imageUrls[index]),
-          backgroundDecoration: const BoxDecoration(color: Colors.transparent),
+        return _ZoomableImage(
+          imageUrl: imageUrls[index],
+          onZoomChanged: onZoomChanged,
+          onClose: onClose,
         );
       },
+    );
+  }
+}
+
+class _ZoomableImage extends HookWidget {
+  const _ZoomableImage({
+    required this.imageUrl,
+    required this.onZoomChanged,
+    required this.onClose,
+  });
+
+  final String imageUrl;
+  final ValueChanged<bool> onZoomChanged;
+  final VoidCallback onClose;
+
+  @override
+  Widget build(BuildContext context) {
+    final scaleStateController = useMemoized(() => PhotoViewScaleStateController());
+    final isZoomed = useState(false);
+
+    useEffect(() {
+      final sub = scaleStateController.outputScaleStateStream.listen((state) {
+        final zoomed = state != PhotoViewScaleState.initial;
+        isZoomed.value = zoomed;
+        onZoomChanged(zoomed);
+      });
+      return () {
+        sub.cancel();
+        scaleStateController.dispose();
+      };
+    }, []);
+
+    return PhotoView(
+      imageProvider: CachedNetworkImageProvider(imageUrl),
+      backgroundDecoration: const BoxDecoration(color: Colors.transparent),
+      scaleStateController: scaleStateController,
+      onTapUp: isZoomed.value ? null : (_, __, ___) => onClose(),
     );
   }
 }
@@ -102,8 +154,14 @@ class _ImageViewerThumbnailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.gdsColors;
+
     return Padding(
-      padding: const EdgeInsets.only(top: 16, bottom: 32, left: 16),
+      padding: const EdgeInsets.only(
+        top: GdsSpacing.spacing16,
+        bottom: GdsSpacing.spacing32,
+        left: GdsSpacing.spacing16,
+      ),
       child: SizedBox(
         height: 48,
         child: ListView.separated(
@@ -111,13 +169,13 @@ class _ImageViewerThumbnailView extends StatelessWidget {
           itemCount: imageUrls.length,
           itemBuilder: (context, index) {
             final isSelected = index == currentIndex;
-            return GrimityGesture(
+            return GdsGesture(
               onTap: () => pageController.jumpToPage(index),
               child: Container(
                 decoration: BoxDecoration(
-                  border: isSelected ? Border.all(color: AppColor.main, width: 1) : null,
+                  border: isSelected ? Border.all(color: colors.icon.primaryNormal, width: 1) : null,
                 ),
-                child: GrimityCachedNetworkImage.cover(
+                child: GdsThumbnail(
                   imageUrl: imageUrls[index],
                   width: 48,
                   height: 48,
@@ -125,7 +183,7 @@ class _ImageViewerThumbnailView extends StatelessWidget {
               ),
             );
           },
-          separatorBuilder: (_, __) => const Gap(6),
+          separatorBuilder: (_, __) => Gap(GdsSpacing.spacing6),
         ),
       ),
     );
