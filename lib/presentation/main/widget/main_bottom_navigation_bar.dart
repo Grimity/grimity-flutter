@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
-import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
+import 'package:grimity/presentation/main/provider/main_bottom_navigation_item.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class MainBottomNavigationBar extends ConsumerWidget {
@@ -9,14 +9,12 @@ class MainBottomNavigationBar extends ConsumerWidget {
 
   final StatefulNavigationShell navigationShell;
 
-  static const _chatMessageIndex = 4;
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.gdsColors;
     final currentIndex = navigationShell.currentIndex;
-    final hasUnreadChat = ref.watch(userAuthProvider)?.hasUnreadChatMessage ?? false;
-    final dotIndex = hasUnreadChat ? _chatMessageIndex : null;
+    final chatItem = MainNavigationItem.chatMessage;
+    final dotIndex = chatItem.shouldVisibleBadge(ref) ? chatItem.index : null;
 
     return SafeArea(
       top: false,

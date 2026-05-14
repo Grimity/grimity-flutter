@@ -50,7 +50,7 @@ enum MainNavigationItem {
       case MainNavigationItem.ranking:
         return RankingRoute.name;
       case MainNavigationItem.following:
-        return FollowRoute.name;
+        return FollowingRoute.name;
       case MainNavigationItem.board:
         return BoardRoute.name;
       case MainNavigationItem.chatMessage:
