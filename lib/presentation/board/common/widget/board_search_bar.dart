@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
@@ -33,7 +33,7 @@ class BoardSearchBar extends HookConsumerWidget {
       final keyword = controller.text.trim();
 
       if (keyword.length < 2) {
-        ToastService.showError('두 글자 이상 입력해주세요');
+        ToastService.showFailure('두 글자 이상 입력해주세요');
         return;
       }
 

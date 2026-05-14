@@ -1,4 +1,4 @@
-import 'dart:io';
+﻿import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -75,7 +75,7 @@ class UploadImage extends _$UploadImage {
       final urlResult = await getImageUploadUrlUseCase.execute(urlRequest);
 
       if (urlResult.isFailure) {
-        ToastService.showError('문제가 발생하였습니다.');
+        ToastService.showFailure('문제가 발생하였습니다.');
         return false;
       }
 
@@ -85,7 +85,7 @@ class UploadImage extends _$UploadImage {
       );
 
       if (uploadResult.isFailure) {
-        ToastService.showError('문제가 발생하였습니다.');
+        ToastService.showFailure('문제가 발생하였습니다.');
         return false;
       }
 
@@ -106,10 +106,10 @@ class UploadImage extends _$UploadImage {
       // profileEditProvider 업데이트
       if (state.type == UploadImageType.profile) {
         ref.read(profileEditProvider.notifier).updateImage(urlResult.data.imageUrl);
-        ToastService.show('프로필 이미지 업데이트가 완료되었습니다');
+        ToastService.showSuccess('프로필 이미지 업데이트가 완료되었습니다');
       } else {
         ref.read(profileEditProvider.notifier).updateBackgroundImage(urlResult.data.imageUrl);
-        ToastService.show('배경 이미지 업데이트가 완료되었습니다');
+        ToastService.showSuccess('배경 이미지 업데이트가 완료되었습니다');
       }
 
       // 프로필 정보 업데이트

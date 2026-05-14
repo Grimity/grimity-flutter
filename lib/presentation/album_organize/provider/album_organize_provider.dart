@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/domain/dto/album_request_params.dart';
@@ -47,12 +47,12 @@ class AlbumOrganize extends _$AlbumOrganize {
   /// 선택 삭제
   FutureOr<bool> deleteFeeds() async {
     if (state.uploading) {
-      ToastService.showError('처리 중입니다. 잠시만 기다려주세요');
+      ToastService.showFailure('처리 중입니다. 잠시만 기다려주세요');
       return false;
     }
 
     if (state.ids.isEmpty) {
-      ToastService.showError('삭제할 항목이 없습니다');
+      ToastService.showFailure('삭제할 항목이 없습니다');
       return false;
     }
 
@@ -64,11 +64,11 @@ class AlbumOrganize extends _$AlbumOrganize {
 
       final isSuccess = result.fold(
         onSuccess: (value) {
-          ToastService.show('삭제가 완료되었습니다');
+          ToastService.showSuccess('삭제가 완료되었습니다');
           return true;
         },
         onFailure: (e) {
-          ToastService.showError('삭제가 실패되었습니다');
+          ToastService.showFailure('삭제가 실패되었습니다');
           return false;
         },
       );
@@ -87,17 +87,17 @@ class AlbumOrganize extends _$AlbumOrganize {
   /// 앨범 이동
   FutureOr<bool> moveFeeds() async {
     if (state.uploading) {
-      ToastService.showError('처리 중입니다. 잠시만 기다려주세요');
+      ToastService.showFailure('처리 중입니다. 잠시만 기다려주세요');
       return false;
     }
 
     if (state.ids.isEmpty) {
-      ToastService.showError('이동할 항목이 없습니다');
+      ToastService.showFailure('이동할 항목이 없습니다');
       return false;
     }
 
     if (state.targetAlbumId == '') {
-      ToastService.showError('이동할 앨범을 선택해 주세요');
+      ToastService.showFailure('이동할 앨범을 선택해 주세요');
       return false;
     }
 
@@ -113,11 +113,11 @@ class AlbumOrganize extends _$AlbumOrganize {
 
       final isSuccess = result.fold(
         onSuccess: (value) {
-          ToastService.show('이동이 완료되었습니다');
+          ToastService.showSuccess('이동이 완료되었습니다');
           return true;
         },
         onFailure: (e) {
-          ToastService.showError('이동이 실패되었습니다');
+          ToastService.showFailure('이동이 실패되었습니다');
           return false;
         },
       );

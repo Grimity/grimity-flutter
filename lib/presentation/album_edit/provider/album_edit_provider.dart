@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:grimity/app/base/result.dart';
 import 'package:grimity/app/enum/grimity.enum.dart';
 import 'package:grimity/app/exception/album_name_conflict_exception.dart';
 import 'package:grimity/app/service/toast_service.dart';
@@ -14,9 +17,36 @@ part 'album_edit_provider.freezed.dart';
 
 @riverpod
 class AlbumEdit extends _$AlbumEdit {
+  static const _tempAlbumIdPrefix = 'temp-album-';
+
+  List<Album> _initialAlbums = [];
+  int _tempAlbumIdSeed = 0;
+
   @override
   AlbumEditState build() {
     return AlbumEditState();
+  }
+
+  bool get hasUnsavedChanges => !_isSameAlbumList(_initialAlbums, state.albums);
+
+  bool get canSave => hasUnsavedChanges && !state.isAlbumSorting;
+
+  void initializeAlbums(List<Album> albums) {
+    if (_initialAlbums.isNotEmpty || state.albums.isNotEmpty) {
+      return;
+    }
+
+    _initialAlbums = List<Album>.from(albums);
+    _tempAlbumIdSeed = 0;
+    state = state.copyWith(
+      newAlbumName: '',
+      newAlbumNameState: GrimityTextFieldState.normal,
+      isNewAlbumNameChecking: false,
+      albumCheckMessage: null,
+      isAlbumSorting: false,
+      editAlbum: null,
+      albums: List<Album>.from(albums),
+    );
   }
 
   // 새 앨범 이름 업데이트
@@ -26,9 +56,6 @@ class AlbumEdit extends _$AlbumEdit {
 
   // 앨범 순서 편집 토글
   void toggleIsAlbumSorting() {
-    if (state.isAlbumSorting) {
-      _saveAlbumOrder();
-    }
     state = state.copyWith(isAlbumSorting: !state.isAlbumSorting);
   }
 
@@ -79,98 +106,178 @@ class AlbumEdit extends _$AlbumEdit {
   }
 
   // 앨범 추가
-  Future<void> createNewAlbum() async {
+  void createNewAlbum() {
     _checkNewAlbumName();
     if (state.isNewAlbumNameChecking == false) {
       return;
     }
 
-    final result = await createAlbumUseCase.execute(CreateAlbumRequestParam(name: state.newAlbumName));
+    if (_hasDuplicateName(state.newAlbumName)) {
+      state = state.copyWith(
+        isNewAlbumNameChecking: false,
+        newAlbumNameState: GrimityTextFieldState.error,
+        albumCheckMessage: '중복된 이름은 사용하실 수 없어요',
+      );
+      return;
+    }
 
-    result.fold(
-      onSuccess: (value) {
-        final newAlbum = Album(id: value.id, name: state.newAlbumName);
-        final prevAlbums = state.albums;
-        state = state.copyWith(
-          newAlbumName: '',
-          newAlbumNameState: GrimityTextFieldState.normal,
-          albums: [...prevAlbums, newAlbum],
-        );
-      },
-      onFailure: (e) {
-        if (e is AlbumNameConflictException) {
-          state = state.copyWith(
-            isNewAlbumNameChecking: false,
-            newAlbumNameState: GrimityTextFieldState.error,
-            albumCheckMessage: '중복된 이름은 사용하실 수 없어요',
-          );
-        } else {
-          state = state.copyWith(
-            isNewAlbumNameChecking: false,
-            newAlbumNameState: GrimityTextFieldState.error,
-            albumCheckMessage: '',
-          );
-          ToastService.showError('앨범 추가에 에러가 발생했어요');
-        }
-      },
-    );
-  }
-
-  // 앨범 순서 저장
-  Future<void> _saveAlbumOrder() async {
-    final List<String> ids = state.albums.map((e) => e.id).toList();
-    final result = await updateAlbumOrderUseCase.execute(UpdateAlbumOrderRequestParam(ids: ids));
-
-    result.fold(
-      onSuccess: (_) {
-        final reordered = ids.map((id) => state.albums.firstWhere((album) => album.id == id)).toList();
-        state = state.copyWith(albums: reordered);
-      },
-      onFailure: (e) {
-        ToastService.showError('앨범 순서 저장에 실패했어요');
-      },
+    final newAlbum = Album(id: _nextTempAlbumId(), name: state.newAlbumName.trim());
+    state = state.copyWith(
+      newAlbumName: '',
+      newAlbumNameState: GrimityTextFieldState.normal,
+      isNewAlbumNameChecking: false,
+      albumCheckMessage: null,
+      albums: [...state.albums, newAlbum],
     );
   }
 
   // 앨범 삭제
-  Future<void> deleteAlbum(Album album) async {
-    final result = await deleteAlbumUseCase.execute(album.id);
-
-    result.fold(
-      onSuccess: (_) {
-        state = state.copyWith(albums: state.albums.where((a) => a.id != album.id).toList());
-      },
-      onFailure: (e) {
-        ToastService.showError('앨범 삭제에 실패했어요');
-      },
-    );
+  void deleteAlbum(Album album) {
+    state = state.copyWith(albums: state.albums.where((a) => a.id != album.id).toList());
   }
 
   // 앨범 수정
-  Future<void> updateAlbum(Album album) async {
-    if (!ValidatorUtil.isValidAlbumName(album.name)) {
-      ToastService.showError('앨범명 최대 15자까지만 가능해요');
+  void updateAlbum(Album album) {
+    final name = album.name.trim();
+
+    if (!ValidatorUtil.isValidAlbumName(name)) {
+      ToastService.showFailure('앨범명 최대 15자까지만 가능해요');
       return;
     }
 
-    final result = await updateAlbumUseCase.execute(
-      UpdateAlbumWithIdRequestParam(id: album.id, param: UpdateAlbumRequestParam(name: album.name)),
-    );
+    if (_hasDuplicateName(name, excludingId: album.id)) {
+      ToastService.showFailure('중복된 이름은 사용하실 수 없어요');
+      return;
+    }
 
-    result.fold(
-      onSuccess: (_) {
-        final updated =
-            state.albums.map((album) => album.id == album.id ? album.copyWith(name: album.name) : album).toList();
+    final updated = state.albums.map((item) => item.id == album.id ? album.copyWith(name: name) : item).toList();
+    state = state.copyWith(albums: updated, editAlbum: null);
+  }
 
-        state = state.copyWith(albums: updated, editAlbum: null);
-      },
-      onFailure: (e) {
-        if (e is AlbumNameConflictException) {
-          ToastService.showError('중복된 이름은 사용하실 수 없어요');
-        } else {
-          ToastService.showError('앨범 수정에 실패했어요');
-        }
-      },
+  Future<bool> saveChanges() async {
+    if (!hasUnsavedChanges) {
+      return true;
+    }
+
+    if (!_validateAlbumsBeforeSave()) {
+      return false;
+    }
+
+    final previousState = state;
+    var committedAlbums = List<Album>.from(state.albums);
+    final initialById = {for (final album in _initialAlbums) album.id: album};
+    final currentExistingIds = committedAlbums.where((album) => !_isTempAlbum(album)).map((album) => album.id).toSet();
+
+    try {
+      for (final album in _initialAlbums.where((album) => !currentExistingIds.contains(album.id))) {
+        await _throwIfFailure(deleteAlbumUseCase.execute(album.id));
+      }
+
+      for (final album in committedAlbums.where(_isTempAlbum)) {
+        final result = await createAlbumUseCase.execute(CreateAlbumRequestParam(name: album.name));
+        final createdId = result.getOrThrow().id;
+        committedAlbums =
+            committedAlbums.map((item) => item.id == album.id ? item.copyWith(id: createdId) : item).toList();
+      }
+
+      for (final album in committedAlbums.where((album) {
+        final initialAlbum = initialById[album.id];
+        return initialAlbum != null && initialAlbum.name != album.name;
+      })) {
+        await _throwIfFailure(
+          updateAlbumUseCase.execute(
+            UpdateAlbumWithIdRequestParam(id: album.id, param: UpdateAlbumRequestParam(name: album.name)),
+          ),
+        );
+      }
+
+      final orderIds = committedAlbums.map((album) => album.id).toList();
+      if (orderIds.isNotEmpty && !_isSameStringList(_initialAlbums.map((album) => album.id).toList(), orderIds)) {
+        await _throwIfFailure(updateAlbumOrderUseCase.execute(UpdateAlbumOrderRequestParam(ids: orderIds)));
+      }
+
+      _initialAlbums = List<Album>.from(committedAlbums);
+      state = state.copyWith(albums: committedAlbums, isAlbumSorting: false);
+      ToastService.showSuccess('앨범 수정이 완료되었습니다');
+      return true;
+    } on AlbumNameConflictException {
+      state = previousState;
+      ToastService.showFailure('중복된 이름은 사용하실 수 없어요');
+      return false;
+    } catch (_) {
+      state = previousState;
+      ToastService.showFailure('앨범 수정에 실패했어요');
+      return false;
+    }
+  }
+
+  bool _validateAlbumsBeforeSave() {
+    for (final album in state.albums) {
+      if (!ValidatorUtil.isValidAlbumName(album.name)) {
+        ToastService.showFailure('앨범명 최대 15자까지만 가능해요');
+        return false;
+      }
+    }
+
+    final names = <String>{};
+    for (final album in state.albums) {
+      final normalized = album.name.trim();
+      if (!names.add(normalized)) {
+        ToastService.showFailure('중복된 이름은 사용하실 수 없어요');
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  bool _hasDuplicateName(String name, {String? excludingId}) {
+    final normalized = name.trim();
+    return state.albums.any((album) => album.id != excludingId && album.name.trim() == normalized);
+  }
+
+  String _nextTempAlbumId() {
+    _tempAlbumIdSeed += 1;
+    return '$_tempAlbumIdPrefix$_tempAlbumIdSeed';
+  }
+
+  bool _isTempAlbum(Album album) {
+    return album.id.startsWith(_tempAlbumIdPrefix);
+  }
+
+  bool _isSameAlbumList(List<Album> a, List<Album> b) {
+    if (a.length != b.length) {
+      return false;
+    }
+
+    for (var i = 0; i < a.length; i++) {
+      if (a[i].id != b[i].id || a[i].name != b[i].name) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  bool _isSameStringList(List<String> a, List<String> b) {
+    if (a.length != b.length) {
+      return false;
+    }
+
+    for (var i = 0; i < a.length; i++) {
+      if (a[i] != b[i]) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  Future<void> _throwIfFailure(FutureOr<Result<void>> result) async {
+    final resolved = await result;
+    resolved.fold(
+      onSuccess: (_) {},
+      onFailure: (e) => throw e,
     );
   }
 }

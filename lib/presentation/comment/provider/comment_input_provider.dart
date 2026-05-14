@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+﻿import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/presentation/comment/enum/comment_type.dart';
@@ -31,10 +31,10 @@ class CommentInput extends _$CommentInput {
           );
 
       if (result) {
-        ToastService.show('댓글이 등록되었습니다.');
+        ToastService.showSuccess('댓글이 등록되었습니다.');
         state = CommentInputState();
       } else {
-        ToastService.showError('댓글 등록에 실패했습니다.');
+        ToastService.showFailure('댓글 등록에 실패했습니다.');
       }
     } finally {
       setUploading(false);

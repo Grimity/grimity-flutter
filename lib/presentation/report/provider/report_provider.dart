@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/app/enum/report.enum.dart';
 import 'package:grimity/app/service/toast_service.dart';
@@ -32,12 +32,12 @@ class Report extends _$Report {
 
   FutureOr<bool> sendReport() async {
     if (state.type == null) {
-      ToastService.showError('신고 타입을 선택해주세요');
+      ToastService.showFailure('신고 타입을 선택해주세요');
       return false;
     }
 
     if (state.uploading == true) {
-      ToastService.showError('전송 중 입니다');
+      ToastService.showFailure('전송 중 입니다');
       return false;
     }
 
@@ -56,7 +56,7 @@ class Report extends _$Report {
           return true;
         },
         onFailure: (e) {
-          ToastService.showError('서버 전송에 실패했습니다');
+          ToastService.showFailure('서버 전송에 실패했습니다');
           return false;
         },
       );

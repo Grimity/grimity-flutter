@@ -1,4 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+﻿import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/app/enum/grimity.enum.dart';
 import 'package:grimity/app/extension/string_extension.dart';
 import 'package:grimity/app/service/toast_service.dart';
@@ -116,11 +116,11 @@ class ProfileEdit extends _$ProfileEdit {
     result.fold(
       onSuccess: (data) {
         state = state.copyWith(isSaved: true);
-        ToastService.show('프로필 수정이 완료되었습니다');
+        ToastService.showSuccess('프로필 수정이 완료되었습니다');
         ref.read(userAuthProvider.notifier).getUser();
       },
       onFailure: (error) {
-        ToastService.showError('프로필 수정에 실패했습니다');
+        ToastService.showFailure('프로필 수정에 실패했습니다');
       },
     );
   }

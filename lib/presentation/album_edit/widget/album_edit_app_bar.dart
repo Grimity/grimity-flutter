@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
-import 'package:grimity/app/config/app_theme.dart';
-import 'package:grimity/app/config/app_typeface.dart';
-import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
+import 'package:grimity/presentation/album_edit/provider/album_edit_provider.dart';
 
-class AlbumEditAppBar extends StatelessWidget implements PreferredSizeWidget {
+class AlbumEditAppBar extends ConsumerWidget {
   const AlbumEditAppBar({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      toolbarHeight: AppTheme.kToolbarHeight.height,
-      leading: Center(
-        child: GrimityGesture(
-          onTap: () => context.pop(),
-          child: Assets.icons.icon.close.svg(width: 24, height: 24),
-        ),
-      ),
-      title: Text('앨범 편집', style: AppTypeface.subTitle3),
-      titleSpacing: 0,
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(albumEditProvider);
+    final notifier = ref.read(albumEditProvider.notifier);
+
+    return GdsTopNavigation.editor(
+      title: '앨범 편집',
+      label: context.isMobile ? '저장' : '저장하기',
+      onTitle: () {},
+      onSave: () async {
+        final saved = await notifier.saveChanges();
+        if (context.mounted && saved) {
+          context.pop();
+        }
+      },
+      saveEnabled: notifier.canSave,
     );
   }
-
-  @override
-  Size get preferredSize => AppTheme.kToolbarHeight;
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_theme.dart';
 import 'package:grimity/app/environment/flavor.dart';
@@ -52,7 +51,7 @@ class _AppState extends ConsumerState<App> with WidgetsBindingObserver {
     return GestureDetector(
       // 빈 화면에 클릭하면 현재 포커스가 정상적으로 취소되도록 이를 보장합니다.
       onTap: () => FocusScope.of(context).unfocus(),
-      child: FToastBuilder()(context, child),
+      child: child,
     );
   }
 

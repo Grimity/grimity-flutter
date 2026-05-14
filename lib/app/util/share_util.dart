@@ -1,4 +1,4 @@
-import 'package:flutter/services.dart';
+﻿import 'package:flutter/services.dart';
 import 'package:grimity/app/config/app_config.dart';
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:kakao_flutter_sdk_share/kakao_flutter_sdk_share.dart';
@@ -8,7 +8,7 @@ class ShareUtil {
   /// 링크 복사하기
   static Future<void> copyLinkToClipboard(String url) async {
     await Clipboard.setData(ClipboardData(text: url));
-    ToastService.show('링크가 복사되었어요.');
+    ToastService.showSuccess('링크가 복사되었어요.');
   }
 
   /// 트위터(X)로 공유하기
@@ -20,7 +20,7 @@ class ShareUtil {
     try {
       await launchUrl(Uri.parse(shareUrl), mode: LaunchMode.externalApplication);
     } catch (e) {
-      ToastService.show('X 공유에 실패했습니다.');
+      ToastService.showFailure('X 공유에 실패했습니다.');
     }
   }
 
@@ -57,7 +57,7 @@ class ShareUtil {
         return;
       }
 
-      ToastService.show('카카오톡 공유에 실패했습니다.');
+      ToastService.showFailure('카카오톡 공유에 실패했습니다.');
     }
   }
 }

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/domain/entity/user.dart';
@@ -38,7 +38,7 @@ class ProfilePage extends HookConsumerWidget {
           if (user.isBlocked == true && !showBlockedToast.value) {
             showBlockedToast.value = true;
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              ToastService.showError('차단당한 계정입니다.');
+              ToastService.showFailure('차단당한 계정입니다.');
             });
           }
 

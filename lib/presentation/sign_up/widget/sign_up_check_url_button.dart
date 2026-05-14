@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/enum/grimity.enum.dart';
@@ -36,7 +36,7 @@ class SignUpCheckUrlButton extends ConsumerWidget {
               HomeRoute().go(context);
             },
             onFailure: (error) {
-              ToastService.showError('회원가입에 실패했어요.', showImmediately: true);
+              ToastService.showFailure('회원가입에 실패했어요.');
             },
           );
         },

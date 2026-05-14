@@ -1,4 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+﻿import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/app/config/app_config.dart';
 import 'package:grimity/app/enum/presigned.enum.dart';
 import 'package:grimity/app/image/image_upload.dart';
@@ -144,7 +144,7 @@ class FeedUpload extends _$FeedUpload {
 
         final createFeedResult = await createFeedUseCase.execute(createFeedRequest);
         if (createFeedResult.isFailure) {
-          ToastService.showError('피드 생성에 실패했습니다.');
+          ToastService.showFailure('피드 생성에 실패했습니다.');
           return null;
         }
 
@@ -179,7 +179,7 @@ class FeedUpload extends _$FeedUpload {
 
         final updateFeedResult = await updateFeedUseCase.execute(updateFeedRequest);
         if (updateFeedResult.isFailure) {
-          ToastService.showError('피드 수정에 실패했습니다.');
+          ToastService.showFailure('피드 수정에 실패했습니다.');
           return null;
         }
 

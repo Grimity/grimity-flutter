@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:grimity/app/config/app_const.dart';
 import 'package:grimity/app/service/toast_service.dart';
@@ -12,7 +12,7 @@ void showContactOptionsBottomSheet(BuildContext context) {
       title: '메일 링크 복사',
       onTap: () {
         Clipboard.setData(ClipboardData(text: AppConst.contactEmail));
-        ToastService.show('이메일이 복사되었습니다!');
+        ToastService.showSuccess('이메일이 복사되었습니다!');
       },
     ),
   ];
