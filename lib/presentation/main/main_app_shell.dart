@@ -20,9 +20,10 @@ class _MainAppShellState extends State<MainAppShell> {
   @override
   Widget build(BuildContext context) {
     final colors = context.gdsColors;
-    final canPop = widget.navigationShell.currentIndex == MainNavigationItem.home.index;
-    final showFab =
-        GoRouter.of(context).state.name == MainNavigationItem.values[widget.navigationShell.currentIndex].name;
+    final currentIndex = widget.navigationShell.currentIndex;
+    final currentItem = MainNavigationItem.values[currentIndex];
+    final canPop = currentIndex == MainNavigationItem.home.index;
+    final showFab = GoRouter.of(context).state.name == currentItem.routeName;
 
     return GrimityPopScope(
       canPop: canPop,
@@ -32,8 +33,7 @@ class _MainAppShellState extends State<MainAppShell> {
         endDrawer: MainAppDrawer(),
         body: widget.navigationShell,
         bottomNavigationBar: MainBottomNavigationBar(navigationShell: widget.navigationShell),
-        floatingActionButton:
-            showFab ? MainFloatingActionButton(currentIndex: widget.navigationShell.currentIndex) : null,
+        floatingActionButton: showFab ? MainFloatingActionButton(currentIndex: currentIndex) : null,
       ),
     );
   }

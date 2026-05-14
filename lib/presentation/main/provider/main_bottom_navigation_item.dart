@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:grimity/app/config/app_color.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/app/config/app_router.dart';
-import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 
 enum MainNavigationItem {
@@ -14,18 +13,33 @@ enum MainNavigationItem {
 
   const MainNavigationItem();
 
-  SvgGenImage get icon {
+  GdsIcon get gdsIcon {
     switch (this) {
       case MainNavigationItem.home:
-        return Assets.icons.icon.home;
+        return GdsIcon.home;
       case MainNavigationItem.ranking:
-        return Assets.icons.icon.paint;
+        return GdsIcon.paint;
       case MainNavigationItem.following:
-        return Assets.icons.icon.following;
+        return GdsIcon.following;
       case MainNavigationItem.board:
-        return Assets.icons.icon.board;
+        return GdsIcon.board;
       case MainNavigationItem.chatMessage:
-        return Assets.icons.icon.message;
+        return GdsIcon.message;
+    }
+  }
+
+  String get label {
+    switch (this) {
+      case MainNavigationItem.home:
+        return '홈';
+      case MainNavigationItem.ranking:
+        return '랭킹';
+      case MainNavigationItem.following:
+        return '팔로잉';
+      case MainNavigationItem.board:
+        return '자유게시판';
+      case MainNavigationItem.chatMessage:
+        return 'DM';
     }
   }
 
@@ -36,7 +50,7 @@ enum MainNavigationItem {
       case MainNavigationItem.ranking:
         return RankingRoute.name;
       case MainNavigationItem.following:
-        return FollowRoute.name;
+        return FollowingRoute.name;
       case MainNavigationItem.board:
         return BoardRoute.name;
       case MainNavigationItem.chatMessage:
@@ -66,38 +80,5 @@ enum MainNavigationItem {
     }
 
     return false;
-  }
-
-  Widget build(
-    BuildContext context,
-    WidgetRef ref,
-    Widget child,
-  ) {
-    return shouldVisibleBadge(ref) ? badgeWith(child: child) : child;
-  }
-
-  /// 배지를 표시하도록 위젯 트리를 재구성합니다.
-  Widget badgeWith({required Widget child}) {
-    return Stack(
-      children: [
-        child,
-        Positioned.fill(
-          child: Align(
-            alignment: Alignment.topRight,
-            child: Transform.translate(
-              offset: Offset(0, 5),
-              child: Container(
-                width: 6,
-                height: 6,
-                decoration: BoxDecoration(
-                  color: AppColor.accentRed,
-                  shape: BoxShape.circle,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
   }
 }

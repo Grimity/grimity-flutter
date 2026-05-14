@@ -9,12 +9,9 @@ class HomeAppBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // 사용자 아바타 이미지 URL 가져오기
     final avatarImage = ref.watch(
       userAuthProvider.select((user) => user?.image),
     );
-
-    // 알림 여부 가져오기
     final hasNotification = ref.watch(
       userAuthProvider.select((user) => user?.hasNotification ?? false),
     );
