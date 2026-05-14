@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:gap/gap.dart';
-import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/app/config/app_typeface.dart';
+import 'package:gds/gds.dart';
+import 'package:grimity/app/enum/grimity.enum.dart';
 import 'package:grimity/presentation/album_edit/provider/album_edit_provider.dart';
-import 'package:grimity/presentation/album_edit/widget/album_max_count_dialog.dart';
-import 'package:grimity/presentation/common/widget/button/grimity_button.dart';
-import 'package:grimity/presentation/common/widget/text_field/grimity_text_field.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AlbumAddView extends HookConsumerWidget {
@@ -39,43 +35,30 @@ class AlbumAddView extends HookConsumerWidget {
       };
     }, [newAlbumFocusNode, albumEditState.newAlbumName]);
 
-    return Column(
-      children: [
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text('새 앨범 추가', style: AppTypeface.caption1.copyWith(color: AppColor.gray800)),
-        ),
-        Gap(10),
-        Align(
-          alignment: Alignment.center,
-          child: GrimityTextField.normal(
-            state: albumEditState.newAlbumNameState,
-            controller: newAlbumController,
-            focusNode: newAlbumFocusNode,
-            hintText: "예시 : ‘크로키’ 또는 ‘일러스트'",
-            maxLines: 1,
-            onChanged: (val) => ref.read(albumEditProvider.notifier).updateNewAlbumName(val),
-            errorText: albumEditState.albumCheckMessage,
-            enabled: albumEditState.isAlbumSorting ? false : true,
-          ),
-        ),
-        Gap(12),
-        GrimityButton.medium(
-          text: '추가',
-          onTap: () {
-            newAlbumFocusNode.unfocus();
+    return GdsInput.button(
+      titleText: '새 앨범 추가',
+      helperText:
+          albumEditState.newAlbumNameState == GrimityTextFieldState.error
+              ? albumEditState.albumCheckMessage
+              : '앨범은 최대 8개까지 추가 가능합니다.',
+      placeholder: '예시 : ‘크로키’ 또는 ‘일러스트’',
+      buttonLabel: '추가',
+      controller: newAlbumController,
+      focusNode: newAlbumFocusNode,
+      enabled: albumEditState.isAlbumSorting == false,
+      error: albumEditState.newAlbumNameState == GrimityTextFieldState.error,
+      success: albumEditState.newAlbumNameState == GrimityTextFieldState.success,
+      onChanged: (val) => ref.read(albumEditProvider.notifier).updateNewAlbumName(val),
+      buttonEnabled: newAlbumController.text.isNotEmpty && albumEditState.isAlbumSorting == false,
+      onButtonPressed: () {
+        newAlbumFocusNode.unfocus();
 
-            if (ref.read(albumEditProvider).albums.length >= 8) {
-              showAlbumMaxCountDialog(context);
-              return;
-            }
+        if (ref.read(albumEditProvider).albums.length >= 8) {
+          return;
+        }
 
-            ref.read(albumEditProvider.notifier).createNewAlbum();
-          },
-          status: newAlbumController.text.isEmpty || albumEditState.isAlbumSorting ? ButtonStatus.off : ButtonStatus.on,
-        ),
-        Gap(40),
-      ],
+        ref.read(albumEditProvider.notifier).createNewAlbum();
+      },
     );
   }
 }

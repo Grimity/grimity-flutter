@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
@@ -70,7 +70,7 @@ class _SearchTextField extends HookConsumerWidget {
       final kw = keyword.trim();
 
       if (keyword.length < 2) {
-        ToastService.showError('두 글자 이상 입력해주세요');
+        ToastService.showFailure('두 글자 이상 입력해주세요');
         return;
       }
 

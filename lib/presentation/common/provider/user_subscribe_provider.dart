@@ -1,4 +1,4 @@
-import 'package:grimity/app/enum/subscription_type.enum.dart';
+﻿import 'package:grimity/app/enum/subscription_type.enum.dart';
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/domain/dto/me_request_params.dart';
 import 'package:grimity/domain/entity/subscription.dart';
@@ -51,7 +51,7 @@ class UserSubscribe extends _$UserSubscribe {
       onFailure: (e) {
         // 실패 시 원복
         state = prev;
-        ToastService.showError('수정에 실패했습니다');
+        ToastService.showFailure('수정에 실패했습니다');
       },
     );
   }

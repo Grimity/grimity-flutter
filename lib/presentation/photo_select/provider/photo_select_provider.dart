@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+﻿import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
@@ -87,7 +87,7 @@ class PhotoSelect extends _$PhotoSelect {
       }
 
       if (selected.length >= 10) {
-        ToastService.showError('최대 10개까지 추가 가능합니다');
+        ToastService.showFailure('최대 10개까지 추가 가능합니다');
         return data;
       }
 

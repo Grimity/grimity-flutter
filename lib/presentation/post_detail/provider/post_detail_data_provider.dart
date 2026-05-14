@@ -1,4 +1,4 @@
-import 'package:grimity/app/service/toast_service.dart';
+﻿import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/domain/usecase/post_usecases.dart';
 import 'package:grimity/presentation/common/mixin/post_mixin.dart';
@@ -36,11 +36,11 @@ class PostDetailData extends _$PostDetailData with PostMixin<Post?> {
 
     final isSuccess = result.fold(
       onSuccess: (value) {
-        ToastService.show('삭제가 완료되었습니다.');
+        ToastService.showSuccess('삭제가 완료되었습니다.');
         return true;
       },
       onFailure: (e) {
-        ToastService.showError('삭제가 실패되었습니다.');
+        ToastService.showFailure('삭제가 실패되었습니다.');
         return false;
       },
     );

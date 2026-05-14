@@ -4,6 +4,3 @@ enum GrimityAppDevice { mobile, tablet }
 enum GrimityTextFieldType { normal, small, borderless }
 
 enum GrimityTextFieldState { normal, error, disabled, success }
-
-// Toast
-enum GrimityToastType { verbose, error }

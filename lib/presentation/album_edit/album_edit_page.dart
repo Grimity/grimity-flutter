@@ -16,9 +16,11 @@ class AlbumEditPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     useEffect(() {
-      WidgetsBinding.instance.addPostFrameCallback((_) => ref.read(albumEditProvider.notifier).updateAlbums(albums));
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => ref.read(albumEditProvider.notifier).initializeAlbums(albums),
+      );
       return null;
-    });
+    }, [albums]);
 
     return AlbumEditView(
       albumEditAppBar: AlbumEditAppBar(),

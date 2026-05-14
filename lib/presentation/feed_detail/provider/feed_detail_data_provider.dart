@@ -1,4 +1,4 @@
-import 'package:grimity/app/service/toast_service.dart';
+﻿import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/usecase/feed_usecases.dart';
 import 'package:grimity/presentation/common/mixin/feed_mixin.dart';
@@ -36,11 +36,11 @@ class FeedDetailData extends _$FeedDetailData with FeedMixin<Feed?> {
 
     final isSuccess = result.fold(
       onSuccess: (value) {
-        ToastService.show('삭제가 완료되었습니다.');
+        ToastService.showSuccess('삭제가 완료되었습니다.');
         return true;
       },
       onFailure: (e) {
-        ToastService.showError('삭제가 실패되었습니다.');
+        ToastService.showFailure('삭제가 실패되었습니다.');
         return false;
       },
     );

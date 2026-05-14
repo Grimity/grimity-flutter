@@ -1,4 +1,4 @@
-import 'dart:io';
+﻿import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -19,7 +19,7 @@ class ImageUpload {
     // AssetEntity -> XFile 변환 (임시 파일 생성)
     final xFileList = await _assetEntitiesToXFiles(imageAssets);
     if (xFileList.contains(null)) {
-      ToastService.showError('이미지 파일을 읽을 수 없습니다.');
+      ToastService.showFailure('이미지 파일을 읽을 수 없습니다.');
       return [];
     }
 
@@ -42,7 +42,7 @@ class ImageUpload {
 
     final urlResult = await getImageUploadUrlsUseCase.execute(urlRequests);
     if (urlResult.isFailure) {
-      ToastService.showError('이미지 업로드 주소 생성에 실패했습니다.');
+      ToastService.showFailure('이미지 업로드 주소 생성에 실패했습니다.');
       return [];
     }
 
@@ -54,7 +54,7 @@ class ImageUpload {
 
     final uploadResult = await uploadImagesUseCase.execute(uploadRequests);
     if (uploadResult.isFailure) {
-      ToastService.showError('문제가 발생하였습니다.');
+      ToastService.showFailure('문제가 발생하였습니다.');
       return [];
     }
 

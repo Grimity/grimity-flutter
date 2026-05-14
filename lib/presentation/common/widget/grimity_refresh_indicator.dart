@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_refresh_indicator/flutter_refresh_indicator.dart';
 import 'package:grimity/app/service/toast_service.dart';
 
@@ -16,7 +16,7 @@ class GrimityRefreshIndicator extends StatelessWidget {
     try {
       await Future.wait([onRefresh(), Future.delayed(minDuration)]);
     } catch (_) {
-      ToastService.showError('새로고침 실패');
+      ToastService.showFailure('새로고침 실패');
     }
   }
 

@@ -1,4 +1,4 @@
-import 'dart:io';
+﻿import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -152,7 +152,7 @@ class PostUpload extends _$PostUpload {
     /// 1. 파일 변환(AssetEntity -> XFile)
     final xFileList = await _assetEntitiesToXFiles(state.images);
     if (xFileList.contains(null)) {
-      ToastService.showError('이미지 파일을 읽을 수 없습니다.');
+      ToastService.showFailure('이미지 파일을 읽을 수 없습니다.');
       return;
     }
 
@@ -213,7 +213,7 @@ class PostUpload extends _$PostUpload {
 
         if (urlResult.isFailure) {
           _updatePending(item.localPath, status: UploadStatus.failed);
-          ToastService.showError('이미지 업로드 주소 생성에 실패했습니다.');
+          ToastService.showFailure('이미지 업로드 주소 생성에 실패했습니다.');
           continue;
         }
 
@@ -224,7 +224,7 @@ class PostUpload extends _$PostUpload {
 
         if (uploadResult.isFailure) {
           _updatePending(item.localPath, status: UploadStatus.failed);
-          ToastService.showError('문제가 발생하였습니다.');
+          ToastService.showFailure('문제가 발생하였습니다.');
           continue;
         }
 
@@ -322,7 +322,7 @@ class PostUpload extends _$PostUpload {
     await _uploadPendingImages(controller: controller);
 
     if (_hasLocalImages(state.contentData)) {
-      ToastService.showError('이미지가 업로드되지 않았습니다.');
+      ToastService.showFailure('이미지가 업로드되지 않았습니다.');
       _setUploading(false);
       return null;
     }
@@ -337,7 +337,7 @@ class PostUpload extends _$PostUpload {
 
         final createPostResult = await createPostUseCase.execute(createPostRequest);
         if (createPostResult.isFailure) {
-          ToastService.showError('게시글 생성에 실패했습니다.');
+          ToastService.showFailure('게시글 생성에 실패했습니다.');
           return null;
         }
 
@@ -359,7 +359,7 @@ class PostUpload extends _$PostUpload {
 
         final createPostResult = await updatePostUseCase.execute(request);
         if (createPostResult.isFailure) {
-          ToastService.showError('게시글 수정에 실패했습니다.');
+          ToastService.showFailure('게시글 수정에 실패했습니다.');
           return null;
         }
 

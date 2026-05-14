@@ -1,4 +1,4 @@
-import 'package:collection/collection.dart';
+﻿import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/app/di/di_setup.dart';
@@ -114,9 +114,9 @@ class ChatMessageProvider extends _$ChatMessageProvider {
 
     // 상대방이 차단한 경우, 별도의 안내 토스트 표시.
     if (state.opponentUser.isBlocked) {
-      ToastService.showError("차단된 계정입니다.");
+      ToastService.showFailure("차단된 계정입니다.");
     } else if (state.opponentUser.isBlocking) {
-      ToastService.showError("차단한 계정입니다.");
+      ToastService.showFailure("차단한 계정입니다.");
     }
 
     return state;

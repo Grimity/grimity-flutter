@@ -1,4 +1,4 @@
-import 'package:grimity/app/service/toast_service.dart';
+﻿import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/domain/dto/feed_comments_request_params.dart';
 import 'package:grimity/domain/dto/post_comments_request_params.dart';
 import 'package:grimity/domain/entity/comment.dart';
@@ -70,7 +70,7 @@ class CommentsData extends _$CommentsData {
         state = AsyncValue.data(updated);
       },
       onFailure: (e) {
-        ToastService.showError('댓글 좋아요 처리에 실패했습니다.');
+        ToastService.showFailure('댓글 좋아요 처리에 실패했습니다.');
       },
     );
   }
@@ -105,7 +105,7 @@ class CommentsData extends _$CommentsData {
         state = AsyncValue.data(updated);
       },
       onFailure: (e) {
-        ToastService.showError('댓글 삭제에 실패했습니다.');
+        ToastService.showFailure('댓글 삭제에 실패했습니다.');
       },
     );
   }

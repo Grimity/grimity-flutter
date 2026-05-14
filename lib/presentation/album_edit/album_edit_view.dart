@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gds/gds.dart';
 
 class AlbumEditView extends StatelessWidget {
   const AlbumEditView({
@@ -8,18 +9,24 @@ class AlbumEditView extends StatelessWidget {
     required this.albumEditListView,
   });
 
-  final PreferredSizeWidget albumEditAppBar;
+  final Widget albumEditAppBar;
   final Widget albumAddView;
   final Widget albumEditListView;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return GdsScaffold(
       appBar: albumEditAppBar,
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-          child: Column(children: [albumAddView, albumEditListView]),
+          child: Column(
+            spacing: GdsSpacing.spacing32,
+            children: [
+              albumAddView,
+              albumEditListView,
+            ],
+          ),
         ),
       ),
     );

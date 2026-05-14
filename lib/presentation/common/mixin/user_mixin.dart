@@ -47,13 +47,13 @@ mixin UserMixin<T> {
 
     result.fold(
       onSuccess: (_) {
-        ToastService.show('${follow ? '팔로우' : '언팔로우'}가 완료되었어요.');
+        ToastService.showSuccess('${follow ? '팔로우' : '언팔로우'}가 완료되었어요.');
         _refreshCurrentUser(ref);
       },
       onFailure: (e) {
         state = AsyncValue.error(e, StackTrace.current);
         state = AsyncValue.data(prev);
-        ToastService.show('${follow ? '팔로우' : '언팔로우'}가 실패했어요.');
+        ToastService.showFailure('${follow ? '팔로우' : '언팔로우'}가 실패했어요.');
       },
     );
   }
@@ -76,13 +76,13 @@ mixin UserMixin<T> {
 
     result.fold(
       onSuccess: (_) {
-        ToastService.show('삭제가 완료되었어요.');
+        ToastService.showSuccess('삭제가 완료되었어요.');
         _refreshCurrentUser(ref);
       },
       onFailure: (e) {
         state = AsyncValue.error(e, StackTrace.current);
         state = AsyncValue.data(prev);
-        ToastService.show('삭제가 실패했어요.');
+        ToastService.showFailure('삭제가 실패했어요.');
       },
     );
   }
@@ -104,11 +104,11 @@ mixin UserMixin<T> {
 
     result.fold(
       onSuccess: (_) {
-        ToastService.show('차단이 완료되었어요.');
+        ToastService.showSuccess('차단이 완료되었어요.');
       },
       onFailure: (e) {
         state = AsyncValue.data(prev);
-        ToastService.show('차단이 실패했어요.');
+        ToastService.showFailure('차단이 실패했어요.');
       },
     );
   }
@@ -130,11 +130,11 @@ mixin UserMixin<T> {
 
     result.fold(
       onSuccess: (_) {
-        ToastService.show('차단 해제가 완료되었어요.');
+        ToastService.showSuccess('차단 해제가 완료되었어요.');
       },
       onFailure: (e) {
         state = AsyncValue.data(prev);
-        ToastService.show('차단 해제가 실패했어요.');
+        ToastService.showFailure('차단 해제가 실패했어요.');
       },
     );
   }

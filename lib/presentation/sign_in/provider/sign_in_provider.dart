@@ -1,4 +1,4 @@
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+﻿import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/enum/login_provider.enum.dart';
@@ -45,7 +45,7 @@ class SignIn extends _$SignIn {
         return;
       }
 
-      ToastService.showError('소셜 로그인에 실패했어요.', showImmediately: true);
+      ToastService.showFailure('소셜 로그인에 실패했어요.');
       FirebaseCrashlytics.instance.recordError(e, s, reason: '소셜 로그인 오류');
     }
   }
