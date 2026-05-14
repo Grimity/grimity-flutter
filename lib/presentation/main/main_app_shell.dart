@@ -44,8 +44,7 @@ class _MainAppShellState extends ConsumerState<MainAppShell> {
         endDrawer: MainAppDrawer(),
         body: widget.navigationShell,
         bottomNavigationBar: MainBottomNavigationBar(navigationShell: widget.navigationShell),
-        floatingActionButton:
-            showFab ? MainFloatingActionButton(currentIndex: currentIndex) : null,
+        floatingActionButton: showFab ? MainFloatingActionButton(currentIndex: currentIndex) : null,
       ),
     );
   }
