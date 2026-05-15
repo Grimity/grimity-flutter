@@ -1,4 +1,4 @@
-﻿import 'package:grimity/app/service/toast_service.dart';
+import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/domain/usecase/post_usecases.dart';
 import 'package:grimity/presentation/common/mixin/post_mixin.dart';

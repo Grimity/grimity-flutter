@@ -1,4 +1,4 @@
-﻿import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/app/config/app_config.dart';
 import 'package:grimity/app/enum/presigned.enum.dart';
 import 'package:grimity/app/image/image_upload.dart';

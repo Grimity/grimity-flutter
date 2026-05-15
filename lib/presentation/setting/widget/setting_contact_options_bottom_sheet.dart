@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:grimity/app/config/app_const.dart';
 import 'package:grimity/app/service/toast_service.dart';
