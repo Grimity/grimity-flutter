@@ -32,7 +32,7 @@ class AlbumEdit extends _$AlbumEdit {
   bool get canSave => hasUnsavedChanges && !state.isAlbumSorting;
 
   void initializeAlbums(List<Album> albums) {
-    if (_initialAlbums.isNotEmpty || state.albums.isNotEmpty) {
+    if (hasUnsavedChanges && _initialAlbums.isNotEmpty) {
       return;
     }
 
