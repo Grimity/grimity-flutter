@@ -48,50 +48,66 @@ class AlbumReorderableListView extends ConsumerWidget {
             onTap: isSorting ? null : () => showAlbumDeleteDialog(context, ref, album),
             onEditTap: () {
               final editController = TextEditingController(text: album.name);
+              final editFocusNode = FocusNode();
+
+              void closeNameEditor() {
+                editFocusNode.unfocus();
+                Navigator.pop(context);
+              }
+
+              void disposeNameEditor() {
+                editFocusNode.unfocus();
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  editController.dispose();
+                  editFocusNode.dispose();
+                });
+              }
 
               onPrimaryTap() {
                 final editedName = editController.text.trim();
                 if (editedName == album.name.trim()) {
-                  Navigator.pop(context);
+                  closeNameEditor();
                   return;
                 }
 
                 final editedAlbum = album.copyWith(name: editedName);
                 ref.read(albumEditProvider.notifier).updateAlbum(editedAlbum);
-                Navigator.pop(context);
+                closeNameEditor();
               }
 
               if (context.isMobile) {
                 final bottomSheet = GdsBottomSheet(
                   type: GdsBottomSheetType.twoButton,
                   title: '앨범명 변경',
-                  onClose: () => Navigator.pop(context),
+                  onClose: closeNameEditor,
                   primaryLabel: '변경하기',
                   secondaryLabel: '닫기',
                   onPrimaryTap: () => onPrimaryTap(),
-                  onSecondaryTap: () => Navigator.pop(context),
+                  onSecondaryTap: closeNameEditor,
                   child: GdsTextField(
                     controller: editController,
+                    focusNode: editFocusNode,
                     size: GdsTextFieldSize.medium,
                   ),
                 );
 
-                bottomSheet.open(context).whenComplete(editController.dispose);
+                bottomSheet.open(context).whenComplete(disposeNameEditor);
               } else {
                 final modal = GdsModal(
                   title: '앨범명 변경',
                   primaryLabel: '변경하기',
                   secondaryLabel: '닫기',
                   onPrimary: () => onPrimaryTap(),
-                  onSecondary: () => Navigator.pop(context),
-                  onClose: () => Navigator.pop(context),
+                  onSecondary: closeNameEditor,
+                  onClose: closeNameEditor,
                   body: GdsTextField(
                     controller: editController,
+                    focusNode: editFocusNode,
                     size: GdsTextFieldSize.medium,
                   ),
                 );
 
-                modal.open(context, isBarrierDismissible: true).whenComplete(editController.dispose);
+                modal.open(context, isBarrierDismissible: true).whenComplete(disposeNameEditor);
               }
             },
           ),
