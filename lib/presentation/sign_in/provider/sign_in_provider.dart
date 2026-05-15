@@ -1,4 +1,4 @@
-﻿import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/enum/login_provider.enum.dart';

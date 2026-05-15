@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_refresh_indicator/flutter_refresh_indicator.dart';
 import 'package:grimity/app/service/toast_service.dart';
 

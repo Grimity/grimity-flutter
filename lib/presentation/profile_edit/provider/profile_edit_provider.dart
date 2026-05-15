@@ -1,4 +1,4 @@
-﻿import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/app/enum/grimity.enum.dart';
 import 'package:grimity/app/extension/string_extension.dart';
 import 'package:grimity/app/service/toast_service.dart';

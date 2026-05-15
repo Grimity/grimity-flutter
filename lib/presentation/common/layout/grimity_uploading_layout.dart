@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/presentation/common/dialog/cancel_upload_dialog.dart';
 import 'package:grimity/presentation/common/widget/grimity_lottie_loading.dart';

@@ -163,7 +163,6 @@ class AlbumEdit extends _$AlbumEdit {
       return false;
     }
 
-    final previousState = state;
     var committedAlbums = List<Album>.from(state.albums);
     final initialById = {for (final album in _initialAlbums) album.id: album};
     final currentExistingIds = committedAlbums.where((album) => !_isTempAlbum(album)).map((album) => album.id).toSet();
@@ -201,11 +200,9 @@ class AlbumEdit extends _$AlbumEdit {
       ToastService.showSuccess('앨범 수정이 완료되었습니다');
       return true;
     } on AlbumNameConflictException {
-      state = previousState;
       ToastService.showFailure('중복된 이름은 사용하실 수 없어요');
       return false;
     } catch (_) {
-      state = previousState;
       ToastService.showFailure('앨범 수정에 실패했어요');
       return false;
     }

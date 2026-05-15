@@ -1,4 +1,4 @@
-﻿import 'dart:io';
+import 'dart:io';
 import 'package:gal/gal.dart';
 import 'package:grimity/app/extension/date_time_extension.dart';
 import 'package:grimity/app/network/provider/dio_provider.dart';

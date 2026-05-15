@@ -76,7 +76,7 @@ class AlbumReorderableListView extends ConsumerWidget {
                   ),
                 );
 
-                bottomSheet.open(context);
+                bottomSheet.open(context).whenComplete(editController.dispose);
               } else {
                 final modal = GdsModal(
                   title: '앨범명 변경',
@@ -91,7 +91,7 @@ class AlbumReorderableListView extends ConsumerWidget {
                   ),
                 );
 
-                modal.open(context, isBarrierDismissible: true);
+                modal.open(context, isBarrierDismissible: true).whenComplete(editController.dispose);
               }
             },
           ),

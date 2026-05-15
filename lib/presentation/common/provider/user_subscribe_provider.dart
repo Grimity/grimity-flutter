@@ -1,4 +1,4 @@
-﻿import 'package:grimity/app/enum/subscription_type.enum.dart';
+import 'package:grimity/app/enum/subscription_type.enum.dart';
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/domain/dto/me_request_params.dart';
 import 'package:grimity/domain/entity/subscription.dart';
