@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart' hide Notification;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
-import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/app/config/app_typeface.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/app/extension/date_time_extension.dart';
 import 'package:grimity/app/linking/url_handler.dart';
-import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/system/profile/grimity_user_profile.dart';
 import 'package:grimity/presentation/notification/provider/notification_data_provider.dart';
 import 'package:grimity/domain/entity/notification.dart';
@@ -19,6 +16,7 @@ class NotificationWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notifier = ref.read(notificationDataProvider.notifier);
+    final colors = context.gdsColors;
 
     return InkWell(
       onTap: () {
@@ -29,31 +27,27 @@ class NotificationWidget extends ConsumerWidget {
         UrlHandler.handleServerUrl(context, notification.link);
       },
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(GdsSpacing.spacing16),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               child: GrimityUserProfile.fromBuilder(
                 imageUrl: notification.image ?? '',
-                titleBuilder: () => _buildNotificationText(notification.message),
+                titleBuilder: () => _buildNotificationText(context, notification.message),
                 subTitleBuilder:
                     () => Text(
                       notification.createdAt.toRelativeTime(),
-                      style: AppTypeface.caption2.copyWith(
-                        color: AppColor.gray600.withValues(alpha: notification.isRead ? 0.5 : 1.0),
+                      style: GdsTypography.caption1.copyWith(
+                        color: colors.text.grayNormal.withValues(alpha: notification.isRead ? 0.5 : 1.0),
                       ),
                     ),
               ),
             ),
-            Gap(8),
-            GrimityGesture(
+            const Gap(GdsSpacing.spacing8),
+            GdsGesture(
               onTap: () => notifier.deleteNotification(notification.id),
-              child: Assets.icons.icon.close.svg(
-                width: 20,
-                height: 20,
-                colorFilter: ColorFilter.mode(AppColor.gray500, BlendMode.srcIn),
-              ),
+              child: GdsIcon.xMark.build(width: 20, height: 20, color: colors.icon.graySubtle),
             ),
           ],
         ),
@@ -65,11 +59,11 @@ class NotificationWidget extends ConsumerWidget {
   /// - 문장에 "님이"가 있을 경우: 마지막 "님이" 앞까지를 닉네임으로 인식하여 볼드 처리
   /// - 문장에 "…에 좋아요가" 패턴이 있을 경우: "에 좋아요가" 앞의 대상을 추출하여 볼드 처리
   /// - 두 패턴이 없으면: 전체 문자열을 일반 Text로 반환
-  Widget _buildNotificationText(String message) {
-    final styleBase = AppTypeface.label3.copyWith(
-      color: AppColor.gray800.withValues(alpha: notification.isRead ? 0.5 : 1.0),
+  Widget _buildNotificationText(BuildContext context, String message) {
+    final styleBase = GdsTypography.body2R.copyWith(
+      color: context.gdsColors.text.grayBold.withValues(alpha: notification.isRead ? 0.5 : 1.0),
     );
-    final styleBold = styleBase.copyWith(fontWeight: FontWeight.bold);
+    final styleBold = GdsTypography.body2SB.copyWith(color: styleBase.color);
 
     final pattern = RegExp(r'^(.+?)님이|^(.+?)에 좋아요가');
     final matches = pattern.allMatches(message).toList();
