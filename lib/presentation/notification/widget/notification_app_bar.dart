@@ -10,14 +10,11 @@ class NotificationAppBar extends StatelessWidget implements PreferredSizeWidget 
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      bottom: false,
-      child: GdsTopNavigation.iconButton(
-        title: '알림',
-        onBack: () => context.pop(),
-        icons: const [GdsIcon.settings],
-        onIconTap: [() => SettingRoute().push(context)],
-      ),
+    return GdsTopNavigation.iconButton(
+      title: '알림',
+      onBack: () => context.pop(),
+      icons: const [GdsIcon.settings],
+      onIconTap: [() => SettingRoute().push(context)],
     );
   }
 

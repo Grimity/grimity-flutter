@@ -20,7 +20,7 @@ class NotificationActionButton extends StatelessWidget {
         children: [
           icon.build(width: 16, height: 16, color: colors.icon.graySubtle),
           const Gap(GdsSpacing.spacing6),
-          Text(title, style: GdsTypography.caption1.copyWith(color: colors.text.grayNormal)),
+          Text(title, style: GdsTypography.caption1.copyWith(color: colors.text.grayBold)),
         ],
       ),
     );
