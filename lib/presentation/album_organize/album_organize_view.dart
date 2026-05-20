@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gds/gds.dart';
 
 class AlbumOrganizeView extends ConsumerWidget {
   const AlbumOrganizeView({
@@ -9,17 +10,17 @@ class AlbumOrganizeView extends ConsumerWidget {
     required this.albumOrganizeFabView,
   });
 
-  final PreferredSizeWidget albumOrganizeAppBar;
+  final Widget albumOrganizeAppBar;
   final Widget albumOrganizeBodyView;
   final Widget albumOrganizeFabView;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
+    return GdsScaffold(
       appBar: albumOrganizeAppBar,
       body: albumOrganizeBodyView,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: albumOrganizeFabView,
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // floatingActionButton: albumOrganizeFabView,
     );
   }
 }

@@ -137,21 +137,22 @@ class AlbumEdit extends _$AlbumEdit {
   }
 
   // 앨범 수정
-  void updateAlbum(Album album) {
+  bool updateAlbum(Album album) {
     final name = album.name.trim();
 
     if (!ValidatorUtil.isValidAlbumName(name)) {
       ToastService.showFailure('앨범명 최대 15자까지만 가능해요');
-      return;
+      return false;
     }
 
     if (_hasDuplicateName(name, excludingId: album.id)) {
       ToastService.showFailure('중복된 이름은 사용하실 수 없어요');
-      return;
+      return false;
     }
 
     final updated = state.albums.map((item) => item.id == album.id ? album.copyWith(name: name) : item).toList();
     state = state.copyWith(albums: updated, editAlbum: null);
+    return true;
   }
 
   Future<bool> saveChanges() async {
