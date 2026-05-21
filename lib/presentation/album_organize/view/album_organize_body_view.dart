@@ -195,7 +195,7 @@ class AlbumOrganizeBodyView extends HookConsumerWidget with AlbumOrganizeMixin {
                     if (context.isMobile) {
                       final bottomSheet = GdsBottomSheet(
                         type: GdsBottomSheetType.twoButton,
-                        title: '앨범명 변경',
+                        title: '앨범 이동',
                         primaryLabel: '이동하기',
                         secondaryLabel: '닫기',
                         onPrimaryTap: onPrimaryTap,
@@ -207,7 +207,7 @@ class AlbumOrganizeBodyView extends HookConsumerWidget with AlbumOrganizeMixin {
                       bottomSheet.open(context);
                     } else {
                       final modal = GdsModal(
-                        title: '앨범명 변경',
+                        title: '앨범 이동',
                         primaryLabel: '이동하기',
                         secondaryLabel: '닫기',
                         onPrimary: onPrimaryTap,
