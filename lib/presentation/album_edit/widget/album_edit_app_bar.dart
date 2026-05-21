@@ -16,7 +16,7 @@ class AlbumEditAppBar extends ConsumerWidget {
       title: '앨범 편집',
       label: context.isMobile ? '저장' : '저장하기',
       onTitle: () {},
-      onBack: () => Navigator.pop(context),
+      onBack: context.pop,
       onSave: () async {
         final saved = await notifier.saveChanges();
         if (context.mounted && saved) {

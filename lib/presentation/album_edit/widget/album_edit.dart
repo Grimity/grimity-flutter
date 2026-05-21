@@ -6,7 +6,7 @@ import 'package:grimity/domain/entity/album.dart';
 import 'package:grimity/presentation/album_edit/provider/album_edit_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-Future<String> showAlbumEdit(
+Future<void> showAlbumEdit(
   BuildContext context,
   Album album,
   WidgetRef ref, {
@@ -60,7 +60,6 @@ Future<String> showAlbumEdit(
     );
 
     await bottomSheet.open(context).whenComplete(disposeNameEditor);
-    return editController.text.trim();
   } else {
     final modal = GdsModal(
       title: '앨범명 변경',
@@ -77,6 +76,5 @@ Future<String> showAlbumEdit(
     );
 
     await modal.open(context, isBarrierDismissible: true).whenComplete(disposeNameEditor);
-    return editController.text.trim();
   }
 }
