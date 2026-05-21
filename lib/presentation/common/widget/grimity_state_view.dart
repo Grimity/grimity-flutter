@@ -67,6 +67,7 @@ class GrimityStateView extends StatelessWidget {
 
   /// resultNull icon
   factory GrimityStateView.resultNull({
+    SvgGenImage? icon,
     String? title,
     String? subTitle,
     String? buttonText,
@@ -79,7 +80,7 @@ class GrimityStateView extends StatelessWidget {
     ButtonColorType buttonColor = ButtonColorType.mono,
     ButtonStyleType buttonStyleType = ButtonStyleType.solid,
   }) => GrimityStateView._(
-    icon: Assets.icons.illust.resultNull,
+    icon: icon ?? Assets.icons.illust.resultNull,
     title: title,
     subTitle: subTitle,
     buttonText: buttonText,

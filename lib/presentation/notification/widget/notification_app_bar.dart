@@ -3,10 +3,8 @@ import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_router.dart';
 
-class NotificationAppBar extends StatelessWidget implements PreferredSizeWidget {
+class NotificationAppBar extends StatelessWidget {
   const NotificationAppBar({super.key});
-
-  static const double _height = GdsSpacing.spacing56;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +15,4 @@ class NotificationAppBar extends StatelessWidget implements PreferredSizeWidget 
       onIconTap: [() => SettingRoute().push(context)],
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(_height);
 }
