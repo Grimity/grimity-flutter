@@ -1,33 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/app/config/app_theme.dart';
-import 'package:grimity/app/config/app_typeface.dart';
-import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
+import 'package:flutter/widgets.dart';
+import 'package:grimity/presentation/common/widget/navigation/grimity_title_top_navigation.dart';
 
-class AlbumOrganizeAppBar extends StatelessWidget implements PreferredSizeWidget {
+class AlbumOrganizeAppBar extends StatelessWidget {
   const AlbumOrganizeAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      toolbarHeight: AppTheme.kToolbarHeight.height,
-      leading: Center(
-        child: GrimityGesture(
-          onTap: () => context.pop(),
-          child: Assets.icons.icon.close.svg(width: 24, height: 24),
-        ),
-      ),
-      title: Text('그림 정리', style: AppTypeface.subTitle3),
-      titleSpacing: 0,
-      bottom: const PreferredSize(
-        preferredSize: Size.fromHeight(1),
-        child: Divider(height: 1, color: AppColor.gray300),
-      ),
-    );
+    return GrimityTitleTopNavigation(title: '그림 정리');
   }
-
-  @override
-  Size get preferredSize => AppTheme.kToolbarHeight;
 }

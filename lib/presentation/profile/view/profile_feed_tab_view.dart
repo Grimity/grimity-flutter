@@ -55,11 +55,9 @@ class ProfileFeedTabView extends HookConsumerWidget {
               ],
             ),
           ),
-          // 해당 앨범의 피드 갯수가 0개가 아닐때 표시
-          if (selectedAlbumFeedCount != 0)
-            SliverToBoxAdapter(
-              child: _buildSortHeader(context, ref, selectedAlbumId, selectedAlbumFeedCount, viewType),
-            ),
+          SliverToBoxAdapter(
+            child: _buildSortHeader(context, ref, selectedAlbumId, selectedAlbumFeedCount, viewType),
+          ),
           SliverToBoxAdapter(
             child: feedsAsync.when(
               data: (data) => _buildFeedGrid(context, data.feeds, viewType),
