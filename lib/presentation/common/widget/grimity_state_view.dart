@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grimity/app/config/app_color.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/button/grimity_button.dart';
@@ -197,6 +197,8 @@ class GrimityStateView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.gdsColors;
+
     return Align(
       alignment: Alignment.topCenter,
       child: Padding(
@@ -212,13 +214,13 @@ class GrimityStateView extends StatelessWidget {
                 if (title != null)
                   Text(
                     title!,
-                    style: AppTypeface.subTitle3.copyWith(color: AppColor.gray700),
+                    style: AppTypeface.subTitle3.copyWith(color: colors.text.grayBold),
                     textAlign: TextAlign.center,
                   ),
                 if (subTitle != null)
                   Text(
                     subTitle!,
-                    style: AppTypeface.label2.copyWith(color: AppColor.gray600),
+                    style: AppTypeface.label2.copyWith(color: colors.text.graySubtle),
                     textAlign: TextAlign.center,
                   ),
               ],

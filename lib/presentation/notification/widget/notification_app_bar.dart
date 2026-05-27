@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grimity/app/config/app_color.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_theme.dart';
 import 'package:grimity/app/config/app_typeface.dart';
@@ -11,20 +11,36 @@ class NotificationAppBar extends StatelessWidget implements PreferredSizeWidget 
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.gdsColors;
+
     return AppBar(
+      backgroundColor: colors.bg.primary,
+      surfaceTintColor: colors.bg.primary,
+      foregroundColor: colors.icon.grayBold,
+      iconTheme: IconThemeData(color: colors.icon.grayBold),
       toolbarHeight: AppTheme.kToolbarHeight.height,
-      title: Text('알림', style: AppTypeface.subTitle3),
+      leading: Center(
+        child: GrimityGesture(
+          onTap: () => Navigator.of(context).maybePop(),
+          child: Assets.icons.icon.chevronLeftThick.svg(
+            width: 24,
+            height: 24,
+            colorFilter: ColorFilter.mode(colors.icon.grayBold, BlendMode.srcIn),
+          ),
+        ),
+      ),
+      title: Text('알림', style: AppTypeface.subTitle3.copyWith(color: colors.text.grayBold)),
       titleSpacing: 0,
       actions: [
         GrimityGesture(
           onTap: () => SettingRoute().push(context),
-          child: Assets.icons.icon.setting.svg(width: 24, height: 24),
+          child: Assets.icons.icon.setting.svg(
+            width: 24,
+            height: 24,
+            colorFilter: ColorFilter.mode(colors.icon.grayBold, BlendMode.srcIn),
+          ),
         ),
       ],
-      bottom: const PreferredSize(
-        preferredSize: Size.fromHeight(1),
-        child: Divider(height: 1, color: AppColor.gray300),
-      ),
     );
   }
 

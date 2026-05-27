@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:grimity/app/config/app_color.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
@@ -14,21 +14,23 @@ class NotificationActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.gdsColors;
+
     return GrimityGesture(
       onTap: onTap,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          Text(title, style: AppTypeface.label1.copyWith(color: colors.text.graySubtler)),
+          Gap(6),
           icon.svg(
             width: 16,
             height: 16,
             colorFilter: ColorFilter.mode(
-              AppColor.gray500,
+              colors.icon.graySubtler,
               BlendMode.srcIn,
             ),
           ),
-          Gap(6),
-          Text(title, style: AppTypeface.caption2.copyWith(color: AppColor.gray700)),
         ],
       ),
     );
