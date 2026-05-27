@@ -7,6 +7,7 @@ import 'package:grimity/presentation/common/widget/button/grimity_button.dart';
 class GrimityStateView extends StatelessWidget {
   const GrimityStateView._({
     required this.icon,
+    this.customIcon,
     this.title,
     this.subTitle,
     this.buttonText,
@@ -21,6 +22,7 @@ class GrimityStateView extends StatelessWidget {
   });
 
   final SvgGenImage icon;
+  final Widget? customIcon;
   final String? title;
   final String? subTitle;
   final String? buttonText;
@@ -68,6 +70,7 @@ class GrimityStateView extends StatelessWidget {
   /// resultNull icon
   factory GrimityStateView.resultNull({
     SvgGenImage? icon,
+    Widget? customIcon,
     String? title,
     String? subTitle,
     String? buttonText,
@@ -81,6 +84,7 @@ class GrimityStateView extends StatelessWidget {
     ButtonStyleType buttonStyleType = ButtonStyleType.solid,
   }) => GrimityStateView._(
     icon: icon ?? Assets.icons.illust.resultNull,
+    customIcon: customIcon,
     title: title,
     subTitle: subTitle,
     buttonText: buttonText,
@@ -206,7 +210,7 @@ class GrimityStateView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           spacing: 16,
           children: [
-            icon.svg(width: 60, height: 60),
+            customIcon ?? icon.svg(width: 60, height: 60),
             Column(
               spacing: 8,
               children: [

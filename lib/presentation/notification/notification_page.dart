@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:gds/gds.dart';
 import 'package:grimity/domain/entity/notification.dart';
-import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/notification/notification_view.dart';
 import 'package:grimity/presentation/notification/provider/notification_data_provider.dart';
@@ -53,7 +52,7 @@ class NotificationPage extends ConsumerWidget {
                   (notifications) =>
                       notifications.isEmpty
                           ? GrimityStateView.resultNull(
-                            icon: Assets.icons.illust.alram,
+                            customIcon: GdsIcon.alarmDark.build(width: 60, height: 60),
                             title: '새로운 알림이 없어요',
                             subTitle: '내 글의 댓글와 좋아요, 다른 작가의 활동 등\n새로운 소식을 알려드려요',
                           )
