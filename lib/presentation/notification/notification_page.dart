@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart' hide Notification;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/domain/entity/notification.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/notification/notification_view.dart';
 import 'package:grimity/presentation/notification/provider/notification_data_provider.dart';
 import 'package:grimity/presentation/notification/view/notification_body_view.dart';
+import 'package:grimity/presentation/notification/widget/notification_action_button.dart';
 import 'package:grimity/presentation/notification/widget/notification_app_bar.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -14,20 +17,51 @@ class NotificationPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notificationAsync = ref.watch(notificationDataProvider);
+    final notifier = ref.read(notificationDataProvider.notifier);
+    final colors = context.gdsColors;
+    final hasNotifications = notificationAsync.valueOrNull?.isNotEmpty ?? false;
 
     return NotificationView(
       notificationAppBar: NotificationAppBar(),
-      notificationBody: notificationAsync.when(
-        data:
-            (notifications) =>
-                notifications.isEmpty
-                    ? GrimityStateView.resultNull(
-                      title: '새로운 알림이 없어요',
-                      subTitle: '내 글의 댓글와 좋아요, 다른 작가의 활동 등\n새로운 소식을 알려드려요',
-                    )
-                    : NotificationBodyView(notifications: notifications),
-        loading: () => Skeletonizer(child: NotificationBodyView(notifications: Notification.emptyList)),
-        error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(notificationDataProvider)),
+      notificationBody: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(GdsSpacing.spacing16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                NotificationActionButton(
+                  title: '전체 읽음',
+                  onTap: hasNotifications ? () => notifier.markAllNotificationAsRead() : null,
+                  icon: GdsIcon.eyeOn,
+                ),
+                const Gap(GdsSpacing.spacing8),
+                Container(width: 1, height: 12, color: colors.border.graySubtler),
+                const Gap(GdsSpacing.spacing8),
+                NotificationActionButton(
+                  title: '전체 삭제',
+                  onTap: hasNotifications ? () => notifier.deleteAllNotification() : null,
+                  icon: GdsIcon.trash,
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: notificationAsync.when(
+              data:
+                  (notifications) =>
+                      notifications.isEmpty
+                          ? GrimityStateView.resultNull(
+                            customIcon: GdsIcon.alarmDark.build(width: 60, height: 60),
+                            title: '새로운 알림이 없어요',
+                            subTitle: '내 글의 댓글와 좋아요, 다른 작가의 활동 등\n새로운 소식을 알려드려요',
+                          )
+                          : NotificationBodyView(notifications: notifications),
+              loading: () => Skeletonizer(child: NotificationBodyView(notifications: Notification.emptyList)),
+              error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(notificationDataProvider)),
+            ),
+          ),
+        ],
       ),
     );
   }

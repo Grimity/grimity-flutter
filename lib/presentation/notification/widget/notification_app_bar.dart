@@ -1,33 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:grimity/app/config/app_color.dart';
+import 'package:gds/gds.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_router.dart';
-import 'package:grimity/app/config/app_theme.dart';
-import 'package:grimity/app/config/app_typeface.dart';
-import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
-class NotificationAppBar extends StatelessWidget implements PreferredSizeWidget {
+class NotificationAppBar extends StatelessWidget {
   const NotificationAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      toolbarHeight: AppTheme.kToolbarHeight.height,
-      title: Text('알림', style: AppTypeface.subTitle3),
-      titleSpacing: 0,
-      actions: [
-        GrimityGesture(
-          onTap: () => SettingRoute().push(context),
-          child: Assets.icons.icon.setting.svg(width: 24, height: 24),
-        ),
-      ],
-      bottom: const PreferredSize(
-        preferredSize: Size.fromHeight(1),
-        child: Divider(height: 1, color: AppColor.gray300),
-      ),
+    return GdsTopNavigation.iconButton(
+      title: '알림',
+      onBack: () => context.pop(),
+      icons: const [GdsIcon.settings],
+      onIconTap: [() => SettingRoute().push(context)],
     );
   }
-
-  @override
-  Size get preferredSize => AppTheme.kToolbarHeight;
 }
