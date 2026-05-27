@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/app/service/toast_service.dart';
+import 'package:grimity/app/util/validator_util.dart';
 import 'package:grimity/domain/dto/album_request_params.dart';
 import 'package:grimity/domain/dto/feeds_request_param.dart';
 import 'package:grimity/domain/entity/album.dart';
@@ -28,6 +29,57 @@ class AlbumOrganize extends _$AlbumOrganize {
 
   void updateTargetAlbumId(String? id) {
     state = state.copyWith(targetAlbumId: id);
+  }
+
+  FutureOr<bool> updateAlbum(Album album) async {
+    if (state.uploading) {
+      ToastService.showFailure('처리 중입니다. 잠시만 기다려주세요');
+      return false;
+    }
+
+    final name = album.name.trim();
+    if (!ValidatorUtil.isValidAlbumName(name)) {
+      ToastService.showFailure('앨범명 최대 15자까지만 가능해요');
+      return false;
+    }
+
+    final hasDuplicateName = state.userAlbums.any(
+      (item) => item.id != album.id && item.name.trim() == name,
+    );
+    if (hasDuplicateName) {
+      ToastService.showFailure('중복된 이름은 사용하실 수 없어요');
+      return false;
+    }
+
+    _setUploading(true);
+
+    try {
+      final result = await updateAlbumUseCase.execute(
+        UpdateAlbumWithIdRequestParam(
+          id: album.id,
+          param: UpdateAlbumRequestParam(name: name),
+        ),
+      );
+
+      return result.fold(
+        onSuccess: (_) {
+          final updatedAlbum = album.copyWith(name: name);
+          final updatedAlbums = state.userAlbums.map((item) => item.id == album.id ? updatedAlbum : item).toList();
+          state = state.copyWith(
+            userAlbums: updatedAlbums,
+            user: state.user.copyWith(albums: updatedAlbums),
+          );
+          ToastService.showSuccess('앨범명이 변경되었어요');
+          return true;
+        },
+        onFailure: (_) {
+          ToastService.showFailure('앨범명 변경에 실패했어요');
+          return false;
+        },
+      );
+    } finally {
+      _setUploading(false);
+    }
   }
 
   void _setUploading(bool uploading) {
@@ -64,11 +116,11 @@ class AlbumOrganize extends _$AlbumOrganize {
 
       final isSuccess = result.fold(
         onSuccess: (value) {
-          ToastService.showSuccess('삭제가 완료되었습니다');
+          ToastService.showSuccess('선택한 그림을 삭제했어요');
           return true;
         },
         onFailure: (e) {
-          ToastService.showFailure('삭제가 실패되었습니다');
+          ToastService.showFailure('선택한 그림 삭제에 실패했어요');
           return false;
         },
       );
@@ -113,11 +165,11 @@ class AlbumOrganize extends _$AlbumOrganize {
 
       final isSuccess = result.fold(
         onSuccess: (value) {
-          ToastService.showSuccess('이동이 완료되었습니다');
+          ToastService.showSuccess('선택한 그림을 이동했어요');
           return true;
         },
         onFailure: (e) {
-          ToastService.showFailure('이동이 실패되었습니다');
+          ToastService.showFailure('선택한 그림 이동에 실패했어요');
           return false;
         },
       );

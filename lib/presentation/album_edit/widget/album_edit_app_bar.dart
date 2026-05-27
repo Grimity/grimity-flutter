@@ -15,7 +15,7 @@ class AlbumEditAppBar extends ConsumerWidget {
     return GdsTopNavigation.editor(
       title: '앨범 편집',
       label: context.isMobile ? '저장' : '저장하기',
-      onBack: () => context.pop(),
+      onBack: context.pop,
       onTitle: () {},
       onSave: () async {
         final saved = await notifier.saveChanges();
