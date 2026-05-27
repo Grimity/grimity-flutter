@@ -23,8 +23,8 @@ class AlbumEditAppBar extends ConsumerWidget {
           context.pop();
         }
       },
-      saveEnabled: notifier.canSave, 
-      onBack: () {  
+      saveEnabled: notifier.canSave,
+      onBack: () {
         context.pop();
       },
     );
