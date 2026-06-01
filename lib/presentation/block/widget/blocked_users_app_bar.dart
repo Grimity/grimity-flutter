@@ -1,19 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/app/config/app_theme.dart';
-import 'package:grimity/app/config/app_typeface.dart';
+import 'package:flutter/widgets.dart';
+import 'package:grimity/presentation/common/widget/navigation/grimity_title_top_navigation.dart';
 
-class BlockedUsersAppBar extends StatelessWidget implements PreferredSizeWidget {
+class BlockedUsersAppBar extends StatelessWidget {
   const BlockedUsersAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      title: Text('차단 목록', style: AppTypeface.subTitle3.copyWith(color: AppColor.primary4)),
-      titleSpacing: 0,
-    );
+    return GrimityTitleTopNavigation(title: '차단 목록');
   }
-
-  @override
-  Size get preferredSize => Size.fromHeight(AppTheme.kToolbarHeight.height);
 }

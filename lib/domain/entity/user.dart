@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/domain/entity/album.dart';
 import 'package:grimity/domain/entity/link.dart';
 
@@ -8,6 +9,8 @@ part 'user.g.dart';
 
 @freezed
 abstract class User with _$User {
+  const User._();
+
   const factory User({
     required String id,
     required String name,
@@ -31,10 +34,16 @@ abstract class User with _$User {
     bool? isBlocking,
   }) = _User;
 
+  /// '@'가 붙은 형태의 핸들 반환
+  String get handle => '@$url';
+
+  /// [GdsPersonAvatar] 형태로 아바타 인스턴스 반환
+  GdsPersonAvatar get personAvatar => GdsPersonAvatar(imageUrl: image);
+
   factory User.empty() => const User(
     id: '',
+    url: 'lorem_ipsum',
     name: 'Lorem ipsum',
-    url: '',
     followerCount: 0,
     followingCount: 0,
     feedCount: 0,
@@ -45,5 +54,9 @@ abstract class User with _$User {
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
-  static List<User> get emptyList => [User.empty(), User.empty(), User.empty()];
+  static List<User> get emptyList => [
+    User.empty(),
+    User.empty(),
+    User.empty(),
+  ];
 }

@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/presentation/block/view/blocked_users_view.dart';
 import 'package:grimity/presentation/block/widget/blocked_users_app_bar.dart';
 
@@ -7,7 +8,7 @@ class BlockedUsersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return GdsScaffold(
       appBar: BlockedUsersAppBar(),
       body: BlockedUsersView(),
     );
