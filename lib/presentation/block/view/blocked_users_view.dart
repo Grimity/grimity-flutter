@@ -42,13 +42,8 @@ class BlockedUsersView extends ConsumerWidget {
 
         if (users.isEmpty) {
           return Container(
-            padding: EdgeInsets.only(
-              top: GdsSpacing.spacing16,
-              left: GdsSpacing.spacing16,
-              right: GdsSpacing.spacing16,
-              bottom: GdsSpacing.spacing40,
-            ),
             alignment: Alignment.center,
+            padding: padding,
             child: GdsEmptyState(title: '차단한 작가가 없어요', icon: GdsIcon.warning),
           );
         }
