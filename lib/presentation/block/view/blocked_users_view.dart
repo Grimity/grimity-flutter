@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gds/gds.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/block/provider/blocked_users_data_provider.dart';
+import 'package:grimity/presentation/common/extension/user_ui_extension.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
