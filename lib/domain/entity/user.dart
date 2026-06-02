@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:gds/gds.dart';
 import 'package:grimity/domain/entity/album.dart';
 import 'package:grimity/domain/entity/link.dart';
 
@@ -36,9 +35,6 @@ abstract class User with _$User {
 
   /// '@'가 붙은 형태의 핸들 반환
   String get handle => '@$url';
-
-  /// [GdsPersonAvatar] 형태로 아바타 인스턴스 반환
-  GdsPersonAvatar get personAvatar => GdsPersonAvatar(imageUrl: image);
 
   factory User.empty() => const User(
     id: '',
