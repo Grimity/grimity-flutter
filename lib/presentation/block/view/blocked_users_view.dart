@@ -7,7 +7,29 @@ import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class BlockedUsersView extends ConsumerWidget {
-  const BlockedUsersView({super.key});
+  const BlockedUsersView({
+    super.key,
+    this.isModal = false,
+  });
+
+  /// 모달 여부에 따라 다른 레이아웃과 패딩을 적용할 여부
+  final bool isModal;
+
+  /// 페이지에서 사용할 때의 기본 패딩 정의
+  static EdgeInsets padding = EdgeInsets.only(
+    top: GdsSpacing.spacing16,
+    left: GdsSpacing.spacing16,
+    right: GdsSpacing.spacing16,
+    bottom: GdsSpacing.spacing40,
+  );
+
+  /// 모달에서 사용할 때의 별도의 패딩 정의
+  static EdgeInsets modalPadding = EdgeInsets.only(
+    top: GdsSpacing.spacing8,
+    left: GdsSpacing.spacing20,
+    right: GdsSpacing.spacing20,
+    bottom: GdsSpacing.spacing20,
+  );
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,23 +52,35 @@ class BlockedUsersView extends ConsumerWidget {
           );
         }
 
-        return BlockedUserListView(users: users);
+        return BlockedUserListView(users: users, isModal: isModal);
       },
-      loading: () => Skeletonizer(child: BlockedUserListView(users: User.emptyList)),
+      loading: () => Skeletonizer(child: BlockedUserListView(users: User.emptyList, isModal: isModal)),
       error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(blockedUsersDataProvider)),
     );
   }
 }
 
 class BlockedUserListView extends ConsumerWidget {
-  const BlockedUserListView({super.key, required this.users});
+  const BlockedUserListView({
+    super.key,
+    required this.users,
+    required this.isModal,
+  });
 
   final List<User> users;
+  final bool isModal;
+
+  /// 페이지에서 사용할 때의 기본 패딩 정의
+  static EdgeInsets padding = EdgeInsets.all(GdsSpacing.spacing16);
+
+  /// 모달에서 사용할 때의 별도의 패딩 정의
+  static EdgeInsets modalPadding = BlockedUsersView.modalPadding;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ListView.builder(
-      padding: EdgeInsets.all(GdsSpacing.spacing16),
+      padding: isModal ? modalPadding : padding,
+      shrinkWrap: isModal ? true : false,
       itemCount: users.length,
       itemBuilder: (context, index) {
         final user = users[index];

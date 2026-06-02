@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_config.dart';
@@ -15,6 +16,7 @@ import 'package:grimity/domain/dto/chat_request_params.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/domain/usecase/me_usecases.dart';
 import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/presentation/block/widget/blocked_users_modal.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/alert/grimity_dialog.dart';
 import 'package:grimity/presentation/common/widget/button/grimity_follow_button.dart';
@@ -138,7 +140,7 @@ class UserProfileView extends ConsumerWidget {
           title: '차단 목록',
           onTap: () {
             context.pop();
-            BlockedUsersRoute().push(context);
+            context.isMobile ? BlockedUsersRoute().push(context) : showBlockedUsersModal(context);
           },
         ),
       ] else ...[
