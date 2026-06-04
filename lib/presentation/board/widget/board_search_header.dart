@@ -15,18 +15,17 @@ class BoardSearchHeader extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final searchQuery = ref.watch(searchQueryProvider);
+    final selectedSearchType = ref.watch(searchQueryProvider.select((state) => state.searchType));
+    final keyword = ref.read(searchQueryProvider).keyword;
     final searchQueryNotifier = ref.read(searchQueryProvider.notifier);
-    final controller = useTextEditingController(text: searchQuery.keyword);
+    final controller = useTextEditingController(text: keyword);
     final focusNode = useFocusNode();
 
-    useEffect(() {
-      if (controller.text != searchQuery.keyword) {
-        controller.text = searchQuery.keyword;
+    ref.listen(searchQueryProvider.select((state) => state.keyword), (previous, next) {
+      if (controller.text != next) {
+        controller.text = next;
       }
-
-      return null;
-    }, [searchQuery.keyword]);
+    });
 
     void submit() {
       final keyword = controller.text.trim();
@@ -41,24 +40,23 @@ class BoardSearchHeader extends HookConsumerWidget {
       ref.read(boardPostDataProvider(type).notifier).search();
     }
 
-    void selectSearchType(BuildContext bottomSheetContext, SearchType searchType) {
+    void selectSearchType(SearchType searchType) {
       searchQueryNotifier.updateSearchType(searchType);
-      Navigator.pop(bottomSheetContext);
+      Navigator.pop(context);
 
-      if (searchQuery.keyword.trim().length >= 2) {
+      if (controller.text.trim().length >= 2) {
         ref.read(boardPostDataProvider(type).notifier).search();
       }
     }
 
     GdsListItem searchTypeOption({
-      required BuildContext bottomSheetContext,
       required SearchType searchType,
       required String text,
     }) {
       return GdsListItem.optionCard(
-        state: searchQuery.searchType == searchType ? GdsListItemState.pressed : GdsListItemState.enabled,
+        state: selectedSearchType == searchType ? GdsListItemState.pressed : GdsListItemState.enabled,
         text: text,
-        onTap: () => selectSearchType(bottomSheetContext, searchType),
+        onTap: () => selectSearchType(searchType),
       );
     }
 
@@ -67,7 +65,7 @@ class BoardSearchHeader extends HookConsumerWidget {
       spacing: GdsSpacing.spacing8,
       children: [
         GdsFilter(
-          text: searchQuery.searchType == SearchType.name ? '글쓴이' : '제목',
+          text: selectedSearchType == SearchType.name ? '글쓴이' : '제목',
           onTap: () {
             final bottomSheet = GdsBottomSheet(
               type: GdsBottomSheetType.tertiary,
@@ -78,12 +76,10 @@ class BoardSearchHeader extends HookConsumerWidget {
                 spacing: GdsSpacing.spacing8,
                 children: [
                   searchTypeOption(
-                    bottomSheetContext: context,
                     searchType: SearchType.combined,
                     text: '제목',
                   ),
                   searchTypeOption(
-                    bottomSheetContext: context,
                     searchType: SearchType.name,
                     text: '글쓴이',
                   ),
