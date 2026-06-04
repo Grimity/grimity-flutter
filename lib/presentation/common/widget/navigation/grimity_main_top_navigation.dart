@@ -4,17 +4,15 @@ import 'package:gds/gds.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 
-class GrimityTitleTopNavigation extends ConsumerWidget {
-  const GrimityTitleTopNavigation({
+class GrimityMainTopNavigation extends ConsumerWidget {
+  const GrimityMainTopNavigation({
     super.key,
-    required this.title,
     this.onBack,
     this.onSearch,
     this.onAvatar,
     this.onNotification,
   });
 
-  final String title;
   final VoidCallback? onBack;
   final VoidCallback? onSearch;
   final VoidCallback? onAvatar;
@@ -25,9 +23,7 @@ class GrimityTitleTopNavigation extends ConsumerWidget {
     final avatarImage = ref.watch(userAuthProvider.select((user) => user?.image));
     final hasNotification = ref.watch(userAuthProvider.select((user) => user?.hasNotification ?? false));
 
-    return GdsTopNavigation.title(
-      title: title,
-      onBack: onBack ?? () => Navigator.maybePop(context),
+    return GdsTopNavigation.main(
       onSearch: onSearch ?? () => const SearchRoute().push(context),
       onAvatar: onAvatar ?? () => Scaffold.maybeOf(context)?.openEndDrawer(),
       onNotification: onNotification ?? () => const NotificationRoute().push(context),

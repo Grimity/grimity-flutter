@@ -31,7 +31,6 @@ class ValidatorUtil {
     "blocked-users",
     "chatMessage",
     "newChat",
-    "boardSearch",
   ];
 
   static bool isAvailableUrl(String url) {

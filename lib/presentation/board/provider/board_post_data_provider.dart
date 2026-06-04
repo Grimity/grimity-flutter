@@ -1,7 +1,9 @@
 import 'package:grimity/app/enum/post_type.enum.dart';
 import 'package:grimity/domain/entity/posts.dart';
 import 'package:grimity/domain/usecase/post/get_posts_usecase.dart';
+import 'package:grimity/domain/usecase/post/search_posts_usecase.dart';
 import 'package:grimity/domain/usecase/post_usecases.dart';
+import 'package:grimity/presentation/board/common/provider/board_search_query_provider.dart';
 import 'package:grimity/presentation/common/mixin/pagination_mixin.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -15,11 +17,33 @@ class BoardPostData extends _$BoardPostData with PaginationMixin {
   }
 
   Future<Posts> _fetch() async {
+    final searchQueryState = ref.read(searchQueryProvider);
+    final keyword = searchQueryState.keyword.trim();
+
+    if (keyword.length >= 2) {
+      final SearchPostsRequestParam param = SearchPostsRequestParam(
+        page: currentPage,
+        size: size,
+        keyword: keyword,
+        searchBy: searchQueryState.searchType,
+      );
+
+      final result = await searchPostsUseCase.execute(param);
+
+      return result.fold(onSuccess: (posts) => posts, onFailure: (e) => Posts(posts: [], totalCount: 0));
+    }
+
     final GetPostsRequestParam param = GetPostsRequestParam(page: currentPage, size: size, type: type);
 
     final result = await getPostsUseCase.execute(param);
 
     return result.fold(onSuccess: (posts) => posts, onFailure: (e) => Posts(posts: [], totalCount: 0));
+  }
+
+  Future<void> search() async {
+    resetPagination();
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() => _fetch());
   }
 
   Future<void> goToPage(int page) async {

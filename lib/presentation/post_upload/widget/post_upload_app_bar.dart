@@ -39,7 +39,7 @@ class PostUploadAppBar extends StatelessWidget implements PreferredSizeWidget {
                     [PostType.normal, PostType.question, PostType.feedback]
                         .map(
                           (e) => GrimitySelectModalButtonModel(
-                            title: e.typeName,
+                            title: e.displayName,
                             isSelected: e == type,
                             onTap: () {
                               context.pop();
@@ -51,7 +51,7 @@ class PostUploadAppBar extends StatelessWidget implements PreferredSizeWidget {
               );
             },
             child: Row(
-              children: [Text(type.typeName, style: AppTypeface.subTitle3), Icon(Icons.expand_more, size: 24)],
+              children: [Text(type.displayName, style: AppTypeface.subTitle3), Icon(Icons.expand_more, size: 24)],
             ),
           );
         },

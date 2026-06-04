@@ -992,6 +992,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_touch_scale:
+    dependency: transitive
+    description:
+      name: flutter_touch_scale
+      sha256: aeedf8f9fe5e65147362520aa7618d58e5e19da53a7ebc3e20a0716895ae8636
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.0"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -1114,7 +1122,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "1da381a5fb3094aed3aeda2b9fdb07b2b3419c7c"
+      resolved-ref: c8d47a5dd19e8d2ff68e94a7bf4244f2919c96d3
       url: "https://github.com/Grimity/gds-flutter"
     source: git
     version: "0.0.1"
@@ -1122,8 +1130,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/components"
-      ref: "1da381a5fb3094aed3aeda2b9fdb07b2b3419c7c"
-      resolved-ref: "1da381a5fb3094aed3aeda2b9fdb07b2b3419c7c"
+      ref: c8d47a5dd19e8d2ff68e94a7bf4244f2919c96d3
+      resolved-ref: c8d47a5dd19e8d2ff68e94a7bf4244f2919c96d3
       url: "https://github.com/Grimity/gds-flutter"
     source: git
     version: "0.0.1"
@@ -1131,8 +1139,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/foundation"
-      ref: "1da381a5fb3094aed3aeda2b9fdb07b2b3419c7c"
-      resolved-ref: "1da381a5fb3094aed3aeda2b9fdb07b2b3419c7c"
+      ref: c8d47a5dd19e8d2ff68e94a7bf4244f2919c96d3
+      resolved-ref: c8d47a5dd19e8d2ff68e94a7bf4244f2919c96d3
       url: "https://github.com/Grimity/gds-flutter"
     source: git
     version: "0.0.1"
@@ -1140,8 +1148,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/tokens"
-      ref: "1da381a5fb3094aed3aeda2b9fdb07b2b3419c7c"
-      resolved-ref: "1da381a5fb3094aed3aeda2b9fdb07b2b3419c7c"
+      ref: c8d47a5dd19e8d2ff68e94a7bf4244f2919c96d3
+      resolved-ref: c8d47a5dd19e8d2ff68e94a7bf4244f2919c96d3
       url: "https://github.com/Grimity/gds-flutter"
     source: git
     version: "0.0.1"
