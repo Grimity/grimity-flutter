@@ -20,6 +20,8 @@ class BoardView extends HookConsumerWidget {
   final List<PostType> tabList;
 
   List<AppBar> buildAppBars(BuildContext context, ValueNotifier<PostType> type) {
+    final colors = context.gdsColors;
+
     if (context.isMobile) {
       return [
         AppBar(
@@ -61,7 +63,42 @@ class BoardView extends HookConsumerWidget {
     }
 
     // 테블릿 버전
-    return [];
+    return [
+      AppBar(
+        behavior: MaterialAppBarBehavior(floating: true),
+        body: Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: GdsSpacing.spacing24,
+            horizontal: GdsSpacing.spacing20,
+          ),
+          child: BoardTitleHeader(),
+        ),
+      ),
+      AppBar(
+        behavior: AbsoluteAppBarBehavior(),
+        body: Container(
+          margin: EdgeInsets.symmetric(horizontal: GdsSpacing.spacing20),
+          decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: colors.border.graySubtle)),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: BoardTabHeader(
+                  selectedType: type.value,
+                  onChanged: (newType) => type.value = newType,
+                  types: tabList,
+                ),
+              ),
+              SizedBox(
+                width: 320,
+                child: BoardSearchHeader(type: type.value),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ];
   }
 
   @override

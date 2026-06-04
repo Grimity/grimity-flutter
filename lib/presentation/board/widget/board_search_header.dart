@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gds/gds.dart';
+import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/enum/post_type.enum.dart';
 import 'package:grimity/app/enum/search_type.enum.dart';
 import 'package:grimity/app/service/toast_service.dart';
@@ -67,6 +68,9 @@ class BoardSearchHeader extends HookConsumerWidget {
         GdsFilter(
           text: selectedSearchType == SearchType.name ? '글쓴이' : '제목',
           onTap: () {
+            final context = rootNavigatorKey.currentContext!;
+
+            // TODO: GDS에서 GNB/Menu가 구현되어 있지 않아 추후 테블릿용 동작 필요함.
             final bottomSheet = GdsBottomSheet(
               type: GdsBottomSheetType.tertiary,
               title: '검색 필터',
