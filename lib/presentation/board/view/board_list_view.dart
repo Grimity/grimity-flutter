@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gds/gds.dart';
 import 'package:grimity/app/enum/post_type.enum.dart';
 import 'package:grimity/domain/entity/post.dart';
-import 'package:grimity/presentation/board/common/provider/board_search_query_provider.dart';
-import 'package:grimity/presentation/board/tabs/provider/board_notice_data_provider.dart';
-import 'package:grimity/presentation/board/tabs/provider/board_post_data_provider.dart';
+import 'package:grimity/presentation/board/provider/board_notice_data_provider.dart';
+import 'package:grimity/presentation/board/provider/board_post_data_provider.dart';
+import 'package:grimity/presentation/board/provider/board_search_query_provider.dart';
 import 'package:grimity/presentation/common/widget/system/board/grimity_post_feed.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

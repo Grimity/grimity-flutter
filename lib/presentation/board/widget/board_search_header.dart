@@ -4,8 +4,8 @@ import 'package:gds/gds.dart';
 import 'package:grimity/app/enum/post_type.enum.dart';
 import 'package:grimity/app/enum/search_type.enum.dart';
 import 'package:grimity/app/service/toast_service.dart';
-import 'package:grimity/presentation/board/common/provider/board_search_query_provider.dart';
-import 'package:grimity/presentation/board/tabs/provider/board_post_data_provider.dart';
+import 'package:grimity/presentation/board/provider/board_post_data_provider.dart';
+import 'package:grimity/presentation/board/provider/board_search_query_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class BoardSearchHeader extends HookConsumerWidget {

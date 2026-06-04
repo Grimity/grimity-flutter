@@ -12,7 +12,7 @@ import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/album_organize/album_organize_page.dart';
 import 'package:grimity/presentation/block/blocked_users_page.dart';
-import 'package:grimity/presentation/board/tabs/board_page.dart';
+import 'package:grimity/presentation/board/board_page.dart';
 import 'package:grimity/presentation/business_info/business_info_page.dart';
 import 'package:grimity/presentation/chat_message/chat_message_page.dart';
 import 'package:grimity/presentation/chat_new/new_chat_page.dart';

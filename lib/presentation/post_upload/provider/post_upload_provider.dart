@@ -14,7 +14,7 @@ import 'package:grimity/domain/dto/post_comments_request_params.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/domain/usecase/image_usecases.dart';
 import 'package:grimity/domain/usecase/post_usecases.dart';
-import 'package:grimity/presentation/board/tabs/provider/board_post_data_provider.dart';
+import 'package:grimity/presentation/board/provider/board_post_data_provider.dart';
 import 'package:grimity/presentation/common/model/image_item_source.dart';
 import 'package:grimity/presentation/home/provider/home_data_provider.dart';
 import 'package:grimity/presentation/post_detail/provider/post_detail_data_provider.dart';
