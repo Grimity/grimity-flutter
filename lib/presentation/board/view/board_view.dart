@@ -76,27 +76,29 @@ class BoardView extends HookConsumerWidget {
           final postAsync = ref.watch(boardPostDataProvider(type.value));
 
           return postAsync.when(
-            data:
-                (posts) => GrimityRefreshIndicator(
-                  onRefresh: () async {
-                    await Future.wait([ref.refresh(boardPostDataProvider(type.value).future)]);
-                  },
-                  child: BoardListView(
-                    posts: posts.posts,
-                    totalCount: posts.totalCount ?? 0,
-                    type: type.value,
-                    scrollController: scrollController,
-                  ),
+            data: (posts) {
+              return GrimityRefreshIndicator(
+                onRefresh: () async {
+                  await Future.wait([ref.refresh(boardPostDataProvider(type.value).future)]);
+                },
+                child: BoardListView(
+                  posts: posts.posts,
+                  totalCount: posts.totalCount ?? 0,
+                  type: type.value,
+                  scrollController: scrollController,
                 ),
-            loading:
-                () => Skeletonizer(
-                  child: BoardListView(
-                    posts: Post.emptyList,
-                    totalCount: 0,
-                    type: type.value,
-                    scrollController: scrollController,
-                  ),
+              );
+            },
+            loading: () {
+              return Skeletonizer(
+                child: BoardListView(
+                  posts: Post.emptyList,
+                  totalCount: 0,
+                  type: type.value,
+                  scrollController: scrollController,
                 ),
+              );
+            },
             error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(boardPostDataProvider(type.value))),
           );
         },
