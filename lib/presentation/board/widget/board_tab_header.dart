@@ -30,6 +30,7 @@ class BoardTabHeader extends StatelessWidget {
     return GdsTab(
       items: types.map((type) => GdsTabItem(label: type.displayName, onTap: () => onTap(type))).toList(),
       index: types.indexOf(selectedType),
+      showBorder: context.isMobile,
     );
   }
 }
