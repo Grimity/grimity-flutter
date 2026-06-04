@@ -13,7 +13,6 @@ import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/album_organize/album_organize_page.dart';
 import 'package:grimity/presentation/block/blocked_users_page.dart';
 import 'package:grimity/presentation/board/tabs/board_page.dart';
-import 'package:grimity/presentation/board/search/board_search_page.dart';
 import 'package:grimity/presentation/business_info/business_info_page.dart';
 import 'package:grimity/presentation/chat_message/chat_message_page.dart';
 import 'package:grimity/presentation/chat_new/new_chat_page.dart';
@@ -209,17 +208,6 @@ class BoardRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => BoardPage();
-}
-
-@TypedGoRoute<BoardSearchRoute>(path: BoardSearchRoute.path, name: BoardSearchRoute.name)
-class BoardSearchRoute extends GoRouteData {
-  BoardSearchRoute();
-
-  static const String path = '/boardSearch';
-  static const String name = 'boardSearch';
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) => BoardSearchPage();
 }
 
 class ChatBranchData extends StatefulShellBranchData {

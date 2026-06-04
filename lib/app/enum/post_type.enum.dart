@@ -12,9 +12,9 @@ enum PostType {
   @JsonValue('ALL')
   all('전체');
 
-  final String typeName;
+  final String displayName;
 
-  const PostType(this.typeName);
+  const PostType(this.displayName);
 
   static PostType fromString(String value) {
     return PostType.values.firstWhere((e) => e.toJson() == value, orElse: () => PostType.normal);

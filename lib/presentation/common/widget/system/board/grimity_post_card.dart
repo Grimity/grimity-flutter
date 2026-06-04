@@ -79,6 +79,6 @@ class _GrimityPostCardState extends State<GrimityPostCard> {
 
   GdsChip _buildPostTypeChip(String type) {
     final postType = PostType.fromString(type);
-    return GdsChip(text: postType.typeName, size: GdsChipSize.medium);
+    return GdsChip(text: postType.displayName, size: GdsChipSize.medium);
   }
 }

@@ -31,7 +31,11 @@ abstract class Post with _$Post {
     createdAt: DateTime.now(),
   );
 
-  static List<Post> get emptyList => [Post.empty(), Post.empty(), Post.empty()];
+  static List<Post> get emptyList => [
+    Post.empty(),
+    Post.empty(),
+    Post.empty(),
+  ];
 }
 
 extension PostX on Post {
