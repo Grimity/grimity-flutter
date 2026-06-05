@@ -19,6 +19,7 @@ class BoardSearchHeader extends HookConsumerWidget {
     final selectedSearchType = ref.watch(searchQueryProvider.select((state) => state.searchType));
     final keyword = ref.read(searchQueryProvider).keyword;
     final searchQueryNotifier = ref.read(searchQueryProvider.notifier);
+    final rootContext = rootNavigatorKey.currentContext!;
     final controller = useTextEditingController(text: keyword);
     final focusNode = useFocusNode();
 
@@ -43,20 +44,17 @@ class BoardSearchHeader extends HookConsumerWidget {
 
     void selectSearchType(SearchType searchType) {
       searchQueryNotifier.updateSearchType(searchType);
-      Navigator.pop(context);
+      Navigator.pop(rootContext);
 
       if (controller.text.trim().length >= 2) {
         ref.read(boardPostDataProvider(type).notifier).search();
       }
     }
 
-    GdsListItem searchTypeOption({
-      required SearchType searchType,
-      required String text,
-    }) {
+    GdsListItem searchTypeOption(SearchType searchType) {
       return GdsListItem.optionCard(
+        text: searchType.displayName,
         state: selectedSearchType == searchType ? GdsListItemState.pressed : GdsListItemState.enabled,
-        text: text,
         onTap: () => selectSearchType(searchType),
       );
     }
@@ -65,33 +63,47 @@ class BoardSearchHeader extends HookConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       spacing: GdsSpacing.spacing8,
       children: [
-        GdsFilter(
-          text: selectedSearchType == SearchType.name ? '글쓴이' : '제목',
-          onTap: () {
-            final context = rootNavigatorKey.currentContext!;
+        GdsMenuAnchor(
+          builder: (link) {
+            return GdsFilter(
+              text: selectedSearchType.displayName,
+              onTap: () {
+                if (context.isTablet) {
+                  final bottomSheet = GdsBottomSheet(
+                    type: GdsBottomSheetType.tertiary,
+                    title: '검색 필터',
+                    onClose: () => Navigator.pop(context),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      spacing: GdsSpacing.spacing8,
+                      children: [
+                        searchTypeOption(SearchType.combined),
+                        searchTypeOption(SearchType.name),
+                      ],
+                    ),
+                  );
 
-            // TODO: GDS에서 GNB/Menu가 구현되어 있지 않아 추후 테블릿용 동작 필요함.
-            final bottomSheet = GdsBottomSheet(
-              type: GdsBottomSheetType.tertiary,
-              title: '검색 필터',
-              onClose: () => Navigator.pop(context),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                spacing: GdsSpacing.spacing8,
-                children: [
-                  searchTypeOption(
-                    searchType: SearchType.combined,
-                    text: '제목',
-                  ),
-                  searchTypeOption(
-                    searchType: SearchType.name,
-                    text: '글쓴이',
-                  ),
-                ],
-              ),
+                  bottomSheet.open(rootContext);
+                } else {
+                  final menu = GdsMenu(
+                    items: [
+                      [
+                        GdsMenuItem(
+                          label: SearchType.combined.displayName,
+                          onTap: () => selectSearchType(SearchType.combined),
+                        ),
+                        GdsMenuItem(
+                          label: SearchType.name.displayName,
+                          onTap: () => selectSearchType(SearchType.name),
+                        ),
+                      ],
+                    ],
+                  );
+
+                  menu.open(rootContext, layerLink: link, position: GdsMenuPosition.left);
+                }
+              },
             );
-
-            bottomSheet.open(context);
           },
         ),
         Expanded(

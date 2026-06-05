@@ -61,7 +61,7 @@ class AlbumOrganize extends _$AlbumOrganize {
         ),
       );
 
-      return result.fold(
+      return await result.fold(
         onSuccess: (_) {
           final updatedAlbum = album.copyWith(name: name);
           final updatedAlbums = state.userAlbums.map((item) => item.id == album.id ? updatedAlbum : item).toList();
