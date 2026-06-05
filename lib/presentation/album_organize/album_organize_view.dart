@@ -19,8 +19,6 @@ class AlbumOrganizeView extends ConsumerWidget {
     return GdsScaffold(
       appBar: albumOrganizeAppBar,
       body: albumOrganizeBodyView,
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      // floatingActionButton: albumOrganizeFabView,
     );
   }
 }
