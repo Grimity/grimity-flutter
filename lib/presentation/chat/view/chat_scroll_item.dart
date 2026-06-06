@@ -20,7 +20,7 @@ class ChatScrollItem extends ConsumerWidget {
 
     return GdsDmItem(
       nickname: model.opponentUser.name,
-      messageText: model.lastMessage?.content ?? '',
+      messageText: model.lastMessage == null ? '최근 메세지가 없습니다.' : model.lastMessage?.content ?? '사진을 보냈습니다.',
       avatarImageUrl: model.opponentUser.image ?? '',
       timeText: model.enteredAt.toRelativeTime(),
       unreadCount: model.unreadCount,
