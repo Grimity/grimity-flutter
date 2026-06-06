@@ -44,7 +44,7 @@ class GrimitySelectableImageFeed extends StatelessWidget {
                   Positioned(
                     right: 12,
                     top: 12,
-                    child: GrimityCheckBox(value: selected, onChanged: (_) => onToggleSelected.call()),
+                    child: GrimityCheckBox(isChecked: selected, onChanged: (_) => onToggleSelected.call()),
                   ),
                 ],
               ),

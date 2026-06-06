@@ -26,6 +26,10 @@ class ChatProvider extends _$ChatProvider {
     return state.value!;
   }
 
+  bool get isChatEmpty {
+    return _state.chats.isEmpty;
+  }
+
   String? _keyword;
 
   @override

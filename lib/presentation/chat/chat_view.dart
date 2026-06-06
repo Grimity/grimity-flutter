@@ -1,14 +1,15 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_appbar/flutter_appbar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/static/push_notification.dart';
 import 'package:grimity/presentation/chat/provider/chat_provider.dart';
 import 'package:grimity/presentation/chat/view/chat_scroll_item.dart';
-import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
 import 'package:grimity/presentation/common/widget/grimity_refresh_indicator.dart';
-import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
+import 'package:grimity/presentation/common/widget/navigation/grimity_main_top_navigation.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class ChatView extends ConsumerStatefulWidget {
@@ -30,6 +31,9 @@ class ChatView extends ConsumerStatefulWidget {
 class _ChatViewState extends ConsumerState<ChatView> {
   final _visibilityKey = UniqueKey();
   StreamSubscription? _subscription;
+
+  /// 채팅 페이지에서 타이틀과 검색 바 앱배의 동작
+  static AppBarBehavior appBarBehavior = MaterialAppBarBehavior(floating: true, alwaysScrolling: false);
 
   void onVisibilityChanged(VisibilityInfo info) {
     final isVisible = info.visibleFraction > 0;
@@ -56,50 +60,51 @@ class _ChatViewState extends ConsumerState<ChatView> {
     return VisibilityDetector(
       key: _visibilityKey,
       onVisibilityChanged: onVisibilityChanged,
-      child: NestedScrollView(
-        headerSliverBuilder:
-            (context, innerBoxIsScrolled) => [
-              widget.appbarView,
-            ],
-        body: SafeArea(
-          top: false,
-          child: Consumer(
-            builder: (context, ref, _) {
-              final provider = ref.read(chatProviderProvider.notifier);
-              final data = ref.watch(chatProviderProvider);
+      child: GdsScaffold(
+        appBar: GrimityMainTopNavigation(),
+        body: Consumer(
+          builder: (context, ref, _) {
+            final provider = ref.read(chatProviderProvider.notifier);
+            final data = ref.watch(chatProviderProvider);
+            final isSelectMode = data.value?.isSelectMode ?? false;
 
-              // 현재 데이터를 불러오고 있는 경우.
-              if (data.isLoading) {
-                return Center(child: GrimityCircularProgressIndicator());
-              }
+            // 현재 데이터를 불러오고 있는 경우.
+            if (data.isLoading) {
+              return Center(child: GdsCircularLoading());
+            }
 
-              // 현재 주고 받은 메세지가 아직 없는 경우.
-              if (data.value!.chats.isEmpty && data.value!.keyword == null) {
-                return ListView(
-                  children: [
-                    GrimityStateView.commentReply(
-                      title: "주고 받은 메세지가 없어요",
-                      subTitle: "팔로우 한 작가에게 메세지를 보내보세요",
-                      buttonText: "새 메세지 보내기",
-                      onTap: () => NewChatRoute().push(context),
-                    ),
-                  ],
-                );
-              }
+            final Widget child;
 
-              return Column(
-                spacing: 16,
+            // 현재 주고 받은 메세지가 아직 없는 경우.
+            if (data.value!.chats.isEmpty && data.value!.keyword == null) {
+              child = SingleChildScrollView(
+                padding: EdgeInsets.symmetric(vertical: GdsSpacing.spacing16),
+                child: GdsEmptyState(
+                  title: '아직 주고 받은 메세지가 없어요',
+                  description: '다른 작가에게 사진과 메세지를\n보낼 수 있어요',
+                  size: GdsEmptyStateSize.md,
+                  icon: GdsIcon.reply,
+                  action: GdsOutlinedButton(
+                    text: '새 메세지 보내기',
+                    onPressed: () => NewChatRoute().push(context),
+                  ),
+                ),
+              );
+            } else {
+              child = Column(
                 children: [
-                  widget.searchBarView,
-                  widget.toolBarView,
+                  if (isSelectMode) widget.toolBarView,
+
                   Expanded(
                     child: GrimityRefreshIndicator(
                       onRefresh: provider.refresh,
-                      child: ListView.separated(
-                        separatorBuilder: (context, index) {
-                          return SizedBox(height: 16);
-                        },
-                        padding: EdgeInsets.all(16),
+                      child: ListView.builder(
+                        padding: EdgeInsets.only(
+                          top: isSelectMode ? 0 : GdsSpacing.spacing16,
+                          left: GdsSpacing.spacing20,
+                          right: GdsSpacing.spacing20,
+                          bottom: GdsSpacing.spacing16,
+                        ),
                         itemCount: data.value!.chats.length,
                         itemBuilder: (context, index) {
                           return ChatScrollItem(model: data.value!.chats[index]);
@@ -109,8 +114,16 @@ class _ChatViewState extends ConsumerState<ChatView> {
                   ),
                 ],
               );
-            },
-          ),
+            }
+
+            return AppBarConnection(
+              appBars: [
+                AppBar(behavior: appBarBehavior, body: widget.appbarView),
+                AppBar(behavior: appBarBehavior, body: widget.searchBarView),
+              ],
+              child: child,
+            );
+          },
         ),
       ),
     );
