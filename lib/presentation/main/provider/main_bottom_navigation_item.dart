@@ -58,18 +58,18 @@ enum MainNavigationItem {
     }
   }
 
+  bool get showFab => switch (this) {
+    MainNavigationItem.home => true,
+    MainNavigationItem.ranking => false,
+    MainNavigationItem.following => false,
+    MainNavigationItem.board => false,
+    MainNavigationItem.chatMessage => false,
+  };
+
   // Fab Tap시 화면 전환 처리.
   void onFabTap(BuildContext context) {
-    switch (this) {
-      case MainNavigationItem.board:
-        PostUploadRoute().push(context);
-        break;
-      case MainNavigationItem.chatMessage:
-        NewChatRoute().push(context);
-        break;
-      default:
-        FeedUploadRoute().push(context);
-        break;
+    if (this == MainNavigationItem.home) {
+      FeedUploadRoute().push(context);
     }
   }
 

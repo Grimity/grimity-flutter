@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gds/gds.dart';
-import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/presentation/chat/provider/chat_provider.dart';
+import 'package:grimity/presentation/chat_new/new_chat_page.dart';
 
 class ChatAppBar extends ConsumerWidget {
   const ChatAppBar({super.key});
@@ -37,7 +37,7 @@ class ChatAppBar extends ConsumerWidget {
                 text: '새 메세지',
                 size: GdsOutlinedButtonSize.small,
                 enabled: !isSelectMode,
-                onPressed: () => NewChatRoute().push(context),
+                onPressed: () => NewChatPage.push(context),
               ),
               GdsOutlinedButton(
                 text: '편집',

@@ -23,7 +23,7 @@ class _MainAppShellState extends State<MainAppShell> {
     final currentIndex = widget.navigationShell.currentIndex;
     final currentItem = MainNavigationItem.values[currentIndex];
     final canPop = currentIndex == MainNavigationItem.home.index;
-    final showFab = GoRouter.of(context).state.name == currentItem.routeName;
+    final showFab = GoRouter.of(context).state.name == currentItem.routeName && currentItem.showFab;
 
     return GrimityPopScope(
       canPop: canPop,

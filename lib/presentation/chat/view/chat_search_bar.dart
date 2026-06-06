@@ -20,7 +20,7 @@ class ChatSearchBar extends ConsumerWidget {
       child: GdsTextField.search(
         size: GdsTextFieldSize.small,
         placeholder: '작가 이름을 검색해보세요',
-        enabled: !isSelectMode && !provider.isChatEmpty,
+        enabled: !isSelectMode || !provider.isChatEmpty,
         onChanged: provider.setKeyword,
         onEditingComplete: provider.refresh,
       ),
