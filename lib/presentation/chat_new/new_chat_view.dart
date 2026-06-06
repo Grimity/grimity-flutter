@@ -40,8 +40,8 @@ class NewChatView extends ConsumerWidget {
         child = SingleChildScrollView(
           child: GdsEmptyState(
             icon: GdsIcon.warning,
-            title: "팔로우 하는 작가가 없어요",
-            description: "관심 있는 작가를 팔로우하고\n메세지를 주고받아 보세요",
+            title: "일치하는 작가가 없어요",
+            description: "검색어의 단어 수를 줄이거나\n다른 검색어로 검색해보세요.",
           ),
         );
       }
