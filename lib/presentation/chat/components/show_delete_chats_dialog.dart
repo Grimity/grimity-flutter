@@ -15,12 +15,8 @@ Future<T?> showDeleteChatsDialog<T>({required BuildContext context, required Lis
     secondaryLabel: '아니요',
     onSecondaryTap: () => context.pop(),
     onPrimaryTap: () async {
+      context.pop();
       await getIt<ChatAPI>().batchDeleteChat(BatchDeleteChatRequest(ids: chatIds));
-
-      // 해당 모달 닫기.
-      if (context.mounted) {
-        Navigator.pop(context);
-      }
     },
   );
 
