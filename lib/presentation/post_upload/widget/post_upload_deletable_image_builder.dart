@@ -55,7 +55,10 @@ class DeletableImageBuilder extends EmbedBuilder {
               Positioned(
                 right: 16,
                 top: 16,
-                child: GrimityCheckBox(value: selected, onChanged: (_) => notifier.toggleSelectedImageUrl(imageUrl)),
+                child: GrimityCheckBox(
+                  isChecked: selected,
+                  onChanged: (_) => notifier.toggleSelectedImageUrl(imageUrl),
+                ),
               ),
             ],
           ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/presentation/chat_new/provider/new_chat_provider.dart';
 import 'package:grimity/presentation/chat_new/view/new_chat_scroll_item_view.dart';
-import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
 import 'package:grimity/presentation/common/widget/grimity_infinite_scroll_pagination.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -24,7 +24,7 @@ class NewChatView extends StatelessWidget {
 
             // 현재 데이터를 불러오고 있는 경우.
             if (data.isLoading) {
-              return Center(child: GrimityCircularProgressIndicator());
+              return Center(child: GdsCircularLoading());
             }
 
             // 현재 팔로잉하고 있는 사용자가 아예 없는 경우.

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/presentation/common/enum/upload_image_type.dart';
-import 'package:grimity/presentation/common/widget/grimity_circular_progress_indicator.dart';
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/popup/grimity_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/common/widget/system/profile/grimity_profile_background_image.dart';
@@ -25,7 +25,10 @@ class ProfileEditBackground extends ConsumerWidget {
         _ProfileEditBackgroundEditButton(),
         if (ref.read(uploadImageProvider(UploadImageType.background)).isUploading)
           Positioned.fill(
-            child: Container(color: Colors.black.withValues(alpha: 0.3), child: GrimityCircularProgressIndicator()),
+            child: Container(
+              color: Colors.black.withValues(alpha: 0.3),
+              child: Center(child: GdsCircularLoading()),
+            ),
           ),
       ],
     );

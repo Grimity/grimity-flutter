@@ -17,7 +17,7 @@ class SignUpTermAgreeWidget extends ConsumerWidget {
     return Row(
       children: [
         GrimityCheckBox(
-          value: ref.watch(signUpProvider).isTermsAgreed,
+          isChecked: ref.watch(signUpProvider).isTermsAgreed,
           onChanged: (value) {
             ref.read(signUpProvider.notifier).updateTermsAgreement(value ?? false);
           },

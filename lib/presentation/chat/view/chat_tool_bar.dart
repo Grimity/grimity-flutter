@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:grimity/gen/assets.gen.dart';
+import 'package:gds/gds.dart';
+import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/presentation/chat/components/show_delete_chats_dialog.dart';
 import 'package:grimity/presentation/chat/provider/chat_provider.dart';
-import 'package:grimity/presentation/common/widget/button/grimity_button.dart';
-import 'package:grimity/presentation/common/widget/grimity_transition.dart';
 import 'package:grimity/presentation/common/widget/system/check/grimity_check_box.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -15,67 +14,53 @@ class ChatToolBar extends ConsumerWidget {
     final provider = ref.read(chatProviderProvider.notifier);
     final data = ref.watch(chatProviderProvider);
     final hasSelected = data.value?.selectedChats.isNotEmpty ?? false;
-    final isSelectMode = data.value?.isSelectMode ?? false;
     final isSelectedAll = data.value?.chats.length == data.value?.selectedChats.length;
 
     return Container(
-      alignment: Alignment.center,
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      height: 30,
-      child: GrimityTransition.axis(
-        value: isSelectMode,
-        child: Builder(
-          builder: (context) {
-            if (isSelectMode) {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                spacing: 16,
-                children: [
-                  GrimityCheckBox.withLabeled(
-                    value: isSelectedAll,
-                    label: "전체 선택",
-                    onTap: () => provider.selectChatAll(!isSelectedAll),
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    spacing: 8,
-                    children: [
-                      GrimityButton.round(
-                        text: "채팅 나가기",
-                        status: hasSelected ? ButtonStatus.on : ButtonStatus.off,
-                        onTap: () async {
-                          assert(hasSelected);
-                          await showDeleteChatsDialog(context: context, chatIds: data.value!.selectedChats);
+      padding: EdgeInsets.only(
+        top: GdsSpacing.spacing16,
+        left: GdsSpacing.spacing20,
+        right: GdsSpacing.spacing20,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GrimityCheckBox.withLabeled(
+            isChecked: isSelectedAll,
+            label: '전체 선택',
+            onTap: () => provider.selectChatAll(!isSelectedAll),
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            spacing: GdsSpacing.spacing8,
+            children: [
+              GdsTextButton(
+                variant: GdsTextButtonVariant.assistive,
+                text: '채팅방 나가기',
+                onPressed: () async {
+                  if (!hasSelected) {
+                    ToastService.showFailure('원하는 채팅방을 선택하세요.');
+                    return;
+                  }
 
-                          // 일부 채팅이 제거되었으므로 목록 새로고침.
-                          provider.refresh();
-                        },
-                      ),
-                      GrimityButton.round(
-                        text: "닫기",
-                        style: ButtonStyleType.line,
-                        prefixIcon: Assets.icons.icon.close,
-                        onTap: () => provider.setSelectMode(false),
-                      ),
-                    ],
-                  ),
-                ],
-              );
-            }
+                  await showDeleteChatsDialog(context: context, chatIds: data.value!.selectedChats);
 
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                GrimityButton.round(
-                  text: "편집",
-                  style: ButtonStyleType.line,
-                  prefixIcon: Assets.icons.icon.setting,
-                  onTap: () => provider.setSelectMode(true),
-                ),
-              ],
-            );
-          },
-        ),
+                  // 일부 채팅이 제거되었으므로 목록 새로고침.
+                  provider.refresh();
+                },
+              ),
+              GdsDivider.primary(
+                extent: GdsSpacing.spacing16,
+                size: GdsDividerSize.vertical,
+              ),
+              GdsTextButton(
+                variant: GdsTextButtonVariant.assistive,
+                text: '아니요',
+                onPressed: () => provider.setSelectMode(false),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
