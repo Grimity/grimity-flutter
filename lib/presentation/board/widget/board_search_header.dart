@@ -114,10 +114,7 @@ class BoardSearchHeader extends HookConsumerWidget {
             placeholder: '검색어를 입력하세요',
             onChanged: (keyword) {
               searchQueryNotifier.updateKeyword(keyword);
-
-              if (keyword.trim().isEmpty) {
-                ref.read(boardPostDataProvider(type).notifier).search();
-              }
+              ref.read(boardPostDataProvider(type).notifier).search();
             },
             onEditingComplete: submit,
           ),

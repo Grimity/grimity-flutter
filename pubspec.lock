@@ -1122,7 +1122,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: b41e67a9b09e099634dff7f0f4eff8e46aed0e90
+      resolved-ref: "74c6f9ca3715534b99a37c1e5e1956a379327298"
       url: "https://github.com/Grimity/gds-flutter"
     source: git
     version: "0.0.1"
@@ -1130,8 +1130,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/components"
-      ref: b41e67a9b09e099634dff7f0f4eff8e46aed0e90
-      resolved-ref: b41e67a9b09e099634dff7f0f4eff8e46aed0e90
+      ref: "74c6f9ca3715534b99a37c1e5e1956a379327298"
+      resolved-ref: "74c6f9ca3715534b99a37c1e5e1956a379327298"
       url: "https://github.com/Grimity/gds-flutter"
     source: git
     version: "0.0.1"
@@ -1139,8 +1139,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/foundation"
-      ref: b41e67a9b09e099634dff7f0f4eff8e46aed0e90
-      resolved-ref: b41e67a9b09e099634dff7f0f4eff8e46aed0e90
+      ref: "74c6f9ca3715534b99a37c1e5e1956a379327298"
+      resolved-ref: "74c6f9ca3715534b99a37c1e5e1956a379327298"
       url: "https://github.com/Grimity/gds-flutter"
     source: git
     version: "0.0.1"
@@ -1148,8 +1148,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/tokens"
-      ref: b41e67a9b09e099634dff7f0f4eff8e46aed0e90
-      resolved-ref: b41e67a9b09e099634dff7f0f4eff8e46aed0e90
+      ref: "74c6f9ca3715534b99a37c1e5e1956a379327298"
+      resolved-ref: "74c6f9ca3715534b99a37c1e5e1956a379327298"
       url: "https://github.com/Grimity/gds-flutter"
     source: git
     version: "0.0.1"

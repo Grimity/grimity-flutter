@@ -4,10 +4,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_appbar/flutter_appbar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gds/gds.dart';
-import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/static/push_notification.dart';
 import 'package:grimity/presentation/chat/provider/chat_provider.dart';
 import 'package:grimity/presentation/chat/view/chat_scroll_item.dart';
+import 'package:grimity/presentation/chat_new/new_chat_page.dart';
 import 'package:grimity/presentation/common/widget/grimity_refresh_indicator.dart';
 import 'package:grimity/presentation/common/widget/navigation/grimity_main_top_navigation.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -86,7 +86,7 @@ class _ChatViewState extends ConsumerState<ChatView> {
                   icon: GdsIcon.reply,
                   action: GdsOutlinedButton(
                     text: '새 메세지 보내기',
-                    onPressed: () => NewChatRoute().push(context),
+                    onPressed: () => NewChatPage.push(context),
                   ),
                 ),
               );
