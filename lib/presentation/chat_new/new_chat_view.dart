@@ -15,7 +15,7 @@ class NewChatView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // assert(context.isTablet ? isModal : !isModal);
+    assert(context.isTablet ? isModal : !isModal);
     final data = ref.watch(newChatProviderProvider);
 
     // 현재 데이터를 불러오고 있는 경우.
