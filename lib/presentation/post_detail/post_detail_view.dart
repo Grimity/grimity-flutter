@@ -5,7 +5,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/presentation/comment/enum/comment_type.dart';
 import 'package:grimity/presentation/comment/provider/comment_input_provider.dart';
-import 'package:grimity/presentation/drawer/grimity_drawer.dart';
+import 'package:grimity/presentation/common/widget/navigation/grimity_drawer.dart';
 import 'package:grimity/presentation/post_detail/view/post_latest_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

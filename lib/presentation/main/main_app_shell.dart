@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/presentation/common/widget/grimity_pop_scope.dart';
-import 'package:grimity/presentation/drawer/grimity_drawer.dart';
+import 'package:grimity/presentation/common/widget/navigation/grimity_drawer.dart';
 import 'package:grimity/presentation/main/provider/main_bottom_navigation_item.dart';
 import 'package:grimity/presentation/main/widget/main_bottom_navigation_bar.dart';
 import 'package:grimity/presentation/main/widget/main_floating_action_button.dart';
