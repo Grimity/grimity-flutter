@@ -24,12 +24,15 @@ class ChatMessageField extends HookConsumerWidget {
     final editingController = useTextEditingController();
 
     // View Model 측에서 텍스트 필드 내용을 수정할 수 있도록 관련 컨트롤러를 전달.
-    provider.inputMessageController = editingController;
+    useEffect(() {
+      provider.inputMessageController = editingController;
+      return null;
+    }, [editingController]);
 
     if (isReplyMode) {
       return GdsDmInput.answer(
         replyUser: '${state?.opponentUser.name}님에게 답장',
-        previewText: replyUser.content,
+        previewText: replyUser.content ?? '사진',
         enabled: isChatEnabled,
         controller: editingController,
         onCameraPressed: () => onCameraPressed(context, provider),
