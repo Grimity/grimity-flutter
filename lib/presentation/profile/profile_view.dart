@@ -3,7 +3,7 @@ import 'package:flutter_appbar/flutter_appbar.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:grimity/presentation/common/widget/grimity_infinite_scroll_pagination.dart';
 import 'package:grimity/presentation/common/widget/grimity_refresh_indicator.dart';
-import 'package:grimity/presentation/drawer/grimity_drawer.dart';
+import 'package:grimity/presentation/common/widget/navigation/grimity_drawer.dart';
 import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
 import 'package:grimity/presentation/profile/provider/profile_feeds_data_provider.dart';
 import 'package:grimity/presentation/profile/provider/profile_posts_data_provider.dart';
