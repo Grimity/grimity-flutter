@@ -8,8 +8,8 @@ import 'package:grimity/app/enum/login_provider.enum.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class MainAppDrawer extends ConsumerWidget {
-  const MainAppDrawer({super.key});
+class GrimityDrawer extends ConsumerWidget {
+  const GrimityDrawer({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
