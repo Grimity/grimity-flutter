@@ -1,18 +1,11 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:grimity/app/config/app_color.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/app/config/app_router.dart';
-import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/ux/popover.dart';
-import 'package:grimity/data/model/chat_message/chat_message_reply_response.dart';
-import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/chat_message/provider/chat_message_provider.dart';
-import 'package:grimity/presentation/chat_message/view/chat_message_image_view.dart';
 import 'package:grimity/presentation/chat_message/view/chat_message_popover_menu.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
-import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
 class ChatMessageFragment extends ConsumerStatefulWidget {
   const ChatMessageFragment({super.key, required this.chatId, required this.model});
@@ -36,8 +29,12 @@ class _ChatMessageFragmentState extends ConsumerState<ChatMessageFragment> {
       followerAnchor: Alignment.bottomLeft,
       builder: (popover) {
         return Padding(
-          padding: EdgeInsets.only(left: 10),
-          child: ChatMessagePopoverMenu(chatId: widget.chatId, message: widget.model, popover: popover),
+          padding: EdgeInsets.only(left: GdsSpacing.spacing10),
+          child: ChatMessagePopoverMenu(
+            chatId: widget.chatId,
+            message: widget.model,
+            popover: popover,
+          ),
         );
       },
     );
@@ -51,166 +48,63 @@ class _ChatMessageFragmentState extends ConsumerState<ChatMessageFragment> {
 
   @override
   Widget build(BuildContext context) {
+    final providerFamily = chatMessageProviderProvider(chatId: widget.chatId);
+    final state = ref.watch(providerFamily).value;
     final model = widget.model;
     final user = ref.watch(userAuthProvider);
     final isMe = user?.id == model.userId;
+    final messageType = isMe ? GdsChatMessageType.me : GdsChatMessageType.other;
+
+    void openImageViewer() {
+      ImageViewerRoute(imageUrls: [model.image!], initialIndex: 0, enableSave: true).push(context);
+    }
 
     return LayoutBuilder(
       builder: (context, constraints) {
         return Align(
           alignment: isMe ? Alignment.topRight : Alignment.topLeft,
-          child: CompositedTransformTarget(
-            link: layerLink,
-            child: GrimityGesture(
-              onTap: () {
-                if (!isMe) {
-                  // 좋아요, 답장과 같은 액션 버튼 표시.
-                  (_popover = createPopover()).show(context);
-                }
-              },
-              onLongPress:
-                  model.image == null
-                      ? null
-                      : () {
-                        ImageViewerRoute(imageUrls: [model.image!], initialIndex: 0, enableSave: true).push(context);
-                      },
-              child: Container(
-                constraints: BoxConstraints(
-                  // 100px 더 작게 제약하되 최대 240px으로 수평 크기를 제한.
-                  maxWidth: min((constraints.maxWidth - 100), 240),
+          child: Container(
+            constraints: BoxConstraints(
+              // 100px 더 작게 제약하되 최대 240px으로 수평 크기를 제한.
+              maxWidth: constraints.maxWidth - 80,
+            ),
+            child: Column(
+              crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              spacing: GdsSpacing.spacing6,
+              children: [
+                CompositedTransformTarget(
+                  link: layerLink,
+                  child: GdsChatBubble(
+                    type: messageType,
+                    content: model.content,
+                    imageUrl: model.image,
+                    isLiked: model.isLike,
+                    onTap:
+                        !isMe
+                            ? () {
+                              // 좋아요, 답장과 같은 액션 버튼 표시.
+                              if (!isMe) {
+                                (_popover = createPopover()).show(context);
+                              }
+                            }
+                            : null,
+                    onImageTap: openImageViewer,
+                    replyPreviewData:
+                        model.replyTo != null
+                            ? GdsChatReplyPreviewData(
+                              replyType: isMe ? GdsChatMessageType.other : GdsChatMessageType.me,
+                              replyLabel: isMe ? '[${state?.opponentUser.name}]님에게 답장' : "나에게 답장",
+                              content: model.replyTo?.content ?? '',
+                            )
+                            : null,
+                  ),
                 ),
-                child: Stack(
-                  children: [
-                    Column(
-                      crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      spacing: 6,
-                      children: [
-                        if (model.replyTo != null) _ReplyView(isMe: isMe, model: model.replyTo!, chatId: widget.chatId),
-
-                        if (model.image != null) ChatMessageImageView(imageUrl: model.image!),
-
-                        if (model.content != null) _MessageBubble(isMe: isMe, text: model.content!),
-                      ],
-                    ),
-
-                    if (model.isLike)
-                      Positioned.fill(
-                        child: Align(
-                          alignment: isMe ? Alignment.bottomRight : Alignment.bottomLeft,
-                          child: _LikeBadge(),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
+              ],
             ),
           ),
         );
       },
-    );
-  }
-}
-
-class _MessageBubble extends StatelessWidget {
-  const _MessageBubble({required this.isMe, required this.text});
-
-  final bool isMe;
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-      decoration: BoxDecoration(
-        color: isMe ? AppColor.secandary1 : AppColor.gray300,
-        borderRadius: switch (isMe) {
-          true => BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-            bottomLeft: Radius.circular(20),
-            bottomRight: Radius.circular(4),
-          ),
-          false => BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-            bottomLeft: Radius.circular(4),
-            bottomRight: Radius.circular(20),
-          ),
-        },
-      ),
-      child: Text(text, style: AppTypeface.label2.copyWith(color: isMe ? AppColor.gray00 : AppColor.gray800)),
-    );
-  }
-}
-
-class _ReplyView extends ConsumerWidget {
-  const _ReplyView({required this.isMe, required this.model, required this.chatId});
-
-  final bool isMe;
-  final ChatMessageReplyResponse model;
-  final String chatId;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final data = ref.watch(chatMessageProviderProvider(chatId: chatId));
-    final user = data.value!.opponentUser;
-
-    return Column(
-      crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-      spacing: 6,
-      children: [
-        Text(isMe ? "${user.name}님에게 답장" : "나에게 답장", style: AppTypeface.caption2.copyWith(color: AppColor.gray500)),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          spacing: 6,
-          children: [
-            Assets.icons.icon.deliverRightFromTop.svg(color: AppColor.gray500, width: 18, height: 18),
-            Builder(
-              builder: (context) {
-                if (model.content == null) {
-                  return ChatMessageImageView(imageUrl: model.image!, width: 60, height: 60);
-                }
-
-                return Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: isMe ? AppColor.gray300 : AppColor.secandary1,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    model.content!,
-                    style: AppTypeface.caption2.copyWith(color: isMe ? AppColor.gray800 : AppColor.gray00),
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class _LikeBadge extends StatelessWidget {
-  const _LikeBadge();
-
-  @override
-  Widget build(BuildContext context) {
-    return FractionalTranslation(
-      translation: Offset(0, 0.6),
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 12),
-        width: 20,
-        height: 20,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: AppColor.gray00,
-          border: Border.all(color: AppColor.gray300),
-        ),
-        child: Assets.icons.icon.heartSharpFilled.svg(width: 12, height: 12),
-      ),
     );
   }
 }

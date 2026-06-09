@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/gen/assets.gen.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/presentation/chat_message/provider/chat_message_provider.dart';
 import 'package:grimity/presentation/common/model/image_item_source.dart';
-import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/photo_select/widget/photo_asset_thumbnail_widget.dart';
 
 class ChatMessageImageGallery extends ConsumerWidget {
@@ -16,19 +14,24 @@ class ChatMessageImageGallery extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final providerFamily = chatMessageProviderProvider(chatId: chatId);
     final provider = ref.read(providerFamily.notifier);
+    final colors = context.gdsColors;
     final data = ref.watch(providerFamily);
     final imageAssets = data.value!.inputImages.map((e) => (e as AssetImageSource).asset).toList();
 
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      color: Colors.black.withAlpha(200),
+      padding: EdgeInsets.symmetric(
+        vertical: GdsSpacing.spacing8,
+        horizontal: GdsSpacing.spacing16,
+      ),
+      color: colors.surface.black.withAlpha((GdsOpacity.opacity80 * 255).toInt()),
       child: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 5,
-          mainAxisSpacing: 8,
-          crossAxisSpacing: 8,
+          crossAxisCount: context.isMobile ? 5 : 8,
+          mainAxisSpacing: GdsSpacing.spacing8,
+          crossAxisSpacing: GdsSpacing.spacing8,
         ),
         shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
         itemCount: imageAssets.length,
         itemBuilder: (context, index) {
           final inputImage = data.value!.inputImages[index];
@@ -37,30 +40,23 @@ class ChatMessageImageGallery extends ConsumerWidget {
           return Stack(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(6),
+                borderRadius: BorderRadius.circular(GdsRadius.sm),
                 child: PhotoAssetThumbnailWidget(asset: imageAsset.asset),
               ),
-
               Align(
                 alignment: Alignment.topRight,
-                child: GrimityGesture(
+                child: GdsGesture(
                   onTap: () => provider.removeInputImage(inputImage),
                   child: Padding(
-                    padding: EdgeInsets.all(2),
+                    padding: EdgeInsets.all(GdsSpacing.spacing2),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.black.withValues(alpha: 0.6),
-                        borderRadius: BorderRadius.circular(6),
+                        borderRadius: BorderRadius.circular(GdsRadius.xs),
                       ),
-                      width: 16,
-                      height: 16,
-                      child: Center(
-                        child: Assets.icons.icon.delete.svg(
-                          width: 8,
-                          height: 8,
-                          colorFilter: ColorFilter.mode(AppColor.gray00, BlendMode.srcIn),
-                        ),
-                      ),
+                      width: GdsSpacing.spacing16,
+                      height: GdsSpacing.spacing16,
+                      child: GdsIcon.xMark.build(color: GdsColors.white),
                     ),
                   ),
                 ),
