@@ -100,7 +100,7 @@ class FeedDetailView extends HookConsumerWidget {
     }, [commentInputNotifier]);
 
     return Scaffold(
-      endDrawer: GrimityDrawer(),
+      endDrawer: const GrimityDrawer(),
       body: SafeArea(
         child: Stack(
           children: [

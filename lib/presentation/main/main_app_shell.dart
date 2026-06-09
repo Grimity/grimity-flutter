@@ -30,7 +30,7 @@ class _MainAppShellState extends State<MainAppShell> {
       callback: () => widget.navigationShell.goBranch(MainNavigationItem.home.index),
       child: Scaffold(
         backgroundColor: colors.bg.primary,
-        endDrawer: GrimityDrawer(),
+        endDrawer: const GrimityDrawer(),
         body: widget.navigationShell,
         bottomNavigationBar: MainBottomNavigationBar(navigationShell: widget.navigationShell),
         floatingActionButton: showFab ? MainFloatingActionButton(currentIndex: currentIndex) : null,
