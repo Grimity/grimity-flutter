@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gds/gds.dart';
-import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/extension/date_time_extension.dart';
 import 'package:grimity/presentation/chat_message/provider/chat_message_provider.dart';
 import 'package:grimity/presentation/chat_message/view/chat_message_image_gallery.dart';
@@ -20,16 +18,17 @@ class ChatMessageView extends HookConsumerWidget {
 
   final String chatId;
   final Widget drawerView;
-  final PreferredSizeWidget appBarView;
+  final Widget appBarView;
   final Widget fieldView;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.read(chatMessageProviderProvider(chatId: chatId).notifier);
     final data = ref.watch(chatMessageProviderProvider(chatId: chatId));
+    final colors = context.gdsColors;
 
-    return Scaffold(
-      endDrawer: drawerView,
+    return GdsScaffold(
+      drawer: drawerView,
       appBar: appBarView,
       body: Column(
         children: [
@@ -47,10 +46,10 @@ class ChatMessageView extends HookConsumerWidget {
                       onLoadMore: provider.loadMore,
                       reverse: true,
                       child: ListView.separated(
-                        separatorBuilder: (_, _) => SizedBox(height: 10),
+                        separatorBuilder: (_, _) => SizedBox(height: GdsSpacing.spacing10),
                         shrinkWrap: true,
                         reverse: true,
-                        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                        padding: EdgeInsets.all(GdsSpacing.spacing20),
                         itemCount: data.value!.messages.length,
                         itemBuilder: (context, index) {
                           final chatMessage = data.value!.messages[index];
@@ -66,10 +65,10 @@ class ChatMessageView extends HookConsumerWidget {
                             children: [
                               if (showDateHeader)
                                 Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  padding: EdgeInsets.symmetric(vertical: GdsSpacing.spacing10),
                                   child: Text(
                                     chatMessage.createdAt.toYearMonthDay,
-                                    style: AppTypeface.label2.copyWith(color: AppColor.gray400),
+                                    style: GdsTypography.label6.copyWith(color: colors.text.graySubtle),
                                   ),
                                 ),
                               ChatMessageFragment(chatId: chatId, model: chatMessage),
