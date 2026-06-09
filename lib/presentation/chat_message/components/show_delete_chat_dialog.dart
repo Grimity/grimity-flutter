@@ -20,7 +20,6 @@ Future<T?> showDeleteChatDialog<T>({required BuildContext context, required Stri
       if (context.mounted) {
         Navigator.pop(context);
         Navigator.pop(context);
-        Navigator.pop(context);
       }
     },
   );
