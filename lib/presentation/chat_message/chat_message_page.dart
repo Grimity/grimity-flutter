@@ -13,7 +13,7 @@ class ChatMessagePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChatMessageView(
       chatId: chatId,
-      drawerView: GrimityDrawer(),
+      drawerView: const GrimityDrawer(),
       appBarView: ChatMessageAppBar(chatId: chatId),
       fieldView: ChatMessageField(chatId: chatId),
     );

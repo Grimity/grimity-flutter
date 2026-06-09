@@ -33,7 +33,7 @@ class ProfileView extends HookConsumerWidget {
     final tabController = useTabController(initialLength: tabLength, keys: [tabLength]);
 
     return Scaffold(
-      endDrawer: GrimityDrawer(),
+      endDrawer: const GrimityDrawer(),
       body: SafeArea(
         child: AppBarConnection(
           appBars: [
