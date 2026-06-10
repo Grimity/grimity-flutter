@@ -51,7 +51,6 @@ mixin UserMixin<T> {
         _refreshCurrentUser(ref);
       },
       onFailure: (e) {
-        state = AsyncValue.error(e, StackTrace.current);
         state = AsyncValue.data(prev);
         ToastService.showFailure('${follow ? '팔로우' : '언팔로우'}가 실패했어요.');
       },
@@ -80,7 +79,6 @@ mixin UserMixin<T> {
         _refreshCurrentUser(ref);
       },
       onFailure: (e) {
-        state = AsyncValue.error(e, StackTrace.current);
         state = AsyncValue.data(prev);
         ToastService.showFailure('삭제가 실패했어요.');
       },

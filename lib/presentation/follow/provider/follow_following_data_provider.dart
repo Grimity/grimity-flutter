@@ -38,10 +38,13 @@ class FollowingData extends _$FollowingData with UserMixin<Users> {
     );
   }
 
-  Future<void> unfollow(String id) => onToggleFollow(
+  Future<void> follow(String id) => toggleFollow(id, true);
+  Future<void> unfollow(String id) => toggleFollow(id, false);
+
+  Future<void> toggleFollow(String id, bool value) => onToggleFollow(
     ref: ref,
     id: id,
-    follow: false,
+    follow: value,
     optimisticBuilder: (prev) {
       return prev.copyWith(users: prev.users.where((user) => user.id != id).toList());
     },
