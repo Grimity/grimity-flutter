@@ -6,6 +6,7 @@ import 'package:grimity/app/config/app_const.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/enum/login_provider.enum.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
+import 'package:grimity/presentation/follow/follow_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class GrimityDrawer extends ConsumerWidget {
@@ -27,11 +28,11 @@ class GrimityDrawer extends ConsumerWidget {
       onAvatarTap: () => _pushProfile(context, user?.url),
       onHandleTap: () => _pushProfile(context, user?.url),
       onNickNameTap: () => _pushProfile(context, user?.url),
-      onFollowerTap: () => _push(context, FollowRoute.path),
-      onFollowingTap: () => _push(context, FollowRoute.path),
+      onFollowerTap: () => FollowPage.push(context),
+      onFollowingTap: () => FollowPage.push(context),
       onTermsOfServiceTap: () => launchUrl(Uri.parse(AppConst.serviceTermsUrl)),
       onPrivacyPolicyTap: () => launchUrl(Uri.parse(AppConst.privacyPolicyUrl)),
-      onBusinessInfoTap: () => _push(context, BusinessInfoRoute.path),
+      onBusinessInfoTap: () => const BusinessInfoRoute().push(context),
       onSignOutTap: () => _signOut(context, ref),
       menuItems: [
         GdsSidebarNavigationItem(
@@ -41,7 +42,7 @@ class GrimityDrawer extends ConsumerWidget {
         ),
         GdsSidebarNavigationItem(
           icon: GdsIcon.paint,
-          label: '그린 그림',
+          label: '인기 그림',
           onTap: () => _go(context, RankingRoute.path),
         ),
         GdsSidebarNavigationItem(
@@ -63,12 +64,12 @@ class GrimityDrawer extends ConsumerWidget {
         GdsSidebarNavigationItem(
           icon: GdsIcon.inbox,
           label: '보관함',
-          onTap: () => _push(context, StorageRoute.path),
+          onTap: () => const StorageRoute().push(context),
         ),
         GdsSidebarNavigationItem(
           icon: GdsIcon.settings,
           label: '설정',
-          onTap: () => _push(context, SettingRoute.path),
+          onTap: () => const SettingRoute().push(context),
         ),
       ],
     );
@@ -79,15 +80,8 @@ class GrimityDrawer extends ConsumerWidget {
     context.go(path);
   }
 
-  void _push(BuildContext context, String path) {
-    context.pop();
-    context.push(path);
-  }
-
   void _pushProfile(BuildContext context, String? url) {
     if (url == null) return;
-
-    context.pop();
     ProfileRoute(url: url).push(context);
   }
 
