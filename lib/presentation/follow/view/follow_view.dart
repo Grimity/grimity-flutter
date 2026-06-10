@@ -2,8 +2,8 @@ import 'package:flutter/material.dart' hide AppBar;
 import 'package:flutter_appbar/flutter_appbar.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gds/gds.dart';
-import 'package:grimity/presentation/follow/view/follow_follower_user_view.dart';
 import 'package:grimity/presentation/follow/view/follow_following_user_view.dart';
+import 'package:grimity/presentation/follow/view/follow_follower_user_view.dart';
 
 class FollowView extends HookWidget {
   const FollowView({super.key});
@@ -43,7 +43,7 @@ class FollowView extends HookWidget {
       ],
       child: TabBarView(
         controller: tabController,
-        children: [FollowerUserView(), FollowingUserView()],
+        children: [FollowingUserView(), FollowerUserView()],
       ),
     );
   }
