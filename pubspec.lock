@@ -996,10 +996,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_touch_scale
-      sha256: aeedf8f9fe5e65147362520aa7618d58e5e19da53a7ebc3e20a0716895ae8636
+      sha256: "2e3163c4439b97ada1a4fc189d10397c5922eb34fa12fb8f72070b4577ed5af6"
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.0"
+    version: "1.4.1"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -1122,7 +1122,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: b41e67a9b09e099634dff7f0f4eff8e46aed0e90
+      resolved-ref: "960b340e672c23ec14a4ce34d343c3ee6f89428f"
       url: "https://github.com/Grimity/gds-flutter"
     source: git
     version: "0.0.1"
@@ -1130,8 +1130,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/components"
-      ref: b41e67a9b09e099634dff7f0f4eff8e46aed0e90
-      resolved-ref: b41e67a9b09e099634dff7f0f4eff8e46aed0e90
+      ref: "960b340e672c23ec14a4ce34d343c3ee6f89428f"
+      resolved-ref: "960b340e672c23ec14a4ce34d343c3ee6f89428f"
       url: "https://github.com/Grimity/gds-flutter"
     source: git
     version: "0.0.1"
@@ -1139,8 +1139,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/foundation"
-      ref: b41e67a9b09e099634dff7f0f4eff8e46aed0e90
-      resolved-ref: b41e67a9b09e099634dff7f0f4eff8e46aed0e90
+      ref: "960b340e672c23ec14a4ce34d343c3ee6f89428f"
+      resolved-ref: "960b340e672c23ec14a4ce34d343c3ee6f89428f"
       url: "https://github.com/Grimity/gds-flutter"
     source: git
     version: "0.0.1"
@@ -1148,8 +1148,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/tokens"
-      ref: b41e67a9b09e099634dff7f0f4eff8e46aed0e90
-      resolved-ref: b41e67a9b09e099634dff7f0f4eff8e46aed0e90
+      ref: "960b340e672c23ec14a4ce34d343c3ee6f89428f"
+      resolved-ref: "960b340e672c23ec14a4ce34d343c3ee6f89428f"
       url: "https://github.com/Grimity/gds-flutter"
     source: git
     version: "0.0.1"

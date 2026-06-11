@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/presentation/common/widget/grimity_pop_scope.dart';
-import 'package:grimity/presentation/drawer/main_app_drawer.dart';
+import 'package:grimity/presentation/common/widget/navigation/grimity_drawer.dart';
 import 'package:grimity/presentation/main/provider/main_bottom_navigation_item.dart';
 import 'package:grimity/presentation/main/widget/main_bottom_navigation_bar.dart';
 import 'package:grimity/presentation/main/widget/main_floating_action_button.dart';
@@ -23,14 +23,14 @@ class _MainAppShellState extends State<MainAppShell> {
     final currentIndex = widget.navigationShell.currentIndex;
     final currentItem = MainNavigationItem.values[currentIndex];
     final canPop = currentIndex == MainNavigationItem.home.index;
-    final showFab = GoRouter.of(context).state.name == currentItem.routeName;
+    final showFab = GoRouter.of(context).state.name == currentItem.routeName && currentItem.showFab;
 
     return GrimityPopScope(
       canPop: canPop,
       callback: () => widget.navigationShell.goBranch(MainNavigationItem.home.index),
       child: Scaffold(
         backgroundColor: colors.bg.primary,
-        endDrawer: MainAppDrawer(),
+        endDrawer: const GrimityDrawer(),
         body: widget.navigationShell,
         bottomNavigationBar: MainBottomNavigationBar(navigationShell: widget.navigationShell),
         floatingActionButton: showFab ? MainFloatingActionButton(currentIndex: currentIndex) : null,

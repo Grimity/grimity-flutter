@@ -48,6 +48,7 @@ class ChatProvider extends _$ChatProvider {
   /// 주어진 문자열을 검색어로 정의합니다.
   void setKeyword(String newValue) {
     _keyword = newValue == "" ? null : newValue;
+    refresh();
   }
 
   /// 다음 페이지에 대한 추가 데이터를 불러옵니다.

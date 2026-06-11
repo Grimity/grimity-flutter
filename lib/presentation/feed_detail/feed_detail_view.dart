@@ -5,7 +5,7 @@ import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/presentation/comment/enum/comment_type.dart';
 import 'package:grimity/presentation/comment/provider/comment_input_provider.dart';
-import 'package:grimity/presentation/drawer/main_app_drawer.dart';
+import 'package:grimity/presentation/common/widget/navigation/grimity_drawer.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class FeedDetailView extends HookConsumerWidget {
@@ -100,7 +100,7 @@ class FeedDetailView extends HookConsumerWidget {
     }, [commentInputNotifier]);
 
     return Scaffold(
-      endDrawer: MainAppDrawer(),
+      endDrawer: const GrimityDrawer(),
       body: SafeArea(
         child: Stack(
           children: [
