@@ -56,9 +56,10 @@ class _PhotoAlbumTile extends StatelessWidget {
               child: SizedBox(
                 width: _thumbnailSize,
                 height: _thumbnailSize,
-                child: album.cover != null
-                    ? PhotoAssetThumbnailWidget(asset: album.cover!, size: 144)
-                    : _PhotoAlbumThumbnailPlaceholder(),
+                child:
+                    album.cover != null
+                        ? PhotoAssetThumbnailWidget(asset: album.cover!, size: 144)
+                        : _PhotoAlbumThumbnailPlaceholder(),
               ),
             ),
             const SizedBox(width: GdsSpacing.spacing12),
