@@ -6,6 +6,7 @@ import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/photo_select/provider/photo_select_provider.dart';
 import 'package:grimity/presentation/photo_select/view/photo_selectable_image_view.dart';
 import 'package:grimity/presentation/photo_select/view/photo_selected_image_view.dart';
+import 'package:grimity/presentation/photo_select/widget/photo_album_list_view.dart';
 import 'package:grimity/presentation/photo_select/widget/photo_permission_request_banner.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:photo_manager/photo_manager.dart';
@@ -20,6 +21,14 @@ class PhotoSelectBodyView extends HookConsumerWidget with PhotoSelectMixin {
         // 접근 권한이 없는 경우
         if (!state.hasAccess) {
           return _NoPermissionView();
+        }
+
+        // 앨범 목록이 펼쳐진 경우
+        if (state.isAlbumListExpanded) {
+          return PhotoAlbumListView(
+            albums: state.albums,
+            onAlbumTap: (album) => photoNotifier(ref).selectAlbum(album),
+          );
         }
 
         // 이미지가 없는 경우
