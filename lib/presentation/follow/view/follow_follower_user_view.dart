@@ -10,7 +10,6 @@ import 'package:grimity/presentation/follow/provider/follow_following_data_provi
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-// 팔로잉 뷰
 class FollowerUserView extends HookConsumerWidget {
   const FollowerUserView({super.key});
 
