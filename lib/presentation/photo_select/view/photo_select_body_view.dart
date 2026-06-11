@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/presentation/common/widget/grimity_infinite_scroll_pagination.dart';
 import 'package:grimity/presentation/common/widget/grimity_loading_indicator.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
@@ -35,7 +36,10 @@ class PhotoSelectBodyView extends HookConsumerWidget with PhotoSelectMixin {
               child: GrimityInfiniteScrollPagination(
                 isEnabled: state.hasMore,
                 onLoadMore: photoNotifier(ref).loadMore,
-                child: PhotoSelectableGridView(galleryImages: state.photos, selectedImages: state.selected),
+                child: PhotoSelectableGridView(
+                  galleryImages: state.photos,
+                  selectedImages: state.selected,
+                ),
               ),
             ),
           ],
@@ -51,11 +55,18 @@ class PhotoSelectBodyView extends HookConsumerWidget with PhotoSelectMixin {
 class _NoPermissionView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GrimityStateView.warning(
-      title: '그림 첨부를 위해 접근 권한이 필요해요',
-      subTitle: '[설정 - 그리미티 - 사진]에서 “접근"을\n허용해 주세요.',
-      buttonText: '사진 접근 권한 허용하기',
-      onTap: () => PhotoManager.openSetting(),
+    return Align(
+      alignment: Alignment.topCenter,
+      child: GdsEmptyState(
+        icon: GdsIcon.warning,
+        title: '그림 첨부를 위해 접근 권한이 필요해요',
+        description: '[설정 - 그리미티 - 사진]에서 “접근"을\n허용해 주세요.',
+        action: GdsSolidButton(
+          text: '사진 접근 허용하기',
+          size: GdsSolidButtonSize.large,
+          onPressed: () => PhotoManager.openSetting(),
+        ),
+      ),
     );
   }
 }
@@ -72,7 +83,7 @@ class _NoSelectableImageView extends StatelessWidget {
       children: [
         // 선택적 권한인 경우 배너 표출
         if (!isAuth) PermissionRequestBanner(),
-        GrimityStateView.resultNull(title: '아직 업로드 할 그림이 없어요'),
+        GdsEmptyState(icon: GdsIcon.resultNull, title: '업로드할 그림이 없어요'),
       ],
     );
   }
