@@ -15,7 +15,6 @@ class PhotoAlbumListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      // 목록 전체 배경을 흰색(#FFFFFF)으로 채워 빈 영역까지 디자인과 일치시킵니다.
       color: context.gdsColors.surface.base,
       child: ListView.builder(
         padding: EdgeInsets.zero,
@@ -39,12 +38,12 @@ class _PhotoAlbumTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.gdsColors;
+    final color = context.gdsColors;
 
     return GdsGesture(
       onTap: onTap,
       child: Container(
-        color: colors.surface.base,
+        color: color.surface.base,
         padding: const EdgeInsets.symmetric(
           horizontal: GdsSpacing.spacing16,
           vertical: GdsSpacing.spacing10,
@@ -72,11 +71,11 @@ class _PhotoAlbumTile extends StatelessWidget {
                     album.displayName,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: GdsTypography.label3.copyWith(color: colors.text.grayBold),
+                    style: GdsTypography.label3.copyWith(color: color.text.grayBold),
                   ),
                   Text(
                     '${album.count}개 사진',
-                    style: GdsTypography.label6.copyWith(color: colors.text.graySubtle),
+                    style: GdsTypography.label6.copyWith(color: color.text.graySubtle),
                   ),
                 ],
               ),
@@ -91,8 +90,9 @@ class _PhotoAlbumTile extends StatelessWidget {
 class _PhotoAlbumThumbnailPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final color = context.gdsColors;
     return Container(
-      decoration: BoxDecoration(color: const Color(0xFF000000).withValues(alpha: 0.02)),
+      decoration: BoxDecoration(color: color.surface.base),
       child: Center(child: Assets.icons.icon.imagePlaceholder.svg(width: 24, height: 24)),
     );
   }
