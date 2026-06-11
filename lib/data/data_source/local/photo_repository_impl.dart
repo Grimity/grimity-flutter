@@ -25,14 +25,17 @@ class PhotoRepositoryImpl implements PhotoRepository {
   Future<Result<List<PhotoAlbum>>> fetchAlbums() async {
     final paths = await PhotoManager.getAssetPathList(type: RequestType.image);
 
-    final albums = <PhotoAlbum>[];
-    for (final path in paths) {
+    // 앨범별 정보를 병렬로 조회하여 성능을 개선합니다.
+    final albumFutures = paths.map((path) async {
       final count = await path.assetCountAsync;
-      if (count == 0) continue;
+      if (count == 0) return null;
 
       final first = await path.getAssetListRange(start: 0, end: 1);
-      albums.add(PhotoAlbum(path: path, count: count, cover: first.isNotEmpty ? first.first : null));
-    }
+      return PhotoAlbum(path: path, count: count, cover: first.isNotEmpty ? first.first : null);
+    });
+
+    final results = await Future.wait(albumFutures);
+    final albums = results.whereType<PhotoAlbum>().toList();
 
     return Result.success(albums);
   }

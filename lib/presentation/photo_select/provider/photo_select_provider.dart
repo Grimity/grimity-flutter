@@ -93,20 +93,22 @@ class PhotoSelect extends _$PhotoSelect {
     final data = state.value;
     if (data == null) return;
 
-    // 목록을 먼저 닫고 앨범명/선택 앨범을 즉시 반영
-    state = AsyncData(
-      data.copyWith(
-        isAlbumListExpanded: false,
-        currentAlbum: album.path,
-        albumName: album.displayName,
-      ),
-    );
+    // 목록을 먼저 닫습니다. 앨범명/사진은 조회 성공 시 함께 반영해 상태 불일치를 방지합니다.
+    state = AsyncData(data.copyWith(isAlbumListExpanded: false));
 
     final result = await fetchPhotoUseCase.execute((page: 0, album: album.path));
     result.fold(
       onSuccess: (photos) {
         final current = state.value ?? data;
-        state = AsyncData(current.copyWith(photos: photos, page: 0, hasMore: photos.length == 50));
+        state = AsyncData(
+          current.copyWith(
+            currentAlbum: album.path,
+            albumName: album.displayName,
+            photos: photos,
+            page: 0,
+            hasMore: photos.length == 50,
+          ),
+        );
       },
       onFailure: (e) {},
     );
