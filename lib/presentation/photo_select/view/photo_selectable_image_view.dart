@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/app/config/app_typeface.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/app/extension/build_context_extension.dart';
 import 'package:grimity/presentation/common/model/image_item_source.dart';
-import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/photo_select/provider/photo_select_provider.dart';
 import 'package:grimity/presentation/photo_select/widget/photo_asset_thumbnail_widget.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -25,8 +23,8 @@ class PhotoSelectableGridView extends StatelessWidget {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: context.photoRowCount,
-        crossAxisSpacing: 2,
-        mainAxisSpacing: 2,
+        crossAxisSpacing: GdsSpacing.spacing2,
+        mainAxisSpacing: GdsSpacing.spacing2,
       ),
       itemBuilder: (context, index) {
         final asset = galleryImages[index];
@@ -57,27 +55,38 @@ class _PhotoSelectableImageThumbnail extends ConsumerWidget with PhotoSelectMixi
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return GrimityGesture(
+    return GdsGesture(
       onTap: () => photoNotifier(ref).toggleImageSelection(ImageSourceItem.asset(asset)),
+      child: isSelected ? _buildSelectedThumbnail(context) : PhotoAssetThumbnailWidget(asset: asset),
+    );
+  }
+
+  /// 선택된 이미지는 라운드 처리 후 상단 그라데이션과 선택 순서 뱃지를 표시합니다.
+  Widget _buildSelectedThumbnail(BuildContext context) {
+    final colors = context.gdsColors;
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(GdsRadius.md),
       child: Stack(
+        fit: StackFit.expand,
         children: [
           PhotoAssetThumbnailWidget(asset: asset),
-          if (isSelected)
-            Container(
-              decoration: BoxDecoration(
-                color: AppColor.gray800.withValues(alpha: 0.6),
-                border: Border.all(color: AppColor.gray00.withValues(alpha: 0.6), width: 2),
+          DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  colors.surface.black.withValues(alpha: GdsOpacity.opacity40),
+                  GdsColors.transparent,
+                ],
               ),
             ),
+          ),
           Positioned(
-            top: 8,
-            right: 8,
-            child: Container(
-              width: 20,
-              height: 20,
-              decoration: BoxDecoration(color: AppColor.gray00, shape: BoxShape.circle),
-              child: isSelected ? Center(child: Text('$selectionIndex', style: AppTypeface.caption1)) : null,
-            ),
+            top: GdsSpacing.spacing8,
+            right: GdsSpacing.spacing8,
+            child: GdsNumberPushBadge.text(count: selectionIndex ?? 0),
           ),
         ],
       ),
