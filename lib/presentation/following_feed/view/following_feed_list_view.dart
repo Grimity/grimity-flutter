@@ -22,13 +22,13 @@ class FollowingFeedListView extends ConsumerWidget {
         final feedList = feeds.feeds;
 
         if (feedList.isEmpty) {
-          final hasFollowing = user?.followingCount == 0;
+          final hasNoFollowing = user?.followingCount == 0;
 
           return SliverToBoxAdapter(
             child: GdsEmptyState(
               size: context.isMobile ? GdsEmptyStateSize.md : GdsEmptyStateSize.xl,
               icon: GdsIcon.user,
-              title: hasFollowing ? '팔로우한 작가가 없어요' : '아직 올라온 그림이 없어요.',
+              title: hasNoFollowing ? '팔로우한 작가가 없어요' : '아직 올라온 그림이 없어요.',
               description: '관심 있는 작가를 팔로우하고\n새로운 작품 소식을 받아보세요',
               action: GdsSolidButton(
                 size: context.isMobile ? GdsSolidButtonSize.regular : GdsSolidButtonSize.large,
