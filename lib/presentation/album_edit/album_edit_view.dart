@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:gds/gds.dart';
+import 'package:grimity/presentation/common/widget/navigation/grimity_drawer.dart';
 
 class AlbumEditView extends StatelessWidget {
   const AlbumEditView({
     super.key,
     required this.albumEditAppBar,
+    required this.albumEditDrawer,
     required this.albumAddView,
     required this.albumEditListView,
   });
 
   final Widget albumEditAppBar;
+  final Widget albumEditDrawer;
   final Widget albumAddView;
   final Widget albumEditListView;
 
@@ -17,6 +20,7 @@ class AlbumEditView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GdsScaffold(
       appBar: albumEditAppBar,
+      drawer: GrimityDrawer(),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),

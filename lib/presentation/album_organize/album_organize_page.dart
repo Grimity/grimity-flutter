@@ -6,6 +6,7 @@ import 'package:grimity/presentation/album_organize/provider/album_organize_page
 import 'package:grimity/presentation/album_organize/view/album_organize_body_view.dart';
 import 'package:grimity/presentation/album_organize/view/album_organize_fab_view.dart';
 import 'package:grimity/presentation/album_organize/widget/album_organize_app_bar.dart';
+import 'package:grimity/presentation/common/widget/navigation/grimity_drawer.dart';
 
 /// 그림 정리 Page
 class AlbumOrganizePage extends ConsumerWidget {
@@ -19,6 +20,7 @@ class AlbumOrganizePage extends ConsumerWidget {
       overrides: [albumOrganizeUserArgumentProvider.overrideWithValue(user)],
       child: AlbumOrganizeView(
         albumOrganizeAppBar: AlbumOrganizeAppBar(),
+        albumOrganizeDrawer: GrimityDrawer(),
         albumOrganizeBodyView: AlbumOrganizeBodyView(),
         albumOrganizeFabView: AlbumOrganizeFabView(),
       ),

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gds/gds.dart';
 import 'package:grimity/app/enum/post_type.enum.dart';
 import 'package:grimity/presentation/board/view/board_view.dart';
+import 'package:grimity/presentation/common/widget/navigation/grimity_drawer.dart';
 import 'package:grimity/presentation/common/widget/navigation/grimity_main_top_navigation.dart';
 
 class BoardPage extends ConsumerWidget {
@@ -14,6 +15,7 @@ class BoardPage extends ConsumerWidget {
 
     return GdsScaffold(
       appBar: GrimityMainTopNavigation(),
+      drawer: GrimityDrawer(),
       body: BoardView(tabList: tabList),
     );
   }
