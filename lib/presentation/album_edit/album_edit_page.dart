@@ -6,6 +6,7 @@ import 'package:grimity/presentation/album_edit/provider/album_edit_provider.dar
 import 'package:grimity/presentation/album_edit/view/album_add_view.dart';
 import 'package:grimity/presentation/album_edit/view/album_edit_view.dart';
 import 'package:grimity/presentation/album_edit/widget/album_edit_app_bar.dart';
+import 'package:grimity/presentation/common/widget/navigation/grimity_drawer.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AlbumEditPage extends HookConsumerWidget {
@@ -24,6 +25,7 @@ class AlbumEditPage extends HookConsumerWidget {
 
     return AlbumEditView(
       albumEditAppBar: AlbumEditAppBar(),
+      albumEditDrawer: GrimityDrawer(),
       albumAddView: AlbumAddView(),
       albumEditListView: AlbumEditListView(),
     );

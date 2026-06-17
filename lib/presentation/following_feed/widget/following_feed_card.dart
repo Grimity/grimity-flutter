@@ -1,23 +1,16 @@
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
+import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
-import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/report.enum.dart';
-import 'package:grimity/app/extension/date_time_extension.dart';
 import 'package:grimity/app/util/sync_util.dart';
 import 'package:grimity/domain/entity/feed.dart';
-import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
-import 'package:grimity/presentation/common/widget/grimity_cached_network_image.dart';
-import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
-import 'package:grimity/presentation/common/widget/grimity_gray_circle.dart';
+import 'package:grimity/presentation/common/extension/user_ui_extension.dart';
 import 'package:grimity/presentation/common/widget/popup/grimity_modal_bottom_sheet.dart';
-import 'package:grimity/presentation/common/widget/system/more/grimity_more_button.dart';
-import 'package:grimity/presentation/common/widget/system/profile/grimity_user_image.dart';
 import 'package:grimity/presentation/following_feed/provider/following_feed_data_provider.dart';
+import 'package:grimity/presentation/following_feed/widget/following_feed_comment.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:readmore/readmore.dart';
 
@@ -56,146 +49,109 @@ class _FollowingFeedCardState extends ConsumerState<FollowingFeedCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 16),
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    GrimityGesture(
-                      onTap: () => _pushProfile(context, feed.author?.url),
-                      child: Row(
-                        children: [
-                          GrimityUserImage(imageUrl: feed.author?.image ?? '', size: 24),
-                          Gap(6),
-                          Text(
-                            feed.author?.name ?? '작성자 정보 없음',
-                            style: AppTypeface.caption1.copyWith(color: AppColor.gray600),
-                          ),
-                        ],
-                      ),
-                    ),
-                    GrimityGrayCircle(),
-                    Text(
-                      feed.createdAt?.toRelativeTime() ?? DateTime.now().toRelativeTime(),
-                      style: AppTypeface.caption1.copyWith(color: AppColor.gray600),
-                    ),
-                    Spacer(),
-                    GrimityMoreButton.plain(
-                      onTap: () {
-                        final buttons = [
-                          GrimityModalButtonModel.report(context: context, refType: ReportRefType.feed, refId: feed.id),
-                          GrimityModalButtonModel(
-                            title: '유저 프로필로 이동',
-                            onTap: () {
-                              context.pop();
-                              _pushProfile(context, feed.author?.url);
-                            },
-                          ),
-                        ];
+    final colors = context.gdsColors;
 
-                        GrimityModalBottomSheet.show(context, buttons: buttons);
-                      },
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: GdsSpacing.spacing8),
+          child: GdsUserItem.iconId(
+            userId: feed.author?.handle ?? '',
+            nickName: feed.author?.name ?? '',
+            personAvatar: feed.author?.personAvatar ?? GdsPersonAvatar(),
+            secondaryActionButton: GdsIconButton(
+              icon: GdsIcon.dotMenuHorizontal,
+              onPressed: () => _openMoreButton(context),
+            ),
+          ),
+        ),
+        Gap(GdsSpacing.spacing8),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          spacing: GdsSpacing.spacing12,
+          children: [
+            Text(
+              feed.title,
+              style: GdsTypography.title2.copyWith(color: colors.text.grayBold),
+            ),
+
+            if (feed.content != null)
+              ReadMoreText(
+                feed.content!,
+                style: GdsTypography.body1R.copyWith(color: colors.text.grayBold),
+                trimMode: TrimMode.Line,
+                trimLines: 3,
+                trimExpandedText: '',
+                trimCollapsedText: '더보기',
+                moreStyle: GdsTypography.label3.copyWith(color: AppColor.main),
+              ),
+          ],
+        ),
+        Gap(GdsSpacing.spacing20),
+        GdsGesture(
+          onTap: () => _pushFeedDetail(context, feed.id),
+          child: GdsThumbnail(
+            width: double.infinity,
+            imageUrl: feed.cards?.first ?? '',
+          ),
+        ),
+        Gap(GdsSpacing.spacing12),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          spacing: GdsSpacing.spacing12,
+          children: [
+            SizedBox(
+              height: GdsSpacing.spacing32,
+              child: Row(
+                spacing: GdsSpacing.spacing8,
+                children: [
+                  GdsTextButton(
+                    size: GdsTextButtonSize.large,
+                    text: (feed.likeCount ?? 0).toString(),
+                    variant: GdsTextButtonVariant.assistive,
+                    iconColor: (feed.isLike ?? false) ? colors.status.notification : null,
+                    leadingIcon: (feed.isLike ?? false) ? GdsIcon.heartFill : GdsIcon.heartOutline,
+                    onPressed: () {
+                      final feedData = ref.read(followingFeedDataProvider.notifier);
+                      feedData.toggleLike(feedId: feed.id, like: !(feed.isLike ?? false));
+                    },
+                  ),
+                  IgnorePointer(
+                    child: GdsTextButton(
+                      size: GdsTextButtonSize.large,
+                      text: (feed.commentCount ?? 0).toString(),
+                      variant: GdsTextButtonVariant.assistive,
+                      leadingIcon: GdsIcon.chatRound,
+                      onPressed: () => {},
                     ),
-                  ],
-                ),
-                Gap(8),
-                GrimityGesture(
-                  onTap: () => _pushFeedDetail(context, feed.id),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(feed.title, style: AppTypeface.subTitle4.copyWith(color: AppColor.gray800)),
-                      Gap(6),
-                      ReadMoreText(
-                        feed.content ?? '',
-                        style: AppTypeface.label3.copyWith(color: AppColor.gray800),
-                        trimMode: TrimMode.Line,
-                        trimLines: 3,
-                        trimExpandedText: '',
-                        trimCollapsedText: '더보기',
-                        moreStyle: AppTypeface.label2.copyWith(color: AppColor.main),
-                      ),
-                    ],
                   ),
-                ),
-              ],
-            ),
-          ),
-          Gap(20),
-          AspectRatio(
-            aspectRatio: 1.0,
-            child:
-                (feed.cards?.isNotEmpty ?? false)
-                    ? _FollowingFeedCardImageCarousel(imageList: feed.cards!)
-                    : _imageSkeleton,
-          ),
-          Gap(12),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: [
-                GrimityAnimationButton(
-                  onTap:
-                      () => ref
-                          .read(followingFeedDataProvider.notifier)
-                          .toggleLike(feedId: feed.id, like: !(feed.isLike ?? false)),
-                  child:
-                      feed.isLike ?? false
-                          ? Assets.icons.icon.heartFilled.svg(width: 24, height: 24)
-                          : Assets.icons.icon.heart.svg(width: 24, height: 24),
-                ),
-                Gap(6),
-                Text('${feed.likeCount ?? 0}', style: AppTypeface.label3.copyWith(color: AppColor.gray700)),
-                Gap(20),
-                Assets.icons.icon.reply.svg(width: 24, height: 24),
-                Gap(6),
-                Text('${feed.commentCount ?? 0}', style: AppTypeface.label3.copyWith(color: AppColor.gray700)),
-              ],
-            ),
-          ),
-          if (feed.comment != null) ...[
-            Gap(16),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: GrimityGesture(
-                onTap: () => _pushFeedDetail(context, feed.id),
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  decoration: BoxDecoration(color: AppColor.gray200, borderRadius: BorderRadius.circular(12)),
-                  child: Row(
-                    children: [
-                      GrimityUserImage(imageUrl: feed.comment!.writer?.image ?? '', size: 24),
-                      Gap(6),
-                      Flexible(
-                        child: Text(
-                          feed.comment!.content,
-                          style: AppTypeface.caption2.copyWith(color: AppColor.gray700),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                ],
               ),
             ),
+
+            if (feed.comment != null) FollowingFeedComment(comment: feed.comment!),
           ],
-        ],
-      ),
+        ),
+      ],
     );
   }
 
-  // 스켈레톤 효과를 위한 팔로잉 피드 사진 플레이스 홀더
-  Widget get _imageSkeleton => Padding(
-    padding: EdgeInsets.symmetric(horizontal: 16),
-    child: Container(width: 343, height: 343, color: AppColor.gray400),
-  );
+  void _openMoreButton(BuildContext context) {
+    final buttons = [
+      GrimityModalButtonModel.report(context: context, refType: ReportRefType.feed, refId: feed.id),
+      GrimityModalButtonModel(
+        title: '유저 프로필로 이동',
+        onTap: () {
+          context.pop();
+          _pushProfile(context, feed.author?.url);
+        },
+      ),
+    ];
+
+    GrimityModalBottomSheet.show(context, buttons: buttons);
+  }
 
   void _pushProfile(BuildContext context, String? profileUrl) {
     if (profileUrl != null) {
@@ -205,59 +161,5 @@ class _FollowingFeedCardState extends ConsumerState<FollowingFeedCard> {
 
   void _pushFeedDetail(BuildContext context, String feedId) {
     FeedDetailRoute(id: feedId).push(context);
-  }
-}
-
-class _FollowingFeedCardImageCarousel extends StatelessWidget {
-  const _FollowingFeedCardImageCarousel({required this.imageList});
-
-  final List<String> imageList;
-
-  @override
-  Widget build(BuildContext context) {
-    return CarouselSlider.builder(
-      itemCount: imageList.length,
-      options: CarouselOptions(
-        enableInfiniteScroll: false,
-        disableCenter: true,
-        padEnds: false,
-        viewportFraction: 0.97,
-      ),
-      itemBuilder: (context, index, realIndex) {
-        final imageUrl = imageList[index];
-        return Container(
-          padding: EdgeInsets.only(left: index == 0 ? 16 : 4, right: index == imageList.length - 1 ? 16 : 4),
-          child: GrimityGesture(
-            onTap: () {
-              ImageViewerRoute(initialIndex: index, imageUrls: imageList).push(context);
-            },
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                GrimityCachedNetworkImage.fitWidth(
-                  imageUrl: imageUrl,
-                  width: 343,
-                ),
-                Positioned(
-                  right: 12,
-                  bottom: 12,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                    decoration: BoxDecoration(
-                      color: AppColor.gray800.withValues(alpha: 0.8),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      '${index + 1}/${imageList.length}',
-                      style: AppTypeface.caption4.copyWith(color: AppColor.gray100),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
   }
 }

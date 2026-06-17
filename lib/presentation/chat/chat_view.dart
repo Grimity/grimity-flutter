@@ -9,6 +9,7 @@ import 'package:grimity/presentation/chat/provider/chat_provider.dart';
 import 'package:grimity/presentation/chat/view/chat_scroll_item.dart';
 import 'package:grimity/presentation/chat_new/new_chat_page.dart';
 import 'package:grimity/presentation/common/widget/grimity_refresh_indicator.dart';
+import 'package:grimity/presentation/common/widget/navigation/grimity_drawer.dart';
 import 'package:grimity/presentation/common/widget/navigation/grimity_main_top_navigation.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -62,6 +63,7 @@ class _ChatViewState extends ConsumerState<ChatView> {
       onVisibilityChanged: onVisibilityChanged,
       child: GdsScaffold(
         appBar: GrimityMainTopNavigation(),
+        drawer: GrimityDrawer(),
         body: Consumer(
           builder: (context, ref, _) {
             final provider = ref.read(chatProviderProvider.notifier);

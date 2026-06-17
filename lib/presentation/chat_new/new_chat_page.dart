@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gds/gds.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/presentation/chat_new/new_chat_view.dart';
+import 'package:grimity/presentation/common/widget/navigation/grimity_drawer.dart';
 import 'package:grimity/presentation/common/widget/navigation/grimity_main_top_navigation.dart';
 
 class NewChatPage extends StatelessWidget {
@@ -11,6 +12,7 @@ class NewChatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GdsScaffold(
       appBar: GrimityMainTopNavigation(),
+      drawer: GrimityDrawer(),
       body: NewChatView(isModal: false),
     );
   }
