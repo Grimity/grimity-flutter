@@ -1,20 +1,19 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/service/toast_service.dart';
+import 'package:grimity/domain/entity/photo_album.dart';
 import 'package:grimity/domain/usecase/photo_usecases.dart';
 import 'package:grimity/presentation/common/model/image_item_source.dart';
 import 'package:grimity/presentation/common/enum/upload_image_type.dart';
 import 'package:grimity/presentation/feed_upload/provider/feed_upload_provider.dart';
 import 'package:grimity/presentation/photo_select/provider/photo_select_page_argument_provider.dart';
+import 'package:grimity/presentation/photo_select/state/photo_select_state.dart';
 import 'package:grimity/presentation/post_upload/provider/post_upload_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'photo_select_provider.g.dart';
-
-part 'photo_select_provider.freezed.dart';
 
 @riverpod
 class PhotoSelect extends _$PhotoSelect {
@@ -30,8 +29,13 @@ class PhotoSelect extends _$PhotoSelect {
     final prevSelected = type == UploadImageType.feed ? ref.read(feedUploadProvider).images : <ImageSourceItem>[];
     final prevThumbNail = type == UploadImageType.feed ? ref.read(feedUploadProvider).thumbnailImage : null;
 
+    // 기기 앨범 목록 조회(첫 번째 = 최근 항목)
+    final albumsResult = await getAlbumsUseCase.execute();
+    final albums = albumsResult.fold(onSuccess: (a) => a, onFailure: (_) => <PhotoAlbum>[]);
+    final currentAlbum = albums.isNotEmpty ? albums.first : null;
+
     // 전체 접근 허용 || 제한된 사진 접근 허용
-    final result = await fetchPhotoUseCase.execute(0);
+    final result = await fetchPhotoUseCase.execute((page: 0, album: currentAlbum?.path));
     return result.fold(
       onSuccess: (photos) {
         return PhotoSelectState(
@@ -40,6 +44,10 @@ class PhotoSelect extends _$PhotoSelect {
           photos: photos,
           selected: prevSelected,
           thumbnailImage: prevThumbNail,
+          albums: albums,
+          currentAlbum: currentAlbum?.path,
+          albumName: currentAlbum?.displayName ?? '최근 항목',
+          hasMore: photos.length == 50,
         );
       },
       onFailure: (e) {
@@ -48,6 +56,9 @@ class PhotoSelect extends _$PhotoSelect {
           isAuth: permission.isAuth,
           selected: prevSelected,
           thumbnailImage: prevThumbNail,
+          albums: albums,
+          currentAlbum: currentAlbum?.path,
+          albumName: currentAlbum?.displayName ?? '최근 항목',
         );
       },
     );
@@ -59,7 +70,7 @@ class PhotoSelect extends _$PhotoSelect {
     if (data == null || !data.hasMore) return;
 
     final nextPage = data.page + 1;
-    final newAssets = await fetchPhotoUseCase.execute(nextPage);
+    final newAssets = await fetchPhotoUseCase.execute((page: nextPage, album: data.currentAlbum));
 
     newAssets.fold(
       onSuccess: (newPhotos) {
@@ -67,6 +78,37 @@ class PhotoSelect extends _$PhotoSelect {
         final updatedPhotos = [...data.photos, ...newPhotos];
 
         state = AsyncData(data.copyWith(photos: updatedPhotos, page: nextPage, hasMore: hasMore));
+      },
+      onFailure: (e) {},
+    );
+  }
+
+  /// 앨범 목록 펼침/접힘 토글
+  void toggleAlbumList() {
+    state = state.whenData((data) => data.copyWith(isAlbumListExpanded: !data.isAlbumListExpanded));
+  }
+
+  /// 앨범 선택 → 해당 앨범 사진으로 갱신하고 목록을 닫습니다.
+  Future<void> selectAlbum(PhotoAlbum album) async {
+    final data = state.value;
+    if (data == null) return;
+
+    // 목록을 먼저 닫습니다. 앨범명/사진은 조회 성공 시 함께 반영해 상태 불일치를 방지합니다.
+    state = AsyncData(data.copyWith(isAlbumListExpanded: false));
+
+    final result = await fetchPhotoUseCase.execute((page: 0, album: album.path));
+    result.fold(
+      onSuccess: (photos) {
+        final current = state.value ?? data;
+        state = AsyncData(
+          current.copyWith(
+            currentAlbum: album.path,
+            albumName: album.displayName,
+            photos: photos,
+            page: 0,
+            hasMore: photos.length == 50,
+          ),
+        );
       },
       onFailure: (e) {},
     );
@@ -126,19 +168,6 @@ class PhotoSelect extends _$PhotoSelect {
 
     context.pop(images);
   }
-}
-
-@freezed
-abstract class PhotoSelectState with _$PhotoSelectState {
-  const factory PhotoSelectState({
-    @Default(false) bool hasAccess, // 전체 접근 권한 || 선택 접근 권한
-    @Default(false) bool isAuth, // 전체 접근 권한
-    @Default([]) List<AssetEntity> photos, // 갤러리 이미지
-    @Default([]) List<ImageSourceItem> selected, // 선택된 이미지
-    ImageSourceItem? thumbnailImage, // 썸네일 이미지
-    @Default(0) int page,
-    @Default(true) bool hasMore,
-  }) = _PhotoSelectState;
 }
 
 mixin class PhotoSelectMixin {
