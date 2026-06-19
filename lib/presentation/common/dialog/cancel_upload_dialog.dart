@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
-import 'package:grimity/presentation/common/widget/alert/grimity_dialog.dart';
 
-void showCancelUploadDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder:
-        (context) => GrimityDialog(
-          title: '업로드를 취소하고 나갈까요?',
-          content: '작성한 내용들은 모두 초기화돼요',
-          cancelText: '취소',
-          confirmText: '나가기',
-          onCancel: () => context.pop(),
-          onConfirm: () {
-            context.pop();
-            context.pop();
-          },
-        ),
+Future<T?> showCancelUploadDialog<T>(BuildContext context) {
+  final alert = GdsAlert(
+    type: GdsAlertType.content,
+    size: context.isMobile ? GdsAlertSize.md : GdsAlertSize.xl,
+    title: '업로드를 취소하고 나가시겠어요?',
+    description: '작성한 내용들은 모두 초기화돼요',
+    primaryLabel: '나가기',
+    onPrimaryTap: () {
+      context.pop();
+      context.pop();
+    },
+    secondaryLabel: '아니요',
+    onSecondaryTap: context.pop,
   );
+
+  return alert.open<T>(context);
 }

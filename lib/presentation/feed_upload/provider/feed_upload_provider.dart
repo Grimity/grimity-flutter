@@ -8,6 +8,7 @@ import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/usecase/feed_usecases.dart';
 import 'package:grimity/presentation/common/model/image_item_source.dart';
 import 'package:grimity/presentation/feed_detail/provider/feed_detail_data_provider.dart';
+import 'package:grimity/presentation/feed_upload/widget/feed_upload_album_select.dart';
 import 'package:grimity/presentation/home/provider/home_data_provider.dart';
 import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
 import 'package:grimity/presentation/profile/provider/profile_feeds_data_provider.dart';
@@ -29,7 +30,7 @@ class FeedUpload extends _$FeedUpload {
 
   void initializeForEdit(Feed feed) {
     state = state.copyWith(
-      albumId: feed.album?.id ?? 'all',
+      albumId: feed.album?.id ?? allAlbum.id,
       title: feed.title,
       content: feed.content ?? '',
       tags: feed.tags ?? [],

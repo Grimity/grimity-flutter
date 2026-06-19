@@ -32,7 +32,7 @@ class AlbumOrganizeBodyView extends HookConsumerWidget with AlbumOrganizeMixin {
     return Stack(
       children: [
         GrimityInfiniteScrollPagination(
-          isEnabled: user.id.isNotEmpty && albumFeeds.value?.nextCursor != null,
+          isEnabled: user.id.isNotEmpty && (albumFeeds.value?.nextCursor?.isNotEmpty ?? false),
           onLoadMore: ref.read(albumFeedDataProvider(user.id, currentAlbumId).notifier).loadMore,
           child: SingleChildScrollView(
             child: Padding(
