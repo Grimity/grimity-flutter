@@ -20,7 +20,7 @@ class ProfilePostsData extends _$ProfilePostsData {
   }
 
   Future<void> loadMore(String userId) async {
-    final currentState = state.valueOrNull;
+    final currentState = state.value;
     if (currentState == null || userId.isEmpty || currentState.length % 10 != 0) {
       return;
     }

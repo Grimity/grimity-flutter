@@ -19,7 +19,7 @@ class FollowingData extends _$FollowingData with UserMixin<Users> {
   }
 
   Future<void> loadMore() async {
-    final currentState = state.valueOrNull;
+    final currentState = state.value;
     if (currentState == null || currentState.nextCursor == null || currentState.nextCursor!.isEmpty) {
       return;
     }

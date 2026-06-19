@@ -19,7 +19,7 @@ class NotificationPage extends ConsumerWidget {
     final notificationAsync = ref.watch(notificationDataProvider);
     final notifier = ref.read(notificationDataProvider.notifier);
     final colors = context.gdsColors;
-    final hasNotifications = notificationAsync.valueOrNull?.isNotEmpty ?? false;
+    final hasNotifications = notificationAsync.value?.isNotEmpty ?? false;
 
     return NotificationView(
       notificationAppBar: NotificationAppBar(),

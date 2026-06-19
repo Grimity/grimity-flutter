@@ -31,7 +31,7 @@ class ProfileFeedsData extends _$ProfileFeedsData {
   }
 
   Future<void> loadMore(String userId) async {
-    final currentState = state.valueOrNull;
+    final currentState = state.value;
     if (currentState == null || currentState.nextCursor == null || currentState.nextCursor!.isEmpty || userId.isEmpty) {
       return;
     }

@@ -120,7 +120,7 @@ class PushNotification {
   // 포그라운드 푸시 알림 구현을 위해 관련 플러그인 초기화를 수행합니다.
   static Future<void> initializePlugin() async {
     await localNotificationPlugin.initialize(
-      localNotificationSettings,
+      settings: localNotificationSettings,
       onDidReceiveNotificationResponse: (response) {
         assert(response.payload != null, "FlutterLocalNotificationsPlugin.show 호출 시에 payload를 정의하지 않았을 수 있음.");
 
@@ -150,10 +150,10 @@ class PushNotification {
     final notification = message.notification;
     if (notification != null) {
       localNotificationPlugin.show(
-        notification.hashCode,
-        notification.title,
-        notification.body,
-        NotificationDetails(
+        id: notification.hashCode,
+        title: notification.title,
+        body: notification.body,
+        notificationDetails: NotificationDetails(
           // Android 알림 전송 설정.
           android: AndroidNotificationDetails(
             'default_channel',

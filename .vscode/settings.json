@@ -10,6 +10,8 @@
     "**/*.g.dart": true,
     "**/*.freezed.dart": true
   },
-  "explorerExclude.backup": {},
-  "dart.flutterSdkPath": ".fvm/versions/3.35.7"
+  "dart.flutterSdkPath": ".fvm/versions/3.44.2",
+  "dart.flutterSdkPaths": [
+    ".fvm/flutter_sdk"
+  ]
 }

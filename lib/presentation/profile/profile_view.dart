@@ -88,8 +88,7 @@ class ProfileView extends HookConsumerWidget {
                 },
                 child: GrimityInfiniteScrollPagination(
                   isEnabled:
-                      user.id.isNotEmpty &&
-                      ref.watch(profileFeedsDataProvider(user.id)).valueOrNull?.nextCursor != null,
+                      user.id.isNotEmpty && ref.watch(profileFeedsDataProvider(user.id)).value?.nextCursor != null,
                   onLoadMore: () => ref.read(profileFeedsDataProvider(user.id).notifier).loadMore(user.id),
                   child: feedTabView,
                 ),
@@ -106,7 +105,7 @@ class ProfileView extends HookConsumerWidget {
                   child: GrimityInfiniteScrollPagination(
                     isEnabled:
                         (() {
-                          final posts = ref.watch(profilePostsDataProvider(user.id)).valueOrNull;
+                          final posts = ref.watch(profilePostsDataProvider(user.id)).value;
                           return user.id.isNotEmpty && posts != null && posts.length % 10 == 0;
                         })(),
                     onLoadMore: () => ref.read(profilePostsDataProvider(user.id).notifier).loadMore(user.id),

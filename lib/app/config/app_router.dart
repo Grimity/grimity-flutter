@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_analytics.dart';
 import 'package:grimity/app/enum/report.enum.dart';
@@ -158,7 +157,7 @@ class HomeBranchData extends StatefulShellBranchData {
   const HomeBranchData();
 }
 
-class HomeRoute extends GoRouteData {
+class HomeRoute extends GoRouteData with $HomeRoute {
   const HomeRoute();
 
   static const String path = '/home';
@@ -172,7 +171,7 @@ class PaintBranchData extends StatefulShellBranchData {
   const PaintBranchData();
 }
 
-class RankingRoute extends GoRouteData {
+class RankingRoute extends GoRouteData with $RankingRoute {
   const RankingRoute();
 
   static const String path = '/ranking';
@@ -186,7 +185,7 @@ class FollowingBranchData extends StatefulShellBranchData {
   const FollowingBranchData();
 }
 
-class FollowingRoute extends GoRouteData {
+class FollowingRoute extends GoRouteData with $FollowingRoute {
   const FollowingRoute();
 
   static const String path = '/following';
@@ -200,7 +199,7 @@ class BoardBranchData extends StatefulShellBranchData {
   const BoardBranchData();
 }
 
-class BoardRoute extends GoRouteData {
+class BoardRoute extends GoRouteData with $BoardRoute {
   const BoardRoute();
 
   static const String path = '/board';
@@ -214,7 +213,7 @@ class ChatBranchData extends StatefulShellBranchData {
   const ChatBranchData();
 }
 
-class ChatRoute extends GoRouteData {
+class ChatRoute extends GoRouteData with $ChatRoute {
   const ChatRoute();
 
   static const String path = '/chatMessage';
@@ -225,7 +224,7 @@ class ChatRoute extends GoRouteData {
 }
 
 @TypedGoRoute<NewChatRoute>(path: NewChatRoute.path, name: NewChatRoute.name)
-class NewChatRoute extends GoRouteData {
+class NewChatRoute extends GoRouteData with $NewChatRoute {
   const NewChatRoute();
 
   static const String path = '/newChat';
@@ -236,7 +235,7 @@ class NewChatRoute extends GoRouteData {
 }
 
 @TypedGoRoute<ChatMessageRoute>(path: ChatMessageRoute.path, name: ChatMessageRoute.name)
-class ChatMessageRoute extends GoRouteData {
+class ChatMessageRoute extends GoRouteData with $ChatMessageRoute {
   const ChatMessageRoute(this.id);
 
   final String id;
@@ -251,7 +250,7 @@ class ChatMessageRoute extends GoRouteData {
 }
 
 @TypedGoRoute<ProfileRoute>(path: ProfileRoute.path, name: ProfileRoute.name)
-class ProfileRoute extends GoRouteData {
+class ProfileRoute extends GoRouteData with $ProfileRoute {
   final String url;
 
   const ProfileRoute({required this.url});
@@ -266,7 +265,7 @@ class ProfileRoute extends GoRouteData {
 }
 
 @TypedGoRoute<ProfileEditRoute>(path: ProfileEditRoute.path, name: ProfileEditRoute.name)
-class ProfileEditRoute extends GoRouteData {
+class ProfileEditRoute extends GoRouteData with $ProfileEditRoute {
   const ProfileEditRoute();
 
   static const String path = '/profile-edit';
@@ -277,7 +276,7 @@ class ProfileEditRoute extends GoRouteData {
 }
 
 @TypedGoRoute<CropImageRoute>(path: CropImageRoute.path, name: CropImageRoute.name)
-class CropImageRoute extends GoRouteData {
+class CropImageRoute extends GoRouteData with $CropImageRoute {
   const CropImageRoute({required this.type});
 
   static const String path = '/crop-image';
@@ -290,7 +289,7 @@ class CropImageRoute extends GoRouteData {
 }
 
 @TypedGoRoute<SplashRoute>(path: SplashRoute.path, name: SplashRoute.name)
-class SplashRoute extends GoRouteData {
+class SplashRoute extends GoRouteData with $SplashRoute {
   const SplashRoute();
 
   static const String path = '/splash';
@@ -300,7 +299,7 @@ class SplashRoute extends GoRouteData {
   Widget build(BuildContext context, GoRouterState state) => const SplashPage();
 
   /// 스프레시 관련 페이지에서 사용하는 전환 애니메이션 빌더.
-  static get transitionsBuilder => (
+  static dynamic get transitionsBuilder => (
     context,
     animation,
     secondaryAnimation,
@@ -329,7 +328,7 @@ class SplashRoute extends GoRouteData {
 }
 
 @TypedGoRoute<SignInRoute>(path: SignInRoute.path, name: SignInRoute.name)
-class SignInRoute extends GoRouteData {
+class SignInRoute extends GoRouteData with $SignInRoute {
   const SignInRoute();
 
   static const String path = '/sign-in';
@@ -345,7 +344,7 @@ class SignInRoute extends GoRouteData {
 }
 
 @TypedGoRoute<SignUpRoute>(path: SignUpRoute.path, name: SignUpRoute.name)
-class SignUpRoute extends GoRouteData {
+class SignUpRoute extends GoRouteData with $SignUpRoute {
   const SignUpRoute();
 
   static const String path = '/sign-up';
@@ -356,7 +355,7 @@ class SignUpRoute extends GoRouteData {
 }
 
 @TypedGoRoute<AlbumEditRoute>(path: AlbumEditRoute.path, name: AlbumEditRoute.name)
-class AlbumEditRoute extends GoRouteData {
+class AlbumEditRoute extends GoRouteData with $AlbumEditRoute {
   const AlbumEditRoute(this.$extra);
 
   final List<Album> $extra;
@@ -369,7 +368,7 @@ class AlbumEditRoute extends GoRouteData {
 }
 
 @TypedGoRoute<FollowRoute>(path: FollowRoute.path, name: FollowRoute.name)
-class FollowRoute extends GoRouteData {
+class FollowRoute extends GoRouteData with $FollowRoute {
   const FollowRoute();
 
   static const String path = '/follow';
@@ -380,7 +379,7 @@ class FollowRoute extends GoRouteData {
 }
 
 @TypedGoRoute<StorageRoute>(path: StorageRoute.path, name: StorageRoute.name)
-class StorageRoute extends GoRouteData {
+class StorageRoute extends GoRouteData with $StorageRoute {
   const StorageRoute();
 
   static const String path = '/storage';
@@ -391,7 +390,7 @@ class StorageRoute extends GoRouteData {
 }
 
 @TypedGoRoute<FeedUploadRoute>(path: FeedUploadRoute.path, name: FeedUploadRoute.name)
-class FeedUploadRoute extends GoRouteData {
+class FeedUploadRoute extends GoRouteData with $FeedUploadRoute {
   const FeedUploadRoute();
 
   static const String path = '/feed-upload';
@@ -405,7 +404,7 @@ class FeedUploadRoute extends GoRouteData {
 }
 
 @TypedGoRoute<PhotoSelectRoute>(path: PhotoSelectRoute.path, name: PhotoSelectRoute.name)
-class PhotoSelectRoute extends GoRouteData {
+class PhotoSelectRoute extends GoRouteData with $PhotoSelectRoute {
   const PhotoSelectRoute({required this.type});
 
   final UploadImageType type;
@@ -418,7 +417,7 @@ class PhotoSelectRoute extends GoRouteData {
 }
 
 @TypedGoRoute<FeedDetailRoute>(path: FeedDetailRoute.path, name: FeedDetailRoute.name)
-class FeedDetailRoute extends GoRouteData {
+class FeedDetailRoute extends GoRouteData with $FeedDetailRoute {
   final String id;
 
   const FeedDetailRoute({required this.id});
@@ -435,7 +434,7 @@ class FeedDetailRoute extends GoRouteData {
 }
 
 @TypedGoRoute<ImageViewerRoute>(path: ImageViewerRoute.path, name: ImageViewerRoute.name)
-class ImageViewerRoute extends GoRouteData {
+class ImageViewerRoute extends GoRouteData with $ImageViewerRoute {
   final int initialIndex;
   final List<String> imageUrls;
   final bool enableSave;
@@ -452,7 +451,7 @@ class ImageViewerRoute extends GoRouteData {
 }
 
 @TypedGoRoute<PostDetailRoute>(path: PostDetailRoute.path, name: PostDetailRoute.name)
-class PostDetailRoute extends GoRouteData {
+class PostDetailRoute extends GoRouteData with $PostDetailRoute {
   final String id;
 
   const PostDetailRoute({required this.id});
@@ -469,7 +468,7 @@ class PostDetailRoute extends GoRouteData {
 }
 
 @TypedGoRoute<PostUploadRoute>(path: PostUploadRoute.path, name: PostUploadRoute.name)
-class PostUploadRoute extends GoRouteData {
+class PostUploadRoute extends GoRouteData with $PostUploadRoute {
   const PostUploadRoute();
 
   static const String path = '/post-upload';
@@ -483,7 +482,7 @@ class PostUploadRoute extends GoRouteData {
 }
 
 @TypedGoRoute<AlbumOrganizeRoute>(path: AlbumOrganizeRoute.path, name: AlbumOrganizeRoute.name)
-class AlbumOrganizeRoute extends GoRouteData {
+class AlbumOrganizeRoute extends GoRouteData with $AlbumOrganizeRoute {
   const AlbumOrganizeRoute({required this.$extra});
 
   final User $extra;
@@ -499,7 +498,7 @@ class AlbumOrganizeRoute extends GoRouteData {
 }
 
 @TypedGoRoute<ReportRoute>(path: ReportRoute.path, name: ReportRoute.name)
-class ReportRoute extends GoRouteData {
+class ReportRoute extends GoRouteData with $ReportRoute {
   const ReportRoute({required this.refType, required this.refId});
 
   final ReportRefType refType;
@@ -515,7 +514,7 @@ class ReportRoute extends GoRouteData {
 }
 
 @TypedGoRoute<SettingRoute>(path: SettingRoute.path, name: SettingRoute.name)
-class SettingRoute extends GoRouteData {
+class SettingRoute extends GoRouteData with $SettingRoute {
   const SettingRoute();
 
   static const String path = '/setting';
@@ -526,7 +525,7 @@ class SettingRoute extends GoRouteData {
 }
 
 @TypedGoRoute<NotificationRoute>(path: NotificationRoute.path, name: NotificationRoute.name)
-class NotificationRoute extends GoRouteData {
+class NotificationRoute extends GoRouteData with $NotificationRoute {
   const NotificationRoute();
 
   static const String path = '/notification';
@@ -537,7 +536,7 @@ class NotificationRoute extends GoRouteData {
 }
 
 @TypedGoRoute<SearchRoute>(path: SearchRoute.path, name: SearchRoute.name)
-class SearchRoute extends GoRouteData {
+class SearchRoute extends GoRouteData with $SearchRoute {
   const SearchRoute({this.keyword});
 
   // 검색 초기 키워드.
@@ -551,7 +550,7 @@ class SearchRoute extends GoRouteData {
 }
 
 @TypedGoRoute<BlockedUsersRoute>(path: BlockedUsersRoute.path, name: BlockedUsersRoute.name)
-class BlockedUsersRoute extends GoRouteData {
+class BlockedUsersRoute extends GoRouteData with $BlockedUsersRoute {
   const BlockedUsersRoute();
 
   static const String path = '/blocked-users';
@@ -562,7 +561,7 @@ class BlockedUsersRoute extends GoRouteData {
 }
 
 @TypedGoRoute<BusinessInfoRoute>(path: BusinessInfoRoute.path, name: BusinessInfoRoute.name)
-class BusinessInfoRoute extends GoRouteData {
+class BusinessInfoRoute extends GoRouteData with $BusinessInfoRoute {
   const BusinessInfoRoute();
 
   static const String path = '/business-info';

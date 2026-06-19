@@ -21,7 +21,7 @@ class CommentsData extends _$CommentsData {
   }
 
   Future<bool> createComment({String? parentCommentId, required String content, String? mentionedUserId}) async {
-    final currentState = state.valueOrNull;
+    final currentState = state.value;
     if (currentState == null) return false;
 
     final request =
@@ -56,7 +56,7 @@ class CommentsData extends _$CommentsData {
   }
 
   Future<void> toggleCommentLike(String commentId, bool like) async {
-    final currentState = state.valueOrNull;
+    final currentState = state.value;
     if (currentState == null) return;
 
     final result =
@@ -93,7 +93,7 @@ class CommentsData extends _$CommentsData {
   }
 
   Future<void> deleteComment(String commentId) async {
-    final currentState = state.valueOrNull;
+    final currentState = state.value;
     if (currentState == null) return;
 
     final result = await commentType.deleteCommentsUseCase.execute(commentId);

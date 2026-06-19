@@ -36,7 +36,7 @@ class HomeView extends ConsumerWidget {
           ]);
         },
         child: GrimityInfiniteScrollPagination(
-          isEnabled: ref.watch(latestFeedDataProvider).valueOrNull?.nextCursor != null,
+          isEnabled: ref.watch(latestFeedDataProvider).value?.nextCursor != null,
           onLoadMore: ref.read(latestFeedDataProvider.notifier).loadMore,
           child: CustomScrollView(
             slivers: [

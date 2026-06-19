@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dotenv/dotenv.dart';
 
+import 'src/run_fvm.dart';
 import 'src/run.dart';
 
 /// 그리미티 플러터 프로젝트에서 앱 서명 키가 정의된 레파지토리의 경로.
@@ -44,6 +45,10 @@ Future<void> runFastlaneMatch(String profile, String appId) async {
 void main() async {
   await run("dart", ["run", "git_config", "fetch"]);
 
+  // FVM 설정
+  await run("dart", ["pub", "global", "activate", "fvm"]);
+  await runFvm("use --force");
+
   dotenv = DotEnv()..load([".env"]);
 
   // Mac 환경은 앱 서명 키를 공유하기 위해서 Fastlane을 사용하도록 함.
@@ -54,5 +59,6 @@ void main() async {
     await runFastlaneMatch("adhoc", "com.grimity.flutter"); // prod
   }
 
-  await run("dart", ["run", "build_runner", "build", "--delete-conflicting-outputs"]);
+  await runFvm("flutter pub get");
+  await runFvm("flutter pub run build_runner build --delete-conflicting-outputs");
 }

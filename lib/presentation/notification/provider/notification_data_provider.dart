@@ -21,7 +21,7 @@ class NotificationData extends _$NotificationData {
 
   /// 알림 읽음 처리(성공 가정, 실패시 복원)
   Future<void> markNotificationAsRead(String id) async {
-    final currentState = state.valueOrNull;
+    final currentState = state.value;
     if (currentState == null || currentState.isEmpty) {
       return;
     }
@@ -52,7 +52,7 @@ class NotificationData extends _$NotificationData {
 
   /// 알림 전체 읽음 처리(성공 가정, 실패시 복원)
   Future<void> markAllNotificationAsRead() async {
-    final currentState = state.valueOrNull;
+    final currentState = state.value;
     if (currentState == null || currentState.isEmpty) {
       return;
     }
@@ -80,7 +80,7 @@ class NotificationData extends _$NotificationData {
 
   /// 개별 알림 삭제(성공 가정, 실패시 복원)
   Future<void> deleteNotification(String id) async {
-    final currentState = state.valueOrNull;
+    final currentState = state.value;
     if (currentState == null || currentState.isEmpty) {
       return;
     }
@@ -108,7 +108,7 @@ class NotificationData extends _$NotificationData {
 
   /// 전체 알림 삭제(성공 가정, 실패시 복원)
   Future<void> deleteAllNotification() async {
-    final currentState = state.valueOrNull;
+    final currentState = state.value;
     if (currentState == null || currentState.isEmpty) {
       return;
     }

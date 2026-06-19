@@ -32,7 +32,7 @@ class AlbumOrganizeBodyView extends HookConsumerWidget with AlbumOrganizeMixin {
     return Stack(
       children: [
         GrimityInfiniteScrollPagination(
-          isEnabled: user.id.isNotEmpty && albumFeeds.valueOrNull?.nextCursor != null,
+          isEnabled: user.id.isNotEmpty && albumFeeds.value?.nextCursor != null,
           onLoadMore: ref.read(albumFeedDataProvider(user.id, currentAlbumId).notifier).loadMore,
           child: SingleChildScrollView(
             child: Padding(
@@ -105,7 +105,7 @@ class AlbumOrganizeBodyView extends HookConsumerWidget with AlbumOrganizeMixin {
                 GdsSolidButton(
                   text: '선택 삭제',
                   size: GdsSolidButtonSize.large,
-                  enabled: albumFeeds.valueOrNull?.feeds.isNotEmpty ?? false,
+                  enabled: albumFeeds.value?.feeds.isNotEmpty ?? false,
                   rounded: true,
                   leadingIcon: GdsIcon.trash,
                   onPressed: () {
@@ -134,7 +134,7 @@ class AlbumOrganizeBodyView extends HookConsumerWidget with AlbumOrganizeMixin {
                 GdsSolidButton(
                   text: '앨범 이동',
                   size: GdsSolidButtonSize.large,
-                  enabled: albumFeeds.valueOrNull?.feeds.isNotEmpty ?? false,
+                  enabled: albumFeeds.value?.feeds.isNotEmpty ?? false,
                   rounded: true,
                   leadingIcon: GdsIcon.forward,
                   onPressed: () {

@@ -26,7 +26,7 @@ class BoardListView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final notifier = ref.read(boardPostDataProvider(type).notifier);
     final isSearching = ref.watch(searchQueryProvider).keyword.trim().length >= 2;
-    final noticePosts = ref.watch(boardNoticeDataProvider).valueOrNull;
+    final noticePosts = ref.watch(boardNoticeDataProvider).value;
     final pageCount = (totalCount / notifier.size).ceil();
     final currentPageIndex =
         notifier.currentPage <= 1

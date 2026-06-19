@@ -28,7 +28,7 @@ class FollowingFeedView extends ConsumerWidget {
           await Future.wait([ref.refresh(followingFeedDataProvider.future)]);
         },
         child: GrimityInfiniteScrollPagination(
-          isEnabled: ref.watch(followingFeedDataProvider).valueOrNull?.nextCursor != null,
+          isEnabled: ref.watch(followingFeedDataProvider).value?.nextCursor != null,
           onLoadMore: ref.read(followingFeedDataProvider.notifier).loadMore,
           child: CustomScrollView(
             slivers: [

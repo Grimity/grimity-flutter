@@ -15,7 +15,7 @@ class RecommendAuthorListView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final authorWithFeedsAsync = ref.watch(authorWithFeedsDataProvider);
     final followingFeedsAsync = ref.watch(followingFeedDataProvider);
-    final nextCursor = followingFeedsAsync.valueOrNull?.nextCursor;
+    final nextCursor = followingFeedsAsync.value?.nextCursor;
     final visible = nextCursor == null || nextCursor.isEmpty;
     final colors = context.gdsColors;
 

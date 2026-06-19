@@ -17,7 +17,7 @@ class ProfileData extends _$ProfileData with UserMixin<User?> {
   }
 
   Future<void> toggleFollow() async {
-    final currentState = state.valueOrNull;
+    final currentState = state.value;
     if (currentState == null) return;
 
     // 현재 팔로잉 상태

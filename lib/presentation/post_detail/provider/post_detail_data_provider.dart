@@ -29,7 +29,7 @@ class PostDetailData extends _$PostDetailData with PostMixin<Post?> {
 
   /// 게시글 삭제
   FutureOr<bool> deletePost(String id) async {
-    final currentState = state.valueOrNull;
+    final currentState = state.value;
     if (currentState == null) return false;
 
     final result = await deletePostUseCase.execute(id);

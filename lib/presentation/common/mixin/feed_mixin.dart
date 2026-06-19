@@ -25,7 +25,7 @@ mixin FeedMixin<T> {
 
   /// feedId 기준 정의된 [getNotifyFeed]로 Feed를 찾아 알림
   void notifyFeedById(String feedId) {
-    final value = state.valueOrNull;
+    final value = state.value;
     if (value == null) return;
 
     final feed = getNotifyFeed(value, feedId);
@@ -40,7 +40,7 @@ mixin FeedMixin<T> {
     required bool like,
     required T Function(T prev) optimisticBuilder,
   }) async {
-    final prev = state.valueOrNull;
+    final prev = state.value;
     if (prev == null) return;
 
     final optimistic = optimisticBuilder(prev);
@@ -65,7 +65,7 @@ mixin FeedMixin<T> {
     required bool save,
     required T Function(T prev) optimisticBuilder,
   }) async {
-    final prev = state.valueOrNull;
+    final prev = state.value;
     if (prev == null) return;
 
     final optimistic = optimisticBuilder(prev);

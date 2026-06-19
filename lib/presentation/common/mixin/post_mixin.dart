@@ -25,7 +25,7 @@ mixin PostMixin<T> {
 
   /// postId 기준 정의된 [getNotifyPost]로 Post를 찾아 알림
   void notifyPostById(String postId) {
-    final value = state.valueOrNull;
+    final value = state.value;
     if (value == null) return;
 
     final post = getNotifyPost(value, postId);
@@ -40,7 +40,7 @@ mixin PostMixin<T> {
     required bool like,
     required T Function(T prev) optimisticBuilder,
   }) async {
-    final prev = state.valueOrNull;
+    final prev = state.value;
     if (prev == null) return;
 
     final optimistic = optimisticBuilder(prev);
@@ -65,7 +65,7 @@ mixin PostMixin<T> {
     required bool save,
     required T Function(T prev) optimisticBuilder,
   }) async {
-    final prev = state.valueOrNull;
+    final prev = state.value;
     if (prev == null) return;
 
     final optimistic = optimisticBuilder(prev);

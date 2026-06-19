@@ -37,7 +37,7 @@ mixin UserMixin<T> {
     required bool follow,
     required T Function(T prev) optimisticBuilder,
   }) async {
-    final prev = state.valueOrNull;
+    final prev = state.value;
     if (prev == null) return;
 
     final optimistic = optimisticBuilder(prev);
@@ -65,7 +65,7 @@ mixin UserMixin<T> {
     required String id,
     required T Function(T prev) optimisticBuilder,
   }) async {
-    final prev = state.valueOrNull;
+    final prev = state.value;
     if (prev == null) return;
 
     final optimistic = optimisticBuilder(prev);
@@ -92,7 +92,7 @@ mixin UserMixin<T> {
     required String id,
     required T Function(T prev) optimisticBuilder,
   }) async {
-    final prev = state.valueOrNull;
+    final prev = state.value;
     if (prev == null) return;
 
     final optimistic = optimisticBuilder(prev);
@@ -118,7 +118,7 @@ mixin UserMixin<T> {
     required String id,
     required T Function(T prev) optimisticBuilder,
   }) async {
-    final prev = state.valueOrNull;
+    final prev = state.value;
     if (prev == null) return;
 
     final optimistic = optimisticBuilder(prev);

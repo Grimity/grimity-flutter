@@ -29,7 +29,7 @@ class FeedDetailData extends _$FeedDetailData with FeedMixin<Feed?> {
 
   /// 피드 삭제
   FutureOr<bool> deleteFeed(String id) async {
-    final currentState = state.valueOrNull;
+    final currentState = state.value;
     if (currentState == null) return false;
 
     final result = await deleteFeedUseCase.execute(id);
