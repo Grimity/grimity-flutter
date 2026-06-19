@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gds/gds.dart';
 import 'package:grimity/presentation/common/provider/author_with_feeds_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
+import 'package:grimity/presentation/common/widget/layout/sliver_cross_axis_extent.dart';
 import 'package:grimity/presentation/common/widget/user_card/grimity_author_with_feeds_card.dart';
 import 'package:grimity/presentation/following_feed/provider/following_feed_data_provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -24,43 +25,37 @@ class RecommendAuthorListView extends ConsumerWidget {
     }
 
     // 스크롤 내부 가로 크기 제한 및 중앙 정렬
-    return SliverCrossAxisGroup(
-      slivers: [
-        const SliverCrossAxisExpanded(flex: 1, sliver: SliverToBoxAdapter()),
-        SliverConstrainedCrossAxis(
-          maxExtent: 600,
-          sliver: SliverPadding(
-            padding: EdgeInsets.only(
-              top: GdsSpacing.spacing12,
-              left: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20,
-              right: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20,
-              bottom: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20,
-            ),
-            sliver: SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                spacing: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing24,
-                children: [
-                  Text('인기 작가', style: GdsTypography.title1.copyWith(color: colors.text.grayBold)),
-                  authorWithFeedsAsync.when(
-                    data: (data) => _AuthorWithFeedsListView(authorWithFeedsList: data),
-                    error: (_, _) => GrimityStateView.error(onTap: () => ref.invalidate(authorWithFeedsDataProvider)),
-                    loading: () {
-                      return Skeletonizer(
-                        child: _AuthorWithFeedsListView(
-                          authorWithFeedsList: AuthorWithFeeds.createEmptyList(context),
-                        ),
-                      );
-                    },
-                  ),
-                ],
+    return SliverCrossAxisExtent(
+      maxExtent: 600,
+      sliver: SliverPadding(
+        padding: EdgeInsets.only(
+          top: GdsSpacing.spacing12,
+          left: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20,
+          right: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20,
+          bottom: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20,
+        ),
+        sliver: SliverToBoxAdapter(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            spacing: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing24,
+            children: [
+              Text('인기 작가', style: GdsTypography.title1.copyWith(color: colors.text.grayBold)),
+              authorWithFeedsAsync.when(
+                data: (data) => _AuthorWithFeedsListView(authorWithFeedsList: data),
+                error: (_, _) => GrimityStateView.error(onTap: () => ref.invalidate(authorWithFeedsDataProvider)),
+                loading: () {
+                  return Skeletonizer(
+                    child: _AuthorWithFeedsListView(
+                      authorWithFeedsList: AuthorWithFeeds.createEmptyList(context),
+                    ),
+                  );
+                },
               ),
-            ),
+            ],
           ),
         ),
-        const SliverCrossAxisExpanded(flex: 1, sliver: SliverToBoxAdapter()),
-      ],
+      ),
     );
   }
 }

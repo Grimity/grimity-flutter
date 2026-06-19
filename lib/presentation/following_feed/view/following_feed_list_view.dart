@@ -4,6 +4,7 @@ import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
+import 'package:grimity/presentation/common/widget/layout/sliver_cross_axis_extent.dart';
 import 'package:grimity/presentation/following_feed/provider/following_feed_data_provider.dart';
 import 'package:grimity/presentation/following_feed/widget/following_feed_card.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -63,26 +64,20 @@ class _FeedListView extends StatelessWidget {
     final padding = context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20;
 
     // 스크롤 내부 가로 크기 제한 및 중앙 정렬
-    return SliverCrossAxisGroup(
-      slivers: [
-        SliverCrossAxisExpanded(flex: 1, sliver: SliverToBoxAdapter()),
-        SliverConstrainedCrossAxis(
-          maxExtent: 600,
-          sliver: SliverPadding(
-            padding: EdgeInsets.only(
-              left: padding,
-              right: padding,
-              bottom: padding,
-            ),
-            sliver: SliverList.separated(
-              separatorBuilder: (_, _) => SizedBox(height: GdsSpacing.spacing24),
-              itemBuilder: (_, index) => FollowingFeedCard(feed: feeds[index]),
-              itemCount: feeds.length,
-            ),
-          ),
+    return SliverCrossAxisExtent(
+      maxExtent: 600,
+      sliver: SliverPadding(
+        padding: EdgeInsets.only(
+          left: padding,
+          right: padding,
+          bottom: padding,
         ),
-        SliverCrossAxisExpanded(flex: 1, sliver: SliverToBoxAdapter()),
-      ],
+        sliver: SliverList.separated(
+          separatorBuilder: (_, _) => SizedBox(height: GdsSpacing.spacing24),
+          itemBuilder: (_, index) => FollowingFeedCard(feed: feeds[index]),
+          itemCount: feeds.length,
+        ),
+      ),
     );
   }
 }
