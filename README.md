@@ -16,7 +16,7 @@
 
 | 종속성 | 최소 버전 | 배포 버전 |
 | ---- | ------- | ------- |
-| Flutter SDK | >= 3.35.7 | [FLUTTER_VERSION](https://github.com/Grimity/grimity-flutter/settings/variables/actions) |
+| Flutter SDK | >= 3.44.2 | [FLUTTER_VERSION](https://github.com/Grimity/grimity-flutter/settings/variables/actions) |
 
 ### 🚀 자동화 배포
 자동화 배포를 위한 CI/CD 에서는 Fastlane을 통한 GitHub Actions를 사용합니다.
