@@ -165,7 +165,7 @@ class _FeedImageListSection extends StatelessWidget {
               child: GrimityCachedNetworkImage.fitWidth(imageUrl: imageUrl),
             );
           },
-          separatorBuilder: (_, __) => Gap(8),
+          separatorBuilder: (_, _) => Gap(8),
         ),
         Gap(20),
       ],

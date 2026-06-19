@@ -79,7 +79,7 @@ class ReportBodyView extends HookConsumerWidget with ReportMixin {
                   ],
                 );
               },
-              separatorBuilder: (_, __) => Gap(16),
+              separatorBuilder: (_, _) => Gap(16),
               itemCount: ReportType.values.length,
             ),
           ],

@@ -20,7 +20,7 @@ class GrimityCheckBox extends StatelessWidget {
     );
   }
 
-  static withLabeled({
+  static GdsGesture withLabeled({
     required bool isChecked,
     required String label,
     required VoidCallback onTap,
@@ -44,7 +44,7 @@ class GrimityCheckBox extends StatelessWidget {
     );
   }
 
-  static withFoldable({
+  static GrimityGesture withFoldable({
     required bool isChecked,
     required bool isVisible,
     required VoidCallback onSelect,

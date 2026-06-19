@@ -136,7 +136,7 @@ class _ZoomableImage extends HookWidget {
       imageProvider: CachedNetworkImageProvider(imageUrl),
       backgroundDecoration: const BoxDecoration(color: Colors.transparent),
       scaleStateController: scaleStateController,
-      onTapUp: isZoomed.value ? null : (_, __, ___) => onClose(),
+      onTapUp: isZoomed.value ? null : (_, _, _) => onClose(),
     );
   }
 }
@@ -183,7 +183,7 @@ class _ImageViewerThumbnailView extends StatelessWidget {
               ),
             );
           },
-          separatorBuilder: (_, __) => Gap(GdsSpacing.spacing6),
+          separatorBuilder: (_, _) => Gap(GdsSpacing.spacing6),
         ),
       ),
     );
