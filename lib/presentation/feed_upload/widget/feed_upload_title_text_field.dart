@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:grimity/presentation/common/widget/text_field/grimity_underline_text_field.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/presentation/feed_upload/provider/feed_upload_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -20,11 +20,11 @@ class FeedUploadTitleTextField extends HookConsumerWidget {
       return null;
     }, [title]);
 
-    return GrimityUnderlineTextField.normal(
+    return GdsTextField.title(
+      size: context.isMobile ? GdsTextFieldSize.small : GdsTextFieldSize.medium,
       controller: controller,
-      onChanged: (value) => ref.read(feedUploadProvider.notifier).updateTitle(value),
-      hintText: '제목을 입력하세요',
-      useBodyTextStyle: true,
+      onChanged: ref.read(feedUploadProvider.notifier).updateTitle,
+      placeholder: '제목을 입력해주세요',
       maxLength: 32,
     );
   }
