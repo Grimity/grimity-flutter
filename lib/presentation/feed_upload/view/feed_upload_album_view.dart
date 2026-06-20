@@ -44,8 +44,8 @@ class FeedUploadAlbumView extends HookConsumerWidget {
 
   static void select(BuildContext context, WidgetRef ref) async {
     final feedUploadNotifier = ref.read(feedUploadProvider.notifier);
-    final feedUploadState = ref.watch(feedUploadProvider);
-    final albumState = ref.watch(albumsProvider);
+    final feedUploadState = ref.read(feedUploadProvider);
+    final albumState = ref.read(albumsProvider);
     final albums = albumState.value ?? [];
     final selectedAlbumId = feedUploadState.albumId;
     final selectedAlbum = albums.firstWhereOrNull((album) => album.id == selectedAlbumId) ?? allAlbum;

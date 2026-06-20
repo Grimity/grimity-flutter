@@ -24,7 +24,7 @@ class FeedUploadContentTextField extends HookConsumerWidget {
       controller: controller,
       onChanged: ref.read(feedUploadProvider.notifier).updateContent,
       placeholder: '내용을 입력해주세요',
-      maxLength: 500,
+      maxLength: FeedUpload.contentMaxLength,
     );
   }
 }
