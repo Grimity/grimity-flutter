@@ -26,6 +26,8 @@ class FeedUpload extends _$FeedUpload {
     return FeedUploadState();
   }
 
+  static const int contentMaxLength = 500;
+
   bool get isNewUpload => state.feedId == null;
 
   void initializeForEdit(Feed feed) {
@@ -50,7 +52,7 @@ class FeedUpload extends _$FeedUpload {
 
   /// 제목 업데이트
   void updateContent(String content) {
-    if (content.length > 300) {
+    if (content.length > contentMaxLength) {
       return;
     }
     state = state.copyWith(content: content);
