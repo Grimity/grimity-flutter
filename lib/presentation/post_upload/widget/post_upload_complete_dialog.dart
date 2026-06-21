@@ -9,7 +9,7 @@ import 'package:grimity/domain/entity/post.dart';
 import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/alert/grimity_dialog.dart';
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
-import 'package:grimity/presentation/common/widget/popup/grimity_share_modal_bottom_sheet.dart';
+import 'package:grimity/presentation/common/widget/popup/grimity_share_popup.dart';
 
 void showUploadCompleteDialog(BuildContext context, Post post, bool isNewUpload) {
   final postUrl = AppConfig.buildPostUrl(post.id);

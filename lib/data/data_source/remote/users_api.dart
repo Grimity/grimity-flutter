@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart' hide Headers;
-import 'package:grimity/app/enum/sort_type.enum.dart';
 import 'package:grimity/data/model/user/searched_users_response.dart';
 import 'package:grimity/data/model/user/popular_user_response.dart';
 import 'package:grimity/data/model/user/user_profile_response.dart';
@@ -48,7 +47,7 @@ abstract class UsersAPI {
     @Path('id') String id,
     @Query('cursor') String? cursor,
     @Query('size') int? size,
-    @Query('sort') SortType? sort,
+    @Query('sort') String? sort,
     @Query('albumId') String? albumId,
   );
 

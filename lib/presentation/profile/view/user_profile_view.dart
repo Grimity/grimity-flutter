@@ -23,7 +23,7 @@ import 'package:grimity/presentation/common/widget/button/grimity_follow_button.
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/popup/grimity_modal_bottom_sheet.dart';
 import 'package:grimity/presentation/common/widget/system/more/grimity_more_button.dart';
-import 'package:grimity/presentation/common/widget/popup/grimity_share_modal_bottom_sheet.dart';
+import 'package:grimity/presentation/common/widget/popup/grimity_share_popup.dart';
 import 'package:grimity/presentation/common/widget/system/profile/grimity_profile_background_image.dart';
 import 'package:grimity/presentation/common/widget/system/profile/grimity_profile_image.dart';
 import 'package:grimity/presentation/profile/enum/link_type_enum.dart';
@@ -118,14 +118,16 @@ class UserProfileView extends ConsumerWidget {
         title: '프로필 링크 공유',
         onTap: () {
           context.pop();
-          GrimityShareModalBottomSheet.show(
-            context,
+
+          final popup = GrimitySharePopup(
             url: AppConfig.buildUserUrl(user.url),
             shareContentType: ShareContentType.profile,
             nickname: user.name,
             description: user.name,
             imageUrl: user.image,
           );
+
+          popup.show(context);
         },
       ),
       if (viewType == ProfileViewType.mine) ...[

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/app/config/app_config.dart';
 import 'package:grimity/domain/entity/feed.dart';
+import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_util_bar.dart';
 import 'package:grimity/presentation/feed_detail/provider/feed_detail_data_provider.dart';
+import 'package:grimity/presentation/feed_detail/view/feed_content_view.dart';
 
 class FeedUtilBar extends ConsumerWidget {
   final Feed feed;
@@ -12,6 +15,7 @@ class FeedUtilBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isMine = ref.read(userAuthProvider)?.id == feed.author?.id;
     final isLike = feed.isLike ?? false;
     final isSave = feed.isSave ?? false;
 
@@ -23,6 +27,9 @@ class FeedUtilBar extends ConsumerWidget {
       shareUrl: AppConfig.buildFeedUrl(feed.id),
       onLikeTap: () => ref.read(feedDetailDataProvider(feed.id).notifier).toggleLike(feedId: feed.id, like: !isLike),
       onSaveTap: () => ref.read(feedDetailDataProvider(feed.id).notifier).toggleSave(feedId: feed.id, save: !isSave),
+      onMoreMenu: (link) {
+        FeedContentView.showMorePopup(context, feed, isMine, true, ref, link, GdsMenuPosition.right);
+      },
       title: feed.title,
       thumbnail: feed.thumbnail,
     );

@@ -45,7 +45,6 @@ Future<void> showAlbumEdit(
 
   if (context.isMobile) {
     final bottomSheet = GdsBottomSheet(
-      type: GdsBottomSheetType.twoButton,
       title: '앨범명 변경',
       onClose: closeNameEditor,
       primaryLabel: '변경하기',

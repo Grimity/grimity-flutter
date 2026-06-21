@@ -1,30 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gap/gap.dart';
-import 'package:grimity/app/config/app_color.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/app/config/app_router.dart';
-import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/app/extension/build_context_extension.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/user.dart';
-import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
-import 'package:grimity/presentation/common/widget/grimity_image.dart';
+import 'package:grimity/presentation/common/extension/user_ui_extension.dart';
+import 'package:grimity/presentation/common/widget/grimity_image_feed.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
-import 'package:grimity/presentation/common/widget/system/profile/grimity_user_image.dart';
 import 'package:grimity/presentation/feed_detail/provider/feed_author_feeds_data_provider.dart';
 import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 /// 피드 작가 프로필 View
 class FeedAuthorProfileView extends ConsumerWidget {
-  final User author;
-
   const FeedAuthorProfileView({super.key, required this.author});
+
+  final User author;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profileAsync = ref.watch(profileDataProvider(author.url));
-    final feedsAsync = ref.watch(feedAuthorFeedsDataProvider(author.id));
+    final profile = profileAsync.value;
+    final feedAuthorId = profile?.id.isNotEmpty == true ? profile!.id : author.id;
+    final feedsAsync = ref.watch(feedAuthorFeedsDataProvider(feedAuthorId));
 
     // 프로필 정보, 피드 정보 중 하나라도 에러 시.
     if (profileAsync.hasError || feedsAsync.hasError) {
@@ -35,7 +34,7 @@ class FeedAuthorProfileView extends ConsumerWidget {
           }
 
           if (feedsAsync.hasError) {
-            ref.invalidate(feedAuthorFeedsDataProvider(author.id));
+            ref.invalidate(feedAuthorFeedsDataProvider(feedAuthorId));
           }
         },
       );
@@ -43,70 +42,65 @@ class FeedAuthorProfileView extends ConsumerWidget {
 
     // 프로필 정보, 피드 정보 중 하나라도 로딩 시.
     if (profileAsync.isLoading || feedsAsync.isLoading) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 30),
-        child: Column(
-          spacing: 16,
-          children: [
-            Skeletonizer(child: _AuthorProfile(profile: User.empty())),
-            Skeletonizer(child: _AuthorFeeds(feeds: Feed.createEmptyList(context), url: author.url)),
-          ],
-        ),
+      return Column(
+        spacing: GdsSpacing.spacing12,
+        children: [
+          Skeletonizer(child: _AuthorProfile(profile: User.empty())),
+          Skeletonizer(child: _AuthorFeeds(feeds: Feed.createEmptyList(context), profile: User.empty())),
+        ],
       );
     }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 30),
-      child: Column(
-        spacing: 16,
-        children: [
-          _AuthorProfile(profile: profileAsync.value),
-          _AuthorFeeds(feeds: feedsAsync.value!.feeds, url: author.url),
-        ],
-      ),
+    final feeds = feedsAsync.value?.feeds ?? Feed.createEmptyList(context);
+
+    return Column(
+      spacing: GdsSpacing.spacing12,
+      children: [
+        _AuthorProfile(profile: profile),
+        _AuthorFeeds(feeds: feeds, profile: profile),
+      ],
     );
   }
 }
 
-class _AuthorProfile extends StatelessWidget {
-  final User? profile;
-
+class _AuthorProfile extends ConsumerWidget {
   const _AuthorProfile({required this.profile});
 
+  final User? profile;
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isFollowing = profile?.isFollowing ?? false;
+
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: [
-          GrimityGesture(
-            onTap: () => goProfile(context),
-            child: GrimityUserImage(imageUrl: profile?.image, size: 30),
-          ),
-          Gap(8),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              GrimityGesture(
-                onTap: () => goProfile(context),
-                child: Text(profile?.name ?? '', style: AppTypeface.label2.copyWith(color: AppColor.gray700)),
-              ),
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(text: '팔로워 ', style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
-                    TextSpan(
-                      text: '${profile?.followerCount ?? 0}',
-                      style: AppTypeface.caption2.copyWith(color: AppColor.gray700),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
+      padding: EdgeInsets.symmetric(
+        horizontal: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20,
+      ),
+      child: GdsUserItem.follow(
+        nickName: profile?.name ?? '',
+        personAvatar: profile?.personAvatar ?? GdsPersonAvatar(),
+        followUserInfo: GdsFollowUserInfo(
+          followerCount: profile?.followerCount ?? 0,
+          showFollowing: false,
+        ),
+        primaryActionButton: GdsOutlinedButton(
+          size: GdsOutlinedButtonSize.small,
+          text: '작품 보기',
+          onPressed: () => goProfile(context),
+        ),
+        secondaryActionButton: GdsSolidButton(
+          size: GdsSolidButtonSize.small,
+          text: isFollowing ? '언팔로잉' : '팔로잉',
+          onPressed: () => toggleFollow(ref),
+        ),
       ),
     );
+  }
+
+  void toggleFollow(WidgetRef ref) {
+    if (profile != null) {
+      ref.read(profileDataProvider(profile!.url).notifier).toggleFollow();
+    }
   }
 
   void goProfile(BuildContext context) {
@@ -117,55 +111,80 @@ class _AuthorProfile extends StatelessWidget {
 }
 
 class _AuthorFeeds extends ConsumerWidget {
-  final List<Feed> feeds;
-  final String url;
+  const _AuthorFeeds({
+    required this.feeds,
+    required this.profile,
+  });
 
-  const _AuthorFeeds({required this.feeds, required this.url});
+  final List<Feed> feeds;
+  final User? profile;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      constraints: BoxConstraints(maxHeight: 130),
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: [
-          Gap(16),
-          ...feeds.map(
-            (feed) => Row(
-              children: [
-                GrimityGesture(
-                  onTap: () => FeedDetailRoute(id: feed.id).push(context),
-                  child: AspectRatio(aspectRatio: 1.0, child: GrimityImage.small(imageUrl: feed.thumbnail ?? '')),
-                ),
-                Gap(8),
-              ],
-            ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final padding = context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20;
+
+        double itemWidth = (constraints.maxWidth - padding * 2) / context.feedRowCount;
+        itemWidth -= GdsSpacing.spacing16;
+
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          padding: EdgeInsets.symmetric(horizontal: padding),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            spacing: GdsSpacing.spacing16,
+            children: [
+              ...feeds.map((feed) {
+                return SizedBox(
+                  width: itemWidth,
+                  child: GrimityImageFeed(feed: feed, authorName: profile?.name),
+                );
+              }),
+              _buildMoreFeedsButton(context),
+            ],
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30),
-            child: GrimityGesture(
-              onTap: () => ProfileRoute(url: url).push(context),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(16),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: AppColor.mainSecondary),
-                    child: Assets.icons.icon.arrowRight.svg(
-                      width: 20,
-                      height: 20,
-                      colorFilter: ColorFilter.mode(AppColor.main, BlendMode.srcIn),
-                    ),
-                  ),
-                  Gap(10),
-                  Text('작품', style: AppTypeface.caption1.copyWith(color: AppColor.main)),
-                  Text('더보기', style: AppTypeface.caption1.copyWith(color: AppColor.main)),
-                ],
+        );
+      },
+    );
+  }
+
+  Widget _buildMoreFeedsButton(BuildContext context) {
+    final colors = context.gdsColors;
+
+    return GdsGesture(
+      onTap: () => ProfileRoute(url: profile!.url).push(context),
+      child: Container(
+        width: 90,
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          spacing: GdsSpacing.spacing10,
+          children: [
+            Container(
+              width: 30,
+              height: 30,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(GdsRadius.md),
+                color: colors.surface.primarySubtlest,
+              ),
+              child: Transform.translate(
+                offset: Offset(1, 0),
+                child: GdsIcon.chevronRight.build(
+                  width: GdsSpacing.spacing16,
+                  height: GdsSpacing.spacing16,
+                  color: colors.surface.primaryNormal,
+                ),
               ),
             ),
-          ),
-          Gap(16),
-        ],
+            Text(
+              '작품\n더보기',
+              textAlign: TextAlign.center,
+              style: GdsTypography.label3.copyWith(color: colors.text.primaryNormal),
+            ),
+          ],
+        ),
       ),
     );
   }

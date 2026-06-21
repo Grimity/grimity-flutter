@@ -15,6 +15,5 @@ enum SortType {
   const SortType(this.typeName);
 
   static List<SortType> get profileFeedSortValues => [latest, like, oldest];
-
   static List<SortType> get searchFeedSortValues => [latest, popular];
 }

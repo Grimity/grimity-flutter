@@ -9,9 +9,9 @@ extension CommentTypeX on CommentType {
   String get hintText {
     switch (this) {
       case CommentType.feed:
-        return "이 그림, 어떻게 느껴졌나요?";
+        return '댓글 입력';
       case CommentType.post:
-        return "댓글을 입력해주세요";
+        return '댓글 입력';
     }
   }
 

@@ -194,13 +194,11 @@ class AlbumOrganizeBodyView extends HookConsumerWidget with AlbumOrganizeMixin {
 
                     if (context.isMobile) {
                       final bottomSheet = GdsBottomSheet(
-                        type: GdsBottomSheetType.twoButton,
                         title: '앨범 이동',
                         primaryLabel: '이동하기',
                         secondaryLabel: '닫기',
                         onPrimaryTap: onPrimaryTap,
                         onSecondaryTap: () => Navigator.pop(context),
-                        onClose: () => Navigator.pop(context),
                         child: child,
                       );
 

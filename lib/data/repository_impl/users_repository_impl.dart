@@ -98,7 +98,7 @@ class UsersRepositoryImpl extends UsersRepository {
         request.id,
         request.cursor,
         request.size,
-        request.sort,
+        request.sort?.name,
         request.albumId,
       );
       return Result.success(response.toEntity());

@@ -70,9 +70,7 @@ class BoardSearchHeader extends HookConsumerWidget {
               onTap: () {
                 if (context.isMobile) {
                   final bottomSheet = GdsBottomSheet(
-                    type: GdsBottomSheetType.tertiary,
                     title: '검색 필터',
-                    onClose: () => Navigator.pop(context),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       spacing: GdsSpacing.spacing8,

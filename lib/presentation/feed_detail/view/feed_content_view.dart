@@ -1,186 +1,240 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
-import 'package:grimity/app/config/app_color.dart';
+import 'package:grimity/app/config/app_config.dart';
 import 'package:grimity/app/config/app_router.dart';
-import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/report.enum.dart';
+import 'package:grimity/app/extension/date_time_extension.dart';
 import 'package:grimity/domain/entity/feed.dart';
+import 'package:grimity/presentation/common/extension/user_ui_extension.dart';
+import 'package:grimity/presentation/common/hook/layer_link.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
-import 'package:grimity/presentation/common/widget/button/grimity_follow_button.dart';
 import 'package:grimity/presentation/common/widget/grimity_cached_network_image.dart';
-import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
-import 'package:grimity/presentation/common/widget/grimity_reaction.dart';
-import 'package:grimity/presentation/common/widget/popup/grimity_modal_bottom_sheet.dart';
-import 'package:grimity/presentation/common/widget/system/more/grimity_more_button.dart';
-import 'package:grimity/presentation/common/widget/system/profile/grimity_user_image.dart';
+import 'package:grimity/presentation/common/widget/popup/grimity_menu_popup.dart';
+import 'package:grimity/presentation/common/widget/popup/grimity_share_popup.dart';
 import 'package:grimity/presentation/feed_detail/widget/feed_detail_delete_dialog.dart';
 import 'package:grimity/presentation/feed_detail/widget/feed_util_bar.dart';
 
 /// 피드 본문 View
 class FeedContentView extends ConsumerWidget {
-  final Feed feed;
+  const FeedContentView({
+    super.key,
+    required this.feed,
+  });
 
-  const FeedContentView({super.key, required this.feed});
+  final Feed feed;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bool isMine = ref.read(userAuthProvider)?.id == feed.author?.id;
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.only(
+        top: context.isMobile ? GdsSpacing.spacing8 : GdsSpacing.spacing24,
+        left: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20,
+        right: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _FeedTitleSection(title: feed.title),
-          Gap(16),
           _FeedAuthorInfoSection(
             feed: feed,
             isMine: isMine,
-            onMoreTap: () => _showMoreBottomSheet(context, isMine, ref),
+            onMoreTap: (link) => showMorePopup(context, feed, isMine, false, ref, link, GdsMenuPosition.right),
+            onShareTap: () => showSharePopup(context, feed),
           ),
-          Gap(32),
+          Gap(GdsSpacing.spacing8),
           if (feed.cards != null) _FeedImageListSection(imageUrls: feed.cards!),
-          _FeedContentSection(content: feed.content ?? ''),
-          Gap(20),
-          if (feed.tags != null) _FeedTagSection(tags: feed.tags!),
-          if (feed.author?.isBlocked == false) FeedUtilBar(feed: feed),
+          Gap(GdsSpacing.spacing20),
+          _FeedContentSection(feed: feed),
+          if (feed.tags != null) ...[
+            Gap(GdsSpacing.spacing24),
+            _FeedTagSection(tags: feed.tags!),
+          ],
+          if (feed.author?.isBlocked == false) ...[
+            Gap(GdsSpacing.spacing32),
+            FeedUtilBar(feed: feed),
+          ],
         ],
       ),
     );
   }
 
-  void _showMoreBottomSheet(BuildContext context, bool isMine, WidgetRef ref) {
-    final List<GrimityModalButtonModel> buttons =
-        isMine
-            ? [
-              GrimityModalButtonModel(
-                title: '수정하기',
-                onTap: () {
-                  context.pop();
-                  context.push(FeedUploadRoute.path, extra: feed);
-                },
-              ),
-              GrimityModalButtonModel(
-                title: '삭제하기',
-                onTap: () {
-                  context.pop();
-                  showDeleteFeedDialog(feed.id, context, ref);
-                },
-              ),
-            ]
-            : [
-              GrimityModalButtonModel.report(context: context, refType: ReportRefType.feed, refId: feed.id),
-              GrimityModalButtonModel(
-                title: '유저 프로필로 이동',
-                onTap: () {
-                  context.pop();
-                  ProfileRoute(url: feed.author!.url).push(context);
-                },
-              ),
-            ];
+  static Future<void> showSharePopup(BuildContext context, Feed feed) {
+    final popup = GrimitySharePopup(
+      url: AppConfig.buildFeedUrl(feed.id),
+      shareContentType: ShareContentType.feed,
+      description: feed.title,
+      imageUrl: feed.thumbnail,
+    );
 
-    GrimityModalBottomSheet.show(context, buttons: buttons);
+    return popup.show(context);
+  }
+
+  static Future<void> showMorePopup(
+    BuildContext context,
+    Feed feed,
+    bool isMine,
+    bool showShare,
+    WidgetRef ref,
+    LayerLink layerLink,
+    GdsMenuPosition position,
+  ) {
+    final List<GdsMenuItem> items = [
+      if (isMine) ...[
+        if (showShare)
+          GdsMenuItem(
+            label: '공유하기',
+            onTap: () {
+              context.pop();
+              showSharePopup(context, feed);
+            },
+          ),
+        GdsMenuItem(
+          label: '수정하기',
+          onTap: () {
+            context.pop();
+            context.push(FeedUploadRoute.path, extra: feed);
+          },
+        ),
+        GdsMenuItem(
+          label: '삭제하기',
+          onTap: () {
+            context.pop();
+            showDeleteFeedAlert(feed.id, context, ref);
+          },
+        ),
+      ] else ...[
+        if (showShare)
+          GdsMenuItem(
+            label: '공유하기',
+            onTap: () {
+              context.pop();
+              showSharePopup(context, feed);
+            },
+          ),
+        GdsMenuItem(
+          label: '유저 프로필로 이동',
+          onTap: () {
+            context.pop();
+            ProfileRoute(url: feed.author!.url).push(context);
+          },
+        ),
+        GdsMenuItem(
+          label: '신고하기',
+          onTap: () {
+            context.pop();
+            ReportRoute(refType: ReportRefType.feed, refId: feed.id).push(context);
+          },
+        ),
+      ],
+    ];
+
+    final popup = GrimityMenuPopup(
+      items: items,
+      layerLink: layerLink,
+    );
+
+    return popup.show(context, position);
   }
 }
 
-class _FeedTitleSection extends StatelessWidget {
-  final String title;
-
-  const _FeedTitleSection({required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(title, style: AppTypeface.subTitle1.copyWith(color: AppColor.gray800));
-  }
-}
-
-class _FeedAuthorInfoSection extends StatelessWidget {
-  const _FeedAuthorInfoSection({required this.feed, required this.isMine, required this.onMoreTap});
+class _FeedAuthorInfoSection extends HookWidget {
+  const _FeedAuthorInfoSection({
+    required this.feed,
+    required this.isMine,
+    required this.onMoreTap,
+    required this.onShareTap,
+  });
 
   final Feed feed;
   final bool isMine;
-  final VoidCallback onMoreTap;
+  final Function(LayerLink) onMoreTap;
+  final VoidCallback onShareTap;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        GrimityGesture(
-          onTap: feed.author == null ? null : () => ProfileRoute(url: feed.author!.url).push(context),
-          child: GrimityUserImage(imageUrl: feed.author?.image, size: 30),
-        ),
-        Gap(8),
-        Flexible(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              GrimityGesture(
-                onTap: feed.author == null ? null : () => ProfileRoute(url: feed.author!.url).push(context),
-                child: Text(
-                  feed.author?.name ?? '작성자 정보 없음',
-                  style: AppTypeface.label2.copyWith(color: AppColor.gray700),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              GrimityReaction.dateLikeView(
-                createdAt: feed.createdAt,
-                likeCount: feed.likeCount,
-                viewCount: feed.viewCount,
-              ),
-            ],
-          ),
-        ),
-        if (feed.author != null && !isMine && feed.author!.isBlocking == false && feed.author!.isBlocked == false) ...[
-          GrimityFollowButton(url: feed.author!.url),
-          Gap(10),
-        ],
-        GrimityMoreButton.decorated(onTap: onMoreTap),
-      ],
+    final layerLink = useLayerLink();
+
+    return GdsUserItem.iconId(
+      userId: feed.author?.handle ?? '',
+      nickName: feed.author?.name ?? '',
+      personAvatar: feed.author?.personAvatar ?? GdsPersonAvatar(),
+      primaryActionButton: GdsIconButton.normal(
+        icon: GdsIcon.share,
+        onPressed: onShareTap,
+      ),
+      secondaryActionButton: GdsIconButton.normal(
+        icon: GdsIcon.dotMenuHorizontal,
+        onPressed: () => onMoreTap(layerLink),
+      ),
     );
   }
 }
 
 class _FeedImageListSection extends StatelessWidget {
-  final List<String> imageUrls;
-
   const _FeedImageListSection({required this.imageUrls});
+
+  final List<String> imageUrls;
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      spacing: GdsSpacing.spacing12,
       children: [
-        ListView.separated(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: imageUrls.length,
-          itemBuilder: (context, index) {
-            final imageUrl = imageUrls[index];
-            return GrimityGesture(
-              onTap: () {
-                ImageViewerRoute(initialIndex: index, imageUrls: imageUrls).push(context);
-              },
-              child: GrimityCachedNetworkImage.fitWidth(imageUrl: imageUrl),
-            );
-          },
-          separatorBuilder: (_, _) => Gap(8),
-        ),
-        Gap(20),
+        ...imageUrls.mapIndexed((index, imageUrl) {
+          return GdsGesture(
+            onTap: () {
+              // 이미지 뷰어 페이지로 이동
+              ImageViewerRoute(initialIndex: index, imageUrls: imageUrls).push(context);
+            },
+            child: GrimityCachedNetworkImage.fitWidth(imageUrl: imageUrl),
+          );
+        }),
       ],
     );
   }
 }
 
 class _FeedContentSection extends StatelessWidget {
-  final String content;
+  const _FeedContentSection({required this.feed});
 
-  const _FeedContentSection({required this.content});
+  final Feed feed;
 
   @override
   Widget build(BuildContext context) {
-    return Text(content, style: TextStyle(fontSize: 16, height: 1.6, letterSpacing: 0, fontWeight: FontWeight.w500));
+    final colors = context.gdsColors;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          feed.title,
+          style: GdsTypography.title3.copyWith(color: colors.text.grayBold),
+        ),
+        Gap(context.isMobile ? GdsSpacing.spacing8 : GdsSpacing.spacing20),
+        Text(
+          feed.content ?? '',
+          style: GdsTypography.body2R.copyWith(color: colors.text.grayBold),
+        ),
+        Gap(GdsSpacing.spacing16),
+        GdsUserInfo.defaultType(
+          nickName: feed.author?.name ?? '',
+          heartCount: feed.likeCount,
+          viewCount: feed.viewCount,
+          timeText: feed.createdAt?.toRelativeTime() ?? '',
+          showNickName: false,
+          showHeart: true,
+          showView: true,
+          showTime: true,
+        ),
+      ],
+    );
   }
 }
 
@@ -191,19 +245,18 @@ class _FeedTagSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [Wrap(spacing: 6, runSpacing: 6, children: tags.map((tag) => _buildTag(tag)).toList()), Gap(20)],
+    return Wrap(
+      spacing: GdsSpacing.spacing8,
+      runSpacing: GdsSpacing.spacing8,
+      children: tags.map((tag) => _buildTag(context, tag)).toList(),
     );
   }
 
-  Widget _buildTag(String tag) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-        border: Border.all(color: AppColor.gray300, width: 1),
-      ),
-      child: Text(tag, style: AppTypeface.caption3.copyWith(color: AppColor.gray700)),
+  Widget _buildTag(BuildContext context, String tag) {
+    return GdsTag(
+      size: context.isMobile ? GdsTagSize.small : GdsTagSize.medium,
+      text: tag,
+      onTap: () => SearchRoute(keyword: tag).push(context),
     );
   }
 }

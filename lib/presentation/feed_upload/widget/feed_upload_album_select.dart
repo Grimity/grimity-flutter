@@ -28,7 +28,6 @@ Future<Album?> showFeedUploadSelect(
 
   if (context.isMobile) {
     final bottomSheet = GdsBottomSheet(
-      type: GdsBottomSheetType.tertiary,
       onClose: context.pop,
       title: '앨범 선택',
       child: child,
