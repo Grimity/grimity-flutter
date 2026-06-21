@@ -13,8 +13,11 @@ class FeedAuthorFeedsData extends _$FeedAuthorFeedsData {
     if (userId.isEmpty) return Feeds(feeds: [], nextCursor: '');
 
     final param = GetUserFeedsRequestParams(id: userId, size: 6, sort: SortType.latest);
-
     final result = await getUserFeedsUseCase.execute(param);
-    return result.fold(onSuccess: (feeds) => feeds, onFailure: (e) => Feeds(feeds: [], nextCursor: ''));
+
+    return result.fold(
+      onSuccess: (feeds) => feeds,
+      onFailure: (e) => Feeds(feeds: [], nextCursor: ''),
+    );
   }
 }

@@ -7,13 +7,12 @@ import 'package:grimity/presentation/comment/enum/comment_type.dart';
 import 'package:grimity/presentation/comment/view/comments_view.dart';
 import 'package:grimity/presentation/comment/widget/comment_input_bar.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
+import 'package:grimity/presentation/common/widget/navigation/grimity_title_top_navigation.dart';
 import 'package:grimity/presentation/feed_detail/feed_detail_view.dart';
 import 'package:grimity/presentation/feed_detail/provider/feed_detail_data_provider.dart';
 import 'package:grimity/presentation/feed_detail/view/feed_author_profile_view.dart';
 import 'package:grimity/presentation/feed_detail/view/feed_content_view.dart';
 import 'package:grimity/presentation/feed_detail/view/feed_recommend_feed_view.dart';
-import 'package:grimity/presentation/feed_detail/widget/feed_detail_app_bar.dart';
-import 'package:grimity/presentation/feed_detail/widget/feed_util_bar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -42,22 +41,20 @@ class FeedDetailPage extends HookConsumerWidget {
 
         return FeedDetailView(
           feed: feed,
-          feedDetailAppBar: FeedDetailAppBar(),
+          feedDetailAppBar: GrimityTitleTopNavigation(title: '', showTitle: false),
           feedContentView: FeedContentView(feed: feed),
           feedCommentsView:
               isBlockedUser
-                  ? SizedBox.shrink()
+                  ? null
                   : CommentsView(
                     id: feed.id,
                     authorId: feed.author?.id ?? '',
-                    commentCount: feed.commentCount ?? 0,
                     commentType: CommentType.feed,
+                    commentCount: feed.commentCount ?? 0,
                   ),
           feedAuthorProfileView: FeedAuthorProfileView(author: feed.author ?? User.empty()),
           feedRecommendFeedView: FeedRecommendFeedView(),
-          feedCommentInputBar:
-              isBlockedUser ? SizedBox.shrink() : CommentInputBar(id: feed.id, commentType: CommentType.feed),
-          feedUtilBar: isBlockedUser ? SizedBox.shrink() : FeedUtilBar(feed: feed),
+          feedCommentInputBar: isBlockedUser ? null : CommentInputBar(id: feed.id, commentType: CommentType.feed),
         );
       },
       loading: () {
@@ -66,7 +63,7 @@ class FeedDetailPage extends HookConsumerWidget {
         return Skeletonizer(
           child: FeedDetailView(
             feed: feed,
-            feedDetailAppBar: FeedDetailAppBar(),
+            feedDetailAppBar: GrimityTitleTopNavigation(title: '', showTitle: false),
             feedContentView: FeedContentView(feed: feed),
             feedCommentsView: CommentsView(
               id: feed.id,
@@ -77,15 +74,15 @@ class FeedDetailPage extends HookConsumerWidget {
             feedAuthorProfileView: FeedAuthorProfileView(author: feed.author ?? User.empty()),
             feedRecommendFeedView: FeedRecommendFeedView(),
             feedCommentInputBar: CommentInputBar(id: feed.id, commentType: CommentType.feed),
-            feedUtilBar: FeedUtilBar(feed: feed),
           ),
         );
       },
-      error:
-          (e, s) => Scaffold(
-            appBar: AppBar(),
-            body: GrimityStateView.error(onTap: () => ref.invalidate(feedDetailDataProvider(feedId))),
-          ),
+      error: (_, _) {
+        return Scaffold(
+          appBar: AppBar(),
+          body: GrimityStateView.error(onTap: () => ref.invalidate(feedDetailDataProvider(feedId))),
+        );
+      },
     );
   }
 }

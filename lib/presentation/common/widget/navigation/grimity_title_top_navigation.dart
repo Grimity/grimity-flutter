@@ -12,6 +12,8 @@ class GrimityTitleTopNavigation extends ConsumerWidget {
     this.onSearch,
     this.onAvatar,
     this.onNotification,
+    this.showTitle = true,
+    this.showIcons = true,
   });
 
   final String title;
@@ -19,6 +21,8 @@ class GrimityTitleTopNavigation extends ConsumerWidget {
   final VoidCallback? onSearch;
   final VoidCallback? onAvatar;
   final VoidCallback? onNotification;
+  final bool showTitle;
+  final bool showIcons;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,6 +37,8 @@ class GrimityTitleTopNavigation extends ConsumerWidget {
       onNotification: onNotification ?? () => const NotificationRoute().push(context),
       avatarImageUrl: avatarImage,
       hasNotification: hasNotification,
+      showTitle: showTitle,
+      showIcons: showIcons,
     );
   }
 }

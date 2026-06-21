@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gap/gap.dart';
-import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/app/config/app_typeface.dart';
-import 'package:grimity/gen/assets.gen.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/presentation/comment/enum/comment_type.dart';
-import 'package:grimity/presentation/comment/provider/comment_input_provider.dart';
-import 'package:grimity/presentation/common/widget/grimity_animation_button.dart';
-import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
-import 'package:grimity/presentation/common/widget/popup/grimity_share_modal_bottom_sheet.dart';
+import 'package:grimity/presentation/common/hook/layer_link.dart';
+import 'package:grimity/presentation/common/widget/popup/grimity_share_popup.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 /// 공통 UtilBar
 /// 좋아요, 저장, 댓글, 공유 기능 UtilBar
-class GrimityUtilBar extends ConsumerWidget {
+class GrimityUtilBar extends HookConsumerWidget {
   const GrimityUtilBar({
     super.key,
     required this.isLike,
@@ -22,6 +17,7 @@ class GrimityUtilBar extends ConsumerWidget {
     required this.shareUrl,
     required this.onLikeTap,
     required this.onSaveTap,
+    required this.onMoreMenu,
     required this.shareContentType,
     required this.title,
     required this.thumbnail,
@@ -40,6 +36,7 @@ class GrimityUtilBar extends ConsumerWidget {
 
   final VoidCallback onLikeTap;
   final VoidCallback onSaveTap;
+  final Function(LayerLink)? onMoreMenu;
 
   factory GrimityUtilBar.feed({
     required bool isLike,
@@ -51,6 +48,7 @@ class GrimityUtilBar extends ConsumerWidget {
     required String? thumbnail,
     required VoidCallback onLikeTap,
     required VoidCallback onSaveTap,
+    Function(LayerLink)? onMoreMenu,
   }) => GrimityUtilBar(
     isLike: isLike,
     isSave: isSave,
@@ -59,6 +57,7 @@ class GrimityUtilBar extends ConsumerWidget {
     shareUrl: shareUrl,
     onLikeTap: onLikeTap,
     onSaveTap: onSaveTap,
+    onMoreMenu: onMoreMenu,
     shareContentType: ShareContentType.feed,
     title: title,
     thumbnail: thumbnail,
@@ -75,6 +74,7 @@ class GrimityUtilBar extends ConsumerWidget {
     required String? thumbnail,
     required VoidCallback onLikeTap,
     required VoidCallback onSaveTap,
+    Function(LayerLink)? onMoreMenu,
   }) => GrimityUtilBar(
     isLike: isLike,
     isSave: isSave,
@@ -83,6 +83,7 @@ class GrimityUtilBar extends ConsumerWidget {
     shareUrl: shareUrl,
     onLikeTap: onLikeTap,
     onSaveTap: onSaveTap,
+    onMoreMenu: onMoreMenu,
     shareContentType: ShareContentType.post,
     title: title,
     thumbnail: thumbnail,
@@ -91,63 +92,56 @@ class GrimityUtilBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      color: AppColor.gray00,
-      height: 50,
+    final layerLink = useLayerLink();
+    final colors = context.gdsColors;
+
+    return Row(
+      spacing: GdsSpacing.spacing12,
+      children: [
+        _buildItem(
+          context: context,
+          icon: isLike ? GdsIcon.heartFill : GdsIcon.heartOutline,
+          text: likeCount.toString(),
+          iconColor: isLike ? colors.status.notification : colors.icon.grayBold,
+          textColor: colors.text.grayBold,
+          onTap: onLikeTap,
+        ),
+        _buildItem(
+          context: context,
+          icon: GdsIcon.chatRound,
+          text: commentCount.toString(),
+          iconColor: colors.icon.grayBold,
+          textColor: colors.text.grayBold,
+        ),
+
+        if (onMoreMenu != null) ...[
+          Expanded(child: SizedBox()),
+          GdsIconButton(
+            icon: GdsIcon.dotMenuHorizontal,
+            layerLink: layerLink,
+            onPressed: () => onMoreMenu!(layerLink),
+          ),
+        ],
+      ],
+    );
+  }
+
+  Widget _buildItem({
+    required BuildContext context,
+    required GdsIcon icon,
+    required String text,
+    required Color iconColor,
+    required Color textColor,
+    VoidCallback? onTap,
+  }) {
+    return GdsGesture(
+      onTap: onTap,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.min,
+        spacing: GdsSpacing.spacing6,
         children: [
-          Row(
-            children: [
-              GrimityAnimationButton(
-                onTap: onLikeTap,
-                child:
-                    isLike
-                        ? Assets.icons.icon.heartFilled.svg(width: 24, height: 24)
-                        : Assets.icons.icon.heart.svg(width: 24, height: 24),
-              ),
-              Gap(6),
-              Text('$likeCount', style: AppTypeface.label3.copyWith(color: AppColor.gray700)),
-              Gap(20),
-              GrimityGesture(
-                onTap: () {
-                  final notifier = ref.read(commentInputProvider(commentType).notifier);
-                  notifier.requestFocus?.call();
-                },
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  spacing: 6,
-                  children: [
-                    Assets.icons.icon.reply.svg(width: 24, height: 24),
-                    Text('$commentCount', style: AppTypeface.label3.copyWith(color: AppColor.gray700)),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              GrimityAnimationButton(
-                child: Assets.icons.icon.share.svg(width: 24, height: 24),
-                onTap:
-                    () => GrimityShareModalBottomSheet.show(
-                      context,
-                      url: shareUrl,
-                      shareContentType: shareContentType,
-                      description: title,
-                      imageUrl: thumbnail,
-                    ),
-              ),
-              Gap(20),
-              GrimityAnimationButton(
-                onTap: onSaveTap,
-                child:
-                    isSave
-                        ? Assets.icons.icon.saveFilled.svg(width: 24, height: 24)
-                        : Assets.icons.icon.save.svg(width: 24, height: 24),
-              ),
-            ],
-          ),
+          icon.build(color: iconColor),
+          Text(text, style: GdsTypography.label3.copyWith(color: textColor)),
         ],
       ),
     );

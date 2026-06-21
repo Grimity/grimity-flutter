@@ -11,28 +11,54 @@ class GrimityFeedGrid extends StatelessWidget {
     this.isSliver = false,
     this.keyword,
     this.authorName,
+    this.padding = EdgeInsets.zero,
   });
 
   final List<Feed> feeds;
   final bool isSliver;
   final String? keyword;
   final String? authorName;
+  final EdgeInsets padding;
 
   const GrimityFeedGrid.sliver({
     super.key,
     required this.feeds,
     this.keyword,
     this.authorName,
+    this.padding = EdgeInsets.zero,
   }) : isSliver = true;
 
   @override
   Widget build(BuildContext context) {
     if (isSliver) {
-      return SliverDynamicHeightGridView(
+      return SliverPadding(
+        padding: padding,
+        sliver: SliverDynamicHeightGridView(
+          crossAxisCount: context.feedRowCount,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 20,
+          itemCount: feeds.length,
+          builder: (context, index) {
+            final feed = feeds[index];
+            return GrimityImageFeed(
+              feed: feed,
+              keyword: keyword,
+              authorName: authorName,
+            );
+          },
+        ),
+      );
+    }
+
+    return Padding(
+      padding: padding,
+      child: DynamicHeightGridView(
         crossAxisCount: context.feedRowCount,
         crossAxisSpacing: 12,
         mainAxisSpacing: 20,
+        shrinkWrap: true,
         itemCount: feeds.length,
+        physics: const NeverScrollableScrollPhysics(),
         builder: (context, index) {
           final feed = feeds[index];
           return GrimityImageFeed(
@@ -41,24 +67,7 @@ class GrimityFeedGrid extends StatelessWidget {
             authorName: authorName,
           );
         },
-      );
-    }
-
-    return DynamicHeightGridView(
-      crossAxisCount: context.feedRowCount,
-      crossAxisSpacing: 12,
-      mainAxisSpacing: 20,
-      shrinkWrap: true,
-      itemCount: feeds.length,
-      physics: const NeverScrollableScrollPhysics(),
-      builder: (context, index) {
-        final feed = feeds[index];
-        return GrimityImageFeed(
-          feed: feed,
-          keyword: keyword,
-          authorName: authorName,
-        );
-      },
+      ),
     );
   }
 }

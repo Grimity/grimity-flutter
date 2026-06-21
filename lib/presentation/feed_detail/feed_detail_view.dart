@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
-import 'package:grimity/app/config/app_color.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/domain/entity/feed.dart';
-import 'package:grimity/presentation/comment/enum/comment_type.dart';
-import 'package:grimity/presentation/comment/provider/comment_input_provider.dart';
 import 'package:grimity/presentation/common/widget/navigation/grimity_drawer.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class FeedDetailView extends HookConsumerWidget {
+class FeedDetailView extends StatelessWidget {
   final Feed feed;
   final Widget feedDetailAppBar;
   final Widget feedContentView;
-  final Widget feedCommentsView;
+  final Widget? feedCommentsView;
   final Widget feedAuthorProfileView;
   final Widget feedRecommendFeedView;
-  final Widget feedCommentInputBar;
-  final Widget feedUtilBar;
+  final Widget? feedCommentInputBar;
 
-  FeedDetailView({
+  const FeedDetailView({
     super.key,
     required this.feed,
     required this.feedDetailAppBar,
@@ -27,130 +22,50 @@ class FeedDetailView extends HookConsumerWidget {
     required this.feedAuthorProfileView,
     required this.feedRecommendFeedView,
     required this.feedCommentInputBar,
-    required this.feedUtilBar,
   });
 
-  final Widget grayGap = SliverToBoxAdapter(child: Container(color: AppColor.gray200, height: 8));
+  static Widget buildGap(double spacing) {
+    return SliverToBoxAdapter(child: Gap(spacing));
+  }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final commentInputNotifier = ref.watch(commentInputProvider(CommentType.feed).notifier);
-    final showCommentInputBar = useState(false);
-    final scrollController = useScrollController();
+  Widget build(BuildContext context) {
+    final colors = context.gdsColors;
 
-    // FeedContentView 위치 추적용 context 저장
-    final feedContentContextRef = useRef<BuildContext?>(null);
-
-    void updateBarVisibility() {
-      final ctx = feedContentContextRef.value;
-      if (ctx == null) return;
-
-      final box = ctx.findRenderObject() as RenderBox?;
-      if (box == null || !box.attached) return;
-
-      final pos = box.localToGlobal(Offset.zero);
-      final height = box.size.height;
-
-      final media = MediaQuery.of(ctx);
-      final screenHeight = media.size.height;
-
-      final bottom = pos.dy + height;
-
-      // 본문 하단이 화면 하단에 닿거나 넘으면 댓글 입력 바 노출
-      showCommentInputBar.value = bottom <= screenHeight;
-    }
-
-    useEffect(() {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        updateBarVisibility();
-      });
-      return null;
-    }, const []);
-
-    useEffect(() {
-      commentInputNotifier.requestFocus = () async {
-        final ctx = feedContentContextRef.value;
-        if (ctx == null) return;
-
-        final box = ctx.findRenderObject() as RenderBox?;
-        if (box == null || !box.attached) return;
-
-        // 라인 높이까지 고려해서.
-        final contentHeight = box.size.height + 16;
-
-        await scrollController.animateTo(
-          contentHeight,
-          duration: Duration(milliseconds: 250),
-          curve: Curves.easeInOut,
-        );
-
-        assert(commentInputNotifier.focusNode != null);
-        final focusNode = commentInputNotifier.focusNode;
-
-        // 이미 포커스된 경우 해제한 뒤, 프레임 종료 후 다시 포커스를 요청.
-        if (focusNode?.hasFocus ?? false) {
-          focusNode?.unfocus();
-          await WidgetsBinding.instance.endOfFrame;
-        }
-
-        focusNode?.requestFocus();
-      };
-
-      return null;
-    }, [commentInputNotifier]);
-
-    return Scaffold(
-      endDrawer: const GrimityDrawer(),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            NotificationListener<ScrollNotification>(
-              onNotification: (notification) {
-                updateBarVisibility();
-                return false;
-              },
-              child: CustomScrollView(
-                controller: scrollController,
-                slivers: [
-                  feedDetailAppBar,
-                  SliverToBoxAdapter(child: Gap(16)),
-                  SliverToBoxAdapter(
-                    child: Builder(
-                      builder: (context) {
-                        // 위치 추적용 context 저장
-                        feedContentContextRef.value = context;
-                        return feedContentView;
-                      },
+    return GdsScaffold(
+      appBar: feedDetailAppBar,
+      drawer: const GrimityDrawer(),
+      body: Column(
+        children: [
+          Expanded(
+            child: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(child: feedContentView),
+                buildGap(GdsSpacing.spacing32),
+                SliverToBoxAdapter(child: feedCommentsView),
+                buildGap(GdsSpacing.spacing56),
+                SliverToBoxAdapter(child: feedAuthorProfileView),
+                buildGap(GdsSpacing.spacing56),
+                SliverPadding(
+                  padding: EdgeInsets.only(
+                    left: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20,
+                    right: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20,
+                    bottom: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing24,
+                  ),
+                  sliver: SliverToBoxAdapter(
+                    child: Text(
+                      '추천 그림',
+                      style: GdsTypography.title3.copyWith(color: colors.text.grayBold),
                     ),
                   ),
-                  grayGap,
-                  SliverToBoxAdapter(child: feedCommentsView),
-                  grayGap,
-                  SliverToBoxAdapter(child: feedAuthorProfileView),
-                  grayGap,
-                  SliverToBoxAdapter(child: feedRecommendFeedView),
-                  SliverToBoxAdapter(child: Gap(52)),
-                ],
-              ),
+                ),
+                feedRecommendFeedView,
+              ],
             ),
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: AnimatedSwitcher(
-                duration: Duration(milliseconds: 200),
-                child:
-                    showCommentInputBar.value
-                        ? feedCommentInputBar
-                        : Container(
-                          color: AppColor.gray00,
-                          padding: EdgeInsets.symmetric(horizontal: 16),
-                          child: feedUtilBar,
-                        ),
-              ),
-            ),
-          ],
-        ),
+          ),
+
+          if (feedCommentInputBar != null) feedCommentInputBar!,
+        ],
       ),
     );
   }

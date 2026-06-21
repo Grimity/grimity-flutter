@@ -3,6 +3,7 @@ import 'package:gds/gds.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/util/sync_util.dart';
 import 'package:grimity/domain/entity/feed.dart';
+import 'package:grimity/domain/usecase/feed_usecases.dart';
 
 class GrimityImageFeed extends StatefulWidget {
   GrimityImageFeed({
@@ -24,6 +25,7 @@ class GrimityImageFeed extends StatefulWidget {
 
 class _GrimityImageFeedState extends State<GrimityImageFeed> {
   late Feed feed = widget.feed;
+  bool isHeartLoading = false;
 
   void onFeedUpdate(Feed newFeed) {
     if (mounted) {
@@ -62,10 +64,37 @@ class _GrimityImageFeedState extends State<GrimityImageFeed> {
       heartCount: feed.likeCount,
       viewCount: feed.viewCount,
       imageUrl: feed.thumbnail ?? '',
+      isLiked: feed.isLike ?? false,
       type: (widget.index ?? 99) < 4 ? GdsAlbumCardType.rank : GdsAlbumCardType.mainTitle,
       rank: (widget.index ?? 99) < 4 ? (widget.index ?? 99) + 1 : 1,
       onTap: () => FeedDetailRoute(id: feed.id).push(context),
       onNicknameTap: () => feed.author != null ? ProfileRoute(url: feed.author!.url).push(context) : null,
+      onHeartTap: onHeartTap,
     );
+  }
+
+  Future<void> onHeartTap() async {
+    if (isHeartLoading || feed.id.isEmpty) return;
+    isHeartLoading = true;
+
+    final prev = feed;
+    final like = !(prev.isLike ?? false);
+    final optimistic = prev.copyWith(
+      isLike: like,
+      likeCount: like ? (prev.likeCount ?? 0) + 1 : ((prev.likeCount ?? 0) - 1).clamp(0, double.infinity).toInt(),
+    );
+
+    SyncUtil.feed.notify(optimistic);
+
+    try {
+      final result = like ? await likeFeedUseCase.execute(prev.id) : await unlikeFeedUseCase.execute(prev.id);
+
+      result.fold(
+        onSuccess: (_) {},
+        onFailure: (_) => SyncUtil.feed.notify(prev),
+      );
+    } finally {
+      isHeartLoading = false;
+    }
   }
 }

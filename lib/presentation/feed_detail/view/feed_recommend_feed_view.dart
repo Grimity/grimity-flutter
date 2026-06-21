@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gap/gap.dart';
-import 'package:grimity/app/config/app_typeface.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/presentation/common/widget/grimity_feed_grid.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
@@ -14,32 +13,27 @@ class FeedRecommendFeedView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final recommendFeed = ref.watch(feedRecommendFeedDataProvider);
-
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 30, horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('추천 그림', style: AppTypeface.subTitle1),
-          Gap(16),
-          recommendFeed.when(
-            data: (data) => _RecommendFeedListView(feeds: data.feeds),
-            loading: () => Skeletonizer(child: _RecommendFeedListView(feeds: Feed.createEmptyList(context))),
-            error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(feedRecommendFeedDataProvider)),
-          ),
-        ],
-      ),
+    final scrollSpacing = context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20;
+    final scrollPadding = EdgeInsets.only(
+      left: scrollSpacing,
+      right: scrollSpacing,
+      bottom: scrollSpacing,
     );
-  }
-}
 
-class _RecommendFeedListView extends StatelessWidget {
-  const _RecommendFeedListView({required this.feeds});
-
-  final List<Feed> feeds;
-
-  @override
-  Widget build(BuildContext context) {
-    return GrimityFeedGrid(feeds: feeds);
+    return recommendFeed.when(
+      data: (data) {
+        return GrimityFeedGrid.sliver(feeds: data.feeds, padding: scrollPadding);
+      },
+      loading: () {
+        return Skeletonizer.sliver(
+          child: GrimityFeedGrid.sliver(feeds: Feed.createEmptyList(context), padding: scrollPadding),
+        );
+      },
+      error: (_, _) {
+        return SliverToBoxAdapter(
+          child: GrimityStateView.error(onTap: () => ref.invalidate(feedRecommendFeedDataProvider)),
+        );
+      },
+    );
   }
 }
