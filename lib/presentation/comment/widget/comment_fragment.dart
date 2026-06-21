@@ -47,7 +47,7 @@ class CommentFragment extends HookConsumerWidget {
     final isMyComment = comment.writer?.id == ref.watch(userAuthProvider)?.id;
     final isLike = comment.isLike ?? false;
     final commentUserInfo = GdsCommentUserInfo(
-      nickName: comment.isDeletedComment ? '탈퇴한 사용자' : comment.writer!.name,
+      nickName: comment.isDeletedComment ? '탈퇴한 사용자' : comment.writer?.name ?? '',
       onNameTap: comment.isDeletedComment ? null : () => goProfile(context, comment),
       showTag: isAuthor,
       showTime: true,
