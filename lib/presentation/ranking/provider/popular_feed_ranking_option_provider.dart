@@ -45,7 +45,13 @@ class PopularFeedRankingOption extends _$PopularFeedRankingOption {
   }
 }
 
-enum FeedRankingType { weekly, monthly }
+enum FeedRankingType {
+  weekly('주간'),
+  monthly('월간');
+
+  final String displayName;
+  const FeedRankingType(this.displayName);
+}
 
 @freezed
 abstract class PopularRankingOption with _$PopularRankingOption {
