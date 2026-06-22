@@ -1,9 +1,7 @@
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:gap/gap.dart';
-import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/app/config/app_typeface.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/presentation/common/provider/author_with_feeds_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/common/widget/layout/anti_broken.dart';
@@ -18,26 +16,37 @@ class PopularAuthorView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authorWithFeedsAsync = ref.watch(authorWithFeedsDataProvider);
+    final colors = context.gdsColors;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      spacing: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing24,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Text('인기 작가', style: AppTypeface.subTitle1.copyWith(color: AppColor.gray800)),
+          padding: EdgeInsets.symmetric(
+            horizontal: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20,
+          ),
+          child: Text(
+            '인기 작가',
+            style:
+                context.isMobile
+                    ? GdsTypography.title2.copyWith(color: colors.text.grayBold)
+                    : GdsTypography.title1.copyWith(color: colors.text.grayBold),
+          ),
         ),
-        Gap(16),
         authorWithFeedsAsync.when(
-          data:
-              (authorWithFeedsList) =>
-                  authorWithFeedsList.isEmpty
-                      ? SizedBox.shrink()
-                      : _PopularAuthorCarousel(authorWithFeedsList: authorWithFeedsList),
-          loading:
-              () => Skeletonizer(
-                child: _PopularAuthorCarousel(authorWithFeedsList: AuthorWithFeeds.createEmptyList(context)),
-              ),
-          error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(authorWithFeedsDataProvider)),
+          data: (authorWithFeeds) {
+            return _PopularAuthorCarousel(authorWithFeedsList: authorWithFeeds);
+          },
+          loading: () {
+            return Skeletonizer(
+              child: _PopularAuthorCarousel(authorWithFeedsList: AuthorWithFeeds.createEmptyList(context)),
+            );
+          },
+          error: (_, _) {
+            return GrimityStateView.error(onTap: () => ref.invalidate(authorWithFeedsDataProvider));
+          },
         ),
       ],
     );
@@ -53,61 +62,34 @@ class _PopularAuthorCarousel extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentIndex = useState(0);
     final pageController = usePageController(viewportFraction: viewportFraction);
     final visibleUserCount = authorWithFeedsList.length > 5 ? 5 : authorWithFeedsList.length;
 
-    useEffect(() {
-      pageController.addListener(() {
-        currentIndex.value = pageController.page!.round();
-      });
+    return AntiSizedBroken(
+      child: ExpandablePageView.builder(
+        animationDuration: Duration.zero,
+        animationCurve: Curves.linear,
+        padEnds: false,
+        itemCount: visibleUserCount,
+        controller: pageController,
+        itemBuilder: (context, index) {
+          final authorWithFeeds = authorWithFeedsList[index];
 
-      return null;
-    }, [pageController]);
-
-    return Column(
-      spacing: 16,
-      children: [
-        AntiSizedBroken(
-          child: ExpandablePageView.builder(
-            animationDuration: Duration.zero,
-            animationCurve: Curves.linear,
-            padEnds: false,
-            itemCount: visibleUserCount,
-            controller: pageController,
-            itemBuilder: (context, index) {
-              final authorWithFeeds = authorWithFeedsList[index];
-
-              return Padding(
-                padding: EdgeInsets.only(left: index == 0 ? 16 : 4, right: index == visibleUserCount - 1 ? 16 : 4),
-                child: GrimityAuthorWithFeedsCard(
-                  authorWithFeeds: authorWithFeeds,
-                  onFollowTab:
-                      () => ref
-                          .read(authorWithFeedsDataProvider.notifier)
-                          .toggleFollow(
-                            id: authorWithFeeds.user.id,
-                            follow: authorWithFeeds.user.isFollowing == false ? true : false,
-                          ),
-                ),
-              );
-            },
-          ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(visibleUserCount, (index) {
-            final isActive = index == currentIndex.value;
-            return AnimatedContainer(
-              duration: Duration(milliseconds: 200),
-              margin: EdgeInsets.symmetric(horizontal: 4),
-              width: 6,
-              height: 6,
-              decoration: BoxDecoration(shape: BoxShape.circle, color: isActive ? AppColor.gray700 : AppColor.gray400),
-            );
-          }),
-        ),
-      ],
+          return Padding(
+            padding: EdgeInsets.only(left: index == 0 ? 16 : 4, right: index == visibleUserCount - 1 ? 16 : 4),
+            child: GrimityAuthorWithFeedsCard(
+              authorWithFeeds: authorWithFeeds,
+              onFollowTab:
+                  () => ref
+                      .read(authorWithFeedsDataProvider.notifier)
+                      .toggleFollow(
+                        id: authorWithFeeds.user.id,
+                        follow: authorWithFeeds.user.isFollowing == false ? true : false,
+                      ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

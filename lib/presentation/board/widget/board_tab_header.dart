@@ -28,6 +28,7 @@ class BoardTabHeader extends StatelessWidget {
     }
 
     return GdsTab(
+      size: context.isMobile ? GdsTabSize.sm : GdsTabSize.md,
       items: types.map((type) => GdsTabItem(label: type.displayName, onTap: () => onTap(type))).toList(),
       index: types.indexOf(selectedType),
       showBorder: context.isMobile,
