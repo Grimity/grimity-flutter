@@ -12,11 +12,13 @@ class GrimityPostCard extends StatefulWidget {
     Key? key,
     required this.post,
     this.showPostType = false,
+    this.isBookMark = false,
     this.keyword,
   }) : super(key: key ?? ValueKey(post.id));
 
   final Post post;
   final bool showPostType;
+  final bool isBookMark;
   final String? keyword;
 
   @override
@@ -58,27 +60,53 @@ class _GrimityPostCardState extends State<GrimityPostCard> {
 
   @override
   Widget build(BuildContext context) {
+    final userInfo = GdsUserInfo.community(
+      viewCount: post.viewCount ?? 0,
+      chatCount: post.commentCount ?? 0,
+      showHeart: false,
+      showTime: true,
+      showChat: true,
+      showView: widget.showPostType,
+      timeText: post.createdAt.toRelativeTime(),
+    );
+
     return GdsGesture(
       onTap: () => PostDetailRoute(id: post.id).push(context),
-      child: GdsUserItem.title(
-        titleText: post.title,
-        showTag: false,
-        chip: widget.showPostType && post.type != null ? _buildPostTypeChip(post.type!) : null,
-        userInfo: GdsUserInfo.community(
-          viewCount: post.viewCount ?? 0,
-          chatCount: post.commentCount ?? 0,
-          showHeart: false,
-          showTime: true,
-          showChat: true,
-          showView: widget.showPostType,
-          timeText: post.createdAt.toRelativeTime(),
-        ),
+      child: Builder(
+        builder: (context) {
+          final chip = widget.showPostType ? _buildPostTypeChip(post.type ?? '') : null;
+
+          if (widget.isBookMark) {
+            return GdsUserItem.bookmark(
+              titleText: post.title,
+              showImageIcon: post.thumbnail != null,
+              showTag: widget.showPostType,
+              commentCount: post.commentCount ?? 0,
+              contentText: post.content,
+              userInfo: userInfo,
+              chip: chip,
+              showBookmark: false,
+            );
+          }
+
+          return GdsUserItem.title(
+            titleText: post.title,
+            showTag: widget.showPostType,
+            chip: chip,
+            userInfo: userInfo,
+          );
+        },
       ),
     );
   }
 
   GdsChip _buildPostTypeChip(String type) {
     final postType = PostType.fromString(type);
-    return GdsChip(text: postType.displayName, size: GdsChipSize.medium);
+
+    return GdsChip(
+      text: postType.displayName,
+      variant: postType.chipVariant,
+      size: GdsChipSize.medium,
+    );
   }
 }

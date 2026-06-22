@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:gds/gds.dart';
 
 enum PostType {
   @JsonValue('NORMAL')
@@ -34,6 +35,14 @@ enum PostType {
         return 'ALL';
     }
   }
+
+  GdsChipVariant get chipVariant => switch (this) {
+    PostType.normal => GdsChipVariant.assistive,
+    PostType.question => GdsChipVariant.assistive,
+    PostType.feedback => GdsChipVariant.assistive,
+    PostType.notice => GdsChipVariant.primary,
+    PostType.all => GdsChipVariant.assistive,
+  };
 
   // Chip 스타일 구분
   // 공지 사항의 경우 Light Chip 사용

@@ -8,32 +8,33 @@ class GrimityPostFeed extends StatelessWidget {
     required this.posts,
     this.cardHorizontalPadding = 0,
     this.showPostType = false,
+    this.isBookMark = false,
     this.keyword,
   });
 
   final List<Post> posts;
   final double cardHorizontalPadding;
   final bool showPostType;
+  final bool isBookMark;
   final String? keyword;
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: posts.length,
-      padding: EdgeInsets.zero,
-      itemBuilder: (context, index) {
-        final post = posts[index];
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: cardHorizontalPadding),
-          child: GrimityPostCard(
-            post: post,
-            showPostType: showPostType,
-            keyword: keyword,
-          ),
-        );
-      },
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ...posts.map((post) {
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: cardHorizontalPadding),
+            child: GrimityPostCard(
+              post: post,
+              showPostType: showPostType,
+              isBookMark: isBookMark,
+              keyword: keyword,
+            ),
+          );
+        }),
+      ],
     );
   }
 }

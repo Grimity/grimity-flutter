@@ -38,14 +38,18 @@ class BoardListView extends ConsumerWidget {
     return ListView(
       padding: EdgeInsets.zero,
       children: [
+        // 1페이지에서만 공지 표시
+        if (!isSearching && notifier.currentPage == 1 && noticePosts != null && noticePosts.isNotEmpty)
+          GrimityPostFeed(
+            posts: noticePosts,
+            showPostType: isSearching || type == PostType.all ? true : false,
+            cardHorizontalPadding: 16,
+          ),
+
         GrimityPostFeed(
-          posts: [
-            // 1페이지에서만 공지 표시
-            if (!isSearching && notifier.currentPage == 1 && noticePosts != null && noticePosts.isNotEmpty)
-              ...noticePosts,
-            ...posts,
-          ],
+          posts: posts,
           showPostType: isSearching || type == PostType.all ? true : false,
+          isBookMark: true,
           cardHorizontalPadding: 16,
         ),
 
