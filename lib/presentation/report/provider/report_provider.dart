@@ -13,6 +13,14 @@ part 'report_provider.freezed.dart';
 
 @riverpod
 class Report extends _$Report {
+  bool get enabled {
+    final isOther = state.type == ReportType.other;
+    final isNotUploading = state.uploading == false;
+    final isContentNotEmpty = state.content?.isNotEmpty ?? false;
+
+    return isNotUploading && state.type != null && (isOther ? isContentNotEmpty : true);
+  }
+
   @override
   ReportState build(ReportRefType refType, String refId) {
     return ReportState(refType: refType, refId: refId);

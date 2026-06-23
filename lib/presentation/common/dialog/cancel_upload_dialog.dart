@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 
 Future<T?> showCancelUploadDialog<T>(BuildContext context) {
   final alert = GdsAlert(
-    type: GdsAlertType.content,
     size: context.isMobile ? GdsAlertSize.md : GdsAlertSize.xl,
     title: '업로드를 취소하고 나가시겠어요?',
     description: '작성한 내용들은 모두 초기화돼요',

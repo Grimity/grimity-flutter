@@ -7,7 +7,6 @@ import 'package:grimity/presentation/album_edit/provider/album_edit_provider.dar
 
 void showAlbumDeleteDialog(BuildContext context, WidgetRef ref, Album album) {
   final alert = GdsAlert(
-    type: GdsAlertType.content,
     size: context.isMobile ? GdsAlertSize.md : GdsAlertSize.xl,
     title: '앨범을 삭제할까요?',
     description: '앨범을 삭제하면\n그림은 전체 항목으로 이동돼요',

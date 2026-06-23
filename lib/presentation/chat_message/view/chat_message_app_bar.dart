@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
-import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/enum/report.enum.dart';
 import 'package:grimity/presentation/chat_message/components/show_delete_chat_dialog.dart';
 import 'package:grimity/presentation/chat_message/provider/chat_message_provider.dart';
+import 'package:grimity/presentation/report/report_page.dart';
 
 class ChatMessageAppBar extends ConsumerWidget {
   const ChatMessageAppBar({super.key, required this.chatId});
@@ -24,7 +24,7 @@ class ChatMessageAppBar extends ConsumerWidget {
       onBack: () => context.pop(),
       onReport: () {
         // 신고 페이지로 이동.
-        ReportRoute(refType: ReportRefType.chat, refId: chatId).push(context);
+        ReportPage.push(context, refType: ReportRefType.chat, refId: chatId);
       },
       onSignOut: () => showDeleteChatDialog(context: context, chatId: chatId),
     );

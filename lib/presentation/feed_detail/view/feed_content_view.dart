@@ -18,6 +18,7 @@ import 'package:grimity/presentation/common/widget/popup/grimity_menu_popup.dart
 import 'package:grimity/presentation/common/widget/popup/grimity_share_popup.dart';
 import 'package:grimity/presentation/feed_detail/widget/feed_detail_delete_dialog.dart';
 import 'package:grimity/presentation/feed_detail/widget/feed_util_bar.dart';
+import 'package:grimity/presentation/report/report_page.dart';
 
 /// 피드 본문 View
 class FeedContentView extends ConsumerWidget {
@@ -128,7 +129,7 @@ class FeedContentView extends ConsumerWidget {
           label: '신고하기',
           onTap: () {
             context.pop();
-            ReportRoute(refType: ReportRefType.feed, refId: feed.id).push(context);
+            ReportPage.push(context, refId: feed.id, refType: ReportRefType.feed);
           },
         ),
       ],
