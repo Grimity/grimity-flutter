@@ -106,7 +106,7 @@ class ReportBodyView extends HookConsumerWidget with ReportMixin {
           spacing: GdsSpacing.spacing2,
           children: [
             Text(
-              '신고 사유를 선택해주세요',
+              title,
               style: GdsTypography.subtitle2.copyWith(color: colors.text.grayBold),
             ),
             Text(

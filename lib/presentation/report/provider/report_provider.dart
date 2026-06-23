@@ -16,7 +16,7 @@ class Report extends _$Report {
   bool get enabled {
     final isOther = state.type == ReportType.other;
     final isNotUploading = state.uploading == false;
-    final isContentNotEmpty = state.content?.isNotEmpty ?? false;
+    final isContentNotEmpty = state.content?.trim().isNotEmpty ?? false;
 
     return isNotUploading && state.type != null && (isOther ? isContentNotEmpty : true);
   }
