@@ -9,7 +9,6 @@ Future<void> showDeleteFeedAlert(String feedId, BuildContext context, WidgetRef 
   final router = ref.read(routerProvider);
 
   final alert = GdsAlert(
-    type: GdsAlertType.content,
     size: context.isMobile ? GdsAlertSize.md : GdsAlertSize.xl,
     title: '게시글을 삭제할까요?',
     description: '삭제 이후 되돌릴 수 없어요',

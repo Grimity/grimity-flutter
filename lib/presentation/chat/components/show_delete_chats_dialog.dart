@@ -7,7 +7,6 @@ import 'package:grimity/domain/dto/chat_request_params.dart';
 
 Future<T?> showDeleteChatsDialog<T>({required BuildContext context, required List<String> chatIds}) {
   final alert = GdsAlert(
-    type: GdsAlertType.content,
     size: context.isMobile ? GdsAlertSize.md : GdsAlertSize.xl,
     title: '채팅방을 나가시겠어요?',
     description: '지금까지 대화한 내용이 모두 사라지고\n복구가 불가능합니다.',

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/di/di_setup.dart';
@@ -6,7 +6,6 @@ import 'package:grimity/data/data_source/remote/chat_api.dart';
 
 Future<T?> showDeleteChatDialog<T>({required BuildContext context, required String chatId}) {
   final alert = GdsAlert(
-    type: GdsAlertType.content,
     size: context.isMobile ? GdsAlertSize.md : GdsAlertSize.xl,
     title: '채팅방을 나가시겠어요?',
     description: '지금까지 대화한 내용이 모두 사라지고\n복구가 불가능합니다.',

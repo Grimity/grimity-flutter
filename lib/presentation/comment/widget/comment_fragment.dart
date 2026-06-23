@@ -10,6 +10,7 @@ import 'package:grimity/presentation/comment/provider/comments_data_provider.dar
 import 'package:grimity/presentation/common/hook/layer_link.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:grimity/presentation/common/widget/popup/grimity_menu_popup.dart';
+import 'package:grimity/presentation/report/report_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CommentFragment extends HookConsumerWidget {
@@ -153,7 +154,7 @@ class CommentFragment extends HookConsumerWidget {
           label: '신고하기',
           onTap: () {
             context.pop();
-            ReportRoute(refType: commentType.reportRefType, refId: comment.id).push(context);
+            ReportPage.push(context, refId: comment.id, refType: commentType.reportRefType);
           },
         ),
         GdsMenuItem(

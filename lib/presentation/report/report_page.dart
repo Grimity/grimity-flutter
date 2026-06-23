@@ -1,30 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gds/gds.dart';
+import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/enum/report.enum.dart';
-import 'package:grimity/presentation/report/provider/report_argument_provider.dart';
+import 'package:grimity/presentation/common/widget/navigation/grimity_drawer.dart';
+import 'package:grimity/presentation/common/widget/navigation/grimity_title_top_navigation.dart';
 import 'package:grimity/presentation/report/report_view.dart';
-import 'package:grimity/presentation/report/widget/report_app_bar.dart';
-import 'package:grimity/presentation/report/view/report_body_view.dart';
-import 'package:grimity/presentation/report/widget/report_send_button.dart';
 
 class ReportPage extends StatelessWidget {
-  final ReportRefType refType;
-  final String refId;
+  const ReportPage({
+    super.key,
+    required this.refId,
+    required this.refType,
+  });
 
-  const ReportPage({super.key, required this.refType, required this.refId});
+  final String refId;
+  final ReportRefType refType;
 
   @override
   Widget build(BuildContext context) {
-    return ProviderScope(
-      overrides: [
-        reportRefTypeArgumentProvider.overrideWithValue(refType),
-        reportRefIdArgumentProvider.overrideWithValue(refId),
-      ],
-      child: ReportView(
-        reportAppBar: ReportAppBar(),
-        reportBodyView: ReportBodyView(),
-        reportSendButton: ReportSendButton(),
-      ),
+    return GdsScaffold(
+      appBar: GrimityTitleTopNavigation(title: '신고하기', showIcons: false),
+      drawer: GrimityDrawer(),
+      body: ReportView(refId: refId, refType: refType, isModal: false),
     );
+  }
+
+  static Future<T?> push<T>(
+    BuildContext context, {
+    required String refId,
+    required ReportRefType refType,
+  }) {
+    if (context.isMobile) {
+      return ReportRoute(refType: refType, refId: refId).push(context);
+    } else {
+      final child = ReportView(refId: refId, refType: refType, isModal: true);
+      final modal = GdsModal(title: '신고하기', body: child);
+
+      return modal.open(context);
+    }
   }
 }

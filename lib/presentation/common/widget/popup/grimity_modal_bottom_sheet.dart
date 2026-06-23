@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/report.enum.dart';
 import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
+import 'package:grimity/presentation/report/report_page.dart';
 
 class GrimityModalBottomSheet extends StatelessWidget {
   final List<GrimityModalButtonModel> buttons;
@@ -68,7 +68,7 @@ class GrimityModalButtonModel {
     title: '신고하기',
     onTap: () {
       context.pop();
-      ReportRoute(refType: refType, refId: refId).push(context);
+      ReportPage.push(context, refId: refId, refType: refType);
     },
   );
 }

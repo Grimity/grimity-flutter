@@ -1,112 +1,124 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
-import 'package:grimity/presentation/common/widget/text_field/grimity_text_field.dart';
-import 'package:grimity/presentation/common/widget/system/check/grimity_radio_button.dart';
-import 'package:grimity/presentation/report/provider/report_provider.dart';
+import 'package:gds/gds.dart';
 import 'package:gap/gap.dart';
-import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/presentation/report/provider/report_provider.dart';
 import 'package:grimity/app/enum/report.enum.dart';
+import 'package:grimity/presentation/report/view/report_action_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ReportBodyView extends HookConsumerWidget with ReportMixin {
-  const ReportBodyView({super.key});
+  const ReportBodyView({
+    super.key,
+    required this.isModal,
+  });
+
+  final bool isModal;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = reportState(ref);
     final notifier = reportNotifier(ref);
-    final contentController = useTextEditingController(text: state.content ?? '');
     final contentFocusNode = useFocusNode();
 
-    useEffect(() {
-      final text = state.content ?? '';
-      if (contentController.text != state.content) {
-        contentController.value = contentController.value.copyWith(
-          text: text,
-          selection: TextSelection.collapsed(offset: text.length),
-          composing: TextRange.empty,
-        );
-      }
-      return null;
-    }, [state.content]);
+    final Widget child = ListView(
+      shrinkWrap: isModal,
+      physics: isModal ? NeverScrollableScrollPhysics() : null,
+      padding: EdgeInsets.only(
+        top: isModal ? GdsSpacing.spacing8 : GdsSpacing.spacing16,
+        left: isModal ? 0 : GdsSpacing.spacing16,
+        right: isModal ? 0 : GdsSpacing.spacing16,
+        bottom: isModal ? GdsSpacing.spacing20 : GdsSpacing.spacing16,
+      ),
+      children: [
+        buildContainer(
+          context,
+          title: '신고 사유를 선택해주세요',
+          isRequired: true,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ...ReportType.values.map((type) {
+                final isSelected = state.type == type;
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: 16,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: 24),
-              child: Text('신고사유를 선택해주세요', style: AppTypeface.subTitle1.copyWith(color: AppColor.gray700)),
-            ),
-            ListView.separated(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                final reportType = ReportType.values[index];
-                final selected = state.type == reportType;
+                return GdsListItem.radio(
+                  text: type.displayName,
+                  state: isSelected ? GdsListItemState.pressed : GdsListItemState.enabled,
+                  isZeroPadding: true,
+                  onTap: () {
+                    notifier.updateType(type);
 
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _ReportReasonTile(
-                      label: reportType.displayName,
-                      selected: selected,
-                      onTap: () {
-                        notifier.updateType(reportType);
-                        if (reportType == ReportType.other) {
-                          Future.microtask(() => contentFocusNode.requestFocus());
-                        }
-                      },
-                    ),
-                    // 신고 사유 중 기타 선택 시 TextField 활성화
-                    if (reportType == ReportType.other && selected) ...[
-                      Gap(16),
-                      GrimityTextField.normal(
-                        controller: contentController,
-                        focusNode: contentFocusNode,
-                        hintText: '사유를 입력하세요',
-                        onChanged: (content) => notifier.updateContent(content),
-                        maxLines: 5,
-                        maxLength: 100,
-                        textInputAction: TextInputAction.done,
-                      ),
-                    ],
-                  ],
+                    if (type == ReportType.other) {
+                      Future.microtask(() => contentFocusNode.requestFocus());
+                    }
+                  },
                 );
-              },
-              separatorBuilder: (_, _) => Gap(16),
-              itemCount: ReportType.values.length,
+              }),
+            ],
+          ),
+        ),
+        Gap(context.isMobile ? GdsSpacing.spacing12 : GdsSpacing.spacing20),
+        buildContainer(
+          context,
+          title: '자세한 내용을 알려주세요',
+          isRequired: state.type == ReportType.other,
+          child: GdsTextArea(
+            placeholder: '구체적인 사유를 적어주세요',
+            maxLength: 500,
+            focusNode: contentFocusNode,
+            onChanged: notifier.updateContent,
+          ),
+        ),
+      ],
+    );
+
+    if (isModal) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          child,
+          ReportActionView(isModal: isModal),
+        ],
+      );
+    }
+
+    return Column(
+      children: [
+        Expanded(child: child),
+        ReportActionView(isModal: isModal),
+      ],
+    );
+  }
+
+  static Widget buildContainer(
+    BuildContext context, {
+    required Widget child,
+    required String title,
+    required bool isRequired,
+  }) {
+    final colors = context.gdsColors;
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      spacing: GdsSpacing.spacing10,
+      children: [
+        Row(
+          spacing: GdsSpacing.spacing2,
+          children: [
+            Text(
+              '신고 사유를 선택해주세요',
+              style: GdsTypography.subtitle2.copyWith(color: colors.text.grayBold),
+            ),
+            Text(
+              isRequired ? '(필수)' : '(선택)',
+              style: GdsTypography.subtitle2.copyWith(
+                color: isRequired ? colors.text.primaryNormal : colors.text.graySubtle,
+              ),
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _ReportReasonTile extends StatelessWidget {
-  const _ReportReasonTile({required this.label, required this.selected, required this.onTap});
-
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GrimityGesture(
-      onTap: onTap,
-      child: Row(
-        spacing: 12,
-        children: [
-          GrimityRadioButton(value: selected, onTap: onTap),
-          Text(label, style: AppTypeface.body2.copyWith(color: AppColor.gray800)),
-        ],
-      ),
+        child,
+      ],
     );
   }
 }
