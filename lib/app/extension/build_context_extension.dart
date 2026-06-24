@@ -18,8 +18,8 @@ extension BuildContextExtension on BuildContext {
   }
 
   /// 가로상으로 표시해야 할 사용자 피드에 대한 아이템의 최대 개수를 반환합니다.
-  int get authorFeedRowCount {
-    return feedRowCount + 1;
+  int get userRowCount {
+    return (feedRowCount / 2).toInt();
   }
 
   /// 가로상으로 표시해야 할 이미지 카드에 대한 아이템의 최대 개수를 반환합니다.

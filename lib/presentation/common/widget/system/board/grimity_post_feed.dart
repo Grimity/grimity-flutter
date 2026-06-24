@@ -8,6 +8,7 @@ class GrimityPostFeed extends StatelessWidget {
     required this.posts,
     this.cardHorizontalPadding = 0,
     this.showPostType = false,
+    this.showBookMark = false,
     this.isBookMark = false,
     this.keyword,
   });
@@ -15,6 +16,7 @@ class GrimityPostFeed extends StatelessWidget {
   final List<Post> posts;
   final double cardHorizontalPadding;
   final bool showPostType;
+  final bool showBookMark;
   final bool isBookMark;
   final String? keyword;
 
@@ -29,6 +31,7 @@ class GrimityPostFeed extends StatelessWidget {
             child: GrimityPostCard(
               post: post,
               showPostType: showPostType,
+              showBookMark: showBookMark,
               isBookMark: isBookMark,
               keyword: keyword,
             ),

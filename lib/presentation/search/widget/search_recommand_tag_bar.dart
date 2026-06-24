@@ -8,8 +8,8 @@ import 'package:grimity/presentation/search/provider/recommend_tag_data_provider
 import 'package:grimity/presentation/search/provider/search_keyword_provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class SearchRecommendTagView extends ConsumerWidget {
-  const SearchRecommendTagView({super.key});
+class SearchRecommendTagBar extends ConsumerWidget {
+  const SearchRecommendTagBar({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

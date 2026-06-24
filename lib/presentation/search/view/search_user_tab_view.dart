@@ -1,13 +1,15 @@
+import 'package:dynamic_height_list_view/dynamic_height_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:gap/gap.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/app/config/app_router.dart';
+import 'package:grimity/app/extension/build_context_extension.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/domain/entity/users.dart';
 import 'package:grimity/presentation/common/widget/grimity_infinite_scroll_pagination.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
-import 'package:grimity/presentation/common/widget/user_card/grimity_user_card.dart';
 import 'package:grimity/presentation/search/provider/search_user_data_provider.dart';
+import 'package:grimity/presentation/search/view/search_empty_state.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -24,7 +26,7 @@ class SearchUserTabView extends HookConsumerWidget with SearchUserMixin {
         final users = data.users;
 
         if (users.isEmpty) {
-          return GrimityStateView.resultNull(title: '검색 결과가 없어요', subTitle: '다른 검색어를 입력해보세요');
+          return SearchEmptyState();
         }
 
         return GrimityInfiniteScrollPagination(
@@ -46,14 +48,15 @@ class _SearchResultUserView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      child: CustomScrollView(
-        slivers: [
-          SliverGap(32),
-          _SearchUserSliverListView(users: users.users),
-        ],
-      ),
+    return CustomScrollView(
+      slivers: [
+        SliverPadding(
+          padding: EdgeInsets.all(
+            context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20,
+          ),
+          sliver: _SearchUserSliverListView(users: users.users),
+        ),
+      ],
     );
   }
 }
@@ -65,18 +68,31 @@ class _SearchUserSliverListView extends ConsumerWidget with SearchUserMixin {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return SliverList.separated(
-      itemBuilder: (context, index) {
+    return SliverDynamicHeightGridView(
+      crossAxisCount: context.userRowCount,
+      mainAxisSpacing: GdsSpacing.spacing24,
+      crossAxisSpacing: GdsSpacing.spacing16,
+      itemCount: users.length,
+      builder: (context, index) {
         final user = users[index];
-        return GrimityUserCard(
-          user: user,
+
+        return GdsUserCard(
+          type: GdsUserCardType.search,
+          nickname: user.name,
+          description: user.description ?? '',
+          coverImageUrl: user.backgroundImage,
+          profileImageUrl: user.image,
+          followerCount: user.followerCount ?? 0,
+          followingCount: user.followingCount ?? 0,
+          actionLabel: (user.isFollowing ?? false) ? '팔로우 중' : '팔로잉',
+          isActionSoild: !(user.isFollowing ?? false),
           onTap: () => ProfileRoute(url: user.url).push(context),
-          onFollowTap:
-              () => searchUserNotifier(ref).toggleFollow(id: user.id, follow: user.isFollowing == false ? true : false),
+          onActionPressed: () {
+            final newStatus = user.isFollowing == false ? true : false;
+            searchUserNotifier(ref).toggleFollow(id: user.id, follow: newStatus);
+          },
         );
       },
-      separatorBuilder: (context, index) => Gap(16),
-      itemCount: users.length,
     );
   }
 }

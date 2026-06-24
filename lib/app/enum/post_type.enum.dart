@@ -1,40 +1,31 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:gds/gds.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 enum PostType {
   @JsonValue('NORMAL')
-  normal('일반'),
+  normal('일반', 'NORMAL'),
+
   @JsonValue('QUESTION')
-  question('질문'),
+  question('질문', 'QUESTION'),
+
   @JsonValue('FEEDBACK')
-  feedback('피드백'),
+  feedback('피드백', 'FEEDBACK'),
+
   @JsonValue('NOTICE')
-  notice('공지'),
-  @JsonValue('ALL')
-  all('전체');
+  notice('공지', 'NOTICE'),
+
+  @JsonValue('All')
+  all('전체', 'ALL');
 
   final String displayName;
-
-  const PostType(this.displayName);
+  final String jsonKey;
+  const PostType(this.displayName, this.jsonKey);
 
   static PostType fromString(String value) {
     return PostType.values.firstWhere((e) => e.toJson() == value, orElse: () => PostType.normal);
   }
 
-  String toJson() {
-    switch (this) {
-      case PostType.normal:
-        return 'NORMAL';
-      case PostType.question:
-        return 'QUESTION';
-      case PostType.feedback:
-        return 'FEEDBACK';
-      case PostType.notice:
-        return 'NOTICE';
-      case PostType.all:
-        return 'ALL';
-    }
-  }
+  String toJson() => jsonKey;
 
   GdsChipVariant get chipVariant => switch (this) {
     PostType.normal => GdsChipVariant.assistive,
