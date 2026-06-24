@@ -1,56 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:gds/gds.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grimity/app/service/toast_service.dart';
-import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
-import 'package:grimity/presentation/common/widget/text_field/grimity_text_field.dart';
-import 'package:gap/gap.dart';
-import 'package:grimity/app/config/app_theme.dart';
 import 'package:grimity/presentation/search/provider/search_keyword_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SearchAppBar extends StatelessWidget {
+class SearchAppBar extends HookConsumerWidget {
   const SearchAppBar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SliverPersistentHeader(pinned: true, floating: false, delegate: _SearchAppBarDelegate());
-  }
-}
-
-class _SearchAppBarDelegate extends SliverPersistentHeaderDelegate {
-  const _SearchAppBarDelegate();
-
-  @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      color: Colors.white,
-      alignment: Alignment.centerLeft,
-      child: Row(
-        children: [
-          GrimityGesture(
-            onTap: () => Navigator.of(context).maybePop(),
-            child: Icon(Icons.arrow_back_ios_new_outlined, size: 24),
-          ),
-          Gap(8),
-          Expanded(child: _SearchTextField()),
-        ],
-      ),
-    );
-  }
-
-  @override
-  double get maxExtent => AppTheme.kToolbarHeight.height;
-
-  @override
-  double get minExtent => AppTheme.kToolbarHeight.height;
-
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) => true;
-}
-
-class _SearchTextField extends HookConsumerWidget {
-  const _SearchTextField();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -79,14 +36,15 @@ class _SearchTextField extends HookConsumerWidget {
       ref.read(searchKeywordProvider.notifier).setKeyword(kw);
     }
 
-    return GrimityTextField.small(
-      controller: controller,
-      focusNode: focusNode,
-      hintText: '검색어를 입력해주세요',
-      maxLines: 1,
-      showSearchIcon: true,
-      onSearch: () => submit(controller.text),
-      onSubmitted: (keyword) => submit(keyword),
+    return GdsTopNavigation.search(
+      onBack: context.pop,
+      field: GdsTextField.search(
+        size: GdsTextFieldSize.medium,
+        placeholder: '그림, 작가, 글을 검색해보세요.',
+        controller: controller,
+        focusNode: focusNode,
+        onEditingComplete: () => submit(controller.text),
+      ),
     );
   }
 }

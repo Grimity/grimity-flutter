@@ -13,7 +13,12 @@ class SearchPostsUseCase extends UseCase<SearchPostsRequestParam, Result<Posts>>
 
   @override
   Future<Result<Posts>> execute(SearchPostsRequestParam request) async {
-    return await _postRepository.searchPosts(request.page, request.size, request.keyword, request.searchBy);
+    return await _postRepository.searchPosts(
+      request.page,
+      request.size,
+      request.keyword,
+      request.searchBy,
+    );
   }
 }
 
@@ -23,5 +28,10 @@ class SearchPostsRequestParam {
   final String keyword;
   final SearchType searchBy;
 
-  SearchPostsRequestParam({required this.page, required this.size, required this.keyword, required this.searchBy});
+  SearchPostsRequestParam({
+    required this.page,
+    required this.size,
+    required this.keyword,
+    required this.searchBy,
+  });
 }

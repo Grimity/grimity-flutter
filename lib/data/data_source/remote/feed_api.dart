@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart' hide Headers;
-import 'package:grimity/app/enum/sort_type.enum.dart';
 import 'package:grimity/data/model/common/id_response.dart';
 import 'package:grimity/data/model/feed/feed_detail_response.dart';
 import 'package:grimity/data/model/feed/feed_rankings_response.dart';
@@ -29,7 +28,7 @@ abstract class FeedAPI {
     @Query('cursor') String? cursor,
     @Query('size') int? size,
     @Query('keyword') String keyword,
-    @Query('sort') SortType sort,
+    @Query('sort') String sort,
   );
 
   @GET('/feeds/latest')

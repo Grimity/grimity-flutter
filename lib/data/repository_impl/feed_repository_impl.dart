@@ -45,7 +45,7 @@ class FeedRepositoryImpl extends FeedRepository {
         request.cursor,
         request.size,
         request.keyword,
-        request.sort,
+        request.sort.name,
       );
       return Result.success(response.toEntity());
     } on Exception catch (e) {

@@ -7,21 +7,26 @@ class GrimityMenuPopup {
   const GrimityMenuPopup({
     required this.layerLink,
     required this.items,
+    this.title,
+    this.isOption = false,
   });
 
   final LayerLink layerLink;
   final List<GdsMenuItem> items;
+  final String? title;
+  final bool isOption;
 
   Future<void> show(BuildContext context, GdsMenuPosition position) {
     if (context.isMobile) {
       final child = Column(
         mainAxisSize: MainAxisSize.min,
+        spacing: isOption ? GdsSpacing.spacing8 : 0,
         children: items.map(_buildBottomSheetItem).toList(),
       );
 
       final bottomSheet = GdsBottomSheet(
-        title: '',
         onClose: context.pop,
+        title: title ?? '',
         child: child,
       );
 
@@ -35,10 +40,18 @@ class GrimityMenuPopup {
     }
   }
 
-  static Widget _buildBottomSheetItem(GdsMenuItem item) {
+  Widget _buildBottomSheetItem(GdsMenuItem item) {
+    if (isOption) {
+      return GdsListItem.optionCard(
+        text: item.label,
+        state: item.state,
+        onTap: item.onTap,
+      );
+    }
+
     return GdsListItem.textLarge(
       text: item.label,
-      state: GdsListItemState.enabled,
+      state: item.state,
       isNegative: false,
       onTap: item.onTap,
     );

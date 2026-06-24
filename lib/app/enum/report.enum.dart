@@ -17,15 +17,25 @@ enum ReportType {
 
 enum ReportRefType {
   @JsonValue('USER')
-  user,
+  user('USER'),
+
   @JsonValue('FEED')
-  feed,
+  feed('FEED'),
+
   @JsonValue('FEED_COMMENT')
-  feedComment,
+  feedComment('FEED_COMMENT'),
+
   @JsonValue('POST')
-  post,
+  post('POST'),
+
   @JsonValue('POST_COMMENT')
-  postComment,
+  postComment('POST_COMMENT'),
+
   @JsonValue('CHAT')
-  chat,
+  chat('CHAT');
+
+  final String jsonKey;
+  const ReportRefType(this.jsonKey);
+
+  String toJson() => jsonKey;
 }

@@ -1,16 +1,26 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 enum SubscriptionType {
   @JsonValue('FOLLOW')
-  follow,
+  follow('FOLLOW'),
+
   @JsonValue('FEED_LIKE')
-  feedLike,
+  feedLike('FEED_LIKE'),
+
   @JsonValue('FEED_COMMENT')
-  feedComment,
+  feedComment('FEED_COMMENT'),
+
   @JsonValue('FEED_REPLY')
-  feedReply,
+  feedReply('FEED_REPLY'),
+
   @JsonValue('POST_COMMENT')
-  postComment,
+  postComment('POST_COMMENT'),
+
   @JsonValue('POST_REPLY')
-  postReply,
+  postReply('POST_REPLY');
+
+  final String jsonKey;
+  const SubscriptionType(this.jsonKey);
+
+  String toJson() => jsonKey;
 }

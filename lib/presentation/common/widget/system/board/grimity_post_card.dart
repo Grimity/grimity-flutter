@@ -5,6 +5,7 @@ import 'package:grimity/app/enum/post_type.enum.dart';
 import 'package:grimity/app/extension/date_time_extension.dart';
 import 'package:grimity/app/util/sync_util.dart';
 import 'package:grimity/domain/entity/post.dart';
+import 'package:grimity/domain/usecase/post_usecases.dart';
 
 /// 게시글 위젯
 class GrimityPostCard extends StatefulWidget {
@@ -12,12 +13,14 @@ class GrimityPostCard extends StatefulWidget {
     Key? key,
     required this.post,
     this.showPostType = false,
+    this.showBookMark = false,
     this.isBookMark = false,
     this.keyword,
   }) : super(key: key ?? ValueKey(post.id));
 
   final Post post;
   final bool showPostType;
+  final bool showBookMark;
   final bool isBookMark;
   final String? keyword;
 
@@ -27,6 +30,7 @@ class GrimityPostCard extends StatefulWidget {
 
 class _GrimityPostCardState extends State<GrimityPostCard> {
   late Post post = widget.post;
+  bool _isBookmarkPending = false;
 
   void onPostUpdate(Post newPost) {
     if (mounted) {
@@ -58,6 +62,37 @@ class _GrimityPostCardState extends State<GrimityPostCard> {
     super.dispose();
   }
 
+  Future<void> onBookmarkTap() async {
+    if (_isBookmarkPending || post.id.isEmpty) return;
+
+    final postId = post.id;
+    final prevPost = post;
+    final nextIsSave = !(post.isSave ?? false);
+    final nextPost = post.copyWith(isSave: nextIsSave);
+
+    setState(() {
+      _isBookmarkPending = true;
+      post = nextPost;
+    });
+    SyncUtil.post.notify(nextPost);
+
+    final result = nextIsSave ? await savePostUseCase.execute(postId) : await removeSavedPostUseCase.execute(postId);
+
+    result.fold(
+      onSuccess: (_) {},
+      onFailure: (_) {
+        if (mounted) {
+          setState(() => post = prevPost);
+        }
+        SyncUtil.post.notify(prevPost);
+      },
+    );
+
+    if (mounted) {
+      setState(() => _isBookmarkPending = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final userInfo = GdsUserInfo.community(
@@ -85,7 +120,11 @@ class _GrimityPostCardState extends State<GrimityPostCard> {
               contentText: post.content,
               userInfo: userInfo,
               chip: chip,
-              showBookmark: false,
+              showBookmark: widget.showBookMark,
+              bookmark: GdsBookmark(
+                isBookmarked: post.isSave ?? false,
+                onTap: onBookmarkTap,
+              ),
             );
           }
 

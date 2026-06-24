@@ -14,7 +14,12 @@ abstract class PostRepository {
 
   Future<Result<void>> updatePost(String id, CreatePostRequest request);
 
-  Future<Result<Posts>> searchPosts(int page, int size, String keyword, SearchType searchBy);
+  Future<Result<Posts>> searchPosts(
+    int page,
+    int size,
+    String keyword,
+    SearchType searchBy,
+  );
 
   Future<Result<Post>> getPostDetail(String id);
 
