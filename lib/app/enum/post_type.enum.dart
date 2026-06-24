@@ -14,7 +14,7 @@ enum PostType {
   @JsonValue('NOTICE')
   notice('공지', 'NOTICE'),
 
-  @JsonValue('All')
+  @JsonValue('ALL')
   all('전체', 'ALL');
 
   final String displayName;

@@ -74,7 +74,7 @@ class SearchTabBar extends ConsumerWidget {
       layerLink: link,
       isOption: true,
       items: [
-        ...SortType.values.map((type) {
+        ...SortType.searchFeedSortValues.map((type) {
           return GdsMenuItem(
             label: type.displayName,
             state: sortType == type ? GdsListItemState.pressed : GdsListItemState.enabled,
