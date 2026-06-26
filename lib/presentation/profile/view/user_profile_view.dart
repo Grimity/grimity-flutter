@@ -169,7 +169,7 @@ class _UserProfile extends ConsumerWidget {
     ProfileViewType viewType,
   ) {
     final profileData = ref.read(profileDataProvider(user.url).notifier);
-    final canNotFollow = user.isBlocked == true && user.isBlocking == true;
+    final canFollow = user.isBlocked != true && user.isBlocking != true;
     final outlinedButtonSize = context.isMobile ? GdsOutlinedButtonSize.small : GdsOutlinedButtonSize.regular;
     final solidButtonSize = context.isMobile ? GdsSolidButtonSize.small : GdsSolidButtonSize.regular;
 
@@ -183,7 +183,7 @@ class _UserProfile extends ConsumerWidget {
             text: '프로필 편집',
             onPressed: () => context.push(ProfileEditRoute.path, extra: user),
           ),
-        ] else if (canNotFollow) ...[
+        ] else if (canFollow) ...[
           if (user.isFollowing ?? false) ...[
             GdsOutlinedButton(
               size: outlinedButtonSize,
@@ -214,7 +214,7 @@ class _UserProfile extends ConsumerWidget {
   Widget _buildLinkWrap(BuildContext context) {
     assert(user.links?.isNotEmpty ?? false);
     final colors = context.gdsColors;
-    final linkTypes = user.links!.map(LinkType.from);
+    final links = user.links!;
     final maxRenderingCount = 3;
 
     return Wrap(
@@ -223,8 +223,8 @@ class _UserProfile extends ConsumerWidget {
       direction: Axis.horizontal,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        ...linkTypes.take(maxRenderingCount).mapIndexed((index, linkType) {
-          final link = user.links![index];
+        ...links.take(maxRenderingCount).mapIndexed((index, link) {
+          final linkType = LinkType.from(link);
 
           return GdsGesture(
             onTap: () => launchUrl(Uri.parse(link.link)),
@@ -232,14 +232,14 @@ class _UserProfile extends ConsumerWidget {
           );
         }),
 
-        if (linkTypes.length > maxRenderingCount) ...[
+        if (links.length > maxRenderingCount) ...[
           GdsGesture(
             onTap: () {
               assert(user.links?.isNotEmpty ?? false);
-              showProfileLinkPopup(context, user.links ?? []);
+              showProfileLinkPopup(context, links);
             },
             child: Text(
-              '외 링크 ${linkTypes.length - maxRenderingCount}개',
+              '외 링크 ${links.length - maxRenderingCount}개',
               style: GdsTypography.label5.copyWith(color: colors.text.primaryNormal),
             ),
           ),
@@ -347,12 +347,13 @@ class _UserProfile extends ConsumerWidget {
         final user = ref.read(userAuthProvider);
         if (user == null) {
           ToastService.showFailure('사용자 정보를 불러올 수 없어요');
+          return;
         }
 
         context.pop();
 
         try {
-          final provider = LoginProvider.fromString(user?.provider ?? '');
+          final provider = LoginProvider.fromString(user.provider ?? '');
           await completeDeleteUserProcessUseCase.execute(provider);
         } catch (_) {
           ToastService.showFailure('회원 탈퇴 실패했어요');

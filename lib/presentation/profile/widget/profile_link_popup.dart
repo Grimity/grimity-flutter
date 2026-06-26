@@ -15,7 +15,8 @@ Future<void> showProfileLinkPopup(BuildContext context, List<Link> links) {
         return GdsGesture(
           onTap: () {
             context.pop();
-            launchUrl(Uri.parse(link.link));
+            final url = linkType == LinkType.email ? 'mailto:${link.link}' : link.link;
+            launchUrl(Uri.parse(url));
           },
           child: GdsUserItem.link(
             icon: linkType.icon,
