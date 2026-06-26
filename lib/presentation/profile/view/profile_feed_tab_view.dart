@@ -69,11 +69,11 @@ class ProfileFeedTabView extends HookConsumerWidget {
         ),
         feedsAsync.when(
           data: (data) {
-            return _buildFeedGrid(context, data.feeds, viewType);
+            return _buildFeedGrid(context, user, data.feeds, viewType);
           },
           loading: () {
             return Skeletonizer.sliver(
-              child: _buildFeedGrid(context, Feed.createEmptyList(context), viewType),
+              child: _buildFeedGrid(context, user, Feed.createEmptyList(context), viewType),
             );
           },
           error: (_, _) {
@@ -88,12 +88,14 @@ class ProfileFeedTabView extends HookConsumerWidget {
 
   Widget _buildFeedGrid(
     BuildContext context,
+    User user,
     List<Feed> feeds,
     ProfileViewType viewType,
   ) {
     if (feeds.isNotEmpty) {
       return GrimityFeedGrid.sliver(
         feeds: feeds,
+        authorName: user.name,
         padding: EdgeInsets.only(
           left: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20,
           right: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20,

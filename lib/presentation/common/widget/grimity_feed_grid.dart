@@ -11,11 +11,13 @@ class GrimityFeedGrid extends StatelessWidget {
     this.isSliver = false,
     this.keyword,
     this.padding = EdgeInsets.zero,
+    this.authorName,
   });
 
   final List<Feed> feeds;
   final bool isSliver;
   final String? keyword;
+  final String? authorName;
   final EdgeInsets padding;
 
   const GrimityFeedGrid.sliver({
@@ -23,6 +25,7 @@ class GrimityFeedGrid extends StatelessWidget {
     required this.feeds,
     this.keyword,
     this.padding = EdgeInsets.zero,
+    this.authorName,
   }) : isSliver = true;
 
   @override
@@ -37,10 +40,11 @@ class GrimityFeedGrid extends StatelessWidget {
           itemCount: feeds.length,
           builder: (context, index) {
             final feed = feeds[index];
+
             return GrimityImageFeed(
               feed: feed,
               keyword: keyword,
-              authorName: feed.author?.name,
+              authorName: authorName ?? feed.author?.name,
             );
           },
         ),
@@ -61,7 +65,7 @@ class GrimityFeedGrid extends StatelessWidget {
           return GrimityImageFeed(
             feed: feed,
             keyword: keyword,
-            authorName: feed.author?.name,
+            authorName: authorName ?? feed.author?.name,
           );
         },
       ),
