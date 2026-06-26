@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:gds/gds.dart';
@@ -18,6 +18,7 @@ import 'package:grimity/presentation/profile/provider/selected_sort_type_provide
 import 'package:grimity/presentation/profile/widget/profile_sort_header.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:collection/collection.dart';
 
 class ProfileFeedTabView extends HookConsumerWidget {
   const ProfileFeedTabView({super.key, required this.user});
@@ -35,7 +36,7 @@ class ProfileFeedTabView extends HookConsumerWidget {
     final feedCount =
         selectedAlbumId == null
             ? user.feedCount ?? 0
-            : userAlbums.firstWhere((album) => album.id == selectedAlbumId).feedCount ?? 0;
+            : userAlbums.firstWhereOrNull((album) => album.id == selectedAlbumId)?.feedCount ?? 0;
     final viewType = ref.watch(profileViewTypeArgumentProvider);
 
     return CustomScrollView(

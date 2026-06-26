@@ -14,7 +14,6 @@ class ProfileTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    user.feedCount;
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20,
