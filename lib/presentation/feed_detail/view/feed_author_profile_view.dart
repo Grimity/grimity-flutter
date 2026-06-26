@@ -81,7 +81,6 @@ class _AuthorProfile extends ConsumerWidget {
         personAvatar: profile?.personAvatar ?? GdsPersonAvatar(),
         followUserInfo: GdsFollowUserInfo(
           followerCount: profile?.followerCount ?? 0,
-          showFollowing: false,
         ),
         primaryActionButton: GdsOutlinedButton(
           size: GdsOutlinedButtonSize.small,

@@ -1,28 +1,68 @@
 import 'package:flutter/material.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/common/widget/grimity_cached_network_image.dart';
+import 'package:grimity/app/config/app_router.dart';
 
 class GrimityProfileBackgroundImage extends StatelessWidget {
-  const GrimityProfileBackgroundImage({super.key, this.url, this.height = 160.0});
+  const GrimityProfileBackgroundImage({
+    super.key,
+    this.url,
+    this.isMine = false,
+  });
 
   final String? url;
-  final double height;
+  final bool isMine;
+
+  static const ratio = GdsThumbnailRatio.r4x1;
 
   @override
   Widget build(BuildContext context) {
-    if (url != null) {
-      return GrimityCachedNetworkImage.cover(imageUrl: url!, width: double.infinity, height: height);
+    final colors = context.gdsColors;
+
+    if (url?.isNotEmpty == true) {
+      return GdsThumbnail(
+        width: double.infinity,
+        ratio: ratio,
+        imageUrl: url,
+      );
     }
 
-    return Container(
-      alignment: Alignment.center,
-      width: double.maxFinite,
-      height: height,
-      color: AppColor.gray300,
-      child: Assets.icons.icon.logo.svg(
-        width: 126,
-        colorFilter: ColorFilter.mode(AppColor.primary5.withValues(alpha: 0.08), BlendMode.srcIn),
+    if (isMine) {
+      return AspectRatio(
+        aspectRatio: ratio.value,
+        child: Container(
+          color: colors.bg.overlayBlack.withOpacity(GdsOpacity.opacity40),
+          alignment: Alignment.center,
+          child: Builder(
+            builder: (context) {
+              if (context.isMobile) {
+                return GdsGesture(
+                  onTap: () => ProfileEditRoute().push(context),
+                  child: SizedBox.expand(),
+                );
+              }
+
+              return GdsSolidButton(
+                size: context.isMobile ? GdsSolidButtonSize.small : GdsSolidButtonSize.regular,
+                text: '커버 추가하기',
+                leadingIcon: GdsIcon.plus,
+                onPressed: () => ProfileEditRoute().push(context),
+              );
+            },
+          ),
+        ),
+      );
+    }
+
+    return AspectRatio(
+      aspectRatio: ratio.value,
+      child: Container(
+        alignment: Alignment.center,
+        color: AppColor.gray300,
+        child: GdsIcon.logo.build(
+          height: 25,
+          color: AppColor.primary5.withValues(alpha: 0.08),
+        ),
       ),
     );
   }

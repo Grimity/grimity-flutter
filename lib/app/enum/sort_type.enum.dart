@@ -17,6 +17,7 @@ enum SortType {
   const SortType(this.displayName);
 
   static List<SortType> get profileFeedSortValues => [latest, like, oldest];
+  static List<SortType> get profilePostSortValues => [latest];
   static List<SortType> get searchFeedSortValues => [latest, popular];
 
   String toJson() => name;
