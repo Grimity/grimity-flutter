@@ -1,25 +1,21 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
-import 'package:grimity/app/config/app_color.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/app/config/app_router.dart';
-import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/app/enum/sort_type.enum.dart';
 import 'package:grimity/domain/entity/album.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/entity/user.dart';
-import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/widget/grimity_feed_grid.dart';
-import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
-import 'package:grimity/presentation/common/widget/system/sort/grimity_search_sort_header.dart';
 import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
 import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
 import 'package:grimity/presentation/profile/provider/profile_feeds_data_provider.dart';
 import 'package:grimity/presentation/profile/provider/profile_view_type_argument_provider.dart';
 import 'package:grimity/presentation/profile/provider/selected_album_provider.dart';
 import 'package:grimity/presentation/profile/provider/selected_sort_type_provider.dart';
-import 'package:grimity/presentation/profile/widget/album_chip.dart';
+import 'package:grimity/presentation/profile/widget/profile_sort_header.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -34,158 +30,152 @@ class ProfileFeedTabView extends HookConsumerWidget {
 
     final feedsAsync = ref.watch(profileFeedsDataProvider(user.id));
     final selectedAlbumId = ref.watch(selectedAlbumProvider);
+    final selectedSortType = ref.watch(selectedSortTypeProvider);
     final userAlbums = user.albums ?? [];
-    final selectedAlbumFeedCount =
+    final feedCount =
         selectedAlbumId == null
             ? user.feedCount ?? 0
             : userAlbums.firstWhere((album) => album.id == selectedAlbumId).feedCount ?? 0;
     final viewType = ref.watch(profileViewTypeArgumentProvider);
 
-    return Padding(
-      padding: EdgeInsets.only(left: 16, right: 16),
-      child: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(child: SizedBox(height: 12)),
-          SliverToBoxAdapter(
-            child: Row(
-              children: [
-                _ProfileAlbumHeader(albums: user.albums ?? [], selectedAlbumId: selectedAlbumId),
-                Gap(8),
-                if (viewType == ProfileViewType.mine) _buildAlbumEdit(context, ref),
-              ],
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: _buildSortHeader(context, ref, selectedAlbumId, selectedAlbumFeedCount, viewType),
-          ),
-          SliverToBoxAdapter(
-            child: feedsAsync.when(
-              data: (data) => _buildFeedGrid(context, data.feeds, viewType),
-              loading: () => Skeletonizer(child: _buildFeedGrid(context, Feed.createEmptyList(context), viewType)),
-              error:
-                  (error, stack) =>
-                      GrimityStateView.error(onTap: () => ref.invalidate(profileFeedsDataProvider(user.id))),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFeedGrid(BuildContext context, List<Feed> feeds, ProfileViewType viewType) {
-    if (feeds.isNotEmpty) {
-      return Padding(padding: EdgeInsets.only(bottom: 20), child: GrimityFeedGrid(feeds: feeds));
-    } else {
-      if (viewType == ProfileViewType.other) {
-        return GrimityStateView.resultNull(subTitle: '아직 업로드한 그림이 없어요');
-      }
-
-      return GrimityStateView.illust(
-        subTitle: '첫 그림을 업로드해보세요',
-        buttonText: '그림 업로드',
-        onTap: () => FeedUploadRoute().push(context),
-      );
-    }
-  }
-
-  Widget _buildAlbumEdit(BuildContext context, WidgetRef ref) {
-    return GrimityGesture(
-      onTap:
-          () => AlbumEditRoute(user.albums ?? <Album>[]).push(context).then((_) => ref.invalidate(profileDataProvider)),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50),
-          border: Border.all(color: AppColor.gray300),
+    return CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(
+          child: Gap(context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20),
         ),
-        padding: EdgeInsets.all(10),
-        child: Assets.icons.icon.albumEdit.svg(width: 16, height: 16),
-      ),
+        SliverToBoxAdapter(
+          child: _ProfileAlbumHeader(
+            user: user,
+            albums: user.albums ?? [],
+            selectedAlbumId: selectedAlbumId,
+            viewType: viewType,
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: Gap(context.isMobile ? GdsSpacing.spacing8 : GdsSpacing.spacing12),
+        ),
+        SliverToBoxAdapter(
+          child: ProfileSortHeader(
+            itemCount: feedCount,
+            sortItems: SortType.profileFeedSortValues,
+            sortValue: selectedSortType,
+            isSortEnabled: (feedsAsync.value?.feeds ?? []).isNotEmpty,
+            albumOrganize: true,
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: Gap(context.isMobile ? GdsSpacing.spacing8 : GdsSpacing.spacing12),
+        ),
+        feedsAsync.when(
+          data: (data) {
+            return _buildFeedGrid(context, data.feeds, viewType);
+          },
+          loading: () {
+            return Skeletonizer.sliver(
+              child: _buildFeedGrid(context, Feed.createEmptyList(context), viewType),
+            );
+          },
+          error: (_, _) {
+            return SliverToBoxAdapter(
+              child: GrimityStateView.error(onTap: () => ref.invalidate(profileFeedsDataProvider(user.id))),
+            );
+          },
+        ),
+      ],
     );
   }
 
-  Widget _buildSortHeader(
+  Widget _buildFeedGrid(
     BuildContext context,
-    WidgetRef ref,
-    String? selectedAlbumId,
-    int selectedAlbumFeedCount,
+    List<Feed> feeds,
     ProfileViewType viewType,
   ) {
-    return GrimitySearchSortHeader(
-      resultCount: selectedAlbumFeedCount,
-      onOrganizeTap:
-          viewType == ProfileViewType.mine
-              ? () => AlbumOrganizeRoute($extra: user).push(context).then((_) {
-                ref.invalidate(profileFeedsDataProvider);
-                ref.invalidate(profileDataProvider);
-              })
-              : null,
-      sortValue: SortType.latest,
-      sortItems:
-          SortType.profileFeedSortValues
-              .map(
-                (e) => DropdownMenuItem(
-                  value: e,
-                  child: Text(e.displayName, style: AppTypeface.caption2.copyWith(color: AppColor.gray700)),
-                ),
-              )
-              .toList(),
-      onSortChanged: (value) {
-        if (value == null) return;
-        ref.read(selectedSortTypeProvider.notifier).setSortType(value);
-      },
-      padding: EdgeInsets.zero,
-    );
+    if (feeds.isNotEmpty) {
+      return GrimityFeedGrid.sliver(
+        feeds: feeds,
+        padding: EdgeInsets.only(
+          left: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20,
+          right: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20,
+          bottom: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20,
+        ),
+      );
+    } else {
+      if (viewType == ProfileViewType.mine) {
+        return SliverToBoxAdapter(
+          child: GdsEmptyState(
+            title: '첫 그림을 업로드해보세요',
+            icon: GdsIcon.illust,
+            size: context.isMobile ? GdsEmptyStateSize.md : GdsEmptyStateSize.xl,
+            action: GdsSolidButton(
+              text: '그림 업로드',
+              size: context.isMobile ? GdsSolidButtonSize.regular : GdsSolidButtonSize.large,
+              onPressed: () => FeedUploadRoute().push(context),
+            ),
+          ),
+        );
+      }
+
+      // Other
+      return SliverToBoxAdapter(
+        child: GdsEmptyState(
+          title: '업로드한 그림이 없어요',
+          icon: GdsIcon.resultNull,
+          size: context.isMobile ? GdsEmptyStateSize.md : GdsEmptyStateSize.xl,
+        ),
+      );
+    }
   }
 }
 
 class _ProfileAlbumHeader extends HookConsumerWidget {
-  const _ProfileAlbumHeader({required this.albums, required this.selectedAlbumId});
+  const _ProfileAlbumHeader({
+    required this.user,
+    required this.albums,
+    required this.selectedAlbumId,
+    required this.viewType,
+  });
 
+  final User user;
   final List<Album> albums;
   final String? selectedAlbumId;
+  final ProfileViewType viewType;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Expanded(
-      child: Stack(
-        children: [
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Wrap(
-              spacing: 6,
-              children: [
-                AlbumChip(
-                  title: '전체',
-                  isSelected: selectedAlbumId == null,
-                  onTap: () => ref.read(selectedAlbumProvider.notifier).selectAll(),
-                ),
-                ...albums.map((album) {
-                  return AlbumChip(
-                    title: album.name,
-                    amount: album.feedCount.toString(),
-                    isSelected: selectedAlbumId == album.id,
-                    onTap: () => ref.read(selectedAlbumProvider.notifier).selectAlbum(album.id),
-                  );
-                }),
-              ],
-            ),
+    GdsCategoryAction? action;
+
+    if (viewType == ProfileViewType.mine) {
+      action = GdsCategoryAction(
+        icon: GdsIcon.folderEdit,
+        onTap: () {
+          AlbumEditRoute(user.albums ?? <Album>[]).push(context).then((_) {
+            ref.invalidate(profileDataProvider);
+          });
+        },
+      );
+    }
+
+    final spacing = context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20;
+
+    return Padding(
+      padding: action != null ? EdgeInsets.only(right: spacing) : EdgeInsets.zero,
+      child: GdsCategory(
+        size: context.isMobile ? GdsCategorySize.md : GdsCategorySize.lg,
+        padding: EdgeInsets.symmetric(horizontal: spacing),
+        action: action,
+        items: [
+          GdsCategoryItem(
+            label: '전체',
+            onTap: () => ref.read(selectedAlbumProvider.notifier).selectAll(),
+            isActive: selectedAlbumId == null,
           ),
-          Positioned(
-            right: 0,
-            top: 0,
-            bottom: 0,
-            child: Container(
-              width: 20,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: [Colors.white.withValues(alpha: 0.0), Colors.white.withValues(alpha: 0.8), Colors.white],
-                  stops: const [0.0, 0.7, 1.0],
-                ),
-              ),
-            ),
-          ),
+          ...albums.map((album) {
+            return GdsCategoryItem(
+              label: '${album.name} ${album.feedCount}',
+              isActive: selectedAlbumId == album.id,
+              onTap: () => ref.read(selectedAlbumProvider.notifier).selectAlbum(album.id),
+            );
+          }),
         ],
       ),
     );

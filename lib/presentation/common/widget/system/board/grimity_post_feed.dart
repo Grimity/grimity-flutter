@@ -11,6 +11,7 @@ class GrimityPostFeed extends StatelessWidget {
     this.showBookMark = false,
     this.isBookMark = false,
     this.keyword,
+    this.isSliver = false,
   });
 
   final List<Post> posts;
@@ -19,25 +20,35 @@ class GrimityPostFeed extends StatelessWidget {
   final bool showBookMark;
   final bool isBookMark;
   final String? keyword;
+  final bool isSliver;
 
   @override
   Widget build(BuildContext context) {
+    if (isSliver) {
+      return SliverList.builder(
+        itemCount: posts.length,
+        itemBuilder: (context, index) => _buildItem(posts[index]),
+      );
+    }
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        ...posts.map((post) {
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: cardHorizontalPadding),
-            child: GrimityPostCard(
-              post: post,
-              showPostType: showPostType,
-              showBookMark: showBookMark,
-              isBookMark: isBookMark,
-              keyword: keyword,
-            ),
-          );
-        }),
+        ...posts.map(_buildItem),
       ],
+    );
+  }
+
+  Widget _buildItem(Post post) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: cardHorizontalPadding),
+      child: GrimityPostCard(
+        post: post,
+        showPostType: showPostType,
+        showBookMark: showBookMark,
+        isBookMark: isBookMark,
+        keyword: keyword,
+      ),
     );
   }
 }

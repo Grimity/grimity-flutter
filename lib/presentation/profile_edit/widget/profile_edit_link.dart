@@ -176,7 +176,7 @@ class LinkWidget extends HookConsumerWidget {
       padding: EdgeInsets.only(bottom: 6),
       child: Row(
         children: [
-          if (!LinkType.isCustomLinkType(link.linkName)) ...[
+          if (!LinkType.from(link).isCustom) ...[
             ProfileEditDropdown(
               link: link,
               onChanged: (val) {

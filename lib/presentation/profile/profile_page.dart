@@ -46,7 +46,7 @@ class ProfilePage extends HookConsumerWidget {
             user: user,
             userProfileView: UserProfileView(user: user),
             feedTabView: ProfileFeedTabView(user: user),
-            postTabView: viewType == ProfileViewType.mine ? ProfilePostTabView(user: user) : null,
+            postTabView: ProfilePostTabView(user: user),
           );
         },
         loading: () {
@@ -56,7 +56,7 @@ class ProfilePage extends HookConsumerWidget {
             user: emptyUser,
             userProfileView: UserProfileView(user: emptyUser),
             feedTabView: ProfileFeedTabView(user: emptyUser),
-            postTabView: viewType == ProfileViewType.mine ? ProfilePostTabView(user: emptyUser) : null,
+            postTabView: ProfilePostTabView(user: emptyUser),
           );
         },
         error:

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/app/util/share_util.dart';
 
 enum ShareContentType { feed, post, profile }
@@ -70,7 +71,11 @@ class GrimitySharePopup extends StatelessWidget {
           state: GdsListItemState.enabled,
           onTap: () async {
             await ShareUtil.copyLinkToClipboard(url);
-            if (context.mounted) context.pop();
+
+            if (context.mounted) {
+              context.pop();
+              ToastService.showSuccess('링크를 복사했어요');
+            }
           },
         ),
         GdsListItem.optionCard(

@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/domain/entity/link.dart';
-import 'package:grimity/gen/assets.gen.dart';
 
 enum LinkType {
   x('X', 'https://x.com/'),
@@ -19,39 +18,20 @@ enum LinkType {
     for (var type in values) type.linkName: type,
   };
 
-  static LinkType fromLinkName(String linkName) {
-    return _byLinkName[linkName] ?? LinkType.custom;
+  static LinkType from(Link link) {
+    return _byLinkName[link.linkName] ?? LinkType.custom;
   }
 
-  static Image getLinkImage(String linkName, double width, double height) {
-    switch (fromLinkName(linkName)) {
-      case LinkType.x:
-        return Assets.images.profile.x.image(width: width, height: height);
-      case LinkType.instagram:
-        return Assets.images.profile.instagram.image(width: width, height: height);
-      case LinkType.youtube:
-        return Assets.images.profile.youtube.image(width: width, height: height);
-      case LinkType.pixiv:
-        return Assets.images.profile.pixiv.image(width: width, height: height);
-      case LinkType.email:
-        return Assets.images.profile.mail.image(width: width, height: height);
-      case LinkType.custom:
-        return Assets.images.profile.link.image(width: width, height: height);
-    }
-  }
+  GdsIcon get icon => switch (this) {
+    LinkType.x => GdsIcon.xBg,
+    LinkType.instagram => GdsIcon.instagramBg,
+    LinkType.youtube => GdsIcon.youtubeBg,
+    LinkType.pixiv => GdsIcon.pixivBg,
+    LinkType.email => GdsIcon.email,
+    LinkType.custom => GdsIcon.link,
+  };
 
-  static bool isCustomLinkType(String linkName) {
-    return fromLinkName(linkName) == LinkType.custom;
-  }
-
-  static String displayLink(Link link) {
-    final type = LinkType.values.firstWhere(
-      (e) => e.linkName == link.linkName,
-      orElse: () => LinkType.custom,
-    );
-
-    return LinkParsers.parse(type, link.link) ?? link.linkName;
-  }
+  bool get isCustom => this == LinkType.custom;
 }
 
 typedef LinkParser = String? Function(String);

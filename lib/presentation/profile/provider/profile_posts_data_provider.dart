@@ -13,7 +13,11 @@ class ProfilePostsData extends _$ProfilePostsData {
       return [];
     }
 
-    final GetUserPostsRequestParams param = GetUserPostsRequestParams(id: userId, page: 1, size: 10);
+    final GetUserPostsRequestParams param = GetUserPostsRequestParams(
+      id: userId,
+      page: 1,
+      size: 10,
+    );
 
     final result = await getUserPostsUseCase.execute(param);
     return result.fold(onSuccess: (posts) => posts, onFailure: (e) => []);
