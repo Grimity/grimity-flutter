@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimity/app/config/app_router.dart';
 
 class GrimityMenuPopup {
   const GrimityMenuPopup({
@@ -18,6 +19,8 @@ class GrimityMenuPopup {
 
   Future<void> show(BuildContext context, GdsMenuPosition position) {
     if (context.isMobile) {
+      context = rootNavigatorKey.currentContext ?? context;
+
       final child = Column(
         mainAxisSize: MainAxisSize.min,
         spacing: isOption ? GdsSpacing.spacing8 : 0,
@@ -34,8 +37,8 @@ class GrimityMenuPopup {
     } else {
       return GdsMenu(items: [items]).open(
         context,
-        layerLink: layerLink,
         position: position,
+        layerLink: layerLink,
       );
     }
   }
