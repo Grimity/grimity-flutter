@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gds/gds.dart';
-import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_router.dart';
 
 class GrimityProfileBackgroundImage extends StatelessWidget {
@@ -58,10 +57,10 @@ class GrimityProfileBackgroundImage extends StatelessWidget {
       aspectRatio: ratio.value,
       child: Container(
         alignment: Alignment.center,
-        color: AppColor.gray300,
+        color: colors.bg.secondary,
         child: GdsIcon.logo.build(
           height: 25,
-          color: AppColor.primary5.withValues(alpha: 0.08),
+          color: colors.border.graySubtle,
         ),
       ),
     );
