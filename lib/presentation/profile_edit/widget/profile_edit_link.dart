@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:gap/gap.dart';
+import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
-import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/app/config/app_typeface.dart';
 import 'package:grimity/domain/entity/link.dart';
-import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
-import 'package:grimity/presentation/common/widget/popup/grimity_select_modal_bottom_sheet.dart';
-import 'package:grimity/presentation/common/widget/text_field/grimity_text_field.dart';
 import 'package:grimity/presentation/profile/enum/link_type_enum.dart';
 import 'package:grimity/presentation/profile_edit/provider/profile_edit_provider.dart';
-import 'package:grimity/presentation/profile_edit/widget/profile_edit_dropdown.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ProfileEditLink extends HookConsumerWidget {
@@ -19,28 +12,36 @@ class ProfileEditLink extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.gdsColors;
     final profileEdit = ref.watch(profileEditProvider);
     final profileEditNotifier = ref.read(profileEditProvider.notifier);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: GdsSpacing.spacing8,
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("외부 링크", style: AppTypeface.caption1),
-            const Spacer(),
-            GrimityGesture(
-              onTap: () => profileEditNotifier.toggleLinkEditing(),
-              child: Text(
-                profileEdit.isLinkEditing ? "완료" : "순서 편집",
-                style: AppTypeface.caption1.copyWith(
-                  color: profileEdit.isLinkEditing ? AppColor.main : AppColor.gray500,
+            Text("외부 링크", style: GdsTypography.label3.copyWith(color: colors.text.grayBold)),
+
+            if (profileEdit.links.isNotEmpty) ...[
+              if (profileEdit.isLinkEditing) ...[
+                GdsTextButton(
+                  text: '완료',
+                  onPressed: profileEditNotifier.toggleLinkEditing,
                 ),
-              ),
-            ),
+              ] else ...[
+                GdsTextButton(
+                  text: '순서 편집',
+                  variant: GdsTextButtonVariant.assistive,
+                  trailingIcon: GdsIcon.sortHorizontal,
+                  onPressed: profileEditNotifier.toggleLinkEditing,
+                ),
+              ],
+            ],
           ],
         ),
-        Gap(10),
         ReorderableListView.builder(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
@@ -65,56 +66,60 @@ class ProfileEditLink extends HookConsumerWidget {
           },
           itemBuilder: (context, index) {
             final link = profileEdit.links[index];
-            return LinkWidget(
+            final isLast = index == profileEdit.links.length - 1;
+
+            return Padding(
               key: ValueKey('link-$index'),
-              link: link,
-              isLinkEditing: profileEdit.isLinkEditing,
-              profileEditNotifier: profileEditNotifier,
-              index: index,
+              padding: isLast ? EdgeInsets.zero : EdgeInsets.only(bottom: GdsSpacing.spacing8),
+              child: LinkWidget(
+                link: link,
+                index: index,
+                isLinkEditing: profileEdit.isLinkEditing,
+                profileEditNotifier: profileEditNotifier,
+              ),
             );
           },
         ),
-        Gap(10),
-        GrimityGesture(
-          onTap:
-              () => GrimitySelectModalBottomSheet.show(
-                context,
-                title: '외부 링크 선택',
-                buttons:
-                    LinkType.values
-                        .map(
-                          (e) => GrimitySelectModalButtonModel(
-                            title: e.linkName,
-                            onTap: () {
-                              profileEditNotifier.addLink(Link(linkName: e.linkName, link: e.defaultLink));
-                              context.pop();
-                            },
-                          ),
-                        )
-                        .toList(),
-              ),
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            decoration: BoxDecoration(
-              border: Border.all(color: AppColor.gray300),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Assets.icons.icon.plus.svg(
-                  width: 12,
-                  height: 12,
-                  colorFilter: ColorFilter.mode(AppColor.gray700, BlendMode.srcIn),
-                ),
-                Gap(4),
-                Text("링크 추가", style: AppTypeface.caption1),
-              ],
-            ),
-          ),
+        GdsOutlinedButton(
+          text: '링크 추가',
+          leadingIcon: GdsIcon.plus,
+          onPressed: () async {
+            final link = await openSelectBottomSheet(context);
+            if (link != null) {
+              profileEditNotifier.addLink(link);
+            }
+          },
         ),
       ],
     );
+  }
+
+  static Future<Link?> openSelectBottomSheet(BuildContext context) {
+    final bottomSheet = GdsBottomSheet(
+      title: '외부 링크 선택',
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        spacing: GdsSpacing.spacing8,
+        children: [
+          ...LinkType.values.map((type) {
+            return GdsListItem.optionCard(
+              text: type.linkName,
+              state: GdsListItemState.enabled,
+              onTap: () {
+                final link = Link(
+                  linkName: type.linkName,
+                  link: type.defaultLink,
+                );
+
+                context.pop(link);
+              },
+            );
+          }),
+        ],
+      ),
+    );
+
+    return bottomSheet.open<Link?>(context);
   }
 }
 
@@ -134,6 +139,7 @@ class LinkWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final profileEdit = ref.watch(profileEditProvider);
     final linkController = useTextEditingController(text: link.link);
     final linkNameController = useTextEditingController(text: link.linkName);
 
@@ -172,57 +178,50 @@ class LinkWidget extends HookConsumerWidget {
       };
     }, [linkFocusNode, linkNameFocusNode, link]);
 
-    return Padding(
-      padding: EdgeInsets.only(bottom: 6),
+    return IntrinsicHeight(
       child: Row(
+        spacing: GdsSpacing.spacing8,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          if (!LinkType.from(link).isCustom) ...[
-            ProfileEditDropdown(
-              link: link,
-              onChanged: (val) {
-                if (val != null) {
-                  profileEditNotifier.updateLinkName(link, val);
-                }
-              },
-            ),
-          ] else ...[
-            SizedBox(
-              width: 120,
-              child: GrimityTextField.normal(
-                controller: linkNameController,
-                focusNode: linkNameFocusNode,
-                hintText: link.linkName,
-                maxLines: 1,
-                onChanged: (val) {
-                  profileEditNotifier.updateLinkName(link, val);
-                },
-              ),
-            ),
-          ],
-          Gap(6),
           Expanded(
-            child: GrimityTextField.normal(
-              controller: linkController,
-              focusNode: linkFocusNode,
-              hintText: link.link,
-              maxLines: 1,
-              onChanged: (val) {
-                profileEditNotifier.updateLinkUrl(link, val);
+            flex: 1,
+            child: Builder(
+              builder: (context) {
+                if (LinkType.from(link).isCustom) {
+                  return GdsTextField(
+                    controller: linkNameController,
+                    focusNode: linkNameFocusNode,
+                    placeholder: '직접 입력',
+                    onChanged: (val) {
+                      profileEditNotifier.updateLinkName(link, val);
+                    },
+                  );
+                }
+
+                return GdsFilter(
+                  text: link.linkName,
+                  onTap: () async {
+                    final newLink = await ProfileEditLink.openSelectBottomSheet(context);
+                    if (newLink != null) {
+                      profileEditNotifier.updateLinkName(link, newLink.linkName);
+                    }
+                  },
+                );
               },
             ),
           ),
-          Gap(8),
-          if (isLinkEditing) ...[
-            ReorderableDragStartListener(
-              index: index,
-              child: Assets.icons.icon.dragAndDrop.svg(width: 20, height: 20),
-            ),
-          ] else ...[
-            GrimityGesture(
+          Expanded(
+            flex: 2,
+            child: GdsGroupSetting(
+              reorderIndex: index,
+              controller: linkController,
+              focusNode: linkFocusNode,
+              text: linkController.text,
+              state: profileEdit.isLinkEditing ? GdsGroupSettingState.enabled : GdsGroupSettingState.delete,
+              onChanged: (val) => profileEditNotifier.updateLinkUrl(link, val),
               onTap: () => profileEditNotifier.deleteLink(link),
-              child: Assets.icons.icon.delete.svg(width: 20, height: 20),
             ),
-          ],
+          ),
         ],
       ),
     );

@@ -1,13 +1,10 @@
+import 'package:custom_image_crop/custom_image_crop.dart';
 import 'package:flutter/material.dart';
 import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
-import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/app/config/app_router.dart';
-import 'package:grimity/gen/assets.gen.dart';
 import 'package:grimity/presentation/common/enum/upload_image_type.dart';
-import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
-import 'package:grimity/presentation/common/widget/popup/grimity_modal_bottom_sheet.dart';
-import 'package:grimity/presentation/common/widget/system/profile/grimity_profile_image.dart';
+import 'package:grimity/presentation/common/widget/popup/grimity_image_crop_popup.dart';
+import 'package:grimity/presentation/common/widget/popup/grimity_menu_popup.dart';
 import 'package:grimity/presentation/profile_edit/provider/upload_image_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:grimity/presentation/profile_edit/provider/profile_edit_provider.dart';
@@ -17,77 +14,112 @@ class ProfileEditProfileImage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isUploading = ref.watch(uploadImageProvider(UploadImageType.profile)).isUploading;
+    final type = UploadImageType.profile;
+    final colors = context.gdsColors;
+    final profileEditState = ref.watch(profileEditProvider);
+    final uploadImageState = ref.watch(uploadImageProvider(type));
+    final isUploading = uploadImageState.isUploading;
 
-    return Positioned.fill(
-      top: -40,
-      child: Align(
-        alignment: Alignment.topLeft,
-        child: GrimityGesture(
-          onTap: isUploading ? null : () => _showProfileImageBottomSheet(context, ref),
-          child: Stack(
+    return FractionalTranslation(
+      translation: Offset(0, -0.5),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Stack(
+            clipBehavior: Clip.none,
             children: [
-              GrimityProfileImage(url: ref.watch(profileEditProvider).image),
+              GdsPersonAvatar(
+                size: GdsAvatarSize.lg,
+                imageUrl: profileEditState.image,
+              ),
+
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 2,
+                      color: colors.surface.base,
+                      strokeAlign: BorderSide.strokeAlignOutside,
+                    ),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+
               if (isUploading) ...[
                 Positioned.fill(
                   child: Container(
-                    decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black.withValues(alpha: 0.3)),
-                    child: Center(child: GdsCircularLoading()),
-                  ),
-                ),
-              ] else ...[
-                Container(
-                  width: 72,
-                  height: 72,
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.4),
-                    border: Border.all(color: Colors.white, width: 4),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: Assets.icons.icon.camera.svg(
-                      width: 30,
-                      height: 30,
-                      colorFilter: ColorFilter.mode(AppColor.gray00, BlendMode.srcIn),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: colors.bg.black.withOpacity(GdsOpacity.opacity40),
                     ),
+                    child: Center(child: GdsCircularLoading()),
                   ),
                 ),
               ],
             ],
           ),
-        ),
+          FractionalTranslation(
+            translation: Offset(-0.7, 0),
+            child: GdsMenuAnchor(
+              builder: (link) {
+                return GdsIconButton.solid(
+                  icon: GdsIcon.cameraOutline,
+                  enabled: !isUploading,
+                  onPressed: () => _showProfileImageBottomSheet(context, ref, link),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  void _showProfileImageBottomSheet(BuildContext context, WidgetRef ref) {
+  Future<void> _showProfileImageBottomSheet(
+    BuildContext context,
+    WidgetRef ref,
+    LayerLink link,
+  ) {
     final type = UploadImageType.profile;
-    final uploadImage = ref.read(uploadImageProvider(type).notifier);
+    final state = ref.read(profileEditProvider);
+    final notifier = ref.read(uploadImageProvider(type).notifier);
 
-    final List<GrimityModalButtonModel> buttons = [
-      GrimityModalButtonModel(
-        title: '기본 프로필로 변경',
-        onTap: () async {
-          await uploadImage.deleteImage(type);
-
-          if (context.mounted) {
+    final items = [
+      if (state.image != null) ...[
+        GdsMenuItem(
+          label: '기본 프로필로 변경',
+          onTap: () {
             context.pop();
-          }
-        },
-      ),
-      GrimityModalButtonModel(
-        title: '프로필 변경',
+            notifier.deleteImage(type);
+          },
+        ),
+      ],
+      GdsMenuItem(
+        label: '사진으로 변경',
         onTap: () async {
-          final isSelected = await uploadImage.pickImage(type);
+          context.pop();
+          final isSelected = await notifier.pickImage(type);
 
           if (isSelected && context.mounted) {
-            context.pop();
-            CropImageRoute(type: type).push(context);
+            final popup = GrimityImageCropPopup(
+              title: '프로필 이미지 수정',
+              label: '프로필 저장',
+              imageType: type,
+              shape: CustomCropShape.Circle,
+              ratio: GdsThumbnailRatio.r1x1.value,
+            );
+
+            popup.show(context, ref);
           }
         },
       ),
     ];
 
-    GrimityModalBottomSheet.show(context, buttons: buttons);
+    final popup = GrimityMenuPopup(layerLink: link, items: items);
+
+    return popup.show(context, GdsMenuPosition.left);
   }
 }

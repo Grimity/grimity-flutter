@@ -30,7 +30,6 @@ import 'package:grimity/presentation/photo_select/photo_select_page.dart';
 import 'package:grimity/presentation/post_detail/post_detail_page.dart';
 import 'package:grimity/presentation/post_upload/post_upload_page.dart';
 import 'package:grimity/presentation/profile/profile_page.dart';
-import 'package:grimity/presentation/profile_edit/profile_crop_image_page.dart';
 import 'package:grimity/presentation/profile_edit/profile_edit_page.dart';
 import 'package:grimity/presentation/ranking/ranking_page.dart';
 import 'package:grimity/presentation/report/report_page.dart';
@@ -273,19 +272,6 @@ class ProfileEditRoute extends GoRouteData with $ProfileEditRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => ProfileEditPage();
-}
-
-@TypedGoRoute<CropImageRoute>(path: CropImageRoute.path, name: CropImageRoute.name)
-class CropImageRoute extends GoRouteData with $CropImageRoute {
-  const CropImageRoute({required this.type});
-
-  static const String path = '/crop-image';
-  static const String name = 'crop-image';
-
-  final UploadImageType type;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) => ProfileCropImagePage(type: type);
 }
 
 @TypedGoRoute<SplashRoute>(path: SplashRoute.path, name: SplashRoute.name)
