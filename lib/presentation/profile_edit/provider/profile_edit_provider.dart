@@ -115,9 +115,9 @@ class ProfileEdit extends _$ProfileEdit {
     }
   }
 
-  Future<void> updateUser() async {
+  Future<bool> updateUser() async {
     if (!await validate()) {
-      return;
+      return false;
     }
 
     final request = UpdateUserRequest(
@@ -129,12 +129,14 @@ class ProfileEdit extends _$ProfileEdit {
 
     final result = await updateUserUseCase.execute(request);
 
-    result.fold(
+    return result.fold(
       onSuccess: (data) {
         ToastService.showSuccess('프로필 수정이 완료되었어요');
+        return true;
       },
       onFailure: (error) {
         ToastService.showFailure('프로필 수정에 실패했어요');
+        return false;
       },
     );
   }
@@ -218,9 +220,9 @@ class ProfileEdit extends _$ProfileEdit {
   Future<void> handleSave(BuildContext context) async {
     final router = ref.read(routerProvider);
 
-    await updateUser();
+    final isSuccess = await updateUser();
 
-    if (context.mounted && state.isSaveable) {
+    if (isSuccess && context.mounted && state.isSaveable) {
       final newUrl = state.url;
 
       // 기존 프로필 페이지에서 사용하는 데이터 무효화
