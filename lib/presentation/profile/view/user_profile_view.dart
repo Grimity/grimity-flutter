@@ -24,6 +24,7 @@ import 'package:grimity/presentation/profile/enum/profile_view_type_enum.dart';
 import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
 import 'package:grimity/presentation/profile/provider/profile_view_type_argument_provider.dart';
 import 'package:grimity/presentation/profile/widget/profile_link_popup.dart';
+import 'package:grimity/presentation/profile_edit/profile_edit_page.dart';
 import 'package:grimity/presentation/report/report_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -150,7 +151,7 @@ class _UserProfile extends ConsumerWidget {
 
   Widget _buildProfile(BuildContext context, ProfileViewType viewType) {
     if (viewType == ProfileViewType.mine) {
-      onTap() => context.push(ProfileEditRoute.path, extra: user);
+      onTap() => ProfileEditPage.push(context);
 
       return context.isMobile
           ? GdsProfileEditAvatar.ml(imageUrl: user.image, onTap: onTap)
@@ -181,7 +182,7 @@ class _UserProfile extends ConsumerWidget {
           GdsOutlinedButton(
             size: outlinedButtonSize,
             text: '프로필 편집',
-            onPressed: () => context.push(ProfileEditRoute.path, extra: user),
+            onPressed: () => ProfileEditPage.push(context),
           ),
         ] else if (canFollow) ...[
           if (user.isFollowing ?? false) ...[

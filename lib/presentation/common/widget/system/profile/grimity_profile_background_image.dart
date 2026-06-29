@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gds/gds.dart';
-import 'package:grimity/app/config/app_router.dart';
+import 'package:grimity/presentation/profile_edit/profile_edit_page.dart';
 
 class GrimityProfileBackgroundImage extends StatelessWidget {
   const GrimityProfileBackgroundImage({
@@ -36,7 +36,7 @@ class GrimityProfileBackgroundImage extends StatelessWidget {
             builder: (context) {
               if (context.isMobile) {
                 return GdsGesture(
-                  onTap: () => ProfileEditRoute().push(context),
+                  onTap: () => ProfileEditPage.push(context),
                   child: SizedBox.expand(),
                 );
               }
@@ -45,7 +45,7 @@ class GrimityProfileBackgroundImage extends StatelessWidget {
                 size: context.isMobile ? GdsSolidButtonSize.small : GdsSolidButtonSize.regular,
                 text: '커버 추가하기',
                 leadingIcon: GdsIcon.plus,
-                onPressed: () => ProfileEditRoute().push(context),
+                onPressed: () => ProfileEditPage.push(context),
               );
             },
           ),

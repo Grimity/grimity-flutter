@@ -1,4 +1,7 @@
+import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:go_router/go_router.dart';
+import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/enum/grimity.enum.dart';
 import 'package:grimity/app/extension/string_extension.dart';
 import 'package:grimity/app/service/toast_service.dart';
@@ -8,6 +11,7 @@ import 'package:grimity/domain/entity/link.dart';
 import 'package:grimity/domain/usecase/me_usecases.dart';
 import 'package:grimity/domain/usecase/users_usecase.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
+import 'package:grimity/presentation/profile/provider/profile_data_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'profile_edit_provider.freezed.dart';
@@ -21,19 +25,31 @@ class ProfileEdit extends _$ProfileEdit {
   ProfileEditState build() {
     final user = ref.read(userAuthProvider);
 
+    late ProfileEditState state;
+
     if (user == null) {
-      return const ProfileEditState(nickname: '', originalNickname: '', description: '', url: '', links: []);
+      state = const ProfileEditState(
+        nickname: '',
+        originalNickname: '',
+        description: '',
+        url: '',
+        links: [],
+      );
+    } else {
+      state = ProfileEditState(
+        image: user.image,
+        backgroundImage: user.backgroundImage,
+        nickname: user.name,
+        originalNickname: user.name,
+        description: user.description ?? '',
+        url: user.url,
+        links: user.links ?? [],
+      );
     }
 
-    return ProfileEditState(
-      image: user.image,
-      backgroundImage: user.backgroundImage,
-      nickname: user.name,
-      originalNickname: user.name,
-      description: user.description ?? '',
-      url: user.url,
-      links: user.links ?? [],
-    );
+    state = state.copyWith(initialState: state);
+
+    return state;
   }
 
   /// 이미지 업데이트
@@ -115,12 +131,10 @@ class ProfileEdit extends _$ProfileEdit {
 
     result.fold(
       onSuccess: (data) {
-        state = state.copyWith(isSaved: true);
-        ToastService.showSuccess('프로필 수정이 완료되었습니다');
-        ref.read(userAuthProvider.notifier).getUser();
+        ToastService.showSuccess('프로필 수정이 완료되었어요');
       },
       onFailure: (error) {
-        ToastService.showFailure('프로필 수정에 실패했습니다');
+        ToastService.showFailure('프로필 수정에 실패했어요');
       },
     );
   }
@@ -200,14 +214,40 @@ class ProfileEdit extends _$ProfileEdit {
       );
     }
   }
+
+  Future<void> handleSave(BuildContext context) async {
+    final router = ref.read(routerProvider);
+
+    await updateUser();
+
+    if (context.mounted && state.isSaveable) {
+      final newUrl = state.url;
+
+      // 기존 프로필 페이지에서 사용하는 데이터 무효화
+      ref.invalidate(profileDataProvider);
+
+      // 기존 프로필 URL이 변경된 경우
+      if (state.initialState?.url != newUrl) {
+        context.pop();
+
+        WidgetsBinding.instance.addPostFrameCallback(
+          (timeStamp) => router.pushReplacement(ProfileRoute.makePath(newUrl)),
+        );
+      }
+
+      state = state.copyWith(initialState: state);
+    }
+  }
 }
 
 /// 프로필 수정 상태 클래스
 @freezed
 abstract class ProfileEditState with _$ProfileEditState {
+  const ProfileEditState._();
+
   const factory ProfileEditState({
+    ProfileEditState? initialState,
     @Default(false) bool isLoading,
-    @Default(false) bool isSaved,
     String? image,
     String? backgroundImage,
     required String nickname,
@@ -223,4 +263,30 @@ abstract class ProfileEditState with _$ProfileEditState {
     @Default(false) bool isLinkEditing,
     @Default([]) List<Link> links,
   }) = _ProfileEditState;
+
+  bool get isSaveable {
+    if (initialState == null) return false;
+
+    final hasChanges =
+        image != initialState!.image ||
+        backgroundImage != initialState!.backgroundImage ||
+        nickname != initialState!.nickname ||
+        description != initialState!.description ||
+        url != initialState!.url ||
+        _isLinksChanged(links, initialState!.links);
+
+    final isValid = nicknameState == GrimityTextFieldState.normal && urlState == GrimityTextFieldState.normal;
+
+    return !isLinkEditing && hasChanges && isValid;
+  }
+
+  bool _isLinksChanged(List<Link> current, List<Link> initial) {
+    if (current.length != initial.length) return true;
+    for (int i = 0; i < current.length; i++) {
+      if (current[i].linkName != initial[i].linkName || current[i].link != initial[i].link) {
+        return true;
+      }
+    }
+    return false;
+  }
 }

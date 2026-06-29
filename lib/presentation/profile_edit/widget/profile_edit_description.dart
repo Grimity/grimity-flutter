@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:gap/gap.dart';
-import 'package:grimity/app/config/app_typeface.dart';
-import 'package:grimity/presentation/common/widget/text_field/grimity_text_field.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/presentation/profile_edit/provider/profile_edit_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -11,23 +9,16 @@ class ProfileEditDescription extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final descriptionController = useTextEditingController(text: ref.watch(profileEditProvider).description);
+    final controller = useTextEditingController(text: ref.watch(profileEditProvider).description);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("소개글", style: AppTypeface.caption1),
-        Gap(10),
-        GrimityTextField.normal(
-          controller: descriptionController,
-          hintText: "소개 문구를 입력하세요",
-          maxLength: 100,
-          maxLines: 4,
-          onChanged: (value) {
-            ref.read(profileEditProvider.notifier).updateDescription(value);
-          },
-        ),
-      ],
+    return GdsInput.custom(
+      titleText: '자기소개',
+      child: GdsTextArea(
+        controller: controller,
+        placeholder: '자유롭게 소개를 작성해보세요',
+        maxLength: 500,
+        onChanged: ref.read(profileEditProvider.notifier).updateDescription,
+      ),
     );
   }
 }
