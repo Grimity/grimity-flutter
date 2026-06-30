@@ -23,7 +23,7 @@ class ProfileTabBar extends StatelessWidget {
         builder: (context, child) {
           return GdsTab(
             size: context.isMobile ? GdsTabSize.sm : GdsTabSize.md,
-            index: tabController.index,
+            controller: tabController,
             items: [
               GdsTabItem(label: '그림', onTap: () => tabController.animateTo(0), badge: '${user.feedCount}'),
               GdsTabItem(label: '글', onTap: () => tabController.animateTo(1), badge: '${user.postCount}'),

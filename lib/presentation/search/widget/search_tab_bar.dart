@@ -37,7 +37,7 @@ class SearchTabBar extends ConsumerWidget {
                 child: GdsTab(
                   size: context.isMobile ? GdsTabSize.sm : GdsTabSize.md,
                   showBorder: false,
-                  index: controller.index,
+                  controller: controller,
                   items: [
                     GdsTabItem(label: '그림', onTap: () => controller.animateTo(0)),
                     GdsTabItem(label: '유저', onTap: () => controller.animateTo(1)),

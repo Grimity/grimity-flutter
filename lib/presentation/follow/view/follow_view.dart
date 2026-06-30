@@ -30,7 +30,7 @@ class FollowView extends HookWidget {
                         ),
                 child: GdsTab(
                   size: context.isMobile ? GdsTabSize.sm : GdsTabSize.md,
-                  index: tabController.index,
+                  controller: tabController,
                   items: [
                     GdsTabItem(label: '팔로잉', onTap: () => tabController.animateTo(0)),
                     GdsTabItem(label: '팔로워', onTap: () => tabController.animateTo(1)),

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart' show TabController;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_appbar/flutter_appbar.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -21,7 +22,11 @@ class BoardView extends HookConsumerWidget {
 
   final List<PostType> tabList;
 
-  List<AppBar> buildAppBars(BuildContext context, ValueNotifier<PostType> type) {
+  List<AppBar> buildAppBars(
+    BuildContext context,
+    ValueNotifier<PostType> type,
+    TabController tabController,
+  ) {
     final colors = context.gdsColors;
 
     if (context.isMobile) {
@@ -53,8 +58,7 @@ class BoardView extends HookConsumerWidget {
               spacing: GdsSpacing.spacing12,
               children: [
                 BoardTabHeader(
-                  selectedType: type.value,
-                  onChanged: (newType) => type.value = newType,
+                  tabController: tabController,
                   types: tabList,
                 ),
               ],
@@ -87,8 +91,7 @@ class BoardView extends HookConsumerWidget {
             children: [
               Expanded(
                 child: BoardTabHeader(
-                  selectedType: type.value,
-                  onChanged: (newType) => type.value = newType,
+                  tabController: tabController,
                   types: tabList,
                 ),
               ),
@@ -106,9 +109,22 @@ class BoardView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final type = useState(tabList.first);
+    final tabController = useTabController(initialLength: tabList.length, keys: [tabList.length]);
+
+    useEffect(() {
+      void updateType() {
+        final newType = tabList[tabController.index];
+        if (type.value != newType) {
+          type.value = newType;
+        }
+      }
+
+      tabController.addListener(updateType);
+      return () => tabController.removeListener(updateType);
+    }, [tabController, tabList]);
 
     return AppBarConnection(
-      appBars: buildAppBars(context, type),
+      appBars: buildAppBars(context, type, tabController),
       child: Builder(
         builder: (context) {
           final postAsync = ref.watch(boardPostDataProvider(type.value));
