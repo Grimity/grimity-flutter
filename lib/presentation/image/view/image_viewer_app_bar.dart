@@ -6,7 +6,12 @@ import 'package:grimity/app/config/app_theme.dart';
 import 'package:grimity/presentation/image/provider/image_save_provider.dart';
 
 class ImageViewerAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const ImageViewerAppBar({super.key, required this.currentIndex, required this.imageUrls, required this.enableSave});
+  const ImageViewerAppBar({
+    super.key,
+    required this.currentIndex,
+    required this.imageUrls,
+    required this.enableSave,
+  });
 
   final int currentIndex;
   final List<String> imageUrls;

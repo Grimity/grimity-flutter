@@ -42,10 +42,10 @@ class ImageSave extends _$ImageSave {
       await Gal.putImage(tempPath, album: 'Grimity');
 
       state = AsyncData(null);
-      ToastService.showSuccess('이미지 저장이 완료되었어요.');
+      ToastService.showSuccess('이미지 저장이 완료되었어요');
     } catch (e, st) {
       state = AsyncError(e, st);
-      ToastService.showFailure('이미지 저장에 실패했습니다.');
+      ToastService.showFailure('이미지 저장에 실패했어요');
     } finally {
       // 임시 파일 삭제
       if (tempPath != null) {

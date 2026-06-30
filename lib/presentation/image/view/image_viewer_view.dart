@@ -1,14 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gap/gap.dart';
 import 'package:gds/gds.dart';
 import 'package:grimity/presentation/image/provider/image_save_provider.dart';
 import 'package:photo_view/photo_view.dart';
 
-class ImageViewerBodyView extends StatelessWidget {
-  const ImageViewerBodyView({
+class ImageViewerView extends ConsumerWidget {
+  const ImageViewerView({
     super.key,
     required this.imageUrls,
     required this.currentIndex,
@@ -28,41 +28,37 @@ class ImageViewerBodyView extends StatelessWidget {
   final VoidCallback onClose;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isLoading = ref.watch(imageSaveProvider).isLoading;
+
     return SafeArea(
       child: Stack(
         children: [
-          Column(
-            children: [
-              Expanded(
-                child: _ImageViewerPageView(
-                  imageUrls: imageUrls,
-                  pageController: pageController,
-                  onPageChanged: onPageChanged,
-                  isZoomed: isZoomed,
-                  onZoomChanged: onZoomChanged,
-                  onClose: onClose,
-                ),
-              ),
-              if (imageUrls.length > 1)
-                _ImageViewerThumbnailView(
+          _ImageViewerPageView(
+            imageUrls: imageUrls,
+            pageController: pageController,
+            onPageChanged: onPageChanged,
+            isZoomed: isZoomed,
+            onZoomChanged: onZoomChanged,
+            onClose: onClose,
+          ),
+
+          if (imageUrls.length > 1) ...[
+            Positioned.fill(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: _ImageViewerThumbnailView(
                   imageUrls: imageUrls,
                   currentIndex: currentIndex,
                   pageController: pageController,
                 ),
-            ],
-          ),
+              ),
+            ),
+          ],
 
-          /// 이미지 저장 진행 중 로딩 표시
-          Consumer(
-            builder: (context, ref, child) {
-              final isSaving = ref.watch(imageSaveProvider).isLoading;
-
-              if (isSaving) return Center(child: GdsCircularLoading());
-
-              return SizedBox.shrink();
-            },
-          ),
+          if (isLoading) ...[
+            Center(child: GdsCircularLoading()),
+          ],
         ],
       ),
     );
@@ -156,34 +152,38 @@ class _ImageViewerThumbnailView extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.gdsColors;
 
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: GdsSpacing.spacing16,
-        bottom: GdsSpacing.spacing32,
-        left: GdsSpacing.spacing16,
-      ),
-      child: SizedBox(
-        height: 48,
-        child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-          itemCount: imageUrls.length,
-          itemBuilder: (context, index) {
-            final isSelected = index == currentIndex;
-            return GdsGesture(
-              onTap: () => pageController.jumpToPage(index),
-              child: Container(
-                decoration: BoxDecoration(
-                  border: isSelected ? Border.all(color: colors.icon.primaryNormal, width: 1) : null,
+    return Container(
+      width: double.infinity,
+      height: 80,
+      padding: const EdgeInsets.symmetric(vertical: GdsSpacing.spacing8),
+      color: colors.bg.black.withOpacity(GdsOpacity.opacity80),
+      alignment: Alignment.center,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        padding: EdgeInsets.symmetric(
+          horizontal: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          spacing: GdsSpacing.spacing8,
+          children: [
+            ...imageUrls.mapIndexed((index, imageUrl) {
+              final isSelected = index == currentIndex;
+
+              return GdsGesture(
+                onTap: () => pageController.jumpToPage(index),
+                child: Opacity(
+                  opacity: isSelected ? 1 : 0.5,
+                  child: GdsThumbnail(
+                    imageUrl: imageUrl,
+                    width: GdsSpacing.spacing64,
+                    height: GdsSpacing.spacing64,
+                    borderRadius: BorderRadius.circular(GdsRadius.lg),
+                  ),
                 ),
-                child: GdsThumbnail(
-                  imageUrl: imageUrls[index],
-                  width: 48,
-                  height: 48,
-                ),
-              ),
-            );
-          },
-          separatorBuilder: (_, _) => Gap(GdsSpacing.spacing6),
+              );
+            }),
+          ],
         ),
       ),
     );
