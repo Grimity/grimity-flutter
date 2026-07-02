@@ -32,11 +32,11 @@ class PostLatestView extends ConsumerWidget {
         ),
         postAsync.when(
           data: (posts) {
-            return _PostFeedView(posts: posts, board: postNotifier);
+            return _PostListView(posts: posts, board: postNotifier);
           },
           loading: () {
             return Skeletonizer(
-              child: _PostFeedView(posts: Posts.empty(), board: postNotifier),
+              child: _PostListView(posts: Posts.empty(), board: postNotifier),
             );
           },
           error: (_, _) {
@@ -48,8 +48,8 @@ class PostLatestView extends ConsumerWidget {
   }
 }
 
-class _PostFeedView extends StatelessWidget {
-  const _PostFeedView({
+class _PostListView extends StatelessWidget {
+  const _PostListView({
     required this.posts,
     required this.board,
   });
