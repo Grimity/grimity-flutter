@@ -14,7 +14,7 @@ class PostLatestView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final postProvider = boardPostDataProvider(PostType.all);
-    final postNotifier = ref.read(postProvider.notifier);
+    final postNotifier = ref.watch(postProvider.notifier);
     final postAsync = ref.watch(postProvider);
     final colors = context.gdsColors;
 
