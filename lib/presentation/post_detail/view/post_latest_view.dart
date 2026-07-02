@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:grimity/app/config/app_typeface.dart';
-import 'package:grimity/domain/entity/post.dart';
+import 'package:gds/gds.dart';
+import 'package:grimity/app/enum/post_type.enum.dart';
+import 'package:grimity/domain/entity/posts.dart';
+import 'package:grimity/presentation/board/provider/board_post_data_provider.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
-import 'package:grimity/presentation/common/widget/system/board/grimity_post_feed.dart';
-import 'package:grimity/presentation/post_detail/provider/post_latest_data_provider.dart';
+import 'package:grimity/presentation/common/widget/system/board/grimity_post_view.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class PostLatestView extends ConsumerWidget {
@@ -12,29 +13,63 @@ class PostLatestView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final latestPost = ref.watch(postLatestDataProvider);
+    final postProvider = boardPostDataProvider(PostType.all);
+    final postNotifier = ref.read(postProvider.notifier);
+    final postAsync = ref.watch(postProvider);
+    final colors = context.gdsColors;
 
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 30),
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text('자유게시판 최신글', style: AppTypeface.subTitle1)],
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20,
           ),
-          latestPost.when(
-            data: (data) => GrimityPostFeed(posts: data, showPostType: true, cardHorizontalPadding: 16),
-            loading:
-                () => Skeletonizer(
-                  child: GrimityPostFeed(posts: Post.emptyList, showPostType: true, cardHorizontalPadding: 16),
-                ),
-            error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(postLatestDataProvider)),
+          child: Text(
+            '최신 글',
+            style: GdsTypography.title3.copyWith(color: colors.text.grayBold),
           ),
-        ],
-      ),
+        ),
+        postAsync.when(
+          data: (posts) {
+            return _PostFeedView(posts: posts, board: postNotifier);
+          },
+          loading: () {
+            return Skeletonizer(
+              child: _PostFeedView(posts: Posts.empty(), board: postNotifier),
+            );
+          },
+          error: (_, _) {
+            return GrimityStateView.error(onTap: () => ref.invalidate(postProvider));
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _PostFeedView extends StatelessWidget {
+  const _PostFeedView({
+    required this.posts,
+    required this.board,
+  });
+
+  final Posts posts;
+  final BoardPostData board;
+
+  @override
+  Widget build(BuildContext context) {
+    return GrimityPostView(
+      posts: posts.posts,
+      noticePosts: [],
+      totalCount: posts.totalCount ?? 0,
+      currentPage: board.currentPage,
+      size: board.size,
+      showPostType: true,
+      isBookMark: true,
+      shrinkWrap: true,
+      onPageChanged: board.goToPage,
+      cardHorizontalPadding: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20,
     );
   }
 }

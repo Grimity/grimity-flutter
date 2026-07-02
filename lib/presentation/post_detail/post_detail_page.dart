@@ -8,7 +8,6 @@ import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
 import 'package:grimity/presentation/post_detail/post_detail_view.dart';
 import 'package:grimity/presentation/post_detail/provider/post_detail_data_provider.dart';
 import 'package:grimity/presentation/post_detail/view/post_content_view.dart';
-import 'package:grimity/presentation/post_detail/widget/post_detail_app_bar.dart';
 import 'package:grimity/presentation/post_detail/widget/post_util_bar.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -26,7 +25,6 @@ class PostDetailPage extends ConsumerWidget {
         post ??= Post.empty();
         return PostDetailView(
           post: post,
-          postDetailAppBar: PostDetailAppBar(),
           postContentView: PostContentView(post: post),
           postCommentsView: CommentsView(
             id: post.id,
@@ -44,7 +42,6 @@ class PostDetailPage extends ConsumerWidget {
         return Skeletonizer(
           child: PostDetailView(
             post: post,
-            postDetailAppBar: PostDetailAppBar(),
             postContentView: PostContentView(post: post),
             postCommentsView: CommentsView(
               id: post.id,

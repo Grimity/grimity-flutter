@@ -27,14 +27,6 @@ class CommentInputBar extends HookConsumerWidget {
       return null;
     }, [state.content]);
 
-    useEffect(() {
-      notifier.focusNode = focusNode;
-
-      return () {
-        notifier.focusNode = null;
-      };
-    }, [focusNode]);
-
     void submit() {
       if (!isNotEmpty || state.uploading) return;
 

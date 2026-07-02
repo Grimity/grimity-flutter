@@ -19,6 +19,7 @@ class GrimityPostView extends StatelessWidget {
     this.isBookMark = false,
     this.keyword,
     this.cardHorizontalPadding = 16,
+    this.shrinkWrap = false,
   });
 
   final List<Post> posts;
@@ -34,6 +35,7 @@ class GrimityPostView extends StatelessWidget {
   final bool isBookMark;
   final String? keyword;
   final double cardHorizontalPadding;
+  final bool shrinkWrap;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +48,9 @@ class GrimityPostView extends StatelessWidget {
             : currentPage - 1;
 
     return ListView(
+      shrinkWrap: shrinkWrap,
       controller: scrollController,
+      physics: shrinkWrap ? NeverScrollableScrollPhysics() : null,
       padding: EdgeInsets.zero,
       children: [
         if (noticePosts.isNotEmpty)

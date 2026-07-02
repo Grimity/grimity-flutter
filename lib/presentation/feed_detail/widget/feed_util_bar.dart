@@ -9,9 +9,9 @@ import 'package:grimity/presentation/feed_detail/provider/feed_detail_data_provi
 import 'package:grimity/presentation/feed_detail/view/feed_content_view.dart';
 
 class FeedUtilBar extends ConsumerWidget {
-  final Feed feed;
-
   const FeedUtilBar({super.key, required this.feed});
+
+  final Feed feed;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
