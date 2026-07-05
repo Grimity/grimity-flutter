@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/presentation/common/widget/grimity_cached_network_image.dart';
-import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
-import 'package:grimity/presentation/common/widget/system/check/grimity_check_box.dart';
+import 'package:grimity/presentation/post_upload/provider/post_upload_page_argument_provider.dart';
 import 'package:grimity/presentation/post_upload/provider/post_upload_provider.dart';
 
 class DeletableImageBuilder extends EmbedBuilder {
@@ -37,31 +37,12 @@ class DeletableImageBuilder extends EmbedBuilder {
 
     return Consumer(
       builder: (context, ref, child) {
-        final state = ref.watch(postUploadProvider);
         final notifier = ref.read(postUploadProvider.notifier);
-        final imageEdit = state.imageEdit;
-        final selected = state.selectedImageUrls.contains(imageUrl);
+        final quillController = ref.read(postUploadQuillControllerArgumentProvider);
 
-        if (!imageEdit) {
-          return GrimityGesture(onTap: () => notifier.updateImageEdit(true), child: child);
-        }
-
-        return GrimityGesture(
-          onTap: () => notifier.toggleSelectedImageUrl(imageUrl),
-          child: Stack(
-            children: [
-              child!,
-              Positioned.fill(child: Container(color: Colors.black.withValues(alpha: 0.5))),
-              Positioned(
-                right: 16,
-                top: 16,
-                child: GrimityCheckBox(
-                  isChecked: selected,
-                  onChanged: (_) => notifier.toggleSelectedImageUrl(imageUrl),
-                ),
-              ),
-            ],
-          ),
+        return GdsGesture(
+          onTap: () => notifier.deleteImage(quillController, imageUrl),
+          child: child,
         );
       },
       child: child,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:grimity/presentation/common/widget/text_field/grimity_underline_text_field.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/presentation/post_upload/provider/post_upload_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -20,12 +20,11 @@ class PostUploadTitleTextField extends HookConsumerWidget {
       return null;
     }, [title]);
 
-    return GrimityUnderlineTextField.normal(
-      controller: controller,
-      onChanged: (value) => ref.read(postUploadProvider.notifier).updateTitle(value),
-      hintText: '제목을 입력하세요',
-      useBodyTextStyle: true,
+    return GdsTextField.title(
+      size: GdsTextFieldSize.small,
+      placeholder: '제목을 입력해주세요',
       maxLength: 32,
+      onChanged: ref.read(postUploadProvider.notifier).updateTitle,
     );
   }
 }

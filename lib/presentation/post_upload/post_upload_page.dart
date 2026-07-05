@@ -10,14 +10,11 @@ import 'package:grimity/presentation/post_upload/provider/post_upload_page_argum
 import 'package:grimity/presentation/post_upload/provider/post_upload_provider.dart';
 import 'package:grimity/presentation/post_upload/view/post_upload_body_view.dart';
 import 'package:grimity/presentation/post_upload/widget/post_upload_app_bar.dart';
-import 'package:grimity/presentation/post_upload/widget/toolbar/image_delete_toolbar.dart';
-import 'package:grimity/presentation/post_upload/widget/toolbar/quill_bottom_sheet_toolbar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class PostUploadPage extends HookConsumerWidget {
   const PostUploadPage({super.key, this.postToEdit});
 
-  final double bottomSheetHeight = 42;
   final Post? postToEdit;
 
   @override
@@ -46,8 +43,6 @@ class PostUploadPage extends HookConsumerWidget {
       child: PostUploadView(
         postUploadAppBar: PostUploadAppBar(),
         postUploadBodyView: PostUploadBodyView(),
-        bottomSheetHeight: bottomSheetHeight,
-        postUploadBottomSheet: state.imageEdit ? ImageDeleteToolbar() : QuillBottomSheetToolbar(),
       ),
     );
   }

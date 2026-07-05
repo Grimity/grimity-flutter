@@ -8,13 +8,11 @@ class AlbumOrganizeView extends ConsumerWidget {
     required this.albumOrganizeAppBar,
     required this.albumOrganizeDrawer,
     required this.albumOrganizeBodyView,
-    required this.albumOrganizeFabView,
   });
 
   final Widget albumOrganizeAppBar;
   final Widget albumOrganizeDrawer;
   final Widget albumOrganizeBodyView;
-  final Widget albumOrganizeFabView;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

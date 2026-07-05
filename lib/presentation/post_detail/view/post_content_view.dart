@@ -4,7 +4,6 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:gap/gap.dart';
 import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
-import 'package:grimity/app/config/app_color.dart';
 import 'package:grimity/app/config/app_config.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/enum/post_type.enum.dart';
@@ -249,7 +248,7 @@ class _PostContentSection extends StatelessWidget {
           case 'p':
             return {'font-size': '16px', 'font-weight': '500', 'line-height': '24px', 'margin': '0 0 6px 0'};
           case 'a':
-            return {'color': AppColor.link.toHexColor(), 'text-decoration': 'none'};
+            return {'color': colors.text.primaryNormal.toHexColor(), 'text-decoration': 'none'};
           case 'strong':
           case 'b':
             return {'font-weight': '700'};

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grimity/app/config/app_color.dart';
+import 'package:gds/gds.dart';
 import 'package:grimity/presentation/common/layout/grimity_uploading_layout.dart';
 import 'package:grimity/presentation/post_upload/provider/post_upload_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,32 +9,24 @@ class PostUploadView extends ConsumerWidget {
     super.key,
     required this.postUploadAppBar,
     required this.postUploadBodyView,
-    required this.postUploadBottomSheet,
-    required this.bottomSheetHeight,
   });
 
-  final PreferredSizeWidget postUploadAppBar;
+  final Widget postUploadAppBar;
   final Widget postUploadBodyView;
-  final Widget postUploadBottomSheet;
-  final double bottomSheetHeight;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(postUploadProvider);
     final uploading = state.uploading;
 
-    final child = Container(
-      color: AppColor.gray00,
-      child: SafeArea(
-        top: false,
-        child: Scaffold(
-          appBar: postUploadAppBar,
-          body: Padding(padding: EdgeInsets.only(bottom: bottomSheetHeight), child: postUploadBodyView),
-          bottomSheet: postUploadBottomSheet,
-        ),
+    return GrimityUploadingLayout(
+      uploading: uploading,
+      title: '게시글을 업로드 중이에요',
+      description: '게시글 업로드 도중 화면을 닫거나\n뒤로가면 업로드가 중단될 수 있어요',
+      child: GdsScaffold(
+        appBar: postUploadAppBar,
+        body: postUploadBodyView,
       ),
     );
-
-    return GrimityUploadingLayout(uploading: uploading, child: child);
   }
 }
