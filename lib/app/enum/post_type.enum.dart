@@ -21,6 +21,13 @@ enum PostType {
   final String jsonKey;
   const PostType(this.displayName, this.jsonKey);
 
+  /// 사용자가 업로드 가능한 [PostType] 목록
+  static const List<PostType> uploadableTypes = [
+    PostType.normal,
+    PostType.question,
+    PostType.feedback,
+  ];
+
   static PostType fromString(String value) {
     return PostType.values.firstWhere((e) => e.toJson() == value, orElse: () => PostType.normal);
   }

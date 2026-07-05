@@ -4,7 +4,6 @@ import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/album_organize/album_organize_view.dart';
 import 'package:grimity/presentation/album_organize/provider/album_organize_page_argument_provider.dart';
 import 'package:grimity/presentation/album_organize/view/album_organize_body_view.dart';
-import 'package:grimity/presentation/album_organize/view/album_organize_fab_view.dart';
 import 'package:grimity/presentation/album_organize/widget/album_organize_app_bar.dart';
 import 'package:grimity/presentation/common/widget/navigation/grimity_drawer.dart';
 
@@ -22,7 +21,6 @@ class AlbumOrganizePage extends ConsumerWidget {
         albumOrganizeAppBar: AlbumOrganizeAppBar(),
         albumOrganizeDrawer: GrimityDrawer(),
         albumOrganizeBodyView: AlbumOrganizeBodyView(),
-        albumOrganizeFabView: AlbumOrganizeFabView(),
       ),
     );
   }

@@ -1,95 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
-import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/app/config/app_theme.dart';
-import 'package:grimity/app/config/app_typeface.dart';
+import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/enum/post_type.enum.dart';
-import 'package:grimity/gen/assets.gen.dart';
+import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/presentation/common/dialog/cancel_upload_dialog.dart';
-import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
-import 'package:grimity/presentation/common/widget/popup/grimity_select_modal_bottom_sheet.dart';
+import 'package:grimity/presentation/common/widget/popup/grimity_select_popup.dart';
 import 'package:grimity/presentation/post_upload/provider/post_upload_page_argument_provider.dart';
 import 'package:grimity/presentation/post_upload/provider/post_upload_provider.dart';
-import 'package:grimity/presentation/post_upload/widget/post_upload_complete_dialog.dart';
 
-class PostUploadAppBar extends StatelessWidget implements PreferredSizeWidget {
+class PostUploadAppBar extends ConsumerWidget {
   const PostUploadAppBar({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      toolbarHeight: AppTheme.kToolbarHeight.height,
-      leading: Center(
-        child: GrimityGesture(
-          onTap: () => showCancelUploadDialog(context),
-          child: Assets.icons.icon.close.svg(width: 24, height: 24),
-        ),
-      ),
-      title: Consumer(
-        builder: (context, ref, child) {
-          final type = ref.watch(postUploadProvider).type;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(postUploadProvider);
 
-          return GrimityGesture(
-            onTap: () {
-              GrimitySelectModalBottomSheet.show(
-                context,
-                title: '카테고리 선택',
-                buttons:
-                    [PostType.normal, PostType.question, PostType.feedback]
-                        .map(
-                          (e) => GrimitySelectModalButtonModel(
-                            title: e.displayName,
-                            isSelected: e == type,
-                            onTap: () {
-                              context.pop();
-                              ref.read(postUploadProvider.notifier).updateType(e);
-                            },
-                          ),
-                        )
-                        .toList(),
-              );
-            },
-            child: Row(
-              children: [Text(type.displayName, style: AppTypeface.subTitle3), Icon(Icons.expand_more, size: 24)],
-            ),
-          );
-        },
-      ),
-      titleSpacing: 0,
-      actions: [
-        Consumer(
-          builder: (context, ref, child) {
-            final canUpload = ref.watch(postUploadProvider).canUpload;
-
-            return TextButton(
-              onPressed:
-                  canUpload
-                      ? () async {
-                        final uploadedPost = await ref
-                            .read(postUploadProvider.notifier)
-                            .postUpload(ref.read(postUploadQuillControllerArgumentProvider));
-                        if (uploadedPost != null && context.mounted) {
-                          showUploadCompleteDialog(
-                            context,
-                            uploadedPost,
-                            ref.read(postUploadProvider.notifier).isNewUpload,
-                          );
-                        }
-                      }
-                      : null,
-              child: Text(
-                '등록',
-                style: AppTypeface.subTitle4.copyWith(color: canUpload ? AppColor.main : AppColor.gray500),
-              ),
-            );
-          },
-        ),
-      ],
-      actionsPadding: EdgeInsets.zero,
+    return GdsTopNavigation.editor(
+      title: state.type.displayName,
+      label: '업로드',
+      onSave: () => _onSave(context, ref),
+      onBack: () => showCancelUploadDialog(context),
+      onTitle: () => _showUploadTypeSelectPopup(context, ref),
+      saveEnabled: state.canUpload,
     );
   }
 
-  @override
-  Size get preferredSize => AppTheme.kToolbarHeight;
+  void _onSave(BuildContext context, WidgetRef ref) async {
+    final quillController = ref.read(postUploadQuillControllerArgumentProvider);
+    final postUpload = ref.read(postUploadProvider.notifier);
+    final uploadPost = await postUpload.postUpload(quillController);
+
+    if (uploadPost != null && context.mounted) {
+      PostDetailRoute(id: uploadPost.id).pushReplacement(context);
+      ToastService.showSuccess('글을 업로드했어요');
+    }
+  }
+
+  Future<void> _showUploadTypeSelectPopup(BuildContext context, WidgetRef ref) {
+    final state = ref.read(postUploadProvider);
+    final popup = GrimitySelectPopup(
+      title: '말머리 선택',
+      items: [
+        ...PostType.uploadableTypes.map((type) {
+          return GrimitySelectPopupItem(
+            label: type.displayName,
+            isSelected: type == state.type,
+            onTap: () {
+              context.pop();
+              ref.read(postUploadProvider.notifier).updateType(type);
+            },
+          );
+        }),
+      ],
+    );
+
+    return popup.show(context);
+  }
 }

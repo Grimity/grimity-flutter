@@ -23,6 +23,11 @@ class FeedUploadView extends ConsumerWidget {
       body: feedUploadBodyView,
     );
 
-    return GrimityUploadingLayout(uploading: uploading, child: child);
+    return GrimityUploadingLayout(
+      title: '이미지를 업로드 중이에요',
+      description: '이미지 업로드 도중 화면을 닫거나\n뒤로가면 업로드가 중단될 수 있어요',
+      uploading: uploading,
+      child: child,
+    );
   }
 }

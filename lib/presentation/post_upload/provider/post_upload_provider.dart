@@ -84,6 +84,26 @@ class PostUpload extends _$PostUpload {
     final targets = state.selectedImageUrls;
     if (targets.isEmpty) return;
 
+    _deleteImages(controller: controller, targets: targets);
+
+    state = state.copyWith(
+      contentDeltaOps: controller.document.toDelta().toJson(),
+      selectedImageUrls: [],
+      imageEdit: false,
+    );
+  }
+
+  void deleteImage(QuillController controller, String imageUrl) {
+    _deleteImages(controller: controller, targets: [imageUrl]);
+
+    state = state.copyWith(
+      contentDeltaOps: controller.document.toDelta().toJson(),
+      selectedImageUrls: [],
+      imageEdit: false,
+    );
+  }
+
+  void _deleteImages({required QuillController controller, required List<String> targets}) {
     final delta = controller.document.toDelta();
     final toDeleteOffsets = <int>[];
     int offset = 0;
@@ -123,11 +143,6 @@ class PostUpload extends _$PostUpload {
     }
 
     // 3) 상태 갱신 (에디터 화면과 provider 상태 동기화)
-    state = state.copyWith(
-      contentDeltaOps: controller.document.toDelta().toJson(),
-      selectedImageUrls: [],
-      imageEdit: false,
-    );
   }
 
   void _setUploading(bool isUploading) {
