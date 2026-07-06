@@ -22,6 +22,7 @@ class PostUploadTitleTextField extends HookConsumerWidget {
 
     return GdsTextField.title(
       size: GdsTextFieldSize.small,
+      controller: controller,
       placeholder: '제목을 입력해주세요',
       maxLength: 32,
       onChanged: ref.read(postUploadProvider.notifier).updateTitle,
