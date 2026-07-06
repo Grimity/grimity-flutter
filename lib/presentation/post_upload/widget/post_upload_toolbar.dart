@@ -49,8 +49,11 @@ class PostUploadToolbar extends HookConsumerWidget {
       },
       onImageUpload: () async {
         await PhotoSelectRoute(type: UploadImageType.post).push(context);
-        ref.read(postUploadProvider.notifier).insertImage(controller: quillController);
-        editorType.value = GdsEditorType.none;
+
+        if (context.mounted) {
+          ref.read(postUploadProvider.notifier).insertImage(controller: quillController);
+          editorType.value = GdsEditorType.none;
+        }
       },
       onAddLink: () {
         _showLinkPopup(context, quillController);

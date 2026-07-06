@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:gds/gds.dart';
-import 'package:grimity/app/config/app_color.dart';
 
 class AppTypefaceEditor {
   const AppTypefaceEditor({required this.context});
