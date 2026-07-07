@@ -35,7 +35,7 @@ class PostDetailView extends HookConsumerWidget {
     final scrollController = useScrollController();
 
     return GdsScaffold(
-      appBar: GrimityTitleTopNavigation(title: '', showTitle: false),
+      appBar: GrimityTitleTopNavigation(),
       drawer: const GrimityDrawer(),
       body: SafeArea(
         child: Column(
