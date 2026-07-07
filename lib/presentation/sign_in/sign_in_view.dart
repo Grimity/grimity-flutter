@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:grimity/app/config/app_color.dart';
+import 'package:gds/gds.dart';
 
 class SignInView extends StatelessWidget {
   const SignInView({
@@ -17,8 +16,15 @@ class SignInView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.primary4,
-      body: Stack(children: [signInMediaWallView, signInGradient, signInBodyView]),
+      body: Stack(
+        children: [
+          signInMediaWallView,
+          signInGradient,
+          SafeArea(
+            child: GdsToastHost(child: signInBodyView),
+          ),
+        ],
+      ),
     );
   }
 }
