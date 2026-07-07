@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/domain/entity/feed.dart';
@@ -41,7 +41,7 @@ class FeedDetailPage extends HookConsumerWidget {
 
         return FeedDetailView(
           feed: feed,
-          feedDetailAppBar: GrimityTitleTopNavigation(title: '', showTitle: false),
+          feedDetailAppBar: GrimityTitleTopNavigation(),
           feedContentView: FeedContentView(feed: feed),
           feedCommentsView:
               isBlockedUser
@@ -63,7 +63,7 @@ class FeedDetailPage extends HookConsumerWidget {
         return Skeletonizer(
           child: FeedDetailView(
             feed: feed,
-            feedDetailAppBar: GrimityTitleTopNavigation(title: '', showTitle: false),
+            feedDetailAppBar: GrimityTitleTopNavigation(),
             feedContentView: FeedContentView(feed: feed),
             feedCommentsView: CommentsView(
               id: feed.id,

@@ -6,7 +6,6 @@ import 'package:grimity/app/config/app_const.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/enum/login_provider.enum.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
-import 'package:grimity/presentation/follow/follow_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class GrimityDrawer extends ConsumerWidget {
@@ -28,8 +27,8 @@ class GrimityDrawer extends ConsumerWidget {
       onAvatarTap: () => _pushProfile(context, user?.url),
       onHandleTap: () => _pushProfile(context, user?.url),
       onNickNameTap: () => _pushProfile(context, user?.url),
-      onFollowerTap: () => FollowPage.push(context),
-      onFollowingTap: () => FollowPage.push(context),
+      onFollowerTap: () => _push(context, FollowRoute.path),
+      onFollowingTap: () => _push(context, FollowRoute.path),
       onTermsOfServiceTap: () => launchUrl(Uri.parse(AppConst.serviceTermsUrl)),
       onPrivacyPolicyTap: () => launchUrl(Uri.parse(AppConst.privacyPolicyUrl)),
       onBusinessInfoTap: () => const BusinessInfoRoute().push(context),
@@ -47,7 +46,7 @@ class GrimityDrawer extends ConsumerWidget {
         ),
         GdsSidebarNavigationItem(
           icon: GdsIcon.board,
-          label: '자유 게시판',
+          label: '자유게시판',
           onTap: () => _go(context, BoardRoute.path),
         ),
         GdsSidebarNavigationItem(
@@ -64,12 +63,12 @@ class GrimityDrawer extends ConsumerWidget {
         GdsSidebarNavigationItem(
           icon: GdsIcon.inbox,
           label: '보관함',
-          onTap: () => const StorageRoute().push(context),
+          onTap: () => _push(context, StorageRoute.path),
         ),
         GdsSidebarNavigationItem(
           icon: GdsIcon.settings,
           label: '설정',
-          onTap: () => const SettingRoute().push(context),
+          onTap: () => _push(context, SettingRoute.path),
         ),
       ],
     );
@@ -78,6 +77,11 @@ class GrimityDrawer extends ConsumerWidget {
   void _go(BuildContext context, String path) {
     context.pop();
     context.go(path);
+  }
+
+  void _push(BuildContext context, String path) {
+    context.pop();
+    context.push(path);
   }
 
   void _pushProfile(BuildContext context, String? url) {

@@ -7,21 +7,19 @@ import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 class GrimityTitleTopNavigation extends ConsumerWidget {
   const GrimityTitleTopNavigation({
     super.key,
-    required this.title,
+    this.title,
     this.onBack,
     this.onSearch,
     this.onAvatar,
     this.onNotification,
-    this.showTitle = true,
     this.showIcons = true,
   });
 
-  final String title;
+  final String? title;
   final VoidCallback? onBack;
   final VoidCallback? onSearch;
   final VoidCallback? onAvatar;
   final VoidCallback? onNotification;
-  final bool showTitle;
   final bool showIcons;
 
   @override
@@ -30,14 +28,14 @@ class GrimityTitleTopNavigation extends ConsumerWidget {
     final hasNotification = ref.watch(userAuthProvider.select((user) => user?.hasNotification ?? false));
 
     return GdsTopNavigation.title(
-      title: title,
+      title: title ?? '',
       onBack: onBack ?? () => Navigator.maybePop(context),
       onSearch: onSearch ?? () => const SearchRoute().push(context),
       onAvatar: onAvatar ?? () => Scaffold.maybeOf(context)?.openEndDrawer(),
       onNotification: onNotification ?? () => const NotificationRoute().push(context),
       avatarImageUrl: avatarImage,
       hasNotification: hasNotification,
-      showTitle: showTitle,
+      showTitle: title != null,
       showIcons: showIcons,
     );
   }

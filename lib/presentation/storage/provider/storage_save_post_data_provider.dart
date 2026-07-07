@@ -27,7 +27,7 @@ class SavePostData extends _$SavePostData with PaginationMixin, PostMixin<Posts>
   }
 
   Future<Posts> _fetch(int page) async {
-    final GetSavePostsRequestParam param = GetSavePostsRequestParam(page: currentPage, size: size);
+    final GetSavePostsRequestParam param = GetSavePostsRequestParam(page: page, size: size);
 
     final result = await getSavePostsUseCase.execute(param);
 
@@ -44,6 +44,30 @@ class SavePostData extends _$SavePostData with PaginationMixin, PostMixin<Posts>
     setPagination(page: page);
     state = const AsyncLoading();
     state = await AsyncValue.guard(() => _fetch(page));
+  }
+
+  Future<void> loadMore() async {
+    final currentState = state.value;
+    if (currentState == null) {
+      return;
+    }
+
+    final loadedCount = currentState.posts.length;
+    final totalCount = currentState.totalCount ?? loadedCount;
+    if (loadedCount >= totalCount) {
+      return;
+    }
+
+    final nextPage = currentPage + 1;
+    setPagination(page: nextPage);
+
+    final nextPosts = await _fetch(nextPage);
+    state = AsyncValue.data(
+      currentState.copyWith(
+        posts: [...currentState.posts, ...nextPosts.posts],
+        totalCount: nextPosts.totalCount ?? currentState.totalCount,
+      ),
+    );
   }
 
   Future<void> removeSave({required String postId}) => onToggleSave(

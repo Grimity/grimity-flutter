@@ -110,11 +110,11 @@ class GrimityUtilBar extends HookConsumerWidget {
         ] else ...[
           _buildItem(
             context: context,
-            icon: isLike ? GdsIcon.bookmarkFill : GdsIcon.bookmarkOutline,
+            icon: isSave ? GdsIcon.bookmarkFill : GdsIcon.bookmarkOutline,
             text: likeCount.toString(),
-            iconColor: isLike ? colors.icon.primaryNormal : colors.icon.grayBold,
+            iconColor: isSave ? colors.icon.primaryNormal : colors.icon.grayBold,
             textColor: colors.text.grayBold,
-            onTap: onLikeTap,
+            onTap: onSaveTap,
           ),
         ],
 

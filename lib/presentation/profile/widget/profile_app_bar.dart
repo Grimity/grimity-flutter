@@ -39,6 +39,6 @@ class ProfileAppBar extends ConsumerWidget {
       );
     }
 
-    return GrimityTitleTopNavigation(title: userName, showTitle: showUserName);
+    return GrimityTitleTopNavigation(title: showUserName ? userName : null);
   }
 }
