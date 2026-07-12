@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:grimity/presentation/common/widget/text_field/grimity_underline_text_field.dart';
+import 'package:gds/gds.dart';
+import 'package:grimity/app/enum/grimity.enum.dart';
 import 'package:grimity/presentation/sign_up/provider/sign_up_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -11,6 +12,9 @@ class SignUpUrlTextField extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final textController = useTextEditingController();
     final focusNode = useFocusNode();
+    final state = ref.watch(signUpProvider);
+    final urlStatus = state.urlState;
+    final errorMessage = state.urlCheckMessage;
 
     // 첫 Build 시 포커스 요청
     useEffect(() {
@@ -18,19 +22,15 @@ class SignUpUrlTextField extends HookConsumerWidget {
       return null;
     }, []);
 
-    return GrimityUnderlineTextField.normal(
+    return GdsInput(
+      placeholder: '숫자, 영문(소문자), 언더바(_)',
       controller: textController,
-      state: ref.watch(signUpProvider).urlState,
-      autoFocus: true,
       focusNode: focusNode,
-      hintText: '숫자, 영문(소문자), 언더바(_)',
-      errorText: ref.watch(signUpProvider).urlCheckMessage,
-      onChanged: (value) {
-        ref.read(signUpProvider.notifier).updateUrl(value);
-      },
-      onSubmitted: (value) {
-        ref.read(signUpProvider.notifier).updateUrl(value);
-      },
+      error: urlStatus == GrimityTextFieldState.error,
+      success: urlStatus == GrimityTextFieldState.success,
+      helperText: urlStatus == GrimityTextFieldState.error ? errorMessage : null,
+      onChanged: ref.read(signUpProvider.notifier).updateUrl,
+      onEditingComplete: ref.read(signUpProvider.notifier).checkUrlValidity,
     );
   }
 }

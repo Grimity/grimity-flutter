@@ -26,6 +26,8 @@ class Splash extends _$Splash {
     // 유저 정보 조회 시도
     // 조회 실패 시 로그인 화면으로 이동
     await ref.read(userAuthProvider.notifier).getUser();
+
+    // 기존 사용자 정보가 없으면 로그인 페이지로 이동
     if (ref.read(userAuthProvider) == null) {
       if (!ref.context.mounted) return false;
 
@@ -38,6 +40,7 @@ class Splash extends _$Splash {
 
     // 유저 정보 로그인 시도 후 구독 여부 조회
     ref.read(userSubscribeProvider.notifier).getSubscription();
+
     HomeRoute().go(ref.context);
 
     /// [ColdStart] 딥링크 처리

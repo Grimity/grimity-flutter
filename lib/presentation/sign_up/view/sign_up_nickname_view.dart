@@ -1,50 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gap/gap.dart';
-import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/app/config/app_typeface.dart';
+import 'package:gds/gds.dart';
+import 'package:grimity/presentation/sign_up/widget/sign_up_subtitle.dart';
 
 class SignUpNicknameView extends ConsumerWidget {
   const SignUpNicknameView({
     super.key,
     required this.nicknameTextField,
     required this.termAgreeWidget,
-    required this.checkNicknameButton,
   });
 
   final Widget nicknameTextField;
   final Widget termAgreeWidget;
-  final Widget checkNicknameButton;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _SignUpDescription(),
-        const Gap(24),
-        nicknameTextField,
-        const Gap(15),
-        termAgreeWidget,
-        const Spacer(),
-        checkNicknameButton,
-      ],
-    );
-  }
-}
-
-class _SignUpDescription extends StatelessWidget {
-  const _SignUpDescription();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('활동명을 정해주세요', style: AppTypeface.title3),
-        Gap(8),
-        Text('가입 후 활동명 변경이 가능해요', style: AppTypeface.label2.copyWith(color: AppColor.gray700)),
-      ],
+    return SingleChildScrollView(
+      padding: EdgeInsets.only(
+        top: context.isMobile ? GdsSpacing.spacing40 : GdsSpacing.spacing48,
+        left: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing40,
+        right: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing40,
+        bottom: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing40,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: GdsSpacing.spacing40,
+        children: [
+          SignUpSubtitle(
+            subtitle: '활동명을 정해주세요',
+            description: '작품과 함께 그리미티에서 기억될 이름이에요',
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            spacing: GdsSpacing.spacing12,
+            children: [
+              nicknameTextField,
+              termAgreeWidget,
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
