@@ -11,7 +11,7 @@ class StoragePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tabController = useTabController(initialLength: 2);
+    final tabController = useTabController(initialLength: 3);
 
     return GdsScaffold(
       appBar: GrimityTitleTopNavigation(),

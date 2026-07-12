@@ -1,5 +1,7 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:gds/gds.dart';
+import 'package:grimity/presentation/storage/enum/storage_type.dart';
 
 class StorageTabView extends StatelessWidget {
   const StorageTabView({
@@ -19,8 +21,12 @@ class StorageTabView extends StatelessWidget {
         size: context.isMobile ? GdsTabSize.sm : GdsTabSize.lg,
         controller: controller,
         items: [
-          GdsTabItem(label: '좋아요한 그림', onTap: () => controller.animateTo(0)),
-          GdsTabItem(label: '저장한 글', onTap: () => controller.animateTo(1)),
+          ...StorageType.values.mapIndexed((index, type) {
+            return GdsTabItem(
+              label: type.label,
+              onTap: () => controller.animateTo(index),
+            );
+          }),
         ],
       ),
     );
