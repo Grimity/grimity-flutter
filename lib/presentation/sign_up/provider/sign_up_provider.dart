@@ -1,19 +1,19 @@
-import 'package:grimity/app/base/result.dart';
 import 'package:grimity/app/enum/grimity.enum.dart';
 import 'package:grimity/app/extension/string_extension.dart';
+import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/app/util/device_info_util.dart';
 import 'package:grimity/app/util/validator_util.dart';
 import 'package:grimity/domain/dto/auth_request_params.dart';
-import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/domain/usecase/auth_usecases.dart';
 import 'package:grimity/domain/usecase/users_usecase.dart';
 import 'package:grimity/presentation/common/provider/auth_credential_provider.dart';
+import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'sign_up_provider.g.dart';
 
-enum SignUpViewState { nickname, url }
+enum SignUpViewState { nickname, url, welcome }
 
 /// 회원가입 상태를 관리하는 프로바이더
 @riverpod
@@ -51,7 +51,7 @@ class SignUp extends _$SignUp {
         state = state.copyWith(
           isNicknameChecking: false,
           signUpViewState: SignUpViewState.url,
-          nicknameState: GrimityTextFieldState.normal,
+          nicknameState: GrimityTextFieldState.success,
         );
       },
       onFailure: (error) {
@@ -82,7 +82,10 @@ class SignUp extends _$SignUp {
         return;
       }
 
-      state = state.copyWith(isUrlChecking: false, urlState: GrimityTextFieldState.normal);
+      state = state.copyWith(
+        isUrlChecking: false,
+        urlState: GrimityTextFieldState.success,
+      );
     } catch (e) {
       state = state.copyWith(
         isUrlChecking: false,
@@ -93,14 +96,14 @@ class SignUp extends _$SignUp {
   }
 
   /// 회원가입 진행
-  Future<Result<User>> signUp(WidgetRef ref) async {
+  Future<void> signUp(WidgetRef ref) async {
     if (!isInformationValid()) {
-      return Result.failure(Exception('회원가입 정보가 유효하지 않습니다.'));
+      return ToastService.showFailure('회원가입 정보가 유효하지 않아요');
     }
 
     final authCredential = ref.read(authCredentialProvider);
     if (authCredential.provider == null) {
-      return Result.failure(Exception('OAuth 인증 정보가 없습니다.'));
+      return ToastService.showFailure('OAuth 인증 정보가 없어요');
     }
 
     final param = RegisterRequestParam(
@@ -111,7 +114,19 @@ class SignUp extends _$SignUp {
       url: state.url,
     );
 
-    return await completeRegisterUseCase.execute(param, this.ref);
+    final result = await completeRegisterUseCase.execute(param, this.ref);
+
+    result.fold(
+      onSuccess: (user) {
+        // 회원 가입 이후 UserAuthProvider User 갱신
+        ref.read(userAuthProvider.notifier).setUser(user);
+
+        state = state.copyWith(signUpViewState: SignUpViewState.welcome);
+      },
+      onFailure: (error) {
+        ToastService.showFailure('회원가입에 실패했어요');
+      },
+    );
   }
 
   /// 유효성 검사
@@ -119,6 +134,10 @@ class SignUp extends _$SignUp {
     return ValidatorUtil.isValidNickname(state.nickname) &&
         ValidatorUtil.isAvailableUrl(state.url) &&
         state.isTermsAgreed;
+  }
+
+  void setSignUpState(SignUpViewState newViewState) {
+    state = state.copyWith(signUpViewState: newViewState);
   }
 }
 

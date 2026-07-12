@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:grimity/presentation/common/widget/text_field/grimity_underline_text_field.dart';
+import 'package:gds/gds.dart';
+import 'package:grimity/app/enum/grimity.enum.dart';
 import 'package:grimity/presentation/sign_up/provider/sign_up_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -10,16 +11,22 @@ class SignUpNicknameTextField extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textController = useTextEditingController();
+    final state = ref.watch(signUpProvider);
+    final errorMessage = state.nicknameCheckMessage;
+    final nicknameStatus = state.nicknameState;
 
-    return GrimityUnderlineTextField.normal(
-      controller: textController,
-      state: ref.watch(signUpProvider).nicknameState,
-      maxLength: 12,
-      hintText: '프로필에 노출될 닉네임을 입력해주세요',
-      errorText: ref.watch(signUpProvider).nicknameCheckMessage,
-      onChanged: (value) {
-        ref.read(signUpProvider.notifier).updateNickname(value);
-      },
+    return GdsInput.custom(
+      helperText: nicknameStatus == GrimityTextFieldState.error ? errorMessage : null,
+      error: nicknameStatus == GrimityTextFieldState.error,
+      child: GdsTextField.count(
+        placeholder: '닉네임을 입력해주세요',
+        controller: textController,
+        maxLength: 12,
+        error: nicknameStatus == GrimityTextFieldState.error,
+        success: nicknameStatus == GrimityTextFieldState.success,
+        onChanged: ref.read(signUpProvider.notifier).updateNickname,
+        onEditingComplete: ref.read(signUpProvider.notifier).checkNicknameDuplicate,
+      ),
     );
   }
 }

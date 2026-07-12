@@ -1,40 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/app/config/app_typeface.dart';
+import 'package:gds/gds.dart';
+import 'package:grimity/presentation/sign_up/widget/sign_up_subtitle.dart';
 
 class SignUpUrlView extends StatelessWidget {
-  const SignUpUrlView({super.key, required this.nickname, required this.urlTextField, required this.registerButton});
+  const SignUpUrlView({
+    super.key,
+    required this.nickname,
+    required this.urlTextField,
+  });
 
   final String nickname;
   final Widget urlTextField;
-  final Widget registerButton;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [_SignUpDescription(nickname: nickname), const Gap(4), urlTextField, const Spacer(), registerButton],
-    );
-  }
-}
+    final colors = context.gdsColors;
 
-class _SignUpDescription extends StatelessWidget {
-  const _SignUpDescription({required this.nickname});
-
-  final String nickname;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('$nickname님,\n프로필 URL을 설정해주세요', style: AppTypeface.title3),
-        Gap(8),
-        Text('단 하나뿐인 프로필 주소로 사용되어요', style: AppTypeface.label2.copyWith(color: AppColor.gray700)),
-        Gap(24),
-        Text('www.grimity.com/', style: AppTypeface.label2.copyWith(color: AppColor.gray600)),
-      ],
+    return SingleChildScrollView(
+      padding: EdgeInsets.only(
+        top: context.isMobile ? GdsSpacing.spacing40 : GdsSpacing.spacing48,
+        left: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing40,
+        right: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing40,
+        bottom: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing40,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SignUpSubtitle(
+            subtitle: '프로필 URL을 정해주세요',
+            description: '단 하나뿐인 프로필 주소로 사용돼요',
+          ),
+          Gap(GdsSpacing.spacing40),
+          Text(
+            'www.grimity.com/',
+            style: GdsTypography.title2.copyWith(color: colors.text.grayBold),
+          ),
+          Gap(GdsSpacing.spacing12),
+          urlTextField,
+        ],
+      ),
     );
   }
 }

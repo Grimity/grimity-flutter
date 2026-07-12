@@ -1,30 +1,19 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
-import 'package:grimity/app/config/app_color.dart';
-import 'package:grimity/app/config/app_theme.dart';
-import 'package:grimity/gen/assets.gen.dart';
-import 'package:grimity/presentation/common/widget/grimity_gesture.dart';
 
-class SignUpAppBar extends StatelessWidget implements PreferredSizeWidget {
+class SignUpAppBar extends StatelessWidget {
   const SignUpAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      toolbarHeight: AppTheme.kToolbarHeight.height,
-      leading: Center(
-        child: GrimityGesture(
-          onTap: () => context.pop(),
-          child: Assets.icons.icon.close.svg(width: 24, height: 24),
-        ),
-      ),
-      bottom: const PreferredSize(
-        preferredSize: Size.fromHeight(1),
-        child: Divider(height: 1, color: AppColor.gray300),
-      ),
+    return GdsTopNavigation.iconButton(
+      title: '',
+      onBack: context.pop,
+      icons: [],
+      onIconTap: [],
+      showTitle: false,
+      showIcons: false,
     );
   }
-
-  @override
-  Size get preferredSize => AppTheme.kToolbarHeight;
 }
