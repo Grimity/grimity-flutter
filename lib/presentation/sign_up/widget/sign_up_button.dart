@@ -24,8 +24,8 @@ class SignUpButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final SignUpState state = ref.watch(signUpProvider);
-    final bool enabled = getEnabled(ref, state.signUpViewState);
-    final bool loading = getLoading(ref, state.signUpViewState);
+    final bool enabled = getEnabled(state);
+    final bool loading = getLoading(state);
 
     return Padding(
       padding: context.isMobile ? mobilePadding : tabletPadding,
@@ -59,24 +59,25 @@ class SignUpButton extends ConsumerWidget {
     );
   }
 
-  bool getEnabled(WidgetRef ref, SignUpViewState viewState) {
+  bool getEnabled(SignUpState state) {
+    final viewState = state.signUpViewState;
+
     if (viewState == SignUpViewState.nickname) {
-      return ref.watch(signUpProvider).nickname.length >= 2 &&
-          ref.watch(signUpProvider).isTermsAgreed &&
-          ref.watch(signUpProvider).nicknameState != GrimityTextFieldState.error;
+      return state.nickname.length >= 2 && state.isTermsAgreed && state.nicknameState != GrimityTextFieldState.error;
     } else if (viewState == SignUpViewState.url) {
-      return ValidatorUtil.isAvailableUrl(ref.watch(signUpProvider).url) &&
-          ref.watch(signUpProvider).urlState != GrimityTextFieldState.error;
+      return ValidatorUtil.isAvailableUrl(state.url) && state.urlState != GrimityTextFieldState.error;
     }
 
     return true;
   }
 
-  bool getLoading(WidgetRef ref, SignUpViewState viewState) {
+  bool getLoading(SignUpState state) {
+    final viewState = state.signUpViewState;
+
     if (viewState == SignUpViewState.nickname) {
-      return ref.watch(signUpProvider).isNicknameChecking;
+      return state.isNicknameChecking;
     } else if (viewState == SignUpViewState.url) {
-      return ref.watch(signUpProvider).isUrlChecking;
+      return state.isUrlChecking;
     }
 
     return false;

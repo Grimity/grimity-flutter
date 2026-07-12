@@ -17,7 +17,7 @@ class SignUpNicknameTextField extends HookConsumerWidget {
 
     return GdsInput.custom(
       helperText: nicknameStatus == GrimityTextFieldState.error ? errorMessage : null,
-      error: true,
+      error: nicknameStatus == GrimityTextFieldState.error,
       child: GdsTextField.count(
         placeholder: '닉네임을 입력해주세요',
         controller: textController,
