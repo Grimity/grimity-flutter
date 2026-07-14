@@ -43,9 +43,9 @@ Future<void> runFastlaneMatch(String profile, String appId) async {
 }
 
 void main() async {
-  dotenv = DotEnv()..load([".env"]);
-
   await run("dart", ["run", "git_config", "fetch"]);
+
+  dotenv = DotEnv()..load([".env"]);
 
   // FVM 설정
   await run("dart", ["pub", "global", "activate", "fvm"]);
