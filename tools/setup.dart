@@ -43,13 +43,13 @@ Future<void> runFastlaneMatch(String profile, String appId) async {
 }
 
 void main() async {
+  dotenv = DotEnv()..load([".env"]);
+
   await run("dart", ["run", "git_config", "fetch"]);
 
   // FVM 설정
   await run("dart", ["pub", "global", "activate", "fvm"]);
   await runFvm("use --force");
-
-  dotenv = DotEnv()..load([".env"]);
 
   // Mac 환경은 앱 서명 키를 공유하기 위해서 Fastlane을 사용하도록 함.
   if (Platform.isMacOS) {
@@ -59,6 +59,6 @@ void main() async {
     await runFastlaneMatch("adhoc", "com.grimity.flutter"); // prod
   }
 
-  await runFvm("flutter pub get");
-  await runFvm("flutter pub run build_runner build --delete-conflicting-outputs");
+  await runFvm("dart pub get");
+  await runFvm("dart run build_runner build --delete-conflicting-outputs");
 }
