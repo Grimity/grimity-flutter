@@ -139,6 +139,9 @@ jobs:
           channel: stable
           flutter-version: ${{ vars.FLUTTER_VERSION }}
 
+      - name: Swift 패키지 메니저 비활성화
+        run: flutter config --no-enable-swift-package-manager
+
       - name: Pubspec 수정
         run: |
           VERSION="${{ github.event.inputs.VERSION_NAME }}-${{ needs.ready.outputs.BUILD_NUMBER }}"
