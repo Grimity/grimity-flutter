@@ -82,10 +82,7 @@ class UserAuth extends _$UserAuth {
   }
 
   Future<void> performSignOut(BuildContext context) async {
-    final user = ref.read(userAuthProvider);
-    if (user == null) return;
-
-    final provider = LoginProvider.fromString(user.provider ?? '');
+    final provider = LoginProvider.fromString(state?.provider ?? '');
     await logout(provider);
 
     if (context.mounted) {

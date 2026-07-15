@@ -27,6 +27,9 @@ class SignIn extends _$SignIn {
 
   /// 로그인
   Future<void> login(WidgetRef widgetRef, LoginProvider provider) async {
+    // 인증 상태 변경으로 로그인 화면이 제거되어도 후속 작업까지 Ref를 유지한다.
+    final keepAliveLink = ref.keepAlive();
+
     try {
       // 비동기 통신 이후 widgetRef가 dispose 될 수 있어 라우터 참조
       final router = widgetRef.read(routerProvider);
@@ -47,6 +50,8 @@ class SignIn extends _$SignIn {
 
       ToastService.showFailure('소셜 로그인에 실패했어요.');
       FirebaseCrashlytics.instance.recordError(e, s, reason: '소셜 로그인 오류');
+    } finally {
+      keepAliveLink.close();
     }
   }
 }
