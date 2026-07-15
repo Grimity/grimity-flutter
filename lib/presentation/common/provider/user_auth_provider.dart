@@ -1,3 +1,5 @@
+import 'package:flutter/widgets.dart';
+import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/enum/login_provider.enum.dart';
 import 'package:grimity/app/static/push_notification.dart';
 import 'package:grimity/domain/entity/user.dart';
@@ -77,5 +79,17 @@ class UserAuth extends _$UserAuth {
   Future<void> logout(LoginProvider provider) async {
     await completeLogoutProcessUseCase.execute(provider);
     state = null;
+  }
+
+  Future<void> performSignOut(BuildContext context) async {
+    final user = ref.read(userAuthProvider);
+    if (user == null) return;
+
+    final provider = LoginProvider.fromString(user.provider ?? '');
+    await ref.read(userAuthProvider.notifier).logout(provider);
+
+    if (context.mounted) {
+      SignInRoute().go(context);
+    }
   }
 }

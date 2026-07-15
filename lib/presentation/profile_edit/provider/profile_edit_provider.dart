@@ -120,25 +120,36 @@ class ProfileEdit extends _$ProfileEdit {
       return false;
     }
 
-    final request = UpdateUserRequest(
-      name: state.nickname,
-      url: state.url,
-      description: state.description,
-      links: state.links,
-    );
+    try {
+      state = state.copyWith(isLoading: true);
 
-    final result = await updateUserUseCase.execute(request);
+      final request = UpdateUserRequest(
+        name: state.nickname,
+        url: state.url,
+        description: state.description,
+        links: state.links,
+      );
 
-    return result.fold(
-      onSuccess: (data) {
-        ToastService.showSuccess('프로필 수정이 완료되었어요');
-        return true;
-      },
-      onFailure: (error) {
-        ToastService.showFailure('프로필 수정에 실패했어요');
-        return false;
-      },
-    );
+      final result = await updateUserUseCase.execute(request);
+
+      // 새로운 사용자 정보로 새로고침
+      if (result.isSuccess) {
+        await ref.read(userAuthProvider.notifier).getUser();
+      }
+
+      return result.fold(
+        onSuccess: (data) {
+          ToastService.showSuccess('프로필 수정이 완료되었어요');
+          return true;
+        },
+        onFailure: (error) {
+          ToastService.showFailure('프로필 수정에 실패했어요');
+          return false;
+        },
+      );
+    } finally {
+      state = state.copyWith(isLoading: false);
+    }
   }
 
   /// 유효성 체크
@@ -272,7 +283,7 @@ abstract class ProfileEditState with _$ProfileEditState {
     final hasChanges =
         image != initialState!.image ||
         backgroundImage != initialState!.backgroundImage ||
-        nickname != initialState!.nickname ||
+        (nickname.isNotEmpty && nickname != initialState!.nickname) ||
         description != initialState!.description ||
         url != initialState!.url ||
         _isLinksChanged(links, initialState!.links);
