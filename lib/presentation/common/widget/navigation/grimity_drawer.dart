@@ -4,7 +4,6 @@ import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_const.dart';
 import 'package:grimity/app/config/app_router.dart';
-import 'package:grimity/app/enum/login_provider.enum.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -90,14 +89,6 @@ class GrimityDrawer extends ConsumerWidget {
   }
 
   Future<void> _signOut(BuildContext context, WidgetRef ref) async {
-    final user = ref.read(userAuthProvider);
-    if (user == null) return;
-
-    final provider = LoginProvider.fromString(user.provider ?? '');
-    await ref.read(userAuthProvider.notifier).logout(provider);
-
-    if (context.mounted) {
-      SignInRoute().go(context);
-    }
+    return ref.read(userAuthProvider.notifier).performSignOut(context);
   }
 }

@@ -6,6 +6,7 @@ import 'package:grimity/app/config/app_theme.dart';
 import 'package:grimity/app/environment/flavor.dart';
 import 'package:grimity/app/linking/initialize_app_provider.dart';
 import 'package:grimity/app/linking/pending_deep_link_provider.dart';
+import 'package:grimity/app/setting/setting_binding.dart';
 import 'package:grimity/app/static/push_notification.dart';
 import 'package:grimity/app/util/pointer_event_filter.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
@@ -21,6 +22,9 @@ void runFlavoredApp() async {
 
   // Initialize talker
   final talker = TalkerFlutter.init();
+
+  // 앱 설정을 위한 초기화.
+  await SettingBinding.setup();
 
   // 포그라운드 푸시 알림 구현을 위해 관련 플러그인 초기화.
   await PushNotification.initializePlugin();
@@ -99,19 +103,23 @@ class _AppState extends ConsumerState<App> with WidgetsBindingObserver {
       }
     });
 
-    return MaterialApp.router(
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        FlutterQuillLocalizations.delegate,
-      ],
-      routerConfig: ref.watch(routerProvider),
-      theme: AppTheme.appTheme.copyWith(
-        // TODO: 개발 중에는 앱 전체적으로 다크 모드로 고정. (시스템 다크 모드와 무관하게)
-        brightness: Brightness.dark,
-      ),
-      builder: routerBuilder,
+    return ListenableBuilder(
+      listenable: SettingBinding.listenable,
+      builder: (context, _) {
+        return MaterialApp.router(
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            FlutterQuillLocalizations.delegate,
+          ],
+          routerConfig: ref.watch(routerProvider),
+          theme: AppTheme.appTheme.copyWith(brightness: Brightness.light),
+          darkTheme: AppTheme.appTheme.copyWith(brightness: Brightness.dark),
+          themeMode: SettingBinding.theme.getValue().themeMode,
+          builder: routerBuilder,
+        );
+      },
     );
   }
 }

@@ -34,6 +34,12 @@ import 'package:grimity/presentation/profile_edit/profile_edit_page.dart';
 import 'package:grimity/presentation/ranking/ranking_page.dart';
 import 'package:grimity/presentation/report/report_page.dart';
 import 'package:grimity/presentation/search/search_page.dart';
+import 'package:grimity/presentation/setting/page/setting_account_page.dart';
+import 'package:grimity/presentation/setting/page/setting_contact_page.dart';
+import 'package:grimity/presentation/setting/page/setting_nickname_page.dart';
+import 'package:grimity/presentation/setting/page/setting_notification_page.dart';
+import 'package:grimity/presentation/setting/page/setting_profile_url_page.dart';
+import 'package:grimity/presentation/setting/page/setting_theme_page.dart';
 import 'package:grimity/presentation/setting/setting_page.dart';
 import 'package:grimity/presentation/sign_in/sign_in_page.dart';
 import 'package:grimity/presentation/sign_up/sign_up_page.dart';
@@ -508,6 +514,72 @@ class SettingRoute extends GoRouteData with $SettingRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => SettingPage();
+}
+
+@TypedGoRoute<SettingAccountRoute>(path: SettingAccountRoute.path, name: SettingAccountRoute.name)
+class SettingAccountRoute extends GoRouteData with $SettingAccountRoute {
+  const SettingAccountRoute();
+
+  static const String path = '/setting/account';
+  static const String name = 'setting/account';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => SettingAccountPage();
+}
+
+@TypedGoRoute<SettingNicknameRoute>(path: SettingNicknameRoute.path, name: SettingNicknameRoute.name)
+class SettingNicknameRoute extends GoRouteData with $SettingNicknameRoute {
+  const SettingNicknameRoute();
+
+  static const String path = '/setting/account/nickname';
+  static const String name = 'setting/account/nickname';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => SettingNicknamePage();
+}
+
+@TypedGoRoute<SettingProfileUrlRoute>(path: SettingProfileUrlRoute.path, name: SettingProfileUrlRoute.name)
+class SettingProfileUrlRoute extends GoRouteData with $SettingProfileUrlRoute {
+  const SettingProfileUrlRoute();
+
+  static const String path = '/setting/account/profile_url';
+  static const String name = 'setting/account/profile_url';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => SettingProfileUrlPage();
+}
+
+@TypedGoRoute<SettingThemeRoute>(path: SettingThemeRoute.path, name: SettingThemeRoute.name)
+class SettingThemeRoute extends GoRouteData with $SettingThemeRoute {
+  const SettingThemeRoute();
+
+  static const String path = '/setting/theme';
+  static const String name = 'setting/theme';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => SettingThemePage();
+}
+
+@TypedGoRoute<SettingNotificationRoute>(path: SettingNotificationRoute.path, name: SettingNotificationRoute.name)
+class SettingNotificationRoute extends GoRouteData with $SettingNotificationRoute {
+  const SettingNotificationRoute();
+
+  static const String path = '/setting/notification';
+  static const String name = 'setting/notification';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => SettingNotificationPage();
+}
+
+@TypedGoRoute<SettingContactRoute>(path: SettingContactRoute.path, name: SettingContactRoute.name)
+class SettingContactRoute extends GoRouteData with $SettingContactRoute {
+  const SettingContactRoute();
+
+  static const String path = '/setting/contact';
+  static const String name = 'setting/contact';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => SettingContactPage();
 }
 
 @TypedGoRoute<NotificationRoute>(path: NotificationRoute.path, name: NotificationRoute.name)
