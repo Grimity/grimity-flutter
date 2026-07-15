@@ -114,9 +114,9 @@ class _AppState extends ConsumerState<App> with WidgetsBindingObserver {
             FlutterQuillLocalizations.delegate,
           ],
           routerConfig: ref.watch(routerProvider),
-          theme: AppTheme.appTheme.copyWith(
-            brightness: SettingBinding.theme.getValue().brightness,
-          ),
+          theme: AppTheme.appTheme.copyWith(brightness: Brightness.light),
+          darkTheme: AppTheme.appTheme.copyWith(brightness: Brightness.dark),
+          themeMode: SettingBinding.theme.getValue().themeMode,
           builder: routerBuilder,
         );
       },

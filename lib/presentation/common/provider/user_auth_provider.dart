@@ -86,7 +86,7 @@ class UserAuth extends _$UserAuth {
     if (user == null) return;
 
     final provider = LoginProvider.fromString(user.provider ?? '');
-    await ref.read(userAuthProvider.notifier).logout(provider);
+    await logout(provider);
 
     if (context.mounted) {
       SignInRoute().go(context);

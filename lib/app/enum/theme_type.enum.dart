@@ -1,17 +1,13 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 enum ThemeType {
   device,
   light,
   dark;
 
-  Brightness get brightness => switch (this) {
-    device => _getDeviceBrightness(),
-    light => Brightness.light,
-    dark => Brightness.dark,
+  ThemeMode get themeMode => switch (this) {
+    device => ThemeMode.system,
+    light => ThemeMode.light,
+    dark => ThemeMode.dark,
   };
-
-  Brightness _getDeviceBrightness() {
-    return PlatformDispatcher.instance.platformBrightness;
-  }
 }

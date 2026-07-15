@@ -30,6 +30,12 @@ class SettingViewState extends State<SettingView> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    viewNotifier.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GdsScaffold(
       appBar: widget.appbar,
