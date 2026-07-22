@@ -173,6 +173,9 @@ class _FeedAuthorInfoSection extends HookWidget {
         icon: GdsIcon.dotMenuHorizontal,
         onPressed: () => onMoreTap(layerLink),
       ),
+      onProfileTap: () {
+        ProfileRoute(url: feed.author!.url).push(context);
+      },
     );
   }
 }
