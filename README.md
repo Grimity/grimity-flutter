@@ -51,12 +51,12 @@ dart pub global activate flutterfire_cli
 ```
 
 ### 💻 VSCode 빌드 작업
-**Visual Studio Code**를 사용한다면 프로젝트를 열고 `Ctrl + Shift + B`를 눌러 build_runner watch 작업을 손쉽게 곧바로 실행할 수 있습니다. 이 작업은 Riverpod, Freezed 등의 코드 생성기를 자동으로 감지하고 빌드 합니다.
+**Visual Studio Code**를 사용한다면 프로젝트를 열고 `Ctrl + Shift + B`를 눌러 build_runner build 작업을 손쉽게 곧바로 실행할 수 있습니다. 이 작업은 Riverpod, Freezed 등의 코드 생성기를 자동으로 감지하고 빌드 합니다.
 
 또는 이를 수동으로 실행하고 싶다면 터미널에 아래와 같이 입력하세요.
 
 ```bash
-dart run build_runner watch --delete-conflicting-outputs
+dart run build_runner build --delete-conflicting-outputs
 ```
 
 ### 🔥 앱 빌드 & 실행

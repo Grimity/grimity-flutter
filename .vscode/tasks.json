@@ -2,9 +2,9 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "watch build_runner",
+      "label": "build build_runner",
       "type": "shell",
-      "command": "dart run build_runner watch --delete-conflicting-outputs",
+      "command": "dart run build_runner build --delete-conflicting-outputs",
       "isBackground": true,
       "group": {
         "kind": "build",
