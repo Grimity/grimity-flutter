@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gds/gds.dart';
 import 'package:grimity/app/extension/build_context_extension.dart';
+import 'package:grimity/app/extension/string_extension.dart';
 import 'package:grimity/app/service/toast_service.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/presentation/album_edit/widget/album_edit.dart';
@@ -262,7 +263,9 @@ class AlbumOrganizeBodyView extends HookConsumerWidget with AlbumOrganizeMixin {
                 nickname: feed.author?.name ?? state.user.name,
                 heartCount: feed.likeCount,
                 viewCount: feed.viewCount,
-                imageUrl: feed.thumbnail ?? '',
+                imageUrlBuilder: (width, height) {
+                  return feed.thumbnail?.imageUrlBuilder(context, width, height) ?? '';
+                },
                 type: GdsAlbumCardType.check,
                 state: containFeed ? GdsAlbumCardState.checked : GdsAlbumCardState.defaultType,
                 onTap: () => albumOrganizeNotifier(ref).toggleFeed(feed.id),

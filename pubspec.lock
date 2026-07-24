@@ -1020,10 +1020,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_touch_scale
-      sha256: "2e3163c4439b97ada1a4fc189d10397c5922eb34fa12fb8f72070b4577ed5af6"
+      sha256: f1aa6b6e4bd8cb189e436b1f7e53d7b5b0a65c0f433643fec7cd159782c8bd9b
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.1"
+    version: "1.5.0"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -1146,7 +1146,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "9b9f57d32a37eeb58991c090dcb286c0c0666bd1"
+      resolved-ref: "7af32bef8e978dbdb055edbe6003dfe640a54a1c"
       url: "https://github.com/Grimity/gds-flutter"
     source: git
     version: "0.0.1"
@@ -1154,8 +1154,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/components"
-      ref: "9b9f57d32a37eeb58991c090dcb286c0c0666bd1"
-      resolved-ref: "9b9f57d32a37eeb58991c090dcb286c0c0666bd1"
+      ref: "7af32bef8e978dbdb055edbe6003dfe640a54a1c"
+      resolved-ref: "7af32bef8e978dbdb055edbe6003dfe640a54a1c"
       url: "https://github.com/Grimity/gds-flutter"
     source: git
     version: "0.0.1"
@@ -1163,8 +1163,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/foundation"
-      ref: "9b9f57d32a37eeb58991c090dcb286c0c0666bd1"
-      resolved-ref: "9b9f57d32a37eeb58991c090dcb286c0c0666bd1"
+      ref: "7af32bef8e978dbdb055edbe6003dfe640a54a1c"
+      resolved-ref: "7af32bef8e978dbdb055edbe6003dfe640a54a1c"
       url: "https://github.com/Grimity/gds-flutter"
     source: git
     version: "0.0.1"
@@ -1172,8 +1172,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/tokens"
-      ref: "9b9f57d32a37eeb58991c090dcb286c0c0666bd1"
-      resolved-ref: "9b9f57d32a37eeb58991c090dcb286c0c0666bd1"
+      ref: "7af32bef8e978dbdb055edbe6003dfe640a54a1c"
+      resolved-ref: "7af32bef8e978dbdb055edbe6003dfe640a54a1c"
       url: "https://github.com/Grimity/gds-flutter"
     source: git
     version: "0.0.1"

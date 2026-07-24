@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gds/gds.dart';
+import 'package:grimity/app/extension/string_extension.dart';
 import 'package:grimity/presentation/common/model/image_item_source.dart';
 import 'package:grimity/presentation/feed_upload/provider/feed_upload_provider.dart';
 import 'package:grimity/presentation/feed_upload/widget/feed_upload_add_image_button.dart';
@@ -73,7 +74,9 @@ class _FeedUploadSelectedImage extends StatelessWidget {
 
     return GdsAlbumCard(
       type: GdsAlbumCardType.image,
-      imageUrl: remoteImage.url,
+      imageUrlBuilder: (width, height) {
+        return remoteImage.url.imageUrlBuilder(context, width, height);
+      },
       state: isThumbnail ? GdsAlbumCardState.checked : GdsAlbumCardState.defaultType,
       onTap: onThumbnailTap,
       onCloseTap: onRemoveTap,

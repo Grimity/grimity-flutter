@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gds/gds.dart';
 import 'package:grimity/app/config/app_router.dart';
+import 'package:grimity/app/extension/string_extension.dart';
 import 'package:grimity/app/util/sync_util.dart';
 import 'package:grimity/domain/entity/feed.dart';
 import 'package:grimity/domain/usecase/feed_usecases.dart';
@@ -63,7 +64,9 @@ class _GrimityImageFeedState extends State<GrimityImageFeed> {
       nickname: widget.authorName ?? feed.author?.name,
       heartCount: feed.likeCount,
       viewCount: feed.viewCount,
-      imageUrl: feed.thumbnail ?? '',
+      imageUrlBuilder: (width, height) {
+        return feed.thumbnail?.imageUrlBuilder(context, width, height) ?? '';
+      },
       isLiked: feed.isLike ?? false,
       type: (widget.index ?? 99) < 4 ? GdsAlbumCardType.rank : GdsAlbumCardType.mainTitle,
       rank: (widget.index ?? 99) < 4 ? (widget.index ?? 99) + 1 : 1,

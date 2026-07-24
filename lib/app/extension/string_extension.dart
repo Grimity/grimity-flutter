@@ -1,6 +1,7 @@
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/widgets.dart';
 import 'package:grimity/app/environment/flavor.dart';
+import 'package:grimity/app/extension/image_extension.dart';
 import 'package:grimity/app/util/validator_util.dart';
 
 extension StringExtension on String {
@@ -70,5 +71,14 @@ extension StringExtension on String {
     }
 
     return null;
+  }
+
+  String imageUrlBuilder(BuildContext context, double width, double height) {
+    int? cacheWidth = width.cacheSize(context);
+
+    assert(width.isFinite, "주어진 이미지 크기가 무한이 될 수 있으려면 부모의 유한한 제약 조건이 필요합니다.");
+    assert(height.isFinite, "주어진 이미지 크기가 무한이 될 수 있으려면 부모의 유한한 제약 조건이 필요합니다.");
+
+    return getResizeUrl(cacheWidth);
   }
 }
