@@ -509,13 +509,23 @@ class ReportRoute extends GoRouteData with $ReportRoute {
 
 @TypedGoRoute<SettingRoute>(path: SettingRoute.path, name: SettingRoute.name)
 class SettingRoute extends GoRouteData with $SettingRoute {
-  const SettingRoute();
+  const SettingRoute({this.$extra});
+
+  final Map<String, Widget>? $extra;
 
   static const String path = '/setting';
   static const String name = 'setting';
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => SettingPage();
+  Widget build(BuildContext context, GoRouterState state) {
+    final initialPage = $extra?['initialPage'];
+    final initialView = $extra?['initialView'];
+
+    return SettingPage(
+      initialPage: initialPage,
+      initialView: initialView,
+    );
+  }
 }
 
 @TypedGoRoute<SettingAccountRoute>(path: SettingAccountRoute.path, name: SettingAccountRoute.name)
