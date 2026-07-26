@@ -13,12 +13,14 @@ class GrimityImageFeed extends StatefulWidget {
     this.index,
     this.authorName,
     this.keyword,
+    this.showHeart = true,
   }) : super(key: key ?? ValueKey(feed.id));
 
   final Feed feed;
   final int? index;
   final String? authorName;
   final String? keyword;
+  final bool showHeart;
 
   @override
   State<GrimityImageFeed> createState() => _GrimityImageFeedState();
@@ -73,6 +75,7 @@ class _GrimityImageFeedState extends State<GrimityImageFeed> {
       onTap: () => FeedDetailRoute(id: feed.id).push(context),
       onNicknameTap: () => feed.author != null ? ProfileRoute(url: feed.author!.url).push(context) : null,
       onHeartTap: onHeartTap,
+      showHeartButton: widget.showHeart,
     );
   }
 

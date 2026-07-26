@@ -95,6 +95,7 @@ class ProfileFeedTabView extends HookConsumerWidget {
     if (feeds.isNotEmpty) {
       return GrimityFeedGrid.sliver(
         feeds: feeds,
+        showHeart: viewType == ProfileViewType.other,
         authorName: user.name,
         padding: EdgeInsets.only(
           left: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20,
