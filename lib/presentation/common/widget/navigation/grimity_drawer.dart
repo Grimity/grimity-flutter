@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_const.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/presentation/common/provider/user_auth_provider.dart';
+import 'package:grimity/presentation/follow/follow_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class GrimityDrawer extends ConsumerWidget {
@@ -26,8 +27,8 @@ class GrimityDrawer extends ConsumerWidget {
       onAvatarTap: () => _pushProfile(context, user?.url),
       onHandleTap: () => _pushProfile(context, user?.url),
       onNickNameTap: () => _pushProfile(context, user?.url),
-      onFollowerTap: () => _push(context, FollowRoute.path),
-      onFollowingTap: () => _push(context, FollowRoute.path),
+      onFollowerTap: () => FollowPage.pushReplace(context, 1),
+      onFollowingTap: () => FollowPage.pushReplace(context, 0),
       onTermsOfServiceTap: () => launchUrl(Uri.parse(AppConst.serviceTermsUrl)),
       onPrivacyPolicyTap: () => launchUrl(Uri.parse(AppConst.privacyPolicyUrl)),
       onBusinessInfoTap: () => const BusinessInfoRoute().push(context),

@@ -6,11 +6,16 @@ import 'package:grimity/presentation/follow/view/follow_following_user_view.dart
 import 'package:grimity/presentation/follow/view/follow_follower_user_view.dart';
 
 class FollowView extends HookWidget {
-  const FollowView({super.key});
+  const FollowView({
+    super.key,
+    required this.tabIndex,
+  });
+
+  final int tabIndex;
 
   @override
   Widget build(BuildContext context) {
-    final tabController = useTabController(initialLength: 2);
+    final tabController = useTabController(initialLength: 2, initialIndex: tabIndex);
 
     return AppBarConnection(
       appBars: [

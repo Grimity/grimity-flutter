@@ -4,9 +4,9 @@ import 'package:gds/gds.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/common/widget/grimity_infinite_scroll_pagination.dart';
+import 'package:grimity/presentation/follow/provider/follow_followers_data_provider.dart';
 import 'package:grimity/presentation/follow/widget/follow_user_list_view.dart';
 import 'package:grimity/presentation/common/widget/grimity_state_view.dart';
-import 'package:grimity/presentation/follow/provider/follow_following_data_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -17,7 +17,7 @@ class FollowerUserView extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     useAutomaticKeepAlive();
 
-    final users = ref.watch(followingDataProvider);
+    final users = ref.watch(followersDataProvider);
 
     return users.when(
       data: (data) {
@@ -43,14 +43,14 @@ class FollowerUserView extends HookConsumerWidget {
         }
 
         return GrimityInfiniteScrollPagination(
-          onLoadMore: ref.read(followingDataProvider.notifier).loadMore,
+          onLoadMore: ref.read(followersDataProvider.notifier).loadMore,
           isEnabled: data.nextCursor != null,
           child: FollowUserListView(users: data.users),
         );
       },
 
       loading: () => Skeletonizer(child: FollowUserListView(users: User.emptyList)),
-      error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(followingDataProvider)),
+      error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(followersDataProvider)),
     );
   }
 }

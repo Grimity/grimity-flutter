@@ -13,6 +13,7 @@ abstract class FollowUserResponse with _$FollowUserResponse implements UserBaseR
     String? image,
     required String url,
     required String description,
+    bool? isFollowing,
   }) = _FollowUserResponse;
 
   factory FollowUserResponse.fromJson(Map<String, dynamic> json) => _$FollowUserResponseFromJson(json);
@@ -20,6 +21,13 @@ abstract class FollowUserResponse with _$FollowUserResponse implements UserBaseR
 
 extension FollowUserResponseX on FollowUserResponse {
   User toEntity() {
-    return User(id: id, name: name, image: image, url: url, description: description);
+    return User(
+      id: id,
+      name: name,
+      image: image,
+      url: url,
+      description: description,
+      isFollowing: isFollowing ?? true, // 자신이 팔로잉한 사용자를 조회한 경우 항상 true
+    );
   }
 }

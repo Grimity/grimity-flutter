@@ -361,13 +361,15 @@ class AlbumEditRoute extends GoRouteData with $AlbumEditRoute {
 
 @TypedGoRoute<FollowRoute>(path: FollowRoute.path, name: FollowRoute.name)
 class FollowRoute extends GoRouteData with $FollowRoute {
-  const FollowRoute();
+  const FollowRoute(this.$extra);
+
+  final int $extra;
 
   static const String path = '/follow';
   static const String name = 'follow';
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => const FollowPage();
+  Widget build(BuildContext context, GoRouterState state) => FollowPage(tabIndex: $extra);
 }
 
 @TypedGoRoute<StorageRoute>(path: StorageRoute.path, name: StorageRoute.name)

@@ -94,8 +94,8 @@ class _UserProfile extends ConsumerWidget {
                 GdsUserInfo.follow(
                   followerCount: user.followerCount ?? 0,
                   followingCount: user.followingCount ?? 0,
-                  onFollowerTap: isMine ? () => FollowPage.push(context) : null,
-                  onFollowingTap: isMine ? () => FollowPage.push(context) : null,
+                  onFollowerTap: isMine ? () => FollowPage.push(context, 1) : null,
+                  onFollowingTap: isMine ? () => FollowPage.push(context, 0) : null,
                 ),
               ],
             ),
@@ -137,8 +137,8 @@ class _UserProfile extends ConsumerWidget {
                 GdsUserInfo.follow(
                   followerCount: user.followerCount ?? 0,
                   followingCount: user.followingCount ?? 0,
-                  onFollowerTap: isMine ? () => FollowPage.push(context) : null,
-                  onFollowingTap: isMine ? () => FollowPage.push(context) : null,
+                  onFollowerTap: isMine ? () => FollowPage.push(context, 1) : null,
+                  onFollowingTap: isMine ? () => FollowPage.push(context, 0) : null,
                 ),
               ],
             ),
