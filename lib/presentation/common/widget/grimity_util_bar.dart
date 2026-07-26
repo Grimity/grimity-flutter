@@ -98,26 +98,14 @@ class GrimityUtilBar extends HookConsumerWidget {
     return Row(
       spacing: GdsSpacing.spacing12,
       children: [
-        if (commentType == CommentType.feed) ...[
-          _buildItem(
-            context: context,
-            icon: isLike ? GdsIcon.heartFill : GdsIcon.heartOutline,
-            text: likeCount.toString(),
-            iconColor: isLike ? colors.status.notification : colors.icon.grayBold,
-            textColor: colors.text.grayBold,
-            onTap: onLikeTap,
-          ),
-        ] else ...[
-          _buildItem(
-            context: context,
-            icon: isSave ? GdsIcon.bookmarkFill : GdsIcon.bookmarkOutline,
-            text: likeCount.toString(),
-            iconColor: isSave ? colors.icon.primaryNormal : colors.icon.grayBold,
-            textColor: colors.text.grayBold,
-            onTap: onSaveTap,
-          ),
-        ],
-
+        _buildItem(
+          context: context,
+          icon: isLike ? GdsIcon.heartFill : GdsIcon.heartOutline,
+          text: likeCount.toString(),
+          iconColor: isLike ? colors.status.notification : colors.icon.grayBold,
+          textColor: colors.text.grayBold,
+          onTap: onLikeTap,
+        ),
         _buildItem(
           context: context,
           icon: GdsIcon.chatRound,
