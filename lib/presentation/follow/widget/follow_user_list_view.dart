@@ -4,15 +4,18 @@ import 'package:gds/gds.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/presentation/common/extension/user_ui_extension.dart';
-import 'package:grimity/presentation/follow/provider/follow_following_data_provider.dart';
 
 class FollowUserListView extends ConsumerWidget {
   const FollowUserListView({
     super.key,
     required this.users,
+    required this.onFollow,
+    required this.onUnfollow,
   });
 
   final List<User> users;
+  final ValueChanged<String> onFollow;
+  final ValueChanged<String> onUnfollow;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,27 +36,26 @@ class FollowUserListView extends ConsumerWidget {
             userId: user.handle,
             nickName: user.name,
             personAvatar: user.personAvatar,
-            primaryActionButton:
-                (user.isFollowing ?? false) ? buildFollowingButton(user, ref) : buildNotFollowButton(user, ref),
+            primaryActionButton: (user.isFollowing ?? false) ? buildFollowingButton(user) : buildNotFollowButton(user),
           ),
         );
       },
     );
   }
 
-  Widget buildFollowingButton(User user, WidgetRef ref) {
+  Widget buildFollowingButton(User user) {
     return GdsOutlinedButton(
       size: GdsOutlinedButtonSize.small,
       text: '팔로잉 중',
-      onPressed: () => ref.read(followingDataProvider.notifier).unfollow(user.id),
+      onPressed: () => onUnfollow(user.id),
     );
   }
 
-  Widget buildNotFollowButton(User user, WidgetRef ref) {
+  Widget buildNotFollowButton(User user) {
     return GdsSolidButton(
       size: GdsSolidButtonSize.small,
       text: '팔로잉',
-      onPressed: () => ref.read(followingDataProvider.notifier).follow(user.id),
+      onPressed: () => onFollow(user.id),
     );
   }
 }
