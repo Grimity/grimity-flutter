@@ -17,6 +17,7 @@ abstract class UserFeedResponse with _$UserFeedResponse implements FeedBaseRespo
     required DateTime createdAt,
     required int viewCount,
     required int likeCount,
+    required bool isLike,
     required int commentCount,
   }) = _UserFeedResponse;
 
@@ -33,6 +34,7 @@ extension UserFeedResponseX on UserFeedResponse {
       createdAt: createdAt,
       viewCount: viewCount,
       likeCount: likeCount,
+      isLike: isLike,
       commentCount: commentCount,
     );
   }
