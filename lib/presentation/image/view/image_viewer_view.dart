@@ -152,7 +152,14 @@ class _ImageViewerThumbnailView extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scrollController = useScrollController();
+    final viewportWidth = MediaQuery.of(context).size.width;
+    final initialOffset = calculateItemCenterOffset(
+      context: context,
+      viewportWidth: viewportWidth,
+      index: currentIndex,
+    );
+
+    final scrollController = useScrollController(initialScrollOffset: initialOffset);
     final pageIndex = useState(currentIndex);
     final colors = context.gdsColors;
 
@@ -168,7 +175,7 @@ class _ImageViewerThumbnailView extends HookWidget {
 
           if (pageIndex.value != newIndex) {
             pageIndex.value = newIndex;
-            align(context, newIndex, scrollController);
+            alignTo(context, newIndex, scrollController);
           }
         }
       }
@@ -218,7 +225,7 @@ class _ImageViewerThumbnailView extends HookWidget {
                 if (!isSelected) {
                   pageIndex.value = index;
                   pageController.animateToPage(index, duration: duration, curve: curve);
-                  align(context, index, scrollController);
+                  alignTo(context, index, scrollController);
                 }
               },
               child: GdsThumbnail(
@@ -234,30 +241,48 @@ class _ImageViewerThumbnailView extends HookWidget {
     );
   }
 
-  void align(BuildContext context, int index, ScrollController scrollController) {
+  void alignTo(BuildContext context, int index, ScrollController scrollController) {
     assert(pageController.page != null);
     assert(pageController.hasClients);
     assert(scrollController.hasClients);
 
-    // 아이템 하나당 간격 포함 너비 (64 + 8 = 72)
-    const itemWidth = GdsSpacing.spacing64 + GdsSpacing.spacing8;
-
-    // 화면 너비
     final viewportWidth = scrollController.position.viewportDimension;
+
+    scrollController.animateTo(
+      calculateItemCenterOffset(
+        context: context,
+        viewportWidth: viewportWidth,
+        index: index,
+      ),
+      duration: duration,
+      curve: curve,
+    );
+  }
+
+  double calculateItemCenterOffset({
+    required BuildContext context,
+    required double viewportWidth,
+    required int index,
+  }) {
+    // ListView.separated는 아이템 사이에만 separator를 배치한다.
+    const itemWidth = GdsSpacing.spacing64;
+    const separatorWidth = GdsSpacing.spacing8;
 
     // 좌측 패딩값
     final double leftPadding = context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20;
 
     // 현재 page 위치 아이템의 중앙 좌표
-    final itemCenter = leftPadding + (index * itemWidth) + (GdsSpacing.spacing64 / 2);
+    final itemCenter = leftPadding + (index * (itemWidth + separatorWidth)) + (itemWidth / 2);
 
     // 아이템 중앙이 화면 중앙에 오도록 스크롤 타겟 위치 계산
     final targetOffset = itemCenter - (viewportWidth / 2);
 
-    scrollController.animateTo(
-      targetOffset.clamp(0.0, scrollController.position.maxScrollExtent),
-      duration: duration,
-      curve: curve,
-    );
+    // 최대 스크롤 가능한 크기 계산
+    final itemCount = imageUrls.length;
+    final separatorCount = itemCount > 0 ? itemCount - 1 : 0;
+    final contentWidth = (itemWidth * itemCount) + (separatorWidth * separatorCount) + (leftPadding * 2);
+    final maxScrollExtent = (contentWidth - viewportWidth).clamp(0.0, double.infinity);
+
+    return targetOffset.clamp(0.0, maxScrollExtent);
   }
 }
