@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -137,7 +136,7 @@ class _ZoomableImage extends HookWidget {
   }
 }
 
-class _ImageViewerThumbnailView extends StatelessWidget {
+class _ImageViewerThumbnailView extends HookWidget {
   const _ImageViewerThumbnailView({
     required this.imageUrls,
     required this.currentIndex,
@@ -148,44 +147,117 @@ class _ImageViewerThumbnailView extends StatelessWidget {
   final int currentIndex;
   final PageController pageController;
 
+  static const duration = Duration(milliseconds: 250);
+  static const curve = Curves.ease;
+
   @override
   Widget build(BuildContext context) {
+    final scrollController = useScrollController();
+    final pageIndex = useState(currentIndex);
     final colors = context.gdsColors;
+
+    useEffect(() {
+      assert(pageController.hasClients);
+
+      final position = pageController.position;
+      final scrollingNotifier = position.isScrollingNotifier;
+
+      void listener() {
+        if (!scrollingNotifier.value) {
+          final newIndex = pageController.page!.round();
+
+          if (pageIndex.value != newIndex) {
+            pageIndex.value = newIndex;
+            align(context, newIndex, scrollController);
+          }
+        }
+      }
+
+      scrollingNotifier.addListener(listener);
+
+      return () {
+        scrollingNotifier.removeListener(listener);
+      };
+    }, [pageController, scrollController]);
 
     return Container(
       width: double.infinity,
       height: 80,
-      padding: const EdgeInsets.symmetric(vertical: GdsSpacing.spacing8),
       color: colors.bg.black.withOpacity(GdsOpacity.opacity80),
       alignment: Alignment.center,
-      child: SingleChildScrollView(
+      child: ListView.separated(
         scrollDirection: Axis.horizontal,
+        controller: scrollController,
         padding: EdgeInsets.symmetric(
+          vertical: GdsSpacing.spacing8,
           horizontal: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20,
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          spacing: GdsSpacing.spacing8,
-          children: [
-            ...imageUrls.mapIndexed((index, imageUrl) {
-              final isSelected = index == currentIndex;
+        separatorBuilder: (_, _) => SizedBox(width: GdsSpacing.spacing8),
+        itemCount: imageUrls.length,
+        itemBuilder: (context, index) {
+          final imageUrl = imageUrls[index];
+          final isSelected = index == currentIndex;
 
-              return GdsGesture(
-                onTap: () => pageController.jumpToPage(index),
-                child: Opacity(
-                  opacity: isSelected ? 1 : 0.5,
-                  child: GdsThumbnail(
-                    imageUrl: imageUrl,
-                    width: GdsSpacing.spacing64,
-                    height: GdsSpacing.spacing64,
-                    borderRadius: BorderRadius.circular(GdsRadius.lg),
-                  ),
-                ),
+          return ListenableBuilder(
+            listenable: pageController,
+            builder: (context, child) {
+              final page = pageIndex.value.toDouble();
+
+              double distance = (page - index).abs();
+              double opacity = (1.0 - (distance * 0.5)).clamp(0.5, 1.0);
+
+              return AnimatedOpacity(
+                duration: Duration(milliseconds: 250),
+                curve: Curves.ease,
+                opacity: opacity,
+                child: child,
               );
-            }),
-          ],
-        ),
+            },
+            child: GdsGesture(
+              onTap: () {
+                if (!isSelected) {
+                  pageIndex.value = index;
+                  pageController.animateToPage(index, duration: duration, curve: curve);
+                  align(context, index, scrollController);
+                }
+              },
+              child: GdsThumbnail(
+                imageUrl: imageUrl,
+                width: GdsSpacing.spacing64,
+                height: GdsSpacing.spacing64,
+                borderRadius: BorderRadius.circular(GdsRadius.lg),
+              ),
+            ),
+          );
+        },
       ),
+    );
+  }
+
+  void align(BuildContext context, int index, ScrollController scrollController) {
+    assert(pageController.page != null);
+    assert(pageController.hasClients);
+    assert(scrollController.hasClients);
+
+    // 아이템 하나당 간격 포함 너비 (64 + 8 = 72)
+    const itemWidth = GdsSpacing.spacing64 + GdsSpacing.spacing8;
+
+    // 화면 너비
+    final viewportWidth = scrollController.position.viewportDimension;
+
+    // 좌측 패딩값
+    final double leftPadding = context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20;
+
+    // 현재 page 위치 아이템의 중앙 좌표
+    final itemCenter = leftPadding + (index * itemWidth) + (GdsSpacing.spacing64 / 2);
+
+    // 아이템 중앙이 화면 중앙에 오도록 스크롤 타겟 위치 계산
+    final targetOffset = itemCenter - (viewportWidth / 2);
+
+    scrollController.animateTo(
+      targetOffset.clamp(0.0, scrollController.position.maxScrollExtent),
+      duration: duration,
+      curve: curve,
     );
   }
 }
