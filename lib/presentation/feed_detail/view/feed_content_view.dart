@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:gds/gds.dart';
@@ -19,6 +20,7 @@ import 'package:grimity/presentation/common/widget/popup/grimity_share_popup.dar
 import 'package:grimity/presentation/feed_detail/widget/feed_detail_delete_dialog.dart';
 import 'package:grimity/presentation/feed_detail/widget/feed_util_bar.dart';
 import 'package:grimity/presentation/report/report_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// 피드 본문 View
 class FeedContentView extends ConsumerWidget {
@@ -222,9 +224,16 @@ class _FeedContentSection extends StatelessWidget {
           style: GdsTypography.title3.copyWith(color: colors.text.grayBold),
         ),
         Gap(context.isMobile ? GdsSpacing.spacing8 : GdsSpacing.spacing20),
-        Text(
-          feed.content ?? '',
+        Linkify(
+          text: feed.content ?? '',
           style: GdsTypography.body2R.copyWith(color: colors.text.grayBold),
+          linkStyle: GdsTypography.body2R.copyWith(
+            color: colors.text.primaryNormal,
+            decoration: TextDecoration.none,
+            decorationColor: colors.text.primaryNormal,
+          ),
+          options: const LinkifyOptions(defaultToHttps: true),
+          onOpen: (link) => launchUrl(Uri.parse(link.url), mode: LaunchMode.externalApplication),
         ),
         Gap(GdsSpacing.spacing16),
         GdsUserInfo.defaultType(
