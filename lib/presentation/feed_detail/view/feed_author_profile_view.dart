@@ -87,11 +87,18 @@ class _AuthorProfile extends ConsumerWidget {
           text: '작품 보기',
           onPressed: () => goProfile(context),
         ),
-        secondaryActionButton: GdsSolidButton(
-          size: GdsSolidButtonSize.small,
-          text: isFollowing ? '언팔로잉' : '팔로잉',
-          onPressed: () => toggleFollow(ref),
-        ),
+        secondaryActionButton:
+            isFollowing
+                ? GdsOutlinedButton(
+                  size: GdsOutlinedButtonSize.small,
+                  text: '언팔로우',
+                  onPressed: () => toggleFollow(ref),
+                )
+                : GdsSolidButton(
+                  size: GdsSolidButtonSize.small,
+                  text: '팔로우',
+                  onPressed: () => toggleFollow(ref),
+                ),
       ),
     );
   }
