@@ -94,12 +94,6 @@ class ChatMessageProvider extends _$ChatMessageProvider {
     ref.onDispose(() {
       // 연결된 웹소켓 연결 끊기.
       _socket.dispose();
-
-      // 변경되었을 수 있는 메시지 내용 때문에 채팅 목록 새로고침.
-      ref.read(chatProviderProvider.notifier).ensureUpdated();
-
-      // [User.hasUnreadChatMessage]와 같은 중간에 변경되었을 수 있는 사용자 정보 새로고침.
-      ref.read(userAuthProvider.notifier).getUser();
     });
 
     final historyResponse = responses[1] as ChatMessageResponse;
@@ -135,9 +129,10 @@ class ChatMessageProvider extends _$ChatMessageProvider {
     );
 
     // 소켓 연결 시 채팅방에 대한 입장 상태를 서버에 알림.
-    _socket.onConnect((_) {
+    _socket.onConnect((_) async {
       socketId = _socket.id!;
-      getIt<ChatAPI>().join(chatId, SocketChatRequest(socketId: socketId));
+      await getIt<ChatAPI>().join(chatId, SocketChatRequest(socketId: socketId));
+      await _refreshChatState();
     });
 
     // 연결 해제 시에도 채팅방에서 나갔다고 서버에게 알림.
@@ -161,6 +156,7 @@ class ChatMessageProvider extends _$ChatMessageProvider {
       });
 
       addMessages(messages.toList());
+      _refreshChatState();
     });
 
     // 메세지 좋아요 이벤트.
@@ -208,6 +204,17 @@ class ChatMessageProvider extends _$ChatMessageProvider {
     );
 
     state = AsyncData(_state.copyWith(inputMessage: "", inputImages: [], inputReply: null));
+    await _refreshChatState();
+  }
+
+  /// 서버에서 읽음 처리가 완료된 뒤 채팅 목록과 전역 안 읽음 배지를 동기화합니다.
+  Future<void> _refreshChatState() async {
+    if (!ref.mounted) return;
+
+    await Future.wait([
+      ref.read(chatProviderProvider.notifier).ensureUpdated(),
+      ref.read(userAuthProvider.notifier).getUser(),
+    ]);
   }
 
   /// 다음 페이지에 대한 추가 데이터를 불러옵니다.
