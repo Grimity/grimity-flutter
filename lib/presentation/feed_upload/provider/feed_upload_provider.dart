@@ -63,6 +63,20 @@ class FeedUpload extends _$FeedUpload {
     state = state.copyWith(images: images);
   }
 
+  /// 길게 누른 이미지를 새 위치로 이동합니다.
+  void reorderImage(int oldIndex, int newIndex) {
+    if (oldIndex < 0 || oldIndex >= state.images.length) return;
+
+    if (oldIndex < newIndex) newIndex -= 1;
+    newIndex = newIndex.clamp(0, state.images.length - 1);
+    if (oldIndex == newIndex) return;
+
+    final images = [...state.images];
+    final image = images.removeAt(oldIndex);
+    images.insert(newIndex, image);
+    state = state.copyWith(images: images);
+  }
+
   /// 대표 이미지 업데이트
   void updateThumbnailImage(ImageSourceItem thumbnailImage) {
     state = state.copyWith(thumbnailImage: thumbnailImage);
@@ -129,7 +143,17 @@ class FeedUpload extends _$FeedUpload {
 
       if (state.images.isNotEmpty) {
         final urlResult = await ImageUpload.uploadAssets(state.images, PresignedType.feed);
-        cards = urlResult.map((e) => e.imageName).toList();
+        final assetCount = state.images.whereType<AssetImageSource>().length;
+        if (urlResult.length != assetCount) return null;
+
+        final uploadedImages = urlResult.iterator;
+        cards =
+            state.images.map((image) {
+              return switch (image) {
+                RemoteImageSource(:final url) => url.replaceFirst(AppConfig.imageUrl, ''),
+                AssetImageSource() => (uploadedImages..moveNext()).current.imageName,
+              };
+            }).toList();
       }
 
       // 4. 피드 생성/수정 요청
@@ -162,10 +186,6 @@ class FeedUpload extends _$FeedUpload {
       }
       // 4.2 update
       else {
-        final remoteImages = state.images.whereType<RemoteImageSource>().map((e) => e.url).toList();
-        // imageUrl 제거 처리 후 나머지 path 사용
-        final remoteImageCards = remoteImages.map((e) => e.replaceFirst(AppConfig.imageUrl, '')).toList();
-        cards = [...remoteImageCards, ...cards];
         final thumbnail = cards[thumbnailIndex];
 
         final updateFeedRequest = UpdateFeedUseCaseParam(

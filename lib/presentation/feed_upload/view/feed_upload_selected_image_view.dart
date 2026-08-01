@@ -20,16 +20,42 @@ class FeedUploadSelectedImageView extends ConsumerWidget {
 
     return SizedBox(
       height: 240,
-      child: ListView(
+      child: ReorderableListView.builder(
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.symmetric(
           horizontal: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20,
         ),
-        children: [
-          ...state.images.map((imageSource) {
-            final isThumbnail = state.thumbnailImage == imageSource;
+        buildDefaultDragHandles: false,
+        itemCount: state.images.length + 1,
+        proxyDecorator: (child, index, animation) {
+          return AnimatedBuilder(
+            animation: animation,
+            child: child,
+            builder: (context, child) {
+              return Transform.scale(
+                scale: 1 + (animation.value * 0.1),
+                child: Material(
+                  type: MaterialType.transparency,
+                  color: Colors.transparent,
+                  child: child,
+                ),
+              );
+            },
+          );
+        },
+        onReorder: notifier.reorderImage,
+        itemBuilder: (context, index) {
+          if (index == state.images.length) {
+            return FeedUploadAddImageButton(key: const ValueKey('feed-upload-add-image'));
+          }
 
-            return Padding(
+          final imageSource = state.images[index];
+          final isThumbnail = state.thumbnailImage == imageSource;
+
+          return ReorderableDelayedDragStartListener(
+            key: ObjectKey(imageSource),
+            index: index,
+            child: Padding(
               padding: EdgeInsets.only(right: GdsSpacing.spacing16),
               child: _FeedUploadSelectedImage(
                 imageSource: imageSource,
@@ -37,10 +63,9 @@ class FeedUploadSelectedImageView extends ConsumerWidget {
                 onThumbnailTap: () => notifier.updateThumbnailImage(imageSource),
                 onRemoveTap: () => notifier.removeImage(imageSource),
               ),
-            );
-          }),
-          FeedUploadAddImageButton(),
-        ],
+            ),
+          );
+        },
       ),
     );
   }
