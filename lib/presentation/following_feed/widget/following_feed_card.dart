@@ -68,6 +68,10 @@ class _FollowingFeedCardState extends ConsumerState<FollowingFeedCard> {
               layerLink: layerLink,
               onPressed: () => _openMoreMenuPopup(context, layerLink),
             ),
+            onProfileTap: () {
+              // 유저 프로필 페이지로 이동
+              ProfileRoute(url: feed.author!.url).push(context);
+            },
           ),
         ),
         Gap(GdsSpacing.spacing8),
