@@ -101,7 +101,7 @@ class _GrimityPostCardState extends State<GrimityPostCard> {
       showHeart: false,
       showTime: true,
       showChat: true,
-      showView: widget.showPostType,
+      showView: true,
       timeText: post.createdAt.toRelativeTime(),
     );
 
