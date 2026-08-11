@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_config.dart';
+import 'package:grimity/app/config/app_post_typography.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/enum/post_type.enum.dart';
 import 'package:grimity/app/enum/report.enum.dart';
@@ -242,13 +243,31 @@ class _PostContentSection extends StatelessWidget {
       customStylesBuilder: (e) {
         switch (e.localName) {
           case 'h1':
-            return {'font-size': '32px', 'font-weight': '700', 'line-height': '38px', 'margin': '0 0 14px 0'};
+            return {
+              'font-size': '${AppPostTypography.h1FontSize}px',
+              'font-weight': '${AppPostTypography.h1FontWeight.value}',
+              'line-height': '${AppPostTypography.h1LineHeight}',
+            };
           case 'h2':
-            return {'font-size': '24px', 'font-weight': '600', 'line-height': '30px', 'margin': '0 0 14px 0'};
+            return {
+              'font-size': '${AppPostTypography.h2FontSize}px',
+              'font-weight': '${AppPostTypography.h2FontWeight.value}',
+              'line-height': '${AppPostTypography.h2LineHeight}',
+            };
           case 'p':
-            return {'font-size': '16px', 'font-weight': '500', 'line-height': '24px', 'margin': '0 0 6px 0'};
+            return {
+              'font-size': '${AppPostTypography.paragraphFontSize}px',
+              'font-weight': '${AppPostTypography.paragraphFontWeight.value}',
+              'line-height': '${AppPostTypography.paragraphLineHeight}',
+            };
           case 'a':
-            return {'color': colors.text.primaryNormal.toHexColor(), 'text-decoration': 'none'};
+            return {
+              'color': colors.text.primaryNormal.toHexColor(),
+              'font-size': '${AppPostTypography.paragraphFontSize}px',
+              'font-weight': '${AppPostTypography.paragraphFontWeight.value}',
+              'line-height': '${AppPostTypography.paragraphLineHeight}',
+              'text-decoration': 'none',
+            };
           case 'strong':
           case 'b':
             return {'font-weight': '700'};
