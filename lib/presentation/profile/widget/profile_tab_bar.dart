@@ -14,8 +14,13 @@ class ProfileTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
+    final colors = context.gdsColors;
+
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(bottom: BorderSide(color: colors.border.graySubtle)),
+      ),
+      margin: EdgeInsets.symmetric(
         horizontal: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing20,
       ),
       child: ListenableBuilder(
@@ -23,6 +28,7 @@ class ProfileTabBar extends StatelessWidget {
         builder: (context, child) {
           return GdsTab(
             size: context.isMobile ? GdsTabSize.sm : GdsTabSize.md,
+            showBorder: false,
             controller: tabController,
             items: [
               GdsTabItem(label: '그림', onTap: () => tabController.animateTo(0), badge: '${user.feedCount}'),
