@@ -245,10 +245,6 @@ class _FeedContentSection extends StatelessWidget {
           showHeart: true,
           showView: true,
           showTime: true,
-          onNameTap: () {
-            // 프로필 페이지로 이동.
-            ProfileRoute(url: feed.author!.id).push(context);
-          },
         ),
       ],
     );

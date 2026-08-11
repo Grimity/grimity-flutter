@@ -99,6 +99,10 @@ class _AuthorProfile extends ConsumerWidget {
                   text: '팔로우',
                   onPressed: () => toggleFollow(ref),
                 ),
+        onProfileTap: () {
+          // 프로필 페이지로 이동.
+          ProfileRoute(url: profile!.url).push(context);
+        },
       ),
     );
   }
