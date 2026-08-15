@@ -137,7 +137,7 @@ class ProfileEdit extends _$ProfileEdit {
         await ref.read(userAuthProvider.notifier).getUser();
       }
 
-      return result.fold(
+      return await result.fold(
         onSuccess: (data) {
           ToastService.showSuccess('프로필 수정이 완료되었어요');
           return true;
