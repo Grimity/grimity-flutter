@@ -16,8 +16,6 @@ class BoardTabHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.gdsColors;
-
     void onTap(PostType type) {
       final index = types.indexOf(type);
       if (index != tabController.index) {
@@ -25,16 +23,10 @@ class BoardTabHeader extends StatelessWidget {
       }
     }
 
-    return Container(
-      decoration: BoxDecoration(
-        border: context.isMobile ? Border(bottom: BorderSide(color: colors.border.graySubtle)) : null,
-      ),
-      child: GdsTab(
-        size: context.isMobile ? GdsTabSize.sm : GdsTabSize.md,
-        items: types.map((type) => GdsTabItem(label: type.displayName, onTap: () => onTap(type))).toList(),
-        controller: tabController,
-        showBorder: false,
-      ),
+    return GdsTab(
+      size: context.isMobile ? GdsTabSize.sm : GdsTabSize.md,
+      items: types.map((type) => GdsTabItem(label: type.displayName, onTap: () => onTap(type))).toList(),
+      controller: tabController,
     );
   }
 }
