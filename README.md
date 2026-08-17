@@ -52,6 +52,8 @@ dart run tools/openapi.dart
 
 해당 CLI는 서버 `dev` 브랜치의 최신 OpenAPI 명세를 불러온 뒤 `swagger_parser`와 `build_runner`를 순서대로 실행합니다.
 
+자세한 내용은 [프론트엔드 OpenAPI codegen 적용 가이드](https://github.com/Grimity/server/blob/main/docs/frontend-codegen-guide.md)를 참고하세요.
+
 > [!WARNING]
 > `lib/data/gen` 내부는 자동 생성되는 코드이므로 직접 수정하지 마세요. 서버 API가 변경되면 위 명령어를 다시 실행해야 합니다.
 
