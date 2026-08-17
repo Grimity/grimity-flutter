@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/di/di_setup.dart';
-import 'package:grimity/data/data_source/remote/chat_api.dart';
-import 'package:grimity/data/data_source/remote/me_api.dart';
-import 'package:grimity/data/model/user/follow_user_response.dart';
-import 'package:grimity/domain/dto/chat_request_params.dart';
+import 'package:grimity/data/gen/models/create_chat_request.dart';
+import 'package:grimity/data/gen/models/follow_user_response.dart';
+import 'package:grimity/data/gen/rest_client.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'new_chat_provider.freezed.dart';
@@ -26,7 +25,7 @@ class NewChatProvider extends _$NewChatProvider {
 
   @override
   FutureOr<NewChatState> build() async {
-    final response = await getIt<MeAPI>().getMyFollowings(null, null, null);
+    final response = await getIt<RestClient>().me.meGetMyFollowings();
     return NewChatState(
       keyword: null,
       followings: response.followings,
@@ -36,7 +35,7 @@ class NewChatProvider extends _$NewChatProvider {
 
   /// 현재 선택된 사용자에 대한 채팅 방을 생성하고 뷰어로 이동합니다.
   void submit(BuildContext context, FollowUserResponse user) async {
-    final response = await getIt<ChatAPI>().createChat(CreateChatRequest(targetUserId: user.id));
+    final response = await getIt<RestClient>().chats.chatCreateChat(body: CreateChatRequest(targetUserId: user.id));
 
     // 메세지 뷰어 페이지로 이동.
     if (context.mounted) {
@@ -47,7 +46,10 @@ class NewChatProvider extends _$NewChatProvider {
   /// 다음 페이지에 대한 추가 데이터를 불러옵니다.
   Future<void> loadMore() async {
     assert(state.value?.nextCursor != null);
-    final response = await getIt<MeAPI>().getMyFollowings(null, state.value?.nextCursor, state.value?.keyword);
+    final response = await getIt<RestClient>().me.meGetMyFollowings(
+      cursor: state.value?.nextCursor,
+      keyword: state.value?.keyword,
+    );
 
     state = AsyncData(
       state.value!.copyWith(
@@ -65,7 +67,7 @@ class NewChatProvider extends _$NewChatProvider {
 
   /// 현재 설정된 검색 키워드를 기반으로 데이터를 다시 불러옵니다.
   Future<void> refresh() async {
-    final response = await getIt<MeAPI>().getMyFollowings(null, null, _keyword);
+    final response = await getIt<RestClient>().me.meGetMyFollowings(keyword: _keyword);
 
     state = AsyncData(
       state.value!.copyWith(

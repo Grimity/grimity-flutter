@@ -3,7 +3,7 @@ import 'package:grimity/app/base/use_case.dart';
 import 'package:grimity/domain/dto/auth_request_params.dart';
 import 'package:grimity/domain/entity/token.dart';
 import 'package:grimity/domain/entity/user.dart';
-import 'package:grimity/domain/repository/auth_repository.dart';
+import 'package:grimity/data/service/auth_service.dart';
 import 'package:grimity/domain/usecase/me_usecases.dart';
 import 'package:grimity/domain/usecase/auth_usecases.dart';
 import 'package:grimity/presentation/common/provider/auth_credential_provider.dart';
@@ -12,13 +12,13 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class CompleteRegisterUseCase extends ParamWithRefUseCase<RegisterRequestParam, Result<User>> {
-  CompleteRegisterUseCase(this._authRepository);
+  CompleteRegisterUseCase(this._authService);
 
-  final AuthRepository _authRepository;
+  final AuthService _authService;
   @override
   Future<Result<User>> execute(RegisterRequestParam param, Ref ref) async {
     // 회원가입 시도
-    final Result<Token> registerResult = await _authRepository.register(param);
+    final Result<Token> registerResult = await _authService.register(param);
 
     if (registerResult.isFailure) {
       return Result.failure(registerResult.error);

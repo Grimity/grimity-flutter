@@ -2,17 +2,17 @@ import 'dart:async';
 
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/app/base/use_case.dart';
-import 'package:grimity/domain/repository/post_comments_repository.dart';
+import 'package:grimity/data/service/post_comments_service.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 class LikePostCommentUseCase extends UseCase<String, Result<void>> {
-  LikePostCommentUseCase(this._postCommentsRepository);
+  LikePostCommentUseCase(this._postCommentsService);
 
-  final PostCommentsRepository _postCommentsRepository;
+  final PostCommentsService _postCommentsService;
 
   @override
   FutureOr<Result<void>> execute(String id) async {
-    return await _postCommentsRepository.likePostComment(id);
+    return await _postCommentsService.likePostComment(id);
   }
 }

@@ -1,8 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grimity/app/di/di_setup.dart';
-import 'package:grimity/data/data_source/remote/chat_api.dart';
-import 'package:grimity/data/model/chat/chat_response.dart';
+import 'package:grimity/data/gen/models/chat_response.dart';
+import 'package:grimity/data/gen/rest_client.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'chat_provider.freezed.dart';
@@ -34,7 +34,7 @@ class ChatProvider extends _$ChatProvider {
 
   @override
   FutureOr<ChatState> build() async {
-    final response = await getIt<ChatAPI>().search(null, null, null);
+    final response = await getIt<RestClient>().chats.chatSearch();
 
     return ChatState(
       chats: response.chats,
@@ -54,14 +54,14 @@ class ChatProvider extends _$ChatProvider {
   /// 다음 페이지에 대한 추가 데이터를 불러옵니다.
   Future<void> loadMore() async {
     assert(_state.nextCursor != null);
-    final response = await getIt<ChatAPI>().search(null, _state.nextCursor, _state.keyword);
+    final response = await getIt<RestClient>().chats.chatSearch(cursor: _state.nextCursor, keyword: _state.keyword);
 
     state = AsyncData(_state.copyWith(chats: [..._state.chats, ...response.chats], nextCursor: response.nextCursor));
   }
 
   /// 현재 데이터를 모두 버리고 다시 처음부터 데이터를 불러옵니다.
   Future<void> refresh() async {
-    final response = await getIt<ChatAPI>().search(null, null, _keyword);
+    final response = await getIt<RestClient>().chats.chatSearch(keyword: _keyword);
 
     state = AsyncData(_state.copyWith(chats: response.chats, keyword: _keyword, nextCursor: response.nextCursor));
   }

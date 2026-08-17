@@ -2,17 +2,17 @@ import 'dart:async';
 
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/app/base/use_case.dart';
-import 'package:grimity/domain/repository/notifications_repository.dart';
+import 'package:grimity/data/service/notifications_service.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 class DeleteAllNotificationUseCase extends NoParamUseCase<Result<void>> {
-  DeleteAllNotificationUseCase(this._notificationsRepository);
+  DeleteAllNotificationUseCase(this._notificationsService);
 
-  final NotificationsRepository _notificationsRepository;
+  final NotificationsService _notificationsService;
 
   @override
   FutureOr<Result<void>> execute() async {
-    return await _notificationsRepository.deleteAllNotifications();
+    return await _notificationsService.deleteAllNotifications();
   }
 }

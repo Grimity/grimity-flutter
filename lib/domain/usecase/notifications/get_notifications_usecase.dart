@@ -3,17 +3,17 @@ import 'dart:async';
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/app/base/use_case.dart';
 import 'package:grimity/domain/entity/notification.dart';
-import 'package:grimity/domain/repository/notifications_repository.dart';
+import 'package:grimity/data/service/notifications_service.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 class GetNotificationsUseCase extends NoParamUseCase<Result<List<Notification>>> {
-  GetNotificationsUseCase(this._notificationsRepository);
+  GetNotificationsUseCase(this._notificationsService);
 
-  final NotificationsRepository _notificationsRepository;
+  final NotificationsService _notificationsService;
 
   @override
   FutureOr<Result<List<Notification>>> execute() async {
-    return await _notificationsRepository.getNotifications();
+    return await _notificationsService.getNotifications();
   }
 }

@@ -6,15 +6,15 @@ import 'package:grimity/app/enum/presigned.enum.dart';
 import 'package:grimity/app/environment/flavor.dart';
 import 'package:grimity/app/image/image_upload.dart';
 import 'package:grimity/app/service/toast_service.dart';
-import 'package:grimity/data/data_source/remote/chat_api.dart';
-import 'package:grimity/data/data_source/remote/chat_message_api.dart';
-import 'package:grimity/data/model/chat_message/chat_message_item_response.dart';
-import 'package:grimity/data/model/chat_message/chat_message_reply_response.dart';
-import 'package:grimity/data/model/chat_message/chat_message_response.dart';
-import 'package:grimity/data/model/chat_message/chat_message_socket_response.dart';
-import 'package:grimity/data/model/user/opponent_user_response.dart';
-import 'package:grimity/domain/dto/chat_message_request_params.dart';
-import 'package:grimity/domain/dto/chat_request_params.dart';
+import 'package:grimity/data/gen/models/chat_message_response.dart';
+import 'package:grimity/data/gen/models/chat_messages_response.dart';
+import 'package:grimity/data/gen/models/create_chat_message_request.dart';
+import 'package:grimity/data/gen/models/join_chat_request.dart';
+import 'package:grimity/data/gen/models/leave_chat_request.dart';
+import 'package:grimity/data/gen/models/opponent_user_response.dart';
+import 'package:grimity/data/gen/models/reply_to_response.dart';
+import 'package:grimity/data/gen/rest_client.dart';
+import 'package:grimity/data/realtime/chat_message_socket_response.dart';
 import 'package:grimity/domain/entity/image_upload_url.dart';
 import 'package:grimity/domain/usecase/auth_usecases.dart';
 import 'package:grimity/presentation/chat/provider/chat_provider.dart';
@@ -36,10 +36,10 @@ abstract class ChatMessage with _$ChatMessage {
     required DateTime createdAt,
     required String userId,
     required bool isLike,
-    required ChatMessageReplyResponse? replyTo,
+    required ReplyToResponse? replyTo,
   }) = _ChatMessage;
 
-  static ChatMessage fromItemResponse(ChatMessageItemResponse response) {
+  static ChatMessage fromItemResponse(ChatMessageResponse response) {
     return ChatMessage(
       id: response.id,
       content: response.content,
@@ -58,7 +58,7 @@ abstract class ChatMessageState with _$ChatMessageState {
     required OpponentUserResponse opponentUser,
     required String inputMessage,
     required List<ImageSourceItem> inputImages,
-    required ChatMessageReplyResponse? inputReply,
+    required ReplyToResponse? inputReply,
     required List<ChatMessage> messages,
     required String? nextCursor,
   }) = _ChatMessageState;
@@ -85,8 +85,8 @@ class ChatMessageProvider extends _$ChatMessageProvider {
   @override
   FutureOr<ChatMessageState> build({required String chatId}) async {
     final responses = await Future.wait([
-      getIt<ChatAPI>().getUserByChat(chatId),
-      getIt<ChatMessageAPI>().getMessages(loadItemSize, null, chatId),
+      getIt<RestClient>().chats.chatGetOpponentUser(id: chatId),
+      getIt<RestClient>().chatMessages.chatMessageGetMessages(chatId: chatId, size: loadItemSize),
     ]);
 
     connectSocket();
@@ -96,7 +96,7 @@ class ChatMessageProvider extends _$ChatMessageProvider {
       _socket.dispose();
     });
 
-    final historyResponse = responses[1] as ChatMessageResponse;
+    final historyResponse = responses[1] as ChatMessagesResponse;
     final state = ChatMessageState(
       opponentUser: responses[0] as OpponentUserResponse,
       inputMessage: "",
@@ -131,13 +131,13 @@ class ChatMessageProvider extends _$ChatMessageProvider {
     // 소켓 연결 시 채팅방에 대한 입장 상태를 서버에 알림.
     _socket.onConnect((_) async {
       socketId = _socket.id!;
-      await getIt<ChatAPI>().join(chatId, SocketChatRequest(socketId: socketId));
+      await getIt<RestClient>().chats.chatJoinChat(id: chatId, body: JoinChatRequest(socketId: socketId));
       await _refreshChatState();
     });
 
     // 연결 해제 시에도 채팅방에서 나갔다고 서버에게 알림.
     _socket.onDisconnect((_) {
-      getIt<ChatAPI>().leave(chatId, SocketChatRequest(socketId: socketId));
+      getIt<RestClient>().chats.chatLeaveChat(id: chatId, body: LeaveChatRequest(socketId: socketId));
     });
 
     // 새로운 메세지 이벤트.
@@ -194,8 +194,8 @@ class ChatMessageProvider extends _$ChatMessageProvider {
     // 메세지 전송 시, 사용자 입력 필드 초기화.
     inputMessageController.text = "";
 
-    await getIt<ChatMessageAPI>().sendMessage(
-      SendChatMessageRequest(
+    await getIt<RestClient>().chatMessages.chatMessageCreate(
+      body: CreateChatMessageRequest(
         chatId: chatId,
         content: _state.inputMessage,
         images: uploadImages.map((e) => e.imageName).toList(),
@@ -219,7 +219,11 @@ class ChatMessageProvider extends _$ChatMessageProvider {
 
   /// 다음 페이지에 대한 추가 데이터를 불러옵니다.
   Future<void> loadMore() async {
-    final response = await getIt<ChatMessageAPI>().getMessages(loadItemSize, _state.nextCursor, chatId);
+    final response = await getIt<RestClient>().chatMessages.chatMessageGetMessages(
+      chatId: chatId,
+      size: loadItemSize,
+      cursor: _state.nextCursor,
+    );
 
     addMessages(response.messages.map(ChatMessage.fromItemResponse).toList());
     state = AsyncData(_state.copyWith(nextCursor: response.nextCursor));
@@ -248,10 +252,11 @@ class ChatMessageProvider extends _$ChatMessageProvider {
   void setInputReply(ChatMessage message) {
     state = AsyncData(
       _state.copyWith(
-        inputReply: ChatMessageReplyResponse(
+        inputReply: ReplyToResponse(
           id: message.id,
           content: message.content,
           image: message.image,
+          images: message.image == null ? const [] : [message.image!],
           createdAt: message.createdAt,
         ),
       ),
@@ -293,9 +298,9 @@ class ChatMessageProvider extends _$ChatMessageProvider {
 
     try {
       if (isLike) {
-        await getIt<ChatMessageAPI>().likeMessage(message.id);
+        await getIt<RestClient>().chatMessages.chatMessageLikeMessage(id: message.id);
       } else {
-        await getIt<ChatMessageAPI>().unlikeMessage(message.id);
+        await getIt<RestClient>().chatMessages.chatMessageUnlikeMessage(id: message.id);
       }
     } catch (e) {
       // 예외 발생 시 롤백.

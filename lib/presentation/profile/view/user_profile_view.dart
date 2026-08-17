@@ -9,8 +9,8 @@ import 'package:grimity/app/di/di_setup.dart';
 import 'package:grimity/app/enum/login_provider.enum.dart';
 import 'package:grimity/app/enum/report.enum.dart';
 import 'package:grimity/app/service/toast_service.dart';
-import 'package:grimity/data/data_source/remote/chat_api.dart';
-import 'package:grimity/domain/dto/chat_request_params.dart';
+import 'package:grimity/data/gen/models/create_chat_request.dart';
+import 'package:grimity/data/gen/rest_client.dart';
 import 'package:grimity/domain/entity/user.dart';
 import 'package:grimity/domain/usecase/me_usecases.dart';
 import 'package:grimity/presentation/block/widget/blocked_users_modal.dart';
@@ -298,7 +298,7 @@ class _UserProfile extends ConsumerWidget {
             context.pop();
 
             final request = CreateChatRequest(targetUserId: user.id);
-            final response = await getIt<ChatAPI>().createChat(request);
+            final response = await getIt<RestClient>().chats.chatCreateChat(body: request);
 
             if (context.mounted) {
               ChatMessageRoute(response.id).push(context);

@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/di/di_setup.dart';
-import 'package:grimity/data/data_source/remote/chat_api.dart';
+import 'package:grimity/data/gen/rest_client.dart';
 
 Future<T?> showDeleteChatDialog<T>({required BuildContext context, required String chatId}) {
   final alert = GdsAlert(
@@ -13,7 +13,7 @@ Future<T?> showDeleteChatDialog<T>({required BuildContext context, required Stri
     secondaryLabel: '아니요',
     onSecondaryTap: () => context.pop(),
     onPrimaryTap: () async {
-      await getIt<ChatAPI>().deleteChat(chatId);
+      await getIt<RestClient>().chats.chatDeleteChat(id: chatId);
 
       // 채팅방 자체가 제거되었으므로 관련 모달 및 현재 페이지 닫기.
       if (context.mounted) {

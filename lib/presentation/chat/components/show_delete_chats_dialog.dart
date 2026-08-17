@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grimity/app/di/di_setup.dart';
-import 'package:grimity/data/data_source/remote/chat_api.dart';
-import 'package:grimity/domain/dto/chat_request_params.dart';
+import 'package:grimity/data/gen/models/batch_delete_chats_request.dart';
+import 'package:grimity/data/gen/rest_client.dart';
 
 Future<T?> showDeleteChatsDialog<T>({required BuildContext context, required List<String> chatIds}) {
   final alert = GdsAlert(
@@ -15,7 +15,7 @@ Future<T?> showDeleteChatsDialog<T>({required BuildContext context, required Lis
     onSecondaryTap: () => context.pop(),
     onPrimaryTap: () async {
       context.pop();
-      await getIt<ChatAPI>().batchDeleteChat(BatchDeleteChatRequest(ids: chatIds));
+      await getIt<RestClient>().chats.chatDeleteManyChat(body: BatchDeleteChatsRequest(ids: chatIds));
     },
   );
 

@@ -1,17 +1,17 @@
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/app/base/use_case.dart';
 import 'package:grimity/domain/entity/post.dart';
-import 'package:grimity/domain/repository/post_repository.dart';
+import 'package:grimity/data/service/post_service.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 class GetNoticesUseCase extends NoParamUseCase<Result<List<Post>>> {
-  GetNoticesUseCase(this._postRepository);
+  GetNoticesUseCase(this._postService);
 
-  final PostRepository _postRepository;
+  final PostService _postService;
 
   @override
   Future<Result<List<Post>>> execute() async {
-    return await _postRepository.getNotices();
+    return await _postService.getNotices();
   }
 }

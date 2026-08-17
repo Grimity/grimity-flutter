@@ -1,15 +1,15 @@
 import 'package:grimity/app/base/use_case.dart';
-import 'package:grimity/domain/repository/settings_repository.dart';
+import 'package:grimity/data/service/pref_settings_service.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 class RemovePrefSettingsUseCase extends UseCase<String, Future<void>> {
-  RemovePrefSettingsUseCase(@Named("sharedPref") this._settingsRepository);
+  RemovePrefSettingsUseCase(@Named("sharedPref") this._settingsService);
 
-  final SettingsRepository _settingsRepository;
+  final PrefSettingsService _settingsService;
 
   @override
   Future<void> execute(String key) async {
-    return await _settingsRepository.removeSetting(key);
+    return await _settingsService.removeSetting(key);
   }
 }

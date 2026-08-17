@@ -3,17 +3,17 @@ import 'dart:async';
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/app/base/use_case.dart';
 import 'package:grimity/domain/entity/subscription.dart';
-import 'package:grimity/domain/repository/me_repository.dart';
+import 'package:grimity/data/service/me_service.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 class GetSubscriptionUseCase extends NoParamUseCase<Result<Subscription>> {
-  GetSubscriptionUseCase(this._meRepository);
+  GetSubscriptionUseCase(this._meService);
 
-  final MeRepository _meRepository;
+  final MeService _meService;
 
   @override
   FutureOr<Result<Subscription>> execute() async {
-    return await _meRepository.getSubscription();
+    return await _meService.getSubscription();
   }
 }

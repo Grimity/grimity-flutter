@@ -2,17 +2,17 @@ import 'dart:async';
 
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/app/base/use_case.dart';
-import 'package:grimity/domain/repository/me_repository.dart';
+import 'package:grimity/data/service/me_service.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 class DeleteFollowerByIdUseCase extends UseCase<String, Result<void>> {
-  DeleteFollowerByIdUseCase(this._meRepository);
+  DeleteFollowerByIdUseCase(this._meService);
 
-  final MeRepository _meRepository;
+  final MeService _meService;
 
   @override
   FutureOr<Result<void>> execute(String id) async {
-    return await _meRepository.deleteFollowerById(id);
+    return await _meService.deleteFollowerById(id);
   }
 }

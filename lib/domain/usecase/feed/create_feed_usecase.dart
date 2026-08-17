@@ -3,17 +3,17 @@ import 'dart:async';
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/app/base/use_case.dart';
 import 'package:grimity/domain/dto/feeds_request_param.dart';
-import 'package:grimity/domain/repository/feed_repository.dart';
+import 'package:grimity/data/service/feed_service.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 class CreateFeedUseCase extends UseCase<CreateFeedRequest, Result<String>> {
-  CreateFeedUseCase(this._feedRepository);
+  CreateFeedUseCase(this._feedService);
 
-  final FeedRepository _feedRepository;
+  final FeedService _feedService;
 
   @override
   FutureOr<Result<String>> execute(CreateFeedRequest request) async {
-    return await _feedRepository.createFeed(request);
+    return await _feedService.createFeed(request);
   }
 }

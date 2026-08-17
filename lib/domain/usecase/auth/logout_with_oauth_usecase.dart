@@ -1,16 +1,16 @@
 import 'package:grimity/app/base/use_case.dart';
 import 'package:grimity/app/enum/login_provider.enum.dart';
-import 'package:grimity/domain/repository/auth_repository.dart';
+import 'package:grimity/data/service/auth_service.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 class LogoutWithOAuthUseCase extends UseCase<LoginProvider, void> {
-  LogoutWithOAuthUseCase(this._authRepository);
+  LogoutWithOAuthUseCase(this._authService);
 
-  final AuthRepository _authRepository;
+  final AuthService _authService;
 
   @override
   Future<void> execute(LoginProvider provider) async {
-    await _authRepository.logoutWithOAuth(provider);
+    await _authService.logoutWithOAuth(provider);
   }
 }

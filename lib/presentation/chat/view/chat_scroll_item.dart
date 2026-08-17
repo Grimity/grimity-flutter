@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gds/gds.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/extension/date_time_extension.dart';
-import 'package:grimity/data/model/chat/chat_response.dart';
+import 'package:grimity/data/gen/models/chat_response.dart';
 import 'package:grimity/presentation/chat/provider/chat_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -23,7 +23,7 @@ class ChatScrollItem extends ConsumerWidget {
       messageText: model.lastMessage == null ? '최근 메세지가 없습니다.' : model.lastMessage?.content ?? '사진을 보냈습니다.',
       avatarImageUrl: model.opponentUser.image ?? '',
       timeText: model.enteredAt.toRelativeTime(),
-      unreadCount: model.unreadCount,
+      unreadCount: model.unreadCount.toInt(),
       showCheckbox: isSelectMode,
       isChecked: isSelected,
       onCheckboxTap: () => provider.selectChat(model, !isSelected),

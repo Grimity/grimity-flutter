@@ -1,0 +1,10 @@
+swagger_parser:
+  schema_url: https://raw.githubusercontent.com/Grimity/server/dev/openapi/openapi.json
+  output_directory: lib/data/gen
+  language: dart
+  json_serializer: freezed
+  use_freezed3: true
+  client_postfix: Api
+  put_clients_in_folder: true
+  enums_to_json: true
+  unknown_enum_value: true

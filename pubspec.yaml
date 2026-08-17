@@ -126,6 +126,7 @@ dev_dependencies:
   args: ^2.7.0
   dotenv: ^4.2.0
   pubspec_version_tool: ^1.0.0
+  swagger_parser: ^1.44.0
 
 flutter:
   uses-material-design: true

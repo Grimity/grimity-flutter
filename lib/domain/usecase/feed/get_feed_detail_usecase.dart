@@ -4,19 +4,19 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/app/base/use_case.dart';
 import 'package:grimity/domain/entity/feed.dart';
-import 'package:grimity/domain/repository/feed_repository.dart';
+import 'package:grimity/data/service/feed_service.dart';
 import 'package:grimity/domain/usecase/feed_usecases.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 class GetFeedDetailUseCase extends UseCase<String, Result<Feed>> {
-  GetFeedDetailUseCase(this._feedRepository);
+  GetFeedDetailUseCase(this._feedService);
 
-  final FeedRepository _feedRepository;
+  final FeedService _feedService;
 
   @override
   FutureOr<Result<Feed>> execute(String id) async {
-    final result = await _feedRepository.getFeedDetail(id);
+    final result = await _feedService.getFeedDetail(id);
 
     return result.fold(
       onSuccess: (feed) {

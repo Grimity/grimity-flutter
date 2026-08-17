@@ -3,17 +3,17 @@ import 'dart:async';
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/app/base/use_case.dart';
 import 'package:grimity/domain/dto/post_comments_request_params.dart';
-import 'package:grimity/domain/repository/post_repository.dart';
+import 'package:grimity/data/service/post_service.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 class CreatePostUseCase extends UseCase<CreatePostRequest, Result<String>> {
-  CreatePostUseCase(this._postRepository);
+  CreatePostUseCase(this._postService);
 
-  final PostRepository _postRepository;
+  final PostService _postService;
 
   @override
   FutureOr<Result<String>> execute(CreatePostRequest request) async {
-    return await _postRepository.createPost(request);
+    return await _postService.createPost(request);
   }
 }

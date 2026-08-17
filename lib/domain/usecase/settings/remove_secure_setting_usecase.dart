@@ -1,15 +1,15 @@
 import 'package:grimity/app/base/use_case.dart';
-import 'package:grimity/domain/repository/settings_repository.dart';
+import 'package:grimity/data/service/secure_settings_service.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 class RemoveSecureSettingsUseCase extends UseCase<String, Future<void>> {
-  RemoveSecureSettingsUseCase(@Named("secureStorage") this._settingsRepository);
+  RemoveSecureSettingsUseCase(@Named("secureStorage") this._settingsService);
 
-  final SettingsRepository _settingsRepository;
+  final SecureSettingsService _settingsService;
 
   @override
   Future<void> execute(String key) async {
-    return await _settingsRepository.removeSetting(key);
+    return await _settingsService.removeSetting(key);
   }
 }

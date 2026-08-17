@@ -2,18 +2,18 @@ import 'package:grimity/app/base/result.dart';
 import 'package:grimity/app/base/use_case.dart';
 import 'package:grimity/app/enum/search_type.enum.dart';
 import 'package:grimity/domain/entity/posts.dart';
-import 'package:grimity/domain/repository/post_repository.dart';
+import 'package:grimity/data/service/post_service.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 class SearchPostsUseCase extends UseCase<SearchPostsRequestParam, Result<Posts>> {
-  SearchPostsUseCase(this._postRepository);
+  SearchPostsUseCase(this._postService);
 
-  final PostRepository _postRepository;
+  final PostService _postService;
 
   @override
   Future<Result<Posts>> execute(SearchPostsRequestParam request) async {
-    return await _postRepository.searchPosts(
+    return await _postService.searchPosts(
       request.page,
       request.size,
       request.keyword,

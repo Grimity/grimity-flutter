@@ -1,16 +1,16 @@
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/app/base/use_case.dart';
-import 'package:grimity/domain/repository/me_repository.dart';
+import 'package:grimity/data/service/me_service.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 class DeleteBackgroundImageUseCase extends NoParamUseCase<Result<void>> {
-  DeleteBackgroundImageUseCase(this._meRepository);
+  DeleteBackgroundImageUseCase(this._meService);
 
-  final MeRepository _meRepository;
+  final MeService _meService;
 
   @override
   Future<Result<void>> execute() async {
-    return await _meRepository.deleteBackgroundImage();
+    return await _meService.deleteBackgroundImage();
   }
 }

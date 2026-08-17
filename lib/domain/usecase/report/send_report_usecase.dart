@@ -3,17 +3,17 @@ import 'dart:async';
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/app/base/use_case.dart';
 import 'package:grimity/domain/dto/reports_request_params.dart';
-import 'package:grimity/domain/repository/report_repository.dart';
+import 'package:grimity/data/service/report_service.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 class SendReportUseCase extends UseCase<CreateReportRequest, Result<void>> {
-  SendReportUseCase(this._reportRepository);
+  SendReportUseCase(this._reportService);
 
-  final ReportRepository _reportRepository;
+  final ReportService _reportService;
 
   @override
   FutureOr<Result<void>> execute(CreateReportRequest request) async {
-    return await _reportRepository.sendReport(request);
+    return await _reportService.sendReport(request);
   }
 }

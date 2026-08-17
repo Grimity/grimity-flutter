@@ -43,6 +43,23 @@ dart run tools/setup.dart
 dart run git_config fetch
 ```
 
+### 🔄 OpenAPI 코드 생성하기
+서버의 OpenAPI 명세를 기준으로 API 클라이언트와 요청·응답 모델을 생성합니다. 최상위 경로를 기준으로 터미널에 아래와 같이 입력하세요.
+
+```bash
+dart run tools/openapi.dart
+```
+
+해당 CLI는 서버 `dev` 브랜치의 최신 OpenAPI 명세를 불러온 뒤 `swagger_parser`와 `build_runner`를 순서대로 실행합니다.
+
+> [!WARNING]
+> `lib/data/gen` 내부는 자동 생성되는 코드이므로 직접 수정하지 마세요. 서버 API가 변경되면 위 명령어를 다시 실행해야 합니다.
+
+- 생성 설정: `swagger_parser.yaml`
+- 생성 경로: `lib/data/gen`
+- 생성 API 연결 및 응답 변환: `lib/data/service`, `lib/data/mapper`
+- OpenAPI 범위 밖의 OAuth 및 WebSocket 타입: `lib/data/data_source/remote/oauth_api.dart`, `lib/data/realtime`
+
 ### 🔗 XCode 빌드 종속성
 XCode를 통한 빌드 과정에서는 FlutterFire CLI가 필수적으로 설치되어 있어야 합니다. 따라서 최상위 경로를 기준으로 터미널에 아래와 같이 입력하세요.
 

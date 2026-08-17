@@ -3,17 +3,17 @@ import 'dart:async';
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/app/base/use_case.dart';
 import 'package:grimity/domain/entity/user.dart';
-import 'package:grimity/domain/repository/me_repository.dart';
+import 'package:grimity/data/service/me_service.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 class GetBlockedUsersUseCase extends NoParamUseCase<Result<List<User>>> {
-  GetBlockedUsersUseCase(this._meRepository);
+  GetBlockedUsersUseCase(this._meService);
 
-  final MeRepository _meRepository;
+  final MeService _meService;
 
   @override
   FutureOr<Result<List<User>>> execute() async {
-    return await _meRepository.getBlockedUsers();
+    return await _meService.getBlockedUsers();
   }
 }

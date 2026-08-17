@@ -1,18 +1,18 @@
 import 'package:grimity/app/base/result.dart';
 import 'package:grimity/app/base/use_case.dart';
 import 'package:grimity/domain/entity/feeds.dart';
-import 'package:grimity/domain/repository/feed_repository.dart';
+import 'package:grimity/data/service/feed_service.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 class GetLatestFeedsUseCase extends UseCase<GetLatestFeedsRequestParam, Result<Feeds>> {
-  GetLatestFeedsUseCase(this._feedRepository);
+  GetLatestFeedsUseCase(this._feedService);
 
-  final FeedRepository _feedRepository;
+  final FeedService _feedService;
 
   @override
   Future<Result<Feeds>> execute(GetLatestFeedsRequestParam request) async {
-    return await _feedRepository.getLatestFeeds(request.size, request.cursor);
+    return await _feedService.getLatestFeeds(request.size, request.cursor);
   }
 }
 

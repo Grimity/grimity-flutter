@@ -46,3 +46,6 @@ jobs:
 
       - name: 애널라이저 검사
         run: flutter analyze --fatal-warnings
+
+      - name: 회귀 테스트
+        run: flutter test .
