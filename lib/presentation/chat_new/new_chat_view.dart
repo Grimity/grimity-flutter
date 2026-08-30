@@ -50,10 +50,9 @@ class NewChatView extends ConsumerWidget {
         isEnabled: data.value!.nextCursor != null,
         onLoadMore: ref.read(newChatProviderProvider.notifier).loadMore,
         child: ListView.builder(
-          padding:
-              isModal
-                  ? EdgeInsets.all(GdsSpacing.spacing20).add(EdgeInsets.only(top: GdsSpacing.spacing12))
-                  : EdgeInsets.all(GdsSpacing.spacing16),
+          padding: isModal
+              ? EdgeInsets.all(GdsSpacing.spacing20).add(EdgeInsets.only(top: GdsSpacing.spacing12))
+              : EdgeInsets.all(GdsSpacing.spacing16),
           itemCount: data.value!.followings.length,
           itemBuilder: (context, index) {
             final model = data.value!.followings[index];

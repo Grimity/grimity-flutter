@@ -10,17 +10,16 @@ extension GeneratedAppVersionResponseMapper on generated.AppVersionResponse {
 }
 
 extension GeneratedNotificationResponsesMapper on List<generated.NotificationResponse> {
-  List<Notification> toEntity() =>
-      map(
-        (response) => Notification(
-          id: response.id,
-          createdAt: response.createdAt,
-          isRead: response.isRead,
-          link: response.link,
-          image: response.image,
-          message: response.message,
-        ),
-      ).toList();
+  List<Notification> toEntity() => map(
+    (response) => Notification(
+      id: response.id,
+      createdAt: response.createdAt,
+      isRead: response.isRead,
+      link: response.link,
+      image: response.image,
+      message: response.message,
+    ),
+  ).toList();
 }
 
 extension GeneratedPopularTagResponsesMapper on List<generated.PopularTagResponse> {

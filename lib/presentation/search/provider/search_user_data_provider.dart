@@ -14,7 +14,10 @@ class SearchUserData extends _$SearchUserData with UserMixin<Users> {
   FutureOr<Users> build({required String keyword}) async {
     final param = SearchUserRequestParams(size: 5, keyword: keyword);
     final result = await searchUserUseCase.execute(param);
-    return result.fold(onSuccess: (users) => users, onFailure: (e) => Users(users: [], nextCursor: ''));
+    return result.fold(
+      onSuccess: (users) => users,
+      onFailure: (e) => Users(users: [], nextCursor: ''),
+    );
   }
 
   Future<void> loadMore() async {
@@ -43,18 +46,16 @@ class SearchUserData extends _$SearchUserData with UserMixin<Users> {
     follow: follow,
     optimisticBuilder: (prev) {
       return prev.copyWith(
-        users:
-            prev.users
-                .map(
-                  (e) =>
-                      id == e.id
-                          ? e.copyWith(
-                            isFollowing: follow,
-                            followerCount: follow ? e.followerCount! + 1 : e.followerCount! - 1,
-                          )
-                          : e,
-                )
-                .toList(),
+        users: prev.users
+            .map(
+              (e) => id == e.id
+                  ? e.copyWith(
+                      isFollowing: follow,
+                      followerCount: follow ? e.followerCount! + 1 : e.followerCount! - 1,
+                    )
+                  : e,
+            )
+            .toList(),
       );
     },
   );

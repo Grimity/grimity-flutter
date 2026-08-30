@@ -45,7 +45,10 @@ class LatestFeedData extends _$LatestFeedData {
 
     final result = await getLatestFeedsUseCase.execute(param);
 
-    return result.fold(onSuccess: (feeds) => feeds, onFailure: (e) => Feeds(feeds: [], nextCursor: ''));
+    return result.fold(
+      onSuccess: (feeds) => feeds,
+      onFailure: (e) => Feeds(feeds: [], nextCursor: ''),
+    );
   }
 
   // Infinite Scroll

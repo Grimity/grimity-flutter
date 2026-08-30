@@ -18,10 +18,9 @@ class SignUpSubtitle extends StatelessWidget {
       children: [
         Text(
           subtitle,
-          style:
-              context.isMobile
-                  ? GdsTypography.title2.copyWith(color: colors.text.grayBold)
-                  : GdsTypography.title1.copyWith(color: colors.text.grayBold),
+          style: context.isMobile
+              ? GdsTypography.title2.copyWith(color: colors.text.grayBold)
+              : GdsTypography.title1.copyWith(color: colors.text.grayBold),
         ),
         Text(
           description,

@@ -48,9 +48,8 @@ class SettingNotificationView extends ConsumerWidget {
             text: '좋아요 알림',
             state: feedLike ? GdsControlItemState.pressed : GdsControlItemState.enabled,
             variant: GdsControlItemVariant.normal,
-            onTap:
-                () =>
-                    toggleSubscription(ref, value: !feedLike, list: subscriptionList, type: SubscriptionType.feedLike),
+            onTap: () =>
+                toggleSubscription(ref, value: !feedLike, list: subscriptionList, type: SubscriptionType.feedLike),
           ),
         ),
         Padding(
@@ -59,13 +58,12 @@ class SettingNotificationView extends ConsumerWidget {
             text: '새 댓글 알림',
             state: feedComment ? GdsControlItemState.pressed : GdsControlItemState.enabled,
             variant: GdsControlItemVariant.normal,
-            onTap:
-                () => toggleSubscription(
-                  ref,
-                  value: !feedComment,
-                  list: subscriptionList,
-                  type: SubscriptionType.feedComment,
-                ),
+            onTap: () => toggleSubscription(
+              ref,
+              value: !feedComment,
+              list: subscriptionList,
+              type: SubscriptionType.feedComment,
+            ),
           ),
         ),
         Padding(
@@ -74,13 +72,12 @@ class SettingNotificationView extends ConsumerWidget {
             text: '새 답글 알림',
             state: feedReply ? GdsControlItemState.pressed : GdsControlItemState.enabled,
             variant: GdsControlItemVariant.normal,
-            onTap:
-                () => toggleSubscription(
-                  ref,
-                  value: !feedReply,
-                  list: subscriptionList,
-                  type: SubscriptionType.feedReply,
-                ),
+            onTap: () => toggleSubscription(
+              ref,
+              value: !feedReply,
+              list: subscriptionList,
+              type: SubscriptionType.feedReply,
+            ),
           ),
         ),
         GdsListItem.section(text: '자유게시판'),
@@ -90,13 +87,12 @@ class SettingNotificationView extends ConsumerWidget {
             text: '새 댓글 알림',
             state: postComment ? GdsControlItemState.pressed : GdsControlItemState.enabled,
             variant: GdsControlItemVariant.normal,
-            onTap:
-                () => toggleSubscription(
-                  ref,
-                  value: !postComment,
-                  list: subscriptionList,
-                  type: SubscriptionType.postComment,
-                ),
+            onTap: () => toggleSubscription(
+              ref,
+              value: !postComment,
+              list: subscriptionList,
+              type: SubscriptionType.postComment,
+            ),
           ),
         ),
         Padding(
@@ -105,13 +101,12 @@ class SettingNotificationView extends ConsumerWidget {
             text: '새 답글 알림',
             state: postReply ? GdsControlItemState.pressed : GdsControlItemState.enabled,
             variant: GdsControlItemVariant.normal,
-            onTap:
-                () => toggleSubscription(
-                  ref,
-                  value: !postReply,
-                  list: subscriptionList,
-                  type: SubscriptionType.postReply,
-                ),
+            onTap: () => toggleSubscription(
+              ref,
+              value: !postReply,
+              list: subscriptionList,
+              type: SubscriptionType.postReply,
+            ),
           ),
         ),
       ],

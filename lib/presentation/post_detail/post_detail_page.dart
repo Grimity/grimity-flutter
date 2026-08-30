@@ -54,11 +54,10 @@ class PostDetailPage extends ConsumerWidget {
           ),
         );
       },
-      error:
-          (e, s) => Scaffold(
-            appBar: AppBar(),
-            body: GrimityStateView.error(onTap: () => ref.invalidate(postDetailDataProvider(postId))),
-          ),
+      error: (e, s) => Scaffold(
+        appBar: AppBar(),
+        body: GrimityStateView.error(onTap: () => ref.invalidate(postDetailDataProvider(postId))),
+      ),
     );
   }
 }

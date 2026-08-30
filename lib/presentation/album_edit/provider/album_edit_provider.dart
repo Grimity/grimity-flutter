@@ -74,10 +74,9 @@ class AlbumEdit extends _$AlbumEdit {
     // 수정중인 앨범이 있을때 원복 처리
     state = state.copyWith(
       editAlbum: album,
-      albums:
-          state.editAlbum != null
-              ? state.albums.map((e) => e.id == state.editAlbum!.id ? state.editAlbum! : e).toList()
-              : state.albums,
+      albums: state.editAlbum != null
+          ? state.albums.map((e) => e.id == state.editAlbum!.id ? state.editAlbum! : e).toList()
+          : state.albums,
     );
   }
 
@@ -176,8 +175,9 @@ class AlbumEdit extends _$AlbumEdit {
       for (final album in committedAlbums.where(_isTempAlbum)) {
         final result = await createAlbumUseCase.execute(CreateAlbumRequestParam(name: album.name));
         final createdId = result.getOrThrow().id;
-        committedAlbums =
-            committedAlbums.map((item) => item.id == album.id ? item.copyWith(id: createdId) : item).toList();
+        committedAlbums = committedAlbums
+            .map((item) => item.id == album.id ? item.copyWith(id: createdId) : item)
+            .toList();
       }
 
       for (final album in committedAlbums.where((album) {
@@ -186,7 +186,10 @@ class AlbumEdit extends _$AlbumEdit {
       })) {
         await _throwIfFailure(
           updateAlbumUseCase.execute(
-            UpdateAlbumWithIdRequestParam(id: album.id, param: UpdateAlbumRequestParam(name: album.name)),
+            UpdateAlbumWithIdRequestParam(
+              id: album.id,
+              param: UpdateAlbumRequestParam(name: album.name),
+            ),
           ),
         );
       }

@@ -14,7 +14,10 @@ class LikeFeedData extends _$LikeFeedData {
 
     final result = await getLikeFeedsUseCase.execute(param);
 
-    return result.fold(onSuccess: (feeds) => feeds, onFailure: (e) => Feeds(feeds: [], nextCursor: ''));
+    return result.fold(
+      onSuccess: (feeds) => feeds,
+      onFailure: (e) => Feeds(feeds: [], nextCursor: ''),
+    );
   }
 
   // Infinite Scroll

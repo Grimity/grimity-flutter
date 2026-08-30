@@ -37,15 +37,14 @@ class AlbumOrganizeBodyView extends HookConsumerWidget with AlbumOrganizeMixin {
           onLoadMore: ref.read(albumFeedDataProvider(user.id, currentAlbumId).notifier).loadMore,
           child: SingleChildScrollView(
             child: Padding(
-              padding:
-                  context.isMobile
-                      ? EdgeInsets.all(GdsSpacing.spacing16)
-                      : EdgeInsets.only(
-                        top: GdsSpacing.spacing24,
-                        left: GdsSpacing.spacing20,
-                        right: GdsSpacing.spacing20,
-                        bottom: GdsSpacing.spacing20,
-                      ),
+              padding: context.isMobile
+                  ? EdgeInsets.all(GdsSpacing.spacing16)
+                  : EdgeInsets.only(
+                      top: GdsSpacing.spacing24,
+                      left: GdsSpacing.spacing20,
+                      right: GdsSpacing.spacing20,
+                      bottom: GdsSpacing.spacing20,
+                    ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: context.isMobile ? GdsSpacing.spacing16 : GdsSpacing.spacing12,
@@ -55,10 +54,9 @@ class AlbumOrganizeBodyView extends HookConsumerWidget with AlbumOrganizeMixin {
                     children: [
                       Text(
                         currentAlbum?.name ?? '전체 앨범',
-                        style:
-                            context.isMobile
-                                ? GdsTypography.title2.copyWith(color: colors.text.grayBold)
-                                : GdsTypography.title1.copyWith(color: colors.text.grayBold),
+                        style: context.isMobile
+                            ? GdsTypography.title2.copyWith(color: colors.text.grayBold)
+                            : GdsTypography.title1.copyWith(color: colors.text.grayBold),
                       ),
                       GdsTextButton(
                         text: '앨범명 변경',
@@ -66,29 +64,26 @@ class AlbumOrganizeBodyView extends HookConsumerWidget with AlbumOrganizeMixin {
                         enabled: currentAlbum != null,
                         variant: GdsTextButtonVariant.assistive,
                         trailingIcon: GdsIcon.pen2Outline,
-                        onPressed:
-                            () => showAlbumEdit(
-                              context,
-                              currentAlbum!,
-                              ref,
-                              onEdited: albumOrganizeNotifier(ref).updateAlbum,
-                            ),
+                        onPressed: () => showAlbumEdit(
+                          context,
+                          currentAlbum!,
+                          ref,
+                          onEdited: albumOrganizeNotifier(ref).updateAlbum,
+                        ),
                       ),
                     ],
                   ),
                   albumFeeds.when(
                     data: (data) => _buildSelectableFeedGrid(context, ref, feeds: data.feeds),
-                    loading:
-                        () => _buildSelectableFeedGrid(
-                          context,
-                          ref,
-                          isSkeleton: true,
-                          feeds: Feed.createEmptyList(context),
-                        ),
-                    error:
-                        (error, stackTrace) => GrimityStateView.error(
-                          onTap: () => ref.invalidate(albumFeedDataProvider(user.id, currentAlbumId)),
-                        ),
+                    loading: () => _buildSelectableFeedGrid(
+                      context,
+                      ref,
+                      isSkeleton: true,
+                      feeds: Feed.createEmptyList(context),
+                    ),
+                    error: (error, stackTrace) => GrimityStateView.error(
+                      onTap: () => ref.invalidate(albumFeedDataProvider(user.id, currentAlbumId)),
+                    ),
                   ),
                 ],
               ),
@@ -153,27 +148,24 @@ class AlbumOrganizeBodyView extends HookConsumerWidget with AlbumOrganizeMixin {
                           children: [
                             GdsListItem.optionCard(
                               text: '전체 앨범',
-                              state:
-                                  currentAlbum != null
-                                      ? selectedAlbumId == null
-                                          ? GdsListItemState.pressed
-                                          : GdsListItemState.enabled
-                                      : GdsListItemState.disabled,
+                              state: currentAlbum != null
+                                  ? selectedAlbumId == null
+                                        ? GdsListItemState.pressed
+                                        : GdsListItemState.enabled
+                                  : GdsListItemState.disabled,
                               onTap: currentAlbum != null ? () => setState(() => selectedAlbumId = null) : () => {},
                             ),
                             ...userAlbums.map(
                               (album) => GdsListItem.optionCard(
                                 text: album.name,
-                                state:
-                                    album.id == currentAlbumId
-                                        ? GdsListItemState.disabled
-                                        : selectedAlbumId == album.id
-                                        ? GdsListItemState.pressed
-                                        : GdsListItemState.enabled,
-                                onTap:
-                                    album.id == currentAlbumId
-                                        ? () => {}
-                                        : () => setState(() => selectedAlbumId = album.id),
+                                state: album.id == currentAlbumId
+                                    ? GdsListItemState.disabled
+                                    : selectedAlbumId == album.id
+                                    ? GdsListItemState.pressed
+                                    : GdsListItemState.enabled,
+                                onTap: album.id == currentAlbumId
+                                    ? () => {}
+                                    : () => setState(() => selectedAlbumId = album.id),
                               ),
                             ),
                           ],

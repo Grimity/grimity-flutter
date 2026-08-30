@@ -27,7 +27,10 @@ class ProfileFeedsData extends _$ProfileFeedsData {
     );
 
     final result = await getUserFeedsUseCase.execute(param);
-    return result.fold(onSuccess: (feeds) => feeds, onFailure: (e) => Feeds(feeds: [], nextCursor: ''));
+    return result.fold(
+      onSuccess: (feeds) => feeds,
+      onFailure: (e) => Feeds(feeds: [], nextCursor: ''),
+    );
   }
 
   Future<void> loadMore(String userId) async {

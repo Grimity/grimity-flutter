@@ -24,8 +24,10 @@ class GrimityAuthorWithFeedsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = authorWithFeeds.user;
     final feeds = authorWithFeeds.feeds;
-    final latestThumbnails =
-        feeds.take(3).map((feed) => GdsUserCardThumbnailData(imageUrl: feed.thumbnail ?? '')).toList();
+    final latestThumbnails = feeds
+        .take(3)
+        .map((feed) => GdsUserCardThumbnailData(imageUrl: feed.thumbnail ?? ''))
+        .toList();
 
     while (latestThumbnails.length < 3) {
       latestThumbnails.add(const GdsUserCardThumbnailData(imageUrl: ''));

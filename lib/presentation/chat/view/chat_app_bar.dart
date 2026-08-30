@@ -24,10 +24,9 @@ class ChatAppBar extends ConsumerWidget {
         children: [
           Text(
             'DM',
-            style:
-                context.isMobile
-                    ? GdsTypography.title2.copyWith(color: colors.text.grayBold)
-                    : GdsTypography.title1.copyWith(color: colors.text.grayBold),
+            style: context.isMobile
+                ? GdsTypography.title2.copyWith(color: colors.text.grayBold)
+                : GdsTypography.title1.copyWith(color: colors.text.grayBold),
           ),
           Row(
             mainAxisSize: MainAxisSize.min,

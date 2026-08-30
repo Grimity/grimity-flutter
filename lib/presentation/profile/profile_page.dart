@@ -59,9 +59,8 @@ class ProfilePage extends HookConsumerWidget {
             postTabView: ProfilePostTabView(user: emptyUser),
           );
         },
-        error:
-            (e, s) =>
-                SafeArea(child: GrimityStateView.error(onTap: () => ref.invalidate(profileDataProvider(url ?? myUrl)))),
+        error: (e, s) =>
+            SafeArea(child: GrimityStateView.error(onTap: () => ref.invalidate(profileDataProvider(url ?? myUrl)))),
       ),
     );
   }

@@ -26,7 +26,10 @@ class SearchPostData extends _$SearchPostData with PaginationMixin {
 
     final result = await searchPostsUseCase.execute(param);
 
-    return result.fold(onSuccess: (posts) => posts, onFailure: (e) => Posts(posts: [], totalCount: 0));
+    return result.fold(
+      onSuccess: (posts) => posts,
+      onFailure: (e) => Posts(posts: [], totalCount: 0),
+    );
   }
 
   Future<void> goToPage(int page) async {

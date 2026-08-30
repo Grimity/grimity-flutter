@@ -53,8 +53,9 @@ class ChatMessageView extends HookConsumerWidget {
                         itemCount: data.value!.messages.length,
                         itemBuilder: (context, index) {
                           final chatMessage = data.value!.messages[index];
-                          final prevMessage =
-                              index < data.value!.messages.length - 1 ? data.value!.messages[index + 1] : null;
+                          final prevMessage = index < data.value!.messages.length - 1
+                              ? data.value!.messages[index + 1]
+                              : null;
 
                           bool showDateHeader = shouldShowDateHeader(
                             currentMessage: chatMessage,

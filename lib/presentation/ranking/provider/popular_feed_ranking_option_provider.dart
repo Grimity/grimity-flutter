@@ -16,27 +16,24 @@ class PopularFeedRankingOption extends _$PopularFeedRankingOption {
   void setType(FeedRankingType type) {
     if (type == state.type) return;
     final now = DateTime.now();
-    state =
-        type == FeedRankingType.weekly
-            ? state.copyWith(type: type, baseDate: DateTime(now.year, now.month, now.day))
-            : state.copyWith(type: type, baseDate: DateTime(now.year, now.month));
+    state = type == FeedRankingType.weekly
+        ? state.copyWith(type: type, baseDate: DateTime(now.year, now.month, now.day))
+        : state.copyWith(type: type, baseDate: DateTime(now.year, now.month));
   }
 
   void goToPrevious() {
     state = state.copyWith(
-      baseDate:
-          state.type == FeedRankingType.weekly
-              ? state.baseDate.subtract(Duration(days: 7))
-              : DateTime(state.baseDate.year, state.baseDate.month - 1, state.baseDate.day),
+      baseDate: state.type == FeedRankingType.weekly
+          ? state.baseDate.subtract(Duration(days: 7))
+          : DateTime(state.baseDate.year, state.baseDate.month - 1, state.baseDate.day),
     );
   }
 
   void goToNext() {
     state = state.copyWith(
-      baseDate:
-          state.type == FeedRankingType.weekly
-              ? state.baseDate.add(Duration(days: 7))
-              : DateTime(state.baseDate.year, state.baseDate.month + 1, state.baseDate.day),
+      baseDate: state.type == FeedRankingType.weekly
+          ? state.baseDate.add(Duration(days: 7))
+          : DateTime(state.baseDate.year, state.baseDate.month + 1, state.baseDate.day),
     );
   }
 

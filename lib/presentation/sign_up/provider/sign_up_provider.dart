@@ -102,7 +102,7 @@ class SignUp extends _$SignUp {
     }
 
     final authCredential = ref.read(authCredentialProvider);
-    if (authCredential.provider == null) {
+    if (authCredential.provider == null || authCredential.providerAccessToken == null) {
       return ToastService.showFailure('OAuth 인증 정보가 없어요');
     }
 

@@ -87,7 +87,10 @@ class _BottomSheetButton extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 11, horizontal: 16),
         width: double.maxFinite,
         height: 42,
-        decoration: BoxDecoration(border: Border.all(color: AppColor.gray300), borderRadius: BorderRadius.circular(12)),
+        decoration: BoxDecoration(
+          border: Border.all(color: AppColor.gray300),
+          borderRadius: BorderRadius.circular(12),
+        ),
         child: child,
       ),
     );

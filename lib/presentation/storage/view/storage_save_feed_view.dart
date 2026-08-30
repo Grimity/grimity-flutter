@@ -60,13 +60,12 @@ class _StorageSaveFeedListView extends StatelessWidget {
       slivers: [
         GrimityFeedGrid.sliver(
           feeds: feeds,
-          padding:
-              context.isMobile
-                  ? EdgeInsets.all(GdsSpacing.spacing16)
-                  : EdgeInsets.symmetric(
-                    vertical: GdsSpacing.spacing24,
-                    horizontal: GdsSpacing.spacing20,
-                  ),
+          padding: context.isMobile
+              ? EdgeInsets.all(GdsSpacing.spacing16)
+              : EdgeInsets.symmetric(
+                  vertical: GdsSpacing.spacing24,
+                  horizontal: GdsSpacing.spacing20,
+                ),
         ),
       ],
     );

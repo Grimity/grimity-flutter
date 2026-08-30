@@ -51,7 +51,9 @@ class GrimitySelectableImageFeed extends StatelessWidget {
             ),
           ),
           const Gap(8),
-          Flexible(child: Text(feed.title, style: AppTypeface.label2, maxLines: 1, overflow: TextOverflow.ellipsis)),
+          Flexible(
+            child: Text(feed.title, style: AppTypeface.label2, maxLines: 1, overflow: TextOverflow.ellipsis),
+          ),
           const Gap(2),
           GrimityReaction.nameLikeView(
             name: feed.author?.name ?? authorName,

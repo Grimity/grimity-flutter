@@ -15,7 +15,10 @@ class SearchFeedData extends _$SearchFeedData {
   FutureOr<Feeds> build({required String keyword, required SortType sort}) async {
     final param = SearchFeedRequest(size: 10, keyword: keyword, sort: sort);
     final result = await searchFeedUseCase.execute(param);
-    return result.fold(onSuccess: (feeds) => feeds, onFailure: (e) => Feeds(feeds: [], nextCursor: ''));
+    return result.fold(
+      onSuccess: (feeds) => feeds,
+      onFailure: (e) => Feeds(feeds: [], nextCursor: ''),
+    );
   }
 
   Future<void> loadMore() async {

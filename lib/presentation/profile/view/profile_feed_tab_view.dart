@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:gds/gds.dart';
@@ -33,10 +33,9 @@ class ProfileFeedTabView extends HookConsumerWidget {
     final selectedAlbumId = ref.watch(selectedAlbumProvider);
     final selectedSortType = ref.watch(selectedSortTypeProvider);
     final userAlbums = user.albums ?? [];
-    final feedCount =
-        selectedAlbumId == null
-            ? user.feedCount ?? 0
-            : userAlbums.firstWhereOrNull((album) => album.id == selectedAlbumId)?.feedCount ?? 0;
+    final feedCount = selectedAlbumId == null
+        ? user.feedCount ?? 0
+        : userAlbums.firstWhereOrNull((album) => album.id == selectedAlbumId)?.feedCount ?? 0;
     final viewType = ref.watch(profileViewTypeArgumentProvider);
 
     return CustomScrollView(

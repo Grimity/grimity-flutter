@@ -27,11 +27,11 @@ class HomeLatestFeedView extends ConsumerWidget {
 
     return latestFeed.when(
       data: (data) => GrimityFeedGrid.sliver(feeds: data.feeds),
-      loading:
-          () => SliverToBoxAdapter(child: Skeletonizer(child: GrimityFeedGrid(feeds: Feed.createEmptyList(context)))),
-      error:
-          (e, s) =>
-              SliverToBoxAdapter(child: GrimityStateView.error(onTap: () => ref.invalidate(latestFeedDataProvider))),
+      loading: () => SliverToBoxAdapter(
+        child: Skeletonizer(child: GrimityFeedGrid(feeds: Feed.createEmptyList(context))),
+      ),
+      error: (e, s) =>
+          SliverToBoxAdapter(child: GrimityStateView.error(onTap: () => ref.invalidate(latestFeedDataProvider))),
     );
   }
 }

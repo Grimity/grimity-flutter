@@ -28,18 +28,16 @@ class SignInBodyView extends ConsumerWidget {
             children: [
               Text(
                 '그림이',
-                style:
-                    context.isMobile
-                        ? GdsTypography.title2.copyWith(color: colors.text.white)
-                        : GdsTypography.title1.copyWith(color: colors.text.white),
+                style: context.isMobile
+                    ? GdsTypography.title2.copyWith(color: colors.text.white)
+                    : GdsTypography.title1.copyWith(color: colors.text.white),
               ),
               Gap(GdsSpacing.spacing4),
               Text(
                 '시작이 되는 커뮤니티',
-                style:
-                    context.isMobile
-                        ? GdsTypography.title2.copyWith(color: colors.text.white)
-                        : GdsTypography.title1.copyWith(color: colors.text.white),
+                style: context.isMobile
+                    ? GdsTypography.title2.copyWith(color: colors.text.white)
+                    : GdsTypography.title1.copyWith(color: colors.text.white),
               ),
               Gap(GdsSpacing.spacing8),
               Text(

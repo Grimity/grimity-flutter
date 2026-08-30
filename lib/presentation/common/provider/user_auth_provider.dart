@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/enum/login_provider.enum.dart';
@@ -11,6 +12,15 @@ part 'user_auth_provider.g.dart';
 
 @Riverpod(keepAlive: true)
 class UserAuth extends _$UserAuth {
+  bool _isUserNotFound(Exception error) {
+    if (error is! DioException || error.response?.statusCode != 404) {
+      return false;
+    }
+
+    final data = error.response?.data;
+    return data is Map && data['message'] == 'USER';
+  }
+
   @override
   User? build() {
     return null;
@@ -63,7 +73,7 @@ class UserAuth extends _$UserAuth {
         PushNotification.initializeAll();
       },
       onFailure: (error) {
-        if (error.toString().contains('USER')) {
+        if (_isUserNotFound(error)) {
           state = null;
         } else {
           throw error;

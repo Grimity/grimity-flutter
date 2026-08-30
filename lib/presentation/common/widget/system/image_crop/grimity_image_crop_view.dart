@@ -63,11 +63,10 @@ class GrimityImageCropView extends HookConsumerWidget {
           image: FileImage(file),
           cropController: controller,
           drawPath: SolidCropPathPainter.drawPath,
-          pathPaint:
-              Paint()
-                ..color = GdsColors.blue60
-                ..strokeWidth = 2
-                ..style = PaintingStyle.stroke,
+          pathPaint: Paint()
+            ..color = GdsColors.blue60
+            ..strokeWidth = 2
+            ..style = PaintingStyle.stroke,
           overlayColor: GdsColors.black.withOpacity(0.7),
           cropPercentage: 1.0,
           forceInsideCropArea: true,

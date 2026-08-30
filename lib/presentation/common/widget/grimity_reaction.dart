@@ -103,8 +103,14 @@ class GrimityReaction extends StatelessWidget {
           RichText(
             text: TextSpan(
               children: [
-                TextSpan(text: '팔로워 ', style: AppTypeface.caption2.copyWith(color: AppColor.gray600)),
-                TextSpan(text: followerCount.toString(), style: AppTypeface.caption2.copyWith(color: AppColor.gray700)),
+                TextSpan(
+                  text: '팔로워 ',
+                  style: AppTypeface.caption2.copyWith(color: AppColor.gray600),
+                ),
+                TextSpan(
+                  text: followerCount.toString(),
+                  style: AppTypeface.caption2.copyWith(color: AppColor.gray700),
+                ),
               ],
             ),
           ),

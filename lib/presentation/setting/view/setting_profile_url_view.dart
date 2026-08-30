@@ -29,10 +29,9 @@ class SettingProfileUrlView extends HookConsumerWidget {
             children: [
               Text(
                 '프로필 URL를 정해주세요',
-                style:
-                    context.isMobile
-                        ? GdsTypography.title2.copyWith(color: colors.text.grayBold)
-                        : GdsTypography.title1.copyWith(color: colors.text.grayBold),
+                style: context.isMobile
+                    ? GdsTypography.title2.copyWith(color: colors.text.grayBold)
+                    : GdsTypography.title1.copyWith(color: colors.text.grayBold),
               ),
               Gap(GdsSpacing.spacing40),
               Text(

@@ -24,20 +24,19 @@ class CommentsData extends _$CommentsData {
     final currentState = state.value;
     if (currentState == null) return false;
 
-    final request =
-        commentType == CommentType.feed
-            ? CreateFeedCommentRequest(
-              feedId: id,
-              content: content,
-              parentCommentId: parentCommentId,
-              mentionedUserId: mentionedUserId,
-            )
-            : CreatePostCommentRequest(
-              postId: id,
-              content: content,
-              parentCommentId: parentCommentId,
-              mentionedUserId: mentionedUserId,
-            );
+    final request = commentType == CommentType.feed
+        ? CreateFeedCommentRequest(
+            feedId: id,
+            content: content,
+            parentCommentId: parentCommentId,
+            mentionedUserId: mentionedUserId,
+          )
+        : CreatePostCommentRequest(
+            postId: id,
+            content: content,
+            parentCommentId: parentCommentId,
+            mentionedUserId: mentionedUserId,
+          );
 
     final result = await commentType.createCommentUseCase.execute(request);
 
@@ -59,10 +58,9 @@ class CommentsData extends _$CommentsData {
     final currentState = state.value;
     if (currentState == null) return;
 
-    final result =
-        like
-            ? await commentType.likeCommentUseCase.execute(commentId)
-            : await commentType.unlikeCommentUseCase.execute(commentId);
+    final result = like
+        ? await commentType.likeCommentUseCase.execute(commentId)
+        : await commentType.unlikeCommentUseCase.execute(commentId);
 
     result.fold(
       onSuccess: (value) {

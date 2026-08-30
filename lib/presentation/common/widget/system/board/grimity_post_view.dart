@@ -40,12 +40,11 @@ class GrimityPostView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pageCount = (totalCount / size).ceil();
-    final currentPageIndex =
-        currentPage <= 1
-            ? 0
-            : currentPage > pageCount
-            ? pageCount - 1
-            : currentPage - 1;
+    final currentPageIndex = currentPage <= 1
+        ? 0
+        : currentPage > pageCount
+        ? pageCount - 1
+        : currentPage - 1;
 
     return ListView(
       shrinkWrap: shrinkWrap,

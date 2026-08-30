@@ -35,13 +35,12 @@ class NotificationWidget extends ConsumerWidget {
               child: GrimityUserProfile.fromBuilder(
                 imageUrl: notification.image ?? '',
                 titleBuilder: () => _buildNotificationText(context, notification.message),
-                subTitleBuilder:
-                    () => Text(
-                      notification.createdAt.toRelativeTime(),
-                      style: GdsTypography.caption1.copyWith(
-                        color: colors.text.grayNormal.withValues(alpha: notification.isRead ? 0.5 : 1.0),
-                      ),
-                    ),
+                subTitleBuilder: () => Text(
+                  notification.createdAt.toRelativeTime(),
+                  style: GdsTypography.caption1.copyWith(
+                    color: colors.text.grayNormal.withValues(alpha: notification.isRead ? 0.5 : 1.0),
+                  ),
+                ),
               ),
             ),
             const Gap(GdsSpacing.spacing8),
@@ -78,7 +77,13 @@ class NotificationWidget extends ConsumerWidget {
 
     final rest = message.replaceFirst(boldText, '');
     return Text.rich(
-      TextSpan(style: styleBase, children: [TextSpan(text: boldText, style: styleBold), TextSpan(text: rest)]),
+      TextSpan(
+        style: styleBase,
+        children: [
+          TextSpan(text: boldText, style: styleBold),
+          TextSpan(text: rest),
+        ],
+      ),
     );
   }
 }

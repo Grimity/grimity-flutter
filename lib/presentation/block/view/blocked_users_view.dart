@@ -50,7 +50,9 @@ class BlockedUsersView extends ConsumerWidget {
 
         return BlockedUserListView(users: users, isModal: isModal);
       },
-      loading: () => Skeletonizer(child: BlockedUserListView(users: User.emptyList, isModal: isModal)),
+      loading: () => Skeletonizer(
+        child: BlockedUserListView(users: User.emptyList, isModal: isModal),
+      ),
       error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(blockedUsersDataProvider)),
     );
   }

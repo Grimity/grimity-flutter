@@ -74,8 +74,9 @@ class PostUpload extends _$PostUpload {
     final selected = selectedImageUrls.contains(imageUrl);
 
     state = state.copyWith(
-      selectedImageUrls:
-          selected ? selectedImageUrls.where((e) => e != imageUrl).toList() : [...selectedImageUrls, imageUrl],
+      selectedImageUrls: selected
+          ? selectedImageUrls.where((e) => e != imageUrl).toList()
+          : [...selectedImageUrls, imageUrl],
     );
   }
 

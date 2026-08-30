@@ -18,19 +18,18 @@ class GrimityProfileImage extends StatelessWidget {
         border: Border.all(color: Colors.white, width: 4),
         shape: BoxShape.circle,
       ),
-      child:
-          url?.isNotEmpty ?? false
-              ? ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: GrimityCachedNetworkImage.cover(imageUrl: url!, width: 80, height: 80),
-              )
-              : Center(
-                child: Assets.icons.icon.person.svg(
-                  width: 30,
-                  height: 30,
-                  colorFilter: ColorFilter.mode(AppColor.primary5.withValues(alpha: 0.08), BlendMode.srcIn),
-                ),
+      child: url?.isNotEmpty ?? false
+          ? ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              child: GrimityCachedNetworkImage.cover(imageUrl: url!, width: 80, height: 80),
+            )
+          : Center(
+              child: Assets.icons.icon.person.svg(
+                width: 30,
+                height: 30,
+                colorFilter: ColorFilter.mode(AppColor.primary5.withValues(alpha: 0.08), BlendMode.srcIn),
               ),
+            ),
     );
   }
 }

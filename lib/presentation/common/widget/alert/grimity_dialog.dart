@@ -49,10 +49,18 @@ class GrimityDialog extends Dialog {
           mainAxisSize: MainAxisSize.min,
           children: [
             if (icon != null) ...[icon!.svg(width: 60, height: 60), Gap(16)],
-            Text(title, style: AppTypeface.subTitle3.copyWith(color: AppColor.gray700), textAlign: TextAlign.center),
+            Text(
+              title,
+              style: AppTypeface.subTitle3.copyWith(color: AppColor.gray700),
+              textAlign: TextAlign.center,
+            ),
             if (content != null) ...[
               Gap(6),
-              Text(content!, style: AppTypeface.label3.copyWith(color: AppColor.gray600), textAlign: TextAlign.center),
+              Text(
+                content!,
+                style: AppTypeface.label3.copyWith(color: AppColor.gray600),
+                textAlign: TextAlign.center,
+              ),
             ],
             if (linkWidget != null) ...[Gap(16), linkWidget!],
             Gap(30),

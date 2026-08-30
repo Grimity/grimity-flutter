@@ -80,24 +80,22 @@ class _ChatMessageFragmentState extends ConsumerState<ChatMessageFragment> {
                     content: model.content,
                     imageUrl: model.image,
                     isLiked: model.isLike,
-                    onTap:
-                        !isMe
-                            ? () {
-                              // 좋아요, 답장과 같은 액션 버튼 표시.
-                              if (!isMe) {
-                                (_popover = createPopover()).show(context);
-                              }
+                    onTap: !isMe
+                        ? () {
+                            // 좋아요, 답장과 같은 액션 버튼 표시.
+                            if (!isMe) {
+                              (_popover = createPopover()).show(context);
                             }
-                            : null,
+                          }
+                        : null,
                     onImageTap: openImageViewer,
-                    replyPreviewData:
-                        model.replyTo != null
-                            ? GdsChatReplyPreviewData(
-                              replyType: isMe ? GdsChatMessageType.other : GdsChatMessageType.me,
-                              replyLabel: isMe ? '[${state?.opponentUser.name}]님에게 답장' : "나에게 답장",
-                              content: model.replyTo?.content ?? '',
-                            )
-                            : null,
+                    replyPreviewData: model.replyTo != null
+                        ? GdsChatReplyPreviewData(
+                            replyType: isMe ? GdsChatMessageType.other : GdsChatMessageType.me,
+                            replyLabel: isMe ? '[${state?.opponentUser.name}]님에게 답장' : "나에게 답장",
+                            content: model.replyTo?.content ?? '',
+                          )
+                        : null,
                   ),
                 ),
               ],

@@ -50,7 +50,9 @@ class GrimityPaginationWidget extends StatelessWidget {
                 width: 36,
                 height: 36,
                 color: page == currentPage ? AppColor.gray200 : Colors.white,
-                child: Center(child: Text(page.toString(), style: AppTypeface.body1.copyWith(color: AppColor.gray700))),
+                child: Center(
+                  child: Text(page.toString(), style: AppTypeface.body1.copyWith(color: AppColor.gray700)),
+                ),
               ),
             ),
           ),

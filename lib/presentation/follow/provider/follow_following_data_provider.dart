@@ -15,7 +15,10 @@ class FollowingData extends _$FollowingData with UserMixin<Users> {
 
     final result = await getMyFollowingsUseCase.execute(param);
 
-    return result.fold(onSuccess: (users) => users, onFailure: (e) => Users(users: [], nextCursor: ''));
+    return result.fold(
+      onSuccess: (users) => users,
+      onFailure: (e) => Users(users: [], nextCursor: ''),
+    );
   }
 
   Future<void> loadMore() async {

@@ -29,10 +29,9 @@ class PopularAuthorView extends ConsumerWidget {
           ),
           child: Text(
             '인기 작가',
-            style:
-                context.isMobile
-                    ? GdsTypography.title2.copyWith(color: colors.text.grayBold)
-                    : GdsTypography.title1.copyWith(color: colors.text.grayBold),
+            style: context.isMobile
+                ? GdsTypography.title2.copyWith(color: colors.text.grayBold)
+                : GdsTypography.title1.copyWith(color: colors.text.grayBold),
           ),
         ),
         authorWithFeedsAsync.when(
@@ -79,13 +78,12 @@ class _PopularAuthorCarousel extends HookConsumerWidget {
             padding: EdgeInsets.only(left: index == 0 ? 16 : 4, right: index == visibleUserCount - 1 ? 16 : 4),
             child: GrimityAuthorWithFeedsCard(
               authorWithFeeds: authorWithFeeds,
-              onFollowTab:
-                  () => ref
-                      .read(authorWithFeedsDataProvider.notifier)
-                      .toggleFollow(
-                        id: authorWithFeeds.user.id,
-                        follow: authorWithFeeds.user.isFollowing == false ? true : false,
-                      ),
+              onFollowTab: () => ref
+                  .read(authorWithFeedsDataProvider.notifier)
+                  .toggleFollow(
+                    id: authorWithFeeds.user.id,
+                    follow: authorWithFeeds.user.isFollowing == false ? true : false,
+                  ),
             ),
           );
         },

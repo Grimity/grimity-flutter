@@ -25,10 +25,9 @@ class SearchPostTabView extends HookConsumerWidget with SearchPostMixin {
 
         return _SearchResultPostView(posts: posts);
       },
-      loading:
-          () => Skeletonizer(
-            child: _SearchResultPostView(posts: Posts(posts: Post.emptyList, totalCount: 0)),
-          ),
+      loading: () => Skeletonizer(
+        child: _SearchResultPostView(posts: Posts(posts: Post.emptyList, totalCount: 0)),
+      ),
       error: (e, s) => GrimityStateView.error(onTap: () => invalidateSearchPost(ref)),
     );
   }

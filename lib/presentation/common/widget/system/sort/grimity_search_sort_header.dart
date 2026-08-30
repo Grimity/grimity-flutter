@@ -62,9 +62,18 @@ class _SearchResultCount extends StatelessWidget {
     return Text.rich(
       TextSpan(
         children: [
-          TextSpan(text: '검색결과 ', style: AppTypeface.label2.copyWith(color: AppColor.gray600)),
-          TextSpan(text: count.toString(), style: AppTypeface.label2.copyWith(color: AppColor.gray800)),
-          TextSpan(text: '건', style: AppTypeface.label2.copyWith(color: AppColor.gray600)),
+          TextSpan(
+            text: '검색결과 ',
+            style: AppTypeface.label2.copyWith(color: AppColor.gray600),
+          ),
+          TextSpan(
+            text: count.toString(),
+            style: AppTypeface.label2.copyWith(color: AppColor.gray800),
+          ),
+          TextSpan(
+            text: '건',
+            style: AppTypeface.label2.copyWith(color: AppColor.gray600),
+          ),
         ],
       ),
     );

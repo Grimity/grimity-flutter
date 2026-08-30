@@ -59,10 +59,9 @@ class FollowingUserView extends HookConsumerWidget {
           ),
         );
       },
-      loading:
-          () => Skeletonizer(
-            child: FollowUserListView(users: User.emptyList, onFollow: (_) {}, onUnfollow: (_) {}),
-          ),
+      loading: () => Skeletonizer(
+        child: FollowUserListView(users: User.emptyList, onFollow: (_) {}, onUnfollow: (_) {}),
+      ),
       error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(followingDataProvider)),
     );
   }

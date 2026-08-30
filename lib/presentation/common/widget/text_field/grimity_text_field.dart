@@ -230,61 +230,63 @@ class GrimityTextField extends HookWidget {
     final focusNode = this.focusNode ?? useFocusNode();
     final isBorderless = type == GrimityTextFieldType.borderless;
 
-    final textField = TextField(
-          enabled: enabled,
-          controller: controller,
-          onChanged: onChanged,
-          onSubmitted: onSubmitted,
-          focusNode: focusNode,
-          keyboardType: keyboardType,
-          textInputAction: textInputAction,
-          style: AppTypeface.label2,
-          minLines: minLines,
-          maxLines: maxLines,
-          maxLength: maxLength,
-          decoration: InputDecoration(
-            contentPadding: _contentPadding,
-            counterText: '',
-            hintText: hintText,
-            hintStyle: AppTypeface.label2.copyWith(color: AppColor.gray500),
-            border:
-                isBorderless
+    final textField =
+        TextField(
+              enabled: enabled,
+              controller: controller,
+              onChanged: onChanged,
+              onSubmitted: onSubmitted,
+              focusNode: focusNode,
+              keyboardType: keyboardType,
+              textInputAction: textInputAction,
+              style: AppTypeface.label2,
+              minLines: minLines,
+              maxLines: maxLines,
+              maxLength: maxLength,
+              decoration: InputDecoration(
+                contentPadding: _contentPadding,
+                counterText: '',
+                hintText: hintText,
+                hintStyle: AppTypeface.label2.copyWith(color: AppColor.gray500),
+                border: isBorderless
                     ? InputBorder.none
                     : OutlineInputBorder(
-                      borderSide: BorderSide(color: _enabledBorderColor),
-                      borderRadius: _borderRadius,
-                    ),
-            focusedBorder:
-                isBorderless
+                        borderSide: BorderSide(color: _enabledBorderColor),
+                        borderRadius: _borderRadius,
+                      ),
+                focusedBorder: isBorderless
                     ? InputBorder.none
                     : OutlineInputBorder(
-                      borderSide: BorderSide(color: _enabledBorderColor),
-                      borderRadius: _borderRadius,
-                    ),
-            enabledBorder:
-                isBorderless
+                        borderSide: BorderSide(color: _enabledBorderColor),
+                        borderRadius: _borderRadius,
+                      ),
+                enabledBorder: isBorderless
                     ? InputBorder.none
-                    : OutlineInputBorder(borderSide: BorderSide(color: _borderColor), borderRadius: _borderRadius),
-            disabledBorder:
-                isBorderless
+                    : OutlineInputBorder(
+                        borderSide: BorderSide(color: _borderColor),
+                        borderRadius: _borderRadius,
+                      ),
+                disabledBorder: isBorderless
                     ? InputBorder.none
-                    : OutlineInputBorder(borderSide: BorderSide(color: _borderColor), borderRadius: _borderRadius),
-            filled: true,
-            fillColor: _fillColor,
-            prefix:
-                defaultText != null
+                    : OutlineInputBorder(
+                        borderSide: BorderSide(color: _borderColor),
+                        borderRadius: _borderRadius,
+                      ),
+                filled: true,
+                fillColor: _fillColor,
+                prefix: defaultText != null
                     ? Text(defaultText!, style: AppTypeface.label2.copyWith(color: AppColor.gray500))
                     : null,
-            suffixIconConstraints: const BoxConstraints(minWidth: 18, minHeight: 18),
-            suffixIcon: _suffixIcon,
-          ),
-        )
-        .animate(
-          autoPlay: false,
-          controller: animationController,
-          onComplete: (controller) => controller.repeat(reverse: true, count: 1),
-        )
-        .shakeX(amount: 5, duration: 300.ms, curve: Curves.easeInOut);
+                suffixIconConstraints: const BoxConstraints(minWidth: 18, minHeight: 18),
+                suffixIcon: _suffixIcon,
+              ),
+            )
+            .animate(
+              autoPlay: false,
+              controller: animationController,
+              onComplete: (controller) => controller.repeat(reverse: true, count: 1),
+            )
+            .shakeX(amount: 5, duration: 300.ms, curve: Curves.easeInOut);
 
     useEffect(() {
       if (state == GrimityTextFieldState.error) {
@@ -298,7 +300,10 @@ class GrimityTextField extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Stack(
-          children: [textField, if (_suffixWidget != null) Positioned(right: 16, bottom: 16, child: _suffixWidget!)],
+          children: [
+            textField,
+            if (_suffixWidget != null) Positioned(right: 16, bottom: 16, child: _suffixWidget!),
+          ],
         ),
         if (state == GrimityTextFieldState.error && errorText != null) ...[
           const Gap(6),

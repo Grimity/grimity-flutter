@@ -27,10 +27,9 @@ class PopularTagView extends ConsumerWidget {
           ),
           child: Text(
             '인기 태그',
-            style:
-                context.isMobile
-                    ? GdsTypography.title2.copyWith(color: colors.text.grayBold)
-                    : GdsTypography.title1.copyWith(color: colors.text.grayBold),
+            style: context.isMobile
+                ? GdsTypography.title2.copyWith(color: colors.text.grayBold)
+                : GdsTypography.title1.copyWith(color: colors.text.grayBold),
           ),
         ),
         tagAsync.when(

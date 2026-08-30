@@ -21,13 +21,12 @@ class GrimityMoreButton extends StatelessWidget {
       child: Container(
         width: 30,
         height: 30,
-        decoration:
-            hasDecoration
-                ? BoxDecoration(
-                  border: Border.all(color: AppColor.gray300, width: 1),
-                  borderRadius: BorderRadius.circular(12),
-                )
-                : null,
+        decoration: hasDecoration
+            ? BoxDecoration(
+                border: Border.all(color: AppColor.gray300, width: 1),
+                borderRadius: BorderRadius.circular(12),
+              )
+            : null,
         child: Center(child: Assets.icons.icon.more.svg(width: 20, height: 20)),
       ),
     );

@@ -21,10 +21,9 @@ class SignUpWelcomeView extends ConsumerWidget {
           Gap(GdsSpacing.spacing24),
           Text(
             '가입을 축하드려요!',
-            style:
-                context.isMobile
-                    ? GdsTypography.title2.copyWith(color: colors.text.grayBold)
-                    : GdsTypography.title1.copyWith(color: colors.text.grayBold),
+            style: context.isMobile
+                ? GdsTypography.title2.copyWith(color: colors.text.grayBold)
+                : GdsTypography.title1.copyWith(color: colors.text.grayBold),
           ),
           Gap(GdsSpacing.spacing12),
           Text(

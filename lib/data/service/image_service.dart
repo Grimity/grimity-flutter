@@ -46,7 +46,11 @@ class ImageService {
         quality: 90,
         format: CompressFormat.webp,
       );
-      await Dio().put(request.url, data: compressedBytes, options: Options(headers: {'Content-Type': 'image/webp'}));
+      await Dio().put(
+        request.url,
+        data: compressedBytes,
+        options: Options(headers: {'Content-Type': 'image/webp'}),
+      );
       return Result.success(null);
     } on Exception catch (e) {
       return Result.failure(e);

@@ -61,15 +61,12 @@ class FollowingFeedData extends _$FollowingFeedData with FeedMixin<Feeds> {
     like: like,
     optimisticBuilder: (prev) {
       return prev.copyWith(
-        feeds:
-            prev.feeds
-                .map(
-                  (e) =>
-                      e.id == feedId
-                          ? e.copyWith(isLike: like, likeCount: like ? e.likeCount! + 1 : e.likeCount! - 1)
-                          : e,
-                )
-                .toList(),
+        feeds: prev.feeds
+            .map(
+              (e) =>
+                  e.id == feedId ? e.copyWith(isLike: like, likeCount: like ? e.likeCount! + 1 : e.likeCount! - 1) : e,
+            )
+            .toList(),
       );
     },
   );

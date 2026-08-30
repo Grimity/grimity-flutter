@@ -156,12 +156,14 @@ class AlbumOrganize extends _$AlbumOrganize {
     _setUploading(true);
 
     try {
-      final result =
-          state.targetAlbumId == null
-              ? await removeFeedsAlbumUseCase.execute(RemoveFeedsAlbumRequestParam(ids: state.ids))
-              : await insertFeedToAlbumUseCase.execute(
-                InsertFeedWithIdRequestParam(id: state.targetAlbumId!, param: InsertFeedRequestParam(ids: state.ids)),
-              );
+      final result = state.targetAlbumId == null
+          ? await removeFeedsAlbumUseCase.execute(RemoveFeedsAlbumRequestParam(ids: state.ids))
+          : await insertFeedToAlbumUseCase.execute(
+              InsertFeedWithIdRequestParam(
+                id: state.targetAlbumId!,
+                param: InsertFeedRequestParam(ids: state.ids),
+              ),
+            );
 
       final isSuccess = result.fold(
         onSuccess: (value) {

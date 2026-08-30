@@ -30,28 +30,27 @@ class SignUpButton extends ConsumerWidget {
     return Padding(
       padding: context.isMobile ? mobilePadding : tabletPadding,
       child: GdsGesture(
-        onTap:
-            enabled
-                ? () async {
-                  if (state.signUpViewState == SignUpViewState.nickname) {
-                    await ref.read(signUpProvider.notifier).checkNicknameDuplicate();
-                  }
+        onTap: enabled
+            ? () async {
+                if (state.signUpViewState == SignUpViewState.nickname) {
+                  await ref.read(signUpProvider.notifier).checkNicknameDuplicate();
+                }
 
-                  if (state.signUpViewState == SignUpViewState.url) {
-                    // URL 유효성 검증
-                    await ref.read(signUpProvider.notifier).checkUrlValidity();
+                if (state.signUpViewState == SignUpViewState.url) {
+                  // URL 유효성 검증
+                  await ref.read(signUpProvider.notifier).checkUrlValidity();
 
-                    // 회원가입 진행
-                    if (context.mounted) {
-                      await ref.read(signUpProvider.notifier).signUp(ref);
-                    }
-                  }
-
-                  if (state.signUpViewState == SignUpViewState.welcome) {
-                    if (context.mounted) HomeRoute().go(context);
+                  // 회원가입 진행
+                  if (context.mounted) {
+                    await ref.read(signUpProvider.notifier).signUp(ref);
                   }
                 }
-                : null,
+
+                if (state.signUpViewState == SignUpViewState.welcome) {
+                  if (context.mounted) HomeRoute().go(context);
+                }
+              }
+            : null,
         child: IgnorePointer(
           child: buildRawButton(context, state.signUpViewState, enabled, loading),
         ),

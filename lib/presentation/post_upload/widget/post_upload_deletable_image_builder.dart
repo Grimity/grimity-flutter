@@ -26,14 +26,13 @@ class DeletableImageBuilder extends EmbedBuilder {
     final double? height = heightAttr != null ? double.tryParse(heightAttr.toString()) : null;
     final imageUrl = embedContext.node.value.data as String;
 
-    final child =
-        imageUrl.indexOf("http") == 0
-            ? GrimityCachedNetworkImage.cover(
-              imageUrl: imageUrl,
-              width: width,
-              height: height,
-            )
-            : Image.file(File(imageUrl), fit: BoxFit.cover);
+    final child = imageUrl.indexOf("http") == 0
+        ? GrimityCachedNetworkImage.cover(
+            imageUrl: imageUrl,
+            width: width,
+            height: height,
+          )
+        : Image.file(File(imageUrl), fit: BoxFit.cover);
 
     return Consumer(
       builder: (context, ref, child) {

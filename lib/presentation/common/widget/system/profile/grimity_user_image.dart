@@ -21,19 +21,18 @@ class GrimityUserImage extends StatelessWidget {
             border: Border.all(color: Colors.white, width: 2),
             shape: BoxShape.circle,
           ),
-      child:
-          (imageUrl ?? '').isEmpty == true
-              ? CircleAvatar(
-                radius: size / 2,
-                child: SvgPicture.asset(Assets.icons.icon.defaultProfile.path, width: size),
-              )
-              : ClipOval(
-                child: GrimityCachedNetworkImage.cover(
-                  imageUrl: imageUrl!,
-                  width: size,
-                  height: size,
-                ),
+      child: (imageUrl ?? '').isEmpty == true
+          ? CircleAvatar(
+              radius: size / 2,
+              child: SvgPicture.asset(Assets.icons.icon.defaultProfile.path, width: size),
+            )
+          : ClipOval(
+              child: GrimityCachedNetworkImage.cover(
+                imageUrl: imageUrl!,
+                width: size,
+                height: size,
               ),
+            ),
     );
   }
 }

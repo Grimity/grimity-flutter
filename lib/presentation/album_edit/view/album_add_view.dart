@@ -37,10 +37,9 @@ class AlbumAddView extends HookConsumerWidget {
 
     return GdsInput.button(
       titleText: '새 앨범 추가',
-      helperText:
-          albumEditState.newAlbumNameState == GrimityTextFieldState.error
-              ? albumEditState.albumCheckMessage
-              : '앨범은 최대 8개까지 추가 가능합니다.',
+      helperText: albumEditState.newAlbumNameState == GrimityTextFieldState.error
+          ? albumEditState.albumCheckMessage
+          : '앨범은 최대 8개까지 추가 가능합니다.',
       placeholder: '예시 : ‘크로키’ 또는 ‘일러스트’',
       buttonLabel: '추가',
       controller: newAlbumController,

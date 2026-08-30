@@ -131,13 +131,19 @@ class ChatMessageProvider extends _$ChatMessageProvider {
     // 소켓 연결 시 채팅방에 대한 입장 상태를 서버에 알림.
     _socket.onConnect((_) async {
       socketId = _socket.id!;
-      await getIt<RestClient>().chats.chatJoinChat(id: chatId, body: JoinChatRequest(socketId: socketId));
+      await getIt<RestClient>().chats.chatJoinChat(
+        id: chatId,
+        body: JoinChatRequest(socketId: socketId),
+      );
       await _refreshChatState();
     });
 
     // 연결 해제 시에도 채팅방에서 나갔다고 서버에게 알림.
     _socket.onDisconnect((_) {
-      getIt<RestClient>().chats.chatLeaveChat(id: chatId, body: LeaveChatRequest(socketId: socketId));
+      getIt<RestClient>().chats.chatLeaveChat(
+        id: chatId,
+        body: LeaveChatRequest(socketId: socketId),
+      );
     });
 
     // 새로운 메세지 이벤트.
@@ -279,10 +285,9 @@ class ChatMessageProvider extends _$ChatMessageProvider {
 
   /// 주로 기존 메세지를 수정하기 위해서 사용됩니다.
   void updateMessageById(String id, ChatMessage Function(ChatMessage) updater) {
-    final updatedMessages =
-        _state.messages.map((m) {
-          return m.id == id ? updater(m) : m;
-        }).toList();
+    final updatedMessages = _state.messages.map((m) {
+      return m.id == id ? updater(m) : m;
+    }).toList();
 
     state = AsyncData(_state.copyWith(messages: updatedMessages));
   }

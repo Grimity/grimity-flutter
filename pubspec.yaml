@@ -4,7 +4,7 @@ publish_to: none
 version: 1.1.11-38
 
 environment:
-  sdk: ^3.7.2
+  sdk: ^3.8.0
 
 dependencies:
   flutter:
@@ -64,7 +64,7 @@ dependencies:
   talker_riverpod_logger: ^5.1.17
   dio: ^5.8.0+1
   mockito: ^5.4.5
-  retrofit: ^4.4.2
+  retrofit: ^4.10.0
 
   # Utils
   firebase_core: ^4.2.0
@@ -111,13 +111,12 @@ dev_dependencies:
 
   flutter_lints: ^6.0.0
   build_runner: ^2.4.15
-  custom_lint: ^0.8.1
   flutter_gen_runner: ^5.10.0
   freezed: ^3.0.4
   go_router_builder: ^4.3.0
   injectable_generator: ^2.7.0
   json_serializable: ^6.9.4
-  retrofit_generator: ^10.2.1
+  retrofit_generator: ^10.2.9
   riverpod_generator: ^4.0.0+1
   riverpod_lint: ^3.1.0
   git_config: ^1.1.0

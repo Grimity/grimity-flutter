@@ -35,11 +35,10 @@ class MainBottomNavigationBar extends ConsumerWidget {
         child: GdsBottomNavigation.main(
           index: currentIndex,
           dotIndex: dotIndex,
-          onPressed:
-              (index) => navigationShell.goBranch(
-                index,
-                initialLocation: index == currentIndex,
-              ),
+          onPressed: (index) => navigationShell.goBranch(
+            index,
+            initialLocation: index == currentIndex,
+          ),
         ),
       ),
     );

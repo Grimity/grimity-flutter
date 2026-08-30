@@ -87,11 +87,10 @@ class ProfileView extends HookConsumerWidget {
                   ]);
                 },
                 child: GrimityInfiniteScrollPagination(
-                  isEnabled:
-                      (() {
-                        final posts = ref.watch(profilePostsDataProvider(user.id)).value;
-                        return user.id.isNotEmpty && posts != null && posts.isNotEmpty && posts.length % 10 == 0;
-                      })(),
+                  isEnabled: (() {
+                    final posts = ref.watch(profilePostsDataProvider(user.id)).value;
+                    return user.id.isNotEmpty && posts != null && posts.isNotEmpty && posts.length % 10 == 0;
+                  })(),
                   onLoadMore: () => ref.read(profilePostsDataProvider(user.id).notifier).loadMore(user.id),
                   child: postTabView!,
                 ),

@@ -75,12 +75,11 @@ class SavePostData extends _$SavePostData with PaginationMixin, PostMixin<Posts>
     save: false,
     optimisticBuilder: (prev) {
       return prev.copyWith(
-        posts:
-            prev.posts
-                .where(
-                  (e) => e.id != postId,
-                )
-                .toList(),
+        posts: prev.posts
+            .where(
+              (e) => e.id != postId,
+            )
+            .toList(),
       );
     },
   );

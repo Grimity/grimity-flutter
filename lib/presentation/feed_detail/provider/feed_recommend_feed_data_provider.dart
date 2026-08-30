@@ -13,6 +13,9 @@ class FeedRecommendFeedData extends _$FeedRecommendFeedData {
 
     final result = await getLatestFeedsUseCase.execute(param);
 
-    return result.fold(onSuccess: (feeds) => feeds, onFailure: (e) => Feeds(feeds: [], nextCursor: ''));
+    return result.fold(
+      onSuccess: (feeds) => feeds,
+      onFailure: (e) => Feeds(feeds: [], nextCursor: ''),
+    );
   }
 }

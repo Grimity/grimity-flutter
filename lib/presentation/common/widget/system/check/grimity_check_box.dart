@@ -65,7 +65,10 @@ class GrimityCheckBox extends StatelessWidget {
                 opacity: isVisible ? 1 : 0,
                 duration: Duration(milliseconds: 250),
                 curve: Curves.ease,
-                child: Padding(padding: EdgeInsets.only(right: 16), child: GrimityCheckBox(isChecked: isChecked)),
+                child: Padding(
+                  padding: EdgeInsets.only(right: 16),
+                  child: GrimityCheckBox(isChecked: isChecked),
+                ),
               ),
             ),
             Expanded(child: child),

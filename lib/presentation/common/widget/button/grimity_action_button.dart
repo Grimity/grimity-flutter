@@ -32,9 +32,9 @@ class GrimityActionButton extends StatelessWidget {
 
           return (userImageUrl != null)
               ? GrimityUserImage(
-                imageUrl: userImageUrl,
-                size: 24,
-              )
+                  imageUrl: userImageUrl,
+                  size: 24,
+                )
               : SvgPicture.asset(Assets.icons.icon.defaultProfile.path, width: 24, height: 24);
         },
       ),

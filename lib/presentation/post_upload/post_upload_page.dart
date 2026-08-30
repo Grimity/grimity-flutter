@@ -26,7 +26,10 @@ class PostUploadPage extends HookConsumerWidget {
       final isEditing = state.postId != null;
       final endOffset = max(0, doc.length - 1);
 
-      return QuillController(document: doc, selection: TextSelection.collapsed(offset: isEditing ? endOffset : 0));
+      return QuillController(
+        document: doc,
+        selection: TextSelection.collapsed(offset: isEditing ? endOffset : 0),
+      );
     }, [state.postId]);
 
     useEffect(() {

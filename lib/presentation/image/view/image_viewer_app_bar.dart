@@ -31,15 +31,14 @@ class ImageViewerAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       titleSpacing: 0,
-      title:
-          imageUrls.length <= 1
-              ? null
-              : Row(
-                children: [
-                  Text('${currentIndex + 1} ', style: GdsTypography.body1SB.copyWith(color: colors.text.primaryNormal)),
-                  Text('/ ${imageUrls.length}', style: GdsTypography.body1R.copyWith(color: colors.text.inverse)),
-                ],
-              ),
+      title: imageUrls.length <= 1
+          ? null
+          : Row(
+              children: [
+                Text('${currentIndex + 1} ', style: GdsTypography.body1SB.copyWith(color: colors.text.primaryNormal)),
+                Text('/ ${imageUrls.length}', style: GdsTypography.body1R.copyWith(color: colors.text.inverse)),
+              ],
+            ),
       actions: [
         if (enableSave)
           Consumer(

@@ -48,15 +48,13 @@ class NotificationPage extends ConsumerWidget {
           ),
           Expanded(
             child: notificationAsync.when(
-              data:
-                  (notifications) =>
-                      notifications.isEmpty
-                          ? GrimityStateView.resultNull(
-                            customIcon: GdsIcon.alarmDark.build(width: 60, height: 60),
-                            title: '새로운 알림이 없어요',
-                            subTitle: '내 글의 댓글와 좋아요, 다른 작가의 활동 등\n새로운 소식을 알려드려요',
-                          )
-                          : NotificationBodyView(notifications: notifications),
+              data: (notifications) => notifications.isEmpty
+                  ? GrimityStateView.resultNull(
+                      customIcon: GdsIcon.alarmDark.build(width: 60, height: 60),
+                      title: '새로운 알림이 없어요',
+                      subTitle: '내 글의 댓글와 좋아요, 다른 작가의 활동 등\n새로운 소식을 알려드려요',
+                    )
+                  : NotificationBodyView(notifications: notifications),
               loading: () => Skeletonizer(child: NotificationBodyView(notifications: Notification.emptyList)),
               error: (e, s) => GrimityStateView.error(onTap: () => ref.invalidate(notificationDataProvider)),
             ),

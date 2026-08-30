@@ -26,10 +26,9 @@ class StorageTitleView extends StatelessWidget {
         children: [
           Text(
             '내 보관함',
-            style:
-                context.isMobile
-                    ? GdsTypography.title2.copyWith(color: colors.text.grayBold)
-                    : GdsTypography.title1.copyWith(color: colors.text.grayBold),
+            style: context.isMobile
+                ? GdsTypography.title2.copyWith(color: colors.text.grayBold)
+                : GdsTypography.title1.copyWith(color: colors.text.grayBold),
           ),
         ],
       ),

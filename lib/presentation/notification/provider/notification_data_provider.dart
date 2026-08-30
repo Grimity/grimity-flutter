@@ -30,10 +30,9 @@ class NotificationData extends _$NotificationData {
     final prevState = currentState;
 
     // 로컬 반영
-    final updated =
-        currentState
-            .map((notification) => (notification.id == id) ? notification.copyWith(isRead: true) : notification)
-            .toList();
+    final updated = currentState
+        .map((notification) => (notification.id == id) ? notification.copyWith(isRead: true) : notification)
+        .toList();
     state = AsyncData(updated);
 
     // 서버 반영

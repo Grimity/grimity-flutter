@@ -154,10 +154,9 @@ class _PostHeaderSection extends ConsumerWidget {
                 children: [
                   Text(
                     post.title,
-                    style:
-                        context.isMobile
-                            ? GdsTypography.title3.copyWith(color: colors.text.grayBold)
-                            : GdsTypography.title2.copyWith(color: colors.text.grayBold),
+                    style: context.isMobile
+                        ? GdsTypography.title3.copyWith(color: colors.text.grayBold)
+                        : GdsTypography.title2.copyWith(color: colors.text.grayBold),
                   ),
                   Text(
                     post.author?.name ?? '',

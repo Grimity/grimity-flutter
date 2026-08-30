@@ -42,7 +42,12 @@ class GrimityHighlightTextSpan extends StatelessWidget {
       if (m.start > start) {
         spans.add(TextSpan(text: text.substring(start, m.start), style: normal));
       }
-      spans.add(TextSpan(text: text.substring(m.start, m.end), style: normal.copyWith(color: AppColor.main)));
+      spans.add(
+        TextSpan(
+          text: text.substring(m.start, m.end),
+          style: normal.copyWith(color: AppColor.main),
+        ),
+      );
       start = m.end;
     }
     if (start < text.length) {

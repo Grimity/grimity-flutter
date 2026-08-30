@@ -59,10 +59,10 @@ class _PhotoSelectedImageThumbnail extends ConsumerWidget with PhotoSelectMixin 
             imageSource is AssetImageSource
                 ? PhotoAssetThumbnailWidget(asset: (imageSource as AssetImageSource).asset, size: 256)
                 : GrimityCachedNetworkImage.cover(
-                  imageUrl: (imageSource as RemoteImageSource).url,
-                  width: _size,
-                  height: _size,
-                ),
+                    imageUrl: (imageSource as RemoteImageSource).url,
+                    width: _size,
+                    height: _size,
+                  ),
             ColoredBox(color: colors.surface.black.withValues(alpha: GdsOpacity.opacity20)),
             Positioned(
               top: GdsSpacing.spacing2,

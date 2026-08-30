@@ -35,7 +35,9 @@ class SearchUserTabView extends HookConsumerWidget with SearchUserMixin {
           child: _SearchResultUserView(users: data),
         );
       },
-      loading: () => Skeletonizer(child: _SearchResultUserView(users: Users(users: User.emptyList))),
+      loading: () => Skeletonizer(
+        child: _SearchResultUserView(users: Users(users: User.emptyList)),
+      ),
       error: (e, s) => GrimityStateView.error(onTap: () => invalidateSearchUser(ref)),
     );
   }

@@ -12,10 +12,9 @@ class GrimityRadioButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GrimityAnimationButton(
       onTap: onTap,
-      child:
-          value
-              ? Assets.icons.icon.radioOn.svg(width: 24, height: 24)
-              : Assets.icons.icon.radioOff.svg(width: 24, height: 24),
+      child: value
+          ? Assets.icons.icon.radioOn.svg(width: 24, height: 24)
+          : Assets.icons.icon.radioOff.svg(width: 24, height: 24),
     );
   }
 }

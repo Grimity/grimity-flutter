@@ -80,12 +80,11 @@ class MonthPickerBottomSheet extends HookConsumerWidget {
 
             return GdsListItem.pickerCard(
               text: '$month월',
-              state:
-                  isSelected
-                      ? GdsListItemState.pressed
-                      : isDisabled
-                      ? GdsListItemState.disabled
-                      : GdsListItemState.enabled,
+              state: isSelected
+                  ? GdsListItemState.pressed
+                  : isDisabled
+                  ? GdsListItemState.disabled
+                  : GdsListItemState.enabled,
               onTap: () {
                 context.pop();
                 ref.read(popularFeedRankingOptionProvider.notifier).setBaseDate(year, month);

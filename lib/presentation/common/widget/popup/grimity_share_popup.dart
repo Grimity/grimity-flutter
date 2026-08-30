@@ -83,7 +83,10 @@ class GrimitySharePopup extends StatelessWidget {
           icon: GdsIcon.x,
           state: GdsListItemState.enabled,
           onTap: () async {
-            await ShareUtil.shareToTwitter(text: shareContentType.buildShareText(nickname: nickname), url: url);
+            await ShareUtil.shareToTwitter(
+              text: shareContentType.buildShareText(nickname: nickname),
+              url: url,
+            );
             if (context.mounted) context.pop();
           },
         ),

@@ -46,7 +46,9 @@ class FeedAuthorProfileView extends ConsumerWidget {
         spacing: GdsSpacing.spacing12,
         children: [
           Skeletonizer(child: _AuthorProfile(profile: User.empty())),
-          Skeletonizer(child: _AuthorFeeds(feeds: Feed.createEmptyList(context), profile: User.empty())),
+          Skeletonizer(
+            child: _AuthorFeeds(feeds: Feed.createEmptyList(context), profile: User.empty()),
+          ),
         ],
       );
     }
@@ -87,18 +89,17 @@ class _AuthorProfile extends ConsumerWidget {
           text: '작품 보기',
           onPressed: () => goProfile(context),
         ),
-        secondaryActionButton:
-            isFollowing
-                ? GdsOutlinedButton(
-                  size: GdsOutlinedButtonSize.small,
-                  text: '언팔로우',
-                  onPressed: () => toggleFollow(ref),
-                )
-                : GdsSolidButton(
-                  size: GdsSolidButtonSize.small,
-                  text: '팔로우',
-                  onPressed: () => toggleFollow(ref),
-                ),
+        secondaryActionButton: isFollowing
+            ? GdsOutlinedButton(
+                size: GdsOutlinedButtonSize.small,
+                text: '언팔로우',
+                onPressed: () => toggleFollow(ref),
+              )
+            : GdsSolidButton(
+                size: GdsSolidButtonSize.small,
+                text: '팔로우',
+                onPressed: () => toggleFollow(ref),
+              ),
         onProfileTap: () {
           // 프로필 페이지로 이동.
           ProfileRoute(url: profile!.url).push(context);

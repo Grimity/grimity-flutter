@@ -1,5 +1,3 @@
-import 'package:dio/dio.dart';
-
 abstract class Result<T> {
   static Result<T> failure<T>(Exception error) => Failure<T>(error);
 
@@ -14,23 +12,9 @@ abstract class Result<T> {
       return onSuccess((this as Success).value);
     } else {
       final error = (this as Failure).error;
-      if (error is DioException) {
-        final response = error.response;
-
-        String? message;
-        try {
-          final data = response?.data;
-          if (data is Map<String, dynamic>) {
-            message = data['message'] as String?;
-          }
-        } catch (_) {
-          message = null;
-        }
-
-        return onFailure(Exception(message ?? 'Unknown error'));
-      } else {
-        return onFailure(error);
-      }
+      // Preserve the original exception so callers can inspect HTTP status,
+      // response data, request information, and the underlying error.
+      return onFailure(error);
     }
   }
 

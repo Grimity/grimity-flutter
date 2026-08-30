@@ -31,10 +31,9 @@ class SettingNicknameView extends HookConsumerWidget {
             children: [
               Text(
                 '새로운 닉네임을 입력해주세요',
-                style:
-                    context.isMobile
-                        ? GdsTypography.title2.copyWith(color: colors.text.grayBold)
-                        : GdsTypography.title1.copyWith(color: colors.text.grayBold),
+                style: context.isMobile
+                    ? GdsTypography.title2.copyWith(color: colors.text.grayBold)
+                    : GdsTypography.title1.copyWith(color: colors.text.grayBold),
               ),
               Gap(GdsSpacing.spacing24),
               GdsInput.custom(

@@ -14,10 +14,9 @@ class BoardTitleHeader extends StatelessWidget {
       children: [
         Text(
           '자유게시판',
-          style:
-              context.isMobile
-                  ? GdsTypography.title2.copyWith(color: colors.text.grayBold)
-                  : GdsTypography.title1.copyWith(color: colors.text.grayBold),
+          style: context.isMobile
+              ? GdsTypography.title2.copyWith(color: colors.text.grayBold)
+              : GdsTypography.title1.copyWith(color: colors.text.grayBold),
         ),
         GdsOutlinedButton(
           text: '글쓰기',

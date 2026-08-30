@@ -40,7 +40,12 @@ class ShareUtil {
         imageUrl: Uri.parse(imageUrl ?? AppConfig.defaultThumbnailUrl),
         link: Link(webUrl: Uri.parse(linkUrl), mobileWebUrl: Uri.parse(linkUrl)),
       ),
-      buttons: [Button(title: '자세히 보기', link: Link(webUrl: Uri.parse(linkUrl), mobileWebUrl: Uri.parse(linkUrl)))],
+      buttons: [
+        Button(
+          title: '자세히 보기',
+          link: Link(webUrl: Uri.parse(linkUrl), mobileWebUrl: Uri.parse(linkUrl)),
+        ),
+      ],
     );
 
     try {

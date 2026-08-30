@@ -14,7 +14,10 @@ class SaveFeedData extends _$SaveFeedData {
 
     final result = await getSaveFeedsUseCase.execute(param);
 
-    return result.fold(onSuccess: (feeds) => feeds, onFailure: (e) => Feeds(feeds: [], nextCursor: ''));
+    return result.fold(
+      onSuccess: (feeds) => feeds,
+      onFailure: (e) => Feeds(feeds: [], nextCursor: ''),
+    );
   }
 
   // Infinite Scroll

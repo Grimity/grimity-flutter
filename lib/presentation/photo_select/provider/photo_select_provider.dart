@@ -123,8 +123,9 @@ class PhotoSelect extends _$PhotoSelect {
       /// 제거
       if (!isAdd) {
         selected.remove(image);
-        final newThumbnail =
-            image == data.thumbnailImage ? (selected.isNotEmpty ? selected.first : null) : data.thumbnailImage;
+        final newThumbnail = image == data.thumbnailImage
+            ? (selected.isNotEmpty ? selected.first : null)
+            : data.thumbnailImage;
         return data.copyWith(selected: selected, thumbnailImage: newThumbnail);
       }
 
@@ -146,8 +147,9 @@ class PhotoSelect extends _$PhotoSelect {
     state = state.whenData((data) {
       final selected = [...data.selected];
       selected.remove(image);
-      final newThumbnail =
-          image == data.thumbnailImage ? (selected.isNotEmpty ? selected.first : null) : data.thumbnailImage;
+      final newThumbnail = image == data.thumbnailImage
+          ? (selected.isNotEmpty ? selected.first : null)
+          : data.thumbnailImage;
       return data.copyWith(selected: selected, thumbnailImage: newThumbnail);
     });
   }

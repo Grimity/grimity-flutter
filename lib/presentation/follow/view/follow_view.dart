@@ -25,14 +25,13 @@ class FollowView extends HookWidget {
             listenable: tabController,
             builder: (context, child) {
               return Padding(
-                padding:
-                    context.isMobile
-                        ? EdgeInsets.symmetric(horizontal: GdsSpacing.spacing16)
-                        : EdgeInsets.only(
-                          top: GdsSpacing.spacing8,
-                          left: GdsSpacing.spacing20,
-                          right: GdsSpacing.spacing20,
-                        ),
+                padding: context.isMobile
+                    ? EdgeInsets.symmetric(horizontal: GdsSpacing.spacing16)
+                    : EdgeInsets.only(
+                        top: GdsSpacing.spacing8,
+                        left: GdsSpacing.spacing20,
+                        right: GdsSpacing.spacing20,
+                      ),
                 child: GdsTab(
                   size: context.isMobile ? GdsTabSize.sm : GdsTabSize.md,
                   controller: tabController,

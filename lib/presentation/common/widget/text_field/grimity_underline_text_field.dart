@@ -122,38 +122,40 @@ class GrimityUnderlineTextField extends HookWidget {
   Widget build(BuildContext context) {
     final animationController = useAnimationController();
 
-    final textField = TextField(
-          enabled: enabled,
-          controller: controller,
-          onChanged: onChanged,
-          onSubmitted: onSubmitted,
-          focusNode: focusNode,
-          keyboardType: keyboardType,
-          textInputAction: textInputAction,
-          style: _textStyle,
-          maxLength: maxLength,
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(vertical: 16),
-            counterText: '',
-            hintText: hintText,
-            hintStyle: _textStyle.copyWith(color: AppColor.gray500),
-            border: UnderlineInputBorder(borderSide: BorderSide(color: _enabledBorderColor)),
-            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: _enabledBorderColor)),
-            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: _borderColor)),
-            disabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: _borderColor)),
-            filled: true,
-            fillColor: _fillColor,
-            suffixIconConstraints: const BoxConstraints(minWidth: 18, minHeight: 18),
-            suffixIcon:
-                _suffixWidget != null ? Padding(padding: const EdgeInsets.only(right: 16), child: _suffixWidget) : null,
-          ),
-        )
-        .animate(
-          autoPlay: false,
-          controller: animationController,
-          onComplete: (controller) => controller.repeat(reverse: true, count: 1),
-        )
-        .shakeX(amount: 5, duration: 300.ms, curve: Curves.easeInOut);
+    final textField =
+        TextField(
+              enabled: enabled,
+              controller: controller,
+              onChanged: onChanged,
+              onSubmitted: onSubmitted,
+              focusNode: focusNode,
+              keyboardType: keyboardType,
+              textInputAction: textInputAction,
+              style: _textStyle,
+              maxLength: maxLength,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                counterText: '',
+                hintText: hintText,
+                hintStyle: _textStyle.copyWith(color: AppColor.gray500),
+                border: UnderlineInputBorder(borderSide: BorderSide(color: _enabledBorderColor)),
+                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: _enabledBorderColor)),
+                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: _borderColor)),
+                disabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: _borderColor)),
+                filled: true,
+                fillColor: _fillColor,
+                suffixIconConstraints: const BoxConstraints(minWidth: 18, minHeight: 18),
+                suffixIcon: _suffixWidget != null
+                    ? Padding(padding: const EdgeInsets.only(right: 16), child: _suffixWidget)
+                    : null,
+              ),
+            )
+            .animate(
+              autoPlay: false,
+              controller: animationController,
+              onComplete: (controller) => controller.repeat(reverse: true, count: 1),
+            )
+            .shakeX(amount: 5, duration: 300.ms, curve: Curves.easeInOut);
 
     useEffect(() {
       if (state == GrimityTextFieldState.error) {

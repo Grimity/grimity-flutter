@@ -291,14 +291,15 @@ class SplashRoute extends GoRouteData with $SplashRoute {
   Widget build(BuildContext context, GoRouterState state) => const SplashPage();
 
   /// 스프레시 관련 페이지에서 사용하는 전환 애니메이션 빌더.
-  static dynamic get transitionsBuilder => (
-    context,
-    animation,
-    secondaryAnimation,
-    child,
-  ) {
-    return FadeTransition(opacity: animation, child: child);
-  };
+  static dynamic get transitionsBuilder =>
+      (
+        context,
+        animation,
+        secondaryAnimation,
+        child,
+      ) {
+        return FadeTransition(opacity: animation, child: child);
+      };
 
   /// 스프레시 관련 페이지에서 사용되는 [buildPage] 함수의 공통 선언입니다.
   static Page<void> defaultBuildPage(

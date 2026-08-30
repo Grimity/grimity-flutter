@@ -163,7 +163,10 @@ class GrimityTab extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
-          children: [Text(text, style: _textStyle), if (count != null) Text(count.toString(), style: _countStyle)],
+          children: [
+            Text(text, style: _textStyle),
+            if (count != null) Text(count.toString(), style: _countStyle),
+          ],
         ),
       ),
     );

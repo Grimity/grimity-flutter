@@ -16,14 +16,14 @@ class FeedUploadBodyView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ListView(
-      padding:
-          context.isMobile ? EdgeInsets.only(top: GdsSpacing.spacing8) : EdgeInsets.only(top: GdsSpacing.spacing20),
+      padding: context.isMobile
+          ? EdgeInsets.only(top: GdsSpacing.spacing8)
+          : EdgeInsets.only(top: GdsSpacing.spacing20),
       children: [
         Center(
-          child:
-              ref.watch(feedUploadProvider).images.isNotEmpty
-                  ? FeedUploadSelectedImageView()
-                  : FeedUploadAddImageButton(),
+          child: ref.watch(feedUploadProvider).images.isNotEmpty
+              ? FeedUploadSelectedImageView()
+              : FeedUploadAddImageButton(),
         ),
         Gap(context.isMobile ? GdsSpacing.spacing12 : GdsSpacing.spacing32),
         Padding(

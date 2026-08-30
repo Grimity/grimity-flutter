@@ -4,17 +4,30 @@ import 'package:dio/dio.dart';
 import 'package:grimity/domain/usecase/auth_usecases.dart';
 
 class TokenInterceptor extends QueuedInterceptor {
+  static const _publicPaths = <String>{
+    '/auth/login',
+    '/auth/register',
+    '/users/name-check',
+    '/health-check',
+    '/app-version',
+  };
+
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     try {
-      if (options.headers['withToken'] != 'false') {
+      final requiresToken = options.headers['withToken'] != 'false' && !_publicPaths.contains(options.uri.path);
+
+      if (requiresToken) {
         final token = await loadTokenUseCase.execute();
 
         if (token != null) {
           options.headers['Authorization'] = 'Bearer ${token.accessToken}';
         } else {
           return handler.reject(
-            DioException(requestOptions: options, response: Response(requestOptions: options, statusCode: 401)),
+            DioException(
+              requestOptions: options,
+              response: Response(requestOptions: options, statusCode: 401),
+            ),
           );
         }
       }

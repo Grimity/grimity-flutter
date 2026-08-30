@@ -30,14 +30,20 @@ class BoardPostData extends _$BoardPostData with PaginationMixin {
 
       final result = await searchPostsUseCase.execute(param);
 
-      return result.fold(onSuccess: (posts) => posts, onFailure: (e) => Posts(posts: [], totalCount: 0));
+      return result.fold(
+        onSuccess: (posts) => posts,
+        onFailure: (e) => Posts(posts: [], totalCount: 0),
+      );
     }
 
     final GetPostsRequestParam param = GetPostsRequestParam(page: currentPage, size: size, type: type);
 
     final result = await getPostsUseCase.execute(param);
 
-    return result.fold(onSuccess: (posts) => posts, onFailure: (e) => Posts(posts: [], totalCount: 0));
+    return result.fold(
+      onSuccess: (posts) => posts,
+      onFailure: (e) => Posts(posts: [], totalCount: 0),
+    );
   }
 
   Future<void> search() async {

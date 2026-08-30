@@ -25,10 +25,9 @@ class RankingHeader extends StatelessWidget {
           children: [
             Text(
               '인기 그림 순위',
-              style:
-                  context.isMobile
-                      ? GdsTypography.title2.copyWith(color: colors.text.grayBold)
-                      : GdsTypography.title1.copyWith(color: colors.text.grayBold),
+              style: context.isMobile
+                  ? GdsTypography.title2.copyWith(color: colors.text.grayBold)
+                  : GdsTypography.title1.copyWith(color: colors.text.grayBold),
             ),
             Text(
               '인기 그림은 40위까지 노출됩니다',

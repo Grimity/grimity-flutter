@@ -18,8 +18,10 @@ class AuthorWithFeedsData extends _$AuthorWithFeedsData with UserMixin<List<Auth
   @override
   FutureOr<List<AuthorWithFeeds>> build() async {
     final userResult = await getPopularUsersUseCase.execute();
-    final users =
-        userResult.fold(onSuccess: (users) => [...users.users]..shuffle(), onFailure: (e) => []).take(8).toList();
+    final users = userResult
+        .fold(onSuccess: (users) => [...users.users]..shuffle(), onFailure: (e) => [])
+        .take(8)
+        .toList();
 
     final authorWithFeeds = await Future.wait(
       users.map((user) async {
@@ -46,7 +48,9 @@ class AuthorWithFeedsData extends _$AuthorWithFeedsData with UserMixin<List<Auth
           final current = e.user.followerCount ?? 0;
           final nextCount = follow ? current + 1 : (current - 1).clamp(0, 1 << 31);
 
-          return e.copyWith(user: e.user.copyWith(isFollowing: follow, followerCount: nextCount));
+          return e.copyWith(
+            user: e.user.copyWith(isFollowing: follow, followerCount: nextCount),
+          );
         }).toList();
       },
     );

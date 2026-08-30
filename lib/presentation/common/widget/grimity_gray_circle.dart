@@ -10,7 +10,11 @@ class GrimityGrayCircle extends StatelessWidget {
     return Row(
       children: [
         const Gap(4),
-        Container(width: 2, height: 2, decoration: BoxDecoration(color: AppColor.gray400, shape: BoxShape.circle)),
+        Container(
+          width: 2,
+          height: 2,
+          decoration: BoxDecoration(color: AppColor.gray400, shape: BoxShape.circle),
+        ),
         const Gap(4),
       ],
     );

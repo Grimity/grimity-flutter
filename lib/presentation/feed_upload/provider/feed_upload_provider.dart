@@ -147,13 +147,12 @@ class FeedUpload extends _$FeedUpload {
         if (urlResult.length != assetCount) return null;
 
         final uploadedImages = urlResult.iterator;
-        cards =
-            state.images.map((image) {
-              return switch (image) {
-                RemoteImageSource(:final url) => url.replaceFirst(AppConfig.imageUrl, ''),
-                AssetImageSource() => (uploadedImages..moveNext()).current.imageName,
-              };
-            }).toList();
+        cards = state.images.map((image) {
+          return switch (image) {
+            RemoteImageSource(:final url) => url.replaceFirst(AppConfig.imageUrl, ''),
+            AssetImageSource() => (uploadedImages..moveNext()).current.imageName,
+          };
+        }).toList();
       }
 
       // 4. 피드 생성/수정 요청
