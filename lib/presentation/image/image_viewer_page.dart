@@ -58,6 +58,7 @@ class ImageViewerPage extends HookWidget {
                       final imageUrl = imageUrls[currentIndex.value];
                       ref.read(imageSaveProvider.notifier).saveByUrl(imageUrl);
                     },
+                    showDownload: enableSave,
                   );
                 },
               ),

@@ -51,7 +51,7 @@ class FeedContentView extends ConsumerWidget {
             onShareTap: () => showSharePopup(context, feed),
           ),
           Gap(GdsSpacing.spacing8),
-          if (feed.cards != null) _FeedImageListSection(imageUrls: feed.cards!),
+          if (feed.cards != null) _FeedImageListSection(imageUrls: feed.cards!, enableSave: isMine),
           Gap(GdsSpacing.spacing20),
           _FeedContentSection(feed: feed),
           if (feed.tags != null) ...[
@@ -183,9 +183,10 @@ class _FeedAuthorInfoSection extends HookWidget {
 }
 
 class _FeedImageListSection extends StatelessWidget {
-  const _FeedImageListSection({required this.imageUrls});
+  const _FeedImageListSection({required this.imageUrls, required this.enableSave});
 
   final List<String> imageUrls;
+  final bool enableSave;
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +197,7 @@ class _FeedImageListSection extends StatelessWidget {
           return GdsGesture(
             onTap: () {
               // 이미지 뷰어 페이지로 이동
-              ImageViewerRoute(initialIndex: index, imageUrls: imageUrls).push(context);
+              ImageViewerRoute(initialIndex: index, imageUrls: imageUrls, enableSave: enableSave).push(context);
             },
             child: GrimityCachedNetworkImage.fitWidth(imageUrl: imageUrl),
           );

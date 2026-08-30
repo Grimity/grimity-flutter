@@ -64,7 +64,7 @@ class FeedDetailView extends StatelessWidget {
             ),
           ),
 
-          if (feedCommentInputBar != null) feedCommentInputBar!,
+          ?feedCommentInputBar,
         ],
       ),
     );
