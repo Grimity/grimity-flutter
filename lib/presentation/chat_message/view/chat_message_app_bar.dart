@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gds/gds.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/app/enum/report.enum.dart';
 import 'package:grimity/presentation/chat_message/components/show_delete_chat_dialog.dart';
 import 'package:grimity/presentation/chat_message/provider/chat_message_provider.dart';
@@ -27,6 +28,12 @@ class ChatMessageAppBar extends ConsumerWidget {
         ReportPage.push(context, refType: ReportRefType.chat, refId: chatId);
       },
       onSignOut: () => showDeleteChatDialog(context: context, chatId: chatId),
+      onProfile: () {
+        final profileUrl = state?.opponentUser.url;
+        if (profileUrl == null || profileUrl.isEmpty) return;
+
+        ProfileRoute(url: profileUrl).push(context);
+      },
     );
   }
 }
