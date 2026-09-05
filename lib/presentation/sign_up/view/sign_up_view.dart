@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gds/gds.dart';
-import 'package:go_router/go_router.dart';
 import 'package:grimity/app/config/app_router.dart';
 import 'package:grimity/presentation/sign_up/provider/sign_up_provider.dart';
 import 'package:grimity/presentation/sign_up/view/sign_up_nickname_view.dart';
@@ -29,6 +28,17 @@ class SignUpView extends HookConsumerWidget {
     final signUp = ref.watch(signUpProvider.notifier);
     final state = ref.watch(signUpProvider);
 
+    void handleBack() {
+      switch (state.signUpViewState) {
+        case SignUpViewState.nickname:
+          const SignInRoute().go(context);
+        case SignUpViewState.url:
+          signUp.setSignUpState(SignUpViewState.nickname);
+        case SignUpViewState.welcome:
+          const HomeRoute().go(context);
+      }
+    }
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final pageIndex = switch (state.signUpViewState) {
         SignUpViewState.nickname => 0,
@@ -42,19 +52,10 @@ class SignUpView extends HookConsumerWidget {
     });
 
     return GdsScaffold(
-      appBar: SignUpAppBar(),
+      appBar: SignUpAppBar(onBack: handleBack),
       body: PopScope(
-        canPop: state.signUpViewState == SignUpViewState.nickname,
-        onPopInvoked: (didPop) {
-          switch (state.signUpViewState) {
-            case SignUpViewState.nickname:
-              return context.pop();
-            case SignUpViewState.url:
-              signUp.setSignUpState(SignUpViewState.nickname);
-            case SignUpViewState.welcome:
-              return HomeRoute().go(context);
-          }
-        },
+        canPop: false,
+        onPopInvoked: (_) => handleBack(),
         child: Column(
           children: [
             Expanded(

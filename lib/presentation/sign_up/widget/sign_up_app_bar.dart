@@ -1,15 +1,16 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds/gds.dart';
-import 'package:go_router/go_router.dart';
 
 class SignUpAppBar extends StatelessWidget {
-  const SignUpAppBar({super.key});
+  const SignUpAppBar({super.key, required this.onBack});
+
+  final VoidCallback onBack;
 
   @override
   Widget build(BuildContext context) {
     return GdsTopNavigation.iconButton(
       title: '',
-      onBack: context.pop,
+      onBack: onBack,
       icons: [],
       onIconTap: [],
       showTitle: false,
