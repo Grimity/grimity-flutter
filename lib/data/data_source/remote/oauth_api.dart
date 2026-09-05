@@ -25,7 +25,12 @@ class OAuthAPIImpl extends OAuthAPI {
   @override
   Future<String> loginWithGoogle() async {
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn(clientId: Flavor.env.googleSignInClientId).signIn();
+      final googleSignIn = GoogleSignIn(clientId: Flavor.env.googleSignInClientId);
+
+      // Clear the previously selected account so Google shows the account
+      // chooser whenever the user starts a new login attempt.
+      await googleSignIn.signOut();
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
 
       if (googleUser == null) {
         throw const LoginCanceledException();
