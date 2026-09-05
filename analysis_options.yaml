@@ -17,9 +17,6 @@ analyzer:
     deprecated_member_use: ignore
     deprecated_member_use_from_same_package: ignore
 
-plugins:
-  riverpod_lint: ^3.1.0
-
 formatter:
   page_width: 120
   trailing_commas: preserve

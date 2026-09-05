@@ -116,7 +116,6 @@ dev_dependencies:
   json_serializable: ^6.9.4
   retrofit_generator: ^10.2.9
   riverpod_generator: ^4.0.0+1
-  riverpod_lint: ^3.1.0
   git_config: ^1.1.0
   change_app_package_name: ^1.5.0
   yaml: ^3.1.3
