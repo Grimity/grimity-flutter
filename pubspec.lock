@@ -972,10 +972,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_touch_scale
-      sha256: f1aa6b6e4bd8cb189e436b1f7e53d7b5b0a65c0f433643fec7cd159782c8bd9b
+      sha256: f71bfe3738482b72c8108d4acefcac2270b4c51e0742cd02228fe0ad04156d77
       url: "https://pub.dev"
     source: hosted
-    version: "1.5.0"
+    version: "1.6.1"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -1098,7 +1098,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: c09490cf5f45d660a567d62b16e9adcecf96839f
+      resolved-ref: "95e91cb94a8fa5aaada935bf703963938c18fc56"
       url: "https://github.com/Grimity/gds-flutter"
     source: git
     version: "0.0.1"
@@ -1106,8 +1106,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/components"
-      ref: c09490cf5f45d660a567d62b16e9adcecf96839f
-      resolved-ref: c09490cf5f45d660a567d62b16e9adcecf96839f
+      ref: "95e91cb94a8fa5aaada935bf703963938c18fc56"
+      resolved-ref: "95e91cb94a8fa5aaada935bf703963938c18fc56"
       url: "https://github.com/Grimity/gds-flutter"
     source: git
     version: "0.0.1"
@@ -1115,8 +1115,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/foundation"
-      ref: c09490cf5f45d660a567d62b16e9adcecf96839f
-      resolved-ref: c09490cf5f45d660a567d62b16e9adcecf96839f
+      ref: "95e91cb94a8fa5aaada935bf703963938c18fc56"
+      resolved-ref: "95e91cb94a8fa5aaada935bf703963938c18fc56"
       url: "https://github.com/Grimity/gds-flutter"
     source: git
     version: "0.0.1"
@@ -1124,8 +1124,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/tokens"
-      ref: c09490cf5f45d660a567d62b16e9adcecf96839f
-      resolved-ref: c09490cf5f45d660a567d62b16e9adcecf96839f
+      ref: "95e91cb94a8fa5aaada935bf703963938c18fc56"
+      resolved-ref: "95e91cb94a8fa5aaada935bf703963938c18fc56"
       url: "https://github.com/Grimity/gds-flutter"
     source: git
     version: "0.0.1"
