@@ -139,6 +139,7 @@ flutter:
     - assets/images/profile/
     - assets/images/image/
     - assets/lottie/
+
   fonts:
     - family: Pretendard
       fonts:
