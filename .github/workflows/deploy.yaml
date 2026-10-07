@@ -119,9 +119,6 @@ jobs:
   ios:
     runs-on: macos-26
     needs: ready
-    env:
-      IOS_ENGINE_VERSION: ${{ vars.FLUTTER_VERSION }}
-      IOS_ENGINE_SHA256: "5a848c1d236cc856fbcc83e7d52a09852563e193378c231bad359d5c9916cc58"
     steps:
       - uses: actions/checkout@v4
 
@@ -134,46 +131,22 @@ jobs:
         uses: actions/cache@v3
         with:
           path: /Users/runner/hostedtoolcache/flutter
-          key: ${{ runner.os }}-flutter-${{ env.IOS_ENGINE_VERSION }}
+          key: ${{ runner.os }}-flutter-${{ vars.FLUTTER_VERSION }}
 
       - name: Flutter 설치
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: ${{ env.IOS_ENGINE_VERSION }}
+          flutter-version: ${{ vars.FLUTTER_VERSION }}
 
-      - name: 커스텀 iOS 엔진 준비
-        id: ios_engine
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          ENGINE_DIR="$RUNNER_TEMP/ios-engine-$IOS_ENGINE_VERSION"
-          mkdir -p "$ENGINE_DIR"
-          curl --fail --location --retry 3 \
-            "https://github.com/MTtankkeo/flutter-ios-engine-patcher/releases/download/$IOS_ENGINE_VERSION/ios-engine.tar.gz" \
-            --output "$ENGINE_DIR/ios-engine.tar.gz"
-          (cd "$ENGINE_DIR" && echo "$IOS_ENGINE_SHA256  ios-engine.tar.gz" | shasum -a 256 --check)
-          tar -xzf "$ENGINE_DIR/ios-engine.tar.gz" -C "$ENGINE_DIR"
-
-          flutter --version --machine > "$ENGINE_DIR/flutter-version.json"
-          python3 - "$ENGINE_DIR" <<'PY'
-          import json
-          import pathlib
-          import sys
-
-          engine_dir = pathlib.Path(sys.argv[1])
-          metadata = json.loads((engine_dir / "metadata.json").read_text())
-          flutter = json.loads((engine_dir / "flutter-version.json").read_text())
-          if (metadata["flutter_version"], metadata["flutter_commit"]) != (flutter["frameworkVersion"], flutter["frameworkRevision"]):
-              sys.exit("Flutter SDK version/commit does not match the custom engine")
-          if (metadata["local_engine"], metadata["host_engine"]) != ("ios_release", "host_release_arm64"):
-              sys.exit("Expected release iOS engine and arm64 host engine")
-          PY
-
-          test -d "$ENGINE_DIR/engine/src/out/ios_release/Flutter.xcframework"
-          test -x "$ENGINE_DIR/engine/src/out/host_release_arm64/dart-sdk/bin/dart"
-          echo "src-path=$ENGINE_DIR/engine/src" >> "$GITHUB_OUTPUT"
+      - name: 커스텀 iOS 엔진 설치
+        uses: robinraju/release-downloader@v1.12
+        with:
+          repository: MTtankkeo/flutter-ios-engine-patcher
+          extract: true
+          tag: ${{ vars.FLUTTER_VERSION }}
+          fileName: ios-engine.tar.gz
+          out-file-path: .ios-engine
 
       - name: Swift 패키지 메니저 비활성화
         run: flutter config --no-enable-swift-package-manager
@@ -209,7 +182,7 @@ jobs:
           appstore-team-id: ${{ secrets.APP_STORE_TEAM_ID }}
           build-extra: >-
             --flavor prod --target lib/app/entrypoints/main_prod.dart
-            --local-engine-src-path="${{ steps.ios_engine.outputs.src-path }}"
+            --local-engine-src-path="${{ github.workspace }}/.ios-engine/engine/src"
             --local-engine=ios_release
             --local-engine-host=host_release_arm64
 
