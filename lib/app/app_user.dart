@@ -10,7 +10,7 @@ enum AppUserStatus {
   none,
   loading,
   loaded,
-  logout,
+  unauth,
 }
 
 /// 소셜 로그인과 앱 토큰 저장, 현재 사용자 정보 조회를 처리합니다.
@@ -75,7 +75,7 @@ abstract class AppUser {
     await AppSecureStorage.refreshToken.delete();
 
     _profile = null;
-    status = .logout;
+    status = .unauth;
   }
 
   /// 저장된 토큰 유무에 따라 사용자 정보를 불러옵니다.
@@ -86,7 +86,7 @@ abstract class AppUser {
       _profile = await GetMe().request();
       status = .loaded;
     } else {
-      status = .logout;
+      status = .unauth;
     }
   }
 }
