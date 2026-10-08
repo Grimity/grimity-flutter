@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/app/app_oauth.dart';
 import 'package:grimity/app/app_secure_storage.dart';
@@ -38,14 +39,18 @@ abstract class AppUser {
   }
 
   /// 소셜 인증 토큰으로 서버에 로그인한 뒤 사용자 프로필을 반환합니다.
-  static Future<MyProfileResponse> signIn(AuthProvider provider) async {
+  static Future<MyProfileResponse> signIn(
+    GdsDevice device,
+    AuthProvider provider,
+  ) async {
+    final info = await AppDevice.info;
     final token = await AppOAuth.signIn(provider);
-    final device = await AppDevice.info;
     final result = await PostAuthLogin(
-      grimityAppModel: device.model,
+      grimityAppDevice: device.name,
+      grimityAppModel: info.model,
       request: .new(
         provider: provider,
-        deviceId: device.id,
+        deviceId: info.id,
         providerAccessToken: token,
       ),
     ).request();
@@ -56,8 +61,16 @@ abstract class AppUser {
     return _profile = await GetMe().request();
   }
 
-  ///
-  static Future<void> signOut() async {
+  /// 기기 종류와 모델명을 전달해 서버에 로그아웃을 요청합니다.
+  /// 이후 저장된 토큰과 프로필을 삭제합니다.
+  static Future<void> signOut(GdsDevice device) async {
+    final info = await AppDevice.info;
+    final service = PostAuthLogout(
+      grimityAppDevice: device.name,
+      grimityAppModel: info.model,
+    );
+
+    await service.request();
     await AppSecureStorage.accessToken.delete();
     await AppSecureStorage.refreshToken.delete();
 
