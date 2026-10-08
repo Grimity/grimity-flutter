@@ -1,0 +1,6 @@
+specs:
+  - url: https://raw.githubusercontent.com/Grimity/server/dev/openapi/openapi.json
+    output: lib/api/
+
+service:
+  naming: path

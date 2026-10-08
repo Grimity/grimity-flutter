@@ -1,21 +1,17 @@
 include: package:flutter_lints/flutter.yaml
 
+plugins:
+  # 그리미티 디자인 시스템
+  gds_lints:
+    git:
+      url: https://github.com/Grimity/gds-flutter.git
+      path: packages/gds_lints
+
 analyzer:
   exclude:
-    - '**/*.g.dart'
-    - '**/*.freezed.dart'
-    - 'lib/data/gen/**'
     - build/**
     - android/**
     - ios/**
-    - web/**
-    - windows/**
-    - macos/**
-    - linux/**
-  errors:
-    invalid_annotation_target: ignore
-    deprecated_member_use: ignore
-    deprecated_member_use_from_same_package: ignore
 
 formatter:
   page_width: 120

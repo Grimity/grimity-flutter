@@ -1,16 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:label="@string/app_name"
+        android:label="grimity_flutter"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher"
-        android:requestLegacyExternalStorage="true">
+        android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:taskAffinity=""
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
@@ -28,44 +25,16 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="www.grimity.com" />
-            </intent-filter>
-
-            <!-- 카카오톡 공유, 카카오톡 메시지 커스텀 URL 스킴 설정 -->
-            <intent-filter android:label="kakao_link">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="kakao9ef16b15112d4c1ad60660adc4c39a93" android:host="kakaolink" />
-            </intent-filter>
-            <intent-filter android:label="kakao_link_dev">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="kakao5ed98b399cef5d1814850676530f5c4f" android:host="kakaolink" />
-            </intent-filter>
         </activity>
-
-        <!-- 카카오 로그인 커스텀 URL 스킴 설정 -->
-        <activity android:name="com.kakao.sdk.flutter.AuthCodeCustomTabsActivity"
+        <!-- 카카오 계정 로그인 후 앱으로 돌아오는 콜백입니다. -->
+        <activity
+            android:name="com.kakao.sdk.flutter.AuthCodeCustomTabsActivity"
             android:exported="true">
-            <intent-filter android:label="kakao_login">
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="kakao9ef16b15112d4c1ad60660adc4c39a93" android:host="oauth"/>
-            </intent-filter>
-            <intent-filter android:label="kakao_login_dev">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="kakao5ed98b399cef5d1814850676530f5c4f" android:host="oauth"/>
+                <data android:scheme="kakao9ef16b15112d4c1ad60660adc4c39a93" android:host="oauth" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
@@ -80,6 +49,7 @@
 
          In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
     <queries>
+        <package android:name="com.kakao.talk" />
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>

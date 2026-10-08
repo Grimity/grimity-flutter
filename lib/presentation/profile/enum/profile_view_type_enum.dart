@@ -1,1 +1,0 @@
-enum ProfileViewType { mine, other }

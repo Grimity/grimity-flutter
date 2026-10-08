@@ -1,94 +1,71 @@
-# 🖌️ Grimity
-그림쟁이들을 위한 그림 커뮤니티, 그리미티에 대한 Flutter 기반의 모바일 애플리케이션입니다.
+<img src="https://github.com/Grimity/grimity-flutter/raw/refs/heads/main/.github/assets/banner.png">
 
-<a href="https://play.google.com/store/apps/details?id=com.grimity.flutter"><img height="50" alt="Google Play" src="https://github.com/user-attachments/assets/cb3b771c-a41b-4878-9606-75dc6a5555a0" />
-<a href="https://apps.apple.com/us/app/%EA%B7%B8%EB%A6%AC%EB%AF%B8%ED%8B%B0/id6754501709"><img height="50" alt="App Store" src="https://github.com/user-attachments/assets/a00afbda-3e96-4d2b-9f7c-ef6b3bf2129e" /></a>
+## 처리해야 할 작업
 
+[legacy](https://github.com/Grimity/grimity-flutter/tree/legacy) 브랜치 대비 남은 작업입니다. 기존 소셜 로그인, 토큰 저장, Firebase 초기화, API 생성 설정은 제외했습니다.
 
-<img width="3667" height="1080" src="https://github.com/user-attachments/assets/d617c22c-0c61-4b49-ad9c-95ca59336b8e" />
+### 공통 기능
 
-### 🔗 관련 종속성
-<a href="https://riverpod.dev/"><img src="https://github.com/user-attachments/assets/ae070ff6-5c2b-43a8-ae97-8f34114093d0"></a>
-<a href="https://pub.dev/packages/freezed"><img src="https://github.com/user-attachments/assets/184030ac-da8f-400e-b093-d14a601fd16d"></a>
-<a href="https://pub.dev/packages/go_router"><img src="https://github.com/user-attachments/assets/97b636fd-6816-4ef5-861f-daa5081486ea"></a>
-<a href="https://pub.dev/packages/dio"><img src="https://github.com/user-attachments/assets/8ea8acf8-d09e-4b3b-837e-daa799b99b08"></a>
-<a href="https://pub.dev/packages/retrofit"><img src="https://github.com/user-attachments/assets/93e98556-e40b-4841-8025-c439dc0c9c3f"></a>
+| 완료 | 작업 | 설명 |
+| --- | --- | --- |
+| ☐ | 시작 흐름 | 저장된 세션 복원·초기 사용자 조회 |
+| ☐ | 인증 상태 | 로그인·로그아웃·세션 만료 반영 |
+| ☐ | 회원가입 | 신규 사용자 분기·가입 API 연결 |
+| ☐ | 계정 관리 | 사용자 정보 수정·회원 탈퇴 |
+| ☐ | 라우팅 | 페이지 경로·인증 분기·탭 상태 유지 |
+| ☐ | 토큰 갱신 | 갱신 실패·반복 401 처리 검증 |
+| ☐ | 앱 설정 | 테마·알림 설정 저장 |
+| ☐ | 푸시 알림 | FCM 토큰·권한·수신·배지 처리 |
+| ☐ | 딥 링크 | 알림·외부 링크의 화면 이동 |
+| ☐ | 실시간 채팅 | 소켓 연결·메시지 수신·재연결 |
+| ☐ | 이미지 업로드 | 업로드 URL 발급·압축·전송 |
+| ☐ | 사진 접근 | 앨범 조회·권한·이미지 저장 |
+| ☐ | 공유·외부 링크 | 카카오 공유·링크 복사·브라우저 열기 |
+| ☐ | 알림 구독 | 구독 정보 조회·변경 |
+| ☐ | 앱 업데이트 | 버전 확인·업데이트 안내 |
+| ☐ | 오류·분석 수집 | Crashlytics·Analytics 연결 |
+| ☐ | 리소스 | 필요한 이미지·폰트·애니메이션 반영 |
+| ☐ | 배포 자동화 | 테스트·Android/iOS 배포 연결 |
 
-| 종속성 | 최소 버전 | 배포 버전 |
-| ---- | ------- | ------- |
-| Flutter SDK | >= 3.47.6 | [FLUTTER_VERSION](https://github.com/Grimity/grimity-flutter/settings/variables/actions) |
+### 페이지 및 요소
 
-### 🚀 자동화 배포
-자동화 배포를 위한 CI/CD 에서는 Fastlane을 통한 GitHub Actions를 사용합니다.
-
-- 상단 Actions 탭 클릭
-- 왼쪽 사이드바에서 All workflows → 자동화 배포 선택
-- Run workflow 버튼 클릭
-- 배포할 버전 입력 ...(이하 생략)
-
-### 🗂️ 초기 세팅하기
-최상위 경로를 기준으로 터미널에 아래와 같이 입력하세요.
-
-> [!NOTE]
-> 해당 CLI는 앱을 빌드 하는데 필수적인 설정 파일들을 불러오고 build_runner와 같은 Dart 전처리를 수행하는 등의 작업을 수행합니다.
-
-```bash
-dart run tools/setup.dart
-```
-
-### ⚙️ 설정 파일 불러오기
-최상위 경로를 기준으로 터미널에 아래와 같이 입력하세요.
-
-```bash
-dart run git_config fetch
-```
-
-### 🔄 OpenAPI 코드 생성하기
-서버의 OpenAPI 명세를 기준으로 API 클라이언트와 요청·응답 모델을 생성합니다. 최상위 경로를 기준으로 터미널에 아래와 같이 입력하세요.
-
-```bash
-dart run tools/openapi.dart
-```
-
-해당 CLI는 서버 `dev` 브랜치의 최신 OpenAPI 명세를 불러온 뒤 `swagger_parser`와 `build_runner`를 순서대로 실행합니다.
-
-자세한 내용은 [프론트엔드 OpenAPI codegen 적용 가이드](https://github.com/Grimity/server/blob/main/docs/frontend-codegen-guide.md)를 참고하세요.
-
-> [!WARNING]
-> `lib/data/gen` 내부는 자동 생성되는 코드이므로 직접 수정하지 마세요. 서버 API가 변경되면 위 명령어를 다시 실행해야 합니다.
-
-- 생성 설정: `swagger_parser.yaml`
-- 생성 경로: `lib/data/gen`
-- 생성 API 연결 및 응답 변환: `lib/data/service`, `lib/data/mapper`
-- OpenAPI 범위 밖의 OAuth 및 WebSocket 타입: `lib/data/data_source/remote/oauth_api.dart`, `lib/data/realtime`
-
-### 🔗 XCode 빌드 종속성
-XCode를 통한 빌드 과정에서는 FlutterFire CLI가 필수적으로 설치되어 있어야 합니다. 따라서 최상위 경로를 기준으로 터미널에 아래와 같이 입력하세요.
-
-```bash
-dart pub global activate flutterfire_cli
-```
-
-### 💻 VSCode 빌드 작업
-**Visual Studio Code**를 사용한다면 프로젝트를 열고 `Ctrl + Shift + B`를 눌러 build_runner build 작업을 손쉽게 곧바로 실행할 수 있습니다. 이 작업은 Riverpod, Freezed 등의 코드 생성기를 자동으로 감지하고 빌드 합니다.
-
-또는 이를 수동으로 실행하고 싶다면 터미널에 아래와 같이 입력하세요.
-
-```bash
-dart run build_runner build --delete-conflicting-outputs
-```
-
-### 🔥 앱 빌드 & 실행
-해당 프로젝트는 **Flavor**를 사용합니다. 따라서 앱을 실행할 때는 환경에 맞는 엔트리포인트와 함께 아래 명령어를 터미널에 입력해야 합니다.
-
-#### 개발 서버
-
-```bash
-flutter run --profile --flavor dev --target lib/app/entrypoints/main_dev.dart
-```
-
-#### 운영 서버
-
-```bash
-flutter run --profile --flavor prod --target lib/app/entrypoints/main_prod.dart
-```
+| 완료 | 화면·구성 | 남은 작업 |
+| --- | --- | --- |
+| ☐ | 공통 UI | GDS 적용·로딩·오류·페이지네이션 |
+| ☐ | 메인 탭 | 하단 탭·화면 상태 유지 |
+| ☐ | 시작 화면 | 초기화 후 화면 분기 |
+| ☐ | 로그인 | 완료 이동·취소·오류·중복 요청 처리 |
+| ☐ | 회원가입 | 닉네임·URL·약관·환영 화면 |
+| ☐ | 홈 | 최신 그림 목록 |
+| ☐ | 랭킹 | 인기 그림·작가·태그·기간 선택 |
+| ☐ | 팔로잉 피드 | 팔로잉 그림 목록 |
+| ☐ | 게시판 | 공지·게시글 목록 |
+| ☐ | 검색 | 그림·게시글·사용자 검색 |
+| ☐ | 그림 상세 | 상세·좋아요·저장·공유 |
+| ☐ | 그림 작성 | 작성·수정·삭제 |
+| ☐ | 게시글 상세 | 본문·좋아요·저장·공유 |
+| ☐ | 게시글 작성 | 에디터·작성·수정·삭제 |
+| ☐ | 댓글 | 댓글·답글·좋아요·삭제 |
+| ☐ | 사진 선택 | 앨범 선택·다중 선택 |
+| ☐ | 이미지 뷰어 | 확대·넘기기·저장 |
+| ☐ | 프로필 | 사용자 정보·그림·게시글·앨범 |
+| ☐ | 프로필 편집 | 사진·소개·링크 수정 |
+| ☐ | 팔로우 | 팔로워·팔로잉 관리 |
+| ☐ | 앨범 편집 | 생성·이름 변경·정렬·삭제 |
+| ☐ | 앨범 정리 | 그림 추가·이동·제거 |
+| ☐ | 보관함 | 좋아요·저장한 그림·게시글 |
+| ☐ | 채팅 목록 | 목록·읽지 않은 메시지·삭제 |
+| ☐ | 새 채팅 | 상대 검색·채팅 시작 |
+| ☐ | 채팅방 | 메시지·이미지·답장·나가기 |
+| ☐ | 알림 목록 | 목록·읽음·삭제·화면 이동 |
+| ☐ | 신고 | 사유 선택·신고 전송 |
+| ☐ | 설정 진입 | 설정 메뉴 연결 |
+| ☐ | 계정 설정 | 계정 정보·로그아웃·탈퇴 |
+| ☐ | 닉네임 설정 | 중복 확인·변경 |
+| ☐ | 프로필 URL 설정 | URL 검증·변경 |
+| ☐ | 테마 설정 | 시스템·라이트·다크 선택 |
+| ☐ | 알림 설정 | 알림 구독 변경 |
+| ☐ | 문의 | 문의·외부 링크 연결 |
+| ☐ | 차단 목록 | 차단 사용자·차단 해제 |
+| ☐ | 사업자 정보 | 사업자 정보 표시 |
+| ☐ | 업데이트 안내 | 업데이트 다이얼로그 |

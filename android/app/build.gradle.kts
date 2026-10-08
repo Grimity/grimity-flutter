@@ -1,40 +1,37 @@
-import java.io.FileInputStream
+import org.jetbrains.kotlin.util.profile
 import java.util.Properties
 
 plugins {
     id("com.android.application")
-    // START: FlutterFire Configuration
+
+    // android/app/google-services.json을 Android 리소스로 변환.
     id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
-    // END: FlutterFire Configuration
-    id("kotlin-android")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+
+    // Flutter 플러그인은 Android 플러그인 뒤에 해야함.
     id("dev.flutter.flutter-gradle-plugin")
 }
 
-// 앱 서명 파일 불러오기.
-val keystoreProps = Properties().apply {
-    val keystorePropsFile = rootProject.file("key.properties")
-    if (keystorePropsFile.exists()) {
-        load(FileInputStream(keystorePropsFile))
-    } else {
-        throw Exception("/android 폴더에 'key.properties'와 'keystore.jks' 파일을 추가하세요.")
-    }
+val keystoreFile = rootProject.file("keystore.jks")
+val keystorePropertiesFile = rootProject.file("key.properties")
+
+// 필수 키 스토어 파일들이 존재하는지 확인.
+check(keystoreFile.isFile && keystorePropertiesFile.isFile) {
+    "앱 서명 파일이 없습니다. 프로젝트 루트에서 'dart run git_config fetch'를 실행하세요."
+}
+
+// 키 스토어 파일 불러오기.
+val keystoreProperties = Properties().apply {
+    keystorePropertiesFile.inputStream().use { load(it) }
 }
 
 android {
     namespace = "com.grimity.flutter"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = "28.2.13676358"
+    ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     defaultConfig {
@@ -45,50 +42,36 @@ android {
         versionName = flutter.versionName
     }
 
+    // 기존 앱과 동일한 키스토어로 서명.
     signingConfigs {
         create("keystore") {
-            keyAlias = keystoreProps.getProperty("keyAlias")
-            keyPassword = keystoreProps.getProperty("keyPassword")
-            storeFile = file("../keystore.jks")
-            storePassword = keystoreProps.getProperty("storePassword")
+            storeFile = keystoreFile
+            storePassword = keystoreProperties.getProperty("storePassword")
+            keyAlias = keystoreProperties.getProperty("keyAlias")
+            keyPassword = keystoreProperties.getProperty("keyPassword")
         }
     }
 
+    // 모든 빌드 모드에서 동일한 서명 인증서와 소셜 로그인 키 해시를 사용.
     buildTypes {
-        release {
-            // `flutter run --release`으로 빌드 할 때는 릴리스 키로 서명됩니다.
-            signingConfig = signingConfigs.getByName("keystore")
-        }
-
-        getByName("profile") {
-            // `flutter run --profile`으로 빌드 할 때는 릴리스 키로 서명됩니다.
-            signingConfig = signingConfigs.getByName("keystore")
-        }
-
         debug {
-            // `flutter run --debug`으로 빌드 할 때는 릴리스 키로 서명됩니다.
+            signingConfig = signingConfigs.getByName("keystore")
+        }
+        getByName("profile") {
+            signingConfig = signingConfigs.getByName("keystore")
+        }
+        release {
             signingConfig = signingConfigs.getByName("keystore")
         }
     }
+}
 
-    flavorDimensions += "build-type"
-    productFlavors {
-        create("dev") {
-            dimension = "build-type"
-            applicationIdSuffix = ".dev"
-            resValue("string", "app_name", "Grimity(dev)")
-        }
-        create("prod") {
-            dimension = "build-type"
-            resValue("string", "app_name", "Grimity")
-        }
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
     }
 }
 
 flutter {
     source = "../.."
-}
-
-dependencies {
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
 }
