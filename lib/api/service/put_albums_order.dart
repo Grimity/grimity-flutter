@@ -28,4 +28,7 @@ final class PutAlbumsOrder extends OpenApiService<void> {
 
   @override
   Object? get $body => _request.encode();
+
+  @override
+  String toString() => 'PutAlbumsOrder(_request: $_request)';
 }

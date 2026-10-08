@@ -16,6 +16,9 @@ final class InsertFeedsRequest {
 
   /// OpenAPI codec for encoding and decoding [InsertFeedsRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'InsertFeedsRequest(ids: $ids)';
 }
 
 /// OpenAPI codec converting between [InsertFeedsRequest] and a JSON object.

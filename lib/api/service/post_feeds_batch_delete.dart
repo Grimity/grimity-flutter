@@ -28,4 +28,7 @@ final class PostFeedsBatchDelete extends OpenApiService<void> {
 
   @override
   Object? get $body => _request.encode();
+
+  @override
+  String toString() => 'PostFeedsBatchDelete(_request: $_request)';
 }

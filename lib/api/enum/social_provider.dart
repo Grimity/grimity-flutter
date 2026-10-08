@@ -15,6 +15,9 @@ enum SocialProvider {
 
   /// OpenAPI codec for encoding and decoding [SocialProvider].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'SocialProvider.$key';
 }
 
 /// OpenAPI codec converting between the enum and its string key.

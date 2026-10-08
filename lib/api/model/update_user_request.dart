@@ -22,6 +22,9 @@ final class UpdateUserRequest {
 
   /// OpenAPI codec for encoding and decoding [UpdateUserRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'UpdateUserRequest(name: $name, url: $url, description: $description, links: $links)';
 }
 
 /// OpenAPI codec converting between [UpdateUserRequest] and a JSON object.

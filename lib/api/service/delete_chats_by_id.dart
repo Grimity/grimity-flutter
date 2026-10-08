@@ -22,4 +22,7 @@ final class DeleteChatsById extends OpenApiService<void> {
 
   @override
   String get $url => '/chats/${id.encodeUri()}';
+
+  @override
+  String toString() => 'DeleteChatsById(id: $id)';
 }

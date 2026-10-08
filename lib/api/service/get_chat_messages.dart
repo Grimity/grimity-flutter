@@ -38,4 +38,7 @@ final class GetChatMessages extends OpenApiService<ChatMessagesResponse> {
   ChatMessagesResponse decode(Object? obj) {
     return obj.decode<ChatMessagesResponse>()!;
   }
+
+  @override
+  String toString() => 'GetChatMessages(cursor: $cursor, size: $size, chatId: $chatId)';
 }

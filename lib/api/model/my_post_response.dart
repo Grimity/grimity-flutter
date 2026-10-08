@@ -30,6 +30,10 @@ final class MyPostResponse {
 
   /// OpenAPI codec for encoding and decoding [MyPostResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() =>
+      'MyPostResponse(id: $id, title: $title, content: $content, thumbnail: $thumbnail, createdAt: $createdAt, type: $type, commentCount: $commentCount, viewCount: $viewCount)';
 }
 
 /// OpenAPI codec converting between [MyPostResponse] and a JSON object.

@@ -4,7 +4,7 @@ import 'package:grimity/app/app_secure_storage.dart';
 import 'package:grimity/util/app_device.dart';
 
 /// API 요청의 인증 헤더와 토큰 갱신을 처리하는 앱 공통 인터셉터.
-class AppInterceptor extends QueuedInterceptor {
+class AuthInterceptor extends QueuedInterceptor {
   /// 인증 토큰을 첨부하지 않는 공개 API 경로 목록.
   static const _publicPaths = <String>{
     '/auth/login',
@@ -17,11 +17,9 @@ class AppInterceptor extends QueuedInterceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     final isPublicPath = _publicPaths.contains(options.uri.path);
-    final needsToken = options.headers['withToken'] != 'false' && !isPublicPath;
 
-    // 공개 경로 또는 `withToken` 헤더가 문자열 `false`인 요청을
-    // 제외하고 저장된 액세스 토큰을 Bearer 인증 헤더에 추가합니다.
-    if (needsToken) {
+    // 공개 경로를 제외하고 저장된 액세스 토큰을 Bearer 인증 헤더에 추가.
+    if (!isPublicPath) {
       final accessToken = await AppSecureStorage.accessToken.get();
 
       if (accessToken != null) {
@@ -42,9 +40,10 @@ class AppInterceptor extends QueuedInterceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     final response = err.response;
+    final isPublicPath = _publicPaths.contains(err.requestOptions.uri.path);
 
-    // 로그인 등 공개 요청의 실패에는 기존 세션의 토큰 갱신을 시도하지 않습니다.
-    if (_publicPaths.contains(err.requestOptions.uri.path) || err.requestOptions.headers['withToken'] == 'false') {
+    // 로그인 등 공개 요청의 실패에서는 기존 세션의 토큰 갱신을 시도하지 않음.
+    if (isPublicPath) {
       return handler.next(err);
     }
 
@@ -74,11 +73,9 @@ class AppInterceptor extends QueuedInterceptor {
         // 토큰 리프레시 실패 시 기존의 토큰들 모두 삭제.
         await AppSecureStorage.accessToken.delete();
         await AppSecureStorage.refreshToken.delete();
-
-        return handler.next(err);
       }
     }
 
-    return handler.next(err);
+    handler.next(err);
   }
 }

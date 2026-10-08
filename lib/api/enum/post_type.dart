@@ -17,6 +17,9 @@ enum PostType {
 
   /// OpenAPI codec for encoding and decoding [PostType].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'PostType.$key';
 }
 
 /// OpenAPI codec converting between the enum and its string key.

@@ -22,6 +22,9 @@ final class UserBaseResponse {
 
   /// OpenAPI codec for encoding and decoding [UserBaseResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'UserBaseResponse(id: $id, name: $name, image: $image, url: $url)';
 }
 
 /// OpenAPI codec converting between [UserBaseResponse] and a JSON object.

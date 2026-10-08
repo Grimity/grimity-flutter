@@ -22,4 +22,7 @@ final class PutNotificationsById extends OpenApiService<void> {
 
   @override
   String get $url => '/notifications/${id.encodeUri()}';
+
+  @override
+  String toString() => 'PutNotificationsById(id: $id)';
 }

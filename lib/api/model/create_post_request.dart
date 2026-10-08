@@ -20,6 +20,9 @@ final class CreatePostRequest {
 
   /// OpenAPI codec for encoding and decoding [CreatePostRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'CreatePostRequest(title: $title, content: $content, type: $type)';
 }
 
 /// OpenAPI codec converting between [CreatePostRequest] and a JSON object.

@@ -21,4 +21,7 @@ final class GetMeIdentityVerification extends OpenApiService<MyIdentityVerificat
   MyIdentityVerificationResponse decode(Object? obj) {
     return obj.decode<MyIdentityVerificationResponse>()!;
   }
+
+  @override
+  String toString() => 'GetMeIdentityVerification()';
 }

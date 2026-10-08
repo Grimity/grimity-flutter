@@ -18,6 +18,9 @@ final class FollowingFeedsResponse {
 
   /// OpenAPI codec for encoding and decoding [FollowingFeedsResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'FollowingFeedsResponse(nextCursor: $nextCursor, feeds: $feeds)';
 }
 
 /// OpenAPI codec converting between [FollowingFeedsResponse] and a JSON object.

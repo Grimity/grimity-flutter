@@ -18,6 +18,9 @@ final class CreateCommissionWork400Response {
 
   /// OpenAPI codec for encoding and decoding [CreateCommissionWork400Response].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'CreateCommissionWork400Response(status: $status, errorCode: $errorCode)';
 }
 
 /// OpenAPI codec converting between [CreateCommissionWork400Response] and a JSON object.

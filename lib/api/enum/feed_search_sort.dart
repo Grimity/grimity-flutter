@@ -15,6 +15,9 @@ enum FeedSearchSort {
 
   /// OpenAPI codec for encoding and decoding [FeedSearchSort].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'FeedSearchSort.$key';
 }
 
 /// OpenAPI codec converting between the enum and its string key.

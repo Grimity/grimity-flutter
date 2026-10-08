@@ -24,6 +24,9 @@ final class UserMetaResponse {
 
   /// OpenAPI codec for encoding and decoding [UserMetaResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'UserMetaResponse(id: $id, name: $name, image: $image, url: $url, description: $description)';
 }
 
 /// OpenAPI codec converting between [UserMetaResponse] and a JSON object.

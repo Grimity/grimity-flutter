@@ -38,6 +38,10 @@ final class SearchedFeedResponse {
 
   /// OpenAPI codec for encoding and decoding [SearchedFeedResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() =>
+      'SearchedFeedResponse(id: $id, title: $title, thumbnail: $thumbnail, likeCount: $likeCount, viewCount: $viewCount, cards: $cards, createdAt: $createdAt, content: $content, tags: $tags, author: $author, commentCount: $commentCount, isLike: $isLike)';
 }
 
 /// OpenAPI codec converting between [SearchedFeedResponse] and a JSON object.

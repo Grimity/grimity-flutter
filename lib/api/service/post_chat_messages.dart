@@ -28,4 +28,7 @@ final class PostChatMessages extends OpenApiService<void> {
 
   @override
   Object? get $body => _request.encode();
+
+  @override
+  String toString() => 'PostChatMessages(_request: $_request)';
 }

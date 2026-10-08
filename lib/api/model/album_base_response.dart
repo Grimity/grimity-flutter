@@ -18,6 +18,9 @@ final class AlbumBaseResponse {
 
   /// OpenAPI codec for encoding and decoding [AlbumBaseResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'AlbumBaseResponse(id: $id, name: $name)';
 }
 
 /// OpenAPI codec converting between [AlbumBaseResponse] and a JSON object.

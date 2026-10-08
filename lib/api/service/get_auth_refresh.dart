@@ -35,4 +35,7 @@ final class GetAuthRefresh extends OpenApiService<JwtResponse> {
   JwtResponse decode(Object? obj) {
     return obj.decode<JwtResponse>()!;
   }
+
+  @override
+  String toString() => 'GetAuthRefresh(grimityAppModel: $grimityAppModel, grimityAppDevice: $grimityAppDevice)';
 }

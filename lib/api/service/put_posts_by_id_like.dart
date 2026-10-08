@@ -22,4 +22,7 @@ final class PutPostsByIdLike extends OpenApiService<void> {
 
   @override
   String get $url => '/posts/${id.encodeUri()}/like';
+
+  @override
+  String toString() => 'PutPostsByIdLike(id: $id)';
 }

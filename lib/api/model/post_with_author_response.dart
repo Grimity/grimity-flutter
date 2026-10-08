@@ -32,6 +32,10 @@ final class PostWithAuthorResponse {
 
   /// OpenAPI codec for encoding and decoding [PostWithAuthorResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() =>
+      'PostWithAuthorResponse(id: $id, title: $title, content: $content, thumbnail: $thumbnail, createdAt: $createdAt, type: $type, viewCount: $viewCount, commentCount: $commentCount, author: $author)';
 }
 
 /// OpenAPI codec converting between [PostWithAuthorResponse] and a JSON object.

@@ -22,6 +22,10 @@ final class CreatePostCommentRequest {
 
   /// OpenAPI codec for encoding and decoding [CreatePostCommentRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() =>
+      'CreatePostCommentRequest(postId: $postId, parentCommentId: $parentCommentId, content: $content, mentionedUserId: $mentionedUserId)';
 }
 
 /// OpenAPI codec converting between [CreatePostCommentRequest] and a JSON object.

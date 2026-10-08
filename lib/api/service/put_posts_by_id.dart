@@ -30,4 +30,7 @@ final class PutPostsById extends OpenApiService<void> {
 
   @override
   Object? get $body => _request.encode();
+
+  @override
+  String toString() => 'PutPostsById(id: $id, _request: $_request)';
 }

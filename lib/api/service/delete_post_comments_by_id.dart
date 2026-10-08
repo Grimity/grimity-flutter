@@ -22,4 +22,7 @@ final class DeletePostCommentsById extends OpenApiService<void> {
 
   @override
   String get $url => '/post-comments/${id.encodeUri()}';
+
+  @override
+  String toString() => 'DeletePostCommentsById(id: $id)';
 }

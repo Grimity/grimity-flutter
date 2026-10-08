@@ -33,4 +33,7 @@ final class PostCommissionWorks extends OpenApiService<IdResponse> {
   IdResponse decode(Object? obj) {
     return obj.decode<IdResponse>()!;
   }
+
+  @override
+  String toString() => 'PostCommissionWorks(_request: $_request)';
 }

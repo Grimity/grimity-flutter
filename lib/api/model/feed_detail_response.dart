@@ -42,6 +42,10 @@ final class FeedDetailResponse {
 
   /// OpenAPI codec for encoding and decoding [FeedDetailResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() =>
+      'FeedDetailResponse(id: $id, title: $title, thumbnail: $thumbnail, likeCount: $likeCount, viewCount: $viewCount, cards: $cards, createdAt: $createdAt, content: $content, tags: $tags, isLike: $isLike, isSave: $isSave, commentCount: $commentCount, album: $album, author: $author)';
 }
 
 /// OpenAPI codec converting between [FeedDetailResponse] and a JSON object.

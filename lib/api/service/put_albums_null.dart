@@ -28,4 +28,7 @@ final class PutAlbumsNull extends OpenApiService<void> {
 
   @override
   Object? get $body => _request.encode();
+
+  @override
+  String toString() => 'PutAlbumsNull(_request: $_request)';
 }

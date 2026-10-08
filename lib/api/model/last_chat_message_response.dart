@@ -26,6 +26,10 @@ final class LastChatMessageResponse {
 
   /// OpenAPI codec for encoding and decoding [LastChatMessageResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() =>
+      'LastChatMessageResponse(id: $id, content: $content, image: $image, images: $images, createdAt: $createdAt, senderId: $senderId)';
 }
 
 /// OpenAPI codec converting between [LastChatMessageResponse] and a JSON object.

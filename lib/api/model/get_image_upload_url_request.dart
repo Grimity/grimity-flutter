@@ -24,6 +24,10 @@ final class GetImageUploadUrlRequest {
 
   /// OpenAPI codec for encoding and decoding [GetImageUploadUrlRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() =>
+      'GetImageUploadUrlRequest(type: $type, ext: $ext, width: $width, height: $height, fileName: $fileName)';
 }
 
 /// OpenAPI codec converting between [GetImageUploadUrlRequest] and a JSON object.

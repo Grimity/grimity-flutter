@@ -33,4 +33,7 @@ final class PutMeCommissionNotice extends OpenApiService<CommissionNoticeRespons
   CommissionNoticeResponse decode(Object? obj) {
     return obj.decode<CommissionNoticeResponse>()!;
   }
+
+  @override
+  String toString() => 'PutMeCommissionNotice(_request: $_request)';
 }

@@ -24,6 +24,10 @@ final class RegisterRequest {
 
   /// OpenAPI codec for encoding and decoding [RegisterRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() =>
+      'RegisterRequest(provider: $provider, providerAccessToken: $providerAccessToken, deviceId: $deviceId, name: $name, url: $url)';
 }
 
 /// OpenAPI codec converting between [RegisterRequest] and a JSON object.

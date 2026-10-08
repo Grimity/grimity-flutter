@@ -18,6 +18,9 @@ final class AcceptCommissionWork409Response {
 
   /// OpenAPI codec for encoding and decoding [AcceptCommissionWork409Response].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'AcceptCommissionWork409Response(status: $status, errorCode: $errorCode)';
 }
 
 /// OpenAPI codec converting between [AcceptCommissionWork409Response] and a JSON object.

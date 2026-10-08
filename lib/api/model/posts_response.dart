@@ -18,6 +18,9 @@ final class PostsResponse {
 
   /// OpenAPI codec for encoding and decoding [PostsResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'PostsResponse(totalCount: $totalCount, posts: $posts)';
 }
 
 /// OpenAPI codec converting between [PostsResponse] and a JSON object.

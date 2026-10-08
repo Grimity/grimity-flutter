@@ -28,4 +28,7 @@ final class PostReports extends OpenApiService<void> {
 
   @override
   Object? get $body => _request.encode();
+
+  @override
+  String toString() => 'PostReports(_request: $_request)';
 }

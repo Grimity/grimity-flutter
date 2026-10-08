@@ -18,6 +18,9 @@ final class VerifyIdentity422Response {
 
   /// OpenAPI codec for encoding and decoding [VerifyIdentity422Response].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'VerifyIdentity422Response(status: $status, errorCode: $errorCode)';
 }
 
 /// OpenAPI codec converting between [VerifyIdentity422Response] and a JSON object.

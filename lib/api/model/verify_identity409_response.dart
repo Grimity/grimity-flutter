@@ -18,6 +18,9 @@ final class VerifyIdentity409Response {
 
   /// OpenAPI codec for encoding and decoding [VerifyIdentity409Response].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'VerifyIdentity409Response(status: $status, errorCode: $errorCode)';
 }
 
 /// OpenAPI codec converting between [VerifyIdentity409Response] and a JSON object.

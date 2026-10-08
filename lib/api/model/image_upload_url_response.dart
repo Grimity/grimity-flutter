@@ -20,6 +20,9 @@ final class ImageUploadUrlResponse {
 
   /// OpenAPI codec for encoding and decoding [ImageUploadUrlResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'ImageUploadUrlResponse(uploadUrl: $uploadUrl, imageName: $imageName, imageUrl: $imageUrl)';
 }
 
 /// OpenAPI codec converting between [ImageUploadUrlResponse] and a JSON object.

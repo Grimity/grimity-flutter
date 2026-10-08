@@ -756,7 +756,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "1c82ad0c38f7e00ea0c0fb81d3d66675c0aacd39"
+      resolved-ref: "2abe09d88b8ac17c235fae65d9a4c51b1ff79ddf"
       url: "https://github.com/pervice-sdk/pervice-openapi"
     source: git
     version: "1.0.0"

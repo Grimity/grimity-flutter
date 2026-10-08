@@ -20,6 +20,10 @@ final class LoginRequest {
 
   /// OpenAPI codec for encoding and decoding [LoginRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() =>
+      'LoginRequest(provider: $provider, providerAccessToken: $providerAccessToken, deviceId: $deviceId)';
 }
 
 /// OpenAPI codec converting between [LoginRequest] and a JSON object.

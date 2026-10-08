@@ -16,6 +16,9 @@ final class JoinChatRequest {
 
   /// OpenAPI codec for encoding and decoding [JoinChatRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'JoinChatRequest(socketId: $socketId)';
 }
 
 /// OpenAPI codec converting between [JoinChatRequest] and a JSON object.

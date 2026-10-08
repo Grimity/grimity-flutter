@@ -33,4 +33,7 @@ final class PostImagesGetUploadUrl extends OpenApiService<ImageUploadUrlResponse
   ImageUploadUrlResponse decode(Object? obj) {
     return obj.decode<ImageUploadUrlResponse>()!;
   }
+
+  @override
+  String toString() => 'PostImagesGetUploadUrl(_request: $_request)';
 }

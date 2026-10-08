@@ -18,6 +18,9 @@ final class UpdateLinkRequest {
 
   /// OpenAPI codec for encoding and decoding [UpdateLinkRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'UpdateLinkRequest(linkName: $linkName, link: $link)';
 }
 
 /// OpenAPI codec converting between [UpdateLinkRequest] and a JSON object.

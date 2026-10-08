@@ -21,4 +21,7 @@ final class GetNotifications extends OpenApiService<List<NotificationResponse>> 
   List<NotificationResponse> decode(Object? obj) {
     return obj.decode<List<NotificationResponse>>()!;
   }
+
+  @override
+  String toString() => 'GetNotifications()';
 }

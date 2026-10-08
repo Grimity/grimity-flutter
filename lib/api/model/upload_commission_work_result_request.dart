@@ -18,6 +18,9 @@ final class UploadCommissionWorkResultRequest {
 
   /// OpenAPI codec for encoding and decoding [UploadCommissionWorkResultRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'UploadCommissionWorkResultRequest(images: $images, isFinal: $isFinal)';
 }
 
 /// OpenAPI codec converting between [UploadCommissionWorkResultRequest] and a JSON object.

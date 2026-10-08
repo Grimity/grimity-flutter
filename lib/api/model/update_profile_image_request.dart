@@ -16,6 +16,9 @@ final class UpdateProfileImageRequest {
 
   /// OpenAPI codec for encoding and decoding [UpdateProfileImageRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'UpdateProfileImageRequest(imageName: $imageName)';
 }
 
 /// OpenAPI codec converting between [UpdateProfileImageRequest] and a JSON object.

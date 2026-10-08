@@ -44,4 +44,7 @@ final class GetPostsSearch extends OpenApiService<PostsResponse> {
   PostsResponse decode(Object? obj) {
     return obj.decode<PostsResponse>()!;
   }
+
+  @override
+  String toString() => 'GetPostsSearch(page: $page, size: $size, keyword: $keyword, searchBy: $searchBy, type: $type)';
 }

@@ -21,4 +21,7 @@ final class GetMeBlockings extends OpenApiService<MyBlockingsResponse> {
   MyBlockingsResponse decode(Object? obj) {
     return obj.decode<MyBlockingsResponse>()!;
   }
+
+  @override
+  String toString() => 'GetMeBlockings()';
 }

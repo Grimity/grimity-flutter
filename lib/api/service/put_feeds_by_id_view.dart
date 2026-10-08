@@ -22,4 +22,7 @@ final class PutFeedsByIdView extends OpenApiService<void> {
 
   @override
   String get $url => '/feeds/${id.encodeUri()}/view';
+
+  @override
+  String toString() => 'PutFeedsByIdView(id: $id)';
 }

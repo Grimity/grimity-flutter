@@ -15,6 +15,9 @@ enum PostSearchBy {
 
   /// OpenAPI codec for encoding and decoding [PostSearchBy].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'PostSearchBy.$key';
 }
 
 /// OpenAPI codec converting between the enum and its string key.

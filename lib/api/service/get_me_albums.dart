@@ -21,4 +21,7 @@ final class GetMeAlbums extends OpenApiService<List<AlbumBaseResponse>> {
   List<AlbumBaseResponse> decode(Object? obj) {
     return obj.decode<List<AlbumBaseResponse>>()!;
   }
+
+  @override
+  String toString() => 'GetMeAlbums()';
 }

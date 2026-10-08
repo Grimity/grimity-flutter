@@ -21,4 +21,7 @@ final class GetPostsNotices extends OpenApiService<List<PostWithAuthorResponse>>
   List<PostWithAuthorResponse> decode(Object? obj) {
     return obj.decode<List<PostWithAuthorResponse>>()!;
   }
+
+  @override
+  String toString() => 'GetPostsNotices()';
 }

@@ -18,6 +18,9 @@ final class LinkResponse {
 
   /// OpenAPI codec for encoding and decoding [LinkResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'LinkResponse(linkName: $linkName, link: $link)';
 }
 
 /// OpenAPI codec converting between [LinkResponse] and a JSON object.

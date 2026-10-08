@@ -32,4 +32,7 @@ final class GetPostComments extends OpenApiService<List<ParentPostCommentRespons
   List<ParentPostCommentResponse> decode(Object? obj) {
     return obj.decode<List<ParentPostCommentResponse>>()!;
   }
+
+  @override
+  String toString() => 'GetPostComments(postId: $postId)';
 }

@@ -21,4 +21,7 @@ final class GetMeCommissionNotice extends OpenApiService<CommissionNoticeRespons
   CommissionNoticeResponse decode(Object? obj) {
     return obj.decode<CommissionNoticeResponse>()!;
   }
+
+  @override
+  String toString() => 'GetMeCommissionNotice()';
 }

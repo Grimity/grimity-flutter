@@ -35,4 +35,7 @@ final class GetFeedsLatest extends OpenApiService<LatestFeedsResponse> {
   LatestFeedsResponse decode(Object? obj) {
     return obj.decode<LatestFeedsResponse>()!;
   }
+
+  @override
+  String toString() => 'GetFeedsLatest(cursor: $cursor, size: $size)';
 }

@@ -18,6 +18,9 @@ final class JwtResponse {
 
   /// OpenAPI codec for encoding and decoding [JwtResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'JwtResponse(accessToken: $accessToken, refreshToken: $refreshToken)';
 }
 
 /// OpenAPI codec converting between [JwtResponse] and a JSON object.

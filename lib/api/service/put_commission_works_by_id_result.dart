@@ -35,4 +35,7 @@ final class PutCommissionWorksByIdResult extends OpenApiService<IdResponse> {
   IdResponse decode(Object? obj) {
     return obj.decode<IdResponse>()!;
   }
+
+  @override
+  String toString() => 'PutCommissionWorksByIdResult(id: $id, _request: $_request)';
 }

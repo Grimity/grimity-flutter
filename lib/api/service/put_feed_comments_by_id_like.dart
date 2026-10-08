@@ -22,4 +22,7 @@ final class PutFeedCommentsByIdLike extends OpenApiService<void> {
 
   @override
   String get $url => '/feed-comments/${id.encodeUri()}/like';
+
+  @override
+  String toString() => 'PutFeedCommentsByIdLike(id: $id)';
 }

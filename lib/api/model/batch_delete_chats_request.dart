@@ -16,6 +16,9 @@ final class BatchDeleteChatsRequest {
 
   /// OpenAPI codec for encoding and decoding [BatchDeleteChatsRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'BatchDeleteChatsRequest(ids: $ids)';
 }
 
 /// OpenAPI codec converting between [BatchDeleteChatsRequest] and a JSON object.

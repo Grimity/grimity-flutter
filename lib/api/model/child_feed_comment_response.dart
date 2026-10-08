@@ -28,6 +28,10 @@ final class ChildFeedCommentResponse {
 
   /// OpenAPI codec for encoding and decoding [ChildFeedCommentResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() =>
+      'ChildFeedCommentResponse(id: $id, content: $content, createdAt: $createdAt, likeCount: $likeCount, writer: $writer, mentionedUser: $mentionedUser, isLike: $isLike)';
 }
 
 /// OpenAPI codec converting between [ChildFeedCommentResponse] and a JSON object.

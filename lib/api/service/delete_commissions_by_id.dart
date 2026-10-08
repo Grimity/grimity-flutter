@@ -22,4 +22,7 @@ final class DeleteCommissionsById extends OpenApiService<void> {
 
   @override
   String get $url => '/commissions/${id.encodeUri()}';
+
+  @override
+  String toString() => 'DeleteCommissionsById(id: $id)';
 }

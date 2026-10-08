@@ -35,4 +35,7 @@ final class GetMeLikePosts extends OpenApiService<MyLikePostsResponse> {
   MyLikePostsResponse decode(Object? obj) {
     return obj.decode<MyLikePostsResponse>()!;
   }
+
+  @override
+  String toString() => 'GetMeLikePosts(page: $page, size: $size)';
 }

@@ -27,4 +27,7 @@ final class GetChatsByIdUser extends OpenApiService<OpponentUserResponse> {
   OpponentUserResponse decode(Object? obj) {
     return obj.decode<OpponentUserResponse>()!;
   }
+
+  @override
+  String toString() => 'GetChatsByIdUser(id: $id)';
 }

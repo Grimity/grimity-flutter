@@ -27,4 +27,7 @@ final class GetFeedsById extends OpenApiService<FeedDetailResponse> {
   FeedDetailResponse decode(Object? obj) {
     return obj.decode<FeedDetailResponse>()!;
   }
+
+  @override
+  String toString() => 'GetFeedsById(id: $id)';
 }

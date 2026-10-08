@@ -21,4 +21,7 @@ final class GetAppVersion extends OpenApiService<AppVersionResponse> {
   AppVersionResponse decode(Object? obj) {
     return obj.decode<AppVersionResponse>()!;
   }
+
+  @override
+  String toString() => 'GetAppVersion()';
 }

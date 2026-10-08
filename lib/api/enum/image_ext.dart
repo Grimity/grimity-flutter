@@ -14,6 +14,9 @@ enum ImageExt {
 
   /// OpenAPI codec for encoding and decoding [ImageExt].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'ImageExt.$key';
 }
 
 /// OpenAPI codec converting between the enum and its string key.

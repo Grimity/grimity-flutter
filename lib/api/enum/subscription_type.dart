@@ -19,6 +19,9 @@ enum SubscriptionType {
 
   /// OpenAPI codec for encoding and decoding [SubscriptionType].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'SubscriptionType.$key';
 }
 
 /// OpenAPI codec converting between the enum and its string key.

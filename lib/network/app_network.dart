@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:grimity/network/app_interceptor.dart';
+import 'package:grimity/network/auth_interceptor.dart';
+import 'package:grimity/network/debug_interceptor.dart';
 
 /// 앱의 공통 HTTP 설정과 실행 모드별 클라이언트를 관리합니다.
 abstract class AppNetwork {
@@ -22,7 +23,8 @@ abstract class AppNetwork {
       receiveTimeout: .new(seconds: 15),
     );
 
-    dio.interceptors.add(AppInterceptor());
+    dio.interceptors.add(AuthInterceptor());
+    dio.interceptors.add(DebugInterceptor(request: true, response: true));
 
     return dio;
   }

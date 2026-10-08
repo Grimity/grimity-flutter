@@ -18,6 +18,9 @@ final class UpsertCommissionNoticeRequest {
 
   /// OpenAPI codec for encoding and decoding [UpsertCommissionNoticeRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'UpsertCommissionNoticeRequest(title: $title, content: $content)';
 }
 
 /// OpenAPI codec converting between [UpsertCommissionNoticeRequest] and a JSON object.

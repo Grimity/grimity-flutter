@@ -27,4 +27,7 @@ final class GetUsersProfileByUrl extends OpenApiService<UserProfileResponse> {
   UserProfileResponse decode(Object? obj) {
     return obj.decode<UserProfileResponse>()!;
   }
+
+  @override
+  String toString() => 'GetUsersProfileByUrl(url: $url)';
 }

@@ -28,4 +28,7 @@ final class PostFeedComments extends OpenApiService<void> {
 
   @override
   Object? get $body => _request.encode();
+
+  @override
+  String toString() => 'PostFeedComments(_request: $_request)';
 }

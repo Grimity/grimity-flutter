@@ -36,6 +36,10 @@ final class CreateCommissionRequest {
 
   /// OpenAPI codec for encoding and decoding [CreateCommissionRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() =>
+      'CreateCommissionRequest(title: $title, description: $description, additionalCondition: $additionalCondition, price: $price, workDays: $workDays, revisionCount: $revisionCount, images: $images, thumbnail: $thumbnail, tags: $tags, questions: $questions, isPublic: $isPublic)';
 }
 
 /// OpenAPI codec converting between [CreateCommissionRequest] and a JSON object.

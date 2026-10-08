@@ -27,4 +27,7 @@ final class PatchCommissionWorksByIdCancel extends OpenApiService<IdResponse> {
   IdResponse decode(Object? obj) {
     return obj.decode<IdResponse>()!;
   }
+
+  @override
+  String toString() => 'PatchCommissionWorksByIdCancel(id: $id)';
 }

@@ -20,6 +20,9 @@ final class CommissionNoticeBaseResponse {
 
   /// OpenAPI codec for encoding and decoding [CommissionNoticeBaseResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'CommissionNoticeBaseResponse(title: $title, content: $content, updatedAt: $updatedAt)';
 }
 
 /// OpenAPI codec converting between [CommissionNoticeBaseResponse] and a JSON object.

@@ -21,4 +21,7 @@ final class GetMe extends OpenApiService<MyProfileResponse> {
   MyProfileResponse decode(Object? obj) {
     return obj.decode<MyProfileResponse>()!;
   }
+
+  @override
+  String toString() => 'GetMe()';
 }

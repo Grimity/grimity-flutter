@@ -22,6 +22,9 @@ final class CreateReportRequest {
 
   /// OpenAPI codec for encoding and decoding [CreateReportRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'CreateReportRequest(type: $type, refType: $refType, refId: $refId, content: $content)';
 }
 
 /// OpenAPI codec converting between [CreateReportRequest] and a JSON object.

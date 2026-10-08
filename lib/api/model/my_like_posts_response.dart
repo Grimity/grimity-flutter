@@ -18,6 +18,9 @@ final class MyLikePostsResponse {
 
   /// OpenAPI codec for encoding and decoding [MyLikePostsResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'MyLikePostsResponse(totalCount: $totalCount, posts: $posts)';
 }
 
 /// OpenAPI codec converting between [MyLikePostsResponse] and a JSON object.

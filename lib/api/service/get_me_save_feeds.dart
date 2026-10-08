@@ -35,4 +35,7 @@ final class GetMeSaveFeeds extends OpenApiService<MyLikeFeedsResponse> {
   MyLikeFeedsResponse decode(Object? obj) {
     return obj.decode<MyLikeFeedsResponse>()!;
   }
+
+  @override
+  String toString() => 'GetMeSaveFeeds(cursor: $cursor, size: $size)';
 }

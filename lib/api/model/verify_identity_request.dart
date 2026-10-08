@@ -16,6 +16,9 @@ final class VerifyIdentityRequest {
 
   /// OpenAPI codec for encoding and decoding [VerifyIdentityRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'VerifyIdentityRequest(identityVerificationId: $identityVerificationId)';
 }
 
 /// OpenAPI codec converting between [VerifyIdentityRequest] and a JSON object.

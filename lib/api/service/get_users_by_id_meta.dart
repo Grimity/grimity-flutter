@@ -27,4 +27,7 @@ final class GetUsersByIdMeta extends OpenApiService<UserMetaResponse> {
   UserMetaResponse decode(Object? obj) {
     return obj.decode<UserMetaResponse>()!;
   }
+
+  @override
+  String toString() => 'GetUsersByIdMeta(id: $id)';
 }

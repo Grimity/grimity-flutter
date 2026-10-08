@@ -28,4 +28,7 @@ final class PostChatsBatchDelete extends OpenApiService<void> {
 
   @override
   Object? get $body => _request.encode();
+
+  @override
+  String toString() => 'PostChatsBatchDelete(_request: $_request)';
 }

@@ -28,4 +28,7 @@ final class PutMePushToken extends OpenApiService<void> {
 
   @override
   Object? get $body => _request.encode();
+
+  @override
+  String toString() => 'PutMePushToken(_request: $_request)';
 }

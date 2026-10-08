@@ -34,6 +34,10 @@ final class PopularUserResponse {
 
   /// OpenAPI codec for encoding and decoding [PopularUserResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() =>
+      'PopularUserResponse(id: $id, name: $name, image: $image, url: $url, description: $description, followerCount: $followerCount, isFollowing: $isFollowing, thumbnails: $thumbnails, isBlocking: $isBlocking, isBlocked: $isBlocked)';
 }
 
 /// OpenAPI codec converting between [PopularUserResponse] and a JSON object.

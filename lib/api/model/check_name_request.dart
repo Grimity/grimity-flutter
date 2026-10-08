@@ -16,6 +16,9 @@ final class CheckNameRequest {
 
   /// OpenAPI codec for encoding and decoding [CheckNameRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'CheckNameRequest(name: $name)';
 }
 
 /// OpenAPI codec converting between [CheckNameRequest] and a JSON object.

@@ -37,4 +37,7 @@ final class GetUsersByIdPosts extends OpenApiService<List<MyPostResponse>> {
   List<MyPostResponse> decode(Object? obj) {
     return obj.decode<List<MyPostResponse>>()!;
   }
+
+  @override
+  String toString() => 'GetUsersByIdPosts(id: $id, page: $page, size: $size)';
 }

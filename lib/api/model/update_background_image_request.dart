@@ -16,6 +16,9 @@ final class UpdateBackgroundImageRequest {
 
   /// OpenAPI codec for encoding and decoding [UpdateBackgroundImageRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'UpdateBackgroundImageRequest(imageName: $imageName)';
 }
 
 /// OpenAPI codec converting between [UpdateBackgroundImageRequest] and a JSON object.

@@ -33,4 +33,7 @@ final class PostAlbums extends OpenApiService<IdResponse> {
   IdResponse decode(Object? obj) {
     return obj.decode<IdResponse>()!;
   }
+
+  @override
+  String toString() => 'PostAlbums(_request: $_request)';
 }

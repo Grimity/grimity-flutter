@@ -56,9 +56,7 @@ abstract class AppOAuth {
   }
 
   static Future<String> _signInWithApple() async {
-    if (!Platform.isIOS) {
-      throw UnsupportedError('애플 로그인은 iOS에서만 지원합니다.');
-    }
+    assert(Platform.isIOS, '애플 로그인은 iOS에서만 지원합니다.');
 
     final credential = await SignInWithApple.getAppleIDCredential(scopes: [.email]);
     final token = credential.identityToken;

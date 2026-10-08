@@ -43,4 +43,8 @@ final class PostAuthLogin extends OpenApiService<LoginResponse> {
   LoginResponse decode(Object? obj) {
     return obj.decode<LoginResponse>()!;
   }
+
+  @override
+  String toString() =>
+      'PostAuthLogin(grimityAppModel: $grimityAppModel, grimityAppDevice: $grimityAppDevice, _request: $_request)';
 }

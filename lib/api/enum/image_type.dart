@@ -22,6 +22,9 @@ enum ImageType {
 
   /// OpenAPI codec for encoding and decoding [ImageType].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'ImageType.$key';
 }
 
 /// OpenAPI codec converting between the enum and its string key.

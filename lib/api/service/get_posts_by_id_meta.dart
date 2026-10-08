@@ -27,4 +27,7 @@ final class GetPostsByIdMeta extends OpenApiService<PostBaseResponse> {
   PostBaseResponse decode(Object? obj) {
     return obj.decode<PostBaseResponse>()!;
   }
+
+  @override
+  String toString() => 'GetPostsByIdMeta(id: $id)';
 }

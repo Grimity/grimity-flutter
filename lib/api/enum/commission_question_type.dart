@@ -16,6 +16,9 @@ enum CommissionQuestionType {
 
   /// OpenAPI codec for encoding and decoding [CommissionQuestionType].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'CommissionQuestionType.$key';
 }
 
 /// OpenAPI codec converting between the enum and its string key.

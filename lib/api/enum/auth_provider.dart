@@ -16,6 +16,9 @@ enum AuthProvider {
 
   /// OpenAPI codec for encoding and decoding [AuthProvider].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'AuthProvider.$key';
 }
 
 /// OpenAPI codec converting between the enum and its string key.

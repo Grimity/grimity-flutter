@@ -16,4 +16,7 @@ final class DeleteMe extends OpenApiService<void> {
 
   @override
   String get $url => '/me';
+
+  @override
+  String toString() => 'DeleteMe()';
 }

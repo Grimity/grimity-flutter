@@ -28,4 +28,7 @@ final class PutMeSubscribe extends OpenApiService<void> {
 
   @override
   Object? get $body => _request.encode();
+
+  @override
+  String toString() => 'PutMeSubscribe(_request: $_request)';
 }

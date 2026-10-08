@@ -16,4 +16,7 @@ final class DeleteMeBackground extends OpenApiService<void> {
 
   @override
   String get $url => '/me/background';
+
+  @override
+  String toString() => 'DeleteMeBackground()';
 }

@@ -30,4 +30,7 @@ final class PutCommissionsById extends OpenApiService<void> {
 
   @override
   Object? get $body => _request.encode();
+
+  @override
+  String toString() => 'PutCommissionsById(id: $id, _request: $_request)';
 }

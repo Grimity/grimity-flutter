@@ -33,4 +33,7 @@ final class PostChats extends OpenApiService<IdResponse> {
   IdResponse decode(Object? obj) {
     return obj.decode<IdResponse>()!;
   }
+
+  @override
+  String toString() => 'PostChats(_request: $_request)';
 }

@@ -24,6 +24,10 @@ final class UserBaseWithBlockedResponse {
 
   /// OpenAPI codec for encoding and decoding [UserBaseWithBlockedResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() =>
+      'UserBaseWithBlockedResponse(id: $id, name: $name, image: $image, url: $url, isBlocked: $isBlocked)';
 }
 
 /// OpenAPI codec converting between [UserBaseWithBlockedResponse] and a JSON object.

@@ -22,4 +22,7 @@ final class PutChatMessagesByIdLike extends OpenApiService<void> {
 
   @override
   String get $url => '/chat-messages/${id.encodeUri()}/like';
+
+  @override
+  String toString() => 'PutChatMessagesByIdLike(id: $id)';
 }

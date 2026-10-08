@@ -18,6 +18,9 @@ final class PopularTagResponse {
 
   /// OpenAPI codec for encoding and decoding [PopularTagResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'PopularTagResponse(tagName: $tagName, thumbnail: $thumbnail)';
 }
 
 /// OpenAPI codec converting between [PopularTagResponse] and a JSON object.

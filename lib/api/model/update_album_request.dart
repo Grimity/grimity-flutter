@@ -16,6 +16,9 @@ final class UpdateAlbumRequest {
 
   /// OpenAPI codec for encoding and decoding [UpdateAlbumRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'UpdateAlbumRequest(name: $name)';
 }
 
 /// OpenAPI codec converting between [UpdateAlbumRequest] and a JSON object.

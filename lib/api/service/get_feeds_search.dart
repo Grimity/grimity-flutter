@@ -41,4 +41,7 @@ final class GetFeedsSearch extends OpenApiService<SearchedFeedsResponse> {
   SearchedFeedsResponse decode(Object? obj) {
     return obj.decode<SearchedFeedsResponse>()!;
   }
+
+  @override
+  String toString() => 'GetFeedsSearch(cursor: $cursor, size: $size, keyword: $keyword, sort: $sort)';
 }

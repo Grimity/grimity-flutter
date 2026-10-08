@@ -24,6 +24,9 @@ final class FollowUserResponse {
 
   /// OpenAPI codec for encoding and decoding [FollowUserResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'FollowUserResponse(id: $id, name: $name, image: $image, url: $url, description: $description)';
 }
 
 /// OpenAPI codec converting between [FollowUserResponse] and a JSON object.

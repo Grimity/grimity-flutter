@@ -35,4 +35,7 @@ final class GetMeSavePosts extends OpenApiService<MySavePostsResponse> {
   MySavePostsResponse decode(Object? obj) {
     return obj.decode<MySavePostsResponse>()!;
   }
+
+  @override
+  String toString() => 'GetMeSavePosts(page: $page, size: $size)';
 }

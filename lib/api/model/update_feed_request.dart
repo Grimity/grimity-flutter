@@ -26,6 +26,10 @@ final class UpdateFeedRequest {
 
   /// OpenAPI codec for encoding and decoding [UpdateFeedRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() =>
+      'UpdateFeedRequest(title: $title, cards: $cards, content: $content, tags: $tags, thumbnail: $thumbnail, albumId: $albumId)';
 }
 
 /// OpenAPI codec converting between [UpdateFeedRequest] and a JSON object.

@@ -30,4 +30,7 @@ final class PutChatsByIdJoin extends OpenApiService<void> {
 
   @override
   Object? get $body => _request.encode();
+
+  @override
+  String toString() => 'PutChatsByIdJoin(id: $id, _request: $_request)';
 }

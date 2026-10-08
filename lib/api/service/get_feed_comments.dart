@@ -32,4 +32,7 @@ final class GetFeedComments extends OpenApiService<List<ParentFeedCommentRespons
   List<ParentFeedCommentResponse> decode(Object? obj) {
     return obj.decode<List<ParentFeedCommentResponse>>()!;
   }
+
+  @override
+  String toString() => 'GetFeedComments(feedId: $feedId)';
 }

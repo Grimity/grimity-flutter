@@ -22,4 +22,7 @@ final class DeletePostsById extends OpenApiService<void> {
 
   @override
   String get $url => '/posts/${id.encodeUri()}';
+
+  @override
+  String toString() => 'DeletePostsById(id: $id)';
 }

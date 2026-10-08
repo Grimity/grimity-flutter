@@ -18,6 +18,9 @@ final class AppVersionResponse {
 
   /// OpenAPI codec for encoding and decoding [AppVersionResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'AppVersionResponse(version: $version, createdAt: $createdAt)';
 }
 
 /// OpenAPI codec converting between [AppVersionResponse] and a JSON object.

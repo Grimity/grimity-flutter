@@ -18,6 +18,9 @@ final class LatestFeedsResponse {
 
   /// OpenAPI codec for encoding and decoding [LatestFeedsResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'LatestFeedsResponse(nextCursor: $nextCursor, feeds: $feeds)';
 }
 
 /// OpenAPI codec converting between [LatestFeedsResponse] and a JSON object.

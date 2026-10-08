@@ -38,6 +38,10 @@ final class PostDetailResponse {
 
   /// OpenAPI codec for encoding and decoding [PostDetailResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() =>
+      'PostDetailResponse(id: $id, title: $title, content: $content, thumbnail: $thumbnail, createdAt: $createdAt, type: $type, viewCount: $viewCount, commentCount: $commentCount, author: $author, likeCount: $likeCount, isLike: $isLike, isSave: $isSave)';
 }
 
 /// OpenAPI codec converting between [PostDetailResponse] and a JSON object.

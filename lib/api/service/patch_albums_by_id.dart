@@ -30,4 +30,7 @@ final class PatchAlbumsById extends OpenApiService<void> {
 
   @override
   Object? get $body => _request.encode();
+
+  @override
+  String toString() => 'PatchAlbumsById(id: $id, _request: $_request)';
 }

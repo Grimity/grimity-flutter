@@ -21,4 +21,7 @@ final class GetHealthCheck extends OpenApiService<String> {
   String decode(Object? obj) {
     return obj.decode<String>()!;
   }
+
+  @override
+  String toString() => 'GetHealthCheck()';
 }

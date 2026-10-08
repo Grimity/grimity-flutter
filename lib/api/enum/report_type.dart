@@ -19,6 +19,9 @@ enum ReportType {
 
   /// OpenAPI codec for encoding and decoding [ReportType].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'ReportType.$key';
 }
 
 /// OpenAPI codec converting between the enum and its string key.

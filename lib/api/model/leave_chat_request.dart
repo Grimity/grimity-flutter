@@ -16,6 +16,9 @@ final class LeaveChatRequest {
 
   /// OpenAPI codec for encoding and decoding [LeaveChatRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'LeaveChatRequest(socketId: $socketId)';
 }
 
 /// OpenAPI codec converting between [LeaveChatRequest] and a JSON object.

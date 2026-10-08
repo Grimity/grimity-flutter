@@ -22,4 +22,7 @@ final class DeleteUsersByIdBlock extends OpenApiService<void> {
 
   @override
   String get $url => '/users/${id.encodeUri()}/block';
+
+  @override
+  String toString() => 'DeleteUsersByIdBlock(id: $id)';
 }

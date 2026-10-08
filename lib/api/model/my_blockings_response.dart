@@ -16,6 +16,9 @@ final class MyBlockingsResponse {
 
   /// OpenAPI codec for encoding and decoding [MyBlockingsResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'MyBlockingsResponse(users: $users)';
 }
 
 /// OpenAPI codec converting between [MyBlockingsResponse] and a JSON object.

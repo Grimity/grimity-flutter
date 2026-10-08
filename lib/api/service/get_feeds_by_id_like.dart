@@ -27,4 +27,7 @@ final class GetFeedsByIdLike extends OpenApiService<List<FeedLikedUserResponse>>
   List<FeedLikedUserResponse> decode(Object? obj) {
     return obj.decode<List<FeedLikedUserResponse>>()!;
   }
+
+  @override
+  String toString() => 'GetFeedsByIdLike(id: $id)';
 }

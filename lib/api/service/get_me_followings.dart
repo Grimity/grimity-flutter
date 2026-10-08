@@ -38,4 +38,7 @@ final class GetMeFollowings extends OpenApiService<MyFollowingsResponse> {
   MyFollowingsResponse decode(Object? obj) {
     return obj.decode<MyFollowingsResponse>()!;
   }
+
+  @override
+  String toString() => 'GetMeFollowings(cursor: $cursor, size: $size, keyword: $keyword)';
 }

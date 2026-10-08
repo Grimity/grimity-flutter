@@ -38,4 +38,7 @@ final class GetUsersSearch extends OpenApiService<SearchedUsersResponse> {
   SearchedUsersResponse decode(Object? obj) {
     return obj.decode<SearchedUsersResponse>()!;
   }
+
+  @override
+  String toString() => 'GetUsersSearch(cursor: $cursor, size: $size, keyword: $keyword)';
 }

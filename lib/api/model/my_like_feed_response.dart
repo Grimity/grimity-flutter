@@ -32,6 +32,10 @@ final class MyLikeFeedResponse {
 
   /// OpenAPI codec for encoding and decoding [MyLikeFeedResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() =>
+      'MyLikeFeedResponse(id: $id, title: $title, thumbnail: $thumbnail, likeCount: $likeCount, viewCount: $viewCount, cards: $cards, commentCount: $commentCount, createdAt: $createdAt, author: $author)';
 }
 
 /// OpenAPI codec converting between [MyLikeFeedResponse] and a JSON object.

@@ -16,6 +16,9 @@ final class IdResponse {
 
   /// OpenAPI codec for encoding and decoding [IdResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'IdResponse(id: $id)';
 }
 
 /// OpenAPI codec converting between [IdResponse] and a JSON object.

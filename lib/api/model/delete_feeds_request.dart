@@ -16,6 +16,9 @@ final class DeleteFeedsRequest {
 
   /// OpenAPI codec for encoding and decoding [DeleteFeedsRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'DeleteFeedsRequest(ids: $ids)';
 }
 
 /// OpenAPI codec converting between [DeleteFeedsRequest] and a JSON object.

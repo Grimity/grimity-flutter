@@ -43,4 +43,7 @@ final class GetUsersByIdFeeds extends OpenApiService<UserFeedsResponse> {
   UserFeedsResponse decode(Object? obj) {
     return obj.decode<UserFeedsResponse>()!;
   }
+
+  @override
+  String toString() => 'GetUsersByIdFeeds(id: $id, cursor: $cursor, size: $size, sort: $sort, albumId: $albumId)';
 }

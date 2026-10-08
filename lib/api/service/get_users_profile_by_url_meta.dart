@@ -27,4 +27,7 @@ final class GetUsersProfileByUrlMeta extends OpenApiService<UserMetaResponse> {
   UserMetaResponse decode(Object? obj) {
     return obj.decode<UserMetaResponse>()!;
   }
+
+  @override
+  String toString() => 'GetUsersProfileByUrlMeta(url: $url)';
 }

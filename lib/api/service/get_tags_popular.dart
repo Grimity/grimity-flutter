@@ -21,4 +21,7 @@ final class GetTagsPopular extends OpenApiService<List<PopularTagResponse>> {
   List<PopularTagResponse> decode(Object? obj) {
     return obj.decode<List<PopularTagResponse>>()!;
   }
+
+  @override
+  String toString() => 'GetTagsPopular()';
 }

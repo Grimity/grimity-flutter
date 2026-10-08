@@ -38,4 +38,7 @@ final class GetPosts extends OpenApiService<PostsResponse> {
   PostsResponse decode(Object? obj) {
     return obj.decode<PostsResponse>()!;
   }
+
+  @override
+  String toString() => 'GetPosts(page: $page, size: $size, type: $type)';
 }

@@ -22,4 +22,7 @@ final class PutUsersByIdBlock extends OpenApiService<void> {
 
   @override
   String get $url => '/users/${id.encodeUri()}/block';
+
+  @override
+  String toString() => 'PutUsersByIdBlock(id: $id)';
 }

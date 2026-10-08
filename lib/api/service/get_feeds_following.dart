@@ -35,4 +35,7 @@ final class GetFeedsFollowing extends OpenApiService<FollowingFeedsResponse> {
   FollowingFeedsResponse decode(Object? obj) {
     return obj.decode<FollowingFeedsResponse>()!;
   }
+
+  @override
+  String toString() => 'GetFeedsFollowing(cursor: $cursor, size: $size)';
 }

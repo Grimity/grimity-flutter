@@ -24,6 +24,10 @@ final class CommissionQuestionItem {
 
   /// OpenAPI codec for encoding and decoding [CommissionQuestionItem].
   static const codec = _Codec();
+
+  @override
+  String toString() =>
+      'CommissionQuestionItem(type: $type, title: $title, description: $description, isRequired: $isRequired, options: $options)';
 }
 
 /// OpenAPI codec converting between [CommissionQuestionItem] and a JSON object.

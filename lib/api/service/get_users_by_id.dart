@@ -27,4 +27,7 @@ final class GetUsersById extends OpenApiService<UserProfileResponse> {
   UserProfileResponse decode(Object? obj) {
     return obj.decode<UserProfileResponse>()!;
   }
+
+  @override
+  String toString() => 'GetUsersById(id: $id)';
 }

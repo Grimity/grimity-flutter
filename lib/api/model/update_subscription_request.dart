@@ -16,6 +16,9 @@ final class UpdateSubscriptionRequest {
 
   /// OpenAPI codec for encoding and decoding [UpdateSubscriptionRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'UpdateSubscriptionRequest(subscription: $subscription)';
 }
 
 /// OpenAPI codec converting between [UpdateSubscriptionRequest] and a JSON object.

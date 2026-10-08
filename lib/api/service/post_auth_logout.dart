@@ -30,4 +30,7 @@ final class PostAuthLogout extends OpenApiService<void> {
     'grimity-app-model': grimityAppModel.encode(),
     'grimity-app-device': grimityAppDevice.encode(),
   };
+
+  @override
+  String toString() => 'PostAuthLogout(grimityAppModel: $grimityAppModel, grimityAppDevice: $grimityAppDevice)';
 }

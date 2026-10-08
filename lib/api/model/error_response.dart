@@ -20,6 +20,9 @@ final class ErrorResponse {
 
   /// OpenAPI codec for encoding and decoding [ErrorResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'ErrorResponse(statusCode: $statusCode, message: $message, error: $error)';
 }
 
 /// OpenAPI codec converting between [ErrorResponse] and a JSON object.

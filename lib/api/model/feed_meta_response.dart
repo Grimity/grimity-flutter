@@ -30,6 +30,10 @@ final class FeedMetaResponse {
 
   /// OpenAPI codec for encoding and decoding [FeedMetaResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() =>
+      'FeedMetaResponse(id: $id, title: $title, thumbnail: $thumbnail, likeCount: $likeCount, viewCount: $viewCount, content: $content, createdAt: $createdAt, tags: $tags)';
 }
 
 /// OpenAPI codec converting between [FeedMetaResponse] and a JSON object.

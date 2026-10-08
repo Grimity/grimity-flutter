@@ -21,4 +21,7 @@ final class GetUsersPopular extends OpenApiService<List<PopularUserResponse>> {
   List<PopularUserResponse> decode(Object? obj) {
     return obj.decode<List<PopularUserResponse>>()!;
   }
+
+  @override
+  String toString() => 'GetUsersPopular()';
 }

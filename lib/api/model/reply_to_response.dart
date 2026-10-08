@@ -24,6 +24,10 @@ final class ReplyToResponse {
 
   /// OpenAPI codec for encoding and decoding [ReplyToResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() =>
+      'ReplyToResponse(id: $id, content: $content, image: $image, images: $images, createdAt: $createdAt)';
 }
 
 /// OpenAPI codec converting between [ReplyToResponse] and a JSON object.

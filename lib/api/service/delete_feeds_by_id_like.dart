@@ -22,4 +22,7 @@ final class DeleteFeedsByIdLike extends OpenApiService<void> {
 
   @override
   String get $url => '/feeds/${id.encodeUri()}/like';
+
+  @override
+  String toString() => 'DeleteFeedsByIdLike(id: $id)';
 }

@@ -28,4 +28,7 @@ final class PostUsersNameCheck extends OpenApiService<void> {
 
   @override
   Object? get $body => _request.encode();
+
+  @override
+  String toString() => 'PostUsersNameCheck(_request: $_request)';
 }

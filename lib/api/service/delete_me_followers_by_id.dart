@@ -22,4 +22,7 @@ final class DeleteMeFollowersById extends OpenApiService<void> {
 
   @override
   String get $url => '/me/followers/${id.encodeUri()}';
+
+  @override
+  String toString() => 'DeleteMeFollowersById(id: $id)';
 }

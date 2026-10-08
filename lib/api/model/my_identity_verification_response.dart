@@ -20,6 +20,9 @@ final class MyIdentityVerificationResponse {
 
   /// OpenAPI codec for encoding and decoding [MyIdentityVerificationResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'MyIdentityVerificationResponse(isVerified: $isVerified, name: $name, birthDate: $birthDate)';
 }
 
 /// OpenAPI codec converting between [MyIdentityVerificationResponse] and a JSON object.

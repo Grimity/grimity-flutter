@@ -38,4 +38,7 @@ final class GetFeedsRankings extends OpenApiService<FeedRankingsResponse> {
   FeedRankingsResponse decode(Object? obj) {
     return obj.decode<FeedRankingsResponse>()!;
   }
+
+  @override
+  String toString() => 'GetFeedsRankings(month: $month, startDate: $startDate, endDate: $endDate)';
 }

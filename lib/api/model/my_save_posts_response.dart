@@ -18,6 +18,9 @@ final class MySavePostsResponse {
 
   /// OpenAPI codec for encoding and decoding [MySavePostsResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'MySavePostsResponse(totalCount: $totalCount, posts: $posts)';
 }
 
 /// OpenAPI codec converting between [MySavePostsResponse] and a JSON object.

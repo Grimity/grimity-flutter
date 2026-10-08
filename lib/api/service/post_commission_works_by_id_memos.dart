@@ -35,4 +35,7 @@ final class PostCommissionWorksByIdMemos extends OpenApiService<IdResponse> {
   IdResponse decode(Object? obj) {
     return obj.decode<IdResponse>()!;
   }
+
+  @override
+  String toString() => 'PostCommissionWorksByIdMemos(id: $id, _request: $_request)';
 }

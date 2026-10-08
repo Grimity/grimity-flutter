@@ -22,4 +22,7 @@ final class DeleteNotificationsById extends OpenApiService<void> {
 
   @override
   String get $url => '/notifications/${id.encodeUri()}';
+
+  @override
+  String toString() => 'DeleteNotificationsById(id: $id)';
 }

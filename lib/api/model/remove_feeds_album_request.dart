@@ -16,6 +16,9 @@ final class RemoveFeedsAlbumRequest {
 
   /// OpenAPI codec for encoding and decoding [RemoveFeedsAlbumRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'RemoveFeedsAlbumRequest(ids: $ids)';
 }
 
 /// OpenAPI codec converting between [RemoveFeedsAlbumRequest] and a JSON object.

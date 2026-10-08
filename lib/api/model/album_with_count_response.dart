@@ -20,6 +20,9 @@ final class AlbumWithCountResponse {
 
   /// OpenAPI codec for encoding and decoding [AlbumWithCountResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'AlbumWithCountResponse(id: $id, name: $name, feedCount: $feedCount)';
 }
 
 /// OpenAPI codec converting between [AlbumWithCountResponse] and a JSON object.

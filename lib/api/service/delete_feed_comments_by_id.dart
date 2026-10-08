@@ -22,4 +22,7 @@ final class DeleteFeedCommentsById extends OpenApiService<void> {
 
   @override
   String get $url => '/feed-comments/${id.encodeUri()}';
+
+  @override
+  String toString() => 'DeleteFeedCommentsById(id: $id)';
 }

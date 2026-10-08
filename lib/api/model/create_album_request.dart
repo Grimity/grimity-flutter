@@ -16,6 +16,9 @@ final class CreateAlbumRequest {
 
   /// OpenAPI codec for encoding and decoding [CreateAlbumRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'CreateAlbumRequest(name: $name)';
 }
 
 /// OpenAPI codec converting between [CreateAlbumRequest] and a JSON object.

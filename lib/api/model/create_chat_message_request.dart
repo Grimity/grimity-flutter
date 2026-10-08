@@ -22,6 +22,10 @@ final class CreateChatMessageRequest {
 
   /// OpenAPI codec for encoding and decoding [CreateChatMessageRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() =>
+      'CreateChatMessageRequest(chatId: $chatId, content: $content, images: $images, replyToId: $replyToId)';
 }
 
 /// OpenAPI codec converting between [CreateChatMessageRequest] and a JSON object.

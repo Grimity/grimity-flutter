@@ -18,6 +18,9 @@ final class RegisterPushTokenRequest {
 
   /// OpenAPI codec for encoding and decoding [RegisterPushTokenRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'RegisterPushTokenRequest(deviceId: $deviceId, token: $token)';
 }
 
 /// OpenAPI codec converting between [RegisterPushTokenRequest] and a JSON object.

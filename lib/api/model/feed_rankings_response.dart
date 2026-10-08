@@ -16,6 +16,9 @@ final class FeedRankingsResponse {
 
   /// OpenAPI codec for encoding and decoding [FeedRankingsResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'FeedRankingsResponse(feeds: $feeds)';
 }
 
 /// OpenAPI codec converting between [FeedRankingsResponse] and a JSON object.

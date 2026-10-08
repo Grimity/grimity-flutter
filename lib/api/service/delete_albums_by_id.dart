@@ -22,4 +22,7 @@ final class DeleteAlbumsById extends OpenApiService<void> {
 
   @override
   String get $url => '/albums/${id.encodeUri()}';
+
+  @override
+  String toString() => 'DeleteAlbumsById(id: $id)';
 }

@@ -21,6 +21,9 @@ enum ChatMessageType {
 
   /// OpenAPI codec for encoding and decoding [ChatMessageType].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'ChatMessageType.$key';
 }
 
 /// OpenAPI codec converting between the enum and its string key.

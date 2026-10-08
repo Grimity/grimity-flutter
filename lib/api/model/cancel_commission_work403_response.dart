@@ -18,6 +18,9 @@ final class CancelCommissionWork403Response {
 
   /// OpenAPI codec for encoding and decoding [CancelCommissionWork403Response].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'CancelCommissionWork403Response(status: $status, errorCode: $errorCode)';
 }
 
 /// OpenAPI codec converting between [CancelCommissionWork403Response] and a JSON object.

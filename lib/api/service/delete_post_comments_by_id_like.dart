@@ -22,4 +22,7 @@ final class DeletePostCommentsByIdLike extends OpenApiService<void> {
 
   @override
   String get $url => '/post-comments/${id.encodeUri()}/like';
+
+  @override
+  String toString() => 'DeletePostCommentsByIdLike(id: $id)';
 }

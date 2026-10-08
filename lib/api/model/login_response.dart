@@ -20,6 +20,9 @@ final class LoginResponse {
 
   /// OpenAPI codec for encoding and decoding [LoginResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'LoginResponse(accessToken: $accessToken, refreshToken: $refreshToken, id: $id)';
 }
 
 /// OpenAPI codec converting between [LoginResponse] and a JSON object.

@@ -21,4 +21,7 @@ final class GetMeSubscribe extends OpenApiService<SubscriptionResponse> {
   SubscriptionResponse decode(Object? obj) {
     return obj.decode<SubscriptionResponse>()!;
   }
+
+  @override
+  String toString() => 'GetMeSubscribe()';
 }

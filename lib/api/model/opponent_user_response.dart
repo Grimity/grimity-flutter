@@ -26,6 +26,10 @@ final class OpponentUserResponse {
 
   /// OpenAPI codec for encoding and decoding [OpponentUserResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() =>
+      'OpponentUserResponse(id: $id, name: $name, image: $image, url: $url, isBlocked: $isBlocked, isBlocking: $isBlocking)';
 }
 
 /// OpenAPI codec converting between [OpponentUserResponse] and a JSON object.

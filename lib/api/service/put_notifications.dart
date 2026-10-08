@@ -16,4 +16,7 @@ final class PutNotifications extends OpenApiService<void> {
 
   @override
   String get $url => '/notifications';
+
+  @override
+  String toString() => 'PutNotifications()';
 }

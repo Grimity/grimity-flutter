@@ -16,6 +16,9 @@ final class RejectCommissionWorkRequest {
 
   /// OpenAPI codec for encoding and decoding [RejectCommissionWorkRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'RejectCommissionWorkRequest(reason: $reason)';
 }
 
 /// OpenAPI codec converting between [RejectCommissionWorkRequest] and a JSON object.

@@ -22,4 +22,7 @@ final class PutUsersByIdFollow extends OpenApiService<void> {
 
   @override
   String get $url => '/users/${id.encodeUri()}/follow';
+
+  @override
+  String toString() => 'PutUsersByIdFollow(id: $id)';
 }

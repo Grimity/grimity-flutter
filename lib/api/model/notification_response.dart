@@ -26,6 +26,10 @@ final class NotificationResponse {
 
   /// OpenAPI codec for encoding and decoding [NotificationResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() =>
+      'NotificationResponse(id: $id, createdAt: $createdAt, isRead: $isRead, link: $link, image: $image, message: $message)';
 }
 
 /// OpenAPI codec converting between [NotificationResponse] and a JSON object.

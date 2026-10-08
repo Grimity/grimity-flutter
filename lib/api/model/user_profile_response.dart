@@ -44,6 +44,10 @@ final class UserProfileResponse {
 
   /// OpenAPI codec for encoding and decoding [UserProfileResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() =>
+      'UserProfileResponse(id: $id, name: $name, image: $image, url: $url, isBlocked: $isBlocked, description: $description, backgroundImage: $backgroundImage, links: $links, followerCount: $followerCount, followingCount: $followingCount, feedCount: $feedCount, postCount: $postCount, isFollowing: $isFollowing, isBlocking: $isBlocking, albums: $albums)';
 }
 
 /// OpenAPI codec converting between [UserProfileResponse] and a JSON object.

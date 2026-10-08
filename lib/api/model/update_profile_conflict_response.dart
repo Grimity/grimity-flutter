@@ -18,6 +18,9 @@ final class UpdateProfileConflictResponse {
 
   /// OpenAPI codec for encoding and decoding [UpdateProfileConflictResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'UpdateProfileConflictResponse(statusCode: $statusCode, message: $message)';
 }
 
 /// OpenAPI codec converting between [UpdateProfileConflictResponse] and a JSON object.

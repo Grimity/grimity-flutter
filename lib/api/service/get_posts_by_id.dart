@@ -27,4 +27,7 @@ final class GetPostsById extends OpenApiService<PostDetailResponse> {
   PostDetailResponse decode(Object? obj) {
     return obj.decode<PostDetailResponse>()!;
   }
+
+  @override
+  String toString() => 'GetPostsById(id: $id)';
 }

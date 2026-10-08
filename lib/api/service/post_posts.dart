@@ -33,4 +33,7 @@ final class PostPosts extends OpenApiService<IdResponse> {
   IdResponse decode(Object? obj) {
     return obj.decode<IdResponse>()!;
   }
+
+  @override
+  String toString() => 'PostPosts(_request: $_request)';
 }

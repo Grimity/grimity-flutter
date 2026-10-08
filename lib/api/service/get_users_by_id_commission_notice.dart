@@ -27,4 +27,7 @@ final class GetUsersByIdCommissionNotice extends OpenApiService<CommissionNotice
   CommissionNoticeResponse decode(Object? obj) {
     return obj.decode<CommissionNoticeResponse>()!;
   }
+
+  @override
+  String toString() => 'GetUsersByIdCommissionNotice(id: $id)';
 }

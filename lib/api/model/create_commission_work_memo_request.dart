@@ -16,6 +16,9 @@ final class CreateCommissionWorkMemoRequest {
 
   /// OpenAPI codec for encoding and decoding [CreateCommissionWorkMemoRequest].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'CreateCommissionWorkMemoRequest(content: $content)';
 }
 
 /// OpenAPI codec converting between [CreateCommissionWorkMemoRequest] and a JSON object.

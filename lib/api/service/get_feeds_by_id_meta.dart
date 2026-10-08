@@ -27,4 +27,7 @@ final class GetFeedsByIdMeta extends OpenApiService<FeedMetaResponse> {
   FeedMetaResponse decode(Object? obj) {
     return obj.decode<FeedMetaResponse>()!;
   }
+
+  @override
+  String toString() => 'GetFeedsByIdMeta(id: $id)';
 }

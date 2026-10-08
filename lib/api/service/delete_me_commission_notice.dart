@@ -16,4 +16,7 @@ final class DeleteMeCommissionNotice extends OpenApiService<void> {
 
   @override
   String get $url => '/me/commission-notice';
+
+  @override
+  String toString() => 'DeleteMeCommissionNotice()';
 }

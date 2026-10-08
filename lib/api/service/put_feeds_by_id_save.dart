@@ -22,4 +22,7 @@ final class PutFeedsByIdSave extends OpenApiService<void> {
 
   @override
   String get $url => '/feeds/${id.encodeUri()}/save';
+
+  @override
+  String toString() => 'PutFeedsByIdSave(id: $id)';
 }

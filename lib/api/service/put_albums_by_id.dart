@@ -30,4 +30,7 @@ final class PutAlbumsById extends OpenApiService<void> {
 
   @override
   Object? get $body => _request.encode();
+
+  @override
+  String toString() => 'PutAlbumsById(id: $id, _request: $_request)';
 }

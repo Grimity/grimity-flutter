@@ -28,4 +28,7 @@ final class PutMeBackground extends OpenApiService<void> {
 
   @override
   Object? get $body => _request.encode();
+
+  @override
+  String toString() => 'PutMeBackground(_request: $_request)';
 }

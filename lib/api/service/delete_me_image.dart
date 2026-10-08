@@ -16,4 +16,7 @@ final class DeleteMeImage extends OpenApiService<void> {
 
   @override
   String get $url => '/me/image';
+
+  @override
+  String toString() => 'DeleteMeImage()';
 }

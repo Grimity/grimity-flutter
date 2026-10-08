@@ -24,6 +24,10 @@ final class FeedCommentWithWriterResponse {
 
   /// OpenAPI codec for encoding and decoding [FeedCommentWithWriterResponse].
   static const codec = _Codec();
+
+  @override
+  String toString() =>
+      'FeedCommentWithWriterResponse(id: $id, content: $content, createdAt: $createdAt, likeCount: $likeCount, writer: $writer)';
 }
 
 /// OpenAPI codec converting between [FeedCommentWithWriterResponse] and a JSON object.

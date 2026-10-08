@@ -18,6 +18,9 @@ final class Register409Response {
 
   /// OpenAPI codec for encoding and decoding [Register409Response].
   static const codec = _Codec();
+
+  @override
+  String toString() => 'Register409Response(statusCode: $statusCode, message: $message)';
 }
 
 /// OpenAPI codec converting between [Register409Response] and a JSON object.

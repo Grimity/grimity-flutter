@@ -35,4 +35,7 @@ final class GetMeFollowers extends OpenApiService<MyFollowersResponse> {
   MyFollowersResponse decode(Object? obj) {
     return obj.decode<MyFollowersResponse>()!;
   }
+
+  @override
+  String toString() => 'GetMeFollowers(cursor: $cursor, size: $size)';
 }
