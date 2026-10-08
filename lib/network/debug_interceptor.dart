@@ -18,7 +18,7 @@ class DebugInterceptor extends Interceptor {
   static const _reset = '\x1B[0m';
 
   /// 주어진 ANSI 색상으로 디버그용 메시지를 출력합니다.
-  static void print(String messgae, String color) {
+  static void log(String messgae, String color) {
     if (kDebugMode) {
       debugPrint('$color$messgae$_reset');
     }
@@ -31,10 +31,10 @@ class DebugInterceptor extends Interceptor {
       final data = options.data;
       final uri = options.uri;
 
-      print('[요청] $method $uri', _yellow);
+      log('[요청] $method $uri', _yellow);
 
       // 본문 데이터가 있으면 이를 회색으로 출력.
-      if (data != null) print(data, _gray);
+      if (data != null) log('$data', _gray);
     }
 
     handler.next(options);
@@ -47,10 +47,10 @@ class DebugInterceptor extends Interceptor {
       final data = response.data;
       final uri = response.requestOptions.uri;
 
-      print('[응답] $statusCode $uri', _green);
+      log('[응답] $statusCode $uri', _green);
 
       // 본문 데이터가 있으면 이를 회색으로 출력.
-      if (data != null) print(data, _gray);
+      if (data != null) log('$data', _gray);
     }
 
     handler.next(response);
@@ -63,7 +63,7 @@ class DebugInterceptor extends Interceptor {
       final errorName = err.type.name;
       final uri = err.requestOptions.uri;
 
-      print('[에러] ${statusCode ?? errorName} $uri', _red);
+      log('[에러] ${statusCode ?? errorName} $uri', _red);
     }
 
     handler.next(err);
