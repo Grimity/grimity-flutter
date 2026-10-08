@@ -18,7 +18,7 @@ packages:
     source: hosted
     version: "14.5.0"
   animations:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: animations
       sha256: "9cb469212ea51be27097f23b519d594c01171721347b55df9334fff653659e7f"
@@ -278,12 +278,20 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.4.5"
+  flutter_cached_transition:
+    dependency: "direct main"
+    description:
+      name: flutter_cached_transition
+      sha256: fddcd7c7ad70e1314e30d4623112d419fd64c3f0da8e47ca36560714af1645dd
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1+1"
   flutter_design_preview:
     dependency: transitive
     description:
       path: "packages/flutter_design_preview"
       ref: HEAD
-      resolved-ref: f1bafa78855076da546f2deec1286c4c19e3758a
+      resolved-ref: "0191fa740b783767e4d8f3bdee98f8a97161a4cc"
       url: "https://github.com/MTtankkeo/vscode-flutter-design-preview.git"
     source: git
     version: "1.0.0"
@@ -403,7 +411,7 @@ packages:
     description:
       path: "packages/gds_flutter"
       ref: HEAD
-      resolved-ref: "196a69ab0d70d5eb7baa16b60198e8a127cda5da"
+      resolved-ref: "971804b003cf9887752f62991d23321de5f3675f"
       url: "https://github.com/Grimity/gds-flutter.git"
     source: git
     version: "0.0.0"

@@ -5,6 +5,9 @@ import 'package:grimity/app/app_oauth.dart';
 import 'package:grimity/app/app_secure_storage.dart';
 import 'package:grimity/util/app_device.dart';
 
+/// 사용자의 프로필 정보를 반환합니다.
+MyProfileResponse get profile => AppUser.profile;
+
 /// 현재 사용자의 로그인 여부와 로딩 진행 상황을 나타내는 상태.
 enum AppUserStatus {
   none,
@@ -15,7 +18,7 @@ enum AppUserStatus {
 
 /// 소셜 로그인과 앱 토큰 저장, 현재 사용자 정보 조회를 처리합니다.
 abstract class AppUser {
-  static final _statusNotifier = ValueNotifier(AppUserStatus.none);
+  static final statusNotifier = ValueNotifier(AppUserStatus.none);
 
   static MyProfileResponse? _profile;
 
@@ -26,11 +29,11 @@ abstract class AppUser {
   }
 
   /// 현재 사용자 정보 로딩 및 로그인 상태.
-  static AppUserStatus get status => _statusNotifier.value;
+  static AppUserStatus get status => statusNotifier.value;
 
   /// 사용자 상태를 변경하고 이를 알립니다.
   static set status(AppUserStatus newStatus) {
-    _statusNotifier.value = newStatus;
+    statusNotifier.value = newStatus;
   }
 
   /// 보안 저장소에 액세스 토큰이 저장되어 있는지 여부를 반환합니다.

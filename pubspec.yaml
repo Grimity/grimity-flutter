@@ -12,8 +12,10 @@ dependencies:
   pervice: ^1.1.0
   dio: ^5.11.1
   flutter_secure_storage: ^11.2.0
+  flutter_cached_transition: ^1.0.1+1
   device_info_plus: ^13.3.0
   firebase_core: ^4.15.0
+  animations: ^2.2.0
   git_config: ^1.1.0
   dotenv: ^4.2.0
 

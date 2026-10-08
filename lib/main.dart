@@ -6,7 +6,8 @@ import 'package:grimity/app/app_oauth.dart';
 import 'package:grimity/app/app_firebase.dart';
 import 'package:grimity/app/app_user.dart';
 import 'package:grimity/network/app_network.dart';
-import 'package:grimity/presentation/sign_in/pages/sign_in_page.dart';
+import 'package:grimity/presentation/splash/splash_page.dart';
+import 'package:pervice/pervice.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,19 +33,22 @@ class GrimityApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    assert(AppUser.status != .none, '해당 시점에서는 이미 사용자 정보가 초기화되어야 합니다.');
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: .dark, // TODO: 임시 테마 설정
       builder: (context, child) {
         final brightness = Theme.of(context).brightness;
 
-        return GdsThemeScope(
-          theme: brightness == .dark ? .dark() : .light(),
-          child: child!,
+        return ServiceScope.withState(
+          child: GdsThemeScope(
+            theme: brightness == .dark ? .dark() : .light(),
+            child: child!,
+          ),
         );
       },
-      home: SignInPage(),
+      home: SplashPage(),
     );
   }
 }
