@@ -14,7 +14,7 @@ class SplashPage extends StatelessWidget {
       listenable: AppUser.statusNotifier,
       builder: (context, child) {
         return GdsTransition.crossFade(
-          animation: .slow,
+          animation: .slowest,
           value: AppUser.status,
           child: child!,
         );

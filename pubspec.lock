@@ -177,6 +177,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.0"
+  dynamic_height_list_view:
+    dependency: "direct main"
+    description:
+      name: dynamic_height_list_view
+      sha256: f69412fac854233fe3517f2def600b977d46b2a16fd3cd6c0c737025e8d1424a
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   encrypt:
     dependency: transitive
     description:
@@ -295,6 +303,14 @@ packages:
       url: "https://github.com/MTtankkeo/vscode-flutter-design-preview.git"
     source: git
     version: "1.0.0"
+  flutter_infinite_scroll_pagination:
+    dependency: transitive
+    description:
+      name: flutter_infinite_scroll_pagination
+      sha256: f8746da76ea303ec874f4eebb3ce91106f5fb3d529dcba65b8a45369ae804613
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.2"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -308,6 +324,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_refresh_indicator:
+    dependency: transitive
+    description:
+      name: flutter_refresh_indicator
+      sha256: "20fa6676cec87ae628ee7167c92c6fc803ba24e2a27fe39fc570a13659cf2a39"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.0"
   flutter_scroll_bottom_sheet:
     dependency: transitive
     description:
@@ -411,7 +435,7 @@ packages:
     description:
       path: "packages/gds_flutter"
       ref: HEAD
-      resolved-ref: "971804b003cf9887752f62991d23321de5f3675f"
+      resolved-ref: "604a998862ad22d4e4bb2a5a3f426ab39a61e3a7"
       url: "https://github.com/Grimity/gds-flutter.git"
     source: git
     version: "0.0.0"
@@ -504,7 +528,7 @@ packages:
     source: hosted
     version: "4.1.2"
   intl:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: intl
       sha256: "1ca20c894b1717686a2319b8548763d812bc0aabdac580420a44c5178c57a867"
@@ -912,6 +936,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
+  skeletonizer:
+    dependency: transitive
+    description:
+      name: skeletonizer
+      sha256: f67c2ce8a3fedea63d885afe61a136f3adb59f2c28faa6e79102a5280973c64f
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -1013,6 +1045,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.12"
+  transparent_image:
+    dependency: transitive
+    description:
+      name: transparent_image
+      sha256: e8991d955a2094e197ca24c645efec2faf4285772a4746126ca12875e54ca02f
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   typed_data:
     dependency: transitive
     description:

@@ -15,8 +15,7 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage> {
   Future<void> signIn(AuthProvider provider) async {
-    final response = await AppUser.signIn(context.device, provider);
-    debugPrint('test: $response');
+    await AppUser.signIn(context.device, provider);
   }
 
   @override

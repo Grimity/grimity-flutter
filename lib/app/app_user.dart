@@ -42,7 +42,7 @@ abstract class AppUser {
   }
 
   /// 소셜 인증 토큰으로 서버에 로그인한 뒤 사용자 프로필을 반환합니다.
-  static Future<MyProfileResponse> signIn(
+  static Future<void> signIn(
     GdsDevice device,
     AuthProvider provider,
   ) async {
@@ -61,7 +61,8 @@ abstract class AppUser {
     await AppSecureStorage.accessToken.set(result.accessToken);
     await AppSecureStorage.refreshToken.set(result.refreshToken);
 
-    return _profile = await GetMe().request();
+    _profile = await GetMe().request();
+    status = .loaded;
   }
 
   /// 기기 종류와 모델명을 전달해 서버에 로그아웃을 요청합니다.

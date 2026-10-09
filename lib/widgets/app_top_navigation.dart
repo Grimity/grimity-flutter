@@ -13,7 +13,7 @@ abstract class AppTopNavigation {
           onSearch: () {}, // TODO
           onNotification: () {}, // TODO
           onProfile: context.openDrawer,
-          profile: profile.image?.networkImage,
+          profile: profile.image?.responsiveImage,
           hasNotification: false,
         );
       },

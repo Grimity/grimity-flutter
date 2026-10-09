@@ -15,7 +15,7 @@ class AppSidebar extends StatelessWidget {
       ),
       nickname: profile.name,
       handle: profile.url,
-      profile: profile.image?.networkImage,
+      profile: profile.image?.responsiveImage,
       followerCount: 0, // TODO
       followingCount: 0, // TODO
       onProfile: () {}, // TODO
