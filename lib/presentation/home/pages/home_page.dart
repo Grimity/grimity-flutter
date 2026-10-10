@@ -6,8 +6,8 @@ import 'package:grimity/presentation/home/views/home_latest_feeds.dart';
 import 'package:grimity/presentation/home/views/home_notice_board.dart';
 import 'package:grimity/presentation/home/views/home_weekly_ranking.dart';
 import 'package:grimity/presentation/navigation/navigation_view.dart';
-import 'package:grimity/widgets/sliver_column.dart';
 import 'package:grimity/widgets/sliver_row.dart';
+import 'package:grimity/widgets/sliver_scroll_view.dart';
 import 'package:pervice/pervice.dart';
 
 /// 주간 랭킹, 게시판 최신 글과 최신 그림을 모아 표시하는 홈 페이지.
@@ -52,50 +52,44 @@ class HomePage extends StatelessWidget with NavigationView {
       child: GdsInfiniteScroll(
         onLoadMore: latestFeedsService.loadMore,
         enabled: latestFeedsService.canLoreMore,
-        child: CustomScrollView(
+        child: SliverScrollView(
+          spacing: context.whenDevice(
+            mobile: 32.0,
+            tablet: 40.0,
+          ),
+          padding: context.whenDevice(
+            mobile: 16.all,
+            tablet: 20.all,
+          ),
           slivers: [
-            SliverPadding(
-              padding: context.whenDevice(
-                mobile: 16.all,
-                tablet: 20.all,
-              ),
-              sliver: SliverColumn(
-                spacing: context.whenDevice(
-                  mobile: 32,
-                  tablet: 40,
-                ),
+            // 이용 규칙 배너 표시
+            const HomeBanner(),
+
+            // 주간 랭킹 표시
+            HomeWeeklyRanking(service: weeklyRankingService),
+
+            // 태블릿은 가로로 묶어서 표시
+            if (context.isTablet) ...[
+              SliverRow(
+                spacing: 16,
                 children: [
-                  // 이용 규칙 배너 표시
-                  const HomeBanner(),
+                  // 자유 게시판 표시
+                  HomeFreeBoard(service: freeBoardService),
 
-                  // 주간 랭킹 표시
-                  HomeWeeklyRanking(service: weeklyRankingService),
-
-                  // 태블릿은 가로로 묶어서 표시
-                  if (context.isTablet) ...[
-                    SliverRow(
-                      spacing: 16,
-                      children: [
-                        // 자유 게시판 표시
-                        HomeFreeBoard(service: freeBoardService),
-
-                        // 공지 게시판 표시
-                        HomeNoticeBoard(service: noticeBoardService),
-                      ],
-                    ),
-                  ] else ...[
-                    // 자유 게시판 표시
-                    HomeFreeBoard(service: freeBoardService),
-
-                    // 공지 게시판 표시
-                    HomeNoticeBoard(service: noticeBoardService),
-                  ],
-
-                  // 최신 그림 표시
-                  HomeLatestFeeds(service: latestFeedsService),
+                  // 공지 게시판 표시
+                  HomeNoticeBoard(service: noticeBoardService),
                 ],
               ),
-            ),
+            ] else ...[
+              // 자유 게시판 표시
+              HomeFreeBoard(service: freeBoardService),
+
+              // 공지 게시판 표시
+              HomeNoticeBoard(service: noticeBoardService),
+            ],
+
+            // 최신 그림 표시
+            HomeLatestFeeds(service: latestFeedsService),
           ],
         ),
       ),

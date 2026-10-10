@@ -20,6 +20,7 @@ dependencies:
   dotenv: ^4.2.0
   intl: ^0.20.3
   dynamic_height_list_view: ^0.0.2
+  flexible_horizontal_list_view: ^0.2.0
 
   # 소셜 로그인
   google_sign_in: ^6.3.0

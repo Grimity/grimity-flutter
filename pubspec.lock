@@ -225,6 +225,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.12.0"
+  flexible_horizontal_list_view:
+    dependency: "direct main"
+    description:
+      name: flexible_horizontal_list_view
+      sha256: c4cedeec238e69c2b7522b9f049af4638cf25c2bff886f46d7ea1d763c72e0a0
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   flutter:
     dependency: "direct main"
     description: flutter

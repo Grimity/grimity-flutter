@@ -1,3 +1,4 @@
+import 'package:flexible_horizontal_list_view/flexible_horizontal_list_view.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
@@ -61,18 +62,16 @@ class HomeWeeklyRanking extends StatelessWidget {
                 final count = context.feedGridCrossAxisCount;
                 final width = (maxWidth - spacing * (count - 1)) / count;
 
-                return SingleChildScrollView(
-                  scrollDirection: .horizontal,
+                return HorizontalListView.separated(
+                  itemCount: feeds.length,
+                  separatorBuilder: (context, index) => spacing.horizontalGap,
                   clipBehavior: .none,
-                  child: Row(
-                    spacing: spacing,
-                    children: feeds.indexedBuilder((index, feed) {
-                      return SizedBox(
-                        width: width,
-                        child: buildFeed(index, feed),
-                      );
-                    }),
-                  ),
+                  itemBuilder: (context, index) {
+                    return SizedBox(
+                      width: width,
+                      child: buildFeed(index, feeds[index]),
+                    );
+                  },
                 );
               },
             );
