@@ -53,8 +53,6 @@ class HomePage extends StatelessWidget with NavigationView {
         onLoadMore: latestFeedsService.loadMore,
         enabled: latestFeedsService.canLoreMore,
         child: CustomScrollView(
-          // InfiniteScrollPagination의 원리상 Lazy 빌드는 유지됨.
-          shrinkWrap: true,
           slivers: [
             SliverPadding(
               padding: context.whenDevice(

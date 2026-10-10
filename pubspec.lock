@@ -57,30 +57,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
-  cached_network_image:
-    dependency: transitive
-    description:
-      name: cached_network_image
-      sha256: "64a6c35e63cfd22865238d11fe8608bb538306ece5b2eb951106280441fdbb0c"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.4"
-  cached_network_image_platform_interface:
-    dependency: transitive
-    description:
-      name: cached_network_image_platform_interface
-      sha256: "555e287d3882fbb36cde50d24214cb3f6a272d39c4386e8afe00cb188d35b285"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.0.3"
-  cached_network_image_web:
-    dependency: transitive
-    description:
-      name: cached_network_image_web
-      sha256: "38762ec3bd2295f4d79545add118f525bd5a105a53692c06208c4875f2abde62"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.3"
   characters:
     dependency: transitive
     description:
@@ -129,14 +105,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.7"
-  cupertino_ui:
-    dependency: transitive
-    description:
-      name: cupertino_ui
-      sha256: ea0b8170b40a86262b2fc21ac0625303f52df209dbf6fccc2b98b27eff44f6ce
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.2"
   device_info_plus:
     dependency: "direct main"
     description:
@@ -257,14 +225,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.12.0"
-  fixnum:
-    dependency: transitive
-    description:
-      name: fixnum
-      sha256: b6dc7065e46c974bc7c5f143080a6764ec7a4be6da1285ececdc37be96de53be
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.1"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -278,14 +238,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.0"
-  flutter_cache_manager:
-    dependency: transitive
-    description:
-      name: flutter_cache_manager
-      sha256: f94fc6f5480977e3eb7b622ed488f671ba96c971bd0e274e6bd0f0ba9b044816
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.4.5"
   flutter_cached_transition:
     dependency: "direct main"
     description:
@@ -319,11 +271,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.0"
-  flutter_localizations:
-    dependency: transitive
-    description: flutter
-    source: sdk
-    version: "0.0.0"
   flutter_refresh_indicator:
     dependency: transitive
     description:
@@ -433,11 +380,9 @@ packages:
   gds_flutter:
     dependency: "direct main"
     description:
-      path: "packages/gds_flutter"
-      ref: HEAD
-      resolved-ref: "604a998862ad22d4e4bb2a5a3f426ab39a61e3a7"
-      url: "https://github.com/Grimity/gds-flutter.git"
-    source: git
+      path: "d:\\Project Files\\gds-flutter\\packages\\gds_flutter"
+      relative: false
+    source: path
     version: "0.0.0"
   git_config:
     dependency: "direct main"
@@ -655,14 +600,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.13.0"
-  material_ui:
-    dependency: transitive
-    description:
-      name: material_ui
-      sha256: "98ab9eda579ecae623e4b376c603035c5def78ce706f735f30bd632af5814695"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.6.0"
   meta:
     dependency: transitive
     description:
@@ -687,14 +624,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "9.5.0"
-  octo_image:
-    dependency: transitive
-    description:
-      name: octo_image
-      sha256: "49c4f93afc10f1ad4fdef9db88fed9c65a8eb5d9ad0a4fa9b128d7fedeb41418"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.2"
   openapi_spec_plus:
     dependency: transitive
     description:
@@ -848,14 +777,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.0"
-  rxdart:
-    dependency: transitive
-    description:
-      name: rxdart
-      sha256: "5c3004a4a8dbb94bd4bf5412a4def4acdaa12e12f269737a5751369e12d1a962"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.28.0"
   shared_preferences:
     dependency: transitive
     description:
@@ -957,46 +878,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.2"
-  sqflite:
-    dependency: transitive
-    description:
-      name: sqflite
-      sha256: "7419d02d128023f38586481c81e14e5692167f75b7f411a914b1eb50d28c010e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.4.4+1"
-  sqflite_android:
-    dependency: transitive
-    description:
-      name: sqflite_android
-      sha256: "805b27c6fa10d8883253795e644818fbd5c87ce665459db84fbe71326cbb5421"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.4.4"
-  sqflite_common:
-    dependency: transitive
-    description:
-      name: sqflite_common
-      sha256: da542ae39840132566b8652d6bfab108a972099a8e4377b3bcd98ae1595e6629
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.5.13+1"
-  sqflite_darwin:
-    dependency: transitive
-    description:
-      name: sqflite_darwin
-      sha256: dbdda396f975f74d611ffd3e6fb280ee3ee4cd2319b89278533f427e0140cf0b
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.4.4"
-  sqflite_platform_interface:
-    dependency: transitive
-    description:
-      name: sqflite_platform_interface
-      sha256: c9177b2f3150ed0647b90a94307c28452fe0a5401863044216aed83addd6c7c5
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.4.2"
   stack_trace:
     dependency: transitive
     description:
@@ -1021,14 +902,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.1"
-  synchronized:
-    dependency: transitive
-    description:
-      name: synchronized
-      sha256: "397b146f97613b83d84bdccb439bc8d0f3aebb6c1d14a9641e6f24201c490b2d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.4.2"
   term_glyph:
     dependency: transitive
     description:
@@ -1061,14 +934,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
-  uuid:
-    dependency: transitive
-    description:
-      name: uuid
-      sha256: "9b129329f58692f6e6578329498a8fe9fbe98f090beb764ffbb8ee2eadd01dcd"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.6.0"
   vector_graphics:
     dependency: transitive
     description:
@@ -1175,4 +1040,4 @@ packages:
     version: "2.1.0"
 sdks:
   dart: ">=3.13.5 <4.0.0"
-  flutter: ">=3.47.0"
+  flutter: ">=3.44.0"

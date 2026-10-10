@@ -32,9 +32,7 @@ dependencies:
 
   # 그리미티 디자인 시스템
   gds_flutter:
-    git:
-      url: https://github.com/Grimity/gds-flutter.git
-      path: packages/gds_flutter
+    path: d:\Project Files\gds-flutter\packages\gds_flutter
 
 dev_dependencies:
   flutter_test:
