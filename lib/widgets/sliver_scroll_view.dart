@@ -17,6 +17,8 @@ class SliverScrollView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
+      // 대용량 이미지로 인한 성능 이슈로 0 픽셀로 조정.
+      scrollCacheExtent: .pixels(0),
       slivers: [
         SliverPadding(
           padding: padding ?? .zero,

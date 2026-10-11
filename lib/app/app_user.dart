@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
-import 'package:grimity/app/app_oauth.dart';
 import 'package:grimity/app/app_secure_storage.dart';
 import 'package:grimity/util/app_device.dart';
 
@@ -20,6 +20,7 @@ enum AppUserStatus {
 abstract class AppUser {
   static final statusNotifier = ValueNotifier(AppUserStatus.none);
 
+  /// 마지막으로 불러온 현재 사용자의 프로필.
   static MyProfileResponse? _profile;
 
   /// 사용자의 프로필 정보를 반환합니다.
@@ -41,25 +42,56 @@ abstract class AppUser {
     return await AppSecureStorage.accessToken.get() != null;
   }
 
-  /// 소셜 인증 토큰으로 서버에 로그인한 뒤 사용자 프로필을 반환합니다.
+  /// 소셜 인증 토큰으로 서버에 로그인한 뒤 사용자 프로필을 불러옵니다.
   static Future<void> signIn(
-    GdsDevice device,
     AuthProvider provider,
+    String accessToken,
   ) async {
     final info = await AppDevice.info;
-    final token = await AppOAuth.signIn(provider);
-    final result = await PostAuthLogin(
+    final device = GdsDevice.current;
+    final service = PostAuthLogin(
       grimityAppDevice: device.name,
       grimityAppModel: info.model,
       request: .new(
         provider: provider,
         deviceId: info.id,
-        providerAccessToken: token,
+        providerAccessToken: accessToken,
       ),
-    ).request();
+    );
 
-    await AppSecureStorage.accessToken.set(result.accessToken);
-    await AppSecureStorage.refreshToken.set(result.refreshToken);
+    final response = await service.request();
+
+    await AppSecureStorage.accessToken.set(response.accessToken);
+    await AppSecureStorage.refreshToken.set(response.refreshToken);
+
+    _profile = await GetMe().request();
+    status = .loaded;
+  }
+
+  /// 소셜 인증 토큰으로 서버에 회원가입한 뒤 사용자 프로필을 불러옵니다.
+  static Future<void> signUp(
+    AuthProvider provider,
+    String accessToken,
+    String nickname,
+    String url,
+  ) async {
+    final info = await AppDevice.info;
+    final device = GdsDevice.current;
+    final service = PostAuthRegister(
+      grimityAppDevice: device.name,
+      grimityAppModel: info.model,
+      request: .new(
+        provider: provider,
+        providerAccessToken: accessToken,
+        name: nickname,
+        url: url,
+      ),
+    );
+
+    final response = await service.request();
+
+    await AppSecureStorage.accessToken.set(response.accessToken);
+    await AppSecureStorage.refreshToken.set(response.refreshToken);
 
     _profile = await GetMe().request();
     status = .loaded;

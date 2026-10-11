@@ -6,7 +6,7 @@ import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/presentation/sign_in/widgets/sign_in_button.dart';
 
 /// 화면 하단에 안내 문구와 소셜 로그인 버튼을 배치하는 위젯.
-class SignInBodyView extends StatelessWidget {
+class SignInBody extends StatelessWidget {
   const new({
     super.key,
     required this.title,

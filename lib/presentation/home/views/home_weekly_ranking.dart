@@ -66,6 +66,9 @@ class HomeWeeklyRanking extends StatelessWidget {
                   itemCount: feeds.length,
                   separatorBuilder: (context, index) => spacing.horizontalGap,
                   clipBehavior: .none,
+
+                  // 대용량 이미지로 인한 성능 이슈로 0 픽셀로 조정.
+                  cacheExtent: 0,
                   itemBuilder: (context, index) {
                     return SizedBox(
                       width: width,

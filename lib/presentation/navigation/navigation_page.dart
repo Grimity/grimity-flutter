@@ -1,6 +1,5 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_cached_transition/flutter_cached_transition.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/presentation/home/pages/home_page.dart';
 import 'package:grimity/presentation/navigation/navigation_view.dart';
@@ -23,64 +22,57 @@ class NavigationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final index = context.stateOf(() => 0);
+    assert(index.value < _views.length);
+
+    // 현재 선택된 탭에 대응하는 화면.
+    final view = _views[index.value];
+
     return GdsScaffold(
       appBar: AppTopNavigation.main(),
       drawer: const AppSidebar(),
-      body: Builder(
-        builder: (context) {
-          final index = context.stateOf(() => 0);
-          assert(index.value < _views.length);
-
-          // 현재 선택된 탭에 대응하는 화면.
-          final view = _views[index.value];
-
-          return Column(
-            children: [
-              Expanded(
-                child: Stack(
-                  children: [
-                    // 페이지 본문 표시
-                    CachedTransition(
-                      transitionBuilder: transitionBuilder,
-                      duration: GdsAnimation.slow.duration,
-                      curve: GdsAnimation.slow.curve,
-                      child: KeyedSubtree(
-                        key: ValueKey(index.value),
-                        child: view,
-                      ),
-                    ),
-
-                    // 하단 액션 버튼 표시
-                    Positioned(
-                      bottom: 16,
-                      right: 16,
-                      child: GdsFadable.builder(
-                        type: .scaleFade,
-                        visible: view.onAction != null,
-                        builder: (context) {
-                          return GdsBottomNavigationButton(onTap: view.onAction!);
-                        },
-                      ),
-                    ),
-                  ],
+      body: Column(
+        children: [
+          Expanded(
+            child: Stack(
+              children: [
+                // 페이지 본문 표시
+                GdsPageTransition(
+                  child: KeyedSubtree(
+                    key: ValueKey(index.value),
+                    child: view,
+                  ),
                 ),
-              ),
 
-              // 하단 네비게이션 표시
-              GdsBottomNavigation(
-                index: index.value,
-                tabs: _views.indexedBuilder((newIndex, view) {
-                  return .new(
-                    icon: view.icon,
-                    label: view.label,
-                    showDot: view.showDot,
-                    onTap: () => index.value = newIndex,
-                  );
-                }),
-              ),
-            ],
-          );
-        },
+                // 하단 액션 버튼 표시
+                Positioned(
+                  bottom: 16,
+                  right: 16,
+                  child: GdsFadable.builder(
+                    type: .scaleFade,
+                    visible: view.onAction != null,
+                    builder: (context) {
+                      return GdsBottomNavigationButton(onTap: view.onAction!);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // 하단 네비게이션 표시
+          GdsBottomNavigation(
+            index: index.value,
+            tabs: _views.indexedBuilder((newIndex, view) {
+              return .new(
+                icon: view.icon,
+                label: view.label,
+                showDot: view.showDot,
+                onTap: () => index.value = newIndex,
+              );
+            }),
+          ),
+        ],
       ),
     );
   }
