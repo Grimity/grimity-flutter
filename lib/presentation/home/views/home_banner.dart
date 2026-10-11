@@ -5,6 +5,9 @@ import 'package:gds_flutter/gds_flutter.dart';
 class HomeBanner extends StatelessWidget {
   const new({super.key});
 
+  static const lgSize = Size(4380, 360);
+  static const smSize = Size(1372, 320);
+
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
@@ -12,13 +15,17 @@ class HomeBanner extends StatelessWidget {
         onTap: () {}, // TODO: 클릭하면 어딘가로 이동해야 함.
         child: AspectRatio(
           aspectRatio: context.whenDevice(
-            mobile: 343 / 80,
-            tablet: 73 / 6,
+            mobile: smSize.aspectRatio,
+            tablet: lgSize.aspectRatio,
           ),
-          child: GdsImage(
-            provider: context.whenDevice(
-              mobile: AssetImage('assets/images/notice_banner_sm.png'),
-              tablet: AssetImage('assets/images/notice_banner_lg.png'),
+          child: ClipRRect(
+            borderRadius: GdsRadius.md.geometry,
+            clipBehavior: .hardEdge,
+            child: GdsImage(
+              provider: context.whenDevice(
+                mobile: AssetImage('assets/images/notice_banner_sm.png'),
+                tablet: AssetImage('assets/images/notice_banner_lg.png'),
+              ),
             ),
           ),
         ),
