@@ -7,7 +7,6 @@ import 'package:grimity/app/app_firebase.dart';
 import 'package:grimity/app/app_user.dart';
 import 'package:grimity/network/app_network.dart';
 import 'package:grimity/presentation/splash/splash_page.dart';
-import 'package:pervice/pervice.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,22 +32,9 @@ class GrimityApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-      themeMode: .dark, // TODO: 임시 테마 설정
-      builder: (context, child) {
-        final brightness = Theme.of(context).brightness;
-
-        return ServiceScope.withState(
-          child: GdsThemeScope(
-            theme: brightness == .dark ? .dark() : .light(),
-            child: child!,
-          ),
-        );
-      },
-      home: SplashPage(),
+    return const GdsApp(
+      themeMode: .system, // TODO
+      initialPage: SplashPage(),
     );
   }
 }
