@@ -21,6 +21,9 @@ class HomePage extends StatelessWidget with NavigationView {
   String get label => '홈';
 
   @override
+  VoidCallback? get onAction => () {}; // TODO
+
+  @override
   Widget build(BuildContext context) {
     final weeklyRankingService = context.serviceOf(
       HomeWeeklyRanking.createService,
