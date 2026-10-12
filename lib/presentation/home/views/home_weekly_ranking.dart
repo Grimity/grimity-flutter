@@ -4,6 +4,7 @@ import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/extensions/date_time_extension.dart';
 import 'package:grimity/presentation/home/widgets/home_section.dart';
+import 'package:grimity/presentation/navigation/navigation_page.dart';
 
 /// 홈 화면에서 주간 랭킹 피드를 가로 형태의 앨범 카드 목록을 표시하는 위젯.
 class HomeWeeklyRanking extends StatelessWidget {
@@ -47,7 +48,10 @@ class HomeWeeklyRanking extends StatelessWidget {
       child: HomeSection(
         header: .new(
           title: '주간 랭킹',
-          onMore: () {}, // TODO
+          onMore: () {
+            // 랭킹 페이지로 이동.
+            NavigationPage.moveTo(context, 1);
+          },
         ),
         child: service.builder(
           placeholder: placeholder,

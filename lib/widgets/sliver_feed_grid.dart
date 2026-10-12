@@ -1,0 +1,61 @@
+import 'package:dynamic_height_list_view/dynamic_height_view.dart';
+import 'package:flutter/widgets.dart';
+import 'package:gds_flutter/gds_flutter.dart';
+import 'package:pervice/pervice.dart';
+
+/// 피드 카드에 표시할 이미지, 제목, 작성자와 좋아요 정보.
+typedef SliverFeed = ({
+  String id,
+  String thumbnail,
+  String title,
+  String nickname,
+  int likeCount,
+  int viewCount,
+  bool isLike,
+});
+
+/// 인덱스에 해당하는 피드 데이터를 반환하는 빌더.
+typedef SliverFeedBuilder = SliverFeed Function(BuildContext context, int index);
+
+/// 피드 카드를 동적 높이의 그리드로 표시하는 슬리버 위젯.
+class SliverFeedGrid<T extends Service> extends StatelessWidget {
+  const new({
+    super.key,
+    required this.service,
+    required this.itemCount,
+    required this.itemBuilder,
+  });
+
+  final T service;
+  final int itemCount;
+  final SliverFeedBuilder itemBuilder;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverDynamicHeightGridView(
+      crossAxisCount: context.feedGridCrossAxisCount,
+      crossAxisSpacing: 16,
+      mainAxisSpacing: context.whenDevice(
+        mobile: 24,
+        tablet: 40,
+      ),
+      itemCount: itemCount,
+      builder: (context, index) {
+        final feed = itemBuilder(context, index);
+
+        return service.build(
+          child: GdsAlbum(
+            image: feed.thumbnail.responsiveImage,
+            title: feed.title,
+            nickname: feed.nickname,
+            likeCount: feed.likeCount.toInt(),
+            viewCount: feed.viewCount.toInt(),
+            like: feed.isLike,
+            onTap: () {}, // TODO
+            onLike: (_) {}, // TODO
+          ),
+        );
+      },
+    );
+  }
+}

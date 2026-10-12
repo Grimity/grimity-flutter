@@ -1,8 +1,8 @@
-import 'package:dynamic_height_list_view/dynamic_height_view.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/presentation/home/widgets/home_section.dart';
+import 'package:grimity/widgets/sliver_feed_grid.dart';
 
 /// 홈 화면에서 최신 그림을 앨범 카드 그리드로 표시하는 위젯.
 class HomeLatestFeeds extends StatelessWidget {
@@ -49,16 +49,21 @@ class HomeLatestFeeds extends StatelessWidget {
         title: '최신 그림',
         onMore: () {}, // TODO
       ),
-      child: SliverDynamicHeightGridView(
-        crossAxisCount: context.feedGridCrossAxisCount,
-        crossAxisSpacing: 16,
-        mainAxisSpacing: context.whenDevice(
-          mobile: 24,
-          tablet: 40,
-        ),
+      child: SliverFeedGrid(
+        service: service,
         itemCount: feeds.length,
-        builder: (context, index) {
-          return service.build(child: buildFeed(feeds[index]));
+        itemBuilder: (context, index) {
+          final feed = feeds[index];
+
+          return (
+            id: feed.id,
+            thumbnail: feed.thumbnail,
+            title: feed.title,
+            nickname: feed.author.name,
+            likeCount: feed.likeCount.toInt(),
+            viewCount: feed.viewCount.toInt(),
+            isLike: feed.isLike,
+          );
         },
       ),
     );

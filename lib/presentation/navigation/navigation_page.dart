@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
+import 'package:grimity/presentation/feed_rankins/pages/feed_rankings_page.dart';
 import 'package:grimity/presentation/home/pages/home_page.dart';
 import 'package:grimity/presentation/navigation/navigation_view.dart';
 import 'package:grimity/widgets/app_sidebar.dart';
@@ -14,15 +15,25 @@ class NavigationPage extends StatelessWidget {
   /// 하단 네비게이션의 각 탭에 대응하는 화면 목록.
   static const _views = <NavigationView>[
     HomePage(),
-    _Test(icon: .paint, label: '랭킹', action: true),
+    FeedRankingsPage(),
     _Test(icon: .following, label: '팔로잉', action: false),
     _Test(icon: .board, label: '자유게시판', action: true),
     _Test(icon: .message, label: 'DM', action: false),
   ];
 
+  /// 지정한 인덱스의 내비게이션 화면으로 이동합니다.
+  static void moveTo(BuildContext context, int newIndex) {
+    final index = context.sharedStateOf<int>(
+      () => throw StateError('내비게이션 페이지가 아직 빌드되지 않았습니다.'),
+      key: ValueKey(NavigationPage),
+    );
+
+    index.value = newIndex;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final index = context.stateOf(() => 0);
+    final index = context.sharedStateOf(() => 0, key: ValueKey(NavigationPage));
     assert(index.value < _views.length);
 
     // 현재 선택된 탭에 대응하는 화면.

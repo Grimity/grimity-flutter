@@ -239,7 +239,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_appbar:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_appbar
       sha256: "7baf0d0acef84f698bc1a9a5fb460f20b7677427b20abe8fd546a62b76d5efc5"
@@ -390,7 +390,7 @@ packages:
     description:
       path: "packages/gds_flutter"
       ref: HEAD
-      resolved-ref: "91825ce91e038088e6efb6e69d8e1e00b985c8d5"
+      resolved-ref: "8fed7e23431cf94f0194eed9624e5af5a923ec0c"
       url: "https://github.com/Grimity/gds-flutter.git"
     source: git
     version: "0.0.0"
