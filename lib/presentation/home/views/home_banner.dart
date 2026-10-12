@@ -5,8 +5,8 @@ import 'package:gds_flutter/gds_flutter.dart';
 class HomeBanner extends StatelessWidget {
   const new({super.key});
 
-  static const lgSize = Size(4380, 360);
-  static const smSize = Size(1372, 320);
+  static const _smSize = Size(1372, 320);
+  static const _lgSize = Size(4380, 360);
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +15,8 @@ class HomeBanner extends StatelessWidget {
         onTap: () {}, // TODO: 클릭하면 어딘가로 이동해야 함.
         child: AspectRatio(
           aspectRatio: context.whenDevice(
-            mobile: smSize.aspectRatio,
-            tablet: lgSize.aspectRatio,
+            mobile: _smSize.aspectRatio,
+            tablet: _lgSize.aspectRatio,
           ),
           child: ClipRRect(
             borderRadius: GdsRadius.md.geometry,
