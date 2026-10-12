@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 
 /// 앱의 플랫폼별 Firebase 초기화 설정을 제공합니다.
 class AppFirebase {
+  /// 현재 플랫폼에 해당하는 Firebase 설정을 반환합니다.
   static FirebaseOptions get options {
     if (Platform.isAndroid) return _android;
     if (Platform.isIOS) return _ios;

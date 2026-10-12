@@ -6,7 +6,10 @@ class AppSecureStorage {
 
   final String key;
 
+  /// 액세스 토큰을 저장하고 조회하는 항목.
   static final accessToken = AppSecureStorage._('access_token');
+
+  /// 리프레시 토큰을 저장하고 조회하는 항목.
   static final refreshToken = AppSecureStorage._('refresh_token');
 
   /// 보안 저장소 관련 플러그인.

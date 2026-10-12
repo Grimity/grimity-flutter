@@ -18,6 +18,7 @@ enum AppUserStatus {
 
 /// 소셜 로그인과 앱 토큰 저장, 현재 사용자 정보 조회를 처리합니다.
 abstract class AppUser {
+  /// 현재 사용자 상태를 관리하고 변경을 알리기 위해 사용됩니다.
   static final statusNotifier = ValueNotifier(AppUserStatus.none);
 
   /// 마지막으로 불러온 현재 사용자의 프로필.
