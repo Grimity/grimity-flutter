@@ -59,14 +59,14 @@ abstract class AppOAuth {
       return token.accessToken;
     } on KakaoClientException catch (error) {
       // 사용자가 카카오 로그인을 취소한 경우.
-      if (error.reason == ClientErrorCause.cancelled) {
+      if (error.reason == .cancelled) {
         return null;
       }
 
       rethrow;
     } on KakaoAuthException catch (error) {
       // 사용자가 동의 화면에서 로그인을 취소한 경우.
-      if (error.error == AuthErrorCause.accessDenied) {
+      if (error.error == .accessDenied) {
         return null;
       }
 
@@ -88,7 +88,7 @@ abstract class AppOAuth {
       return token;
     } on SignInWithAppleAuthorizationException catch (error) {
       // 사용자가 애플 로그인을 취소한 경우.
-      if (error.code == AuthorizationErrorCode.canceled) {
+      if (error.code == .canceled) {
         return null;
       }
 
