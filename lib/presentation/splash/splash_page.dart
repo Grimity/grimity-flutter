@@ -1,3 +1,5 @@
+// ignore_for_file: gds_lints/prefer_gds_image
+
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/app/app_user.dart';
@@ -8,30 +10,40 @@ import 'package:grimity/presentation/sign_in/pages/sign_in_page.dart';
 class SplashPage extends StatelessWidget {
   const new({super.key});
 
+  /// 네이티브와 Flutter 스플래시에서 공통으로 사용하는 로고 이미지.
+  static const logoImage = AssetImage('assets/images/splash_logo.png');
+
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
       listenable: AppUser.statusNotifier,
       builder: (context, child) {
-        return GdsTransition.crossFade(
-          animation: .slowest,
-          value: AppUser.status,
-          child: child!,
+        return GdsSplash(
+          builder: (context) {
+            // 초기화 전이거나 로딩 중인 경우 스플래시 화면 표시.
+            if (AppUser.status == .none || AppUser.status == .loading) {
+              return buildSplash();
+            }
+
+            // 로그아웃 상태인 경우 로그인 화면 표시.
+            if (AppUser.status == .unauth) {
+              return SignInPage();
+            }
+
+            // 로그인 상태인 경우 홈 화면 표시.
+            return NavigationPage();
+          },
         );
       },
-      child: Builder(
-        builder: (context) {
-          if (AppUser.status == .loading) {
-            // TODO: 임시 스플레시
-            return Center(child: GdsCircularLoading());
-          }
+    );
+  }
 
-          if (AppUser.status == .unauth) {
-            return SignInPage();
-          }
-
-          return NavigationPage();
-        },
+  /// 네이티브 스플래시와 배경색 및 로고 크기를 그대로 맞춘 로딩 화면을 생성합니다.
+  Widget buildSplash() {
+    return const ColoredBox(
+      color: Color(0xFF232332),
+      child: Center(
+        child: Image(image: logoImage, width: 288, height: 288),
       ),
     );
   }

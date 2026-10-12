@@ -7,9 +7,13 @@ import 'package:grimity/app/app_firebase.dart';
 import 'package:grimity/app/app_user.dart';
 import 'package:grimity/network/app_network.dart';
 import 'package:grimity/presentation/splash/splash_page.dart';
+import 'package:grimity/util/preload_image.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // 첫 화면에 표시할 스플래시 로고 이미지를 미리 불러오기.
+  await preloadImage(SplashPage.logoImage);
 
   // 파이어베이스 초기화.
   await Firebase.initializeApp(options: AppFirebase.options);

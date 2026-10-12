@@ -1,0 +1,11 @@
+flutter_native_splash:
+  color: "#232332"
+  image: assets/images/splash_logo.png
+  ios_content_mode: center
+  web: false
+
+  # Android 12 이상은 배경 이미지 대신 단색 배경과 중앙 아이콘만 지원.
+  # 동일 이미지를 사용하므로 전체 화면이 아닌 원형 아이콘 영역에 표시됩니다.
+  android_12:
+    color: "#232332"
+    image: assets/images/splash_logo.png
