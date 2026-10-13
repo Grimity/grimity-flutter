@@ -2,18 +2,18 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_appbar/flutter_appbar.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
-import 'package:grimity/presentation/feed_rankins/views/feed_rankings_monthly.dart';
-import 'package:grimity/presentation/feed_rankins/views/feed_rankings_tags.dart';
-import 'package:grimity/presentation/feed_rankins/views/feed_rankings_users.dart';
-import 'package:grimity/presentation/feed_rankins/views/feed_rankings_weekly.dart';
-import 'package:grimity/presentation/feed_rankins/widgets/feed_rankings_header.dart';
-import 'package:grimity/presentation/feed_rankins/widgets/feed_rankings_tab_bar.dart';
+import 'package:grimity/presentation/ranking_feed/views/ranking_feed_monthly.dart';
+import 'package:grimity/presentation/ranking_feed/views/ranking_feed_tags.dart';
+import 'package:grimity/presentation/ranking_feed/views/ranking_feed_users.dart';
+import 'package:grimity/presentation/ranking_feed/views/ranking_feed_weekly.dart';
+import 'package:grimity/presentation/ranking_feed/widgets/feed_rankings_header.dart';
+import 'package:grimity/presentation/ranking_feed/widgets/feed_rankings_tab_bar.dart';
 import 'package:grimity/presentation/navigation/navigation_view.dart';
 import 'package:grimity/widgets/sliver_scroll_view.dart';
 import 'package:pervice/pervice.dart';
 
 /// 인기 작가와 태그, 주간 혹은 월간 인기 그림 등의 랭킹을 표시하는 페이지.
-class FeedRankingsPage extends StatelessWidget with NavigationView {
+class RankingFeedPage extends StatelessWidget with NavigationView {
   const new({super.key});
 
   @override
@@ -78,16 +78,16 @@ class FeedRankingsPage extends StatelessWidget with NavigationView {
             slivers: [
               // 월간 혹은 주간 표시
               if (tabController.index == 0) ...[
-                FeedRankingsWeekly(),
+                RankingFeedWeekly(),
               ] else ...[
-                FeedRankingsMonthly(),
+                RankingFeedMonthly(),
               ],
 
               // 인기 작가 표시
-              FeedRankingsUsers(),
+              RankingFeedUsers(),
 
               // 인기 태그 표시
-              FeedRankingsTags(),
+              RankingFeedTags(),
             ],
           );
         },

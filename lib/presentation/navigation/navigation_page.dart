@@ -1,9 +1,9 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
-import 'package:grimity/presentation/feed_rankins/pages/feed_rankings_page.dart';
 import 'package:grimity/presentation/home/pages/home_page.dart';
 import 'package:grimity/presentation/navigation/navigation_view.dart';
+import 'package:grimity/presentation/ranking_feed/pages/ranking_feed_page.dart';
 import 'package:grimity/widgets/app_sidebar.dart';
 import 'package:grimity/widgets/app_top_navigation.dart';
 import 'package:pervice/pervice.dart';
@@ -15,7 +15,7 @@ class NavigationPage extends StatelessWidget {
   /// 하단 네비게이션의 각 탭에 대응하는 화면 목록.
   static const _views = <NavigationView>[
     HomePage(),
-    FeedRankingsPage(),
+    RankingFeedPage(),
     _Test(icon: .following, label: '팔로잉', action: false),
     _Test(icon: .board, label: '자유게시판', action: true),
     _Test(icon: .message, label: 'DM', action: false),

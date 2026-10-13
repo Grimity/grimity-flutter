@@ -2,14 +2,14 @@ import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/extensions/date_time_extension.dart';
-import 'package:grimity/presentation/feed_rankins/pages/feed_rankings_page.dart';
-import 'package:grimity/presentation/feed_rankins/widgets/feed_rankings_period.dart';
+import 'package:grimity/presentation/ranking_feed/pages/ranking_feed_page.dart';
+import 'package:grimity/presentation/ranking_feed/widgets/feed_rankings_period.dart';
 import 'package:grimity/widgets/sliver_column.dart';
 import 'package:grimity/widgets/sliver_feed_grid.dart';
 import 'package:pervice/pervice.dart';
 
 /// 주간 인기 그림과 조회 기간을 표시하고 이전과 다음 주로 이동할 수 있는 화면.
-class FeedRankingsWeekly extends StatelessWidget {
+class RankingFeedWeekly extends StatelessWidget {
   const new({super.key});
 
   @override
@@ -32,7 +32,7 @@ class FeedRankingsWeekly extends StatelessWidget {
       key: ValueKey((startDate.value, endDate.value)),
     );
 
-    final feeds = service.maybeData?.feeds ?? FeedRankingsPage.placeholder.feeds;
+    final feeds = service.maybeData?.feeds ?? RankingFeedPage.placeholder.feeds;
 
     // 조회 기간의 시작일과 종료일을 표시할 문자열로 변환.
     final startDateLabel = startDate.value.dateLabel;
@@ -61,7 +61,7 @@ class FeedRankingsWeekly extends StatelessWidget {
           canNext: !endDate.value.isToday,
 
           // 출시일 이후인지 여부.
-          canPrevious: startDate.value.isAfter(FeedRankingsPage.releaseDate),
+          canPrevious: startDate.value.isAfter(RankingFeedPage.releaseDate),
 
           // yyyy.MM.dd - yyyy.MM.dd 혹은 오늘.
           child: GdsText(

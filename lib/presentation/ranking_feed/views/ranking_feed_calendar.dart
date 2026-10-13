@@ -1,10 +1,10 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
-import 'package:grimity/presentation/feed_rankins/pages/feed_rankings_page.dart';
+import 'package:grimity/presentation/ranking_feed/pages/ranking_feed_page.dart';
 import 'package:pervice/pervice.dart';
 
 /// 연도별 월 선택 카드를 표시하는 인기 그림 조회 기간 선택 위젯.
-class FeedRankingsCalendar extends StatelessWidget {
+class RankingFeedCalendar extends StatelessWidget {
   const new({
     super.key,
     required this.initialDate,
@@ -19,8 +19,8 @@ class FeedRankingsCalendar extends StatelessWidget {
     final year = context.stateOf(() => initialDate.year);
     final now = DateTime.now();
     final nowMonth = DateTime(now.year, now.month);
-    final releaseDate = FeedRankingsPage.releaseDate;
-    final releaseMonth = FeedRankingsPage.releaseMonth;
+    final releaseDate = RankingFeedPage.releaseDate;
+    final releaseMonth = RankingFeedPage.releaseMonth;
 
     return Column(
       mainAxisSize: .min,
@@ -85,7 +85,7 @@ class FeedRankingsCalendar extends StatelessWidget {
   static Future<DateTime?> show(BuildContext context, DateTime initialDate) {
     final bottomSheet = GdsBottomSheet(
       onBack: context.pop,
-      child: FeedRankingsCalendar(
+      child: RankingFeedCalendar(
         initialDate: initialDate,
         onChanged: context.pop,
       ),
