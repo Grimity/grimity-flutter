@@ -13,7 +13,10 @@ class SliverRow extends StatelessWidget {
   final List<Widget> children;
 
   /// 각 항목 사이에 [spacing]만큼의 가로 간격을 추가하는 슬리버.
-  Widget get gap => SliverToBoxAdapter(child: spacing.horizontalGap);
+  Widget get gap => SliverConstrainedCrossAxis(
+    maxExtent: spacing,
+    sliver: const SliverToBoxAdapter(),
+  );
 
   @override
   Widget build(BuildContext context) {
