@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gds_flutter/components/common/gds_disabled.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
-import 'package:grimity/presentation/sign_up/sign_up_view.dart';
+import 'package:grimity/presentation/sign_up/views/sign_up_view.dart';
 import 'package:grimity/presentation/sign_up/views/sign_up_nickname_view.dart';
 import 'package:grimity/widgets/sliver_scroll_view.dart';
 import 'package:pervice/pervice.dart';

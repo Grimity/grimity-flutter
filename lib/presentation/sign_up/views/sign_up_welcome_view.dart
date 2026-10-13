@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
-import 'package:grimity/presentation/sign_up/sign_up_view.dart';
+import 'package:grimity/presentation/sign_up/views/sign_up_view.dart';
 
 /// 회원가입 완료를 안내하고 환영하는 화면.
 class SignUpWelcomeView extends SignUpView {

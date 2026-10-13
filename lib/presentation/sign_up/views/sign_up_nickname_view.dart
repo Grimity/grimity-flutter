@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
-import 'package:grimity/presentation/sign_up/sign_up_view.dart';
+import 'package:grimity/presentation/sign_up/views/sign_up_view.dart';
 import 'package:grimity/presentation/sign_up/views/sign_up_url_view.dart';
 import 'package:grimity/presentation/sign_up/widgets/sign_up_terms_agreement.dart';
 import 'package:pervice/pervice.dart';

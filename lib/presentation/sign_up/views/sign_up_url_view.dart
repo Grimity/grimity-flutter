@@ -2,8 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/app/app_user.dart';
-import 'package:grimity/presentation/sign_up/sign_up_page.dart';
-import 'package:grimity/presentation/sign_up/sign_up_view.dart';
+import 'package:grimity/presentation/sign_up/pages/sign_up_page.dart';
+import 'package:grimity/presentation/sign_up/views/sign_up_view.dart';
 import 'package:grimity/presentation/sign_up/views/sign_up_welcome_view.dart';
 import 'package:pervice/pervice.dart';
 

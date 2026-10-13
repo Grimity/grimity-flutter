@@ -7,7 +7,7 @@ import 'package:grimity/app/app_oauth.dart';
 import 'package:grimity/app/app_user.dart';
 import 'package:grimity/presentation/sign_in/widgets/sign_in_body.dart';
 import 'package:grimity/presentation/sign_in/widgets/sign_in_gradient.dart';
-import 'package:grimity/presentation/sign_up/sign_up_page.dart';
+import 'package:grimity/presentation/sign_up/pages/sign_up_page.dart';
 
 /// 콜라주 배경과 함께 소셜 로그인을 안내하는 진입 화면.
 class SignInPage extends StatefulWidget {
