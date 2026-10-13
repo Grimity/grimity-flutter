@@ -2,18 +2,18 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_appbar/flutter_appbar.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
-import 'package:grimity/presentation/ranking_feed/views/ranking_feed_monthly.dart';
-import 'package:grimity/presentation/ranking_feed/views/ranking_feed_tags.dart';
-import 'package:grimity/presentation/ranking_feed/views/ranking_feed_users.dart';
-import 'package:grimity/presentation/ranking_feed/views/ranking_feed_weekly.dart';
-import 'package:grimity/presentation/ranking_feed/widgets/feed_rankings_header.dart';
-import 'package:grimity/presentation/ranking_feed/widgets/feed_rankings_tab_bar.dart';
+import 'package:grimity/presentation/feed_ranking/views/feed_ranking_monthly.dart';
+import 'package:grimity/presentation/feed_ranking/views/feed_ranking_tags.dart';
+import 'package:grimity/presentation/feed_ranking/views/feed_ranking_users.dart';
+import 'package:grimity/presentation/feed_ranking/views/feed_ranking_weekly.dart';
+import 'package:grimity/presentation/feed_ranking/widgets/feed_ranking_header.dart';
+import 'package:grimity/presentation/feed_ranking/widgets/feed_ranking_tab_bar.dart';
 import 'package:grimity/presentation/navigation/navigation_view.dart';
 import 'package:grimity/widgets/sliver_scroll_view.dart';
 import 'package:pervice/pervice.dart';
 
 /// 인기 작가와 태그, 주간 혹은 월간 인기 그림 등의 랭킹을 표시하는 페이지.
-class RankingFeedPage extends StatelessWidget with NavigationView {
+class FeedRankingPage extends StatelessWidget with NavigationView {
   const new({super.key});
 
   @override
@@ -55,12 +55,12 @@ class RankingFeedPage extends StatelessWidget with NavigationView {
         // 헤더 표시
         .new(
           behavior: const MaterialAppBarBehavior(),
-          body: const FeedRankingsHeader(),
+          body: const FeedRankingHeader(),
         ),
         // 탭바 표시
         .new(
           behavior: const AbsoluteAppBarBehavior(),
-          body: FeedRankingsTabBar(controller: tabController),
+          body: FeedRankingTabBar(controller: tabController),
         ),
       ],
       child: ListenableBuilder(
@@ -78,16 +78,16 @@ class RankingFeedPage extends StatelessWidget with NavigationView {
             slivers: [
               // 월간 혹은 주간 표시
               if (tabController.index == 0) ...[
-                RankingFeedWeekly(),
+                FeedRankingWeekly(),
               ] else ...[
-                RankingFeedMonthly(),
+                FeedRankingMonthly(),
               ],
 
               // 인기 작가 표시
-              RankingFeedUsers(),
+              FeedRankingUsers(),
 
               // 인기 태그 표시
-              RankingFeedTags(),
+              FeedRankingTags(),
             ],
           );
         },

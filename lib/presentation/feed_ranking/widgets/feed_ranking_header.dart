@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 
 /// 인기 그림 랭킹 화면의 상단 헤더를 표시하는 위젯.
-class FeedRankingsHeader extends StatelessWidget {
+class FeedRankingHeader extends StatelessWidget {
   const new({super.key});
 
   @override

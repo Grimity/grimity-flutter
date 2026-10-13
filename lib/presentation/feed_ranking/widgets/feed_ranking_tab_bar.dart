@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 
 /// 주간과 월간 인기 그림 랭킹을 전환하는 탭 바 위젯.
-class FeedRankingsTabBar extends StatelessWidget {
+class FeedRankingTabBar extends StatelessWidget {
   const new({
     super.key,
     required this.controller,

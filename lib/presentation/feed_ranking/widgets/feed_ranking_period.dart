@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 
 /// 인기 그림 조회 기간과 이전과 다음 기간 이동 버튼을 표시하는 위젯.
-class FeedRankingsPeriod extends StatelessWidget {
+class FeedRankingPeriod extends StatelessWidget {
   const new({
     super.key,
     required this.onNext,

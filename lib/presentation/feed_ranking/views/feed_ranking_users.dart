@@ -2,11 +2,11 @@ import 'package:flexible_horizontal_list_view/flexible_horizontal_list_view.dart
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
-import 'package:grimity/presentation/ranking_feed/widgets/feed_rankings_section.dart';
+import 'package:grimity/presentation/feed_ranking/widgets/feed_ranking_section.dart';
 import 'package:pervice/pervice.dart';
 
 /// 인기 작가 정보를 가로 카드 목록으로 표시하는 위젯.
-class RankingFeedUsers extends StatelessWidget {
+class FeedRankingUsers extends StatelessWidget {
   const new({super.key});
 
   /// 인기 작가를 불러오는 동안 표시할 임시 데이터.
@@ -28,7 +28,7 @@ class RankingFeedUsers extends StatelessWidget {
   Widget build(BuildContext context) {
     final service = context.serviceOf(GetUsersPopular.new);
 
-    return FeedRankingsSection(
+    return FeedRankingSection(
       title: '인기 작가',
       child: service.builder(
         placeholder: placeholder,

@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 
 /// 인기 그림 랭킹 화면의 섹션 제목과 콘텐츠를 표시하는 위젯.
-class FeedRankingsSection extends StatelessWidget {
+class FeedRankingSection extends StatelessWidget {
   const new({
     super.key,
     required this.title,
