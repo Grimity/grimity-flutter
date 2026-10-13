@@ -14,7 +14,7 @@ abstract class AppTopNavigation {
           onNotification: () {}, // TODO
           onProfile: context.openDrawer,
           profile: profile.image?.responsiveImage,
-          hasNotification: false,
+          hasNotification: profile.hasNotification,
         );
       },
     );
