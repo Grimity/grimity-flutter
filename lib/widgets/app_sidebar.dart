@@ -23,7 +23,7 @@ class AppSidebar extends StatelessWidget {
       onHandle: () {}, // TODO
       onFollower: () {}, // TODO
       onFollowing: () {}, // TODO
-      onSignOut: () {}, // TODO
+      onSignOut: AppUser.signOut,
       onTermsOfService: () {}, // TODO
       onPrivacyPolicy: () {}, // TODO
       onBusinessInfo: () {}, // TODO

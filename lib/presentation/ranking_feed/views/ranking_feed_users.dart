@@ -43,16 +43,18 @@ class RankingFeedUsers extends StatelessWidget {
             itemBuilder: (context, index) {
               final user = data[index];
 
-              return GdsUser.normal(
-                followerCount: user.followerCount.toInt(),
-                followingCount: 0,
-                nickname: user.name,
-                profile: user.image?.responsiveImage,
-                thumbnails: user.thumbnails.builder((e) => e.responsiveImage),
-                following: user.isFollowing,
-                onTap: () {}, // TODO
-                onFollow: () {}, // TODO
-                onUnFollow: () {}, // TODO
+              return service.build(
+                child: GdsUser.normal(
+                  followerCount: user.followerCount.toInt(),
+                  followingCount: 0,
+                  nickname: user.name,
+                  profile: user.image?.responsiveImage,
+                  thumbnails: user.thumbnails.builder((e) => e.responsiveImage),
+                  following: user.isFollowing,
+                  onTap: () {}, // TODO
+                  onFollow: () {}, // TODO
+                  onUnFollow: () {}, // TODO
+                ),
               );
             },
           );

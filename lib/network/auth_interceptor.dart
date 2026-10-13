@@ -26,8 +26,10 @@ class AuthInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     if (!_publicPaths.contains(options.uri.path)) {
-      // 갱신 요청은 리프레시 토큰, 나머지는 액세스 토큰으로 인증.
-      final token = options.uri.path == '/auth/refresh'
+      // 갱신 혹은 로그아웃 요청은 리프레시 토큰, 나머지는 액세스 토큰으로 인증.
+      final usesRefreshToken = options.uri.path == '/auth/refresh' || options.uri.path == '/auth/logout';
+
+      final token = usesRefreshToken
           ? await AppSecureStorage.refreshToken.get()
           : await AppSecureStorage.accessToken.get();
 

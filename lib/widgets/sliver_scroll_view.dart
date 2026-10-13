@@ -5,29 +5,44 @@ import 'package:grimity/widgets/sliver_column.dart';
 class SliverScrollView extends StatelessWidget {
   const new({
     super.key,
+    this.maxWidth = 0,
     this.spacing = 0,
     this.padding,
     required this.slivers,
-  });
+  }) : assert(maxWidth >= 0),
+       assert(spacing >= 0);
 
+  final double maxWidth;
   final double spacing;
   final EdgeInsets? padding;
   final List<Widget> slivers;
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      // 대용량 이미지로 인한 성능 이슈로 0 픽셀로 조정.
-      scrollCacheExtent: .pixels(0),
-      slivers: [
-        SliverPadding(
-          padding: padding ?? .zero,
-          sliver: SliverColumn(
-            spacing: spacing,
-            children: slivers,
-          ),
-        ),
-      ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        var padding = this.padding ?? .zero;
+
+        // 최대 너비가 지정된 경우 너비 제한 및 중앙 정렬.
+        if (maxWidth > 0) {
+          final inset = ((constraints.maxWidth - padding.horizontal - maxWidth) / 2).clamp(0.0, double.infinity);
+          padding += .symmetric(horizontal: inset);
+        }
+
+        return CustomScrollView(
+          // 대용량 이미지로 인한 성능 이슈로 0 픽셀로 조정.
+          scrollCacheExtent: .pixels(0),
+          slivers: [
+            SliverPadding(
+              padding: padding,
+              sliver: SliverColumn(
+                spacing: spacing,
+                children: slivers,
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

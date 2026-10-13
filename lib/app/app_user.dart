@@ -100,8 +100,9 @@ abstract class AppUser {
 
   /// 기기 종류와 모델명을 전달해 서버에 로그아웃을 요청합니다.
   /// 이후 저장된 토큰과 프로필을 삭제합니다.
-  static Future<void> signOut(GdsDevice device) async {
+  static Future<void> signOut() async {
     final info = await AppDevice.info;
+    final device = GdsDevice.current;
     final service = PostAuthLogout(
       grimityAppDevice: device.name,
       grimityAppModel: info.model,
