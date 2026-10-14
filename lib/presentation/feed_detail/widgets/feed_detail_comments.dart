@@ -1,0 +1,131 @@
+import 'package:flutter/widgets.dart';
+import 'package:gds_flutter/gds_flutter.dart';
+import 'package:grimity/api/api.dart';
+import 'package:grimity/extensions/bool_extension.dart';
+import 'package:grimity/presentation/feed_detail/widgets/feed_detail_input_bar.dart';
+import 'package:grimity/widgets/sliver_comment_list.dart';
+import 'package:pervice/pervice.dart';
+
+/// 피드의 댓글과 대댓글을 작성 순서대로 표시하는 위젯.
+class FeedDetailComments extends StatelessWidget {
+  const new({
+    super.key,
+    required this.id,
+    required this.authorId,
+    required this.service,
+  });
+
+  final String id;
+  final String authorId;
+  final GetFeedComments service;
+
+  /// 댓글 목록을 불러오는 동안 표시할 임시 데이터.
+  static final placeholder = List.generate(
+    3,
+    (index) => ParentFeedCommentResponse(
+      id: 'placeholder-$index',
+      content: 'Placeholder',
+      createdAt: .now(),
+      likeCount: 0,
+      writer: .new(id: '_', name: 'Placeholder', url: ''),
+      childComments: [],
+      isLike: false,
+    ),
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    final comments = service.maybeData ?? placeholder;
+
+    // SHARED STATE
+    final mention = context.sharedStateOf<FeedMention?>(
+      () => null,
+      key: ValueKey('feed-$id:mention'),
+    );
+
+    final focusNode = context.sharedStateOf(
+      FocusNode.new,
+      key: ValueKey('feed-$id:focus-node'),
+    );
+
+    // 보여줄 댓글이 아예 없는 경우.
+    if (comments.isEmpty) {
+      return SliverToBoxAdapter(
+        child: GdsEmptyState(
+          illust: .illustReply,
+          title: '아직 댓글이 없어요',
+          description: '댓글을 써서 생각을 나눠보세요!',
+        ),
+      );
+    }
+
+    // API 응답을 공통 댓글 항목으로 변환.
+    final items = <SliverComment>[
+      // 본문 댓글 목록
+      for (final parent in comments) ...[
+        (
+          id: parent.id,
+          nickname: parent.writer.name,
+          content: parent.content,
+          createdAt: parent.createdAt,
+          likeCount: parent.likeCount.toInt(),
+          isLike: parent.isLike,
+          isWriter: parent.writer.id == authorId,
+          isReply: false,
+          isDeleted: false, // TODO
+          mention: null,
+          profile: parent.writer.image?.toImage(),
+          onReply: () {
+            mention.value = (
+              userName: parent.writer.name,
+              userId: parent.writer.id,
+              parentCommentId: parent.id,
+            );
+
+            focusNode.value.requestFocus();
+          },
+          onMenu: () {},
+          onLike: (value) => onLike(parent.id, value),
+        ),
+
+        // 하위 댓글 목록
+        for (final reply in parent.childComments)
+          (
+            id: reply.id,
+            nickname: reply.writer.name,
+            content: reply.content,
+            createdAt: reply.createdAt,
+            likeCount: reply.likeCount.toInt(),
+            isLike: reply.isLike,
+            isWriter: reply.writer.id == authorId,
+            isReply: true,
+            isDeleted: false, // TODO
+            mention: reply.mentionedUser?.name ?? parent.writer.name,
+            profile: reply.writer.image?.toImage(),
+            onReply: () {
+              mention.value = (
+                userName: reply.writer.name,
+                userId: reply.writer.id,
+                parentCommentId: parent.id,
+              );
+
+              focusNode.value.requestFocus();
+            },
+            onMenu: () {},
+            onLike: (value) => onLike(reply.id, value),
+          ),
+      ],
+    ];
+
+    return SliverCommentList(
+      service: service,
+      itemCount: items.length,
+      itemBuilder: (_, index) => items[index],
+    );
+  }
+
+  /// 댓글의 좋아요 상태를 서버에 반영합니다.
+  Future<void> onLike(String commentId, bool value) {
+    return value.feedCommentLikeServiceOf(commentId).request();
+  }
+}

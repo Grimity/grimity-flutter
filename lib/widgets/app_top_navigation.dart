@@ -13,7 +13,25 @@ abstract class AppTopNavigation {
           onSearch: () {}, // TODO
           onNotification: () {}, // TODO
           onProfile: context.openDrawer,
-          profile: profile.image?.responsiveImage,
+          profile: profile.image?.toImage(),
+          hasNotification: profile.hasNotification,
+        );
+      },
+    );
+  }
+
+  /// 제목, 검색, 알림 아이콘과 프로필 이미지를 표시하는 상단 내비게이션 위젯.
+  static Widget title({Key? key, String? title}) {
+    return Builder(
+      builder: (context) {
+        return GdsTopNavigation.title(
+          key: key,
+          onBack: context.pop,
+          onSearch: () {}, // TODO
+          onNotification: () {}, // TODO
+          onProfile: context.openDrawer,
+          title: title,
+          profile: profile.image?.toImage(),
           hasNotification: profile.hasNotification,
         );
       },

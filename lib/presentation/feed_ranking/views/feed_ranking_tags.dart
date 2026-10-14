@@ -1,5 +1,6 @@
 import 'package:flexible_horizontal_list_view/flexible_horizontal_list_view.dart';
 import 'package:flutter/widgets.dart';
+import 'package:gap/gap.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/presentation/feed_ranking/widgets/feed_ranking_section.dart';
@@ -29,7 +30,7 @@ class FeedRankingTags extends StatelessWidget {
           return HorizontalListView.separated(
             clipBehavior: .none,
             itemCount: data.length,
-            separatorBuilder: (_, _) => 16.horizontalGap,
+            separatorBuilder: (_, _) => const Gap(16),
 
             // 대용량 이미지로 인한 성능 이슈로 0 픽셀로 조정.
             cacheExtent: 0,
@@ -38,7 +39,7 @@ class FeedRankingTags extends StatelessWidget {
 
               return GdsUser.tagView(
                 content: tag.tagName,
-                thumbnail: tag.thumbnail.responsiveImage,
+                thumbnail: tag.thumbnail.toImage(),
               );
             },
           );

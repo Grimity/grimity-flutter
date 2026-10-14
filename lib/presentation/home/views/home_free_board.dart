@@ -62,7 +62,7 @@ class HomeFreeBoard extends StatelessWidget {
     return GdsUserItem.post(
       type: post.type.key,
       title: post.title,
-      image: post.thumbnail?.responsiveImage,
+      image: post.thumbnail?.toImage(),
       createdAt: post.createdAt,
       viewCount: post.viewCount.toInt(),
       commentCount: post.commentCount.toInt(),

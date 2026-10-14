@@ -44,8 +44,8 @@ class FollowingUsers extends StatelessWidget {
               followerCount: user.followerCount.toInt(),
               followingCount: 0,
               nickname: user.name,
-              profile: user.image?.responsiveImage,
-              thumbnails: user.thumbnails.builder((e) => e.responsiveImage),
+              profile: user.image?.toImage(),
+              thumbnails: user.thumbnails.toImages(),
               following: user.isFollowing,
               onTap: () {}, // TODO
               onFollow: () {}, // TODO

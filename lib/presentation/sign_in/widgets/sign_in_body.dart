@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/presentation/sign_in/widgets/sign_in_button.dart';
 
@@ -39,11 +40,11 @@ class SignInBody extends StatelessWidget {
               tablet: .title1,
             ),
           ),
-          8.verticalGap,
+          const Gap(8),
 
           // 부제목 표시
           GdsText(subTitle, color: .textWhite, style: .body1R),
-          40.verticalGap,
+          const Gap(40),
 
           // 로그인 버튼 표시
           Column(

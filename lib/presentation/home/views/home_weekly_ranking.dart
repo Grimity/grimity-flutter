@@ -1,10 +1,15 @@
+import 'package:dio/dio.dart';
 import 'package:flexible_horizontal_list_view/flexible_horizontal_list_view.dart';
 import 'package:flutter/widgets.dart';
+import 'package:gap/gap.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
+import 'package:grimity/extensions/bool_extension.dart';
 import 'package:grimity/extensions/date_time_extension.dart';
+import 'package:grimity/presentation/feed_detail/pages/feed_detail_page.dart';
 import 'package:grimity/presentation/home/widgets/home_section.dart';
 import 'package:grimity/presentation/navigation/navigation_page.dart';
+import 'package:pervice/pervice.dart';
 
 /// 홈 화면에서 주간 랭킹 피드를 가로 형태의 앨범 카드 목록을 표시하는 위젯.
 class HomeWeeklyRanking extends StatelessWidget {
@@ -68,7 +73,7 @@ class HomeWeeklyRanking extends StatelessWidget {
 
                 return HorizontalListView.separated(
                   itemCount: feeds.length,
-                  separatorBuilder: (context, index) => spacing.horizontalGap,
+                  separatorBuilder: (context, index) => Gap(spacing),
                   clipBehavior: .none,
 
                   // 대용량 이미지로 인한 성능 이슈로 0 픽셀로 조정.
@@ -76,7 +81,7 @@ class HomeWeeklyRanking extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return SizedBox(
                       width: width,
-                      child: buildFeed(index, feeds[index]),
+                      child: buildFeed(context, index, feeds[index]),
                     );
                   },
                 );
@@ -89,17 +94,51 @@ class HomeWeeklyRanking extends StatelessWidget {
   }
 
   /// 주간 랭킹의 각 피드를 앨범 카드로 표시하는 빌더.
-  Widget buildFeed(int index, FeedRankingResponse feed) {
+  Widget buildFeed(BuildContext context, int index, FeedRankingResponse feed) {
+    final isLike = context.sharedStateOf(
+      () => feed.isLike,
+      key: ValueKey('feed-${feed.id}:is-like'),
+    );
+
+    final likeCount = context.sharedStateOf(
+      () => feed.likeCount.toInt(),
+      key: ValueKey('feed-${feed.id}:like-count'),
+    );
+
+    final viewCount = context.sharedStateOf(
+      () => feed.viewCount.toInt(),
+      key: ValueKey('feed-${feed.id}:view-count'),
+    );
+
     return GdsAlbum(
       rank: index + 1,
-      image: feed.thumbnail.responsiveImage,
+      image: feed.thumbnail.toImage(),
       title: feed.title,
       nickname: feed.author.name,
-      likeCount: feed.likeCount.toInt(),
-      viewCount: feed.viewCount.toInt(),
-      like: feed.isLike,
-      onTap: () {}, // TODO
-      onLike: (_) {}, // TODO
+      likeCount: likeCount.value,
+      viewCount: viewCount.value,
+      like: isLike.value,
+      onTap: () {
+        // 피드 상세 페이지로 이동.
+        context.push(FeedDetailPage(id: feed.id));
+      },
+      onLike: (value) async {
+        try {
+          // 요청 전에 좋아요 상태를 화면에 반영.
+          isLike.value = value;
+          likeCount.value += value ? 1 : -1;
+
+          await value.feedLikeServiceOf(feed.id).request();
+        } on DioException catch (_) {
+          // 요청 실패 시 이전 상태로 복구.
+          isLike.value = !value;
+          likeCount.value += value ? -1 : 1;
+
+          if (context.mounted) {
+            GdsToast.show(context, '좋아요 변경에 실패했어요.', status: .negative);
+          }
+        }
+      },
     );
   }
 }

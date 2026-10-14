@@ -68,18 +68,4 @@ class HomeLatestFeeds extends StatelessWidget {
       ),
     );
   }
-
-  /// 각 피드를 앨범 카드로 표시하는 빌더.
-  Widget buildFeed(LatestFeedResponse feed) {
-    return GdsAlbum(
-      image: feed.thumbnail.responsiveImage,
-      title: feed.title,
-      nickname: feed.author.name,
-      likeCount: feed.likeCount.toInt(),
-      viewCount: feed.viewCount.toInt(),
-      like: feed.isLike,
-      onTap: () {}, // TODO
-      onLike: (_) {}, // TODO
-    );
-  }
 }

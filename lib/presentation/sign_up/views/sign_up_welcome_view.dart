@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:gap/gap.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/presentation/sign_up/views/sign_up_view.dart';
 
@@ -32,7 +33,7 @@ class SignUpWelcomeView extends SignUpView {
           children: [
             // 일러스트 표시
             GdsIcon.uploadSuccess.build(size: 120),
-            24.verticalGap,
+            const Gap(24),
 
             // 제목 표시
             GdsText(
@@ -43,7 +44,7 @@ class SignUpWelcomeView extends SignUpView {
                 tablet: .title1,
               ),
             ),
-            12.verticalGap,
+            const Gap(12),
 
             // 부제목 표시
             GdsText(

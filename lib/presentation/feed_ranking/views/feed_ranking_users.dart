@@ -1,5 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:flexible_horizontal_list_view/flexible_horizontal_list_view.dart';
 import 'package:flutter/widgets.dart';
+import 'package:gap/gap.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/presentation/feed_ranking/widgets/feed_ranking_section.dart';
@@ -32,34 +34,82 @@ class FeedRankingUsers extends StatelessWidget {
       title: '인기 작가',
       child: service.builder(
         placeholder: placeholder,
-        builder: (data) {
+        builder: (users) {
           return HorizontalListView.separated(
             clipBehavior: .none,
-            itemCount: data.length,
-            separatorBuilder: (_, _) => 16.horizontalGap,
+            itemCount: users.length,
+            separatorBuilder: (_, _) => const Gap(16),
 
             // 대용량 이미지로 인한 성능 이슈로 0 픽셀로 조정.
             cacheExtent: 0,
             itemBuilder: (context, index) {
-              final user = data[index];
+              final user = users[index];
 
               return service.build(
-                child: GdsUser.normal(
-                  followerCount: user.followerCount.toInt(),
-                  followingCount: 0,
-                  nickname: user.name,
-                  profile: user.image?.responsiveImage,
-                  thumbnails: user.thumbnails.builder((e) => e.responsiveImage),
-                  following: user.isFollowing,
-                  onTap: () {}, // TODO
-                  onFollow: () {}, // TODO
-                  onUnFollow: () {}, // TODO
-                ),
+                child: buildItem(context, user),
               );
             },
           );
         },
       ),
+    );
+  }
+
+  /// 인기 사용자 정보를 팔로우 상태와 함께 표시합니다.
+  Widget buildItem(BuildContext context, PopularUserResponse user) {
+    // SHARED STATE
+    final followerCount = context.sharedStateOf(
+      () => user.followerCount.toInt(),
+      key: ValueKey('feed-${user.id}:follower-count'),
+    );
+
+    final isFollowing = context.sharedStateOf(
+      () => user.isFollowing,
+      key: ValueKey('feed-${user.id}:is-following'),
+    );
+
+    return GdsUser.normal(
+      followerCount: followerCount.value,
+      followingCount: 0,
+      nickname: user.name,
+      profile: user.image?.toImage(),
+      thumbnails: user.thumbnails.toImages(),
+      following: isFollowing.value,
+      onTap: () {}, // TODO
+      onFollow: () async {
+        try {
+          // 요청 전에 팔로우 상태를 화면에 반영.
+          isFollowing.value = true;
+          followerCount.value += 1;
+
+          await PutUsersByIdFollow(id: user.id).request();
+        } on DioException {
+          // 요청 실패 시 이전 상태로 복구.
+          isFollowing.value = false;
+          followerCount.value -= 1;
+
+          if (context.mounted) {
+            GdsToast.show(context, '팔로우 반영에 실패했어요', status: .negative);
+          }
+        }
+      },
+      onUnFollow: () async {
+        try {
+          // 요청 전에 팔로우 상태를 화면에 반영.
+          isFollowing.value = false;
+          followerCount.value -= 1;
+
+          await DeleteUsersByIdFollow(id: user.id).request();
+        } on DioException {
+          // 요청 실패 시 이전 상태로 복구.
+          isFollowing.value = true;
+          followerCount.value += 1;
+
+          if (context.mounted) {
+            GdsToast.show(context, '언팔로우 반영에 실패했어요', status: .negative);
+          }
+        }
+      },
     );
   }
 }

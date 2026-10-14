@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:gap/gap.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 
 /// 여러 슬리버를 세로로 배치하여 하나의 그룹으로 묶는 위젯.
@@ -13,7 +14,7 @@ class SliverColumn extends StatelessWidget {
   final List<Widget> children;
 
   /// 각 항목 사이에 [spacing]만큼의 세로 간격을 추가하는 슬리버.
-  Widget get gap => SliverToBoxAdapter(child: spacing.verticalGap);
+  Widget get gap => SliverGap(spacing);
 
   @override
   Widget build(BuildContext context) {

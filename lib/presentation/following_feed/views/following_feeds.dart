@@ -1,9 +1,14 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
+import 'package:gap/gap.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
+import 'package:grimity/extensions/bool_extension.dart';
+import 'package:grimity/presentation/feed_detail/pages/feed_detail_page.dart';
 import 'package:grimity/presentation/following_feed/widgets/following_feed_carousel.dart';
 import 'package:grimity/presentation/following_feed/widgets/following_feed_comment.dart';
 import 'package:grimity/presentation/navigation/navigation_page.dart';
+import 'package:pervice/pervice.dart';
 
 /// 팔로우한 작가의 피드를 이미지, 본문과 댓글을 포함하여 이를 목록으로 표시하는 위젯.
 class FollowingFeeds extends StatelessWidget {
@@ -70,10 +75,27 @@ class FollowingFeeds extends StatelessWidget {
     }
 
     return SliverList.separated(
-      separatorBuilder: (_, _) => 24.verticalGap,
+      separatorBuilder: (_, _) => const Gap(24),
       itemCount: feeds.length,
       itemBuilder: (context, index) {
         final feed = feeds[index];
+
+        // SHARED STATE
+
+        final isLike = context.sharedStateOf(
+          () => feed.isLike,
+          key: ValueKey('feed-${feed.id}:is-like'),
+        );
+
+        final likeCount = context.sharedStateOf(
+          () => feed.likeCount.toInt(),
+          key: ValueKey('feed-${feed.id}:like-count'),
+        );
+
+        final commentCount = context.sharedStateOf(
+          () => feed.commentCount.toInt(),
+          key: ValueKey('feed-${feed.id}:comment-count'),
+        );
 
         return service.build(
           child: Column(
@@ -83,7 +105,7 @@ class FollowingFeeds extends StatelessWidget {
               // 작가 프로필 표시
               GdsUserItem.iconButton(
                 nickname: feed.author.name,
-                profile: feed.author.image?.responsiveImage,
+                profile: feed.author.image?.toImage(),
                 actions: [
                   .new(
                     icon: .dotmenuHorizontal,
@@ -92,7 +114,7 @@ class FollowingFeeds extends StatelessWidget {
                 ],
                 onUser: () {}, // TODO
               ),
-              8.verticalGap,
+              const Gap(8),
 
               // 제목 표시
               GdsText(
@@ -103,7 +125,7 @@ class FollowingFeeds extends StatelessWidget {
                   tablet: .title2,
                 ),
               ),
-              12.verticalGap,
+              const Gap(12),
 
               // 본문 표시
               GdsExpandableText(
@@ -112,14 +134,17 @@ class FollowingFeeds extends StatelessWidget {
                 style: .body1R,
                 maxLines: 3,
               ),
-              20.verticalGap,
+              const Gap(20),
 
               // 이미지 표시
               FollowingFeedCarousel(
-                onTap: (value) {}, // TODO
-                images: feed.cards.map((e) => e.responsiveImage).toList(),
+                images: feed.cards.toImages(),
+                onTap: (value) {
+                  // 피드 상세 페이지로 이동.
+                  context.push(FeedDetailPage(id: feed.id));
+                },
               ),
-              12.verticalGap,
+              const Gap(12),
 
               Row(
                 spacing: 8,
@@ -129,10 +154,28 @@ class FollowingFeeds extends StatelessWidget {
                     type: .borderless,
                     size: .lg,
                     variant: .assistive,
-                    label: feed.likeCount.compact,
-                    leadingIcon: feed.isLike ? .heartFill : .heart,
-                    iconColor: feed.isLike ? .statusNotification : null,
-                    onTap: () {}, // TODO
+                    label: likeCount.value.compact,
+                    leadingIcon: isLike.value ? .heartFill : .heart,
+                    iconColor: isLike.value ? .statusNotification : null,
+                    onTap: () async {
+                      final value = !isLike.value;
+
+                      try {
+                        // 요청 전에 좋아요 상태를 화면에 반영.
+                        isLike.value = value;
+                        likeCount.value += value ? 1 : -1;
+
+                        await value.feedLikeServiceOf(feed.id).request();
+                      } on DioException catch (_) {
+                        // 요청 실패 시 이전 상태로 복구.
+                        isLike.value = !value;
+                        likeCount.value += value ? -1 : 1;
+
+                        if (context.mounted) {
+                          GdsToast.show(context, '좋아요 변경에 실패했어요.', status: .negative);
+                        }
+                      }
+                    },
                   ),
 
                   // 댓글 개수 표시
@@ -140,7 +183,7 @@ class FollowingFeeds extends StatelessWidget {
                     type: .borderless,
                     size: .lg,
                     variant: .assistive,
-                    label: feed.commentCount.compact,
+                    label: commentCount.value.compact,
                     leadingIcon: .chatRound,
                   ),
                 ],
@@ -148,11 +191,10 @@ class FollowingFeeds extends StatelessWidget {
 
               // 주요 댓글 표시
               if (feed.comment != null) ...[
-                12.verticalGap,
+                const Gap(12),
 
                 FollowingFeedComment(
-                  onTap: () {}, // TODO
-                  profile: feed.comment!.writer.image?.responsiveImage,
+                  profile: feed.comment!.writer.image?.toImage(),
                   content: feed.comment!.content,
                 ),
               ],
