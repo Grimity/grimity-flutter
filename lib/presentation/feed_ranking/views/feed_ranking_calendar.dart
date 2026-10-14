@@ -35,7 +35,7 @@ class FeedRankingCalendar extends StatelessWidget {
               GdsButton.icon(
                 type: .normal,
                 icon: .chevronLeft,
-                status: year.value > releaseDate.year ? .enabled : .disabled,
+                status: .from(enabled: year.value > releaseDate.year),
                 onTap: () => year.value--,
               ),
 
@@ -46,7 +46,7 @@ class FeedRankingCalendar extends StatelessWidget {
               GdsButton.icon(
                 type: .normal,
                 icon: .chevronRight,
-                status: year.value < now.year ? .enabled : .disabled,
+                status: .from(enabled: year.value < now.year),
                 onTap: () => year.value++,
               ),
             ],
@@ -66,11 +66,10 @@ class FeedRankingCalendar extends StatelessWidget {
               return Expanded(
                 child: GdsListItem.pickerCard(
                   label: '$month월',
-                  status: disabled
-                      ? .disabled
-                      : selected
-                      ? .selected
-                      : .enabled,
+                  status: .from(
+                    enabled: !disabled,
+                    selected: selected,
+                  ),
                   onTap: () => onChanged(date),
                 ),
               );

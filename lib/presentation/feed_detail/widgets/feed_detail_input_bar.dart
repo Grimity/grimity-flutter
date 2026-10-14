@@ -50,11 +50,10 @@ class FeedDetailInputBar extends StatelessWidget {
       ),
       button: .new(
         label: '등록',
-        status: canSubmit
-            ? isLoading
-                  ? .loading
-                  : .enabled
-            : .disabled,
+        status: .from(
+          enabled: canSubmit,
+          loading: isLoading,
+        ),
         onTap: () async {
           final postFeed = PostFeedComments(
             request: .new(
@@ -69,7 +68,7 @@ class FeedDetailInputBar extends StatelessWidget {
             loading.value = true;
             await postFeed.request();
 
-            controller.text = '';
+            controller.clear();
             content.value = '';
             mention.value = null;
 

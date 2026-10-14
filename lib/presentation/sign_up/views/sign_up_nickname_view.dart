@@ -92,7 +92,7 @@ class SignUpNicknameView extends SignUpView {
                 helperStatus: .error,
                 field: GdsTextField.normal(
                   size: .md,
-                  status: errorMessage != null ? .error : .enabled,
+                  status: .from(error: errorMessage != null),
                   placeholder: '닉네임을 입력해주세요',
                   maxLength: 12,
                   onChanged: (value) {

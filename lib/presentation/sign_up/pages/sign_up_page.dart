@@ -65,6 +65,8 @@ class SignUpPage extends StatelessWidget {
             listenable: controller,
             builder: (_, _) {
               final view = controller.current;
+              final isLoading = loading.value;
+              final canSubmit = view.canSubmit;
 
               return Padding(
                 padding: context.whenDevice(
@@ -75,11 +77,10 @@ class SignUpPage extends StatelessWidget {
                   size: .lg,
                   type: .solid,
                   label: view.label,
-                  status: loading.value
-                      ? .loading
-                      : view.canSubmit
-                      ? .enabled
-                      : .disabled,
+                  status: .from(
+                    enabled: canSubmit,
+                    loading: isLoading,
+                  ),
                   mainAxisSize: .max,
                   onTap: () async {
                     loading.value = true;
