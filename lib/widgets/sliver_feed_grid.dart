@@ -1,8 +1,7 @@
-import 'package:dio/dio.dart';
 import 'package:dynamic_height_list_view/dynamic_height_view.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
-import 'package:grimity/extensions/bool_extension.dart';
+import 'package:grimity/app/app_use_case.dart';
 import 'package:grimity/presentation/feed_detail/pages/feed_detail_page.dart';
 import 'package:pervice/pervice.dart';
 
@@ -75,22 +74,14 @@ class SliverFeedGrid<T extends Service> extends StatelessWidget {
               // 피드 상세 페이지로 이동.
               context.push(FeedDetailPage(id: feed.id));
             },
-            onLike: (value) async {
-              try {
-                // 요청 전에 좋아요 상태를 화면에 반영.
-                isLike.value = value;
-                likeCount.value += value ? 1 : -1;
-
-                await value.feedLikeServiceOf(feed.id).request();
-              } on DioException catch (_) {
-                // 요청 실패 시 이전 상태로 복구.
-                isLike.value = !value;
-                likeCount.value += value ? -1 : 1;
-
-                if (context.mounted) {
-                  GdsToast.show(context, '좋아요 변경에 실패했어요.', status: .negative);
-                }
-              }
+            onLike: (value) {
+              AppUseCase.likeFeed(
+                context,
+                id: feed.id,
+                value: value,
+                isLike: isLike,
+                likeCount: likeCount,
+              );
             },
           ),
         );

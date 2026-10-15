@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/widgets/sliver_column.dart';
 
 /// 여러 슬리버에 공통 여백과 항목 간 간격을 적용하는 스크롤 위젯.
@@ -13,7 +14,7 @@ class SliverScrollView extends StatelessWidget {
        assert(spacing >= 0);
 
   final double maxWidth;
-  final double spacing;
+  final GdsSpacing spacing;
   final EdgeInsets? padding;
   final List<Widget> slivers;
 

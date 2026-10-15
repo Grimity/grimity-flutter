@@ -101,7 +101,7 @@ class _Comment extends StatelessWidget {
           likeCount.value += value ? 1 : -1;
 
           await comment.onLike(value);
-        } on DioException catch (_) {
+        } on DioException {
           // 요청 실패 시 좋아요 상태를 복구.
           isLike.value = !value;
           likeCount.value += value ? -1 : 1;

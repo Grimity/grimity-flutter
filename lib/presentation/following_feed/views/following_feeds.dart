@@ -1,9 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
-import 'package:grimity/extensions/bool_extension.dart';
+import 'package:grimity/app/app_use_case.dart';
 import 'package:grimity/presentation/feed_detail/pages/feed_detail_page.dart';
 import 'package:grimity/presentation/following_feed/widgets/following_feed_carousel.dart';
 import 'package:grimity/presentation/following_feed/widgets/following_feed_comment.dart';
@@ -157,24 +156,14 @@ class FollowingFeeds extends StatelessWidget {
                     label: likeCount.value.compact,
                     leadingIcon: isLike.value ? .heartFill : .heart,
                     iconColor: isLike.value ? .statusNotification : null,
-                    onTap: () async {
-                      final value = !isLike.value;
-
-                      try {
-                        // 요청 전에 좋아요 상태를 화면에 반영.
-                        isLike.value = value;
-                        likeCount.value += value ? 1 : -1;
-
-                        await value.feedLikeServiceOf(feed.id).request();
-                      } on DioException catch (_) {
-                        // 요청 실패 시 이전 상태로 복구.
-                        isLike.value = !value;
-                        likeCount.value += value ? -1 : 1;
-
-                        if (context.mounted) {
-                          GdsToast.show(context, '좋아요 변경에 실패했어요.', status: .negative);
-                        }
-                      }
+                    onTap: () {
+                      AppUseCase.likeFeed(
+                        context,
+                        id: feed.id,
+                        value: !isLike.value,
+                        isLike: isLike,
+                        likeCount: likeCount,
+                      );
                     },
                   ),
 

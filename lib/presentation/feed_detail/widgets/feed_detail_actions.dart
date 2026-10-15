@@ -1,7 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gds_flutter/gds_flutter.dart';
-import 'package:grimity/extensions/bool_extension.dart';
+import 'package:grimity/app/app_use_case.dart';
 import 'package:grimity/presentation/feed_detail/pages/feed_detail_page.dart';
 
 /// 피드 상세의 좋아요, 댓글 및 더보기 액션 버튼을 표시하는 위젯.
@@ -79,23 +78,15 @@ class FeedDetailActions extends StatelessWidget {
   }
 
   /// 피드 상세의 좋아요 상태를 변경하고, 실패 시 이전 상태로 복구합니다.
-  void onLike(BuildContext context) async {
+  void onLike(BuildContext context) {
     final value = !isLike.value;
 
-    try {
-      // 요청 전에 좋아요 상태를 화면에 반영.
-      isLike.value = value;
-      likeCount.value += value ? 1 : -1;
-
-      await value.feedLikeServiceOf(id).request();
-    } on DioException catch (_) {
-      // 요청 실패 시 이전 상태로 복구.
-      isLike.value = !value;
-      likeCount.value += value ? -1 : 1;
-
-      if (context.mounted) {
-        GdsToast.show(context, '좋아요 변경에 실패했어요.', status: .negative);
-      }
-    }
+    AppUseCase.likeFeed(
+      context,
+      id: id,
+      value: value,
+      isLike: isLike,
+      likeCount: likeCount,
+    );
   }
 }

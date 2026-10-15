@@ -1,9 +1,9 @@
-import 'package:dio/dio.dart';
 import 'package:flexible_horizontal_list_view/flexible_horizontal_list_view.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
+import 'package:grimity/app/app_use_case.dart';
 import 'package:grimity/presentation/feed_ranking/widgets/feed_ranking_section.dart';
 import 'package:pervice/pervice.dart';
 
@@ -76,39 +76,21 @@ class FeedRankingUsers extends StatelessWidget {
       thumbnails: user.thumbnails.toImages(),
       following: isFollowing.value,
       onTap: () {}, // TODO
-      onFollow: () async {
-        try {
-          // 요청 전에 팔로우 상태를 화면에 반영.
-          isFollowing.value = true;
-          followerCount.value += 1;
-
-          await PutUsersByIdFollow(id: user.id).request();
-        } on DioException {
-          // 요청 실패 시 이전 상태로 복구.
-          isFollowing.value = false;
-          followerCount.value -= 1;
-
-          if (context.mounted) {
-            GdsToast.show(context, '팔로우 반영에 실패했어요', status: .negative);
-          }
-        }
+      onFollow: () {
+        AppUseCase.follow(
+          context,
+          id: user.id,
+          isFollowing: isFollowing,
+          followerCount: followerCount,
+        );
       },
-      onUnFollow: () async {
-        try {
-          // 요청 전에 팔로우 상태를 화면에 반영.
-          isFollowing.value = false;
-          followerCount.value -= 1;
-
-          await DeleteUsersByIdFollow(id: user.id).request();
-        } on DioException {
-          // 요청 실패 시 이전 상태로 복구.
-          isFollowing.value = true;
-          followerCount.value += 1;
-
-          if (context.mounted) {
-            GdsToast.show(context, '언팔로우 반영에 실패했어요', status: .negative);
-          }
-        }
+      onUnFollow: () {
+        AppUseCase.unFollow(
+          context,
+          id: user.id,
+          isFollowing: isFollowing,
+          followerCount: followerCount,
+        );
       },
     );
   }
