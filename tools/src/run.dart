@@ -8,7 +8,7 @@ Future<void> run(String executable, List<String> arguments, {Map<String, String>
     arguments,
     runInShell: true,
     environment: environment,
-    mode: ProcessStartMode.inheritStdio,
+    mode: .inheritStdio,
   );
 
   final exitCode = await process.exitCode;
