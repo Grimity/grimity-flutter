@@ -8,7 +8,7 @@ import 'package:grimity/presentation/feed_detail/pages/feed_detail_page.dart';
 import 'package:pervice/pervice.dart';
 
 /// 피드 작성자의 프로필과 관련된 피드 목록을 표시하는 화면.
-class FeedDetailUser extends StatelessWidget {
+class FeedDetailAuthor extends StatelessWidget {
   const new({
     super.key,
     required this.authorId,
@@ -119,6 +119,11 @@ class FeedDetailUser extends StatelessWidget {
             placeholder: feedPlaceholder,
             builder: (data) {
               final feeds = data.feeds;
+
+              // 극히 예외적으로 작성자의 피드가 아예 없는 경우.
+              if (feeds.isEmpty) {
+                return SizedBox.shrink();
+              }
 
               return LayoutBuilder(
                 builder: (context, constraints) {

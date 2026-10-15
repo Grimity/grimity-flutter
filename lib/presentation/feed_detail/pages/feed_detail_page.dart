@@ -2,7 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/presentation/feed_detail/views/feed_detail_article.dart';
-import 'package:grimity/presentation/feed_detail/views/feed_detail_user.dart';
+import 'package:grimity/presentation/feed_detail/views/feed_detail_latest_feeds.dart';
+import 'package:grimity/presentation/feed_detail/views/feed_detail_author.dart';
 import 'package:grimity/presentation/feed_detail/widgets/feed_detail_input_bar.dart';
 import 'package:grimity/widgets/app_sidebar.dart';
 import 'package:grimity/widgets/app_top_navigation.dart';
@@ -27,12 +28,19 @@ class FeedDetailPage extends StatelessWidget {
       key: ValueKey(id),
     );
 
+    final latestFeedsService = context.serviceOf(
+      FeedDetailLatestFeeds.createService,
+      key: ValueKey(id),
+    );
+
     return GdsScaffold(
       appBar: AppTopNavigation.title(),
       drawer: const AppSidebar(),
       body: detailService.when(
         loading: () {
-          return Center(child: GdsCircularLoading());
+          return Center(
+            child: GdsCircularLoading(),
+          );
         },
         loaded: (data) {
           // 차단된 작성자의 피드인 경우.
@@ -43,26 +51,35 @@ class FeedDetailPage extends StatelessWidget {
           return Column(
             children: [
               Expanded(
-                child: SliverScrollView(
-                  padding: context.whenDevice(
-                    mobile: .only(top: 8, bottom: 16, left: 16, right: 16),
-                    tablet: .only(top: 24, bottom: 20, left: 20, right: 20),
-                  ),
-                  spacing: 56,
-                  slivers: [
-                    // 상세 화면 표시
-                    FeedDetailArticle(
-                      id: id,
-                      data: data,
-                      commentService: commentService,
+                child: GdsInfiniteScroll(
+                  onLoadMore: latestFeedsService.loadMore,
+                  enabled: latestFeedsService.canLoreMore,
+                  child: SliverScrollView(
+                    padding: context.whenDevice(
+                      mobile: .only(top: 8, bottom: 16, left: 16, right: 16),
+                      tablet: .only(top: 24, bottom: 20, left: 20, right: 20),
                     ),
+                    spacing: 56,
+                    slivers: [
+                      // 상세 화면 표시
+                      FeedDetailArticle(
+                        id: id,
+                        data: data,
+                        commentService: commentService,
+                      ),
 
-                    // 작성자 정보
-                    FeedDetailUser(
-                      authorId: data.author.id,
-                      authorName: data.author.name,
-                    ),
-                  ],
+                      // 작성자 피드 표시
+                      FeedDetailAuthor(
+                        authorId: data.author.id,
+                        authorName: data.author.name,
+                      ),
+
+                      // 최신 그림 표시
+                      FeedDetailLatestFeeds(
+                        service: latestFeedsService,
+                      ),
+                    ],
+                  ),
                 ),
               ),
 
