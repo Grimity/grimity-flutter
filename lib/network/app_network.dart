@@ -6,7 +6,7 @@ import 'package:grimity/network/debug_interceptor.dart';
 /// 앱의 공통 HTTP 설정과 실행 모드별 클라이언트를 관리합니다.
 abstract class AppNetwork {
   static final _releaseDio = createDio('https://api.grimity.com');
-  static final _debugDio = _releaseDio; // TODO: 추후 구현
+  static final _debugDio = createDio('http://172.30.1.5:3000');
 
   /// 디버그 모드에서는 개발 서버, 그 외에는 운영 서버 클라이언트를 반환합니다.
   static Dio get dio => kDebugMode ? _debugDio : _releaseDio;
