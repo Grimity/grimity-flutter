@@ -62,9 +62,11 @@ class NavigationPage extends StatelessWidget {
                   right: 16,
                   child: GdsFadable.builder(
                     type: .scaleFade,
-                    visible: view.onAction != null,
+                    visible: view.hasAction,
                     builder: (context) {
-                      return GdsBottomNavigationButton(onTap: view.onAction!);
+                      return GdsBottomNavigationButton(
+                        onTap: () => view.onAction(context),
+                      );
                     },
                   ),
                 ),
@@ -121,7 +123,7 @@ class _Test extends StatelessWidget with NavigationView {
   final String label;
 
   @override
-  VoidCallback? get onAction => action ? () {} : null;
+  bool get hasAction => action;
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +132,11 @@ class _Test extends StatelessWidget with NavigationView {
     return Center(
       child: GdsGesture(
         onTap: () => counter.value += 1,
-        child: GdsText('$label ${counter.value}', color: .textGrayBold, style: .title1),
+        child: GdsText(
+          '$label ${counter.value}',
+          color: .textGrayBold,
+          style: .title1,
+        ),
       ),
     );
   }

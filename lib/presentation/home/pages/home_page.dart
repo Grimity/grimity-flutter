@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget with NavigationView {
   String get label => '홈';
 
   @override
-  VoidCallback? get onAction => () {}; // TODO
+  bool get hasAction => true;
 
   @override
   Widget build(BuildContext context) {

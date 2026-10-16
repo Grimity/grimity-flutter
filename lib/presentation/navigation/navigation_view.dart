@@ -12,6 +12,9 @@ mixin NavigationView on Widget {
   /// 해당 탭에 점을 표시하는지 여부.
   bool get showDot => false;
 
-  /// 하단 내비게이션의 액션 버튼을 눌렀을 때 실행할 콜백.
-  VoidCallback? get onAction => null;
+  /// 하단 내비게이션의 액션 버튼을 표시할지 여부.
+  bool get hasAction => false;
+
+  /// 하단 내비게이션의 액션 버튼을 눌렀을 때 실행되는 메서드.
+  void onAction(BuildContext context) {}
 }
