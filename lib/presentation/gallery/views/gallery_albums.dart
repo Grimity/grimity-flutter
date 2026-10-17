@@ -26,10 +26,11 @@ class GalleryAlbums extends StatelessWidget {
           child: GdsCircularLoading(),
         );
       },
-      failed: (error) {
-        return GdsEmptyState(
-          illust: .warning,
-          title: '앨범을 불러오지 못했어요.',
+      failed: (error, stackTrace) {
+        return GdsErrorState(
+          retry: service.refresh,
+          error: error,
+          stackTrace: stackTrace,
         );
       },
       loaded: (items) {

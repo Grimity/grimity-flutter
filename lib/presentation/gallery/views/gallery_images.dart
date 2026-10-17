@@ -46,7 +46,7 @@ class GalleryImages extends StatelessWidget {
             child: GdsCircularLoading(),
           );
         },
-        failed: (error) {
+        failed: (error, stackTrace) {
           // 사용자가 권한 요청을 거부했을 경우.
           if (error is PhotoPermissionException) {
             return GdsEmptyState(
@@ -62,9 +62,10 @@ class GalleryImages extends StatelessWidget {
           }
 
           // 그 외, 알 수 없는 예외일 경우.
-          return GdsEmptyState(
-            illust: .warning,
-            title: '알 수 없는 에러가 발생했어요',
+          return GdsErrorState(
+            retry: service.refresh,
+            error: error,
+            stackTrace: stackTrace,
           );
         },
         loaded: (data) {
