@@ -29,7 +29,7 @@ Future<void> main() async {
   Api.setup(AppNetwork.dio);
 
   // 사용자 정보 초기화.
-  AppUser.setup();
+  AppUser.initialize();
 
   // 앱이 다시 활성화되면 사진 접근 권한 상태 갱신.
   AppLifecycleListener(

@@ -10,7 +10,6 @@ MyProfileResponse get profile => AppUser.profile;
 
 /// 현재 사용자의 로그인 여부와 로딩 진행 상황을 나타내는 상태.
 enum AppUserStatus {
-  none,
   loading,
   loaded,
   unauth,
@@ -19,7 +18,7 @@ enum AppUserStatus {
 /// 소셜 로그인과 앱 토큰 저장, 현재 사용자 정보 조회를 처리합니다.
 abstract class AppUser {
   /// 현재 사용자 상태를 관리하고 변경을 알리기 위해 사용됩니다.
-  static final statusNotifier = ValueNotifier(AppUserStatus.none);
+  static final statusNotifier = ValueNotifier(AppUserStatus.loading);
 
   /// 마지막으로 불러온 현재 사용자의 프로필.
   static MyProfileResponse? _profile;
@@ -28,6 +27,15 @@ abstract class AppUser {
   static MyProfileResponse get profile {
     assert(_profile != null);
     return _profile ?? (throw StateError('불러오기 전에는 참조되지 않아야 합니다.'));
+  }
+
+  /// 마지막으로 불러온 현재 사용자의 앨범 목록.
+  static List<AlbumBaseResponse>? _albums;
+
+  /// 사용자의 앨범 목록을 반환합니다.
+  static List<AlbumBaseResponse> get albums {
+    assert(_albums != null);
+    return _albums ?? (throw StateError('불러오기 전에는 참조되지 않아야 합니다.'));
   }
 
   /// 현재 사용자 정보 로딩 및 로그인 상태.
@@ -64,9 +72,7 @@ abstract class AppUser {
 
     await AppSecureStorage.accessToken.set(response.accessToken);
     await AppSecureStorage.refreshToken.set(response.refreshToken);
-
-    _profile = await GetMe().request();
-    status = .loaded;
+    initialize();
   }
 
   /// 소셜 인증 토큰으로 서버에 회원가입한 뒤 사용자 프로필을 불러옵니다.
@@ -93,9 +99,7 @@ abstract class AppUser {
 
     await AppSecureStorage.accessToken.set(response.accessToken);
     await AppSecureStorage.refreshToken.set(response.refreshToken);
-
-    _profile = await GetMe().request();
-    status = .loaded;
+    initialize();
   }
 
   /// 기기 종류와 모델명을 전달해 서버에 로그아웃을 요청합니다.
@@ -113,15 +117,20 @@ abstract class AppUser {
     await AppSecureStorage.refreshToken.delete();
 
     _profile = null;
+    _albums = null;
     status = .unauth;
   }
 
   /// 저장된 토큰 유무에 따라 사용자 정보를 불러옵니다.
-  static Future<void> setup() async {
-    status = .loading;
-
+  static Future<void> initialize() async {
     if (await hasToken) {
-      _profile = await GetMe().request();
+      final (profile, albums) = await (
+        GetMe().request(),
+        GetMeAlbums().request(),
+      ).wait;
+
+      _profile = profile;
+      _albums = albums;
       status = .loaded;
     } else {
       status = .unauth;

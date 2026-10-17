@@ -134,7 +134,7 @@ void main() {
   test("액세스 토큰이 자동으로 재발급되는지 확인", () async {
     await interceptor.ensureSignIn();
 
-    await AppUser.setup();
+    await AppUser.initialize();
     expect(
       AppUser.status,
       AppUserStatus.loaded,
@@ -144,7 +144,7 @@ void main() {
     // 유효한 액세스 토큰 만료시키기.
     interceptor.ensureExpireAccessToken();
 
-    await AppUser.setup();
+    await AppUser.initialize();
     expect(
       AppUser.status,
       AppUserStatus.loaded,
