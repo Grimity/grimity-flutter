@@ -54,6 +54,7 @@ class GalleryImages extends StatelessWidget {
               title: '그림 첨부를 위해 접근 권한이 필요해요',
               description: '[설정 - 그리미티 - 사진]에서 “접근"을 허용해 주세요.',
               action: .new(
+                type: .solid,
                 label: '사진 접근 허용하기',
                 onTap: AppPhoto.requestPermission,
               ),

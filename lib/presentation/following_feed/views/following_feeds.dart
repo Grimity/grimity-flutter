@@ -63,6 +63,7 @@ class FollowingFeeds extends StatelessWidget {
           title: '팔로우한 작가가 없어요',
           description: '관심 있는 작가를 팔로우하고\n새로운 작품 소식을 받아보세요',
           action: .new(
+            type: .solid,
             label: '인기 그림 보러가기',
             onTap: () {
               // 랭킹 페이지로 이동.
