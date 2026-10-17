@@ -5,6 +5,7 @@ import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/app/app_user.dart';
 import 'package:grimity/presentation/navigation/navigation_page.dart';
 import 'package:grimity/presentation/sign_in/pages/sign_in_page.dart';
+import 'package:pervice/pervice.dart';
 
 /// 인증 상태에 따라 스플레시 이미지, 로그인 혹은 메인 화면을 표시하는 시작 페이지.
 class SplashPage extends StatelessWidget {
@@ -15,25 +16,22 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder(
-      listenable: AppUser.statusNotifier,
-      builder: (context, child) {
-        return GdsSplash(
-          builder: (context) {
-            // 초기화 전이거나 로딩 중인 경우 스플래시 화면 표시.
-            if (AppUser.status == .loading) {
-              return buildSplash();
-            }
+    context.watch(AppUser.statusNotifier);
 
-            // 로그아웃 상태인 경우 로그인 화면 표시.
-            if (AppUser.status == .unauth) {
-              return SignInPage();
-            }
+    return GdsSplash(
+      builder: (context) {
+        // 초기화 전이거나 로딩 중인 경우 스플래시 화면 표시.
+        if (AppUser.status == .loading) {
+          return buildSplash();
+        }
 
-            // 로그인 상태인 경우 홈 화면 표시.
-            return NavigationPage();
-          },
-        );
+        // 로그아웃 상태인 경우 로그인 화면 표시.
+        if (AppUser.status == .unauth) {
+          return SignInPage();
+        }
+
+        // 로그인 상태인 경우 홈 화면 표시.
+        return NavigationPage();
       },
     );
   }
