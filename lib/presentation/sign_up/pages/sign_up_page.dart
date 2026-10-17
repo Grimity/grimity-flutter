@@ -24,7 +24,9 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loading = context.stateOf(() => false);
-    final controller = context.useGdsViewStackController<SignUpView>(SignUpNicknameView.new);
+    final controller = context.useGdsViewStackController<SignUpView>(
+      SignUpNicknameView.new,
+    );
 
     return GdsScaffold(
       appBar: GdsTopNavigation.iconButton(

@@ -49,6 +49,7 @@ class FeedRankingPage extends StatelessWidget with NavigationView {
   @override
   Widget build(BuildContext context) {
     final tabController = context.useTabController(length: 2);
+    context.watch(tabController);
 
     return AppBarConnection(
       appBars: [
@@ -63,34 +64,29 @@ class FeedRankingPage extends StatelessWidget with NavigationView {
           body: FeedRankingTabBar(controller: tabController),
         ),
       ],
-      child: ListenableBuilder(
-        listenable: tabController,
-        builder: (context, child) {
-          return SliverScrollView(
-            padding: context.whenDevice(
-              mobile: .only(top: 12, left: 16, right: 16, bottom: 16),
-              tablet: .only(top: 12, left: 20, right: 20, bottom: 20),
-            ),
-            spacing: context.whenDevice(
-              mobile: 32,
-              tablet: 56,
-            ),
-            slivers: [
-              // 월간 혹은 주간 표시
-              if (tabController.index == 0) ...[
-                FeedRankingWeekly(),
-              ] else ...[
-                FeedRankingMonthly(),
-              ],
+      child: SliverScrollView(
+        padding: context.whenDevice(
+          mobile: .only(top: 12, left: 16, right: 16, bottom: 16),
+          tablet: .only(top: 12, left: 20, right: 20, bottom: 20),
+        ),
+        spacing: context.whenDevice(
+          mobile: 32,
+          tablet: 56,
+        ),
+        slivers: [
+          // 월간 혹은 주간 표시
+          if (tabController.index == 0) ...[
+            FeedRankingWeekly(),
+          ] else ...[
+            FeedRankingMonthly(),
+          ],
 
-              // 인기 작가 표시
-              FeedRankingUsers(),
+          // 인기 작가 표시
+          FeedRankingUsers(),
 
-              // 인기 태그 표시
-              FeedRankingTags(),
-            ],
-          );
-        },
+          // 인기 태그 표시
+          FeedRankingTags(),
+        ],
       ),
     );
   }
