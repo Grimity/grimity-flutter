@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:gds_flutter/components/common/gds_disabled.dart';
@@ -101,14 +100,12 @@ class _Comment extends StatelessWidget {
           likeCount.value += value ? 1 : -1;
 
           await comment.onLike(value);
-        } on DioException {
+        } catch (_) {
           // 요청 실패 시 좋아요 상태를 복구.
           isLike.value = !value;
           likeCount.value += value ? -1 : 1;
 
-          if (context.mounted) {
-            GdsToast.show(context, '좋아요 변경에 실패했어요.', status: .negative);
-          }
+          rethrow;
         }
       },
     );

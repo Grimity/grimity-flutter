@@ -25,6 +25,7 @@ dependencies:
   gap: ^3.0.1
   photo_manager: ^3.12.0
   photo_manager_image_provider: ^2.2.0
+  flutter_image_compress: 2.5.1
 
   # 소셜 로그인
   google_sign_in: ^6.3.0

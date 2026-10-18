@@ -13,8 +13,8 @@ class GalleryAlbums extends StatelessWidget {
     required this.selectedAlbum,
   });
 
-  final ValueNotifier<bool> showAlbums;
-  final ValueNotifier<AssetPathEntity?> selectedAlbum;
+  final ValueState<bool> showAlbums;
+  final ValueState<AssetPathEntity?> selectedAlbum;
 
   @override
   Widget build(BuildContext context) {

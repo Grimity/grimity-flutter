@@ -43,7 +43,7 @@ class _SignInPageState extends State<SignInPage> {
         _ => '알 수 없는 오류가 발생했어요',
       };
 
-      GdsToast.show(context, errorMessage, status: .negative);
+      GdsToast.show(errorMessage, status: .negative);
     }
   }
 

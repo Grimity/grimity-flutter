@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:gds_flutter/gds_flutter.dart';
@@ -15,17 +14,21 @@ class AppLoadingPopup extends StatelessWidget {
 
   final String title;
   final String description;
-  final AsyncCallback onAsync;
+  final Future<VoidCallback> Function() onAsync;
 
   @override
   Widget build(BuildContext context) {
-    // 최초 빌드 시 비동기 작업을 실행하고, 완료되면 현재 팝업 닫기.
+    // 최초 빌드 시 비동기 작업을 실행하고, 완료되면 현재 팝업 닫고 후행 작업 실행.
     context.onInitState(() async {
+      late final VoidCallback onCompleted;
+
       try {
-        await onAsync();
+        onCompleted = await onAsync();
       } finally {
         if (context.mounted) context.pop();
       }
+
+      onCompleted();
     });
 
     return GdsContainer(

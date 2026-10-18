@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
+import 'package:grimity/extensions/asset_entity.dart';
 import 'package:photo_manager/photo_manager.dart';
-import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 
 /// 선택 가능한 갤러리 이미지와 그에 따른 선택 순서를 표시하는 위젯.
 class GalleryImage extends StatelessWidget {
@@ -23,11 +23,7 @@ class GalleryImage extends StatelessWidget {
     final isSelected = selectedIndex >= 0;
 
     return GdsAlbumUpload.album(
-      image: AssetEntityImageProvider(
-        asset,
-        isOriginal: false,
-        thumbnailSize: const .square(400),
-      ),
+      image: asset.toImage(),
       count: selectedIndex + 1,
       checked: isSelected,
       onTap: isSelected ? onRemove : onAdd,

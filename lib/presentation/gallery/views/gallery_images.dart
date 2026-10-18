@@ -14,8 +14,8 @@ class GalleryImages extends StatelessWidget {
     required this.selectedImages,
   });
 
-  final ValueNotifier<AssetPathEntity?> selectedAlbum;
-  final ValueNotifier<List<AssetEntity>> selectedImages;
+  final ValueState<AssetPathEntity?> selectedAlbum;
+  final ValueState<List<AssetEntity>> selectedImages;
 
   /// 선택한 앨범의 이미지를 페이지 단위로 조회하는 서비스를 생성합니다.
   static LoadMoreService<GalleryResponse> createService(AssetPathEntity? album) {

@@ -54,7 +54,7 @@ class FeedDetailArticle extends StatelessWidget {
       children: [
         // 상세 피드 헤더 표시
         FeedDetailHeader(
-          id: data.author.id,
+          data: data,
           isAuthor: isAuthor,
           nickname: data.author.name,
           profile: data.author.image?.toImage(),
@@ -78,7 +78,7 @@ class FeedDetailArticle extends StatelessWidget {
 
         // 액션 버튼 표시
         FeedDetailActions(
-          id: data.id,
+          data: data,
           isAuthor: isAuthor,
           likeCount: likeCount,
           isLike: isLike,

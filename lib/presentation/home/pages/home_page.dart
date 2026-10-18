@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
+import 'package:grimity/presentation/feed_upload/pages/feed_upload_page.dart';
 import 'package:grimity/presentation/home/views/home_banner.dart';
 import 'package:grimity/presentation/home/views/home_free_board.dart';
 import 'package:grimity/presentation/home/views/home_latest_feeds.dart';
@@ -22,6 +23,11 @@ class HomePage extends StatelessWidget with NavigationView {
 
   @override
   bool get hasAction => true;
+
+  @override
+  void onAction(BuildContext context) {
+    context.push(const FeedUploadPage());
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:gds_flutter/gds_flutter.dart';
+import 'package:grimity/api/api.dart';
 import 'package:grimity/app/app_use_case.dart';
 import 'package:grimity/presentation/feed_detail/pages/feed_detail_page.dart';
+import 'package:pervice/pervice.dart';
 
 /// 피드 상세의 좋아요, 댓글 및 더보기 액션 버튼을 표시하는 위젯.
 class FeedDetailActions extends StatelessWidget {
   const new({
     super.key,
-    required this.id,
     required this.isAuthor,
+    required this.data,
     required this.likeCount,
     required this.commentCount,
     required this.isLike,
   });
 
-  final String id;
+  final FeedDetailResponse data;
   final bool isAuthor;
-  final ValueNotifier<int> likeCount;
-  final ValueNotifier<int> commentCount;
-  final ValueNotifier<bool> isLike;
+  final ValueState<int> likeCount;
+  final ValueState<int> commentCount;
+  final ValueState<bool> isLike;
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +63,7 @@ class FeedDetailActions extends StatelessWidget {
                 onTap: () {
                   FeedDetailPage.openMoreMenu(
                     context,
+                    data,
                     layerLink,
                     share: true,
                     edit: isAuthor,
@@ -83,7 +86,7 @@ class FeedDetailActions extends StatelessWidget {
 
     AppUseCase.likeFeed(
       context,
-      id: id,
+      id: data.id,
       value: value,
       isLike: isLike,
       likeCount: likeCount,

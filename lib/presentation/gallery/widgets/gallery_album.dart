@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
+import 'package:grimity/extensions/asset_entity.dart';
 import 'package:photo_manager/photo_manager.dart';
-import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 
 /// 앨범의 대표 이미지, 이름과 이미지 개수를 표시하는 선택 항목 위젯.
 class GalleryAlbum extends StatelessWidget {
@@ -28,7 +28,7 @@ class GalleryAlbum extends StatelessWidget {
               future: entity.getAssetListRange(start: 0, end: 1),
               builder: (context, snapshot) {
                 final asset = snapshot.data?.singleOrNull;
-                final image = asset == null ? null : createImageProvider(asset);
+                final image = asset?.toImage();
 
                 return GdsThumbnail(
                   width: 48,
@@ -69,15 +69,6 @@ class GalleryAlbum extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  /// 앨범 대표 이미지에 사용할 이미지 제공자를 생성합니다.
-  ImageProvider createImageProvider(AssetEntity asset) {
-    return AssetEntityImageProvider(
-      asset,
-      isOriginal: false,
-      thumbnailSize: const .square(200),
     );
   }
 }

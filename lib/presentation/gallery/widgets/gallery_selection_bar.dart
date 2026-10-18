@@ -2,9 +2,9 @@ import 'package:flexible_horizontal_list_view/flexible_horizontal_list_view.dart
 import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:gds_flutter/gds_flutter.dart';
+import 'package:grimity/extensions/asset_entity.dart';
 import 'package:pervice/pervice.dart';
 import 'package:photo_manager/photo_manager.dart';
-import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 
 /// 선택한 이미지의 미리보기와 선택 해제 버튼을 가로로 표시하는 위젯.
 class GallerySelectionBar extends StatelessWidget {
@@ -13,7 +13,7 @@ class GallerySelectionBar extends StatelessWidget {
     required this.selectedImages,
   });
 
-  final ValueNotifier<List<AssetEntity>> selectedImages;
+  final ValueState<List<AssetEntity>> selectedImages;
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +35,7 @@ class GallerySelectionBar extends StatelessWidget {
               width: 72,
               ratio: .square,
               radius: .xs,
-              provider: AssetEntityImageProvider(
-                asset,
-                isOriginal: false,
-                thumbnailSize: const .square(200),
-              ),
+              provider: asset.toImage(),
             ),
 
             // 선택 해제 버튼 표시

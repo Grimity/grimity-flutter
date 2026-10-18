@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/app/app_photo.dart';
+import 'package:grimity/extensions/asset_entity.dart';
 import 'package:grimity/presentation/gallery/views/gallery_albums.dart';
 import 'package:grimity/presentation/gallery/views/gallery_images.dart';
 import 'package:grimity/presentation/gallery/widgets/gallery_permission_banner.dart';
@@ -47,8 +48,12 @@ class GalleryPage extends StatelessWidget {
         action: .new(
           label: '다음',
           onTap: () {
+            final providers = selectedImages.value.builder((asset) {
+              return asset.toImage();
+            });
+
             // 선택한 이미지 목록을 반환하고 갤러리 닫기.
-            context.pop(selectedImages.value);
+            context.pop(providers);
           },
           status: .from(enabled: canSubmit),
         ),

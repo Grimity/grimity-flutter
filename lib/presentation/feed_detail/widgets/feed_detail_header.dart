@@ -1,18 +1,19 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
+import 'package:grimity/api/api.dart';
 import 'package:grimity/presentation/feed_detail/pages/feed_detail_page.dart';
 
 /// 피드 작성자의 프로필과 닉네임, 공유 및 더보기 버튼을 표시하는 위젯.
 class FeedDetailHeader extends StatelessWidget {
   const new({
     super.key,
-    required this.id,
+    required this.data,
     required this.isAuthor,
     required this.nickname,
     required this.profile,
   });
 
-  final String id;
+  final FeedDetailResponse data;
   final bool isAuthor;
   final String nickname;
   final ImageProvider? profile;
@@ -35,6 +36,7 @@ class FeedDetailHeader extends StatelessWidget {
             onTap: () {
               FeedDetailPage.openMoreMenu(
                 context,
+                data,
                 layerLink,
                 edit: isAuthor,
                 delete: isAuthor,
