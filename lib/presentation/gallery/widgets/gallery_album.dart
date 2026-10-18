@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
-import 'package:grimity/extensions/asset_entity.dart';
+import 'package:grimity/extensions/asset_entity_extension.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 /// 앨범의 대표 이미지, 이름과 이미지 개수를 표시하는 선택 항목 위젯.

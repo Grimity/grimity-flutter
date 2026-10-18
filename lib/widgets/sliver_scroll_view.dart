@@ -9,6 +9,7 @@ class SliverScrollView extends StatelessWidget {
     this.maxWidth = 0,
     this.spacing = 0,
     this.padding,
+    this.controller,
     required this.slivers,
   }) : assert(maxWidth >= 0),
        assert(spacing >= 0);
@@ -16,6 +17,7 @@ class SliverScrollView extends StatelessWidget {
   final double maxWidth;
   final GdsSpacing spacing;
   final EdgeInsets? padding;
+  final ScrollController? controller;
   final List<Widget> slivers;
 
   @override
@@ -33,6 +35,7 @@ class SliverScrollView extends StatelessWidget {
         return CustomScrollView(
           // 대용량 이미지로 인한 성능 이슈로 0 픽셀로 조정.
           scrollCacheExtent: .pixels(0),
+          controller: controller,
           slivers: [
             SliverPadding(
               padding: padding,

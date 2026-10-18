@@ -2,7 +2,7 @@ import 'package:flexible_horizontal_list_view/flexible_horizontal_list_view.dart
 import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:gds_flutter/gds_flutter.dart';
-import 'package:grimity/extensions/asset_entity.dart';
+import 'package:grimity/extensions/asset_entity_extension.dart';
 import 'package:pervice/pervice.dart';
 import 'package:photo_manager/photo_manager.dart';
 

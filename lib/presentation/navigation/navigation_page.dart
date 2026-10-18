@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
+import 'package:grimity/presentation/board/pages/board_page.dart';
 import 'package:grimity/presentation/following_feed/pages/following_feed_page.dart';
 import 'package:grimity/presentation/home/pages/home_page.dart';
 import 'package:grimity/presentation/navigation/navigation_view.dart';
@@ -18,7 +19,7 @@ class NavigationPage extends StatelessWidget {
     HomePage(),
     FeedRankingPage(),
     FollowingFeedPage(),
-    _Test(icon: .board, label: '자유게시판', action: true),
+    BoardPage(),
     _Test(icon: .message, label: 'DM', action: false),
   ];
 

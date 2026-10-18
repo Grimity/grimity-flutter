@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/app/app_photo.dart';
-import 'package:grimity/extensions/asset_entity.dart';
+import 'package:grimity/extensions/asset_entity_extension.dart';
 import 'package:grimity/presentation/gallery/views/gallery_albums.dart';
 import 'package:grimity/presentation/gallery/views/gallery_images.dart';
 import 'package:grimity/presentation/gallery/widgets/gallery_permission_banner.dart';
