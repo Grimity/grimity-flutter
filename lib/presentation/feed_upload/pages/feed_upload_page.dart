@@ -53,18 +53,23 @@ class FeedUploadPage extends StatelessWidget {
     );
 
     final album = context.stateOf(
-      () => initialFeed?.album?.id,
+      () => initialFeed?.album,
     );
 
     // 필수 입력값을 충족하여 피드를 제출할 수 있는지 여부.
     final canSubmit = images.value.isNotEmpty && title.value.isNotEmpty && content.value.isNotEmpty;
 
     // 앨범이 없으면 안내 팝업을, 있으면 앨범 선택 팝업을 표시.
-    void selectAlbum() {
+    void selectAlbum() async {
       if (AppUser.albums.isEmpty) {
         showFeedUploadNoAlbumAlert(context);
       } else {
-        showFeedUploadAlbumSelectAlert(context, album.value);
+        final newAlbum = await showFeedUploadAlbumSelectAlert(context, album.value);
+
+        // 사용자가 앨범을 선택한 경우 이를 반영.
+        if (newAlbum != null) {
+          album.value = newAlbum;
+        }
       }
     }
 
@@ -93,7 +98,7 @@ class FeedUploadPage extends StatelessWidget {
               album: album.value,
             ),
           ),
-          title: '전체 앨범',
+          title: album.value?.name ?? '전체 앨범',
         ),
         body: SingleChildScrollView(
           padding: context.whenDevice(
@@ -161,7 +166,7 @@ class FeedUploadPage extends StatelessWidget {
                     type: .borderless,
                     variant: .assistive,
                     trailingIcon: .chevronRight,
-                    label: album.value ?? '전체 앨범',
+                    label: album.value?.name ?? '전체 앨범',
                     onTap: selectAlbum,
                   ),
                 ),
@@ -181,7 +186,7 @@ class FeedUploadPage extends StatelessWidget {
     required String content,
     required List<String> tags,
     required ImageProvider thumbnail,
-    required String? album,
+    required AlbumBaseResponse? album,
   }) async {
     final popup = AppLoadingPopup(
       title: '이미지를 업로드 중이에요',
@@ -199,7 +204,7 @@ class FeedUploadPage extends StatelessWidget {
               content: content,
               tags: tags,
               thumbnail: cards[thumbnailIndex],
-              albumId: album,
+              albumId: album?.id,
             ),
           );
 
@@ -221,7 +226,7 @@ class FeedUploadPage extends StatelessWidget {
               content: content,
               tags: tags,
               thumbnail: cards[thumbnailIndex],
-              albumId: album,
+              albumId: album?.id,
             ),
           );
 
