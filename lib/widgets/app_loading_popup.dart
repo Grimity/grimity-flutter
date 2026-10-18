@@ -54,7 +54,10 @@ class AppLoadingPopup extends StatelessWidget {
           GdsText(
             title,
             color: .textGrayBold,
-            style: .title2,
+            style: context.whenDevice(
+              mobile: .subtitle1,
+              tablet: .title2,
+            ),
             textAlign: .center,
           ),
           context.whenDevice(
@@ -66,7 +69,10 @@ class AppLoadingPopup extends StatelessWidget {
           GdsText(
             description,
             color: .textGrayBold,
-            style: .body1R,
+            style: context.whenDevice(
+              mobile: .body2R,
+              tablet: .body1R,
+            ),
             textAlign: .center,
           ),
         ],
