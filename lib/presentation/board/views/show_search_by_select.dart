@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
-import 'package:grimity/extensions/enums/post_search_by.dart';
+import 'package:grimity/extensions/enum/post_search_by.dart';
 
 /// 게시글 검색 기준을 선택하는 팝업을 표시합니다.
 Future<PostSearchBy?> showSearchBySelect(

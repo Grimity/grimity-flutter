@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
-import 'package:grimity/extensions/enums/post_search_by.dart';
+import 'package:grimity/extensions/enum/post_search_by.dart';
 import 'package:grimity/presentation/board/views/show_search_by_select.dart';
 import 'package:pervice/pervice.dart';
 

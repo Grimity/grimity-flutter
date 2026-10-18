@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/presentation/home/widgets/home_section.dart';
+import 'package:grimity/presentation/navigation/navigation_page.dart';
 
 /// 홈 화면에서 자유게시판의 최신 글을 목록으로 표시하는 위젯.
 class HomeFreeBoard extends StatelessWidget {
@@ -42,7 +43,10 @@ class HomeFreeBoard extends StatelessWidget {
       child: HomeSection(
         header: .new(
           title: '자유게시판 최신 글',
-          onMore: () {}, // TODO
+          onMore: () {
+            // 자유게시판 페이지로 이동
+            NavigationPage.moveTo(context, 3);
+          },
         ),
         child: service.builder(
           placeholder: placeholder,

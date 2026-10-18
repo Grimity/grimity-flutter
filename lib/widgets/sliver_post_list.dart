@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
-import 'package:grimity/extensions/enums/post_type.dart';
+import 'package:grimity/extensions/enum/post_type.dart';
 import 'package:grimity/util/post_service.dart';
 
 /// 게시글 유형과 검색 조건에 맞는 게시글 목록을 표시하는 슬리버 위젯.
