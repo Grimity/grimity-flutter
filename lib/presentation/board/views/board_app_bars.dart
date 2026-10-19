@@ -18,7 +18,7 @@ List<AppBar> createBoardAppBars(
     return [
       // 헤더, 검색창 표시
       AppBar(
-        behavior: const MaterialAppBarBehavior(),
+        behavior: const MaterialAppBarBehavior(floating: true),
         body: Padding(
           padding: const .only(top: 16, bottom: 20, left: 16, right: 16),
           child: Column(
@@ -50,7 +50,7 @@ List<AppBar> createBoardAppBars(
   return [
     // 헤더 표시
     AppBar(
-      behavior: const MaterialAppBarBehavior(),
+      behavior: const MaterialAppBarBehavior(floating: true),
       body: const Padding(
         padding: .symmetric(vertical: 24, horizontal: 20),
         child: Column(
