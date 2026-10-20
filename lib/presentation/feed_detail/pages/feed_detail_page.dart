@@ -107,39 +107,40 @@ class FeedDetailPage extends StatelessWidget {
     bool delete = false,
     bool edit = false,
   }) async {
-    final menu = GdsAdaptiveMenu(
+    return GdsAdaptiveMenu.show<void>(
+      context,
       layerLink: layerLink,
       position: .right,
-      items: [
-        if (share) ...[
-          (label: '공유하기', onTap: () {}),
-        ],
+      builder: (context) => GdsAdaptiveMenu(
+        items: [
+          if (share) ...[
+            (label: '공유하기', onTap: () {}),
+          ],
 
-        if (profile) ...[
-          (label: '유저 프로필로 이동', onTap: () {}),
-        ],
+          if (profile) ...[
+            (label: '유저 프로필로 이동', onTap: () {}),
+          ],
 
-        if (report) ...[
-          (label: '신고하기', onTap: () {}), // TODO
-        ],
+          if (report) ...[
+            (label: '신고하기', onTap: () {}), // TODO
+          ],
 
-        if (edit) ...[
-          (
-            label: '수정하기',
-            onTap: () => onEdit(context, data),
-          ),
-        ],
+          if (edit) ...[
+            (
+              label: '수정하기',
+              onTap: () => onEdit(context, data),
+            ),
+          ],
 
-        if (delete) ...[
-          (
-            label: '삭제하기',
-            onTap: () => onDelete(context, data),
-          ),
+          if (delete) ...[
+            (
+              label: '삭제하기',
+              onTap: () => onDelete(context, data),
+            ),
+          ],
         ],
-      ],
+      ),
     );
-
-    return menu.open(context);
   }
 
   /// 피드를 수정할 때 호출됩니다.

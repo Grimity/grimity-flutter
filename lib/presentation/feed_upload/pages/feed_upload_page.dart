@@ -193,7 +193,7 @@ class FeedUploadPage extends StatelessWidget {
       description: '이미지 업로드 도중 화면을 닫거나\n뒤로가면 업로드가 중단될 수 있어요',
       onAsync: () async {
         final thumbnailIndex = images.indexOf(thumbnail);
-        final cards = await AppImage.resolve(images);
+        final cards = (await AppImage.resolve(images, .feed)).names;
 
         if (isEdit) {
           final service = PutFeedsById(

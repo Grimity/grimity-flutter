@@ -82,14 +82,15 @@ class FeedRankingCalendar extends StatelessWidget {
 
   /// 월 선택 바텀 시트를 열고 선택한 조회 월을 반환합니다.
   static Future<DateTime?> show(BuildContext context, DateTime initialDate) {
-    final bottomSheet = GdsBottomSheet(
-      onBack: context.pop,
-      child: FeedRankingCalendar(
-        initialDate: initialDate,
-        onChanged: context.pop,
+    return GdsBottomSheet.show<DateTime>(
+      context,
+      builder: (context) => GdsBottomSheet(
+        onBack: context.pop,
+        child: FeedRankingCalendar(
+          initialDate: initialDate,
+          onChanged: context.pop,
+        ),
       ),
     );
-
-    return bottomSheet.open(context);
   }
 }

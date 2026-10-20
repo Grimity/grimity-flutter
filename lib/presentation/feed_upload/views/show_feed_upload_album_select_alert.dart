@@ -8,20 +8,21 @@ Future<AlbumBaseResponse?> showFeedUploadAlbumSelectAlert(
   BuildContext context,
   AlbumBaseResponse? selectedAlbum,
 ) async {
-  final modal = GdsAdaptiveModal(
-    title: '앨범명 변경',
-    children: AppUser.albums.builder((album) {
-      final isSelected = album.id == selectedAlbum?.id;
+  return GdsAdaptiveModal.show<AlbumBaseResponse>(
+    context,
+    builder: (context) => GdsAdaptiveModal(
+      title: '앨범명 변경',
+      children: AppUser.albums.builder((album) {
+        final isSelected = album.id == selectedAlbum?.id;
 
-      return GdsListItem.optionCard(
-        status: isSelected ? .selected : .enabled,
-        label: album.name,
+        return GdsListItem.optionCard(
+          status: isSelected ? .selected : .enabled,
+          label: album.name,
 
-        // 선택되지 않은 앨범을 누르면 반환하고 팝업 닫기.
-        onTap: isSelected ? null : () => context.pop(album),
-      );
-    }),
+          // 선택되지 않은 앨범을 누르면 반환하고 팝업 닫기.
+          onTap: isSelected ? null : () => context.pop(album),
+        );
+      }),
+    ),
   );
-
-  return modal.open(context);
 }

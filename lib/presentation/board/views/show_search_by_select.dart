@@ -9,18 +9,19 @@ Future<PostSearchBy?> showSearchBySelect(
   LayerLink layerLink,
   PostSearchBy selected,
 ) {
-  final menu = GdsAdaptiveSelect(
+  return GdsAdaptiveSelect.show<PostSearchBy>(
+    context,
     layerLink: layerLink,
     position: .left,
-    title: '검색 필터',
-    index: PostSearchBy.values.indexOf(selected),
-    items: PostSearchBy.values.builder((value) {
-      return (
-        label: value.displayName,
-        onTap: () => context.pop(value),
-      );
-    }),
+    builder: (context) => GdsAdaptiveSelect(
+      title: '검색 필터',
+      index: PostSearchBy.values.indexOf(selected),
+      items: PostSearchBy.values.builder((value) {
+        return (
+          label: value.displayName,
+          onTap: () => context.pop(value),
+        );
+      }),
+    ),
   );
-
-  return menu.open(context);
 }
