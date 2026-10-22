@@ -1,10 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 /// 지정된 키의 문자열 값을 보안 저장소에서 조회·저장·삭제하는 래퍼.
 class AppSecureStorage {
-  const new _(this.key);
+  const new _(this._key);
 
-  final String key;
+  final String _key;
 
   /// 액세스 토큰을 저장하고 조회하는 항목.
   static final accessToken = AppSecureStorage._('access_token');
@@ -21,6 +22,11 @@ class AppSecureStorage {
     accessibility: .first_unlock,
     synchronizable: true,
   );
+
+  /// 개발용 데이터와 실사용 데이터를 분리하도록 실행 환경별 저장소 키를 반환합니다.
+  String get key {
+    return kDebugMode ? 'dev.$_key' : _key;
+  }
 
   /// 저장된 값을 반환합니다. 저장된 값이 없으면 `null`을 반환합니다.
   Future<String?> get() {
