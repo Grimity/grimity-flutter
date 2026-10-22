@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:grimity/api/api.dart';
-import 'package:grimity/extensions/bool_extension.dart';
 import 'package:pervice/pervice.dart';
 
 /// 여러 화면에서 사용하는 사용자 액션과 요청 실패 처리를 모아 둔 클래스.
@@ -18,7 +17,37 @@ abstract class AppUseCase {
       isLike.value = value;
       likeCount.value += value ? 1 : -1;
 
-      await value.feedLikeServiceOf(id).request();
+      if (value) {
+        await PutFeedsByIdLike(id: id).request();
+      } else {
+        await DeleteFeedsByIdLike(id: id).request();
+      }
+    } catch (_) {
+      // 요청 실패 시 이전 상태로 복구.
+      isLike.value = !value;
+      likeCount.value += value ? -1 : 1;
+      rethrow;
+    }
+  }
+
+  /// 글의 좋아요 상태와 개수를 먼저 반영하고, 요청 실패 시 이전 상태로 복구합니다.
+  static Future<void> likePost(
+    BuildContext context, {
+    required String id,
+    required bool value,
+    required ValueState<bool> isLike,
+    required ValueState<int> likeCount,
+  }) async {
+    try {
+      // 요청 전에 좋아요 상태를 화면에 반영.
+      isLike.value = value;
+      likeCount.value += value ? 1 : -1;
+
+      if (value) {
+        await PutPostsByIdLike(id: id).request();
+      } else {
+        await DeletePostsByIdLike(id: id).request();
+      }
     } catch (_) {
       // 요청 실패 시 이전 상태로 복구.
       isLike.value = !value;

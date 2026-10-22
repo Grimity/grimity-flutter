@@ -1,47 +1,47 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
+import 'package:grimity/extensions/model/feed_detail_response_extension.dart';
 import 'package:grimity/presentation/feed_detail/pages/feed_detail_page.dart';
 
 /// 피드 작성자의 프로필과 닉네임, 공유 및 더보기 버튼을 표시하는 위젯.
 class FeedDetailHeader extends StatelessWidget {
   const new({
     super.key,
-    required this.data,
-    required this.isAuthor,
-    required this.nickname,
-    required this.profile,
+    required this.service,
   });
 
-  final FeedDetailResponse data;
-  final bool isAuthor;
-  final String nickname;
-  final ImageProvider? profile;
+  final GetFeedsById service;
 
   @override
   Widget build(BuildContext context) {
     final layerLink = context.useLayerLink();
+    final data = service.data;
 
     return SliverToBoxAdapter(
       child: GdsUserItem.iconButton(
-        nickname: nickname,
-        profile: profile,
+        nickname: data.author.name,
+        profile: data.author.image?.toImage(),
         actions: [
           // 공유하기
-          .new(icon: .share, onTap: () {}), // TODO
+          .new(
+            icon: .share,
+            onTap: () {}, // TODO
+          ),
+
           // 더보기 메뉴
           .new(
             icon: .dotmenuHorizontal,
             layerLink: layerLink,
             onTap: () {
-              FeedDetailPage.openMoreMenu(
+              FeedDetailPage.openMenu(
                 context,
-                data,
+                service,
                 layerLink,
-                edit: isAuthor,
-                delete: isAuthor,
-                report: !isAuthor,
-                profile: !isAuthor,
+                edit: data.isMe,
+                delete: data.isMe,
+                report: !data.isMe,
+                profile: !data.isMe,
               );
             },
           ),

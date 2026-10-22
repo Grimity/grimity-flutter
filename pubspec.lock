@@ -395,7 +395,7 @@ packages:
     description:
       path: "packages/flutter_design_preview"
       ref: HEAD
-      resolved-ref: "05b67fbf97282121293f09bc177d806a05867edd"
+      resolved-ref: d1c4fe9b2f39e0d0df1fcb667de218a7dc53ee35
       url: "https://github.com/MTtankkeo/vscode-flutter-design-preview.git"
     source: git
     version: "1.0.0"
@@ -517,7 +517,7 @@ packages:
     source: hosted
     version: "2.4.8"
   flutter_nested_scroll:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_nested_scroll
       sha256: "74db7cff5f805d5775eb11f8769bae1004972ffafce12b52a91ecd80654bd348"
@@ -667,7 +667,7 @@ packages:
     description:
       path: "packages/gds_flutter"
       ref: HEAD
-      resolved-ref: "8e8e4320240782c3b30e0d870b7f3f01976dfe3e"
+      resolved-ref: "5afeb6f6fdb89ebea12cb0a54b39f343646b73af"
       url: "https://github.com/Grimity/gds-flutter.git"
     source: git
     version: "0.0.0"
@@ -784,7 +784,7 @@ packages:
     source: hosted
     version: "4.12.0"
   intl:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: intl
       sha256: "1ca20c894b1717686a2319b8548763d812bc0aabdac580420a44c5178c57a867"

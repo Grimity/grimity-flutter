@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/extensions/enum/post_type.dart';
+import 'package:grimity/presentation/post_detail/pages/post_detail_page.dart';
 import 'package:grimity/presentation/post_upload/views/show_post_upload_type_select.dart';
 import 'package:pervice/pervice.dart';
 
@@ -72,19 +73,22 @@ class PostUploadAppBar extends StatelessWidget {
 
     if (isEdit) {
       await PutPostsById(id: initialPost!.id, request: request).request();
-    } else {
-      await PostPosts(request: request).request();
-    }
 
-    // 작성 화면을 닫고 완료 안내 표시.
-    if (context.mounted) {
-      if (isEdit) {
-        context.pop();
-      } else {
-        context.pushReplacement(const SizedBox()); // TODO
+      // 현재 페이지를 닫고 완료 안내 표시.
+      if (context.mounted) {
+        context.pop(true);
+
+        GdsToast.show('글을 수정했어요', status: .positive);
       }
+    } else {
+      final response = await PostPosts(request: request).request();
 
-      GdsToast.show(isEdit ? '글을 수정했어요' : '글을 업로드했어요', status: .positive);
+      // 상세 페이지로 이동하고 완료 안내 표시.
+      if (context.mounted) {
+        context.pushReplacement(PostDetailPage(id: response.id));
+
+        GdsToast.show('글을 업로드했어요', status: .positive);
+      }
     }
   }
 }

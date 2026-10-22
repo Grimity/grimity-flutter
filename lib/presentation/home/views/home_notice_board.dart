@@ -3,6 +3,7 @@ import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/presentation/home/widgets/home_section.dart';
 import 'package:grimity/presentation/navigation/navigation_page.dart';
+import 'package:grimity/presentation/post_detail/pages/post_detail_page.dart';
 
 /// 홈 화면에서 공지의 최신 글을 목록으로 표시하는 위젯.
 class HomeNoticeBoard extends StatelessWidget {
@@ -53,7 +54,9 @@ class HomeNoticeBoard extends StatelessWidget {
           builder: (data) {
             return Column(
               mainAxisSize: .min,
-              children: data.posts.builder(buildPost),
+              children: data.posts.builder((post) {
+                return buildPost(context, post);
+              }),
             );
           },
         ),
@@ -62,7 +65,7 @@ class HomeNoticeBoard extends StatelessWidget {
   }
 
   /// 각 공지 게시글의 제목과 관련 정보를 표시하는 빌더.
-  Widget buildPost(PostWithAuthorResponse post) {
+  Widget buildPost(BuildContext context, PostWithAuthorResponse post) {
     return GdsUserItem.post(
       type: post.type.key,
       title: post.title,
@@ -71,7 +74,10 @@ class HomeNoticeBoard extends StatelessWidget {
       viewCount: post.viewCount.toInt(),
       commentCount: post.commentCount.toInt(),
       showImage: true,
-      onTap: () {}, // TODO
+      onTap: () {
+        // 글 상세 페이지로 이동.
+        context.push(PostDetailPage(id: post.id));
+      },
     );
   }
 }

@@ -4,7 +4,6 @@ import 'package:gap/gap.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/app/app_use_case.dart';
-import 'package:grimity/extensions/date_time_extension.dart';
 import 'package:grimity/presentation/feed_detail/pages/feed_detail_page.dart';
 import 'package:grimity/presentation/home/widgets/home_section.dart';
 import 'package:grimity/presentation/navigation/navigation_page.dart';

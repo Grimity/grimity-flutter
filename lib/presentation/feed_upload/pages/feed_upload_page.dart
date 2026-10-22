@@ -210,10 +210,10 @@ class FeedUploadPage extends StatelessWidget {
 
           await service.request();
 
-          // 수정 완료 시 페이지 닫기.
+          // 현재 페이지를 닫고 완료 안내 표시.
           return () {
             if (context.mounted) {
-              context.pop();
+              context.pop(true);
 
               GdsToast.show('피드를 수정했어요', status: .positive);
             }
@@ -232,7 +232,7 @@ class FeedUploadPage extends StatelessWidget {
 
           final response = await service.request();
 
-          // 업로드 완료 시 페이지 닫기.
+          // 상세 페이지로 이동하고 완료 안내 표시.
           return () {
             if (context.mounted) {
               context.pushReplacement(FeedDetailPage(id: response.id));

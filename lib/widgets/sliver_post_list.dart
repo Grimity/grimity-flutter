@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/extensions/enum/post_type.dart';
+import 'package:grimity/presentation/post_detail/pages/post_detail_page.dart';
 import 'package:grimity/util/post_service.dart';
 
 /// 게시글 유형과 검색 조건에 맞는 게시글 목록을 표시하는 슬리버 위젯.
@@ -50,7 +51,10 @@ class SliverPostList extends StatelessWidget {
             commentCount: post.commentCount.toInt(),
             createdAt: post.createdAt,
             image: post.thumbnail?.toImage(),
-            onTap: () {}, // TODO
+            onTap: () {
+              // 글 상세 페이지로 이동.
+              context.push(PostDetailPage(id: post.id));
+            },
           ),
         );
       },

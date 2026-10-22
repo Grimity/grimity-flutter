@@ -65,7 +65,7 @@ class FeedDetailPage extends StatelessWidget {
                       // 상세 화면 표시
                       FeedDetailArticle(
                         id: id,
-                        data: data,
+                        service: detailService,
                         commentService: commentService,
                       ),
 
@@ -96,10 +96,10 @@ class FeedDetailPage extends StatelessWidget {
     );
   }
 
-  /// 선택한 항목으로 피드 상세 메뉴를 엽니다.
-  static Future<void> openMoreMenu(
+  /// 선택한 항목으로 피드 상세의 메뉴를 엽니다.
+  static Future<void> openMenu(
     BuildContext context,
-    FeedDetailResponse data,
+    GetFeedsById service,
     LayerLink layerLink, {
     bool share = false,
     bool report = false,
@@ -128,14 +128,14 @@ class FeedDetailPage extends StatelessWidget {
           if (edit) ...[
             (
               label: '수정하기',
-              onTap: () => onEdit(context, data),
+              onTap: () => onEdit(context, service),
             ),
           ],
 
           if (delete) ...[
             (
               label: '삭제하기',
-              onTap: () => onDelete(context, data),
+              onTap: () => onDelete(context, service),
             ),
           ],
         ],
@@ -146,17 +146,25 @@ class FeedDetailPage extends StatelessWidget {
   /// 피드를 수정할 때 호출됩니다.
   static void onEdit(
     BuildContext context,
-    FeedDetailResponse data,
-  ) {
+    GetFeedsById service,
+  ) async {
     // 피드 업로드 페이지로 이동.
-    context.pushReplacement(FeedUploadPage(initialFeed: data));
+    final isEdited = await context.pushReplacement<bool?, void>(
+      FeedUploadPage(initialFeed: service.data),
+    );
+
+    // 피드 수정을 완료했을 경우.
+    if (isEdited == true) {
+      service.refresh();
+    }
   }
 
   /// 피드를 삭제할 때 호출됩니다.
   static void onDelete(
     BuildContext context,
-    FeedDetailResponse data,
+    GetFeedsById service,
   ) async {
+    final data = service.data;
     context.pop();
     await DeleteFeedsById(id: data.id).request();
 

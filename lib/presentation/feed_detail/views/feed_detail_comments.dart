@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
-import 'package:grimity/extensions/bool_extension.dart';
 import 'package:grimity/presentation/feed_detail/widgets/feed_detail_input_bar.dart';
 import 'package:grimity/widgets/sliver_comment_list.dart';
 import 'package:pervice/pervice.dart';
@@ -12,12 +11,12 @@ class FeedDetailComments extends StatelessWidget {
     super.key,
     required this.id,
     required this.authorId,
-    required this.service,
+    required this.commentService,
   });
 
   final String id;
   final String authorId;
-  final GetFeedComments service;
+  final GetFeedComments commentService;
 
   /// 댓글 목록을 불러오는 동안 표시할 임시 데이터.
   static final placeholder = List.generate(
@@ -35,7 +34,7 @@ class FeedDetailComments extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final comments = service.maybeData ?? placeholder;
+    final comments = commentService.maybeData ?? placeholder;
 
     // SHARED STATE
     final mention = context.sharedStateOf<FeedMention?>(
@@ -65,20 +64,21 @@ class FeedDetailComments extends StatelessWidget {
       for (final parent in comments) ...[
         (
           id: parent.id,
-          nickname: parent.writer.name,
+          authorId: authorId,
+          userId: parent.writer?.id,
+          nickname: parent.writer?.name,
           content: parent.content,
           createdAt: parent.createdAt,
           likeCount: parent.likeCount.toInt(),
           isLike: parent.isLike,
-          isWriter: parent.writer.id == authorId,
           isReply: false,
           isDeleted: false, // TODO
           mention: null,
-          profile: parent.writer.image?.toImage(),
+          profile: parent.writer?.image?.toImage(),
           onReply: () {
             mention.value = (
-              userName: parent.writer.name,
-              userId: parent.writer.id,
+              userName: parent.writer!.name,
+              userId: parent.writer!.id,
               parentCommentId: parent.id,
             );
 
@@ -92,15 +92,16 @@ class FeedDetailComments extends StatelessWidget {
         for (final reply in parent.childComments)
           (
             id: reply.id,
+            authorId: authorId,
+            userId: reply.writer.id,
             nickname: reply.writer.name,
             content: reply.content,
             createdAt: reply.createdAt,
             likeCount: reply.likeCount.toInt(),
             isLike: reply.isLike,
-            isWriter: reply.writer.id == authorId,
             isReply: true,
             isDeleted: false, // TODO
-            mention: reply.mentionedUser?.name ?? parent.writer.name,
+            mention: reply.mentionedUser?.name ?? parent.writer?.name,
             profile: reply.writer.image?.toImage(),
             onReply: () {
               mention.value = (
@@ -118,14 +119,18 @@ class FeedDetailComments extends StatelessWidget {
     ];
 
     return SliverCommentList(
-      service: service,
+      service: commentService,
       itemCount: items.length,
       itemBuilder: (_, index) => items[index],
     );
   }
 
   /// 댓글의 좋아요 상태를 서버에 반영합니다.
-  Future<void> onLike(String commentId, bool value) {
-    return value.feedCommentLikeServiceOf(commentId).request();
+  Future<void> onLike(String commentId, bool value) async {
+    if (value) {
+      await PutFeedCommentsByIdLike(id: commentId).request();
+    } else {
+      await DeleteFeedCommentsByIdLike(id: commentId).request();
+    }
   }
 }

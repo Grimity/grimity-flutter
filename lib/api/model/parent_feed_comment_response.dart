@@ -13,18 +13,18 @@ final class ParentFeedCommentResponse {
     required this.content,
     required this.createdAt,
     required this.likeCount,
-    required this.writer,
-    required this.childComments,
     required this.isLike,
+    this.writer,
+    required this.childComments,
   });
 
   final String id;
   final String content;
   final DateTime createdAt;
   final num likeCount;
-  final UserBaseResponse writer;
-  final List<ChildFeedCommentResponse> childComments;
   final bool isLike;
+  final UserBaseResponse? writer;
+  final List<ChildFeedCommentResponse> childComments;
 
   /// OpenAPI codec for encoding and decoding [ParentFeedCommentResponse].
   static const codec = _Codec();
@@ -44,9 +44,9 @@ class _Codec extends OpenApiCodec<ParentFeedCommentResponse, Map<String, dynamic
     content: obj.decode<String>('content')!,
     createdAt: obj.decode<DateTime>('createdAt')!,
     likeCount: obj.decode<num>('likeCount')!,
-    writer: obj.decode<UserBaseResponse>('writer')!,
-    childComments: obj.decode<List<ChildFeedCommentResponse>>('childComments')!,
     isLike: obj.decode<bool>('isLike')!,
+    writer: obj.decode<UserBaseResponse>('writer'),
+    childComments: obj.decode<List<ChildFeedCommentResponse>>('childComments')!,
   );
 
   @override
@@ -55,8 +55,8 @@ class _Codec extends OpenApiCodec<ParentFeedCommentResponse, Map<String, dynamic
     'content': value.content.encode(),
     'createdAt': value.createdAt.encode(),
     'likeCount': value.likeCount.encode(),
-    'writer': value.writer.encode(),
-    'childComments': value.childComments.encode(),
     'isLike': value.isLike.encode(),
+    'writer': value.writer?.encode(),
+    'childComments': value.childComments.encode(),
   };
 }

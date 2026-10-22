@@ -7,12 +7,13 @@ import 'package:pervice/pervice.dart';
 /// 댓글 항목을 표시하는 데 필요한 정보.
 typedef SliverComment = ({
   String id,
-  String nickname,
+  String authorId,
+  String? userId,
+  String? nickname,
   String content,
   DateTime createdAt,
   int likeCount,
   bool isLike,
-  bool isWriter,
   bool isReply,
   bool isDeleted,
   String? mention,
@@ -80,9 +81,9 @@ class _Comment extends StatelessWidget {
 
     return GdsUserItem.comment(
       size: .xs,
-      nickname: comment.nickname,
+      nickname: comment.nickname!,
       likeCount: likeCount.value,
-      isWriter: comment.isWriter,
+      isWriter: comment.userId == comment.authorId,
       isReply: comment.isReply,
       isLiked: isLike.value,
       content: comment.content,

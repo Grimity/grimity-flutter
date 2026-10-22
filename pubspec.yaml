@@ -11,7 +11,6 @@ dependencies:
     sdk: flutter
   pervice: ^1.4.0
   dio: ^5.11.1
-  flutter_nested_scroll: ^1.1.0
   flutter_appbar: ^1.10.0
   flutter_secure_storage: ^11.2.0
   flutter_native_splash: ^2.4.8
@@ -20,7 +19,6 @@ dependencies:
   animations: ^3.0.0
   git_config: ^1.1.0
   dotenv: ^4.2.0
-  intl: ^0.20.3
   dynamic_height_list_view: ^0.0.2
   flexible_horizontal_list_view: ^0.2.0
   gap: ^3.0.1

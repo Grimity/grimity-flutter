@@ -2,32 +2,30 @@ import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
-import 'package:grimity/app/app_user.dart';
+import 'package:grimity/presentation/feed_detail/views/feed_detail_comments.dart';
 import 'package:grimity/presentation/feed_detail/widgets/feed_detail_actions.dart';
-import 'package:grimity/presentation/feed_detail/widgets/feed_detail_comments.dart';
 import 'package:grimity/presentation/feed_detail/widgets/feed_detail_content.dart';
 import 'package:grimity/presentation/feed_detail/widgets/feed_detail_header.dart';
 import 'package:grimity/presentation/feed_detail/widgets/feed_detail_images.dart';
 import 'package:grimity/widgets/sliver_column.dart';
 import 'package:pervice/pervice.dart';
 
-/// 피드의 작성자, 이미지, 본문과 댓글을 표시하는 상세 화면.
+/// 피드의 정보, 이미지, 본문과 댓글을 표시하는 상세 화면.
 class FeedDetailArticle extends StatelessWidget {
   const new({
     super.key,
     required this.id,
-    required this.data,
+    required this.service,
     required this.commentService,
   });
 
   final String id;
-  final FeedDetailResponse data;
+  final GetFeedsById service;
   final GetFeedComments commentService;
 
   @override
   Widget build(BuildContext context) {
-    // 현재 사용자가 피드 작성자인지 여부.
-    final isAuthor = data.author.id == profile.id;
+    final data = service.data;
 
     // SHARED STATE
     final isLike = context.sharedStateOf(
@@ -53,12 +51,7 @@ class FeedDetailArticle extends StatelessWidget {
     return SliverColumn(
       children: [
         // 상세 피드 헤더 표시
-        FeedDetailHeader(
-          data: data,
-          isAuthor: isAuthor,
-          nickname: data.author.name,
-          profile: data.author.image?.toImage(),
-        ),
+        FeedDetailHeader(service: service),
         const SliverGap(8),
 
         // 피드 이미지 목록 표시
@@ -78,11 +71,10 @@ class FeedDetailArticle extends StatelessWidget {
 
         // 액션 버튼 표시
         FeedDetailActions(
-          data: data,
-          isAuthor: isAuthor,
+          service: service,
           likeCount: likeCount,
-          isLike: isLike,
           commentCount: commentCount,
+          isLike: isLike,
         ),
         const SliverGap(32),
 
@@ -90,7 +82,7 @@ class FeedDetailArticle extends StatelessWidget {
         FeedDetailComments(
           id: id,
           authorId: data.author.id,
-          service: commentService,
+          commentService: commentService,
         ),
         const SliverGap(20),
 

@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
-import 'package:grimity/extensions/date_time_extension.dart';
 import 'package:grimity/presentation/feed_ranking/pages/feed_ranking_page.dart';
 import 'package:grimity/presentation/feed_ranking/views/feed_ranking_calendar.dart';
 import 'package:grimity/presentation/feed_ranking/widgets/feed_ranking_period.dart';

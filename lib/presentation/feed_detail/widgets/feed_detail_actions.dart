@@ -2,28 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/app/app_use_case.dart';
+import 'package:grimity/extensions/model/feed_detail_response_extension.dart';
 import 'package:grimity/presentation/feed_detail/pages/feed_detail_page.dart';
 import 'package:pervice/pervice.dart';
 
-/// 피드 상세의 좋아요, 댓글 및 더보기 액션 버튼을 표시하는 위젯.
+/// 피드 상세의 좋아요, 댓글 개수 및 더보기 액션 버튼을 표시하는 위젯.
 class FeedDetailActions extends StatelessWidget {
   const new({
     super.key,
-    required this.isAuthor,
-    required this.data,
+    required this.service,
     required this.likeCount,
     required this.commentCount,
     required this.isLike,
   });
 
-  final FeedDetailResponse data;
-  final bool isAuthor;
+  final GetFeedsById service;
   final ValueState<int> likeCount;
   final ValueState<int> commentCount;
   final ValueState<bool> isLike;
 
   @override
   Widget build(BuildContext context) {
+    final data = service.data;
+
     return SliverToBoxAdapter(
       child: Row(
         mainAxisAlignment: .spaceBetween,
@@ -61,15 +62,15 @@ class FeedDetailActions extends StatelessWidget {
                 type: .normal,
                 icon: .dotmenuHorizontal,
                 onTap: () {
-                  FeedDetailPage.openMoreMenu(
+                  FeedDetailPage.openMenu(
                     context,
-                    data,
+                    service,
                     layerLink,
                     share: true,
-                    edit: isAuthor,
-                    delete: isAuthor,
-                    report: !isAuthor,
-                    profile: !isAuthor,
+                    edit: data.isMe,
+                    delete: data.isMe,
+                    report: !data.isMe,
+                    profile: !data.isMe,
                   );
                 },
               );
@@ -86,7 +87,7 @@ class FeedDetailActions extends StatelessWidget {
 
     AppUseCase.likeFeed(
       context,
-      id: data.id,
+      id: service.data.id,
       value: value,
       isLike: isLike,
       likeCount: likeCount,

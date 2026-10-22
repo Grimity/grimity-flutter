@@ -68,6 +68,7 @@ class FeedDetailInputBar extends StatelessWidget {
             loading.value = true;
             await postFeed.request();
 
+            // 등록 완료 후 입력 내용과 답글 대상 초기화.
             controller.clear();
             content.value = '';
             mention.value = null;

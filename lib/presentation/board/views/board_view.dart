@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
-import 'package:grimity/extensions/build_context_extension.dart';
 import 'package:grimity/util/post_service.dart';
 import 'package:grimity/widgets/sliver_post_list.dart';
 import 'package:grimity/widgets/sliver_post_navigation.dart';
