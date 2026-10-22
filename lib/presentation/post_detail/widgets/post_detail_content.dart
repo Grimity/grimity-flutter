@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// 글의 HTML 본문과 조회 수, 작성일을 표시하는 위젯.
 class PostDetailContent extends StatelessWidget {
@@ -10,10 +11,7 @@ class PostDetailContent extends StatelessWidget {
     required this.viewCount,
   });
 
-  /// 본문과 작성일을 표시할 글 상세 정보.
   final PostDetailResponse data;
-
-  /// 화면에 표시할 조회 수.
   final int viewCount;
 
   @override
@@ -24,7 +22,7 @@ class PostDetailContent extends StatelessWidget {
         mainAxisSize: .min,
         spacing: 16,
         children: [
-          // HTML 본문과 본문에 포함된 이미지 표시.
+          // HTML 본문 표시
           GdsEditorViewer(
             html: data.content,
             imageBuilder: (context, url) {
@@ -33,7 +31,13 @@ class PostDetailContent extends StatelessWidget {
                 child: GdsImage(provider: url.toImage()),
               );
             },
-            onLinkTap: (url) {}, // TODO
+            onLinkTap: (url) async {
+              // 링크를 외부 브라우저 또는 연결된 앱으로 열기.
+              final opened = await launchUrl(Uri.parse(url), mode: .externalApplication);
+              if (!opened) {
+                GdsToast.show('링크를 열 수 없어요', status: .negative);
+              }
+            },
           ),
 
           // 조회 수와 작성일 표시.
