@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
+import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/app/app_secure_storage.dart';
 import 'package:grimity/app/app_user.dart';
@@ -109,8 +108,12 @@ class AuthInterceptor extends Interceptor {
   /// 토큰을 갱신하고 새 액세스·리프레시 토큰을 저장합니다.
   Future<void> _refreshTokens() async {
     // 기기 모델은 지원하는 모바일 플랫폼에서만 전달하는 선택적 정보.
-    final model = Platform.isAndroid || Platform.isIOS ? (await AppDevice.info).model : null;
-    final result = await GetAuthRefresh(grimityAppModel: model).request();
+    final info = await AppDevice.info;
+    final device = GdsDevice.current;
+    final result = await GetAuthRefresh(
+      grimityAppModel: info.model,
+      grimityAppDevice: device.name,
+    ).request();
 
     await AppSecureStorage.accessToken.set(result.accessToken);
     await AppSecureStorage.refreshToken.set(result.refreshToken);
