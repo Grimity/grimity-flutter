@@ -23,7 +23,7 @@ Future<void> main() async {
   await AppPhoto.initialize();
 
   // 로그인 관련 플러그인 초기화.
-  AppOAuth.setup();
+  await AppOAuth.setup();
 
   // API 관련 설정 초기화.
   Api.setup(AppNetwork.dio);

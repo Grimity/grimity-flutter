@@ -11,12 +11,13 @@ dependencies:
     sdk: flutter
   pervice: ^1.4.0
   dio: ^5.11.1
-  flutter_appbar: ^1.9.0
+  flutter_nested_scroll: ^1.1.0
+  flutter_appbar: ^1.10.0
   flutter_secure_storage: ^11.2.0
   flutter_native_splash: ^2.4.8
   device_info_plus: ^13.3.0
-  firebase_core: ^4.15.0
-  animations: ^2.2.0
+  firebase_core: ^5.0.0
+  animations: ^3.0.0
   git_config: ^1.1.0
   dotenv: ^4.2.0
   intl: ^0.20.3
@@ -28,10 +29,11 @@ dependencies:
   flutter_image_compress: 2.5.1
 
   # 소셜 로그인
-  google_sign_in: ^6.3.0
-  sign_in_with_apple: ^8.1.0
+  google_sign_in: ^7.2.0
+  sign_in_with_apple: ^8.2.0
   kakao_flutter_sdk_user: ^2.0.1
 
+  # Open API 코드 생성기
   pervice_openapi:
     git:
       url: https://github.com/pervice-sdk/pervice-openapi

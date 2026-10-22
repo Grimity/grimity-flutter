@@ -11,14 +11,14 @@ abstract class AppOAuth {
   static const _googleIosClientId = '50047733044-l3hdgkhpmg603v03b7fa7gni87kvpb6u.apps.googleusercontent.com';
   static const _googleServerClientId = '50047733044-ncm722ougs371cg1mln6rirv9h8prc6h.apps.googleusercontent.com';
 
-  static final _google = GoogleSignIn(
-    clientId: Platform.isIOS ? _googleIosClientId : null,
-    serverClientId: _googleServerClientId,
-  );
+  /// 앱 실행 시 구글 및 카카오 SDK를 초기화합니다.
+  static Future<void> setup() async {
+    await KakaoSdk.init(nativeAppKey: _kakaoNativeAppKey);
 
-  /// 앱 실행 시 카카오 SDK를 초기화합니다.
-  static void setup() {
-    KakaoSdk.init(nativeAppKey: _kakaoNativeAppKey);
+    await GoogleSignIn.instance.initialize(
+      clientId: Platform.isIOS ? _googleIosClientId : null,
+      serverClientId: _googleServerClientId,
+    );
   }
 
   /// 카카오와 구글은 액세스 토큰, 애플은 ID 토큰을 반환합니다.
@@ -31,22 +31,32 @@ abstract class AppOAuth {
 
   /// 구글 로그인 후 액세스 토큰을 반환하며, 계정 선택을 취소하면 null을 반환합니다.
   static Future<String?> _signInWithGoogle() async {
-    // 로그인할 때마다 계정을 선택할 수 있도록 이전 SDK 세션을 해제합니다.
-    await _google.signOut();
-    final account = await _google.signIn();
+    try {
+      // 로그인할 때마다 계정을 선택할 수 있도록 이전 SDK 세션을 해제합니다.
+      final google = GoogleSignIn.instance;
+      const scopes = ['email', 'profile'];
+      await google.signOut();
+      final account = await google.authenticate(scopeHint: scopes);
 
-    // 사용자가 계정 선택을 취소한 경우.
-    if (account == null) {
-      return null;
+      // 이미 동의한 권한으로 토큰을 조회하고, 필요한 경우 추가 동의를 요청합니다.
+      final authorization =
+          await account.authorizationClient.authorizationForScopes(scopes) ??
+          await account.authorizationClient.authorizeScopes(scopes);
+
+      final token = authorization.accessToken;
+      if (token.isEmpty) {
+        throw StateError('구글 로그인 토큰을 발급받지 못했습니다.');
+      }
+
+      return token;
+    } on GoogleSignInException catch (error) {
+      // 사용자가 로그인 또는 권한 동의를 취소한 경우.
+      if (error.code == .canceled) {
+        return null;
+      }
+
+      rethrow;
     }
-
-    final authentication = await account.authentication;
-    final token = authentication.accessToken;
-    if (token == null || token.isEmpty) {
-      throw StateError('구글 로그인 토큰을 발급받지 못했습니다.');
-    }
-
-    return token;
   }
 
   /// 카카오톡 또는 카카오 계정으로 로그인하며, 취소하면 null을 반환합니다.
