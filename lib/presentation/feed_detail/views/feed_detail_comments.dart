@@ -65,20 +65,20 @@ class FeedDetailComments extends StatelessWidget {
         (
           id: parent.id,
           authorId: authorId,
-          userId: parent.writer?.id,
-          nickname: parent.writer?.name,
+          userId: parent.writer.id,
+          nickname: parent.writer.name,
           content: parent.content,
           createdAt: parent.createdAt,
           likeCount: parent.likeCount.toInt(),
           isLike: parent.isLike,
           isReply: false,
-          isDeleted: false, // TODO
+          isDeleted: false,
           mention: null,
-          profile: parent.writer?.image?.toImage(),
+          profile: parent.writer.image?.toImage(),
           onReply: () {
             mention.value = (
-              userName: parent.writer!.name,
-              userId: parent.writer!.id,
+              userName: parent.writer.name,
+              userId: parent.writer.id,
               parentCommentId: parent.id,
             );
 
@@ -100,8 +100,8 @@ class FeedDetailComments extends StatelessWidget {
             likeCount: reply.likeCount.toInt(),
             isLike: reply.isLike,
             isReply: true,
-            isDeleted: false, // TODO
-            mention: reply.mentionedUser?.name ?? parent.writer?.name,
+            isDeleted: false,
+            mention: reply.mentionedUser?.name ?? parent.writer.name,
             profile: reply.writer.image?.toImage(),
             onReply: () {
               mention.value = (
