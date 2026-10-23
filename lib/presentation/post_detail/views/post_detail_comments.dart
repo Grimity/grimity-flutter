@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
+import 'package:grimity/app/app_user.dart';
 import 'package:grimity/presentation/post_detail/widgets/post_detail_input_bar.dart';
 import 'package:grimity/widgets/sliver_comment_list.dart';
 import 'package:pervice/pervice.dart';
@@ -63,7 +64,7 @@ class PostDetailComments extends StatelessWidget {
     final items = <SliverComment>[
       // 본문 댓글 목록
       for (final parent in comments) ...[
-        (
+        .new(
           id: parent.id,
           authorId: authorId,
           userId: parent.writer?.id,
@@ -85,13 +86,13 @@ class PostDetailComments extends StatelessWidget {
 
             focusNode.value.requestFocus();
           },
-          onMenu: () {},
+          onMenu: openMenu,
           onLike: (value) => onLike(parent.id, value),
         ),
 
         // 하위 댓글 목록
         for (final reply in parent.childComments)
-          (
+          .new(
             id: reply.id,
             authorId: authorId,
             userId: reply.writer?.id,
@@ -113,7 +114,7 @@ class PostDetailComments extends StatelessWidget {
 
               focusNode.value.requestFocus();
             },
-            onMenu: () {},
+            onMenu: openMenu,
             onLike: (value) => onLike(reply.id, value),
           ),
       ],
@@ -133,5 +134,58 @@ class PostDetailComments extends StatelessWidget {
     } else {
       await DeletePostCommentsByIdLike(id: commentId).request();
     }
+  }
+
+  /// 선택한 항목으로 댓글 메뉴를 엽니다.
+  Future<void> openMenu(
+    BuildContext context,
+    SliverComment comment,
+    LayerLink layerLink,
+  ) async {
+    final isMine = comment.userId == profile.id;
+
+    return GdsAdaptiveMenu.show<void>(
+      context,
+      layerLink: layerLink,
+      position: .right,
+      builder: (context) => GdsAdaptiveMenu(
+        items: [
+          // 본인이 작성한 댓글인 경우
+          if (isMine) ...[
+            (
+              label: '삭제하기',
+              onTap: () {
+                context.pop();
+                onDelete(comment);
+              },
+            ),
+          ],
+
+          // 타인이 작성한 댓글의 경우
+          if (!isMine) ...[
+            (
+              label: '답글달기',
+              onTap: () {
+                context.pop();
+                comment.onReply();
+              },
+            ),
+            (
+              label: '신고하기',
+              onTap: () {}, // TODO
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  /// 댓글을 삭제할 때 호출됩니다.
+  void onDelete(SliverComment comment) async {
+    await DeletePostCommentsById(id: comment.id).request();
+
+    // 삭제 후 댓글 목록을 새로고침하고 완료 안내 표시.
+    commentService.refresh();
+    GdsToast.show('댓글을 삭제했어요', status: .positive);
   }
 }

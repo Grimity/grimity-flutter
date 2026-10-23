@@ -4,23 +4,30 @@ import 'package:gds_flutter/components/common/gds_disabled.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:pervice/pervice.dart';
 
+/// 댓글의 더보기 메뉴를 열 때 호출되는 콜백.
+typedef CommentMenuCallback = void Function(
+  BuildContext context,
+  SliverComment comment,
+  LayerLink layerLink,
+);
+
 /// 댓글 항목을 표시하는 데 필요한 정보.
-typedef SliverComment = ({
-  String id,
-  String authorId,
-  String? userId,
-  String? nickname,
-  String content,
-  DateTime createdAt,
-  int likeCount,
-  bool isLike,
-  bool isReply,
-  bool isDeleted,
-  String? mention,
-  ImageProvider? profile,
-  Future<void> Function(bool) onLike,
-  VoidCallback onMenu,
-  VoidCallback onReply,
+class SliverComment({
+  required final String id,
+  required final String authorId,
+  required final String? userId,
+  required final String? nickname,
+  required final String content,
+  required final DateTime createdAt,
+  required final int likeCount,
+  required final bool isLike,
+  required final bool isReply,
+  required final bool isDeleted,
+  required final String? mention,
+  required final ImageProvider? profile,
+  required final Future<void> Function(bool) onLike,
+  required final CommentMenuCallback onMenu,
+  required final VoidCallback onReply,
 });
 
 /// 인덱스에 해당하는 댓글 정보를 반환하는 빌더.
@@ -78,6 +85,7 @@ class _Comment extends StatelessWidget {
 
     final isLike = context.stateOf(() => comment.isLike);
     final likeCount = context.stateOf(() => comment.likeCount);
+    final layerLink = context.useLayerLink();
 
     return GdsUserItem.comment(
       size: .xs,
@@ -91,7 +99,7 @@ class _Comment extends StatelessWidget {
       profile: comment.profile,
       createdAt: comment.createdAt,
       onReply: comment.onReply,
-      onMenu: comment.onMenu,
+      onMenu: () => comment.onMenu(context, comment, layerLink),
       onLike: () async {
         final value = !isLike.value;
 
@@ -109,6 +117,7 @@ class _Comment extends StatelessWidget {
           rethrow;
         }
       },
+      layerLink: layerLink,
     );
   }
 }
