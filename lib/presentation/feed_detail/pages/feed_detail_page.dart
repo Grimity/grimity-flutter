@@ -7,6 +7,7 @@ import 'package:grimity/presentation/feed_detail/views/feed_detail_author.dart';
 import 'package:grimity/presentation/feed_detail/widgets/feed_detail_input_bar.dart';
 import 'package:grimity/presentation/feed_upload/pages/feed_upload_page.dart';
 import 'package:grimity/presentation/report/pages/report_page.dart';
+import 'package:grimity/views/show_share_modal.dart';
 import 'package:grimity/widgets/app_sidebar.dart';
 import 'package:grimity/widgets/app_top_navigation.dart';
 import 'package:grimity/widgets/sliver_scroll_view.dart';
@@ -115,7 +116,13 @@ class FeedDetailPage extends StatelessWidget {
       builder: (context) => GdsAdaptiveMenu(
         items: [
           if (share) ...[
-            (label: '공유하기', onTap: () {}),
+            (
+              label: '공유하기',
+              onTap: () {
+                context.pop();
+                onShare(context, service);
+              },
+            ),
           ],
 
           if (profile) ...[
@@ -144,6 +151,19 @@ class FeedDetailPage extends StatelessWidget {
           ],
         ],
       ),
+    );
+  }
+
+  /// 공유 방법을 선택하는 모달을 엽니다.
+  static Future<void> onShare(
+    BuildContext context,
+    GetFeedsById service,
+  ) {
+    return showShareModal(
+      context,
+      name: '그림',
+      text: '이 그림 어때요?',
+      path: 'feeds/${service.data.id}',
     );
   }
 

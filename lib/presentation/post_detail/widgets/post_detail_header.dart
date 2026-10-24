@@ -92,7 +92,9 @@ class PostDetailHeader extends StatelessWidget {
               GdsButton.icon(
                 type: .sm,
                 icon: .share,
-                onTap: () {}, // TODO
+                onTap: () {
+                  PostDetailPage.onShare(context, service);
+                },
               ),
             ],
           ),

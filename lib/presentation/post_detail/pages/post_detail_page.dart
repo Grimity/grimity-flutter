@@ -6,6 +6,7 @@ import 'package:grimity/presentation/post_detail/views/post_detail_latest_posts.
 import 'package:grimity/presentation/post_detail/widgets/post_detail_input_bar.dart';
 import 'package:grimity/presentation/post_upload/pages/post_upload_page.dart';
 import 'package:grimity/presentation/report/pages/report_page.dart';
+import 'package:grimity/views/show_share_modal.dart';
 import 'package:grimity/widgets/app_sidebar.dart';
 import 'package:grimity/widgets/app_top_navigation.dart';
 import 'package:grimity/widgets/sliver_scroll_view.dart';
@@ -92,7 +93,13 @@ class PostDetailPage extends StatelessWidget {
       builder: (context) => GdsAdaptiveMenu(
         items: [
           if (share) ...[
-            (label: '공유하기', onTap: () {}),
+            (
+              label: '공유하기',
+              onTap: () {
+                context.pop();
+                onShare(context, service);
+              },
+            ),
           ],
 
           if (profile) ...[
@@ -121,6 +128,19 @@ class PostDetailPage extends StatelessWidget {
           ],
         ],
       ),
+    );
+  }
+
+  /// 공유 방법을 선택하는 모달을 엽니다.
+  static Future<void> onShare(
+    BuildContext context,
+    GetPostsById service,
+  ) {
+    return showShareModal(
+      context,
+      name: '글',
+      text: '이 글 같이 봐요!',
+      path: 'posts/${service.data.id}',
     );
   }
 

@@ -31,6 +31,14 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
+            <!-- 카카오톡 공유 메시지에서 앱으로 돌아오는 링크입니다. -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="kakao9ef16b15112d4c1ad60660adc4c39a93" android:host="kakaolink" />
+            </intent-filter>
         </activity>
 
         <!-- 카카오 계정 로그인 후 앱으로 돌아오는 콜백입니다. -->

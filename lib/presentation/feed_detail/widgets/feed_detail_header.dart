@@ -26,7 +26,9 @@ class FeedDetailHeader extends StatelessWidget {
           // 공유하기
           .new(
             icon: .share,
-            onTap: () {}, // TODO
+            onTap: () {
+              FeedDetailPage.onShare(context, service);
+            },
           ),
 
           // 더보기 메뉴

@@ -667,7 +667,7 @@ packages:
     description:
       path: "packages/gds_flutter"
       ref: HEAD
-      resolved-ref: e3b44c5e5d0c17724a2206efb14dc7098b0c47a9
+      resolved-ref: "3fabaf27c6404edb05e86349a557581d159c1c15"
       url: "https://github.com/Grimity/gds-flutter.git"
     source: git
     version: "0.0.0"
@@ -855,6 +855,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+  kakao_flutter_sdk_share:
+    dependency: "direct main"
+    description:
+      name: kakao_flutter_sdk_share
+      sha256: eb38eb0118ea5536b9d32a399a68fccc7e77f439d1799dda54fbdc4d1417d499
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
+  kakao_flutter_sdk_template:
+    dependency: transitive
+    description:
+      name: kakao_flutter_sdk_template
+      sha256: cf96e6e6e8a329b2431cbc0ee475fff2157b9e20de833bcf492449279f39bfd6
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   kakao_flutter_sdk_user:
     dependency: "direct main"
     description:
