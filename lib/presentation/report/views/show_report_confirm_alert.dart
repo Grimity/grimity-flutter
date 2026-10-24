@@ -16,8 +16,7 @@ Future<void> showReportConfirmAlert(
 
       // 신고를 접수하고 완료 안내 표시.
       void submit() async {
-        try {
-          loading.value = true;
+        await loading.run(() async {
           await service.request();
 
           // 현재 팝업과 신고 페이지를 닫고 신고 접수 완료 안내 표시.
@@ -26,9 +25,7 @@ Future<void> showReportConfirmAlert(
             context.pop();
             showReportCompleteAlert(context);
           }
-        } finally {
-          loading.value = false;
-        }
+        });
       }
 
       return GdsAlert(

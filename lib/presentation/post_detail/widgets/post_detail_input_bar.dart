@@ -64,8 +64,7 @@ class PostDetailInputBar extends StatelessWidget {
             ),
           );
 
-          try {
-            loading.value = true;
+          await loading.run(() async {
             await postFeed.request();
 
             // 등록 완료 후 입력 내용과 답글 대상 초기화.
@@ -75,9 +74,7 @@ class PostDetailInputBar extends StatelessWidget {
 
             // 기존 댓글 내용 새로고침.
             service.refresh();
-          } finally {
-            loading.value = false;
-          }
+          });
         },
       ),
     );

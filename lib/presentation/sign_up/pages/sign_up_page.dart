@@ -85,17 +85,14 @@ class SignUpPage extends StatelessWidget {
                   ),
                   mainAxisSize: .max,
                   onTap: () async {
-                    try {
-                      loading.value = true;
+                    await loading.run(() async {
                       final nextView = await view.onSubmit(context);
 
                       // 다음 단계가 있으면 화면 전환.
                       if (context.mounted && nextView != null) {
                         controller.push(nextView);
                       }
-                    } finally {
-                      loading.value = false;
-                    }
+                    });
                   },
                 ),
               );

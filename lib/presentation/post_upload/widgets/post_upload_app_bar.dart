@@ -49,14 +49,7 @@ class PostUploadAppBar extends StatelessWidget {
       },
       action: .new(
         label: isEdit ? '수정' : '업로드',
-        onTap: () async {
-          try {
-            loading.value = true;
-            await submit(context, postType.value);
-          } finally {
-            loading.value = false;
-          }
-        },
+        onTap: () => loading.run(() => submit(context, postType.value)),
         status: .from(enabled: canSubmit),
       ),
       title: postType.value.displayName,
