@@ -5,6 +5,7 @@ import 'package:grimity/presentation/post_detail/views/post_detail_article.dart'
 import 'package:grimity/presentation/post_detail/views/post_detail_latest_posts.dart';
 import 'package:grimity/presentation/post_detail/widgets/post_detail_input_bar.dart';
 import 'package:grimity/presentation/post_upload/pages/post_upload_page.dart';
+import 'package:grimity/presentation/report/pages/report_page.dart';
 import 'package:grimity/widgets/app_sidebar.dart';
 import 'package:grimity/widgets/app_top_navigation.dart';
 import 'package:grimity/widgets/sliver_scroll_view.dart';
@@ -99,7 +100,10 @@ class PostDetailPage extends StatelessWidget {
           ],
 
           if (report) ...[
-            (label: '신고하기', onTap: () {}), // TODO
+            (
+              label: '신고하기',
+              onTap: () => onReport(context, service),
+            ),
           ],
 
           if (edit) ...[
@@ -118,6 +122,19 @@ class PostDetailPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  /// 글을 신고할 때 호출됩니다.
+  static void onReport(
+    BuildContext context,
+    GetPostsById service,
+  ) {
+    final page = ReportPage(
+      refId: service.data.id,
+      refType: .post,
+    );
+
+    page.pushReplacement(context);
   }
 
   /// 글을 수정할 때 호출됩니다.

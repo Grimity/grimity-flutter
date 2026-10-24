@@ -3,6 +3,7 @@ import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/app/app_user.dart';
 import 'package:grimity/presentation/post_detail/widgets/post_detail_input_bar.dart';
+import 'package:grimity/presentation/report/pages/report_page.dart';
 import 'package:grimity/widgets/sliver_comment_list.dart';
 import 'package:pervice/pervice.dart';
 
@@ -154,10 +155,7 @@ class PostDetailComments extends StatelessWidget {
           if (isMine) ...[
             (
               label: '삭제하기',
-              onTap: () {
-                context.pop();
-                onDelete(comment);
-              },
+              onTap: () => onDelete(context, comment),
             ),
           ],
 
@@ -172,7 +170,7 @@ class PostDetailComments extends StatelessWidget {
             ),
             (
               label: '신고하기',
-              onTap: () {}, // TODO
+              onTap: () => onReport(context, comment),
             ),
           ],
         ],
@@ -180,8 +178,25 @@ class PostDetailComments extends StatelessWidget {
     );
   }
 
+  /// 글 댓글을 신고할 때 호출됩니다.
+  static void onReport(
+    BuildContext context,
+    SliverComment comment,
+  ) {
+    final page = ReportPage(
+      refId: comment.id,
+      refType: .postComment,
+    );
+
+    page.pushReplacement(context);
+  }
+
   /// 댓글을 삭제할 때 호출됩니다.
-  void onDelete(SliverComment comment) async {
+  void onDelete(
+    BuildContext context,
+    SliverComment comment,
+  ) async {
+    context.pop();
     await DeletePostCommentsById(id: comment.id).request();
 
     // 삭제 후 댓글 목록을 새로고침하고 완료 안내 표시.

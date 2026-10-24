@@ -6,6 +6,7 @@ import 'package:grimity/presentation/feed_detail/views/feed_detail_latest_feeds.
 import 'package:grimity/presentation/feed_detail/views/feed_detail_author.dart';
 import 'package:grimity/presentation/feed_detail/widgets/feed_detail_input_bar.dart';
 import 'package:grimity/presentation/feed_upload/pages/feed_upload_page.dart';
+import 'package:grimity/presentation/report/pages/report_page.dart';
 import 'package:grimity/widgets/app_sidebar.dart';
 import 'package:grimity/widgets/app_top_navigation.dart';
 import 'package:grimity/widgets/sliver_scroll_view.dart';
@@ -122,7 +123,10 @@ class FeedDetailPage extends StatelessWidget {
           ],
 
           if (report) ...[
-            (label: '신고하기', onTap: () {}), // TODO
+            (
+              label: '신고하기',
+              onTap: () => onReport(context, service),
+            ),
           ],
 
           if (edit) ...[
@@ -141,6 +145,19 @@ class FeedDetailPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  /// 피드를 신고할 때 호출됩니다.
+  static void onReport(
+    BuildContext context,
+    GetFeedsById service,
+  ) {
+    final page = ReportPage(
+      refId: service.data.id,
+      refType: .feed,
+    );
+
+    page.pushReplacement(context);
   }
 
   /// 피드를 수정할 때 호출됩니다.
