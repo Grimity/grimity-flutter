@@ -60,12 +60,12 @@ class FeedRankingUsers extends StatelessWidget {
     // SHARED STATE
     final followerCount = context.sharedStateOf(
       () => user.followerCount.toInt(),
-      key: ValueKey('feed-${user.id}:follower-count'),
+      key: ValueKey('user-${user.id}:follower-count'),
     );
 
     final isFollowing = context.sharedStateOf(
       () => user.isFollowing,
-      key: ValueKey('feed-${user.id}:is-following'),
+      key: ValueKey('user-${user.id}:is-following'),
     );
 
     return GdsUser.normal(

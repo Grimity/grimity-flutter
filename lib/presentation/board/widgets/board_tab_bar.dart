@@ -8,14 +8,17 @@ class BoardTabBar extends StatelessWidget {
   const new({
     super.key,
     required this.controller,
+    this.trailing,
   });
 
   final TabController controller;
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
     return GdsTabBar(
       controller: controller,
+      trailing: trailing,
 
       // 게시글 유형별 탭 바 구성.
       items: BoardPage.postTypes.builder((value) {

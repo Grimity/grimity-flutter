@@ -66,22 +66,17 @@ List<AppBar> createBoardAppBars(
     // 탭 바, 검색창 표시
     AppBar(
       behavior: const AbsoluteAppBarBehavior(),
-      body: GdsContainer(
+      body: Padding(
         padding: .symmetric(horizontal: 20),
-        border: .new(bottom: 1, color: .borderGraySubtle),
-        child: Row(
-          children: [
-            Expanded(
-              child: BoardTabBar(controller: controller),
+        child: BoardTabBar(
+          controller: controller,
+          trailing: SizedBox(
+            width: 320,
+            child: BoardSearch(
+              searchBy: searchBy,
+              keyword: keyword,
             ),
-            SizedBox(
-              width: 320,
-              child: BoardSearch(
-                searchBy: searchBy,
-                keyword: keyword,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     ),

@@ -16,7 +16,7 @@ class HomeLatestFeeds extends StatelessWidget {
   /// 최신 그림을 불러오는 동안 표시할 임시 피드 데이터.
   static final placeholder = [
     LatestFeedsResponse(
-      feeds: List.generate(10, (_) {
+      feeds: List.generate(20, (_) {
         return .new(
           id: '',
           title: 'Placeholder',

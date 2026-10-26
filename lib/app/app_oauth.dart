@@ -36,6 +36,7 @@ abstract class AppOAuth {
       final google = GoogleSignIn.instance;
       const scopes = ['email', 'profile'];
       await google.signOut();
+
       final account = await google.authenticate(scopeHint: scopes);
 
       // 이미 동의한 권한으로 토큰을 조회하고, 필요한 경우 추가 동의를 요청합니다.
