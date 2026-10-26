@@ -44,7 +44,7 @@ class SearchFeeds extends StatelessWidget with GdsTabView {
       builder: (cursor) => GetFeedsSearch(
         cursor: cursor,
         keyword: keyword,
-        sort: .latest,
+        sort: sort,
       ),
       cursorOf: (data) => data.nextCursor,
     );

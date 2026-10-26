@@ -3,7 +3,7 @@ import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/extensions/enum/feed_search_sort.dart';
 
-///
+/// 검색 결과에 대한 정렬 유형을 선택하는 팝업을 엽니다.
 Future<FeedSearchSort?> showSearchSortSelect(
   BuildContext context, {
   required LayerLink layerLink,

@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/presentation/feed_ranking/widgets/feed_ranking_section.dart';
+import 'package:grimity/presentation/search/pages/search_page.dart';
 import 'package:pervice/pervice.dart';
 
 /// 인기 태그 정보를 가로 카드 목록으로 표시하는 위젯.
@@ -37,9 +38,15 @@ class FeedRankingTags extends StatelessWidget {
             itemBuilder: (context, index) {
               final tag = data[index];
 
-              return GdsUser.tagView(
-                content: tag.tagName,
-                thumbnail: tag.thumbnail.toImage(),
+              return GdsGesture(
+                onTap: () {
+                  // 선택한 태그로 검색 페이지 이동.
+                  context.push(SearchPage(initialKeyword: tag.tagName));
+                },
+                child: GdsUser.tagView(
+                  content: tag.tagName,
+                  thumbnail: tag.thumbnail.toImage(),
+                ),
               );
             },
           );
