@@ -27,30 +27,32 @@ class FollowingUsers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final service = context.serviceOf(GetUsersPopular.new);
-    final data = service.maybeData ?? placeholder;
 
     return FollowingFeedSection(
       title: '인기 작가',
-      child: SliverDynamicHeightGridView(
-        crossAxisCount: context.whenDevice(mobile: 1, tablet: 2),
-        crossAxisSpacing: 16,
-        mainAxisSpacing: 16,
-        itemCount: data.length,
-        builder: (context, index) {
-          final user = data[index];
+      child: service.sliver(
+        placeholder: placeholder,
+        builder: (data) {
+          return SliverDynamicHeightGridView(
+            crossAxisCount: context.whenDevice(mobile: 1, tablet: 2),
+            crossAxisSpacing: 16,
+            mainAxisSpacing: 16,
+            itemCount: data.length,
+            builder: (context, index) {
+              final user = data[index];
 
-          return service.build(
-            child: GdsUser.normal(
-              followerCount: user.followerCount.toInt(),
-              followingCount: 0,
-              nickname: user.name,
-              profile: user.image?.toImage(),
-              thumbnails: user.thumbnails.toImages(),
-              following: user.isFollowing,
-              onTap: () {}, // TODO
-              onFollow: () {}, // TODO
-              onUnFollow: () {}, // TODO
-            ),
+              return GdsUser.normal(
+                followerCount: user.followerCount.toInt(),
+                followingCount: 0,
+                nickname: user.name,
+                profile: user.image?.toImage(),
+                thumbnails: user.thumbnails.toImages(),
+                following: user.isFollowing,
+                onTap: () {}, // TODO
+                onFollow: () {}, // TODO
+                onUnFollow: () {}, // TODO
+              );
+            },
           );
         },
       ),

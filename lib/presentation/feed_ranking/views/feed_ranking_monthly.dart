@@ -26,8 +26,6 @@ class FeedRankingMonthly extends StatelessWidget {
       key: ValueKey(date.value),
     );
 
-    final feeds = service.maybeData?.feeds ?? FeedRankingPage.placeholder.feeds;
-
     return SliverColumn(
       spacing: context.whenDevice(
         mobile: 20,
@@ -65,20 +63,26 @@ class FeedRankingMonthly extends StatelessWidget {
           ),
         ),
 
-        SliverFeedGrid(
-          service: service,
-          itemCount: feeds.length,
-          itemBuilder: (context, index) {
-            final feed = feeds[index];
+        service.sliver(
+          placeholder: FeedRankingPage.placeholder,
+          builder: (data) {
+            final feeds = data.feeds;
 
-            return (
-              id: feed.id,
-              thumbnail: feed.thumbnail,
-              title: feed.title,
-              nickname: feed.author.name,
-              likeCount: feed.likeCount.toInt(),
-              viewCount: feed.viewCount.toInt(),
-              isLike: feed.isLike,
+            return SliverFeedGrid(
+              itemCount: feeds.length,
+              itemBuilder: (context, index) {
+                final feed = feeds[index];
+
+                return (
+                  id: feed.id,
+                  thumbnail: feed.thumbnail,
+                  title: feed.title,
+                  nickname: feed.author.name,
+                  likeCount: feed.likeCount.toInt(),
+                  viewCount: feed.viewCount.toInt(),
+                  isLike: feed.isLike,
+                );
+              },
             );
           },
         ),

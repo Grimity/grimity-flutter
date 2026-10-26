@@ -54,41 +54,43 @@ class SearchUsers extends StatelessWidget with GdsTabView {
       key: ValueKey((keyword.value, SearchUsers)),
     );
 
-    final data = service.maybeData ?? placeholder;
-    final users = data.expand((e) => e.users).toList();
+    return service.builder(
+      placeholder: placeholder,
+      builder: (data) {
+        final users = data.expand((e) => e.users).toList();
 
-    // 보여줄 수 있는 작가가 아예 없을 경우.
-    if (users.isEmpty) {
-      return const SearchEmptyState();
-    }
+        // 보여줄 수 있는 작가가 아예 없을 경우.
+        if (users.isEmpty) {
+          return const SearchEmptyState();
+        }
 
-    return GdsInfiniteScroll(
-      onLoadMore: service.loadMore,
-      enabled: service.canLoreMore,
-      child: SliverScrollView(
-        padding: context.whenDevice(
-          mobile: .all(16),
-          tablet: .all(20),
-        ),
-        slivers: [
-          SliverDynamicHeightGridView(
-            crossAxisCount: context.whenDevice(
-              mobile: 1,
-              tablet: 2,
+        return GdsInfiniteScroll(
+          onLoadMore: service.loadMore,
+          enabled: service.canLoreMore,
+          child: SliverScrollView(
+            padding: context.whenDevice(
+              mobile: .all(16),
+              tablet: .all(20),
             ),
-            crossAxisSpacing: 16,
-            mainAxisSpacing: 16,
-            itemCount: users.length,
-            builder: (context, index) {
-              final user = users[index];
+            slivers: [
+              SliverDynamicHeightGridView(
+                crossAxisCount: context.whenDevice(
+                  mobile: 1,
+                  tablet: 2,
+                ),
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+                itemCount: users.length,
+                builder: (context, index) {
+                  final user = users[index];
 
-              return service.build(
-                child: buildItem(context, user),
-              );
-            },
+                  return buildItem(context, user);
+                },
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 

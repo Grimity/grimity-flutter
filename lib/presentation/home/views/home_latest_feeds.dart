@@ -41,28 +41,31 @@ class HomeLatestFeeds extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final data = service.maybeData ?? placeholder;
-    final feeds = data.expand((e) => e.feeds).toList();
-
     return HomeSection.sliver(
       header: .new(
         title: '최신 그림',
         onMore: () {}, // TODO
       ),
-      child: SliverFeedGrid(
-        service: service,
-        itemCount: feeds.length,
-        itemBuilder: (context, index) {
-          final feed = feeds[index];
+      child: service.sliver(
+        placeholder: placeholder,
+        builder: (data) {
+          final feeds = data.expand((e) => e.feeds).toList();
 
-          return (
-            id: feed.id,
-            thumbnail: feed.thumbnail,
-            title: feed.title,
-            nickname: feed.author.name,
-            likeCount: feed.likeCount.toInt(),
-            viewCount: feed.viewCount.toInt(),
-            isLike: feed.isLike,
+          return SliverFeedGrid(
+            itemCount: feeds.length,
+            itemBuilder: (context, index) {
+              final feed = feeds[index];
+
+              return (
+                id: feed.id,
+                thumbnail: feed.thumbnail,
+                title: feed.title,
+                nickname: feed.author.name,
+                likeCount: feed.likeCount.toInt(),
+                viewCount: feed.viewCount.toInt(),
+                isLike: feed.isLike,
+              );
+            },
           );
         },
       ),

@@ -31,8 +31,6 @@ class FeedRankingWeekly extends StatelessWidget {
       key: ValueKey((startDate.value, endDate.value)),
     );
 
-    final feeds = service.maybeData?.feeds ?? FeedRankingPage.placeholder.feeds;
-
     // 조회 기간의 시작일과 종료일을 표시할 문자열로 변환.
     final startDateLabel = startDate.value.dateLabel;
     final endDateLabel = endDate.value.dateLabel;
@@ -70,20 +68,26 @@ class FeedRankingWeekly extends StatelessWidget {
           ),
         ),
 
-        SliverFeedGrid(
-          service: service,
-          itemCount: feeds.length,
-          itemBuilder: (context, index) {
-            final feed = feeds[index];
+        service.sliver(
+          placeholder: FeedRankingPage.placeholder,
+          builder: (data) {
+            final feeds = data.feeds;
 
-            return (
-              id: feed.id,
-              thumbnail: feed.thumbnail,
-              title: feed.title,
-              nickname: feed.author.name,
-              likeCount: feed.likeCount.toInt(),
-              viewCount: feed.viewCount.toInt(),
-              isLike: feed.isLike,
+            return SliverFeedGrid(
+              itemCount: feeds.length,
+              itemBuilder: (context, index) {
+                final feed = feeds[index];
+
+                return (
+                  id: feed.id,
+                  thumbnail: feed.thumbnail,
+                  title: feed.title,
+                  nickname: feed.author.name,
+                  likeCount: feed.likeCount.toInt(),
+                  viewCount: feed.viewCount.toInt(),
+                  isLike: feed.isLike,
+                );
+              },
             );
           },
         ),

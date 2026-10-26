@@ -65,42 +65,45 @@ class SearchFeeds extends StatelessWidget with GdsTabView {
       key: ValueKey((keyword.value, sort.value, SearchFeeds)),
     );
 
-    final data = service.maybeData ?? placeholder;
-    final feeds = data.expand((e) => e.feeds).toList();
+    return service.builder(
+      placeholder: placeholder,
+      builder: (data) {
+        final feeds = data.expand((e) => e.feeds).toList();
 
-    // 보여줄 수 있는 피드가 아예 없을 경우.
-    if (feeds.isEmpty) {
-      return const SearchEmptyState();
-    }
+        // 보여줄 수 있는 피드가 아예 없을 경우.
+        if (feeds.isEmpty) {
+          return const SearchEmptyState();
+        }
 
-    return GdsInfiniteScroll(
-      onLoadMore: service.loadMore,
-      enabled: service.canLoreMore,
-      child: SliverScrollView(
-        padding: context.whenDevice(
-          mobile: .all(16),
-          tablet: .all(20),
-        ),
-        slivers: [
-          SliverFeedGrid(
-            service: service,
-            itemCount: feeds.length,
-            itemBuilder: (context, index) {
-              final feed = feeds[index];
+        return GdsInfiniteScroll(
+          onLoadMore: service.loadMore,
+          enabled: service.canLoreMore,
+          child: SliverScrollView(
+            padding: context.whenDevice(
+              mobile: .all(16),
+              tablet: .all(20),
+            ),
+            slivers: [
+              SliverFeedGrid(
+                itemCount: feeds.length,
+                itemBuilder: (context, index) {
+                  final feed = feeds[index];
 
-              return (
-                id: feed.id,
-                thumbnail: feed.thumbnail,
-                title: feed.title,
-                nickname: feed.author.name,
-                likeCount: feed.likeCount.toInt(),
-                viewCount: feed.viewCount.toInt(),
-                isLike: feed.isLike,
-              );
-            },
+                  return (
+                    id: feed.id,
+                    thumbnail: feed.thumbnail,
+                    title: feed.title,
+                    nickname: feed.author.name,
+                    likeCount: feed.likeCount.toInt(),
+                    viewCount: feed.viewCount.toInt(),
+                    isLike: feed.isLike,
+                  );
+                },
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

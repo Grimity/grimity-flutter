@@ -41,9 +41,6 @@ class FeedDetailLatestFeeds extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final data = service.maybeData ?? placeholder;
-    final feeds = data.expand((e) => e.feeds).toList();
-
     return SliverColumn(
       spacing: context.whenDevice(
         mobile: 16,
@@ -60,20 +57,25 @@ class FeedDetailLatestFeeds extends StatelessWidget {
         ),
 
         // 본문 표시
-        SliverFeedGrid(
-          service: service,
-          itemCount: feeds.length,
-          itemBuilder: (context, index) {
-            final feed = feeds[index];
+        service.sliver(
+          placeholder: placeholder,
+          builder: (data) {
+            final feeds = data.expand((e) => e.feeds).toList();
+            return SliverFeedGrid(
+              itemCount: feeds.length,
+              itemBuilder: (context, index) {
+                final feed = feeds[index];
 
-            return (
-              id: feed.id,
-              thumbnail: feed.thumbnail,
-              title: feed.title,
-              nickname: feed.author.name,
-              likeCount: feed.likeCount.toInt(),
-              viewCount: feed.viewCount.toInt(),
-              isLike: feed.isLike,
+                return (
+                  id: feed.id,
+                  thumbnail: feed.thumbnail,
+                  title: feed.title,
+                  nickname: feed.author.name,
+                  likeCount: feed.likeCount.toInt(),
+                  viewCount: feed.viewCount.toInt(),
+                  isLike: feed.isLike,
+                );
+              },
             );
           },
         ),

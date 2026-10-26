@@ -45,9 +45,7 @@ class FeedRankingUsers extends StatelessWidget {
             itemBuilder: (context, index) {
               final user = users[index];
 
-              return service.build(
-                child: buildItem(context, user),
-              );
+              return buildItem(context, user);
             },
           );
         },

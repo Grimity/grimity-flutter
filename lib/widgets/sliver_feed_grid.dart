@@ -19,16 +19,14 @@ typedef SliverFeed = ({
 /// 인덱스에 해당하는 피드 데이터를 반환하는 빌더.
 typedef SliverFeedBuilder = SliverFeed Function(BuildContext context, int index);
 
-/// 피드 카드를 동적 높이의 그리드로 표시하는 슬리버 위젯.
-class SliverFeedGrid<T extends Service> extends StatelessWidget {
+/// 피드 카드를 동적 높이의 그리드로 표시하는 슬리버.
+class SliverFeedGrid extends StatelessWidget {
   const new({
     super.key,
-    required this.service,
     required this.itemCount,
     required this.itemBuilder,
   });
 
-  final T service;
   final int itemCount;
   final SliverFeedBuilder itemBuilder;
 
@@ -46,7 +44,6 @@ class SliverFeedGrid<T extends Service> extends StatelessWidget {
         final feed = itemBuilder(context, index);
 
         // SHARED STATE
-
         final isLike = context.sharedStateOf(
           () => feed.isLike,
           key: ValueKey('feed-${feed.id}:is-like'),
@@ -62,28 +59,26 @@ class SliverFeedGrid<T extends Service> extends StatelessWidget {
           key: ValueKey('feed-${feed.id}:view-count'),
         );
 
-        return service.build(
-          child: GdsAlbum(
-            image: feed.thumbnail.toImage(),
-            title: feed.title,
-            nickname: feed.nickname,
-            likeCount: likeCount.value,
-            viewCount: viewCount.value,
-            like: isLike.value,
-            onTap: () {
-              // 피드 상세 페이지로 이동.
-              context.push(FeedDetailPage(id: feed.id));
-            },
-            onLike: (value) {
-              AppUseCase.likeFeed(
-                context,
-                id: feed.id,
-                value: value,
-                isLike: isLike,
-                likeCount: likeCount,
-              );
-            },
-          ),
+        return GdsAlbum(
+          image: feed.thumbnail.toImage(),
+          title: feed.title,
+          nickname: feed.nickname,
+          likeCount: likeCount.value,
+          viewCount: viewCount.value,
+          like: isLike.value,
+          onTap: () {
+            // 피드 상세 페이지로 이동.
+            context.push(FeedDetailPage(id: feed.id));
+          },
+          onLike: (value) {
+            AppUseCase.likeFeed(
+              context,
+              id: feed.id,
+              value: value,
+              isLike: isLike,
+              likeCount: likeCount,
+            );
+          },
         );
       },
     );
