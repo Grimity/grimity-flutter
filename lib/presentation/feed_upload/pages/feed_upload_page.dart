@@ -87,7 +87,6 @@ class FeedUploadPage extends StatelessWidget {
           onTitle: selectAlbum,
           action: .new(
             label: isEdit ? '수정' : '업로드',
-            status: .from(enabled: canSubmit),
             onTap: () => submit(
               context,
               title: title.value,
@@ -97,6 +96,7 @@ class FeedUploadPage extends StatelessWidget {
               thumbnail: thumbnail.value!,
               album: album.value,
             ),
+            enabled: canSubmit,
           ),
           title: album.value?.name ?? '전체 앨범',
         ),

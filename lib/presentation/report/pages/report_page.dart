@@ -43,7 +43,7 @@ class ReportPage extends GdsAdaptivePage {
       primaryButton: .new(
         label: '신고하기',
         onTap: submit,
-        status: .from(enabled: canSubmit),
+        enabled: canSubmit,
       ),
       secondaryButton: .new(
         label: '닫기',

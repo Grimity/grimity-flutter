@@ -35,7 +35,6 @@ class PostUploadAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     // 현재 선택한 글 유형과 제출 버튼의 로딩 상태 관리.
     final postType = context.stateOf(() => initialPost?.type ?? .normal);
-    final loading = context.stateOf(() => false);
 
     return GdsTopNavigation.editor(
       onBack: context.pop,
@@ -49,8 +48,10 @@ class PostUploadAppBar extends StatelessWidget {
       },
       action: .new(
         label: isEdit ? '수정' : '업로드',
-        onTap: () => loading.run(() => submit(context, postType.value)),
-        status: .from(enabled: canSubmit),
+        onTap: () async {
+          await submit(context, postType.value);
+        },
+        enabled: canSubmit,
       ),
       title: postType.value.displayName,
     );

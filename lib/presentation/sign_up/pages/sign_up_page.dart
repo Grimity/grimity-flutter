@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gds_flutter/components/common/gds_disabled.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/presentation/sign_up/views/sign_up_view.dart';
 import 'package:grimity/presentation/sign_up/views/sign_up_nickname_view.dart';
 import 'package:grimity/widgets/sliver_scroll_view.dart';
-import 'package:pervice/pervice.dart';
 
 /// 닉네임과 프로필 URL 입력부터 가입 완료까지 단계별 화면을 표시하는 페이지.
 class SignUpPage extends StatelessWidget {
@@ -23,7 +21,6 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loading = context.stateOf(() => false);
     final controller = context.useGdsViewStackController<SignUpView>(
       SignUpNicknameView.new,
     );
@@ -49,14 +46,11 @@ class SignUpPage extends StatelessWidget {
                   tablet: .only(top: 48, bottom: 48, left: 20, right: 20),
                 );
 
-                return GdsDisabled(
-                  enabled: !loading.value,
-                  child: SliverScrollView(
-                    padding: view.scrollPadding ?? padding,
-                    slivers: [
-                      view.build(context),
-                    ],
-                  ),
+                return SliverScrollView(
+                  padding: view.scrollPadding ?? padding,
+                  slivers: [
+                    view.build(context),
+                  ],
                 );
               },
             ),
@@ -67,7 +61,6 @@ class SignUpPage extends StatelessWidget {
             listenable: controller,
             builder: (_, _) {
               final view = controller.current;
-              final isLoading = loading.value;
               final canSubmit = view.canSubmit;
 
               return Padding(
@@ -79,20 +72,15 @@ class SignUpPage extends StatelessWidget {
                   size: .lg,
                   type: .solid,
                   label: view.label,
-                  status: .from(
-                    enabled: canSubmit,
-                    loading: isLoading,
-                  ),
+                  enabled: canSubmit,
                   mainAxisSize: .max,
                   onTap: () async {
-                    await loading.run(() async {
-                      final nextView = await view.onSubmit(context);
+                    final nextView = await view.onSubmit(context);
 
-                      // 다음 단계가 있으면 화면 전환.
-                      if (context.mounted && nextView != null) {
-                        controller.push(nextView);
-                      }
-                    });
+                    // 다음 단계가 있으면 화면 전환.
+                    if (context.mounted && nextView != null) {
+                      controller.push(nextView);
+                    }
                   },
                 ),
               );

@@ -22,7 +22,7 @@ Future<GdsLink?> showPostUploadLinkModal(BuildContext context) {
         primaryButton: .new(
           label: '완료',
           onTap: () => context.pop(link),
-          status: .from(enabled: canSubmit),
+          enabled: canSubmit,
         ),
         secondaryButton: .new(
           label: '닫기',

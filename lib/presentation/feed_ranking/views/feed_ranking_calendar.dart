@@ -35,8 +35,8 @@ class FeedRankingCalendar extends StatelessWidget {
               GdsButton.icon(
                 type: .normal,
                 icon: .chevronLeft,
-                status: .from(enabled: year.value > releaseDate.year),
                 onTap: () => year.value--,
+                enabled: year.value > releaseDate.year,
               ),
 
               // 조회 연도 표시.
@@ -46,8 +46,8 @@ class FeedRankingCalendar extends StatelessWidget {
               GdsButton.icon(
                 type: .normal,
                 icon: .chevronRight,
-                status: .from(enabled: year.value < now.year),
                 onTap: () => year.value++,
+                enabled: year.value < now.year,
               ),
             ],
           ),

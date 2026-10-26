@@ -25,9 +25,7 @@ class PostDetailInputBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = context.useTextEditingController();
     final content = context.stateOf(() => '');
-    final loading = context.stateOf(() => false);
     final canSubmit = content.value.isNotEmpty;
-    final isLoading = loading.value;
 
     // SHARED STATE
     final mention = context.sharedStateOf<PostMention?>(
@@ -49,11 +47,8 @@ class PostDetailInputBar extends StatelessWidget {
         controller: controller,
       ),
       button: .new(
+        enabled: canSubmit,
         label: '등록',
-        status: .from(
-          enabled: canSubmit,
-          loading: isLoading,
-        ),
         onTap: () async {
           final postFeed = PostPostComments(
             request: .new(
@@ -64,17 +59,15 @@ class PostDetailInputBar extends StatelessWidget {
             ),
           );
 
-          await loading.run(() async {
-            await postFeed.request();
+          await postFeed.request();
 
-            // 등록 완료 후 입력 내용과 답글 대상 초기화.
-            controller.clear();
-            content.value = '';
-            mention.value = null;
+          // 등록 완료 후 입력 내용과 답글 대상 초기화.
+          controller.clear();
+          content.value = '';
+          mention.value = null;
 
-            // 기존 댓글 내용 새로고침.
-            service.refresh();
-          });
+          // 기존 댓글 내용 새로고침.
+          service.refresh();
         },
       ),
     );

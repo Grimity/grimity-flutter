@@ -40,7 +40,7 @@ class FeedRankingPeriod extends StatelessWidget {
                   size: .sm,
                   leadingIcon: .chevronLeft,
                   onTap: onPrevious,
-                  status: .from(enabled: canPrevious),
+                  enabled: canPrevious,
                 ),
 
                 // 다음으로 버튼 표시
@@ -49,7 +49,7 @@ class FeedRankingPeriod extends StatelessWidget {
                   size: .sm,
                   leadingIcon: .chevronRight,
                   onTap: onNext,
-                  status: .from(enabled: canNext),
+                  enabled: canNext,
                 ),
               ],
             ),

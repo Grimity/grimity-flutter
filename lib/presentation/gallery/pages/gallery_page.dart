@@ -55,7 +55,7 @@ class GalleryPage extends StatelessWidget {
             // 선택한 이미지 목록을 반환하고 갤러리 닫기.
             context.pop(providers);
           },
-          status: .from(enabled: canSubmit),
+          enabled: canSubmit,
         ),
         title: selectedAlbum.value?.name ?? '최근 항목',
         open: showAlbums.value,
