@@ -39,12 +39,7 @@ class FeedDetailPage extends StatelessWidget {
     return GdsScaffold(
       appBar: AppTopNavigation.title(),
       drawer: const AppSidebar(),
-      body: detailService.when(
-        loading: () {
-          return Center(
-            child: GdsCircularLoading(),
-          );
-        },
+      body: detailService.page(
         loaded: (data) {
           // 차단된 작성자의 피드인 경우.
           if (data.author.isBlocked) {

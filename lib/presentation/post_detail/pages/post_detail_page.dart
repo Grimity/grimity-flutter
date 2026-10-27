@@ -33,12 +33,7 @@ class PostDetailPage extends StatelessWidget {
     return GdsScaffold(
       appBar: AppTopNavigation.title(),
       drawer: const AppSidebar(),
-      body: detailService.when(
-        loading: () {
-          return Center(
-            child: GdsCircularLoading(),
-          );
-        },
+      body: detailService.page(
         loaded: (data) {
           return Column(
             children: [

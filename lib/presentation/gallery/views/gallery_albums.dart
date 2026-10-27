@@ -20,21 +20,9 @@ class GalleryAlbums extends StatelessWidget {
   Widget build(BuildContext context) {
     final service = context.serviceOf(GalleryAlbumService.new);
 
-    return service.when(
-      loading: () {
-        return const Center(
-          child: GdsCircularLoading(),
-        );
-      },
-      failed: (error, stackTrace) {
-        return GdsErrorState(
-          retry: service.refresh,
-          error: error,
-          stackTrace: stackTrace,
-        );
-      },
-      loaded: (items) {
-        if (items.isEmpty) {
+    return service.page(
+      loaded: (data) {
+        if (data.isEmpty) {
           return GdsEmptyState(
             illust: .resultNull,
             title: '선택할 앨범이 없어요.',
@@ -42,9 +30,9 @@ class GalleryAlbums extends StatelessWidget {
         }
 
         return ListView.builder(
-          itemCount: items.length,
+          itemCount: data.length,
           itemBuilder: (context, index) {
-            final album = items[index];
+            final album = data[index];
 
             return GalleryAlbum(
               entity: album,
