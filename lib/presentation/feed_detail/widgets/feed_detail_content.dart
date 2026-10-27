@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:gds_flutter/gds_flutter.dart';
+import 'package:grimity/presentation/search/pages/search_page.dart';
 
 /// 피드의 제목과 본문, 간략한 통계 및 태그를 표시하는 위젯.
 class FeedDetailContent extends StatelessWidget {
@@ -73,7 +74,10 @@ class FeedDetailContent extends StatelessWidget {
                 return GdsTag(
                   size: context.whenDevice(mobile: .xs, tablet: .md),
                   label: tag,
-                  onTap: () {}, // TODO: 태그 검색 구현
+                  onTap: () {
+                    // 선택한 태그로 검색 페이지 이동.
+                    context.push(SearchPage(initialKeyword: tag));
+                  },
                 );
               }),
             ),
