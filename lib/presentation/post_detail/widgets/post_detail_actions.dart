@@ -74,10 +74,10 @@ class PostDetailActions extends StatelessWidget {
                     service,
                     layerLink,
                     share: true,
-                    edit: data.isMe,
-                    delete: data.isMe,
-                    report: !data.isMe,
-                    profile: !data.isMe,
+                    edit: data.isMine,
+                    delete: data.isMine,
+                    report: !data.isMine,
+                    profile: !data.isMine,
                   );
                 },
               );
