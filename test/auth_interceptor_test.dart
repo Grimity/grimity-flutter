@@ -58,27 +58,7 @@ class _MockInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     final authorization = options.headers['Authorization'];
-
-    if (options.uri.path == '/me' && options.method == 'GET') {
-      // 주어진 액세스 토큰이 유효하지 않은 경우.
-      if (authorization != 'Bearer $accessToken') {
-        return handler.reject(
-          DioException(
-            requestOptions: options,
-            response: Response(
-              data: {'statusCode': 401, 'message': '액세스 토큰이 유효하지 않습니다.'},
-              statusCode: 401,
-              requestOptions: options,
-            ),
-          ),
-          true,
-        );
-      }
-
-      return handler.resolve(
-        Response(data: userData, statusCode: 200, requestOptions: options),
-      );
-    }
+    final isPublicPath = AuthInterceptor.publicPaths.contains(options.uri.path);
 
     // 리프레시 토큰을 Bearer 헤더에 담아 토큰 재발급 요청.
     if (options.uri.path == '/auth/refresh' && options.method == 'GET') {
@@ -89,7 +69,10 @@ class _MockInterceptor extends Interceptor {
           DioException(
             requestOptions: options,
             response: Response(
-              data: {'statusCode': 401, 'message': '리프레시 토큰이 유효하지 않습니다.'},
+              data: {
+                'statusCode': 401,
+                'message': '리프레시 토큰이 유효하지 않습니다.',
+              },
               statusCode: 401,
               requestOptions: options,
             ),
@@ -110,6 +93,34 @@ class _MockInterceptor extends Interceptor {
           requestOptions: options,
         ),
         true,
+      );
+    }
+
+    if (!isPublicPath && options.method == 'GET') {
+      // 주어진 액세스 토큰이 유효하지 않은 경우.
+      if (authorization != 'Bearer $accessToken') {
+        return handler.reject(
+          DioException(
+            requestOptions: options,
+            response: Response(
+              data: {
+                'statusCode': 401,
+                'message': '액세스 토큰이 유효하지 않습니다.',
+              },
+              statusCode: 401,
+              requestOptions: options,
+            ),
+          ),
+          true,
+        );
+      }
+
+      return handler.resolve(
+        Response(
+          data: options.uri.path == '/me' ? userData : [],
+          statusCode: 200,
+          requestOptions: options,
+        ),
       );
     }
 

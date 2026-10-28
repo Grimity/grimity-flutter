@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:grimity/main.dart';
 
 /// 기기의 모델 정보를 담는 레코드.
 /// `id`는 서버 로그인 요청에 전달하는 기기 식별자입니다.
@@ -12,6 +13,14 @@ abstract class AppDevice {
 
   /// Android에서는 모델명을, iOS에서는 하드웨어 식별자를 사용합니다.
   static Future<DeviceInfo> get info async {
+    // 테스트 환경에서는 실제 기기 조회 없이 고정된 정보를 반환.
+    if (kTestMode) {
+      return (
+        model: 'Test Device',
+        id: 'test-device',
+      );
+    }
+
     if (Platform.isAndroid) {
       final android = await _plugin.androidInfo;
       return (

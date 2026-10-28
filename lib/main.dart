@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gds_flutter/gds_flutter.dart';
@@ -9,6 +11,9 @@ import 'package:grimity/app/app_user.dart';
 import 'package:grimity/network/app_network.dart';
 import 'package:grimity/presentation/splash/splash_page.dart';
 import 'package:grimity/util/preload_image.dart';
+
+/// Flutter 테스트 환경에서 실행 중인지 여부.
+final kTestMode = Platform.environment.containsKey('FLUTTER_TEST');
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

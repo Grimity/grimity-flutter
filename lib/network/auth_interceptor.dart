@@ -8,7 +8,7 @@ import 'package:grimity/util/app_device.dart';
 /// API 요청의 인증 헤더와 토큰 갱신을 처리하는 앱 공통 인터셉터.
 class AuthInterceptor extends Interceptor {
   /// 인증 토큰을 첨부하지 않는 공개 API 경로 목록.
-  static const _publicPaths = <String>{
+  static const publicPaths = <String>{
     '/auth/login',
     '/auth/register',
     '/users/name-check',
@@ -24,7 +24,7 @@ class AuthInterceptor extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    if (!_publicPaths.contains(options.uri.path)) {
+    if (!publicPaths.contains(options.uri.path)) {
       // 갱신 혹은 로그아웃 요청은 리프레시 토큰, 나머지는 액세스 토큰으로 인증.
       final usesRefreshToken = options.uri.path == '/auth/refresh' || options.uri.path == '/auth/logout';
 
@@ -57,7 +57,7 @@ class AuthInterceptor extends Interceptor {
     }
 
     // 공개 API의 실패는 토큰 갱신 대상이 아님.
-    if (_publicPaths.contains(options.uri.path)) {
+    if (publicPaths.contains(options.uri.path)) {
       return handler.next(err);
     }
 
