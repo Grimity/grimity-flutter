@@ -1067,10 +1067,10 @@ packages:
     dependency: "direct main"
     description:
       name: pervice
-      sha256: "6054d71040352179caeda517b1d585f2d38ed2230f7ae1792e52481bcdd1fe83"
+      sha256: "8201de20e0fc0356b36db136e7b867ac2e11a792a9360bf42189c3ae4c4b4ae1"
       url: "https://pub.dev"
     source: hosted
-    version: "1.5.1"
+    version: "1.5.2"
   pervice_openapi:
     dependency: "direct main"
     description:

@@ -124,14 +124,19 @@ abstract class AppUser {
   /// 저장된 토큰 유무에 따라 사용자 정보를 불러옵니다.
   static Future<void> initialize() async {
     if (await hasToken) {
-      final (profile, albums) = await (
-        GetMe().request(),
-        GetMeAlbums().request(),
-      ).wait;
+      try {
+        final (profile, albums) = await (
+          GetMe().request(),
+          GetMeAlbums().request(),
+        ).wait;
 
-      _profile = profile;
-      _albums = albums;
-      status = .loaded;
+        _profile = profile;
+        _albums = albums;
+        status = .loaded;
+      } catch (_) {
+        status = .unauth;
+        rethrow;
+      }
     } else {
       status = .unauth;
     }
