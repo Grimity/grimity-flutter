@@ -77,11 +77,11 @@ class SplashPage extends StatelessWidget {
 
     final curved = context.useCurvedAnimation(
       parent: parent,
-      curve: const Cubic(0.8, -0.8, 0.5, 1),
+      curve: const Cubic(0.8, -1, 0.5, 1),
     );
 
     context.onInitState(() {
-      // 애니메이션이 완료되면 다음 화면 표시.
+      // 로고 애니메이션이 완료되면 다음 화면 표시.
       parent.addStatusListener((status) {
         if (status == .completed) {
           onDone();
