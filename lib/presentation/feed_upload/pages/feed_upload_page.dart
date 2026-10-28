@@ -4,6 +4,7 @@ import 'package:grimity/api/api.dart';
 import 'package:grimity/app/app_image.dart';
 import 'package:grimity/app/app_user.dart';
 import 'package:grimity/presentation/feed_detail/pages/feed_detail_page.dart';
+import 'package:grimity/presentation/feed_upload/models/feed_upload_model.dart';
 import 'package:grimity/presentation/feed_upload/views/show_feed_upload_album_select_alert.dart';
 import 'package:grimity/presentation/feed_upload/views/show_feed_upload_exit_alert.dart';
 import 'package:grimity/presentation/feed_upload/views/show_feed_upload_no_album_alert.dart';
@@ -28,53 +29,25 @@ class FeedUploadPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final images = context.stateOf(
-      () => initialFeed?.cards.toImages() ?? [],
-    );
-
-    final thumbnail = context.stateOf<ImageProvider?>(() {
-      if (initialFeed == null) return null;
-
-      // 기존 피드의 이미지 목록에서 대표 이미지 위치 확인.
-      final index = initialFeed!.cards.indexOf(initialFeed!.thumbnail);
-      return images.value[index];
-    });
-
-    final title = context.stateOf(
-      () => initialFeed?.title ?? '',
-    );
-
-    final content = context.stateOf(
-      () => initialFeed?.content ?? '',
-    );
-
-    final tags = context.stateOf(
-      () => initialFeed?.tags ?? [],
-    );
-
-    final album = context.stateOf(
-      () => initialFeed?.album,
-    );
-
-    // 필수 입력값을 충족하여 피드를 제출할 수 있는지 여부.
-    final canSubmit = images.value.isNotEmpty && title.value.isNotEmpty && content.value.isNotEmpty;
+    final model = context.stateOf(() => FeedUploadModel.from(initialFeed));
+    final data = model.value;
 
     // 앨범이 없으면 안내 팝업을, 있으면 앨범 선택 팝업을 표시.
     void selectAlbum() async {
       if (AppUser.albums.isEmpty) {
         showFeedUploadNoAlbumAlert(context);
       } else {
-        final newAlbum = await showFeedUploadAlbumSelectAlert(context, album.value);
+        final newAlbum = await showFeedUploadAlbumSelectAlert(context, data.album);
 
         // 사용자가 앨범을 선택한 경우 이를 반영.
-        if (newAlbum != null) {
-          album.value = newAlbum;
+        if (context.mounted && newAlbum != null) {
+          model.value = data.copyWith(album: newAlbum);
         }
       }
     }
 
     return PopScope(
-      canPop: !canSubmit,
+      canPop: !data.canSubmit,
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) return;
 
@@ -87,18 +60,10 @@ class FeedUploadPage extends StatelessWidget {
           onTitle: selectAlbum,
           action: .new(
             label: isEdit ? '수정' : '업로드',
-            onTap: () => submit(
-              context,
-              title: title.value,
-              images: images.value,
-              content: content.value,
-              tags: tags.value,
-              thumbnail: thumbnail.value!,
-              album: album.value,
-            ),
-            enabled: canSubmit,
+            onTap: () => submit(context, model.value),
+            enabled: data.canSubmit,
           ),
-          title: album.value?.name ?? '전체 앨범',
+          title: data.album?.name ?? '전체 앨범',
         ),
         body: SingleChildScrollView(
           padding: context.whenDevice(
@@ -109,16 +74,10 @@ class FeedUploadPage extends StatelessWidget {
             spacing: 12,
             children: [
               // 이미지가 없으면 선택 버튼, 있으면 이미지 목록을 표시.
-              if (images.value.isEmpty) ...[
-                FeedUploadImagePicker(
-                  images: images,
-                  thumbnail: thumbnail,
-                ),
+              if (data.images.isEmpty) ...[
+                FeedUploadImagePicker(model: model),
               ] else ...[
-                FeedUploadImages(
-                  images: images,
-                  thumbnail: thumbnail,
-                ),
+                FeedUploadImages(model: model),
               ],
 
               // 제목의 입력 필드 표시
@@ -129,8 +88,8 @@ class FeedUploadPage extends StatelessWidget {
                 ),
                 maxLength: 32,
                 placeholder: '제목을 입력해주세요',
-                initialText: title.value,
-                onChanged: title.setter,
+                initialText: data.title,
+                onChanged: (title) => model.value = model.value.copyWith(title: title),
               ),
 
               // 내용의 입력 필드 표시
@@ -138,8 +97,8 @@ class FeedUploadPage extends StatelessWidget {
                 variant: .text,
                 maxLength: 500,
                 placeholder: '내용을 입력해주세요',
-                initialText: content.value,
-                onChanged: content.setter,
+                initialText: data.content,
+                onChanged: (content) => model.value = model.value.copyWith(content: content),
               ),
 
               // 태그의 입력 필드 표시
@@ -150,9 +109,14 @@ class FeedUploadPage extends StatelessWidget {
                     mobile: .xs,
                     tablet: .md,
                   ),
-                  tags: tags.value,
-                  onAdded: tags.add,
-                  onRemoved: tags.remove,
+                  tags: data.tags,
+                  onAdded: (tag) {
+                    model.value = model.value.copyWith(tags: [...model.value.tags, tag]);
+                  },
+                  onRemoved: (tag) {
+                    final tags = data.tags.toList()..remove(tag);
+                    model.value = data.copyWith(tags: tags);
+                  },
                 ),
               ),
 
@@ -166,7 +130,7 @@ class FeedUploadPage extends StatelessWidget {
                     type: .borderless,
                     variant: .assistive,
                     trailingIcon: .chevronRight,
-                    label: album.value?.name ?? '전체 앨범',
+                    label: data.album?.name ?? '전체 앨범',
                     onTap: selectAlbum,
                   ),
                 ),
@@ -179,32 +143,24 @@ class FeedUploadPage extends StatelessWidget {
   }
 
   /// 이미지를 업로드하고 피드를 생성하거나 수정합니다.
-  void submit(
-    BuildContext context, {
-    required String title,
-    required List<ImageProvider> images,
-    required String content,
-    required List<String> tags,
-    required ImageProvider thumbnail,
-    required AlbumBaseResponse? album,
-  }) async {
+  Future<void> submit(BuildContext context, FeedUploadModel model) async {
     final popup = AppLoadingPopup(
       title: '이미지를 업로드 중이에요',
       description: '이미지 업로드 도중 화면을 닫거나\n뒤로가면 업로드가 중단될 수 있어요',
       onAsync: () async {
-        final thumbnailIndex = images.indexOf(thumbnail);
-        final cards = (await AppImage.resolve(images, .feed)).names;
+        final thumbnailIndex = model.images.indexOf(model.thumbnail!);
+        final cards = (await AppImage.resolve(model.images, .feed)).names;
 
         if (isEdit) {
           final service = PutFeedsById(
             id: initialFeed!.id,
             request: .new(
-              title: title,
+              title: model.title,
               cards: cards,
-              content: content,
-              tags: tags,
+              content: model.content,
+              tags: model.tags,
               thumbnail: cards[thumbnailIndex],
-              albumId: album?.id,
+              albumId: model.album?.id,
             ),
           );
 
@@ -221,12 +177,12 @@ class FeedUploadPage extends StatelessWidget {
         } else {
           final service = PostFeeds(
             request: .new(
-              title: title,
+              title: model.title,
               cards: cards,
-              content: content,
-              tags: tags,
+              content: model.content,
+              tags: model.tags,
               thumbnail: cards[thumbnailIndex],
-              albumId: album?.id,
+              albumId: model.album?.id,
             ),
           );
 
