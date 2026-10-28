@@ -3,7 +3,7 @@ import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/app/app_secure_storage.dart';
 import 'package:grimity/app/app_user.dart';
-import 'package:grimity/util/app_device.dart';
+import 'package:grimity/app/app_device.dart';
 
 /// API 요청의 인증 헤더와 토큰 갱신을 처리하는 앱 공통 인터셉터.
 class AuthInterceptor extends Interceptor {

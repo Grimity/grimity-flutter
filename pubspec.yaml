@@ -27,6 +27,7 @@ dependencies:
   photo_manager_image_provider: ^2.2.0
   flutter_image_compress: 2.5.1
   kakao_flutter_sdk_share: 2.0.1
+  reorderables: ^0.6.0
 
   # 소셜 로그인
   google_sign_in: ^7.2.0

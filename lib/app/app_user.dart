@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/app/app_secure_storage.dart';
-import 'package:grimity/util/app_device.dart';
+import 'package:grimity/app/app_device.dart';
 
 /// 사용자의 프로필 정보를 반환합니다.
 MyProfileResponse get profile => AppUser.profile;

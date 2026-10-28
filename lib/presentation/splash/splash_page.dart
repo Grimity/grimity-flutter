@@ -18,15 +18,14 @@ class SplashPage extends StatelessWidget {
   /// 네이티브와 Flutter 스플래시에서 공통으로 사용하는 로고 이미지.
   static const logoImage = AssetImage('assets/images/splash_logo.png');
 
+  /// 앱 초기화 작업의 중복 실행을 방지하기 위한 Future.
+  static Future<void>? loadFuture;
+
   /// 앱 시작에 필요한 초기화 작업을 수행합니다.
   Future<void> load() async {
-    // 파이어베이스 초기화.
+    // 파이어베이스 및 SDK 플러그인 초기화.
     await Firebase.initializeApp(options: AppFirebase.options);
-
-    // 로그인 관련 플러그인 초기화.
     await AppOAuth.setup();
-
-    // 사진 접근 권한 상태 초기화.
     await AppPhoto.initialize();
 
     // 사용자 정보 초기화.
@@ -80,7 +79,7 @@ class SplashPage extends StatelessWidget {
       curve: const Cubic(0.8, -1, 0.5, 1),
     );
 
-    context.onInitState(() {
+    if (loadFuture == null) {
       // 로고 애니메이션이 완료되면 다음 화면 표시.
       parent.addStatusListener((status) {
         if (status == .completed) {
@@ -88,8 +87,12 @@ class SplashPage extends StatelessWidget {
         }
       });
 
-      load().whenComplete(parent.forward);
-    });
+      // 초기화가 끝나면 로고 애니메이션 실행.
+      loadFuture = load()..whenComplete(parent.forward);
+
+      // 초기화가 끝나면 저장된 Future 해제.
+      loadFuture?.whenComplete(() => loadFuture = null);
+    }
 
     return ColoredBox(
       color: const Color(0xFF232332),
