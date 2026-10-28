@@ -3,6 +3,7 @@ import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/app/app_image.dart';
 import 'package:grimity/presentation/gallery/pages/gallery_page.dart';
+import 'package:grimity/presentation/post_upload/models/post_upload_model.dart';
 import 'package:grimity/presentation/post_upload/widgets/post_upload_app_bar.dart';
 import 'package:grimity/presentation/post_upload/views/show_post_upload_exit_alert.dart';
 import 'package:grimity/presentation/post_upload/views/show_post_upload_link_modal.dart';
@@ -28,23 +29,40 @@ class PostUploadPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = context.useQuillController();
-    final title = context.stateOf(() => initialPost?.title ?? '');
-
-    // 본문이 변경될 때 제출 가능 여부를 갱신하도록 재빌드.
-    context.watch(controller);
-
-    context.onInitState(() {
+    final model = context.stateOf(() {
       // 기존 HTML 본문을 편집 가능한 Quill 문서로 변환.
       if (initialPost != null) {
         controller.loadHtml(initialPost!.content);
       }
+
+      return PostUploadModel.from(
+        initialPost,
+        content: controller.toHtml(),
+        hasText: controller.hasText,
+      );
     });
 
-    // 제목과 본문 텍스트가 모두 있어야 제출 가능.
-    final canSubmit = title.value.trim().isNotEmpty && controller.hasText;
+    context.onInitState(() {
+      // 커서 이동은 제외하고 본문이 변경되었을 때 모델에 반영.
+      void updateContent() {
+        final updated = model.value.copyWith(
+          content: controller.toHtml(),
+          hasText: controller.hasText,
+        );
+
+        if (updated.different(model.value)) {
+          model.value = updated;
+        }
+      }
+
+      controller.addListener(updateContent);
+      context.onDispose(() => controller.removeListener(updateContent));
+    });
+
+    final data = model.value;
 
     return PopScope(
-      canPop: !canSubmit,
+      canPop: !data.hasChanges,
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) return;
 
@@ -54,26 +72,21 @@ class PostUploadPage extends StatelessWidget {
       child: GdsScaffold(
         appBar: PostUploadAppBar(
           initialPost: initialPost,
-          canSubmit: canSubmit,
-          title: title.value,
-          content: controller.toHtml(),
+          model: model,
         ),
         body: GdsEditor(
           controller: controller,
           onAddImage: () => onAddImage(context),
           onAddLink: () => showPostUploadLinkModal(context),
           maxCount: 500,
-          padding: .only(
-            top: 24,
-            bottom: 8,
-            left: 20,
-            right: 20,
-          ),
+          padding: .only(top: 24, bottom: 8, left: 20, right: 20),
           header: GdsTextField.title(
             size: .sm,
             maxLength: 32,
-            onChanged: title.setter,
-            initialText: initialPost?.title,
+            onChanged: (title) {
+              model.value = data.copyWith(title: title);
+            },
+            initialText: data.title,
             placeholder: '제목을 입력해주세요',
           ),
         ),

@@ -27,14 +27,12 @@ class FeedUploadModel({
     return model.copyWith(parent: model);
   }
 
-  /// 필수 입력값을 충족하여 피드를 제출할 수 있는지 여부.
-  bool get canSubmit {
-    final isNotEmpty = images.isNotEmpty && title.isNotEmpty && content.isNotEmpty;
-    if (parent == null) {
-      return isNotEmpty;
-    }
+  /// 초기 입력값과 비교하여 변경된 내용이 있는지 여부.
+  bool get hasChanges => parent != null && different(parent!);
 
-    return isNotEmpty && different(parent!);
+  /// 필수 입력값을 충족하고 변경된 내용이 있어 제출할 수 있는지 여부.
+  bool get canSubmit {
+    return images.isNotEmpty && title.trim().isNotEmpty && content.trim().isNotEmpty && hasChanges;
   }
 
   /// 다른 모델과 입력 데이터가 다른지 여부를 반환합니다.

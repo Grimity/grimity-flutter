@@ -3,6 +3,7 @@ import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/extensions/enum/post_type.dart';
 import 'package:grimity/presentation/post_detail/pages/post_detail_page.dart';
+import 'package:grimity/presentation/post_upload/models/post_upload_model.dart';
 import 'package:grimity/presentation/post_upload/views/show_post_upload_type_select.dart';
 import 'package:pervice/pervice.dart';
 
@@ -11,58 +12,47 @@ class PostUploadAppBar extends StatelessWidget {
   const new({
     super.key,
     required this.initialPost,
-    required this.canSubmit,
-    required this.title,
-    required this.content,
+    required this.model,
   });
 
   /// 수정 시 초기값으로 사용할 기존 글.
   final PostDetailResponse? initialPost;
 
-  /// 글을 제출할 수 있는지 여부.
-  final bool canSubmit;
-
-  /// 제출할 글의 제목.
-  final String title;
-
-  /// 제출할 글의 HTML 본문.
-  final String content;
+  /// 제목, 본문과 게시글 유형을 관리하는 입력 상태.
+  final ValueState<PostUploadModel> model;
 
   /// 기존 글을 수정하는 모드인지 여부.
   bool get isEdit => initialPost != null;
 
   @override
   Widget build(BuildContext context) {
-    // 현재 선택한 글 유형과 제출 버튼의 로딩 상태 관리.
-    final postType = context.stateOf(() => initialPost?.type ?? .normal);
+    final data = model.value;
 
     return GdsTopNavigation.editor(
-      onBack: context.pop,
+      onBack: () => Navigator.of(context).maybePop(),
       onTitle: () async {
-        final newPostType = await showPostUploadTypeSelect(context, postType.value);
+        final newPostType = await showPostUploadTypeSelect(context, data.type);
 
         // 사용자가 게시글 유형을 선택한 경우 이를 반영.
-        if (newPostType != null) {
-          postType.value = newPostType;
+        if (context.mounted && newPostType != null) {
+          model.value = data.copyWith(type: newPostType);
         }
       },
       action: .new(
         label: isEdit ? '수정' : '업로드',
-        onTap: () async {
-          await submit(context, postType.value);
-        },
-        enabled: canSubmit,
+        onTap: () => submit(context, data),
+        enabled: data.canSubmit,
       ),
-      title: postType.value.displayName,
+      title: data.type.displayName,
     );
   }
 
   /// 제목과 HTML 본문으로 글을 생성하거나 수정합니다.
-  Future<void> submit(BuildContext context, PostType type) async {
+  Future<void> submit(BuildContext context, PostUploadModel model) async {
     final request = CreatePostRequest(
-      title: title,
-      content: content,
-      type: type,
+      title: model.title,
+      content: model.content,
+      type: model.type,
     );
 
     if (isEdit) {
