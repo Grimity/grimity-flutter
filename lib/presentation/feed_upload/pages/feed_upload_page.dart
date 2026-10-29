@@ -191,7 +191,9 @@ class FeedUploadPage extends StatelessWidget {
           // 상세 페이지로 이동하고 완료 안내 표시.
           return () {
             if (context.mounted) {
-              context.pushReplacement(FeedDetailPage(id: response.id));
+              context.pushReplacement(
+                FeedDetailPage(id: response.id),
+              );
 
               GdsToast.show('그림을 업로드했어요', status: .positive);
             }

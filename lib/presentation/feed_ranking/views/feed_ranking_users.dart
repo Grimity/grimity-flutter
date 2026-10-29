@@ -5,6 +5,7 @@ import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/app/app_use_case.dart';
 import 'package:grimity/presentation/feed_ranking/widgets/feed_ranking_section.dart';
+import 'package:grimity/presentation/profile/pages/profile_page.dart';
 import 'package:pervice/pervice.dart';
 
 /// 인기 작가 정보를 가로 카드 목록으로 표시하는 위젯.
@@ -73,7 +74,10 @@ class FeedRankingUsers extends StatelessWidget {
       profile: user.image?.toImage(),
       thumbnails: user.thumbnails.toImages(),
       following: isFollowing.value,
-      onTap: () {}, // TODO
+      onTap: () {
+        // 해당 사용자의 프로필 페이지로 이동.
+        context.push(ProfilePage(url: user.url));
+      },
       onFollow: () {
         AppUseCase.follow(
           context,

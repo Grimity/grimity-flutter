@@ -3,7 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/extensions/enum/post_type.dart';
-import 'package:grimity/extensions/model/post_detail_response_extension.dart';
+import 'package:grimity/extensions/model/post_detail_response.dart';
 import 'package:grimity/presentation/post_detail/pages/post_detail_page.dart';
 
 /// 글 유형, 제목과 작성자 이름 및 더보기·공유 버튼을 표시하는 위젯.

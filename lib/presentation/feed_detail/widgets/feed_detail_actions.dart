@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/app/app_use_case.dart';
-import 'package:grimity/extensions/model/feed_detail_response_extension.dart';
+import 'package:grimity/extensions/model/feed_detail_response.dart';
 import 'package:grimity/presentation/feed_detail/pages/feed_detail_page.dart';
 import 'package:pervice/pervice.dart';
 

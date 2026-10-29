@@ -5,7 +5,7 @@ import 'package:grimity/presentation/feed_ranking/pages/feed_ranking_page.dart';
 import 'package:grimity/presentation/feed_ranking/views/feed_ranking_calendar.dart';
 import 'package:grimity/presentation/feed_ranking/widgets/feed_ranking_period.dart';
 import 'package:grimity/widgets/sliver_column.dart';
-import 'package:grimity/widgets/sliver_feed_grid.dart';
+import 'package:grimity/widgets/sliver_feeds.dart';
 import 'package:pervice/pervice.dart';
 
 /// 월간 인기 그림과 조회 월을 표시하고 이전과 다음 달로 이동할 수 있는 화면.
@@ -68,7 +68,7 @@ class FeedRankingMonthly extends StatelessWidget {
           builder: (data) {
             final feeds = data.feeds;
 
-            return SliverFeedGrid(
+            return SliverFeeds(
               itemCount: feeds.length,
               itemBuilder: (context, index) {
                 final feed = feeds[index];

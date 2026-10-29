@@ -5,6 +5,7 @@ import 'package:grimity/presentation/post_detail/views/post_detail_article.dart'
 import 'package:grimity/presentation/post_detail/views/post_detail_latest_posts.dart';
 import 'package:grimity/presentation/post_detail/widgets/post_detail_input_bar.dart';
 import 'package:grimity/presentation/post_upload/pages/post_upload_page.dart';
+import 'package:grimity/presentation/profile/pages/profile_page.dart';
 import 'package:grimity/presentation/report/pages/report_page.dart';
 import 'package:grimity/views/show_share_modal.dart';
 import 'package:grimity/widgets/app_sidebar.dart';
@@ -98,7 +99,10 @@ class PostDetailPage extends StatelessWidget {
           ],
 
           if (profile) ...[
-            (label: '유저 프로필로 이동', onTap: () {}),
+            (
+              label: '유저 프로필로 이동',
+              onTap: () => onProfile(context, service),
+            ),
           ],
 
           if (report) ...[
@@ -136,6 +140,16 @@ class PostDetailPage extends StatelessWidget {
       name: '글',
       text: '이 글 같이 봐요!',
       path: 'posts/${service.data.id}',
+    );
+  }
+
+  /// 글 작성자의 프로필로 이동할 때 호출됩니다.
+  static void onProfile(
+    BuildContext context,
+    GetPostsById service,
+  ) {
+    context.pushReplacement(
+      ProfilePage(url: service.data.author.url),
     );
   }
 

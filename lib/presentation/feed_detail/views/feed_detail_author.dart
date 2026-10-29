@@ -5,6 +5,7 @@ import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/app/app_use_case.dart';
 import 'package:grimity/presentation/feed_detail/pages/feed_detail_page.dart';
+import 'package:grimity/presentation/profile/pages/profile_page.dart';
 import 'package:pervice/pervice.dart';
 
 /// 피드 작성자의 프로필과 관련된 피드 목록을 표시하는 화면.
@@ -69,12 +70,12 @@ class FeedDetailAuthor extends StatelessWidget {
               // SHARED STATE
               final followerCount = context.sharedStateOf(
                 () => data.followerCount.toInt(),
-                key: ValueKey('feed-${data.id}:follower-count'),
+                key: ValueKey('user-${data.id}:follower-count'),
               );
 
               final isFollowing = context.sharedStateOf(
                 () => data.isFollowing,
-                key: ValueKey('feed-${data.id}:is-following'),
+                key: ValueKey('user-${data.id}:is-following'),
               );
 
               return GdsUserItem.follow(
@@ -82,11 +83,18 @@ class FeedDetailAuthor extends StatelessWidget {
                 followingCount: data.followingCount.toInt(),
                 nickname: data.name,
                 profile: data.image?.toImage(),
+                onUser: () {
+                  // 해당 사용자의 프로필 페이지로 이동.
+                  context.push(ProfilePage(url: data.url));
+                },
                 actions: [
                   .new(
-                    label: '작품 보기',
-                    onTap: () {}, // TODO
                     type: .outlined,
+                    label: '작품 보기',
+                    onTap: () {
+                      // 해당 사용자의 프로필 페이지로 이동.
+                      context.push(ProfilePage(url: data.url));
+                    },
                   ),
 
                   // 팔로우 버튼 표시

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/presentation/search/widgets/search_empty_state.dart';
-import 'package:grimity/widgets/sliver_feed_grid.dart';
+import 'package:grimity/widgets/sliver_feeds.dart';
 import 'package:grimity/widgets/sliver_scroll_view.dart';
 import 'package:pervice/pervice.dart';
 
@@ -84,7 +84,7 @@ class SearchFeeds extends StatelessWidget with GdsTabView {
               tablet: .all(20),
             ),
             slivers: [
-              SliverFeedGrid(
+              SliverFeeds(
                 itemCount: feeds.length,
                 itemBuilder: (context, index) {
                   final feed = feeds[index];

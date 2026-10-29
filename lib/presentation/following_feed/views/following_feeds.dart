@@ -7,6 +7,7 @@ import 'package:grimity/presentation/feed_detail/pages/feed_detail_page.dart';
 import 'package:grimity/presentation/following_feed/widgets/following_feed_carousel.dart';
 import 'package:grimity/presentation/following_feed/widgets/following_feed_comment.dart';
 import 'package:grimity/presentation/navigation/navigation_page.dart';
+import 'package:grimity/presentation/profile/pages/profile_page.dart';
 import 'package:pervice/pervice.dart';
 
 /// 팔로우한 작가의 피드를 이미지, 본문과 댓글을 포함하여 이를 목록으로 표시하는 위젯.
@@ -112,7 +113,10 @@ class FollowingFeeds extends StatelessWidget {
                       onTap: () {}, // TODO
                     ),
                   ],
-                  onUser: () {}, // TODO
+                  onUser: () {
+                    // 해당 사용자의 프로필 페이지로 이동.
+                    context.push(ProfilePage(url: feed.author.url));
+                  },
                 ),
                 const Gap(8),
 

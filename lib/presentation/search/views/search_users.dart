@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/app/app_use_case.dart';
+import 'package:grimity/presentation/profile/pages/profile_page.dart';
 import 'package:grimity/presentation/search/widgets/search_empty_state.dart';
 import 'package:grimity/widgets/sliver_scroll_view.dart';
 import 'package:pervice/pervice.dart';
@@ -114,7 +115,10 @@ class SearchUsers extends StatelessWidget with GdsTabView {
       banner: user.backgroundImage?.toImage(),
       followerCount: followerCount.value,
       following: isFollowing.value,
-      onTap: () {}, // TODO
+      onTap: () {
+        // 해당 사용자의 프로필 페이지로 이동.
+        context.push(ProfilePage(url: user.url));
+      },
       onFollow: () {
         AppUseCase.follow(
           context,

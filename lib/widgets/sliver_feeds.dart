@@ -5,7 +5,7 @@ import 'package:grimity/app/app_use_case.dart';
 import 'package:grimity/presentation/feed_detail/pages/feed_detail_page.dart';
 import 'package:pervice/pervice.dart';
 
-/// 피드 카드에 표시할 이미지, 제목, 작성자와 좋아요 정보.
+/// 피드 항목을 표시하는 데 필요한 정보.
 typedef SliverFeed = ({
   String id,
   String thumbnail,
@@ -17,10 +17,13 @@ typedef SliverFeed = ({
 });
 
 /// 인덱스에 해당하는 피드 데이터를 반환하는 빌더.
-typedef SliverFeedBuilder = SliverFeed Function(BuildContext context, int index);
+typedef SliverFeedBuilder = SliverFeed Function(
+  BuildContext context,
+  int index,
+);
 
 /// 피드 카드를 동적 높이의 그리드로 표시하는 슬리버.
-class SliverFeedGrid extends StatelessWidget {
+class SliverFeeds extends StatelessWidget {
   const new({
     super.key,
     required this.itemCount,

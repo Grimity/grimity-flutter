@@ -31,7 +31,10 @@ abstract class AppTopNavigation {
         return GdsTopNavigation.title(
           key: key,
           onBack: context.pop,
-          onSearch: () {}, // TODO
+          onSearch: () {
+            // 검색 페이지로 이동.
+            context.push(const SearchPage());
+          },
           onNotification: () {}, // TODO
           onProfile: context.openDrawer,
           title: title,

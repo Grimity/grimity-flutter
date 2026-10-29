@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/widgets/sliver_column.dart';
-import 'package:grimity/widgets/sliver_feed_grid.dart';
+import 'package:grimity/widgets/sliver_feeds.dart';
 
 /// 피드 상세에서 최신 그림을 앨범 카드 그리드로 표시하는 위젯.
 class FeedDetailLatestFeeds extends StatelessWidget {
@@ -61,7 +61,8 @@ class FeedDetailLatestFeeds extends StatelessWidget {
           placeholder: placeholder,
           builder: (data) {
             final feeds = data.expand((e) => e.feeds).toList();
-            return SliverFeedGrid(
+
+            return SliverFeeds(
               itemCount: feeds.length,
               itemBuilder: (context, index) {
                 final feed = feeds[index];

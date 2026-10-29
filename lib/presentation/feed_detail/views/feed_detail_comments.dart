@@ -4,7 +4,7 @@ import 'package:grimity/api/api.dart';
 import 'package:grimity/app/app_user.dart';
 import 'package:grimity/presentation/feed_detail/widgets/feed_detail_input_bar.dart';
 import 'package:grimity/presentation/report/pages/report_page.dart';
-import 'package:grimity/widgets/sliver_comment_list.dart';
+import 'package:grimity/widgets/sliver_comments.dart';
 import 'package:pervice/pervice.dart';
 
 /// 피드의 댓글과 대댓글을 작성 순서대로 표시하는 위젯.
@@ -120,7 +120,7 @@ class FeedDetailComments extends StatelessWidget {
       ],
     ];
 
-    return SliverCommentList(
+    return SliverComments(
       service: commentService,
       itemCount: items.length,
       itemBuilder: (_, index) => items[index],

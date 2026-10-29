@@ -31,10 +31,13 @@ class SliverComment({
 });
 
 /// 인덱스에 해당하는 댓글 정보를 반환하는 빌더.
-typedef SliverCommentBuilder = SliverComment Function(BuildContext context, int index);
+typedef SliverCommentBuilder = SliverComment Function(
+  BuildContext context,
+  int index,
+);
 
 /// 댓글과 대댓글을 목록으로 표시하는 슬리버 위젯.
-class SliverCommentList<T extends Service> extends StatelessWidget {
+class SliverComments<T extends Service> extends StatelessWidget {
   const new({
     super.key,
     required this.service,

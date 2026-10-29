@@ -1,9 +1,10 @@
 import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:gds_flutter/gds_flutter.dart';
+import 'package:grimity/extensions/model/posts_response.dart';
 import 'package:grimity/util/post_service.dart';
 import 'package:grimity/widgets/sliver_column.dart';
-import 'package:grimity/widgets/sliver_post_list.dart';
+import 'package:grimity/widgets/sliver_posts.dart';
 import 'package:grimity/widgets/sliver_post_navigation.dart';
 import 'package:pervice/pervice.dart';
 
@@ -11,17 +12,19 @@ import 'package:pervice/pervice.dart';
 class PostDetailLatestPosts extends StatelessWidget {
   const new({super.key});
 
+  /// 최신 게시글 목록을 불러오는 서비스를 생성합니다.
+  PostService createService() {
+    return .new(
+      type: .all,
+      keyword: '',
+      searchBy: .combined,
+      showNotices: false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final service = context.serviceOf(
-      () => PostService(
-        type: .all,
-        keyword: '',
-        searchBy: .combined,
-        showNotices: false,
-      ),
-      key: key,
-    );
+    final service = context.serviceOf(createService, key: key);
 
     return SliverColumn(
       children: [
@@ -35,7 +38,15 @@ class PostDetailLatestPosts extends StatelessWidget {
         ),
 
         // 게시글 목록 표시
-        SliverPostList(service: service),
+        service.sliver(
+          placeholder: PostService.placeholder,
+          builder: (data) {
+            return SliverPosts(
+              itemCount: data.itemCount,
+              itemBuilder: data.itemBuilder,
+            );
+          },
+        ),
         SliverGap(
           context.whenDevice(
             mobile: 20,
@@ -44,9 +55,15 @@ class PostDetailLatestPosts extends StatelessWidget {
         ),
 
         // 내비게이션 표시
-        SliverPostNavigation(
-          service: service,
-          onChanged: service.nextPage,
+        service.sliver(
+          placeholder: PostService.placeholder,
+          builder: (data) {
+            return SliverPostNavigation(
+              page: service.page,
+              totalCount: data.totalCount.toInt(),
+              onChanged: service.nextPage,
+            );
+          },
         ),
       ],
     );

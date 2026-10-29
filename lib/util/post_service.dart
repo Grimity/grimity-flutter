@@ -59,4 +59,21 @@ class PostService extends Service<PostsResponse> {
     page = index;
     refresh();
   }
+
+  /// 게시글 목록을 불러오는 동안 표시할 임시 게시글 데이터.
+  static final placeholder = PostsResponse(
+    totalCount: 10,
+    posts: List.generate(10, (index) {
+      return .new(
+        id: '',
+        title: 'Placeholder',
+        content: 'Placeholder',
+        createdAt: .now(),
+        type: .normal,
+        viewCount: 0,
+        commentCount: 0,
+        author: .new(id: '', name: 'Placeholder', url: ''),
+      );
+    }),
+  );
 }

@@ -6,6 +6,7 @@ import 'package:grimity/presentation/feed_detail/views/feed_detail_latest_feeds.
 import 'package:grimity/presentation/feed_detail/views/feed_detail_author.dart';
 import 'package:grimity/presentation/feed_detail/widgets/feed_detail_input_bar.dart';
 import 'package:grimity/presentation/feed_upload/pages/feed_upload_page.dart';
+import 'package:grimity/presentation/profile/pages/profile_page.dart';
 import 'package:grimity/presentation/report/pages/report_page.dart';
 import 'package:grimity/views/show_share_modal.dart';
 import 'package:grimity/widgets/app_sidebar.dart';
@@ -121,7 +122,10 @@ class FeedDetailPage extends StatelessWidget {
           ],
 
           if (profile) ...[
-            (label: '유저 프로필로 이동', onTap: () {}),
+            (
+              label: '유저 프로필로 이동',
+              onTap: () => onProfile(context, service),
+            ),
           ],
 
           if (report) ...[
@@ -159,6 +163,16 @@ class FeedDetailPage extends StatelessWidget {
       name: '그림',
       text: '이 그림 어때요?',
       path: 'feeds/${service.data.id}',
+    );
+  }
+
+  /// 피드 작성자의 프로필로 이동할 때 호출됩니다.
+  static void onProfile(
+    BuildContext context,
+    GetFeedsById service,
+  ) {
+    context.pushReplacement(
+      ProfilePage(url: service.data.author.url),
     );
   }
 

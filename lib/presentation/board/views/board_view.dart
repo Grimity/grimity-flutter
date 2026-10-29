@@ -1,8 +1,10 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
+import 'package:grimity/extensions/model/posts_response.dart';
+import 'package:grimity/extensions/scroll_controller_extension.dart';
 import 'package:grimity/util/post_service.dart';
-import 'package:grimity/widgets/sliver_post_list.dart';
+import 'package:grimity/widgets/sliver_posts.dart';
 import 'package:grimity/widgets/sliver_post_navigation.dart';
 import 'package:grimity/widgets/sliver_scroll_view.dart';
 import 'package:pervice/pervice.dart';
@@ -24,6 +26,7 @@ class BoardView extends StatelessWidget {
   Widget build(BuildContext context) {
     final key = ValueKey((postType, keyword, searchBy));
 
+    // 게시글 유형과 키워드, 정렬 기준으로 서비스 관리.
     final service = context.serviceOf(
       () => PostService(
         type: postType,
@@ -48,19 +51,28 @@ class BoardView extends StatelessWidget {
       ),
       slivers: [
         // 게시글 목록 표시
-        SliverPostList(service: service),
+        service.sliver(
+          placeholder: PostService.placeholder,
+          builder: (data) {
+            return SliverPosts(
+              itemCount: data.itemCount,
+              itemBuilder: data.itemBuilder,
+            );
+          },
+        ),
 
         // 내비게이션 표시
-        SliverPostNavigation(
-          service: service,
-          onChanged: (index) {
-            controller.position.animateTo(
-              0,
-              duration: GdsAnimation.normal.duration,
-              curve: GdsAnimation.normal.curve,
+        service.sliver(
+          placeholder: PostService.placeholder,
+          builder: (data) {
+            return SliverPostNavigation(
+              page: service.page,
+              totalCount: data.totalCount.toInt(),
+              onChanged: (index) {
+                controller.animateToTop();
+                service.nextPage(index);
+              },
             );
-
-            service.nextPage(index);
           },
         ),
       ],

@@ -1,8 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
-import 'package:grimity/extensions/model/feed_detail_response_extension.dart';
+import 'package:grimity/extensions/model/feed_detail_response.dart';
 import 'package:grimity/presentation/feed_detail/pages/feed_detail_page.dart';
+import 'package:grimity/presentation/profile/pages/profile_page.dart';
 
 /// 피드 작성자의 프로필과 닉네임, 공유 및 더보기 버튼을 표시하는 위젯.
 class FeedDetailHeader extends StatelessWidget {
@@ -48,7 +49,10 @@ class FeedDetailHeader extends StatelessWidget {
             },
           ),
         ],
-        onUser: () {}, // TODO
+        onUser: () {
+          // 해당 사용자의 프로필 페이지로 이동.
+          context.push(ProfilePage(url: data.author.url));
+        },
       ),
     );
   }
