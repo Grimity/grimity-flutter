@@ -58,7 +58,7 @@ class BoardPage extends StatelessWidget with NavigationView {
             searchBy: searchBy.value,
             keyword: keyword.value,
           );
-        }),
+        }).keepAliveWrappers,
       ),
     );
   }

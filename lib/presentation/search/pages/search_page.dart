@@ -86,7 +86,7 @@ class SearchPage extends StatelessWidget {
                 // 탭 화면 표시
                 return TabBarView(
                   controller: controller,
-                  children: views,
+                  children: views.keepAliveWrappers,
                 );
               },
             ),

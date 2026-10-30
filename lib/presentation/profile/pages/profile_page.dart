@@ -64,7 +64,7 @@ class ProfilePage extends StatelessWidget {
             ],
             child: TabBarView(
               controller: tabController,
-              children: views,
+              children: views.keepAliveWrappers,
             ),
           );
         },
