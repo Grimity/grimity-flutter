@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
-import 'package:gds_flutter/components/common/gds_disabled.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:pervice/pervice.dart';
 
@@ -62,10 +61,7 @@ class SliverComments<T extends Service> extends StatelessWidget {
       itemBuilder: (context, index) {
         final comment = itemBuilder(context, index);
 
-        return GdsDisabled(
-          enabled: !service.isRefreshing,
-          child: _Comment(comment: comment),
-        );
+        return _Comment(comment: comment);
       },
     );
   }
