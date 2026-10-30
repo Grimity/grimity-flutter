@@ -153,7 +153,7 @@ class PostDetailComments extends StatelessWidget {
         items: [
           // 본인이 작성한 댓글인 경우
           if (isMine) ...[
-            (
+            .new(
               label: '삭제하기',
               onTap: () => onDelete(context, comment),
             ),
@@ -161,14 +161,14 @@ class PostDetailComments extends StatelessWidget {
 
           // 타인이 작성한 댓글의 경우
           if (!isMine) ...[
-            (
+            .new(
               label: '답글달기',
               onTap: () {
                 context.pop();
                 comment.onReply();
               },
             ),
-            (
+            .new(
               label: '신고하기',
               onTap: () => onReport(context, comment),
             ),

@@ -112,7 +112,7 @@ class FeedDetailPage extends StatelessWidget {
       builder: (context) => GdsAdaptiveMenu(
         items: [
           if (share) ...[
-            (
+            .new(
               label: '공유하기',
               onTap: () {
                 context.pop();
@@ -122,28 +122,28 @@ class FeedDetailPage extends StatelessWidget {
           ],
 
           if (profile) ...[
-            (
+            .new(
               label: '유저 프로필로 이동',
               onTap: () => onProfile(context, service),
             ),
           ],
 
           if (report) ...[
-            (
+            .new(
               label: '신고하기',
               onTap: () => onReport(context, service),
             ),
           ],
 
           if (edit) ...[
-            (
+            .new(
               label: '수정하기',
               onTap: () => onEdit(context, service),
             ),
           ],
 
           if (delete) ...[
-            (
+            .new(
               label: '삭제하기',
               onTap: () => onDelete(context, service),
             ),
