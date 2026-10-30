@@ -120,42 +120,35 @@ class ProfileFeeds extends StatelessWidget with GdsTabView {
           ),
 
           // 피드 개수와 정렬 버튼 표시
-          service.sliver(
-            placeholder: placeholder,
-            builder: (data) {
-              final feeds = data.expand((e) => e.feeds).toList();
+          SliverToBoxAdapter(
+            child: ProfileContentToolbar(
+              count: count,
+              filterBuilder: (context, layerLink) {
+                return GdsFilter(
+                  variant: .text,
+                  enabled: count > 0,
+                  label: sort.value.displayName,
+                  onTap: () async {
+                    final newSort = await showUserFeedsSortSelect(context, layerLink: layerLink, sort: sort.value);
 
-              return SliverToBoxAdapter(
-                child: ProfileContentToolbar(
-                  count: count,
-                  filterBuilder: (context, layerLink) {
-                    return GdsFilter(
-                      variant: .text,
-                      enabled: feeds.isNotEmpty,
-                      label: sort.value.displayName,
-                      onTap: () async {
-                        final newSort = await showUserFeedsSortSelect(context, layerLink: layerLink, sort: sort.value);
-
-                        // 정렬 기준을 선택한 경우 이를 반영.
-                        if (newSort != null) {
-                          sort.value = newSort;
-                        }
-                      },
-                    );
+                    // 정렬 기준을 선택한 경우 이를 반영.
+                    if (newSort != null) {
+                      sort.value = newSort;
+                    }
                   },
-                  actions: [
-                    if (this.data.isMe) ...[
-                      .new(
-                        leadingIcon: .sortHorizontal,
-                        enabled: feeds.isNotEmpty,
-                        label: '그림 정리',
-                        onTap: () {}, // TODO
-                      ),
-                    ],
-                  ],
-                ),
-              );
-            },
+                );
+              },
+              actions: [
+                if (data.isMe) ...[
+                  .new(
+                    leadingIcon: .sortHorizontal,
+                    enabled: count > 0,
+                    label: '그림 정리',
+                    onTap: () {}, // TODO
+                  ),
+                ],
+              ],
+            ),
           ),
           SliverGap(
             context.whenDevice(
