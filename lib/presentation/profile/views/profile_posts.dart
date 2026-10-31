@@ -62,6 +62,7 @@ class ProfilePosts extends StatelessWidget with GdsTabView {
     final controller = context.useNestedScrollController();
 
     return SliverScrollView(
+      controller: controller,
       padding: context.whenDevice(
         mobile: .only(top: 16, bottom: 40, left: 16, right: 16),
         tablet: .only(top: 20, bottom: 72, left: 20, right: 20),
