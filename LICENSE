@@ -1,0 +1,57 @@
+Grimity Source-Available License v1.0
+
+Copyright © 2026 Grimity. All rights reserved.
+
+1. Scope
+
+This License applies to the Grimity-owned source code made available under this License (the "Software"). Third-party components and materials governed by separate license notices are excluded and remain subject to their respective licenses. This License does not replace or restrict rights granted by those licenses.
+
+2. Limited permission
+
+Subject to the restrictions below, permission is granted to view, study, download, copy, privately modify, build, and run the Software solely for personal, educational, debugging, testing, and research purposes.
+
+Modified source code and compiled copies must remain private, except as expressly permitted below. This permission does not authorize operating a public or production application, website, or service based on the Software.
+
+You may submit patches or pull requests to Grimity through its designated contribution channels. Copies and modifications reasonably necessary to submit those contributions are permitted for that purpose, subject to the restrictions below. Contribution guidelines are provided in CONTRIBUTING.md.
+
+If the Software is published on GitHub, nothing in this License limits rights to view or fork it within GitHub to the extent granted under the applicable GitHub Terms of Service. No additional right to redistribute, commercially exploit, or use the Software in another product is granted by this paragraph.
+
+3. Restrictions
+
+Except as expressly permitted in Section 2, you may not, without prior written permission from Grimity:
+
+1. Redistribute the Software or substantial portions of it, whether modified or unmodified.
+2. Publish or distribute modified versions of the Software.
+3. Use the Software or modified versions in another product, application, website, service, library, or SDK.
+4. Sell, sublicense, monetize, or otherwise commercially exploit the Software.
+5. Distribute compiled applications or other derivative works substantially based on the Software.
+6. Remove or obscure copyright, license, or attribution notices.
+7. Use Grimity names, logos, trademarks, or branding in a way that implies official affiliation or endorsement.
+
+4. AI/ML restrictions
+
+Without prior written permission from Grimity, you may not use the Software or substantial portions of it, whether modified or unmodified, to train, pre-train, fine-tune, or otherwise improve any artificial intelligence or machine learning model. This prohibition applies to commercial and non-commercial purposes, including research.
+
+You may not collect, extract, reproduce, supply, or incorporate the Software into AI/ML datasets, including training, fine-tuning, embedding, benchmark, or synthetic training datasets, or use it to generate such datasets. This prohibition expressly includes collection through crawlers, bots, scraping, bulk downloads, repository mirrors, or other automated or manual means. Public availability, or permission to view or fork the Software, does not by itself grant permission for these purposes.
+
+AI-assisted development is permitted solely for the uses otherwise authorized by this License, including studying, explaining, debugging, testing, privately modifying the Software, and preparing contributions to Grimity. You may provide relevant source code as context to an AI tool for those purposes only if the code, prompts containing it, and outputs derived from it are not used or made available for model training, model improvement, or construction of the datasets prohibited above. This exception permits task-specific processing for development assistance, not collection into reusable AI/ML datasets.
+
+Ordinary compilers, formatters, linters, static analyzers, test runners, and similar development tools are not restricted by this section unless used for a prohibited AI/ML purpose.
+
+5. Reservation of rights and termination
+
+All rights not expressly granted by this License are reserved by Grimity. No trademark rights or permission to access Grimity systems or services are granted by this License.
+
+The permissions granted by this License terminate automatically if you violate its terms. Upon termination, you must stop using the Software. You may retain copies lawfully made or obtained before the violation while complying with this License, but retaining those copies does not authorize their continued use, modification, or distribution after termination. Other copies in your possession or control must be deleted, except as required by applicable law or separately authorized in writing by Grimity. Termination does not affect independently applicable third-party licenses or rights that cannot be restricted by law.
+
+Nothing in this License restricts rights or exceptions that applicable law does not permit to be restricted.
+
+6. Disclaimer of warranty and limitation of liability
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, GRIMITY AND ITS CONTRIBUTORS SHALL NOT BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM OR IN CONNECTION WITH THE SOFTWARE OR ITS USE, WHETHER IN CONTRACT, TORT, OR OTHERWISE.
+
+7. License classification
+
+This Software is source-available and is not Open Source as defined by the Open Source Initiative.

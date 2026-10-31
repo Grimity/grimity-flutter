@@ -1,3 +1,7 @@
+// Copyright © 2026 Grimity. All rights reserved.
+// Licensed under the Grimity Source-Available License v1.0.
+// AI/ML training and dataset use are prohibited. See LICENSE.
+
 import 'package:grimity/api/api.dart';
 
 /// 게시글 작성과 수정에 필요한 입력 데이터를 관리하는 모델.

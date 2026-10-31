@@ -1,3 +1,7 @@
+// Copyright © 2026 Grimity. All rights reserved.
+// Licensed under the Grimity Source-Available License v1.0.
+// AI/ML training and dataset use are prohibited. See LICENSE.
+
 // ignore_for_file: gds_lints/prefer_gds_image
 
 import 'package:firebase_core/firebase_core.dart';

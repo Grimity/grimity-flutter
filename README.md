@@ -65,3 +65,9 @@
 | ☐ | 차단 목록 | 차단 사용자·차단 해제 |
 | ☐ | 사업자 정보 | 사업자 정보 표시 |
 | ☐ | 업데이트 안내 | 업데이트 다이얼로그 |
+
+## License
+
+Grimity is source-available under the Grimity Source-Available License v1.0.
+
+This project is not Open Source as defined by the Open Source Initiative.
