@@ -451,10 +451,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_infinite_scroll_pagination
-      sha256: "90a968dd6c3117e17c333ed212643ae08ad9d025ab735e4173bee86cfd2a971a"
+      sha256: cdfd588e5f8b81c193ebb2525528dd62fc946b6cadc673565c78ec3880efd24a
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.0"
+    version: "1.3.1"
   flutter_keyboard_visibility_linux:
     dependency: transitive
     description:
@@ -665,11 +665,9 @@ packages:
   gds_flutter:
     dependency: "direct main"
     description:
-      path: "packages/gds_flutter"
-      ref: HEAD
-      resolved-ref: a685e2e17a4e915744186600604fa93917a9d5c9
-      url: "https://github.com/Grimity/gds-flutter.git"
-    source: git
+      path: "D:\\Project Files\\gds-flutter\\packages\\gds_flutter"
+      relative: false
+    source: path
     version: "0.0.0"
   git_config:
     dependency: "direct main"
