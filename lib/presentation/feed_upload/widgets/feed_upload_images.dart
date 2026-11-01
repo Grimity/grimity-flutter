@@ -26,21 +26,26 @@ class FeedUploadImages extends StatelessWidget {
       mainAxisSize: .min,
       crossAxisAlignment: .start,
       ignorePrimaryScrollController: true,
+      buildDraggableFeedback: buildDraggableFeedback,
       onReorder: (oldIndex, newIndex) {
-        // 드래그한 순서로 이미지 목록 갱신.
         final images = model.value.images.toList();
         final image = images.removeAt(oldIndex);
         images.insert(newIndex, image);
 
         model.value = model.value.copyWith(images: images);
       },
-      buildDraggableFeedback: buildDraggableFeedback,
       footer: FeedUploadImagePicker(model: model),
-      children: model.value.images.builder((image) {
+      children: model.value.images.indexedBuilder((index, image) {
+        // 재빌드 시 자식 위젯들의 상태가 초기화되지 않도록 동일한 키 인스턴스 유지.
+        final key = context.stateOf(
+          () => ValueKey(index),
+          key: ValueKey(index),
+        );
+
         final isThumbnail = image == model.value.thumbnail;
 
         return Padding(
-          key: ObjectKey(image),
+          key: key.value,
           padding: .only(right: 16),
           child: GdsAlbumUpload.image(
             size: context.whenDevice(
