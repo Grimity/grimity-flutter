@@ -6,6 +6,7 @@ import 'package:dynamic_height_list_view/dynamic_height_view.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/app/app_use_case.dart';
+import 'package:grimity/app/app_user.dart';
 import 'package:grimity/presentation/feed_detail/pages/feed_detail_page.dart';
 import 'package:pervice/pervice.dart';
 
@@ -66,13 +67,16 @@ class SliverFeeds extends StatelessWidget {
           key: ValueKey('feed-${feed.id}:view-count'),
         );
 
+        // 본인이 작성한 피드인지 여부.
+        final isMine = feed.nickname == profile.name;
+
         return GdsAlbum(
           image: feed.thumbnail.toImage(),
           title: feed.title,
           nickname: feed.nickname,
           likeCount: likeCount.value,
           viewCount: viewCount.value,
-          like: isLike.value,
+          like: isMine ? null : isLike.value,
           onTap: () {
             // 피드 상세 페이지로 이동.
             context.push(FeedDetailPage(id: feed.id));
