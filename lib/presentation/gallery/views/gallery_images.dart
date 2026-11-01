@@ -37,9 +37,9 @@ class GalleryImages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final albumId = selectedAlbum()?.id;
+    final albumId = selectedAlbum.value?.id;
     final service = context.serviceOf(
-      () => createService(selectedAlbum()),
+      () => createService(selectedAlbum.value),
       key: ValueKey((GalleryImages, albumId)),
     );
 
@@ -90,14 +90,14 @@ class GalleryImages extends StatelessWidget {
             itemCount: images.length,
             itemBuilder: (context, index) {
               final asset = images[index];
-              final selectedIndex = selectedImages().indexOf(asset);
+              final selectedIndex = selectedImages.value.indexOf(asset);
 
               return GalleryImage(
                 asset: asset,
                 selectedIndex: selectedIndex,
                 onAdd: () {
                   // 이미 선택 가능한 최대 개수에 도달했을 경우.
-                  if (selectedImages().length >= maxCount) {
+                  if (selectedImages.length >= maxCount) {
                     GdsToast.show('최대 $maxCount장까지 선택할 수 있어요', status: .negative);
                     return;
                   }

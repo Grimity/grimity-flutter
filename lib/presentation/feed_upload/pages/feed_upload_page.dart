@@ -40,17 +40,17 @@ class FeedUploadPage extends StatelessWidget {
       if (AppUser.albums.isEmpty) {
         showFeedUploadNoAlbumAlert(context);
       } else {
-        final newAlbum = await showFeedUploadAlbumSelectAlert(context, model().album);
+        final newAlbum = await showFeedUploadAlbumSelectAlert(context, model.value.album);
 
         // 사용자가 앨범을 선택한 경우 이를 반영.
         if (context.mounted && newAlbum != null) {
-          model.set(model().copyWith(album: newAlbum));
+          model.value = model.value.copyWith(album: newAlbum);
         }
       }
     }
 
     return PopScope(
-      canPop: !model().canSubmit,
+      canPop: !model.value.canSubmit,
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) return;
 
@@ -63,10 +63,10 @@ class FeedUploadPage extends StatelessWidget {
           onTitle: selectAlbum,
           action: .new(
             label: isEdit ? '수정' : '업로드',
-            onTap: () => submit(context, model()),
-            enabled: model().canSubmit,
+            onTap: () => submit(context, model.value),
+            enabled: model.value.canSubmit,
           ),
-          title: model().album?.name ?? '전체 앨범',
+          title: model.value.album?.name ?? '전체 앨범',
         ),
         body: SingleChildScrollView(
           padding: context.whenDevice(
@@ -77,7 +77,7 @@ class FeedUploadPage extends StatelessWidget {
             spacing: 12,
             children: [
               // 이미지가 없으면 선택 버튼, 있으면 이미지 목록을 표시.
-              if (model().images.isEmpty) ...[
+              if (model.value.images.isEmpty) ...[
                 FeedUploadImagePicker(model: model),
               ] else ...[
                 FeedUploadImages(model: model),
@@ -91,8 +91,8 @@ class FeedUploadPage extends StatelessWidget {
                 ),
                 maxLength: 32,
                 placeholder: '제목을 입력해주세요',
-                initialText: model().title,
-                onChanged: (title) => model.set(model().copyWith(title: title)),
+                initialText: model.value.title,
+                onChanged: (title) => model.value = model.value.copyWith(title: title),
               ),
 
               // 내용의 입력 필드 표시
@@ -100,8 +100,8 @@ class FeedUploadPage extends StatelessWidget {
                 variant: .text,
                 maxLength: 500,
                 placeholder: '내용을 입력해주세요',
-                initialText: model().content,
-                onChanged: (content) => model.set(model().copyWith(content: content)),
+                initialText: model.value.content,
+                onChanged: (content) => model.value = model.value.copyWith(content: content),
               ),
 
               // 태그의 입력 필드 표시
@@ -112,13 +112,13 @@ class FeedUploadPage extends StatelessWidget {
                     mobile: .xs,
                     tablet: .md,
                   ),
-                  tags: model().tags,
+                  tags: model.value.tags,
                   onAdded: (tag) {
-                    model.set(model().copyWith(tags: [...model().tags, tag]));
+                    model.value = model.value.copyWith(tags: [...model.value.tags, tag]);
                   },
                   onRemoved: (tag) {
-                    final tags = model().tags.toList()..remove(tag);
-                    model.set(model().copyWith(tags: tags));
+                    final tags = model.value.tags.toList()..remove(tag);
+                    model.value = model.value.copyWith(tags: tags);
                   },
                 ),
               ),
@@ -133,7 +133,7 @@ class FeedUploadPage extends StatelessWidget {
                     type: .borderless,
                     variant: .assistive,
                     trailingIcon: .chevronRight,
-                    label: model().album?.name ?? '전체 앨범',
+                    label: model.value.album?.name ?? '전체 앨범',
                     onTap: selectAlbum,
                   ),
                 ),

@@ -33,7 +33,7 @@ class ProfileEditScreen extends GdsEditorScreen {
       submitButton: .new(
         label: '저장',
         onTap: () => submit(context, model.value),
-        enabled: model().canSubmit,
+        enabled: model.value.canSubmit,
       ),
       child: Column(
         mainAxisSize: .min,

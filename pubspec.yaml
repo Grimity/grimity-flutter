@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  pervice: ^1.6.1
+  pervice: ^1.7.0
   dio: ^5.11.1
   flutter_appbar: ^1.10.0
   flutter_secure_storage: ^11.2.0

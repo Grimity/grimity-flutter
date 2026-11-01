@@ -162,14 +162,14 @@ class FollowingFeeds extends StatelessWidget {
                       type: .borderless,
                       size: .lg,
                       variant: .assistive,
-                      label: likeCount().compact,
-                      leadingIcon: isLike() ? .heartFill : .heart,
-                      iconColor: isLike() ? .statusNotification : null,
+                      label: likeCount.value.compact,
+                      leadingIcon: isLike.value ? .heartFill : .heart,
+                      iconColor: isLike.value ? .statusNotification : null,
                       onTap: () {
                         AppUseCase.likeFeed(
                           context,
                           id: feed.id,
-                          value: !isLike(),
+                          value: !isLike.value,
                           isLike: isLike,
                           likeCount: likeCount,
                         );
@@ -181,7 +181,7 @@ class FollowingFeeds extends StatelessWidget {
                       type: .borderless,
                       size: .lg,
                       variant: .assistive,
-                      label: commentCount().compact,
+                      label: commentCount.value.compact,
                       leadingIcon: .chatRound,
                     ),
                   ],

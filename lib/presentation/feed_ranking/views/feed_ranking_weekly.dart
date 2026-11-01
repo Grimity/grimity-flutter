@@ -29,15 +29,15 @@ class FeedRankingWeekly extends StatelessWidget {
     // 주간 인기 그림 서비스.
     final service = context.serviceOf(
       () => GetFeedsRankings(
-        startDate: startDate().yearMonthDay,
-        endDate: endDate().yearMonthDay,
+        startDate: startDate.value.yearMonthDay,
+        endDate: endDate.value.yearMonthDay,
       ),
-      key: ValueKey((startDate(), endDate())),
+      key: ValueKey((startDate.value, endDate.value)),
     );
 
     // 조회 기간의 시작일과 종료일을 표시할 문자열로 변환.
-    final startDateLabel = startDate().dateLabel;
-    final endDateLabel = endDate().dateLabel;
+    final startDateLabel = startDate.value.dateLabel;
+    final endDateLabel = endDate.value.dateLabel;
 
     return SliverColumn(
       spacing: context.whenDevice(
@@ -48,21 +48,21 @@ class FeedRankingWeekly extends StatelessWidget {
         FeedRankingPeriod(
           // 일주일 앞으로 이동.
           onNext: () {
-            startDate.set(startDate().add(const .new(days: 7)));
-            endDate.set(endDate().add(const .new(days: 7)));
+            startDate.value = startDate.value.add(const .new(days: 7));
+            endDate.value = endDate.value.add(const .new(days: 7));
           },
 
           // 일주일 뒤로 이동.
           onPrevious: () {
-            startDate.set(startDate().subtract(const .new(days: 7)));
-            endDate.set(endDate().subtract(const .new(days: 7)));
+            startDate.value = startDate.value.subtract(const .new(days: 7));
+            endDate.value = endDate.value.subtract(const .new(days: 7));
           },
 
           // 오늘이 아닌지 여부.
-          canNext: !endDate().isToday,
+          canNext: !endDate.value.isToday,
 
           // 출시일 이후인지 여부.
-          canPrevious: startDate().isAfter(FeedRankingPage.releaseDate),
+          canPrevious: startDate.value.isAfter(FeedRankingPage.releaseDate),
 
           // yyyy.MM.dd - yyyy.MM.dd 혹은 오늘.
           child: GdsText(

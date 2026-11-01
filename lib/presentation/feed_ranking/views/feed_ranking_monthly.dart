@@ -26,8 +26,8 @@ class FeedRankingMonthly extends StatelessWidget {
 
     // 월간 인기 그림 서비스.
     final service = context.serviceOf(
-      () => GetFeedsRankings(month: date().yearMonth),
-      key: ValueKey(date()),
+      () => GetFeedsRankings(month: date.value.yearMonth),
+      key: ValueKey(date.value),
     );
 
     return SliverColumn(
@@ -39,29 +39,29 @@ class FeedRankingMonthly extends StatelessWidget {
         FeedRankingPeriod(
           // 한달 앞으로 이동.
           onNext: () {
-            date.set(DateTime(date().year, date().month + 1));
+            date.value = DateTime(date.value.year, date.value.month + 1);
           },
 
           // 한달 뒤로 이동.
           onPrevious: () {
-            date.set(DateTime(date().year, date().month - 1));
+            date.value = DateTime(date.value.year, date.value.month - 1);
           },
 
           // 이번 달 이전인지 여부.
-          canNext: date().isBefore(nowMonth),
+          canNext: date.value.isBefore(nowMonth),
 
           // 출시 월 이후인지 여부.
-          canPrevious: date().isAfter(FeedRankingPage.releaseMonth),
+          canPrevious: date.value.isAfter(FeedRankingPage.releaseMonth),
 
           // 선택한 조회 월 표시.
           child: GdsFilter(
             variant: .text,
-            label: date().yearMonthLabel,
+            label: date.value.yearMonthLabel,
             onTap: () async {
-              final selectedDate = await FeedRankingCalendar.show(context, date());
+              final selectedDate = await FeedRankingCalendar.show(context, date.value);
 
               if (context.mounted && selectedDate != null) {
-                date.set(selectedDate);
+                date.value = selectedDate;
               }
             },
           ),

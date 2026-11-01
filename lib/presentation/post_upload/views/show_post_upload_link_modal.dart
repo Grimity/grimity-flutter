@@ -13,12 +13,12 @@ Future<GdsLink?> showPostUploadLinkModal(BuildContext context) {
     builder: (context) {
       final name = context.stateOf<String?>(() => null);
       final url = context.stateOf<String>(() => '');
-      final canSubmit = url().isNotEmpty;
+      final canSubmit = url.isNotEmpty;
 
       // 링크 이름이 없으면 URL을 표시 이름으로 사용.
       final GdsLink link = (
-        name: name() ?? url(),
-        url: url(),
+        name: name.value ?? url.value,
+        url: url.value,
       );
 
       return GdsAdaptiveModal(
@@ -38,7 +38,7 @@ Future<GdsLink?> showPostUploadLinkModal(BuildContext context) {
             title: '링크 주소',
             field: GdsTextField.normal(
               size: .md,
-              onChanged: url.set,
+              onChanged: url.setter,
               placeholder: 'https://www.grimity.com/board/write',
             ),
           ),
@@ -48,7 +48,7 @@ Future<GdsLink?> showPostUploadLinkModal(BuildContext context) {
             title: '링크 명',
             field: GdsTextField.normal(
               size: .md,
-              onChanged: name.set,
+              onChanged: name.setter,
               placeholder: '링크 주소 대신 보일 내용을 입력해주세요',
             ),
           ),

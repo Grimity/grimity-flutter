@@ -83,7 +83,7 @@ class FeedDetailAuthor extends StatelessWidget {
               );
 
               return GdsUserItem.follow(
-                followerCount: followerCount(),
+                followerCount: followerCount.value,
                 followingCount: data.followingCount.toInt(),
                 nickname: data.name,
                 profile: data.image?.toImage(),
@@ -103,7 +103,7 @@ class FeedDetailAuthor extends StatelessWidget {
 
                   // 팔로우 버튼 표시
                   .follow(
-                    following: isFollowing(),
+                    following: isFollowing.value,
                     onFollow: () {
                       AppUseCase.follow(
                         context,
@@ -191,9 +191,9 @@ class FeedDetailAuthor extends StatelessWidget {
       image: feed.thumbnail.toImage(),
       title: feed.title,
       nickname: authorName,
-      likeCount: likeCount(),
-      viewCount: viewCount(),
-      like: isLike(),
+      likeCount: likeCount.value,
+      viewCount: viewCount.value,
+      like: isLike.value,
       onTap: () {
         // 피드 상세 페이지로 이동.
         context.push(FeedDetailPage(id: feed.id));

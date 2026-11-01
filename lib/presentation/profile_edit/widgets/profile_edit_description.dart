@@ -23,10 +23,10 @@ class ProfileEditDescription extends StatelessWidget {
       field: GdsTextArea(
         variant: .normal,
         placeholder: '자유롭게 소개를 작성해보세요',
-        initialText: model().description,
+        initialText: model.value.description,
         maxLength: 500,
         onChanged: (value) {
-          model.set(model().copyWith(description: value));
+          model.value = model.value.copyWith(description: value);
         },
       ),
     );

@@ -66,8 +66,8 @@ class FeedDetailArticle extends StatelessWidget {
         FeedDetailContent(
           title: data.title,
           content: data.content,
-          likeCount: likeCount(),
-          viewCount: viewCount(),
+          likeCount: likeCount.value,
+          viewCount: viewCount.value,
           createdAt: data.createdAt,
           tags: data.tags,
         ),

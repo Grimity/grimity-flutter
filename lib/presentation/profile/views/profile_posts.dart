@@ -54,8 +54,8 @@ class ProfilePosts extends StatelessWidget with GdsTabView {
 
     // 페이지 인덱스를 기준으로 서비스 관리.
     final service = context.serviceOf(
-      () => createService(page()),
-      key: ValueKey(page()),
+      () => createService(page.value),
+      key: ValueKey(page.value),
     );
 
     // 페이지 변경 시 게시글 목록을 맨 위로 이동하기 위한 컨트롤러.
@@ -123,11 +123,11 @@ class ProfilePosts extends StatelessWidget with GdsTabView {
                   placeholder: placeholder,
                   builder: (posts) {
                     return SliverPostNavigation(
-                      page: page(),
+                      page: page.value,
                       totalCount: data.postCount.toInt(),
                       onChanged: (index) {
                         controller.animateToTop();
-                        page.set(index);
+                        page.value = index;
                       },
                     );
                   },

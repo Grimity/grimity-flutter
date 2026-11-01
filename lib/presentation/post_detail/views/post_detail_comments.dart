@@ -83,13 +83,13 @@ class PostDetailComments extends StatelessWidget {
           mention: null,
           profile: parent.writer?.image?.toImage(),
           onReply: () {
-            mention.set((
+            mention.value = (
               userName: parent.writer!.name,
               userId: parent.writer!.id,
               parentCommentId: parent.id,
-            ));
+            );
 
-            focusNode().requestFocus();
+            focusNode.value.requestFocus();
           },
           onMenu: openMenu,
           onLike: (value) => onLike(parent.id, value),
@@ -111,13 +111,13 @@ class PostDetailComments extends StatelessWidget {
             mention: reply.mentionedUser?.name ?? parent.writer?.name,
             profile: reply.writer?.image?.toImage(),
             onReply: () {
-              mention.set((
+              mention.value = (
                 userName: reply.writer!.name,
                 userId: reply.writer!.id,
                 parentCommentId: parent.id,
-              ));
+              );
 
-              focusNode().requestFocus();
+              focusNode.value.requestFocus();
             },
             onMenu: openMenu,
             onLike: (value) => onLike(reply.id, value),

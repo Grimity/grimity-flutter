@@ -47,7 +47,7 @@ class SearchPage extends StatelessWidget {
     );
 
     // 검색어 2자 이상의 제출 가능한 상태인지 여부.
-    final canSubmit = keyword().length >= 2;
+    final canSubmit = keyword.length >= 2;
 
     return GdsScaffold(
       appBar: SearchAppBar(keyword: keyword),

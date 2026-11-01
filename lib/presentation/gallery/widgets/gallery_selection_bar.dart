@@ -28,9 +28,9 @@ class GallerySelectionBar extends StatelessWidget {
 
       // 대용량 이미지로 인한 성능 이슈로 0 픽셀로 조정.
       cacheExtent: 0,
-      itemCount: selectedImages().length,
+      itemCount: selectedImages.length,
       itemBuilder: (context, index) {
-        final asset = selectedImages()[index];
+        final asset = selectedImages[index];
 
         return Stack(
           children: [

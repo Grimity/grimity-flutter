@@ -48,7 +48,7 @@ class SearchPopularTags extends StatelessWidget {
                   tablet: .md,
                 ),
                 label: tag.tagName,
-                onTap: () => keyword.set(tag.tagName),
+                onTap: () => keyword.value = tag.tagName,
               );
             },
           ),

@@ -34,16 +34,16 @@ class NavigationPage extends StatelessWidget {
       key: ValueKey(NavigationPage),
     );
 
-    index.set(newIndex);
+    index.value = newIndex;
   }
 
   @override
   Widget build(BuildContext context) {
     final index = context.sharedStateOf(() => 0, key: ValueKey(NavigationPage));
-    assert(index() < _views.length);
+    assert(index.value < _views.length);
 
     // 현재 선택된 탭에 대응하는 화면.
-    final view = _views[index()];
+    final view = _views[index.value];
 
     return GdsScaffold(
       appBar: AppTopNavigation.main(),
@@ -56,7 +56,7 @@ class NavigationPage extends StatelessWidget {
                 // 페이지 본문 표시
                 GdsPageTransition(
                   child: KeyedSubtree(
-                    key: ValueKey(index()),
+                    key: ValueKey(index.value),
                     child: view,
                   ),
                 ),
@@ -81,13 +81,13 @@ class NavigationPage extends StatelessWidget {
 
           // 하단 네비게이션 표시
           GdsBottomNavigation(
-            index: index(),
+            index: index.value,
             tabs: _views.indexedBuilder((newIndex, view) {
               return .new(
                 icon: view.icon,
                 label: view.label,
                 showDot: view.showDot,
-                onTap: () => index.set(newIndex),
+                onTap: () => index.value = newIndex,
               );
             }),
           ),
@@ -136,9 +136,9 @@ class _Test extends StatelessWidget with NavigationView {
 
     return Center(
       child: GdsGesture(
-        onTap: () => counter.set(counter() + 1),
+        onTap: () => counter.value = counter.value + 1,
         child: GdsText(
-          '$label ${counter()}',
+          '$label ${counter.value}',
           color: .textGrayBold,
           style: .title1,
         ),

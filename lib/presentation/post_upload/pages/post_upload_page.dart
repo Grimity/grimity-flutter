@@ -49,13 +49,13 @@ class PostUploadPage extends StatelessWidget {
     context.onInitState(() {
       // 커서 이동은 제외하고 본문이 변경되었을 때 모델에 반영.
       void updateContent() {
-        final updated = model().copyWith(
+        final updated = model.value.copyWith(
           content: controller.toHtml(),
           hasText: controller.hasText,
         );
 
-        if (updated.different(model())) {
-          model.set(updated);
+        if (updated.different(model.value)) {
+          model.value = updated;
         }
       }
 
@@ -64,7 +64,7 @@ class PostUploadPage extends StatelessWidget {
     });
 
     return PopScope(
-      canPop: !model().hasChanges,
+      canPop: !model.value.hasChanges,
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) return;
 
@@ -86,9 +86,9 @@ class PostUploadPage extends StatelessWidget {
             size: .sm,
             maxLength: 32,
             onChanged: (title) {
-              model.set(model().copyWith(title: title));
+              model.value = model.value.copyWith(title: title);
             },
-            initialText: model().title,
+            initialText: model.value.title,
             placeholder: '제목을 입력해주세요',
           ),
         ),

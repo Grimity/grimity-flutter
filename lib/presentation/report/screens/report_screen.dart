@@ -26,7 +26,7 @@ class ReportScreen extends GdsActionScreen {
   GdsActionContent build(BuildContext context) {
     final type = context.stateOf<ReportType?>(() => null);
     final content = context.stateOf(() => '');
-    final canSubmit = type() != null;
+    final canSubmit = type.hasValue;
 
     // 신고 여부를 확인한 뒤 신고를 제출하고 완료 안내 표시.
     void submit() {
@@ -34,7 +34,7 @@ class ReportScreen extends GdsActionScreen {
         context,
         PostReports(
           request: .new(
-            type: type()!,
+            type: type.value!,
             refId: refId,
             refType: refType,
           ),
@@ -66,8 +66,8 @@ class ReportScreen extends GdsActionScreen {
               children: ReportType.values.builder((value) {
                 return GdsListItem.radio(
                   label: value.key,
-                  onTap: () => type.set(value),
-                  status: .from(selected: type() == value),
+                  onTap: () => type.value = value,
+                  status: .from(selected: type.value == value),
                 );
               }),
             ),
@@ -80,7 +80,7 @@ class ReportScreen extends GdsActionScreen {
             child: GdsTextArea(
               variant: .normal,
               maxLength: 500,
-              onChanged: content.set,
+              onChanged: content.setter,
               placeholder: '구체적인 사유를 적어주세요',
             ),
           ),

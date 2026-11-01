@@ -42,8 +42,8 @@ class GalleryAlbums extends StatelessWidget {
               entity: album,
               onTap: () {
                 // 전체 앨범은 최근 항목으로 선택하고 목록 닫기.
-                selectedAlbum.set(album.isAll ? null : album);
-                showAlbums.set(false);
+                selectedAlbum.value = album.isAll ? null : album;
+                showAlbums.value = false;
               },
             );
           },

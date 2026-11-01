@@ -26,7 +26,7 @@ class ProfileEditAvatar extends StatelessWidget {
         // 프로필 이미지 표시
         GdsProfile(
           size: .lg,
-          image: model().avatar,
+          image: model.value.avatar,
         ),
 
         // 제거 혹은 추가 버튼 표시
@@ -36,13 +36,13 @@ class ProfileEditAvatar extends StatelessWidget {
             translation: .new(-0.5, 0),
             child: Builder(
               builder: (context) {
-                if (model().avatar != null) {
+                if (model.value.avatar != null) {
                   return GdsButton.icon(
                     type: .solid,
                     icon: .x,
                     onTap: () {
                       // 프로필 이미지 제거.
-                      model.set(model().copyWith(avatar: () => null));
+                      model.value = model.value.copyWith(avatar: () => null);
                     },
                   );
                 }
@@ -57,7 +57,7 @@ class ProfileEditAvatar extends StatelessWidget {
 
                     // 사용자가 이미지를 선택했을 경우.
                     if (newImages != null) {
-                      model.set(model().copyWith(avatar: () => newImages.single));
+                      model.value = model.value.copyWith(avatar: () => newImages.single);
                     }
                   },
                 );

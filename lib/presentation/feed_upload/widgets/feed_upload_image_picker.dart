@@ -34,11 +34,9 @@ class FeedUploadImagePicker extends StatelessWidget {
           if (!context.mounted) return;
 
           // 대표 이미지가 없으면 선택한 이미지 중에서 지정.
-          model.set(
-            model().copyWith(
-              images: [...model().images, ...newImages],
-              thumbnail: model().thumbnail ?? newImages.first,
-            ),
+          model.value = model.value.copyWith(
+            images: [...model.value.images, ...newImages],
+            thumbnail: model.value.thumbnail ?? newImages.first,
           );
         }
       },

@@ -23,10 +23,10 @@ class ProfileEditNickname extends StatelessWidget {
       field: GdsTextField.normal(
         size: .md,
         placeholder: '닉네임을 입력하세요',
-        initialText: model().nickname,
+        initialText: model.value.nickname,
         maxLength: 12,
         onChanged: (value) {
-          model.set(model().copyWith(nickname: value));
+          model.value = model.value.copyWith(nickname: value);
         },
       ),
     );

@@ -31,17 +31,17 @@ class BoardSearch extends StatelessWidget {
           builder: (context, layerLink) {
             return GdsFilter(
               variant: .outline,
-              label: searchBy().displayName,
+              label: searchBy.value.displayName,
               onTap: () async {
                 final newSearchBy = await showSearchBySelect(
                   context,
                   layerLink,
-                  searchBy(),
+                  searchBy.value,
                 );
 
                 // 사용자가 검색 기준을 수정한 경우 이를 반영.
                 if (newSearchBy != null) {
-                  searchBy.set(newSearchBy);
+                  searchBy.value = newSearchBy;
                 }
               },
             );
@@ -52,7 +52,7 @@ class BoardSearch extends StatelessWidget {
         Flexible(
           child: GdsTextField.search(
             size: .sm,
-            onSubmitted: keyword.set,
+            onSubmitted: keyword.setter,
             placeholder: '검색어를 입력하세요',
           ),
         ),

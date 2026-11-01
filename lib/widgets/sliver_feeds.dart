@@ -70,9 +70,9 @@ class SliverFeeds extends StatelessWidget {
           image: feed.thumbnail.toImage(),
           title: feed.title,
           nickname: feed.nickname,
-          likeCount: likeCount(),
-          viewCount: viewCount(),
-          like: isLike(),
+          likeCount: likeCount.value,
+          viewCount: viewCount.value,
+          like: isLike.value,
           onTap: () {
             // 피드 상세 페이지로 이동.
             context.push(FeedDetailPage(id: feed.id));

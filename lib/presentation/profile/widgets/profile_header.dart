@@ -292,7 +292,7 @@ class _FollowButton extends StatelessWidget {
 
     // 팔로우 상태에 따른 버튼 액션 생성.
     final action = GdsTextButtonAction.follow(
-      following: isFollowing(),
+      following: isFollowing.value,
       onFollow: () {
         AppUseCase.follow(
           context,

@@ -72,8 +72,8 @@ class ProfileFeeds extends StatelessWidget with GdsTabView {
 
     // 정렬 기준과 앨범 선택별로 서비스 관리.
     final service = context.serviceOf(
-      () => createService(sort(), album()),
-      key: ValueKey((sort(), album())),
+      () => createService(sort.value, album.value),
+      key: ValueKey((sort.value, album.value)),
     );
 
     // 앨범 편집 페이지로 이동하는 액션 버튼.
@@ -94,7 +94,7 @@ class ProfileFeeds extends StatelessWidget with GdsTabView {
           // 앨범 카테고리 목록 표시
           SliverToBoxAdapter(
             child: GdsCategory(
-              index: album() == null ? 0 : data.albums.indexOf(album()!) + 1,
+              index: album.hasNoValue ? 0 : data.albums.indexOf(album.value!) + 1,
               action: data.isMe ? albumEditAction : null,
               items: [
                 .new(label: '전체'),
@@ -109,9 +109,9 @@ class ProfileFeeds extends StatelessWidget with GdsTabView {
               ],
               onChanged: (index) {
                 if (index == 0) {
-                  album.set(null);
+                  album.value = null;
                 } else {
-                  album.set(data.albums[index - 1]);
+                  album.value = data.albums[index - 1];
                 }
               },
             ),
@@ -131,13 +131,13 @@ class ProfileFeeds extends StatelessWidget with GdsTabView {
                 return GdsFilter(
                   variant: .text,
                   enabled: count > 0,
-                  label: sort().displayName,
+                  label: sort.value.displayName,
                   onTap: () async {
-                    final newSort = await showUserFeedsSortSelect(context, layerLink: layerLink, sort: sort());
+                    final newSort = await showUserFeedsSortSelect(context, layerLink: layerLink, sort: sort.value);
 
                     // 정렬 기준을 선택한 경우 이를 반영.
                     if (newSort != null) {
-                      sort.set(newSort);
+                      sort.value = newSort;
                     }
                   },
                 );

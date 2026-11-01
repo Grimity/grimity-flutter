@@ -22,10 +22,10 @@ class ProfileEditUrl extends StatelessWidget {
       title: '그리미티 URL',
       field: GdsTextField.normal(
         size: .md,
-        initialText: model().url,
+        initialText: model.value.url,
         prefixText: 'www.grimity.com/',
         onChanged: (value) {
-          model.set(model().copyWith(url: value));
+          model.value = model.value.copyWith(url: value);
         },
       ),
     );

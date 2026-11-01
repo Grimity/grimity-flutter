@@ -25,11 +25,11 @@ class ProfileEditBanner extends StatelessWidget {
         // 배너 이미지 표시
         GdsThumbnail(
           ratio: .banner,
-          provider: model().banner,
+          provider: model.value.banner,
         ),
 
         // 플레이스 홀더 이미지인 경우에만 표시
-        if (model().banner == null) ...[
+        if (model.value.banner == null) ...[
           Positioned.fill(
             child: GdsContainer(
               color: .bgBlack,
@@ -53,7 +53,7 @@ class ProfileEditBanner extends StatelessWidget {
 
                 // 사용자가 이미지를 선택했을 경우.
                 if (newImages != null) {
-                  model.set(model().copyWith(banner: () => newImages.single));
+                  model.value = model.value.copyWith(banner: () => newImages.single);
                 }
               },
             ),
@@ -61,10 +61,10 @@ class ProfileEditBanner extends StatelessWidget {
             GdsButton.icon(
               type: .solid,
               icon: .x,
-              enabled: model().banner != null,
+              enabled: model.value.banner != null,
               onTap: () {
                 // 배너 이미지 제거.
-                model.set(model().copyWith(banner: () => null));
+                model.value = model.value.copyWith(banner: () => null);
               },
             ),
           ],

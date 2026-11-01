@@ -45,10 +45,10 @@ class GalleryPage extends StatelessWidget {
     final showAlbums = context.stateOf(() => false);
 
     // 선택한 이미지가 한장이라도 있는지 여부.
-    final canSubmit = selectedImages().isNotEmpty;
+    final canSubmit = selectedImages.isNotEmpty;
 
     void onTitle() {
-      showAlbums.set(!showAlbums());
+      showAlbums.value = !showAlbums.value;
     }
 
     return GdsScaffold(
@@ -58,7 +58,7 @@ class GalleryPage extends StatelessWidget {
         action: .new(
           label: '다음',
           onTap: () {
-            final providers = selectedImages().builder((asset) {
+            final providers = selectedImages.value.builder((asset) {
               return asset.toImage();
             });
 
@@ -67,8 +67,8 @@ class GalleryPage extends StatelessWidget {
           },
           enabled: canSubmit,
         ),
-        title: selectedAlbum()?.name ?? '최근 항목',
-        open: showAlbums(),
+        title: selectedAlbum.value?.name ?? '최근 항목',
+        open: showAlbums.value,
       ),
       body: Column(
         children: [
@@ -93,9 +93,9 @@ class GalleryPage extends StatelessWidget {
           Expanded(
             child: GdsPageTransition(
               child: Builder(
-                key: ValueKey(showAlbums()),
+                key: ValueKey(showAlbums.value),
                 builder: (context) {
-                  if (showAlbums()) {
+                  if (showAlbums.value) {
                     return GalleryAlbums(
                       showAlbums: showAlbums,
                       selectedAlbum: selectedAlbum,

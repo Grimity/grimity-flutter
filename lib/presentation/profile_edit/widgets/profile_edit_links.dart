@@ -51,15 +51,15 @@ class ProfileEditLinks extends StatelessWidget {
             // 편집 모드 전환 버튼 표시
             GdsTransition.fadeThrough(
               alignment: .centerRight,
-              value: sortMode(),
+              value: sortMode.value,
               child: GdsButton.text(
                 type: .borderless,
-                variant: sortMode() ? .primary : .assistive,
+                variant: sortMode.value ? .primary : .assistive,
                 size: .sm,
-                label: sortMode() ? '완료' : '순서 편집',
+                label: sortMode.value ? '완료' : '순서 편집',
                 onTap: sortMode.toggle,
-                enabled: model().links.isNotEmpty,
-                trailingIcon: sortMode() ? null : .sortHorizontal,
+                enabled: model.value.links.isNotEmpty,
+                trailingIcon: sortMode.value ? null : .sortHorizontal,
               ),
             ),
           ],
@@ -69,7 +69,7 @@ class ProfileEditLinks extends StatelessWidget {
         ReorderableColumn(
           buildDraggableFeedback: buildDraggableFeedback,
           onReorder: (oldIndex, newIndex) {
-            final links = model().links;
+            final links = model.value.links;
             final link = links.removeAt(oldIndex);
             links.insert(newIndex, link);
 
@@ -88,17 +88,17 @@ class ProfileEditLinks extends StatelessWidget {
 
                     // 사용자가 링크 유형을 선택했을 경우.
                     if (newLink != null) {
-                      model().links.add(newLink);
+                      model.value.links.add(newLink);
                       model.notifyChanged();
                     }
                   },
-                  enabled: !sortMode(),
+                  enabled: !sortMode.value,
                   leadingIcon: .plus,
                 );
               },
             ),
           ),
-          children: model().links.indexedBuilder((index, link) {
+          children: model.value.links.indexedBuilder((index, link) {
             // 재빌드 시 자식 위젯들의 상태가 초기화되지 않도록 동일한 키 인스턴스 유지.
             final key = context.stateOf(
               () => ValueKey(index),
@@ -112,7 +112,7 @@ class ProfileEditLinks extends StatelessWidget {
                 index: index,
                 model: model,
                 link: link,
-                sortMode: sortMode(),
+                sortMode: sortMode.value,
               ),
             );
           }),
@@ -165,7 +165,7 @@ class _LinkField extends StatelessWidget {
                 placeholder: '직접 입력',
                 size: .md,
                 onChanged: (value) {
-                  final links = model().links;
+                  final links = model.value.links;
                   final index = links.indexOf(link);
 
                   links[index] = .new(
@@ -195,7 +195,7 @@ class _LinkField extends StatelessWidget {
                 );
               },
               onChanged: (value) {
-                final links = model().links;
+                final links = model.value.links;
                 final index = links.indexOf(link);
 
                 links[index] = .new(
@@ -222,7 +222,7 @@ class _LinkField extends StatelessWidget {
 
     // 사용자가 링크 유형을 선택했을 경우.
     if (context.mounted && newLink != null) {
-      final links = model().links;
+      final links = model.value.links;
       final index = links.indexOf(link);
 
       links[index] = newLink;
@@ -232,7 +232,7 @@ class _LinkField extends StatelessWidget {
 
   /// 해당 링크를 삭제하고 변경을 알립니다.
   void onDelete() {
-    model().links.remove(link);
+    model.value.links.remove(link);
     model.notifyChanged();
   }
 }

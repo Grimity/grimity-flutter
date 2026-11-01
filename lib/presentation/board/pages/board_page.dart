@@ -59,8 +59,8 @@ class BoardPage extends StatelessWidget with NavigationView {
         children: postTypes.builder((postType) {
           return BoardView(
             postType: postType,
-            searchBy: searchBy(),
-            keyword: keyword(),
+            searchBy: searchBy.value,
+            keyword: keyword.value,
           );
         }).keepAliveWrappers,
       ),

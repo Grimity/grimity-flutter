@@ -39,18 +39,18 @@ class SearchTabBar extends StatelessWidget {
           builder: (context, layerLink) {
             return GdsFilter(
               variant: .text,
-              enabled: keyword().isNotEmpty,
-              label: sort().displayName,
+              enabled: keyword.isNotEmpty,
+              label: sort.value.displayName,
               onTap: () async {
                 final newSort = await showSearchSortSelect(
                   context,
                   layerLink: layerLink,
-                  sort: sort(),
+                  sort: sort.value,
                 );
 
                 // 정렬 기준을 선택한 경우 이를 반영.
                 if (newSort != null) {
-                  sort.set(newSort);
+                  sort.value = newSort;
                 }
               },
             );

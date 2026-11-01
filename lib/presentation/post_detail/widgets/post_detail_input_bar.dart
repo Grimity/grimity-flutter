@@ -29,7 +29,7 @@ class PostDetailInputBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = context.useTextEditingController();
     final content = context.stateOf(() => '');
-    final canSubmit = content().isNotEmpty;
+    final canSubmit = content.isNotEmpty;
 
     // SHARED STATE
     final mention = context.sharedStateOf<PostMention?>(
@@ -43,11 +43,11 @@ class PostDetailInputBar extends StatelessWidget {
     );
 
     return GdsInput.community(
-      mentionText: mention()?.userName,
+      mentionText: mention.value?.userName,
       field: .new(
         placeholder: '댓글 입력',
-        onChanged: content.set,
-        focusNode: focusNode(),
+        onChanged: content.setter,
+        focusNode: focusNode.value,
         controller: controller,
       ),
       button: .new(
@@ -57,9 +57,9 @@ class PostDetailInputBar extends StatelessWidget {
           final postFeed = PostPostComments(
             request: .new(
               postId: id,
-              content: content(),
-              mentionedUserId: mention()?.userId,
-              parentCommentId: mention()?.parentCommentId,
+              content: content.value,
+              mentionedUserId: mention.value?.userId,
+              parentCommentId: mention.value?.parentCommentId,
             ),
           );
 
@@ -67,8 +67,8 @@ class PostDetailInputBar extends StatelessWidget {
 
           // 등록 완료 후 입력 내용과 답글 대상 초기화.
           controller.clear();
-          content.set('');
-          mention.set(null);
+          content.value = '';
+          mention.value = null;
 
           // 기존 댓글 내용 새로고침.
           service.refresh();
