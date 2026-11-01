@@ -10,9 +10,8 @@ import 'package:grimity/presentation/report/widgets/report_section.dart';
 import 'package:pervice/pervice.dart';
 
 /// 신고 사유와 상세 내용을 입력받아 제출하는 페이지.
-class ReportPage extends GdsAdaptivePage {
+class ReportScreen extends GdsActionScreen {
   const new({
-    super.key,
     required this.refId,
     required this.refType,
   });
@@ -24,10 +23,10 @@ class ReportPage extends GdsAdaptivePage {
   String get title => '신고하기';
 
   @override
-  GdsAdaptiveContent build(BuildContext context) {
+  GdsActionContent build(BuildContext context) {
     final type = context.stateOf<ReportType?>(() => null);
     final content = context.stateOf(() => '');
-    final canSubmit = type.value != null;
+    final canSubmit = type() != null;
 
     // 신고 여부를 확인한 뒤 신고를 제출하고 완료 안내 표시.
     void submit() {
@@ -35,7 +34,7 @@ class ReportPage extends GdsAdaptivePage {
         context,
         PostReports(
           request: .new(
-            type: type.value!,
+            type: type()!,
             refId: refId,
             refType: refType,
           ),
@@ -67,8 +66,8 @@ class ReportPage extends GdsAdaptivePage {
               children: ReportType.values.builder((value) {
                 return GdsListItem.radio(
                   label: value.key,
-                  onTap: () => type.value = value,
-                  status: .from(selected: type.value == value),
+                  onTap: () => type.set(value),
+                  status: .from(selected: type() == value),
                 );
               }),
             ),
@@ -81,7 +80,7 @@ class ReportPage extends GdsAdaptivePage {
             child: GdsTextArea(
               variant: .normal,
               maxLength: 500,
-              onChanged: content.setter,
+              onChanged: content.set,
               placeholder: '구체적인 사유를 적어주세요',
             ),
           ),

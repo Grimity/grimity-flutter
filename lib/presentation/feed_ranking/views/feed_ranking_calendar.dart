@@ -39,19 +39,19 @@ class FeedRankingCalendar extends StatelessWidget {
               GdsButton.icon(
                 type: .normal,
                 icon: .chevronLeft,
-                onTap: () => year.value--,
-                enabled: year.value > releaseDate.year,
+                onTap: () => year.set(year() - 1),
+                enabled: year() > releaseDate.year,
               ),
 
               // 조회 연도 표시.
-              GdsText('${year.value}', color: .textGrayBold, style: .label1),
+              GdsText('${year()}', color: .textGrayBold, style: .label1),
 
               // 다음 연도 버튼 표시.
               GdsButton.icon(
                 type: .normal,
                 icon: .chevronRight,
-                onTap: () => year.value++,
-                enabled: year.value < now.year,
+                onTap: () => year.set(year() + 1),
+                enabled: year() < now.year,
               ),
             ],
           ),
@@ -63,8 +63,8 @@ class FeedRankingCalendar extends StatelessWidget {
             spacing: 6,
             children: List.generate(3, (column) {
               final month = row * 3 + column + 1;
-              final date = DateTime(year.value, month);
-              final selected = year.value == initialDate.year && month == initialDate.month;
+              final date = DateTime(year(), month);
+              final selected = year() == initialDate.year && month == initialDate.month;
               final disabled = date.isBefore(releaseMonth) || date.isAfter(nowMonth);
 
               return Expanded(

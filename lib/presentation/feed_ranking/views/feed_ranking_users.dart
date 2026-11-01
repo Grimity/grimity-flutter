@@ -72,12 +72,12 @@ class FeedRankingUsers extends StatelessWidget {
     );
 
     return GdsUser.normal(
-      followerCount: followerCount.value,
+      followerCount: followerCount(),
       followingCount: 0,
       nickname: user.name,
       profile: user.image?.toImage(),
       thumbnails: user.thumbnails.toImages(),
-      following: isFollowing.value,
+      following: isFollowing(),
       onTap: () {
         // 해당 사용자의 프로필 페이지로 이동.
         context.push(ProfilePage(url: user.url));

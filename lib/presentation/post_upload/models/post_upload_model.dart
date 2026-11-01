@@ -32,7 +32,9 @@ class PostUploadModel({
   bool get hasChanges => parent != null && different(parent!);
 
   /// 필수 입력값을 충족하고 변경된 내용이 있어 제출할 수 있는지 여부.
-  bool get canSubmit => title.trim().isNotEmpty && hasText && hasChanges;
+  bool get canSubmit {
+    return title.trim().isNotEmpty && hasText && hasChanges;
+  }
 
   /// 다른 모델과 입력 데이터가 다른지 여부를 반환합니다.
   bool different(PostUploadModel other) {

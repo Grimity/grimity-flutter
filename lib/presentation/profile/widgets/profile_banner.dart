@@ -6,26 +6,39 @@ import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/extensions/model/user_profile_response.dart';
+import 'package:grimity/presentation/profile_edit/screens/profile_edit_screen.dart';
 
 /// 사용자 프로필의 배너 이미지를 표시하는 위젯.
 class ProfileBanner extends StatelessWidget {
   const new({
     super.key,
-    required this.data,
+    required this.service,
   });
 
-  final UserProfileResponse data;
+  final GetUsersProfileByUrl service;
+
+  /// 서비스에서 불러온 사용자 프로필 정보.
+  UserProfileResponse get data => service.data;
 
   /// 프로필 배너 이미지의 가로/세로 비율.
   static const radio = GdsThumbnailRatio.banner;
 
   @override
   Widget build(BuildContext context) {
-    if (data.isMe) {
+    void onTap() async {
+      final isEdited = await ProfileEditScreen().push<bool?>(context);
+
+      // 프로필이 수정되었을 경우 사용자 정보 갱신.
+      if (context.mounted && isEdited == true) {
+        service.refresh();
+      }
+    }
+
+    if (data.isMe && data.backgroundImage == null) {
       if (context.isMobile) {
         return GdsGesture(
           useEffect: false,
-          onTap: () {},
+          onTap: onTap,
           child: AspectRatio(
             aspectRatio: radio.value,
             child: GdsContainer(
@@ -46,7 +59,7 @@ class ProfileBanner extends StatelessWidget {
             size: .md,
             leadingIcon: .plus,
             label: '커버 추가하기',
-            onTap: () {}, // TODO,
+            onTap: onTap,
           ),
         ),
       );

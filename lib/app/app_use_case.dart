@@ -18,8 +18,8 @@ abstract class AppUseCase {
   }) async {
     try {
       // 요청 전에 좋아요 상태를 화면에 반영.
-      isLike.value = value;
-      likeCount.value += value ? 1 : -1;
+      isLike.set(value);
+      likeCount.set(likeCount() + (value ? 1 : -1));
 
       if (value) {
         await PutFeedsByIdLike(id: id).request();
@@ -28,8 +28,8 @@ abstract class AppUseCase {
       }
     } catch (_) {
       // 요청 실패 시 이전 상태로 복구.
-      isLike.value = !value;
-      likeCount.value += value ? -1 : 1;
+      isLike.set(!value);
+      likeCount.set(likeCount() + (value ? -1 : 1));
       rethrow;
     }
   }
@@ -44,8 +44,8 @@ abstract class AppUseCase {
   }) async {
     try {
       // 요청 전에 좋아요 상태를 화면에 반영.
-      isLike.value = value;
-      likeCount.value += value ? 1 : -1;
+      isLike.set(value);
+      likeCount.set(likeCount() + (value ? 1 : -1));
 
       if (value) {
         await PutPostsByIdLike(id: id).request();
@@ -54,8 +54,8 @@ abstract class AppUseCase {
       }
     } catch (_) {
       // 요청 실패 시 이전 상태로 복구.
-      isLike.value = !value;
-      likeCount.value += value ? -1 : 1;
+      isLike.set(!value);
+      likeCount.set(likeCount() + (value ? -1 : 1));
       rethrow;
     }
   }
@@ -69,14 +69,14 @@ abstract class AppUseCase {
   }) async {
     try {
       // 요청 전에 팔로우 상태를 화면에 반영.
-      isFollowing.value = true;
-      followerCount.value += 1;
+      isFollowing.set(true);
+      followerCount.set(followerCount() + 1);
 
       await PutUsersByIdFollow(id: id).request();
     } catch (_) {
       // 요청 실패 시 이전 상태로 복구.
-      isFollowing.value = false;
-      followerCount.value -= 1;
+      isFollowing.set(false);
+      followerCount.set(followerCount() - 1);
       rethrow;
     }
   }
@@ -90,14 +90,14 @@ abstract class AppUseCase {
   }) async {
     try {
       // 요청 전에 팔로우 상태를 화면에 반영.
-      isFollowing.value = false;
-      followerCount.value -= 1;
+      isFollowing.set(false);
+      followerCount.set(followerCount() - 1);
 
       await DeleteUsersByIdFollow(id: id).request();
     } catch (_) {
       // 요청 실패 시 이전 상태로 복구.
-      isFollowing.value = true;
-      followerCount.value += 1;
+      isFollowing.set(true);
+      followerCount.set(followerCount() + 1);
       rethrow;
     }
   }

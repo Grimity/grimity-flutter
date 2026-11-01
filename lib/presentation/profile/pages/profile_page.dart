@@ -48,13 +48,13 @@ class ProfilePage extends StatelessWidget {
               // 프로필 배너 표시
               AppBar(
                 behavior: const MaterialAppBarBehavior(),
-                body: ProfileBanner(data: data),
+                body: ProfileBanner(service: service),
               ),
 
               // 프로필 헤더 표시
               AppBar(
                 behavior: const MaterialAppBarBehavior(),
-                body: ProfileHeader(data: data),
+                body: ProfileHeader(service: service),
               ),
 
               // 탭 바 표시

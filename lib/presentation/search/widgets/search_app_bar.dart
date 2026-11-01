@@ -19,9 +19,9 @@ class SearchAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return GdsTopNavigation.search(
       onBack: context.pop,
-      text: keyword.value,
-      initialText: keyword.value,
-      onSubmitted: keyword.setter,
+      text: keyword(),
+      initialText: keyword(),
+      onSubmitted: keyword.set,
       placeholder: '그림, 작가, 글을 검색해보세요.',
     );
   }

@@ -22,24 +22,22 @@ class FeedUploadImages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final data = model.value;
-
     return ReorderableRow(
       mainAxisSize: .min,
       crossAxisAlignment: .start,
       ignorePrimaryScrollController: true,
       onReorder: (oldIndex, newIndex) {
         // 드래그한 순서로 이미지 목록 갱신.
-        final images = model.value.images.toList();
+        final images = model().images.toList();
         final image = images.removeAt(oldIndex);
         images.insert(newIndex, image);
 
-        model.value = model.value.copyWith(images: images);
+        model.set(model().copyWith(images: images));
       },
       buildDraggableFeedback: buildDraggableFeedback,
       footer: FeedUploadImagePicker(model: model),
-      children: data.images.builder((image) {
-        final isThumbnail = image == data.thumbnail;
+      children: model().images.builder((image) {
+        final isThumbnail = image == model().thumbnail;
 
         return Padding(
           key: ObjectKey(image),
@@ -55,16 +53,18 @@ class FeedUploadImages extends StatelessWidget {
             onTap: () {
               // 해당 이미지를 대표 이미지로 지정.
               if (!isThumbnail) {
-                model.value = model.value.copyWith(thumbnail: image);
+                model.set(model().copyWith(thumbnail: image));
               }
             },
             onRemove: () {
-              final images = model.value.images.toList()..remove(image);
+              final images = model().images.toList()..remove(image);
 
               // 대표 이미지를 삭제한 경우, 남은 이미지가 있으면 대표 이미지 재지정.
-              model.value = model.value.copyWith(
-                images: images,
-                thumbnail: isThumbnail ? images.firstOrNull : model.value.thumbnail,
+              model.set(
+                model().copyWith(
+                  images: images,
+                  thumbnail: isThumbnail ? images.firstOrNull : model().thumbnail,
+                ),
               );
             },
           ),

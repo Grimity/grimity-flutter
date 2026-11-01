@@ -15,7 +15,13 @@ import 'package:photo_manager/photo_manager.dart';
 
 /// 기기의 앨범과 이미지를 탐색하고 선택한 이미지 목록을 반환하는 페이지.
 class GalleryPage extends StatelessWidget {
-  const new({super.key});
+  const new({
+    super.key,
+    this.maxCount = 10,
+  }) : assert(maxCount > 0);
+
+  /// 선택할 수 있는 이미지의 최대 개수.
+  final int maxCount;
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +45,10 @@ class GalleryPage extends StatelessWidget {
     final showAlbums = context.stateOf(() => false);
 
     // 선택한 이미지가 한장이라도 있는지 여부.
-    final canSubmit = selectedImages.value.isNotEmpty;
+    final canSubmit = selectedImages().isNotEmpty;
 
     void onTitle() {
-      showAlbums.value = !showAlbums.value;
+      showAlbums.set(!showAlbums());
     }
 
     return GdsScaffold(
@@ -52,7 +58,7 @@ class GalleryPage extends StatelessWidget {
         action: .new(
           label: '다음',
           onTap: () {
-            final providers = selectedImages.value.builder((asset) {
+            final providers = selectedImages().builder((asset) {
               return asset.toImage();
             });
 
@@ -61,8 +67,8 @@ class GalleryPage extends StatelessWidget {
           },
           enabled: canSubmit,
         ),
-        title: selectedAlbum.value?.name ?? '최근 항목',
-        open: showAlbums.value,
+        title: selectedAlbum()?.name ?? '최근 항목',
+        open: showAlbums(),
       ),
       body: Column(
         children: [
@@ -87,9 +93,9 @@ class GalleryPage extends StatelessWidget {
           Expanded(
             child: GdsPageTransition(
               child: Builder(
-                key: ValueKey(showAlbums.value),
+                key: ValueKey(showAlbums()),
                 builder: (context) {
-                  if (showAlbums.value) {
+                  if (showAlbums()) {
                     return GalleryAlbums(
                       showAlbums: showAlbums,
                       selectedAlbum: selectedAlbum,
@@ -97,6 +103,7 @@ class GalleryPage extends StatelessWidget {
                   }
 
                   return GalleryImages(
+                    maxCount: maxCount,
                     selectedAlbum: selectedAlbum,
                     selectedImages: selectedImages,
                   );

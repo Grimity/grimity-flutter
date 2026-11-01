@@ -34,24 +34,23 @@ class FeedUploadPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.stateOf(() => FeedUploadModel.from(initialFeed));
-    final data = model.value;
 
     // 앨범이 없으면 안내 팝업을, 있으면 앨범 선택 팝업을 표시.
     void selectAlbum() async {
       if (AppUser.albums.isEmpty) {
         showFeedUploadNoAlbumAlert(context);
       } else {
-        final newAlbum = await showFeedUploadAlbumSelectAlert(context, data.album);
+        final newAlbum = await showFeedUploadAlbumSelectAlert(context, model().album);
 
         // 사용자가 앨범을 선택한 경우 이를 반영.
         if (context.mounted && newAlbum != null) {
-          model.value = data.copyWith(album: newAlbum);
+          model.set(model().copyWith(album: newAlbum));
         }
       }
     }
 
     return PopScope(
-      canPop: !data.canSubmit,
+      canPop: !model().canSubmit,
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) return;
 
@@ -64,10 +63,10 @@ class FeedUploadPage extends StatelessWidget {
           onTitle: selectAlbum,
           action: .new(
             label: isEdit ? '수정' : '업로드',
-            onTap: () => submit(context, model.value),
-            enabled: data.canSubmit,
+            onTap: () => submit(context, model()),
+            enabled: model().canSubmit,
           ),
-          title: data.album?.name ?? '전체 앨범',
+          title: model().album?.name ?? '전체 앨범',
         ),
         body: SingleChildScrollView(
           padding: context.whenDevice(
@@ -78,7 +77,7 @@ class FeedUploadPage extends StatelessWidget {
             spacing: 12,
             children: [
               // 이미지가 없으면 선택 버튼, 있으면 이미지 목록을 표시.
-              if (data.images.isEmpty) ...[
+              if (model().images.isEmpty) ...[
                 FeedUploadImagePicker(model: model),
               ] else ...[
                 FeedUploadImages(model: model),
@@ -92,8 +91,8 @@ class FeedUploadPage extends StatelessWidget {
                 ),
                 maxLength: 32,
                 placeholder: '제목을 입력해주세요',
-                initialText: data.title,
-                onChanged: (title) => model.value = model.value.copyWith(title: title),
+                initialText: model().title,
+                onChanged: (title) => model.set(model().copyWith(title: title)),
               ),
 
               // 내용의 입력 필드 표시
@@ -101,8 +100,8 @@ class FeedUploadPage extends StatelessWidget {
                 variant: .text,
                 maxLength: 500,
                 placeholder: '내용을 입력해주세요',
-                initialText: data.content,
-                onChanged: (content) => model.value = model.value.copyWith(content: content),
+                initialText: model().content,
+                onChanged: (content) => model.set(model().copyWith(content: content)),
               ),
 
               // 태그의 입력 필드 표시
@@ -113,13 +112,13 @@ class FeedUploadPage extends StatelessWidget {
                     mobile: .xs,
                     tablet: .md,
                   ),
-                  tags: data.tags,
+                  tags: model().tags,
                   onAdded: (tag) {
-                    model.value = model.value.copyWith(tags: [...model.value.tags, tag]);
+                    model.set(model().copyWith(tags: [...model().tags, tag]));
                   },
                   onRemoved: (tag) {
-                    final tags = data.tags.toList()..remove(tag);
-                    model.value = data.copyWith(tags: tags);
+                    final tags = model().tags.toList()..remove(tag);
+                    model.set(model().copyWith(tags: tags));
                   },
                 ),
               ),
@@ -134,7 +133,7 @@ class FeedUploadPage extends StatelessWidget {
                     type: .borderless,
                     variant: .assistive,
                     trailingIcon: .chevronRight,
-                    label: data.album?.name ?? '전체 앨범',
+                    label: model().album?.name ?? '전체 앨범',
                     onTap: selectAlbum,
                   ),
                 ),

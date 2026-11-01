@@ -8,6 +8,7 @@ import 'package:grimity/api/api.dart';
 import 'package:grimity/app/app_use_case.dart';
 import 'package:grimity/extensions/model/link_response.dart';
 import 'package:grimity/extensions/model/user_profile_response.dart';
+import 'package:grimity/presentation/profile_edit/screens/profile_edit_screen.dart';
 import 'package:pervice/pervice.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -15,10 +16,13 @@ import 'package:url_launcher/url_launcher.dart';
 class ProfileHeader extends GdsAdaptiveWidget {
   const new({
     super.key,
-    required this.data,
+    required this.service,
   });
 
-  final UserProfileResponse data;
+  final GetUsersProfileByUrl service;
+
+  /// 서비스에서 불러온 사용자 프로필 정보.
+  UserProfileResponse get data => service.data;
 
   @override
   Widget buildMobile(BuildContext context) {
@@ -37,7 +41,7 @@ class ProfileHeader extends GdsAdaptiveWidget {
                 GdsProfileEdit(
                   size: .ml,
                   image: data.image?.toImage(),
-                  onTap: onProfileEdit,
+                  onTap: () => onProfileEdit(context),
                 ),
               ] else ...[
                 GdsProfile(
@@ -56,7 +60,7 @@ class ProfileHeader extends GdsAdaptiveWidget {
                       type: .outlined,
                       size: .sm,
                       label: '프로필 편집',
-                      onTap: onProfileEdit,
+                      onTap: () => onProfileEdit(context),
                     ),
                   ] else ...[
                     _FollowButton(data: data),
@@ -123,7 +127,7 @@ class ProfileHeader extends GdsAdaptiveWidget {
             GdsProfileEdit(
               size: .xl,
               image: data.image?.toImage(),
-              onTap: onProfileEdit,
+              onTap: () => onProfileEdit(context),
             ),
           ] else ...[
             GdsProfile(
@@ -172,7 +176,7 @@ class ProfileHeader extends GdsAdaptiveWidget {
                             type: .outlined,
                             size: .md,
                             label: '프로필 편집',
-                            onTap: onProfileEdit,
+                            onTap: () => onProfileEdit(context),
                           ),
                         ] else ...[
                           _FollowButton(data: data),
@@ -210,10 +214,17 @@ class ProfileHeader extends GdsAdaptiveWidget {
     );
   }
 
-  ///
-  void onProfileEdit() {}
+  /// 프로필 편집 페이지로 이동.
+  void onProfileEdit(BuildContext context) async {
+    final isEdited = await ProfileEditScreen().push<bool?>(context);
 
-  ///
+    // 프로필이 수정되었을 경우 사용자 정보 갱신.
+    if (context.mounted && isEdited == true) {
+      service.refresh();
+    }
+  }
+
+  /// TODO
   void onMenu() {}
 }
 
@@ -281,7 +292,7 @@ class _FollowButton extends StatelessWidget {
 
     // 팔로우 상태에 따른 버튼 액션 생성.
     final action = GdsTextButtonAction.follow(
-      following: isFollowing.value,
+      following: isFollowing(),
       onFollow: () {
         AppUseCase.follow(
           context,

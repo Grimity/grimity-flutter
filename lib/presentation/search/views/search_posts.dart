@@ -37,8 +37,8 @@ class SearchPosts extends StatelessWidget with GdsTabView {
     );
 
     final service = context.serviceOf(
-      () => createService(keyword.value),
-      key: ValueKey((keyword.value, SearchPosts)),
+      () => createService(keyword()),
+      key: ValueKey((keyword(), SearchPosts)),
     );
 
     // 페이지 변경 시 게시글 목록을 맨 위로 이동하기 위한 컨트롤러.

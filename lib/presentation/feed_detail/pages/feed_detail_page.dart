@@ -11,7 +11,7 @@ import 'package:grimity/presentation/feed_detail/views/feed_detail_author.dart';
 import 'package:grimity/presentation/feed_detail/widgets/feed_detail_input_bar.dart';
 import 'package:grimity/presentation/feed_upload/pages/feed_upload_page.dart';
 import 'package:grimity/presentation/profile/pages/profile_page.dart';
-import 'package:grimity/presentation/report/pages/report_page.dart';
+import 'package:grimity/presentation/report/screens/report_screen.dart';
 import 'package:grimity/views/show_share_modal.dart';
 import 'package:grimity/widgets/app_sidebar.dart';
 import 'package:grimity/widgets/app_top_navigation.dart';
@@ -185,7 +185,7 @@ class FeedDetailPage extends StatelessWidget {
     BuildContext context,
     GetFeedsById service,
   ) {
-    final page = ReportPage(
+    final page = ReportScreen(
       refId: service.data.id,
       refType: .feed,
     );

@@ -8,7 +8,7 @@ import 'package:grimity/api/api.dart';
 import 'package:grimity/extensions/enum/feed_search_sort.dart';
 import 'package:grimity/presentation/search/pages/search_page.dart';
 import 'package:grimity/presentation/search/views/show_search_sort_select.dart';
-import 'package:pervice/extensions/value_notifier_extension.dart';
+import 'package:pervice/pervice.dart';
 
 /// 검색 결과 유형별 탭과 정렬 필터를 표시하는 위젯.
 class SearchTabBar extends StatelessWidget {
@@ -39,18 +39,18 @@ class SearchTabBar extends StatelessWidget {
           builder: (context, layerLink) {
             return GdsFilter(
               variant: .text,
-              enabled: keyword.value.isNotEmpty,
-              label: sort.value.displayName,
+              enabled: keyword().isNotEmpty,
+              label: sort().displayName,
               onTap: () async {
                 final newSort = await showSearchSortSelect(
                   context,
                   layerLink: layerLink,
-                  sort: sort.value,
+                  sort: sort(),
                 );
 
                 // 정렬 기준을 선택한 경우 이를 반영.
                 if (newSort != null) {
-                  sort.value = newSort;
+                  sort.set(newSort);
                 }
               },
             );

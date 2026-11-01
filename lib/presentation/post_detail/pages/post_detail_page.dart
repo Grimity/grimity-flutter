@@ -10,7 +10,7 @@ import 'package:grimity/presentation/post_detail/views/post_detail_latest_posts.
 import 'package:grimity/presentation/post_detail/widgets/post_detail_input_bar.dart';
 import 'package:grimity/presentation/post_upload/pages/post_upload_page.dart';
 import 'package:grimity/presentation/profile/pages/profile_page.dart';
-import 'package:grimity/presentation/report/pages/report_page.dart';
+import 'package:grimity/presentation/report/screens/report_screen.dart';
 import 'package:grimity/views/show_share_modal.dart';
 import 'package:grimity/widgets/app_sidebar.dart';
 import 'package:grimity/widgets/app_top_navigation.dart';
@@ -162,7 +162,7 @@ class PostDetailPage extends StatelessWidget {
     BuildContext context,
     GetPostsById service,
   ) {
-    final page = ReportPage(
+    final page = ReportScreen(
       refId: service.data.id,
       refType: .post,
     );

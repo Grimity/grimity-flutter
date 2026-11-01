@@ -60,7 +60,7 @@ class PostDetailArticle extends StatelessWidget {
         // 글 내용 표시
         PostDetailContent(
           data: data,
-          viewCount: viewCount.value,
+          viewCount: viewCount(),
         ),
         const SliverGap(32),
 

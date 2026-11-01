@@ -665,9 +665,11 @@ packages:
   gds_flutter:
     dependency: "direct main"
     description:
-      path: "D:\\Project Files\\gds-flutter\\packages\\gds_flutter"
-      relative: false
-    source: path
+      path: "packages/gds_flutter"
+      ref: HEAD
+      resolved-ref: a554d99f79f1512cee98e174b38c57f9198ebd42
+      url: "https://github.com/Grimity/gds-flutter.git"
+    source: git
     version: "0.0.0"
   git_config:
     dependency: "direct main"
@@ -1065,10 +1067,10 @@ packages:
     dependency: "direct main"
     description:
       name: pervice
-      sha256: "8201de20e0fc0356b36db136e7b867ac2e11a792a9360bf42189c3ae4c4b4ae1"
+      sha256: f7ef55e6db6697cb563a38256f88434cab3d567b527dcf29ec96a6940cae3904
       url: "https://pub.dev"
     source: hosted
-    version: "1.5.2"
+    version: "1.6.1"
   pervice_openapi:
     dependency: "direct main"
     description:

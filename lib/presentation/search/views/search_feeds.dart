@@ -65,8 +65,8 @@ class SearchFeeds extends StatelessWidget with GdsTabView {
     );
 
     final service = context.serviceOf(
-      () => createService(keyword.value, sort.value),
-      key: ValueKey((keyword.value, sort.value, SearchFeeds)),
+      () => createService(keyword(), sort()),
+      key: ValueKey((keyword(), sort(), SearchFeeds)),
     );
 
     return service.builder(

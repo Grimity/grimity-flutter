@@ -55,8 +55,8 @@ class SearchUsers extends StatelessWidget with GdsTabView {
     );
 
     final service = context.serviceOf(
-      () => createService(keyword.value),
-      key: ValueKey((keyword.value, SearchUsers)),
+      () => createService(keyword()),
+      key: ValueKey((keyword(), SearchUsers)),
     );
 
     return service.builder(
@@ -117,8 +117,8 @@ class SearchUsers extends StatelessWidget with GdsTabView {
       introduction: user.description,
       profile: user.image?.toImage(),
       banner: user.backgroundImage?.toImage(),
-      followerCount: followerCount.value,
-      following: isFollowing.value,
+      followerCount: followerCount(),
+      following: isFollowing(),
       onTap: () {
         // 해당 사용자의 프로필 페이지로 이동.
         context.push(ProfilePage(url: user.url));

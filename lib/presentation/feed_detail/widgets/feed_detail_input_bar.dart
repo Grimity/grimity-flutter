@@ -29,7 +29,7 @@ class FeedDetailInputBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = context.useTextEditingController();
     final content = context.stateOf(() => '');
-    final canSubmit = content.value.isNotEmpty;
+    final canSubmit = content().isNotEmpty;
 
     // SHARED STATE
     final mention = context.sharedStateOf<FeedMention?>(
@@ -43,11 +43,11 @@ class FeedDetailInputBar extends StatelessWidget {
     );
 
     return GdsInput.community(
-      mentionText: mention.value?.userName,
+      mentionText: mention()?.userName,
       field: .new(
         placeholder: '댓글 입력',
-        onChanged: content.setter,
-        focusNode: focusNode.value,
+        onChanged: content.set,
+        focusNode: focusNode(),
         controller: controller,
       ),
       button: .new(
@@ -56,9 +56,9 @@ class FeedDetailInputBar extends StatelessWidget {
           final postFeed = PostFeedComments(
             request: .new(
               feedId: id,
-              content: content.value,
-              mentionedUserId: mention.value?.userId,
-              parentCommentId: mention.value?.parentCommentId,
+              content: content(),
+              mentionedUserId: mention()?.userId,
+              parentCommentId: mention()?.parentCommentId,
             ),
           );
 
@@ -66,8 +66,8 @@ class FeedDetailInputBar extends StatelessWidget {
 
           // 등록 완료 후 입력 내용과 답글 대상 초기화.
           controller.clear();
-          content.value = '';
-          mention.value = null;
+          content.set('');
+          mention.set(null);
 
           // 기존 댓글 내용 새로고침.
           service.refresh();

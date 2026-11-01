@@ -51,10 +51,10 @@ class SplashPage extends StatelessWidget {
     return GdsSplash(
       builder: (context) {
         // 초기화 전이거나 로딩 중인 경우 스플래시 화면 표시.
-        if (splashCompleted.value == false) {
+        if (splashCompleted() == false) {
           return buildSplash(
             context,
-            onDone: () => splashCompleted.value = true,
+            onDone: () => splashCompleted.set(true),
           );
         }
 

@@ -49,9 +49,9 @@ class PostDetailActions extends StatelessWidget {
                 type: .borderless,
                 size: .lg,
                 variant: .assistive,
-                label: likeCount.value.compact,
-                leadingIcon: isLike.value ? .heartFill : .heart,
-                iconColor: isLike.value ? .statusNotification : null,
+                label: likeCount().compact,
+                leadingIcon: isLike() ? .heartFill : .heart,
+                iconColor: isLike() ? .statusNotification : null,
                 onTap: () => onLike(context),
               ),
 
@@ -60,7 +60,7 @@ class PostDetailActions extends StatelessWidget {
                 type: .borderless,
                 size: .lg,
                 variant: .assistive,
-                label: commentCount.value.compact,
+                label: commentCount().compact,
                 leadingIcon: .chatRound,
               ),
             ],
@@ -94,7 +94,7 @@ class PostDetailActions extends StatelessWidget {
 
   /// 글 상세의 좋아요 상태를 변경하고, 실패 시 이전 상태로 복구합니다.
   void onLike(BuildContext context) {
-    final value = !isLike.value;
+    final value = !isLike();
 
     AppUseCase.likePost(
       context,

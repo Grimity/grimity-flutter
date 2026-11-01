@@ -7,7 +7,7 @@ import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/app/app_user.dart';
 import 'package:grimity/presentation/feed_detail/widgets/feed_detail_input_bar.dart';
-import 'package:grimity/presentation/report/pages/report_page.dart';
+import 'package:grimity/presentation/report/screens/report_screen.dart';
 import 'package:grimity/widgets/sliver_comments.dart';
 import 'package:pervice/pervice.dart';
 
@@ -82,13 +82,13 @@ class FeedDetailComments extends StatelessWidget {
           mention: null,
           profile: parent.writer.image?.toImage(),
           onReply: () {
-            mention.value = (
+            mention.set((
               userName: parent.writer.name,
               userId: parent.writer.id,
               parentCommentId: parent.id,
-            );
+            ));
 
-            focusNode.value.requestFocus();
+            focusNode().requestFocus();
           },
           onMenu: openMenu,
           onLike: (value) => onLike(parent.id, value),
@@ -110,13 +110,13 @@ class FeedDetailComments extends StatelessWidget {
             mention: reply.mentionedUser?.name ?? parent.writer.name,
             profile: reply.writer.image?.toImage(),
             onReply: () {
-              mention.value = (
+              mention.set((
                 userName: reply.writer.name,
                 userId: reply.writer.id,
                 parentCommentId: parent.id,
-              );
+              ));
 
-              focusNode.value.requestFocus();
+              focusNode().requestFocus();
             },
             onMenu: openMenu,
             onLike: (value) => onLike(reply.id, value),
@@ -186,7 +186,7 @@ class FeedDetailComments extends StatelessWidget {
     BuildContext context,
     SliverComment comment,
   ) {
-    final page = ReportPage(
+    final page = ReportScreen(
       refId: comment.id,
       refType: .feedComment,
     );

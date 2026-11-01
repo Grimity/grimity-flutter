@@ -19,8 +19,6 @@ class FeedUploadImagePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final data = model.value;
-
     return GdsAlbumUpload.placeholder(
       size: context.whenDevice(
         mobile: .md,
@@ -36,9 +34,11 @@ class FeedUploadImagePicker extends StatelessWidget {
           if (!context.mounted) return;
 
           // 대표 이미지가 없으면 선택한 이미지 중에서 지정.
-          model.value = data.copyWith(
-            images: [...data.images, ...newImages],
-            thumbnail: data.thumbnail ?? newImages.first,
+          model.set(
+            model().copyWith(
+              images: [...model().images, ...newImages],
+              thumbnail: model().thumbnail ?? newImages.first,
+            ),
           );
         }
       },

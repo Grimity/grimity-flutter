@@ -30,24 +30,22 @@ class PostUploadAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final data = model.value;
-
     return GdsTopNavigation.editor(
       onBack: () => Navigator.of(context).maybePop(),
       onTitle: () async {
-        final newPostType = await showPostUploadTypeSelect(context, data.type);
+        final newPostType = await showPostUploadTypeSelect(context, model().type);
 
         // 사용자가 게시글 유형을 선택한 경우 이를 반영.
         if (context.mounted && newPostType != null) {
-          model.value = data.copyWith(type: newPostType);
+          model.set(model().copyWith(type: newPostType));
         }
       },
       action: .new(
         label: isEdit ? '수정' : '업로드',
-        onTap: () => submit(context, data),
-        enabled: data.canSubmit,
+        onTap: () => submit(context, model()),
+        enabled: model().canSubmit,
       ),
-      title: data.type.displayName,
+      title: model().type.displayName,
     );
   }
 

@@ -16,10 +16,12 @@ class GalleryImages extends StatelessWidget {
     super.key,
     required this.selectedAlbum,
     required this.selectedImages,
+    required this.maxCount,
   });
 
   final ValueState<AssetPathEntity?> selectedAlbum;
   final ValueState<List<AssetEntity>> selectedImages;
+  final int maxCount;
 
   /// 선택한 앨범의 이미지를 페이지 단위로 조회하는 서비스를 생성합니다.
   static LoadMoreService<GalleryResponse> createService(AssetPathEntity? album) {
@@ -35,9 +37,9 @@ class GalleryImages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final albumId = selectedAlbum.value?.id;
+    final albumId = selectedAlbum()?.id;
     final service = context.serviceOf(
-      () => createService(selectedAlbum.value),
+      () => createService(selectedAlbum()),
       key: ValueKey((GalleryImages, albumId)),
     );
 
@@ -88,12 +90,20 @@ class GalleryImages extends StatelessWidget {
             itemCount: images.length,
             itemBuilder: (context, index) {
               final asset = images[index];
-              final selectedIndex = selectedImages.value.indexOf(asset);
+              final selectedIndex = selectedImages().indexOf(asset);
 
               return GalleryImage(
                 asset: asset,
                 selectedIndex: selectedIndex,
-                onAdd: () => selectedImages.add(asset),
+                onAdd: () {
+                  // 이미 선택 가능한 최대 개수에 도달했을 경우.
+                  if (selectedImages().length >= maxCount) {
+                    GdsToast.show('최대 $maxCount장까지 선택할 수 있어요', status: .negative);
+                    return;
+                  }
+
+                  selectedImages.add(asset);
+                },
                 onRemove: () => selectedImages.remove(asset),
               );
             },

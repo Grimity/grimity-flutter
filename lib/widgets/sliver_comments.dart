@@ -93,10 +93,10 @@ class _Comment extends StatelessWidget {
     return GdsUserItem.comment(
       size: .xs,
       nickname: comment.nickname!,
-      likeCount: likeCount.value,
+      likeCount: likeCount(),
       isWriter: comment.userId == comment.authorId,
       isReply: comment.isReply,
-      isLiked: isLike.value,
+      isLiked: isLike(),
       content: comment.content,
       mention: comment.mention,
       profile: comment.profile,
@@ -104,18 +104,18 @@ class _Comment extends StatelessWidget {
       onReply: comment.onReply,
       onMenu: () => comment.onMenu(context, comment, layerLink),
       onLike: () async {
-        final value = !isLike.value;
+        final value = !isLike();
 
         try {
           // 요청 전에 좋아요 상태를 화면에 반영.
-          isLike.value = value;
-          likeCount.value += value ? 1 : -1;
+          isLike.set(value);
+          likeCount.set(likeCount() + (value ? 1 : -1));
 
           await comment.onLike(value);
         } catch (_) {
           // 요청 실패 시 좋아요 상태를 복구.
-          isLike.value = !value;
-          likeCount.value += value ? -1 : 1;
+          isLike.set(!value);
+          likeCount.set(likeCount() + (value ? -1 : 1));
 
           rethrow;
         }
