@@ -7,9 +7,7 @@ import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/extensions/image_provider_extension.dart';
 import 'package:grimity/presentation/feed_upload/models/feed_upload_model.dart';
 import 'package:grimity/presentation/feed_upload/widgets/feed_upload_image_picker.dart';
-import 'package:grimity/util/build_draggable_feedback.dart';
 import 'package:pervice/pervice.dart';
-import 'package:reorderables/reorderables.dart';
 
 /// 첨부 이미지 목록과 순서 변경, 대표 이미지 선택 및 삭제 기능을 표시하는 위젯.
 class FeedUploadImages extends StatelessWidget {
@@ -22,11 +20,10 @@ class FeedUploadImages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ReorderableRow(
-      mainAxisSize: .min,
-      crossAxisAlignment: .start,
-      ignorePrimaryScrollController: true,
-      buildDraggableFeedback: buildDraggableFeedback,
+    return GdsReorderable(
+      axis: .horizontal,
+      scroll: true,
+      spacing: 16,
       onReorder: (oldIndex, newIndex) {
         final images = model.value.images.toList();
         final image = images.removeAt(oldIndex);
@@ -35,18 +32,14 @@ class FeedUploadImages extends StatelessWidget {
         model.value = model.value.copyWith(images: images);
       },
       footer: FeedUploadImagePicker(model: model),
-      children: model.value.images.indexedBuilder((index, image) {
-        // 재빌드 시 자식 위젯들의 상태가 초기화되지 않도록 동일한 키 인스턴스 유지.
-        final key = context.stateOf(
-          () => ValueKey(index),
-          key: ValueKey(index),
-        );
-
+      itemCount: model.value.images.length,
+      itemBuilder: (context, index) {
+        final image = model.value.images[index];
         final isThumbnail = image == model.value.thumbnail;
 
-        return Padding(
-          key: key.value,
-          padding: .only(right: 16),
+        return GdsReorderableLongPressHandle(
+          key: ObjectKey(image),
+          index: index,
           child: GdsAlbumUpload.image(
             size: context.whenDevice(
               mobile: .md,
@@ -72,7 +65,7 @@ class FeedUploadImages extends StatelessWidget {
             },
           ),
         );
-      }),
+      },
     );
   }
 }

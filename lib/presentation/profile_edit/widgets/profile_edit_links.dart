@@ -8,9 +8,7 @@ import 'package:grimity/api/api.dart';
 import 'package:grimity/presentation/profile_edit/models/profile_edit_model.dart';
 import 'package:grimity/presentation/profile_edit/views/show_profile_link_add_select.dart';
 import 'package:grimity/presentation/profile_edit/views/show_profile_link_edit_select.dart';
-import 'package:grimity/util/build_draggable_feedback.dart';
 import 'package:pervice/pervice.dart';
-import 'package:reorderables/reorderables.dart';
 
 /// 프로필 편집 화면에서 외부 링크를 입력하고 이를 수정하는 위젯.
 class ProfileEditLinks extends StatelessWidget {
@@ -66,8 +64,9 @@ class ProfileEditLinks extends StatelessWidget {
         ),
 
         // 외부 링크 목록 표시
-        ReorderableColumn(
-          buildDraggableFeedback: buildDraggableFeedback,
+        GdsReorderable(
+          axis: .vertical,
+          spacing: 8,
           onReorder: (oldIndex, newIndex) {
             final links = model.value.links;
             final link = links.removeAt(oldIndex);
@@ -98,24 +97,18 @@ class ProfileEditLinks extends StatelessWidget {
               },
             ),
           ),
-          children: model.value.links.indexedBuilder((index, link) {
-            // 재빌드 시 자식 위젯들의 상태가 초기화되지 않도록 동일한 키 인스턴스 유지.
-            final key = context.stateOf(
-              () => ValueKey(index),
-              key: ValueKey(index),
-            );
+          itemCount: model.value.links.length,
+          itemBuilder: (context, index) {
+            final link = model.value.links[index];
 
-            return Padding(
-              key: key.value,
-              padding: .only(bottom: 8),
-              child: _LinkField(
-                index: index,
-                model: model,
-                link: link,
-                sortMode: sortMode.value,
-              ),
+            return _LinkField(
+              key: ValueKey(link.linkName),
+              index: index,
+              model: model,
+              link: link,
+              sortMode: sortMode.value,
             );
-          }),
+          },
         ),
       ],
     );
@@ -125,6 +118,7 @@ class ProfileEditLinks extends StatelessWidget {
 /// 프로필 편집 화면에서 외부 링크의 유형과 주소를 수정하는 위젯.
 class _LinkField extends StatelessWidget {
   const new({
+    super.key,
     required this.index,
     required this.model,
     required this.link,
@@ -188,8 +182,9 @@ class _LinkField extends StatelessWidget {
               status: sortMode ? .selected : .delete,
               onTap: sortMode ? null : onDelete,
               dragHandleBuilder: (context, child) {
-                return ReorderableDragStartListener(
-                  enabled: sortMode,
+                if (!sortMode) return child;
+
+                return GdsReorderableDragHandle(
                   index: index,
                   child: child,
                 );
