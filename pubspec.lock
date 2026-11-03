@@ -370,10 +370,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_cache_manager
-      sha256: "7253cd28eed9b79cbf403d72247459a2f333c8b2ccc702161eaeeac205c4a1cb"
+      sha256: "94515cbc3d560e7aefb40cdf683ee3f5063d23f7b689b431b4e7d3dec83bc06a"
       url: "https://pub.dev"
     source: hosted
-    version: "3.4.6"
+    version: "3.4.8"
   flutter_cached_transition:
     dependency: transitive
     description:
@@ -667,7 +667,7 @@ packages:
     description:
       path: "packages/gds_flutter"
       ref: HEAD
-      resolved-ref: be87ac000e9e6a0ec50389da026d918380d7ac07
+      resolved-ref: a10cbb6e0d47195b4bec0cc1e3d0c4cb2c81c280
       url: "https://github.com/Grimity/gds-flutter.git"
     source: git
     version: "0.0.0"
