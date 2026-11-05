@@ -177,6 +177,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.4"
+  custom_image_crop:
+    dependency: transitive
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "6446e3317396a262071c2b01a0849187e0729323"
+      url: "https://github.com/MTtankkeo/flutter-custom-image-crop"
+    source: git
+    version: "0.1.1"
   dart_quill_delta:
     dependency: transitive
     description:
@@ -370,10 +379,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_cache_manager
-      sha256: "94515cbc3d560e7aefb40cdf683ee3f5063d23f7b689b431b4e7d3dec83bc06a"
+      sha256: a42024cf8bbb7e1f4d2875301660f62543601a4c3b20119ea9a683e4d191d0f4
       url: "https://pub.dev"
     source: hosted
-    version: "3.4.8"
+    version: "3.5.0"
   flutter_cached_transition:
     dependency: transitive
     description:
@@ -667,10 +676,18 @@ packages:
     description:
       path: "packages/gds_flutter"
       ref: HEAD
-      resolved-ref: a10cbb6e0d47195b4bec0cc1e3d0c4cb2c81c280
+      resolved-ref: e9c39abaf6516118e5435e9065e56582f9213df1
       url: "https://github.com/Grimity/gds-flutter.git"
     source: git
     version: "0.0.0"
+  gesture_x_detector:
+    dependency: transitive
+    description:
+      name: gesture_x_detector
+      sha256: "777855ee4e1fa4d677c40d6a44b9106696ef6745879027c8871e334cee8cde1e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.1"
   git_config:
     dependency: "direct main"
     description:
@@ -1377,18 +1394,18 @@ packages:
     dependency: transitive
     description:
       name: sqflite_common
-      sha256: b80e94ff0d551d5f1f8c7d14348d29b576cca3ae30f6e195a7c380552c32b1e0
+      sha256: cf0cfe7c12786394bc20433ecb6d7ff3cf2c4e458dc075c1e56c8666d6a2deb4
       url: "https://pub.dev"
     source: hosted
-    version: "2.5.14"
+    version: "2.5.15"
   sqflite_darwin:
     dependency: transitive
     description:
       name: sqflite_darwin
-      sha256: "8de68fc306040f992aaf378750c16f95e4298c4bb150dd45091d75e42b1f08ee"
+      sha256: "5652e66a7db9996e8604b70b34b5876714b9dd1257f557041f718a153f995d28"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.4+1"
+    version: "2.4.5"
   sqflite_platform_interface:
     dependency: transitive
     description:
@@ -1425,10 +1442,10 @@ packages:
     dependency: transitive
     description:
       name: synchronized
-      sha256: b3d516dbd3757ff2a458735e4f6cbac9ff261f576f6e87bcb17feabb39e657c5
+      sha256: "0ce4712bd3be1fccfab14458059baebb400ba6c6239b65398e3464945fabbae7"
       url: "https://pub.dev"
     source: hosted
-    version: "3.5.0"
+    version: "3.6.1"
   term_glyph:
     dependency: transitive
     description:
@@ -1445,6 +1462,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.12"
+  transition_switcher:
+    dependency: transitive
+    description:
+      name: transition_switcher
+      sha256: f5e88610131baf9d26dd97fbe61396999f25e14a17f82dec2f1c01e60e78c03d
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0"
   transparent_image:
     dependency: transitive
     description:
