@@ -79,7 +79,9 @@ class ProfileEditAvatar extends StatelessWidget {
         shape: .circle,
       );
 
-      model.value = model.value.copyWith(avatar: () => resolvedImage);
+      if (resolvedImage != null) {
+        model.value = model.value.copyWith(avatar: () => resolvedImage);
+      }
     }
   }
 }

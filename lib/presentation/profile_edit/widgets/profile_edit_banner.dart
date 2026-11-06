@@ -83,7 +83,9 @@ class ProfileEditBanner extends StatelessWidget {
         shape: .rectangle,
       );
 
-      model.value = model.value.copyWith(banner: () => resolvedImage);
+      if (resolvedImage != null) {
+        model.value = model.value.copyWith(banner: () => resolvedImage);
+      }
     }
   }
 }

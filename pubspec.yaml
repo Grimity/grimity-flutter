@@ -10,6 +10,9 @@ dependencies:
   flutter:
     sdk: flutter
   pervice: ^1.7.0
+  custom_image_crop:
+    git:
+      url: https://github.com/MTtankkeo/flutter-custom-image-crop
   dio: ^5.11.1
   flutter_appbar: ^1.10.0
   flutter_secure_storage: ^11.2.0

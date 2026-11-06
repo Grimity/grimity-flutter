@@ -18,7 +18,8 @@ Future<ImageProvider?> showImageCropModal(
   return GdsModal.show<ImageProvider>(
     context,
     builder: (context) {
-      final controller = context.useCustomImageCropController();
+      final controller = context.useImageCropController();
+      final imageSize = provider.entity.orientatedSize;
 
       return GdsModal(
         onBack: context.pop,
@@ -34,14 +35,49 @@ Future<ImageProvider?> showImageCropModal(
             }
           },
         ),
-        child: AspectRatio(
-          aspectRatio: provider.entity.orientatedSize.aspectRatio,
-          child: GdsImageCropper(
-            aspectRatio: ratio.value,
-            shape: shape,
-            provider: provider,
-            controller: controller,
-          ),
+        child: Column(
+          mainAxisSize: .min,
+          spacing: 16,
+          children: [
+            // 이미지 표시
+            AspectRatio(
+              aspectRatio: imageSize.aspectRatio,
+              child: GdsImageCropper(
+                aspectRatio: ratio.value,
+                shape: shape,
+                provider: provider,
+                controller: controller,
+              ),
+            ),
+            Row(
+              spacing: 16,
+              children: [
+                // 축소 아이콘 표시
+                GdsIcon.magnifierMinus.build(size: 16, color: .iconGraySubtle),
+
+                // 슬라이더 표시
+                Expanded(
+                  child: ValueListenableBuilder<double>(
+                    valueListenable: controller.scale,
+                    builder: (context, scale, child) {
+                      return GdsSlider(
+                        min: 1,
+                        max: 10,
+                        value: scale.clamp(1, 10),
+                        onChanged: (value) {
+                          // 현재 배율을 기준으로 슬라이더가 지정한 배율 적용.
+                          controller.addTransition(.new(scale: value / scale));
+                        },
+                      );
+                    }
+                  ),
+                ),
+
+                // 확대 아이콘 표시
+                GdsIcon.magnifierPlus.build(size: 16, color: .iconGraySubtle),
+              ],
+            ),
+          ],
         ),
       );
     },
