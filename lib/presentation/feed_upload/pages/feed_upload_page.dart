@@ -36,11 +36,14 @@ class FeedUploadPage extends StatelessWidget {
     final model = context.stateOf(() => FeedUploadModel.from(initialFeed));
 
     // 앨범이 없으면 안내 팝업을, 있으면 앨범 선택 팝업을 표시.
-    void selectAlbum() async {
+    Future<void> selectAlbum() async {
       if (AppUser.albums.isEmpty) {
         showFeedUploadNoAlbumAlert(context);
       } else {
-        final newAlbum = await showFeedUploadAlbumSelectAlert(context, model.value.album);
+        final newAlbum = await showFeedUploadAlbumSelectAlert(
+          context,
+          model.value.album,
+        );
 
         // 사용자가 앨범을 선택한 경우 이를 반영.
         if (context.mounted && newAlbum != null) {
@@ -60,7 +63,7 @@ class FeedUploadPage extends StatelessWidget {
       child: GdsScaffold(
         appBar: GdsTopNavigation.editor(
           onBack: () => Navigator.of(context).maybePop(),
-          onTitle: selectAlbum,
+          onMenu: selectAlbum,
           action: .new(
             label: isEdit ? '수정' : '업로드',
             onTap: () => submit(context, model.value),

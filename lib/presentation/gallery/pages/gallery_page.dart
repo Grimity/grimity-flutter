@@ -47,14 +47,14 @@ class GalleryPage extends StatelessWidget {
     // 선택한 이미지가 한장이라도 있는지 여부.
     final canSubmit = selectedImages.isNotEmpty;
 
-    void onTitle() {
+    Future<void> onTitle() async {
       showAlbums.value = !showAlbums.value;
     }
 
     return GdsScaffold(
       appBar: GdsTopNavigation.editor(
         onBack: context.pop,
-        onTitle: canSelectAlbum ? onTitle : null,
+        onMenu: canSelectAlbum ? onTitle : null,
         action: .new(
           label: '다음',
           onTap: () {

@@ -32,7 +32,7 @@ class PostUploadAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return GdsTopNavigation.editor(
       onBack: () => Navigator.of(context).maybePop(),
-      onTitle: () async {
+      onMenu: () async {
         final newPostType = await showPostUploadTypeSelect(context, model.value.type);
 
         // 사용자가 게시글 유형을 선택한 경우 이를 반영.
