@@ -87,14 +87,18 @@ class ProfileEditScreen extends GdsEditorScreen {
       AppImage.resolve([?model.banner], .profile),
     ).wait;
 
-    // 프로필 이미지가 있을 경우 변경 요청.
+    // 프로필 이미지가 있으면 수정을, 없으면 삭제를 요청.
     if (avatar.isNotEmpty) {
       await PutMeImage(request: .new(imageName: avatar.single.name)).request();
+    } else {
+      await DeleteMeImage().request();
     }
 
-    // 배너 이미지가 있을 경우 변경 요청.
+    // 배너 이미지가 있으면 수정을, 없으면 삭제를 요청.
     if (banner.isNotEmpty) {
       await PutMeBackground(request: .new(imageName: banner.single.name)).request();
+    } else {
+      await DeleteMeBackground().request();
     }
 
     final service = PutMe(
