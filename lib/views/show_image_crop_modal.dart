@@ -69,7 +69,7 @@ Future<ImageProvider?> showImageCropModal(
                           controller.addTransition(.new(scale: value / scale));
                         },
                       );
-                    }
+                    },
                   ),
                 ),
 

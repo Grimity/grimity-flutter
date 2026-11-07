@@ -2,7 +2,6 @@
 // Licensed under the Grimity Source-Available License v1.0.
 // AI/ML training and dataset use are prohibited. See LICENSE.
 
-import 'package:animations/animations.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/presentation/board/pages/board_page.dart';
@@ -42,6 +41,22 @@ class NavigationPage extends StatelessWidget {
     final index = context.sharedStateOf(() => 0, key: ValueKey(NavigationPage));
     assert(index.value < _views.length);
 
+    // 이전에 선택한 탭의 인덱스와 페이지 전환 방향.
+    final transition = context.stateOf(
+      () => (index: index.value, direction: AxisDirection.up),
+    );
+
+    final newIndex = index.value;
+    final oldIndex = transition.value.index;
+
+    // 이전에 선택한 탭과 현재 탭의 위치에 따라 전환 방향 지정.
+    if (oldIndex != newIndex) {
+      transition.value = (
+        index: newIndex,
+        direction: newIndex > oldIndex ? .left : .right,
+      );
+    }
+
     // 현재 선택된 탭에 대응하는 화면.
     final view = _views[index.value];
 
@@ -55,6 +70,7 @@ class NavigationPage extends StatelessWidget {
               children: [
                 // 페이지 본문 표시
                 GdsPageTransition(
+                  direction: transition.value.direction,
                   child: KeyedSubtree(
                     key: ValueKey(index.value),
                     child: view,
@@ -93,21 +109,6 @@ class NavigationPage extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  /// 페이지 전환 시 [child]에 수직 공유 축 전환 애니메이션을 적용하는 빌더.
-  Widget transitionBuilder(
-    Widget child,
-    Animation<double> primaryAnimation,
-    Animation<double> secondaryAnimation,
-  ) {
-    return SharedAxisTransition(
-      transitionType: .vertical,
-      animation: primaryAnimation,
-      secondaryAnimation: secondaryAnimation,
-      fillColor: GdsAtomicColor.transparent,
-      child: child,
     );
   }
 }

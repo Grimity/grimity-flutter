@@ -60,11 +60,11 @@ class SplashPage extends StatelessWidget {
 
         // 로그아웃 상태인 경우 로그인 화면 표시.
         if (AppUser.status == .unauth) {
-          return SignInPage();
+          return const SignInPage(key: ValueKey('sign-in'));
         }
 
         // 로그인 상태인 경우 홈 화면 표시.
-        return NavigationPage();
+        return const NavigationPage(key: ValueKey('navigation'));
       },
     );
   }
@@ -99,6 +99,7 @@ class SplashPage extends StatelessWidget {
     }
 
     return ColoredBox(
+      key: const ValueKey('splash'),
       color: const Color(0xFF232332),
       child: Center(
         child: AnimatedBuilder(
