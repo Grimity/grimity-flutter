@@ -2,6 +2,7 @@
 // Licensed under the Grimity Source-Available License v1.0.
 // AI/ML training and dataset use are prohibited. See LICENSE.
 
+import 'package:hit/hit.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/presentation/gallery/pages/gallery_page.dart';
@@ -36,25 +37,29 @@ class ProfileEditAvatar extends StatelessWidget {
           widthFactor: 0.5,
           child: FractionalTranslation(
             translation: .new(-0.5, 0),
-            child: Builder(
-              builder: (context) {
-                if (model.value.avatar != null) {
+
+            // 부모 영역 밖으로 이동한 버튼의 터치도 처리.
+            child: HitDefer(
+              child: Builder(
+                builder: (context) {
+                  if (model.value.avatar != null) {
+                    return GdsButton.icon(
+                      type: .solid,
+                      icon: .x,
+                      onTap: () {
+                        // 프로필 이미지 제거.
+                        model.value = model.value.copyWith(avatar: () => null);
+                      },
+                    );
+                  }
+
                   return GdsButton.icon(
                     type: .solid,
-                    icon: .x,
-                    onTap: () {
-                      // 프로필 이미지 제거.
-                      model.value = model.value.copyWith(avatar: () => null);
-                    },
+                    icon: .camera,
+                    onTap: () => onAddImage(context),
                   );
-                }
-
-                return GdsButton.icon(
-                  type: .solid,
-                  icon: .camera,
-                  onTap: () => onAddImage(context),
-                );
-              },
+                },
+              ),
             ),
           ),
         ),
