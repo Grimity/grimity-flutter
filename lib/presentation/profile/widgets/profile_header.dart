@@ -8,7 +8,9 @@ import 'package:grimity/api/api.dart';
 import 'package:grimity/app/app_use_case.dart';
 import 'package:grimity/extensions/model/link_response.dart';
 import 'package:grimity/extensions/model/user_profile_response.dart';
+import 'package:grimity/presentation/profile/views/show_profile_links_modal.dart';
 import 'package:grimity/presentation/profile_edit/screens/profile_edit_screen.dart';
+import 'package:grimity/presentation/report/screens/report_screen.dart';
 import 'package:pervice/pervice.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -66,11 +68,16 @@ class ProfileHeader extends GdsAdaptiveWidget {
                     _FollowButton(data: data),
                   ],
 
-                  GdsButton.text(
-                    type: .outlined,
-                    size: .sm,
-                    leadingIcon: .dotmenuHorizontal,
-                    onTap: onMenu,
+                  // 메뉴 버튼 표시
+                  GdsPopoverAnchor.builder(
+                    builder: (context, layerLink) {
+                      return GdsButton.text(
+                        type: .outlined,
+                        size: .sm,
+                        leadingIcon: .dotmenuHorizontal,
+                        onTap: () => onMenu(context, layerLink),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -182,11 +189,16 @@ class ProfileHeader extends GdsAdaptiveWidget {
                           _FollowButton(data: data),
                         ],
 
-                        GdsButton.text(
-                          type: .outlined,
-                          size: .md,
-                          leadingIcon: .dotmenuHorizontal,
-                          onTap: onMenu,
+                        // 메뉴 버튼 표시
+                        GdsPopoverAnchor.builder(
+                          builder: (context, layerLink) {
+                            return GdsButton.text(
+                              type: .outlined,
+                              size: .md,
+                              leadingIcon: .dotmenuHorizontal,
+                              onTap: () => onMenu(context, layerLink),
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -225,7 +237,97 @@ class ProfileHeader extends GdsAdaptiveWidget {
   }
 
   /// TODO
-  void onMenu() {}
+  void onMenu(BuildContext context, LayerLink layerLink) {
+    GdsAdaptiveMenu.show(
+      context,
+      layerLink: layerLink,
+      position: .right,
+      builder: (context) {
+        return .new(
+          items: [
+            // 등록된 링크가 있을 경우
+            if (data.links.isNotEmpty) ...[
+              .new(
+                label: '프로필 링크 공유',
+                onTap: () {
+                  context.pop();
+
+                  // 전체 프로필 링크 목록 열기.
+                  showProfileLinksModal(context, data.links);
+                },
+              ),
+            ],
+
+            // 본인 프로필인 경우
+            if (data.isMe) ...[
+              .new(
+                label: '차단 목록',
+                onTap: () {}, // TODO
+              ),
+            ],
+
+            // 타인 프로필인 경우
+            if (!data.isMe) ...[
+              .new(
+                label: '메세지 보내기',
+                onTap: () {}, // TODO
+              ),
+
+              .new(
+                label: '신고하기',
+                onTap: () {
+                  // 신고 페이지로 이동.
+                  final screen = ReportScreen(refId: data.id, refType: .user);
+                  screen.pushReplacement(context);
+                },
+              ),
+
+              // 사용자 차단 혹은 해제
+              if (data.isBlocking) ...[
+                .new(
+                  label: '차단 해제',
+                  onTap: () async {
+                    context.pop();
+                    await onUnblock();
+                  },
+                ),
+              ] else ...[
+                .new(
+                  label: '차단하기',
+                  onTap: () async {
+                    context.pop();
+                    await onBlock();
+                  },
+                ),
+              ],
+            ],
+          ],
+        );
+      },
+    );
+  }
+
+  /// 사용자 차단을 요청합니다.
+  Future<void> onBlock() async {
+    try {
+      await PutUsersByIdBlock(id: data.id).request();
+      GdsToast.show('${data.name}님을 차단했어요', status: .negative);
+    } catch (_) {
+      GdsToast.show('차단이 실패했어요', status: .negative);
+      rethrow;
+    }
+  }
+
+  /// 사용자 차단 해제를 요청합니다.
+  Future<void> onUnblock() async {
+    try {
+      await DeleteUsersByIdBlock(id: data.id).request();
+      GdsToast.show('${data.name}님을 차단 해제했어요', status: .negative);
+    } catch (_) {
+      GdsToast.show('차단 해제가 실패했어요', status: .negative);
+      rethrow;
+    }
+  }
 }
 
 /// 사용자 프로필의 링크 목록과 더보기를 표시하는 위젯.
@@ -258,7 +360,10 @@ class _Links extends StatelessWidget {
         // 표시 개수를 초과한 링크가 있으면 더보기 표시
         if (links.length > maxCount) ...[
           GdsGesture(
-            onTap: () {}, // TODO
+            onTap: () {
+              // 전체 프로필 링크 목록 열기.
+              showProfileLinksModal(context, links);
+            },
             child: GdsText(
               '외 링크 ${links.length - maxCount}개',
               color: .textPrimaryNormal,
