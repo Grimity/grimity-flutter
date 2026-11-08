@@ -52,15 +52,17 @@ class ImageViewerPage extends StatelessWidget {
           ),
 
           // 하단에 썸네일 스트립 표시
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: ImageViewerTabBar(
-              controller: controller,
-              imageUrls: imageUrls,
+          if (imageUrls.length > 1) ...[
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: ImageViewerTabBar(
+                controller: controller,
+                imageUrls: imageUrls,
+              ),
             ),
-          ),
+          ],
         ],
       ),
     );
