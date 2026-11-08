@@ -5,6 +5,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
+import 'package:grimity/extensions/model/post_detail_response.dart';
+import 'package:grimity/presentation/image_viewer/pages/image_viewer_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// 글의 HTML 본문과 조회 수, 작성일을 표시하는 위젯.
@@ -31,7 +33,16 @@ class PostDetailContent extends StatelessWidget {
             html: data.content,
             imageBuilder: (context, url) {
               return GdsGesture(
-                onTap: () {}, // TODO
+                onTap: () {
+                  // 이미지 뷰어 페이지로 이동.
+                  context.push(
+                    ImageViewerPage(
+                      imageUrls: [url],
+                      index: 0,
+                      canDownload: data.isMine,
+                    ),
+                  );
+                },
                 child: GdsImage(provider: url.toImage()),
               );
             },

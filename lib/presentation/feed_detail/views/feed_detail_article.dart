@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
+import 'package:grimity/extensions/model/feed_detail_response.dart';
 import 'package:grimity/presentation/feed_detail/views/feed_detail_comments.dart';
 import 'package:grimity/presentation/feed_detail/widgets/feed_detail_actions.dart';
 import 'package:grimity/presentation/feed_detail/widgets/feed_detail_content.dart';
@@ -59,7 +60,7 @@ class FeedDetailArticle extends StatelessWidget {
         const SliverGap(8),
 
         // 피드 이미지 목록 표시
-        FeedDetailImages(images: data.cards.toImages()),
+        FeedDetailImages(imageUrls: data.cards, isMine: data.isMine),
         const SliverGap(20),
 
         // 피드 내용 표시
