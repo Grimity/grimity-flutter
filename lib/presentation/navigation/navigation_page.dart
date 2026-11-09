@@ -60,54 +60,65 @@ class NavigationPage extends StatelessWidget {
     // 현재 선택된 탭에 대응하는 화면.
     final view = _views[index.value];
 
-    return GdsScaffold(
-      appBar: AppTopNavigation.main(),
-      drawer: const AppSidebar(),
-      body: Column(
-        children: [
-          Expanded(
-            child: Stack(
-              children: [
-                // 페이지 본문 표시
-                GdsPageTransition(
-                  direction: transition.value.direction,
-                  child: KeyedSubtree(
-                    key: ValueKey(index.value),
-                    child: view,
-                  ),
-                ),
+    return PopScope(
+      // 첫 번째 탭에서만 기본 뒤로가기를 허용.
+      canPop: index.value == 0,
 
-                // 하단 액션 버튼 표시
-                Positioned(
-                  bottom: 16,
-                  right: 16,
-                  child: GdsFadable.builder(
-                    type: .scaleFade,
-                    visible: view.hasAction,
-                    builder: (context) {
-                      return GdsBottomNavigationButton(
-                        onTap: () => view.onAction(context),
-                      );
-                    },
+      // 다른 탭에서 뒤로가기 시 첫 번째 탭으로 전환.
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop && index.value != 0) {
+          index.value = 0;
+        }
+      },
+      child: GdsScaffold(
+        appBar: AppTopNavigation.main(),
+        drawer: const AppSidebar(),
+        body: Column(
+          children: [
+            Expanded(
+              child: Stack(
+                children: [
+                  // 페이지 본문 표시
+                  GdsPageTransition(
+                    direction: transition.value.direction,
+                    child: KeyedSubtree(
+                      key: ValueKey(index.value),
+                      child: view,
+                    ),
                   ),
-                ),
-              ],
+
+                  // 하단 액션 버튼 표시
+                  Positioned(
+                    bottom: 16,
+                    right: 16,
+                    child: GdsFadable.builder(
+                      type: .scaleFade,
+                      visible: view.hasAction,
+                      builder: (context) {
+                        return GdsBottomNavigationButton(
+                          onTap: () => view.onAction(context),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
 
-          // 하단 네비게이션 표시
-          GdsBottomNavigation(
-            index: index.value,
-            tabs: _views.indexedBuilder((newIndex, view) {
-              return .new(
-                icon: view.icon,
-                label: view.label,
-                showDot: view.showDot,
-                onTap: () => index.value = newIndex,
-              );
-            }),
-          ),
-        ],
+            // 하단 네비게이션 표시
+            GdsBottomNavigation(
+              index: index.value,
+              tabs: _views.indexedBuilder((newIndex, view) {
+                return .new(
+                  icon: view.icon,
+                  label: view.label,
+                  showDot: view.showDot,
+                  onTap: () => index.value = newIndex,
+                );
+              }),
+            ),
+          ],
+        ),
       ),
     );
   }
