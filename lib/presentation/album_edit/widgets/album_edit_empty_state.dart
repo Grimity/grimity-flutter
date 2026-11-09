@@ -18,12 +18,14 @@ class AlbumEditEmptyState extends StatelessWidget {
         mainAxisSize: .min,
         spacing: 8,
         children: [
+          // 제목 표시
           GdsText(
             '아직 생성된 앨범이 없어요',
             color: .textGrayBold,
             style: .subtitle2,
           ),
 
+          // 설명 표시
           GdsText(
             '앨범을 추가하면 그림을 분류할 수 있어요',
             color: .textGraySubtle,

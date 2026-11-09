@@ -30,15 +30,12 @@ class ProfileEditModel({
 
   /// 현재 사용자 프로필과 비교하여 변경된 내용이 있는지 여부.
   bool get hasChanges {
-    final newLinkValues = links.map((e) => (e.linkName, e.link)).toList();
-    final oldLinkValues = profile.links.map((e) => (e.linkName, e.link)).toList();
-
     return avatar != profile.image?.toImage() ||
         banner != profile.backgroundImage?.toImage() ||
         nickname != profile.name ||
         description != profile.description ||
         url != profile.url ||
-        !listEquals(newLinkValues, oldLinkValues);
+        !listEquals(links, profile.links);
   }
 
   /// 필수 입력값을 충족하고 변경된 내용이 있어 제출할 수 있는지 여부.
