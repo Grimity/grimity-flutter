@@ -180,7 +180,7 @@ class _LinkField extends StatelessWidget {
               initialText: link.link,
               placeholder: '링크 주소',
               status: sortMode ? .selected : .delete,
-              onTap: sortMode ? null : onDelete,
+              onHandleTap: sortMode ? null : onDelete,
               dragHandleBuilder: (context, child) {
                 if (!sortMode) return child;
 

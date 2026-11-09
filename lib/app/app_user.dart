@@ -42,6 +42,11 @@ abstract class AppUser {
     return _albums ?? (throw StateError('불러오기 전에는 참조되지 않아야 합니다.'));
   }
 
+  /// 서버에서 현재 사용자의 앨범 목록을 다시 불러옵니다.
+  static Future<void> refreshAlbums() async {
+    _albums = await GetMeAlbums().request();
+  }
+
   /// 현재 사용자 정보 로딩 및 로그인 상태.
   static AppUserStatus get status => statusNotifier.value;
 

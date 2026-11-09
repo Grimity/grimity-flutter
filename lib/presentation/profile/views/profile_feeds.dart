@@ -8,6 +8,7 @@ import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/extensions/enum/user_feeds_sort.dart';
 import 'package:grimity/extensions/model/user_profile_response.dart';
+import 'package:grimity/presentation/album_edit/pages/album_edit_page.dart';
 import 'package:grimity/presentation/feed_upload/pages/feed_upload_page.dart';
 import 'package:grimity/presentation/profile/views/show_user_feeds_sort_select.dart';
 import 'package:grimity/presentation/profile/widgets/profile_content_toolbar.dart';
@@ -79,7 +80,20 @@ class ProfileFeeds extends StatelessWidget with GdsTabView {
     // 앨범 편집 페이지로 이동하는 액션 버튼.
     final albumEditAction = GdsIconButtonAction(
       icon: .folderEdit,
-      onTap: () {}, // TODO
+      onTap: () async {
+        // 앨범 편집 페이지로 이동.
+        final isEdited = await context.push<bool?>(const AlbumEditPage());
+
+        // 앨범 편집을 완료했을 경우 프로필 정보 갱신.
+        if (context.mounted && isEdited == true) {
+          context
+              .serviceOf(
+                () => GetUsersProfileByUrl(url: data.url),
+                key: ValueKey(data.url),
+              )
+              .refresh();
+        }
+      },
     );
 
     return GdsInfiniteScroll(
