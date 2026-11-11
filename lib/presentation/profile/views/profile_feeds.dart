@@ -9,6 +9,7 @@ import 'package:grimity/api/api.dart';
 import 'package:grimity/extensions/enum/user_feeds_sort.dart';
 import 'package:grimity/extensions/model/user_profile_response.dart';
 import 'package:grimity/presentation/album_edit/pages/album_edit_page.dart';
+import 'package:grimity/presentation/album_organize/pages/album_organize_page.dart';
 import 'package:grimity/presentation/feed_upload/pages/feed_upload_page.dart';
 import 'package:grimity/presentation/profile/views/show_user_feeds_sort_select.dart';
 import 'package:grimity/presentation/profile/widgets/profile_content_toolbar.dart';
@@ -86,12 +87,11 @@ class ProfileFeeds extends StatelessWidget with GdsTabView {
 
         // 앨범 편집을 완료했을 경우 프로필 정보 갱신.
         if (context.mounted && isEdited == true) {
-          context
-              .serviceOf(
-                () => GetUsersProfileByUrl(url: data.url),
-                key: ValueKey(data.url),
-              )
-              .refresh();
+          final profile = context.serviceFor<GetUsersProfileByUrl>(
+            key: ValueKey(data.url),
+          );
+
+          profile.refresh();
         }
       },
     );
@@ -147,7 +147,11 @@ class ProfileFeeds extends StatelessWidget with GdsTabView {
                   enabled: count > 0,
                   label: sort.value.displayName,
                   onTap: () async {
-                    final newSort = await showUserFeedsSortSelect(context, layerLink: layerLink, sort: sort.value);
+                    final newSort = await showUserFeedsSortSelect(
+                      context,
+                      layerLink: layerLink,
+                      sort: sort.value,
+                    );
 
                     // 정렬 기준을 선택한 경우 이를 반영.
                     if (newSort != null) {
@@ -160,9 +164,24 @@ class ProfileFeeds extends StatelessWidget with GdsTabView {
                 if (data.isMe) ...[
                   .new(
                     leadingIcon: .sortHorizontal,
-                    enabled: count > 0,
+                    enabled: album.hasValue,
                     label: '그림 정리',
-                    onTap: () {}, // TODO
+                    onTap: () async {
+                      // 그림 정리 페이지로 이동.
+                      final isSaved = await context.push<bool?>(
+                        AlbumOrganizePage(album: album.value!),
+                      );
+
+                      // 변경 사항을 저장한 경우 프로필과 그림 목록을 갱신.
+                      if (context.mounted && isSaved == true) {
+                        final profile = context.serviceFor<GetUsersProfileByUrl>(
+                          key: ValueKey(data.url),
+                        );
+
+                        await profile.refresh();
+                        await service.refresh();
+                      }
+                    },
                   ),
                 ],
               ],

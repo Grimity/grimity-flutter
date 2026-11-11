@@ -9,30 +9,31 @@ import 'package:pervice/pervice.dart';
 /// 앨범 이름을 수정하는 모달을 엽니다.
 Future<String?> showAlbumRenameModal(
   BuildContext context, {
-  required String albumName,
+  required String initialName,
 }) {
   return GdsAdaptiveModal.show(
     context,
     builder: (context) {
-      final newAlbumName = context.stateOf(() => albumName);
+      final newName = context.stateOf(() => initialName);
+      final enabled = newName.trimmed.isNotEmpty && initialName != newName.trimmed;
 
       return .new(
         title: '앨범명 변경',
+        primaryButton: .new(
+          label: '변경하기',
+          onTap: () => context.pop(newName.value),
+          enabled: enabled,
+        ),
         secondaryButton: .new(
           label: '닫기',
           onTap: context.pop,
         ),
-        primaryButton: .new(
-          label: '변경하기',
-          onTap: () => context.pop(newAlbumName.value),
-          enabled: newAlbumName.trimmed.isNotEmpty && albumName != newAlbumName.trimmed,
-        ),
         children: [
           GdsTextField.normal(
             size: .md,
-            initialText: albumName,
-            placeholder: '앨범 이름',
-            onChanged: newAlbumName.setter,
+            placeholder: '예시 : ‘크로키’ 또는 ‘일러스트’',
+            initialText: initialName,
+            onChanged: newName.setter,
           ),
         ],
       );

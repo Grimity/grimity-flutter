@@ -136,7 +136,7 @@ class _AlbumField extends StatelessWidget {
   Future<void> onRename(BuildContext context) async {
     final newAlbumName = await showAlbumRenameModal(
       context,
-      albumName: album.name,
+      initialName: album.name,
     );
 
     // 사용자가 앨범 이름을 변경했을 경우.
