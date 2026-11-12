@@ -13,6 +13,7 @@ import 'package:grimity/presentation/profile_edit/widgets/profile_edit_descripti
 import 'package:grimity/presentation/profile_edit/widgets/profile_edit_links.dart';
 import 'package:grimity/presentation/profile_edit/widgets/profile_edit_nickname.dart';
 import 'package:grimity/presentation/profile_edit/widgets/profile_edit_url.dart';
+import 'package:grimity/widgets/app_exit_scope.dart';
 import 'package:hit/hit.dart';
 import 'package:pervice/pervice.dart';
 
@@ -36,45 +37,50 @@ class ProfileEditScreen extends GdsEditorScreen {
         onTap: () => submit(context, model.value),
         enabled: model.value.canSubmit,
       ),
-      child: HitScope(
-        child: Column(
-          mainAxisSize: .min,
-          children: [
-            // 배너 이미지 표시
-            ProfileEditBanner(model: model),
+      child: AppExitScope(
+        title: '프로필 수정을 취소하고 나가시겠어요?',
+        description: '저장하지 않은 변경 사항은 모두 사라져요',
+        hasChanges: model.value.hasChanges,
+        child: HitScope(
+          child: Column(
+            mainAxisSize: .min,
+            children: [
+              // 배너 이미지 표시
+              ProfileEditBanner(model: model),
 
-            // 본문 표시
-            Padding(
-              padding: .only(bottom: 16, left: 16, right: 16),
-              child: Column(
-                mainAxisSize: .min,
-                spacing: 20,
-                children: [
-                  // 프로필 이미지 표시
-                  Align(
-                    alignment: .centerLeft,
-                    heightFactor: 0.5,
-                    child: FractionalTranslation(
-                      translation: .new(0, -0.25),
-                      child: ProfileEditAvatar(model: model),
+              // 본문 표시
+              Padding(
+                padding: .only(bottom: 16, left: 16, right: 16),
+                child: Column(
+                  mainAxisSize: .min,
+                  spacing: 20,
+                  children: [
+                    // 프로필 이미지 표시
+                    Align(
+                      alignment: .centerLeft,
+                      heightFactor: 0.5,
+                      child: FractionalTranslation(
+                        translation: .new(0, -0.25),
+                        child: ProfileEditAvatar(model: model),
+                      ),
                     ),
-                  ),
 
-                  // 닉네임 입력 필드 표시
-                  ProfileEditNickname(model: model),
+                    // 닉네임 입력 필드 표시
+                    ProfileEditNickname(model: model),
 
-                  // 자기소개 입력 필드 표시
-                  ProfileEditDescription(model: model),
+                    // 자기소개 입력 필드 표시
+                    ProfileEditDescription(model: model),
 
-                  // URL 입력 필드 표시
-                  ProfileEditUrl(model: model),
+                    // URL 입력 필드 표시
+                    ProfileEditUrl(model: model),
 
-                  // 외부 링크 입력 필드 표시
-                  ProfileEditLinks(model: model),
-                ],
+                    // 외부 링크 입력 필드 표시
+                    ProfileEditLinks(model: model),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
