@@ -12,6 +12,7 @@ import 'package:grimity/presentation/album_organize/widgets/album_organize_album
 import 'package:grimity/presentation/album_organize/widgets/album_organize_app_bar.dart';
 import 'package:grimity/presentation/album_organize/widgets/album_organize_count.dart';
 import 'package:grimity/presentation/album_organize/widgets/album_organize_header.dart';
+import 'package:grimity/widgets/app_exit_scope.dart';
 import 'package:grimity/widgets/sliver_scroll_view.dart';
 import 'package:pervice/pervice.dart';
 
@@ -35,42 +36,47 @@ class AlbumOrganizePage extends StatelessWidget {
       ),
     );
 
-    return GdsScaffold(
-      appBar: AlbumOrganizeAppBar(model: model.value),
-      body: Stack(
-        children: [
-          SliverScrollView(
-            padding: context.whenDevice(
-              mobile: const .all(16),
-              tablet: const .symmetric(vertical: 24, horizontal: 20),
-            ),
-            slivers: [
-              // 헤더 표시
-              AlbumOrganizeHeader(model: model),
-              SliverGap(
-                context.whenDevice(
-                  mobile: 16,
-                  tablet: 12,
-                ),
+    return AppExitScope(
+      title: '그림 정리를 취소하고 나가시겠어요?',
+      description: '저장하지 않은 변경 사항은 모두 사라져요',
+      hasChanges: model.value.canSubmit,
+      child: GdsScaffold(
+        appBar: AlbumOrganizeAppBar(model: model.value),
+        body: Stack(
+          children: [
+            SliverScrollView(
+              padding: context.whenDevice(
+                mobile: const .all(16),
+                tablet: const .symmetric(vertical: 24, horizontal: 20),
               ),
+              slivers: [
+                // 헤더 표시
+                AlbumOrganizeHeader(model: model),
+                SliverGap(
+                  context.whenDevice(
+                    mobile: 16,
+                    tablet: 12,
+                  ),
+                ),
 
-              // 앨범 피드 개수 표시
-              AlbumOrganizeCount(count: album.feedCount.toInt()),
-              const SliverGap(12),
+                // 앨범 피드 개수 표시
+                AlbumOrganizeCount(count: album.feedCount.toInt()),
+                const SliverGap(12),
 
-              // 앨범 목록 표시
-              AlbumOrganizeAlbums(model: model),
-            ],
-          ),
+                // 앨범 목록 표시
+                AlbumOrganizeAlbums(model: model),
+              ],
+            ),
 
-          // 액션 버튼 표시
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 16,
-            child: AlbumOrganizeActions(model: model),
-          ),
-        ],
+            // 액션 버튼 표시
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 16,
+              child: AlbumOrganizeActions(model: model),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -5,13 +5,17 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 
-/// 피드 작성을 취소하고 나갈지 확인하는 팝업을 표시합니다.
-Future<void> showFeedUploadExitAlert(BuildContext context) async {
+/// 진행 중인 작업을 취소하고 나갈지 확인하는 팝업을 표시합니다.
+Future<void> showExitAlert(
+  BuildContext context, {
+  required String title,
+  required String description,
+}) async {
   return GdsAlert.show<void>(
     context,
     builder: (context) => GdsAlert(
-      title: '업로드를 취소하고 나가시겠어요?',
-      description: '작성한 내용들은 모두 초기화돼요',
+      title: title,
+      description: description,
       primaryButton: .new(
         label: '나가기',
         onTap: () {

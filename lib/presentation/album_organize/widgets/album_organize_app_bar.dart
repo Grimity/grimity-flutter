@@ -20,7 +20,7 @@ class AlbumOrganizeAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GdsTopNavigation.editor(
-      onBack: context.pop,
+      onBack: context.maybePop,
       onMenu: null,
       action: .new(
         label: '저장',
@@ -35,14 +35,17 @@ class AlbumOrganizeAppBar extends StatelessWidget {
   Future<void> onSubmit(BuildContext context) async {
     try {
       if (model.removedFeeds.isNotEmpty) {
-        await PostFeedsBatchDelete(request: .new(ids: model.removedFeeds)).request();
+        final service = PostFeedsBatchDelete(request: .new(ids: model.removedFeeds));
+        await service.request();
       }
 
       if (model.hasChanges) {
-        await PatchAlbumsById(
+        final service = PatchAlbumsById(
           id: model.albumId,
           request: .new(name: model.albumName),
-        ).request();
+        );
+
+        await service.request();
       }
 
       await AppUser.refreshAlbums();

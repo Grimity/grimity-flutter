@@ -31,7 +31,7 @@ class PostUploadAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GdsTopNavigation.editor(
-      onBack: () => Navigator.of(context).maybePop(),
+      onBack: context.maybePop,
       onMenu: () async {
         final newPostType = await showPostUploadTypeSelect(context, model.value.type);
 

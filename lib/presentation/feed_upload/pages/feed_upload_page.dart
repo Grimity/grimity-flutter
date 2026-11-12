@@ -10,11 +10,11 @@ import 'package:grimity/app/app_user.dart';
 import 'package:grimity/presentation/feed_detail/pages/feed_detail_page.dart';
 import 'package:grimity/presentation/feed_upload/models/feed_upload_model.dart';
 import 'package:grimity/presentation/feed_upload/views/show_feed_upload_album_select_alert.dart';
-import 'package:grimity/presentation/feed_upload/views/show_feed_upload_exit_alert.dart';
 import 'package:grimity/presentation/feed_upload/views/show_feed_upload_no_album_alert.dart';
 import 'package:grimity/presentation/feed_upload/widgets/feed_upload_images.dart';
 import 'package:grimity/presentation/feed_upload/widgets/feed_upload_image_picker.dart';
 import 'package:grimity/presentation/feed_upload/widgets/feed_upload_section.dart';
+import 'package:grimity/widgets/app_exit_scope.dart';
 import 'package:grimity/widgets/app_loading_popup.dart';
 import 'package:pervice/pervice.dart';
 
@@ -52,17 +52,13 @@ class FeedUploadPage extends StatelessWidget {
       }
     }
 
-    return PopScope(
-      canPop: !model.value.canSubmit,
-      onPopInvokedWithResult: (didPop, result) {
-        if (didPop) return;
-
-        // 작성 취소 확인 팝업 표시.
-        showFeedUploadExitAlert(context);
-      },
+    return AppExitScope(
+      title: '업로드를 취소하고 나가시겠어요?',
+      description: '작성한 내용들은 모두 초기화돼요',
+      hasChanges: model.value.hasChanges,
       child: GdsScaffold(
         appBar: GdsTopNavigation.editor(
-          onBack: () => Navigator.of(context).maybePop(),
+          onBack: context.maybePop,
           onMenu: selectAlbum,
           action: .new(
             label: isEdit ? '수정' : '업로드',

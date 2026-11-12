@@ -25,7 +25,7 @@ class AlbumEditAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GdsTopNavigation.editor(
-      onBack: context.pop,
+      onBack: context.maybePop,
       onMenu: null,
       action: .new(
         label: '저장',

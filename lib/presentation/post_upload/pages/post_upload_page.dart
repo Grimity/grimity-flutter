@@ -9,8 +9,8 @@ import 'package:grimity/app/app_image.dart';
 import 'package:grimity/presentation/gallery/pages/gallery_page.dart';
 import 'package:grimity/presentation/post_upload/models/post_upload_model.dart';
 import 'package:grimity/presentation/post_upload/widgets/post_upload_app_bar.dart';
-import 'package:grimity/presentation/post_upload/views/show_post_upload_exit_alert.dart';
 import 'package:grimity/presentation/post_upload/views/show_post_upload_link_modal.dart';
+import 'package:grimity/widgets/app_exit_scope.dart';
 import 'package:pervice/pervice.dart';
 
 /// 게시글을 작성하거나 기존 게시글을 수정하는 페이지.
@@ -63,14 +63,10 @@ class PostUploadPage extends StatelessWidget {
       context.onDispose(() => controller.removeListener(updateContent));
     });
 
-    return PopScope(
-      canPop: !model.value.hasChanges,
-      onPopInvokedWithResult: (didPop, result) {
-        if (didPop) return;
-
-        // 작성 취소 확인 팝업 표시.
-        showPostUploadExitAlert(context);
-      },
+    return AppExitScope(
+      title: '업로드를 취소하고 나가시겠어요?',
+      description: '작성한 내용들은 모두 초기화돼요',
+      hasChanges: model.value.hasChanges,
       child: GdsScaffold(
         appBar: PostUploadAppBar(
           initialPost: initialPost,
