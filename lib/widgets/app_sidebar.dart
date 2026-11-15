@@ -5,6 +5,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/app/app_user.dart';
+import 'package:grimity/presentation/follow/pages/follow_page.dart';
 import 'package:grimity/presentation/profile/pages/profile_page.dart';
 
 /// 프로필, 팔로우 정보, 탭 목록과 서비스 정보를 표시하는 사이드바 위젯.
@@ -26,8 +27,12 @@ class AppSidebar extends StatelessWidget {
       onProfile: () => pushProfilePage(context),
       onNickname: () => pushProfilePage(context),
       onHandle: () => pushProfilePage(context),
-      onFollower: () {}, // TODO
-      onFollowing: () {}, // TODO
+      onFollower: () {
+        const FollowPage(initialTab: .followers).push(context);
+      },
+      onFollowing: () {
+        const FollowPage(initialTab: .following).push(context);
+      },
       onSignOut: AppUser.signOut,
       onTermsOfService: () {}, // TODO
       onPrivacyPolicy: () {}, // TODO

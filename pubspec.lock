@@ -396,7 +396,7 @@ packages:
     description:
       path: "packages/flutter_design_preview"
       ref: HEAD
-      resolved-ref: d1c4fe9b2f39e0d0df1fcb667de218a7dc53ee35
+      resolved-ref: c827371aa07df4c1de64e71f714166ffae974245
       url: "https://github.com/MTtankkeo/vscode-flutter-design-preview.git"
     source: git
     version: "1.0.0"
@@ -668,7 +668,7 @@ packages:
     description:
       path: "packages/gds_flutter"
       ref: HEAD
-      resolved-ref: "91410e59feed32e03290e22b8fd67397c16f57a9"
+      resolved-ref: "8d5c9b5fcc572b95df2d337f3de4ecc324ce3b06"
       url: "https://github.com/Grimity/gds-flutter.git"
     source: git
     version: "0.0.0"
@@ -996,10 +996,10 @@ packages:
     dependency: transitive
     description:
       name: octo_image
-      sha256: "9c9e56f655c301fd2e6c26390461b4fbd23be861b29607c5e2e4d16e8231ce50"
+      sha256: "1eabd04ba4371863a91a063feba8069f0f15c4ad9d9a72fbcd3cab1ecd86ea6c"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.4"
+    version: "2.1.5"
   openapi_spec_plus:
     dependency: transitive
     description:
