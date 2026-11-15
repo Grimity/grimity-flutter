@@ -45,8 +45,8 @@ class PostDetailPage extends StatelessWidget {
               Expanded(
                 child: SliverScrollView(
                   padding: context.whenDevice(
-                    mobile: .only(top: 16, bottom: 56, left: 16, right: 16),
-                    tablet: .symmetric(vertical: 24, horizontal: 20),
+                    mobile: 16.top + 56.bottom + 16.horizontal,
+                    tablet: 24.vertical + 20.horizontal,
                   ),
                   spacing: 56,
                   slivers: [

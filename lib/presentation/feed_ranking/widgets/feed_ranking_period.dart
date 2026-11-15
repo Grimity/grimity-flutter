@@ -26,7 +26,7 @@ class FeedRankingPeriod extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: GdsContainer(
-        padding: .symmetric(vertical: 6, horizontal: 12),
+        padding: 6.vertical + 12.horizontal,
         radius: .md,
         color: .surfaceGraySubtlest,
         child: Row(

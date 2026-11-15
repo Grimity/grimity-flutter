@@ -29,7 +29,7 @@ class ProfileHeader extends GdsAdaptiveWidget {
   @override
   Widget buildMobile(BuildContext context) {
     return Padding(
-      padding: .only(top: 16, bottom: 12, left: 16, right: 16),
+      padding: 16.top + 12.bottom + 16.horizontal,
       child: Column(
         crossAxisAlignment: .start,
         mainAxisSize: .min,
@@ -125,7 +125,7 @@ class ProfileHeader extends GdsAdaptiveWidget {
   @override
   Widget buildTablet(BuildContext context) {
     return Padding(
-      padding: .only(top: 20, bottom: 24, left: 20, right: 20),
+      padding: 20.top + 24.bottom + 20.horizontal,
       child: Row(
         spacing: 16,
         children: [

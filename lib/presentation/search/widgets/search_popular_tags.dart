@@ -58,7 +58,7 @@ class SearchPopularTags extends StatelessWidget {
 
     if (context.isMobile) {
       return Padding(
-        padding: .only(top: 16, left: 16, right: 16),
+        padding: 16.top + 16.horizontal,
         child: Column(
           crossAxisAlignment: .start,
           mainAxisSize: .min,
@@ -78,7 +78,7 @@ class SearchPopularTags extends StatelessWidget {
     }
 
     return Padding(
-      padding: .symmetric(vertical: 16, horizontal: 20),
+      padding: 16.vertical + 20.horizontal,
       child: Row(
         spacing: 20,
         children: [

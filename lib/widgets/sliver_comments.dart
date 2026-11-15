@@ -81,7 +81,7 @@ class _Comment extends StatelessWidget {
   Widget build(BuildContext context) {
     if (comment.isDeleted) {
       return Padding(
-        padding: .only(left: comment.isReply ? 32 : 0),
+        padding: (comment.isReply ? 32 : 0).left,
         child: GdsUserItem.commentDeleted(),
       );
     }

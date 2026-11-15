@@ -14,8 +14,8 @@ class FeedRankingHeader extends StatelessWidget {
     return GdsContainer(
       width: .infinity,
       padding: context.whenDevice(
-        mobile: .symmetric(vertical: 20, horizontal: 16),
-        tablet: .symmetric(vertical: 24, horizontal: 20),
+        mobile: 20.vertical + 16.horizontal,
+        tablet: 24.vertical + 20.horizontal,
       ),
       child: Column(
         crossAxisAlignment: .start,

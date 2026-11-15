@@ -30,8 +30,8 @@ class FollowingFeedPage extends StatelessWidget with NavigationView {
       child: SliverScrollView(
         maxWidth: 600,
         padding: context.whenDevice(
-          mobile: .only(top: 8, left: 16, right: 16, bottom: 16),
-          tablet: .symmetric(vertical: 24, horizontal: 20),
+          mobile: 8.top + 16.bottom + 16.horizontal,
+          tablet: 24.vertical + 20.horizontal,
         ),
         slivers: [
           // 팔로잉 피드 목록 표시

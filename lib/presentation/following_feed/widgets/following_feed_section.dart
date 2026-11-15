@@ -27,7 +27,7 @@ class FollowingFeedSection extends StatelessWidget {
       children: [
         // 제목 표시
         SliverPadding(
-          padding: .only(top: 12),
+          padding: 12.top,
           sliver: SliverToBoxAdapter(
             child: GdsText(
               title,

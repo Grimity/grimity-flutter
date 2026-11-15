@@ -31,7 +31,7 @@ class FeedRankingCalendar extends StatelessWidget {
       spacing: 8,
       children: [
         Padding(
-          padding: const .symmetric(vertical: 8),
+          padding: 8.vertical,
           child: Row(
             mainAxisAlignment: .spaceBetween,
             children: [

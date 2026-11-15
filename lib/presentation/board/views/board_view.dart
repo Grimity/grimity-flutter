@@ -46,8 +46,8 @@ class BoardView extends StatelessWidget {
     return SliverScrollView(
       controller: controller,
       padding: context.whenDevice(
-        mobile: .only(bottom: 40, left: 16, right: 16),
-        tablet: .only(bottom: 40, left: 20, right: 20),
+        mobile: 40.bottom + 16.horizontal,
+        tablet: 40.bottom + 20.horizontal,
       ),
       spacing: context.whenDevice(
         mobile: 20,

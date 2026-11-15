@@ -18,8 +18,8 @@ class FeedRankingTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: context.whenDevice(
-        mobile: .symmetric(horizontal: 16),
-        tablet: .symmetric(horizontal: 20),
+        mobile: 16.horizontal,
+        tablet: 20.horizontal,
       ),
       child: GdsTabBar(
         controller: controller,

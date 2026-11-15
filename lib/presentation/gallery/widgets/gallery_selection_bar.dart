@@ -22,7 +22,7 @@ class GallerySelectionBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return HorizontalListView.separated(
-      padding: .symmetric(vertical: 12, horizontal: 12),
+      padding: 12.vertical + 12.horizontal,
       clipBehavior: .none,
       separatorBuilder: (_, _) => const Gap(8),
 

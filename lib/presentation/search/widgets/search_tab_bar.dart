@@ -27,8 +27,8 @@ class SearchTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: context.whenDevice(
-        mobile: .only(top: 16, left: 16, right: 16),
-        tablet: .only(top: 20, left: 20, right: 20),
+        mobile: 16.top + 16.horizontal,
+        tablet: 20.top + 20.horizontal,
       ),
       child: GdsTabBar(
         controller: controller,

@@ -30,7 +30,7 @@ class SignInBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: .symmetric(vertical: 40, horizontal: 16),
+      padding: 40.vertical + 16.horizontal,
       child: Column(
         crossAxisAlignment: .start,
         mainAxisAlignment: .end,

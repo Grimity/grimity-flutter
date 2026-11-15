@@ -77,7 +77,7 @@ class PostUploadPage extends StatelessWidget {
           onAddImage: () => onAddImage(context),
           onAddLink: () => showPostUploadLinkModal(context),
           maxCount: 500,
-          padding: .only(top: 24, bottom: 8, left: 20, right: 20),
+          padding: 24.top + 8.bottom + 20.horizontal,
           header: GdsTextField.title(
             size: .sm,
             maxLength: 32,

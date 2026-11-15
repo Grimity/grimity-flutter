@@ -69,8 +69,8 @@ class FeedUploadPage extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           padding: context.whenDevice(
-            mobile: .only(top: 8, bottom: 16, left: 16, right: 16),
-            tablet: .only(top: 24, bottom: 20, left: 20, right: 20),
+            mobile: 8.top + 16.bottom + 16.horizontal,
+            tablet: 24.top + 20.bottom + 20.horizontal,
           ),
           child: Column(
             spacing: 12,

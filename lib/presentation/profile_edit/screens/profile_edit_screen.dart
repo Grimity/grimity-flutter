@@ -50,7 +50,7 @@ class ProfileEditScreen extends GdsEditorScreen {
 
               // 본문 표시
               Padding(
-                padding: .only(bottom: 16, left: 16, right: 16),
+                padding: 16.bottom + 16.horizontal,
                 child: Column(
                   mainAxisSize: .min,
                   spacing: 20,

@@ -24,7 +24,7 @@ List<AppBar> createBoardAppBars(
       AppBar(
         behavior: const MaterialAppBarBehavior(floating: true),
         body: Padding(
-          padding: const .only(top: 16, bottom: 20, left: 16, right: 16),
+          padding: 16.top + 20.bottom + 16.horizontal,
           child: Column(
             mainAxisSize: .min,
             spacing: 12,
@@ -43,7 +43,7 @@ List<AppBar> createBoardAppBars(
       AppBar(
         behavior: const AbsoluteAppBarBehavior(),
         body: Padding(
-          padding: const .symmetric(horizontal: 16),
+          padding: 16.horizontal,
           child: BoardTabBar(controller: controller),
         ),
       ),
@@ -55,9 +55,9 @@ List<AppBar> createBoardAppBars(
     // 헤더 표시
     AppBar(
       behavior: const MaterialAppBarBehavior(floating: true),
-      body: const Padding(
-        padding: .symmetric(vertical: 24, horizontal: 20),
-        child: Column(
+      body: Padding(
+        padding: 24.vertical + 20.horizontal,
+        child: const Column(
           mainAxisSize: .min,
           spacing: 12,
           children: [
@@ -71,7 +71,7 @@ List<AppBar> createBoardAppBars(
     AppBar(
       behavior: const AbsoluteAppBarBehavior(),
       body: Padding(
-        padding: .symmetric(horizontal: 20),
+        padding: 20.horizontal,
         child: BoardTabBar(
           controller: controller,
           trailing: SizedBox(

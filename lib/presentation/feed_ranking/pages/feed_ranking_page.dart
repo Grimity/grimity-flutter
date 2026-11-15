@@ -70,8 +70,8 @@ class FeedRankingPage extends StatelessWidget with NavigationView {
       ],
       child: SliverScrollView(
         padding: context.whenDevice(
-          mobile: .only(top: 12, left: 16, right: 16, bottom: 16),
-          tablet: .only(top: 12, left: 20, right: 20, bottom: 20),
+          mobile: 12.top + 16.bottom + 16.horizontal,
+          tablet: 12.top + 20.bottom + 20.horizontal,
         ),
         spacing: context.whenDevice(
           mobile: 32,

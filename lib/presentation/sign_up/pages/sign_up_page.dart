@@ -46,8 +46,8 @@ class SignUpPage extends StatelessWidget {
               controller: controller,
               builder: (_, view) {
                 final EdgeInsets padding = context.whenDevice(
-                  mobile: .only(top: 40, bottom: 40, left: 16, right: 16),
-                  tablet: .only(top: 48, bottom: 48, left: 20, right: 20),
+                  mobile: 40.vertical + 16.horizontal,
+                  tablet: 48.vertical + 20.horizontal,
                 );
 
                 return SliverScrollView(
@@ -69,8 +69,8 @@ class SignUpPage extends StatelessWidget {
 
               return Padding(
                 padding: context.whenDevice(
-                  mobile: .only(bottom: 24, left: 16, right: 16),
-                  tablet: .only(bottom: 40, left: 40, right: 40),
+                  mobile: 24.bottom + 16.horizontal,
+                  tablet: 40.bottom + 40.horizontal,
                 ),
                 child: GdsButton.text(
                   size: .lg,

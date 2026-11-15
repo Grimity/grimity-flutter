@@ -27,8 +27,8 @@ class AlbumEditPage extends StatelessWidget {
         appBar: AlbumEditAppBar(model: model),
         body: SingleChildScrollView(
           padding: context.whenDevice(
-            mobile: .symmetric(vertical: 16, horizontal: 16),
-            tablet: .symmetric(vertical: 24, horizontal: 20),
+            mobile: 16.all,
+            tablet: 24.vertical + 20.horizontal,
           ),
           child: Column(
             mainAxisSize: .min,

@@ -47,7 +47,7 @@ class AlbumOrganizePage extends StatelessWidget {
             SliverScrollView(
               padding: context.whenDevice(
                 mobile: const .all(16),
-                tablet: const .symmetric(vertical: 24, horizontal: 20),
+                tablet: 24.vertical + 20.horizontal,
               ),
               slivers: [
                 // 헤더 표시

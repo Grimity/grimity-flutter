@@ -13,7 +13,7 @@ class AlbumEditEmptyState extends StatelessWidget {
   Widget build(BuildContext context) {
     return GdsContainer(
       width: .infinity,
-      padding: .symmetric(vertical: 32),
+      padding: 32.vertical,
       child: Column(
         mainAxisSize: .min,
         spacing: 8,

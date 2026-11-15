@@ -23,7 +23,7 @@ class GalleryAlbum extends StatelessWidget {
     return GdsGesture(
       onTap: onTap,
       child: Padding(
-        padding: .symmetric(vertical: 10, horizontal: 16),
+        padding: 10.vertical + 16.horizontal,
         child: Row(
           spacing: 16,
           children: [

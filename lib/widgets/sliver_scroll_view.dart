@@ -33,7 +33,7 @@ class SliverScrollView extends StatelessWidget {
         // 최대 너비가 지정된 경우 너비 제한 및 중앙 정렬.
         if (maxWidth > 0) {
           final inset = ((constraints.maxWidth - padding.horizontal - maxWidth) / 2).clamp(0.0, double.infinity);
-          padding += .symmetric(horizontal: inset);
+          padding += inset.horizontal;
         }
 
         return CustomScrollView(

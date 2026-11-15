@@ -36,10 +36,10 @@ class ImageViewerTabBar extends StatelessWidget {
         indicator: const BoxDecoration(),
         dividerColor: Colors.transparent,
         overlayColor: const WidgetStatePropertyAll(Colors.transparent),
-        labelPadding: const .symmetric(horizontal: 4), // 간격 8px
+        labelPadding: 4.horizontal, // 간격 8px
         padding: context.whenDevice(
-          mobile: .only(top: 8, bottom: 8, left: 12, right: 12),
-          tablet: .only(top: 8, bottom: 36, left: 12, right: 12),
+          mobile: 8.vertical + 12.horizontal,
+          tablet: 8.top + 36.bottom + 12.horizontal,
         ),
 
         // 썸네일 목록 표시
