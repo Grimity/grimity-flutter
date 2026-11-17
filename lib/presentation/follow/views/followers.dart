@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/presentation/feed_upload/pages/feed_upload_page.dart';
-import 'package:grimity/presentation/follow/pages/follow_page.dart';
+import 'package:grimity/presentation/follow/screens/follow_screen.dart';
 import 'package:grimity/presentation/follow/widgets/follow_user_item.dart';
 import 'package:pervice/pervice.dart';
 
@@ -69,21 +69,24 @@ class Followers extends StatelessWidget with GdsTabView {
           );
         }
 
-        return ListView.builder(
-          clipBehavior: .none,
-          padding: FollowPage.scrollPaddingOf(context),
-          itemCount: followers.length,
-          itemBuilder: (context, index) {
-            final follower = followers[index];
+        return GdsInfiniteScroll(
+          onLoadMore: service.loadMore,
+          enabled: service.canLoreMore,
+          child: ListView.builder(
+            padding: FollowScreen.scrollPaddingOf(context),
+            itemCount: followers.length,
+            itemBuilder: (context, index) {
+              final follower = followers[index];
 
-            return FollowUserItem(
-              nickname: follower.name,
-              image: follower.image?.toImage(),
-              id: follower.id,
-              url: follower.url,
-              isFollowing: follower.isFollowing,
-            );
-          },
+              return FollowUserItem(
+                nickname: follower.name,
+                image: follower.image?.toImage(),
+                id: follower.id,
+                url: follower.url,
+                isFollowing: follower.isFollowing,
+              );
+            },
+          ),
         );
       },
     );

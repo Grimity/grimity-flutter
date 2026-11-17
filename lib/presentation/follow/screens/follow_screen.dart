@@ -11,7 +11,7 @@ import 'package:grimity/widgets/app_top_navigation.dart';
 import 'package:pervice/pervice.dart';
 
 /// 팔로우 페이지에서 표시할 탭의 유형.
-enum FollowPageTab {
+enum FollowScreenTab {
   following(Following()),
   followers(Followers());
 
@@ -21,12 +21,12 @@ enum FollowPageTab {
 }
 
 /// 팔로워와 팔로잉 목록을 탭으로 표시하는 화면.
-class FollowPage extends GdsBasicScreen {
+class FollowScreen extends GdsBasicScreen {
   const new({
     required this.initialTab,
   });
 
-  final FollowPageTab initialTab;
+  final FollowScreenTab initialTab;
 
   @override
   String get title => profile.name;
@@ -47,7 +47,7 @@ class FollowPage extends GdsBasicScreen {
 
   @override
   GdsBasicContent build(BuildContext context) {
-    final tabs = FollowPageTab.values;
+    final tabs = FollowScreenTab.values;
     final items = tabs.builder((tab) => tab.view.item);
     final pages = tabs.builder((tab) => tab.view);
 
