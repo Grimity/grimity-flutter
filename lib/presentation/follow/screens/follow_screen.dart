@@ -49,7 +49,10 @@ class FollowScreen extends GdsBasicScreen {
     final pages = tabs.builder((tab) => tab.view);
 
     // 팔로워, 팔로잉 탭 전환을 관리할 컨트롤러.
-    final controller = context.useTabController(length: tabs.length);
+    final controller = context.useTabController(
+      length: tabs.length,
+      initialIndex: initialTab.index,
+    );
 
     return .new(
       appBar: AppTopNavigation.title(),

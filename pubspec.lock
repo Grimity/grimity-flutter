@@ -396,7 +396,7 @@ packages:
     description:
       path: "packages/flutter_design_preview"
       ref: HEAD
-      resolved-ref: f248842b0080863d949c3b25ec4b87c3a9c09f62
+      resolved-ref: "0ef9c4b06cf343fefd772ba5d458344d579faad5"
       url: "https://github.com/MTtankkeo/vscode-flutter-design-preview.git"
     source: git
     version: "1.0.0"
@@ -668,7 +668,7 @@ packages:
     description:
       path: "packages/gds_flutter"
       ref: HEAD
-      resolved-ref: "89d66dfebd8c8fe80bcbf59cfd1b1229d767a801"
+      resolved-ref: edd20e72c1075930533f64c4c9a185cbe040030f
       url: "https://github.com/Grimity/gds-flutter.git"
     source: git
     version: "0.0.0"
