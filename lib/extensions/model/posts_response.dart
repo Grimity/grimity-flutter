@@ -25,6 +25,7 @@ extension PostsResponseExtension on PostsResponse {
       createdAt: post.createdAt,
       viewCount: post.viewCount.toInt(),
       commentCount: post.commentCount.toInt(),
+      isLike: null,
     );
   }
 }

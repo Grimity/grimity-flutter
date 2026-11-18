@@ -52,7 +52,7 @@ class BlockUserItem extends StatelessWidget {
               value: !isBlocking.value,
               isBlocking: isBlocking,
             );
-          }
+          },
         ),
       ],
     );

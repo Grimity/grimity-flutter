@@ -43,43 +43,38 @@ class BoardView extends StatelessWidget {
     // 페이지 변경 시 게시글 목록을 맨 위로 이동하기 위한 컨트롤러.
     final controller = context.useNestedScrollController();
 
-    return SliverScrollView(
-      controller: controller,
-      padding: context.whenDevice(
-        mobile: 40.bottom + 16.horizontal,
-        tablet: 40.bottom + 20.horizontal,
-      ),
-      spacing: context.whenDevice(
-        mobile: 20,
-        tablet: 24,
-      ),
-      slivers: [
-        // 게시글 목록 표시
-        service.sliver(
-          placeholder: PostService.placeholder,
-          builder: (data) {
-            return SliverPosts(
+    return service.builder(
+      placeholder: PostService.placeholder,
+      builder: (data) {
+        return SliverScrollView(
+          controller: controller,
+          padding: context.whenDevice(
+            mobile: 40.bottom + 16.horizontal,
+            tablet: 40.bottom + 20.horizontal,
+          ),
+          spacing: context.whenDevice(
+            mobile: 20,
+            tablet: 24,
+          ),
+          slivers: [
+            // 게시글 목록 표시
+            SliverPosts(
               itemCount: data.itemCount,
               itemBuilder: data.itemBuilder,
-            );
-          },
-        ),
+            ),
 
-        // 내비게이션 표시
-        service.sliver(
-          placeholder: PostService.placeholder,
-          builder: (data) {
-            return SliverPostNavigation(
+            // 내비게이션 표시
+            SliverPostNavigation(
               page: service.page,
               totalCount: data.totalCount.toInt(),
               onChanged: (index) {
                 controller.animateToTop();
                 service.nextPage(index);
               },
-            );
-          },
-        ),
-      ],
+            ),
+          ],
+        );
+      },
     );
   }
 }

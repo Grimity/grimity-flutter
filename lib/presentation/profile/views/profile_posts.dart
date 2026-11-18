@@ -114,6 +114,7 @@ class ProfilePosts extends StatelessWidget with GdsTabView {
                       createdAt: post.createdAt,
                       viewCount: post.viewCount.toInt(),
                       commentCount: post.commentCount.toInt(),
+                      isLike: null,
                     );
                   },
                 ),

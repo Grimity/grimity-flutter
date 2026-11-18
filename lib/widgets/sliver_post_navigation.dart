@@ -18,11 +18,7 @@ class SliverPostNavigation extends StatelessWidget {
 
   /// 1부터 시작하는 현재 페이지 번호.
   final int page;
-
-  /// 전체 게시글의 개수.
   final int totalCount;
-
-  /// 선택한 페이지 번호를 1부터 시작하는 값으로 전달하는 콜백.
   final ValueChanged<int> onChanged;
 
   @override

@@ -5,8 +5,10 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
+import 'package:grimity/app/app_use_case.dart';
 import 'package:grimity/extensions/enum/post_type.dart';
 import 'package:grimity/presentation/post_detail/pages/post_detail_page.dart';
+import 'package:pervice/pervice.dart';
 
 /// 게시글 항목을 표시하는 데 필요한 정보.
 typedef SliverPost = ({
@@ -19,6 +21,7 @@ typedef SliverPost = ({
   DateTime createdAt,
   int viewCount,
   int commentCount,
+  bool? isLike,
 });
 
 /// 인덱스에 해당하는 게시글 데이터를 반환하는 빌더.
@@ -45,6 +48,28 @@ class SliverPosts extends StatelessWidget {
       itemBuilder: (context, index) {
         final post = itemBuilder(context, index);
 
+        // SHARED STATE
+        final isLike = context.sharedStateOf(
+          () => post.isLike ?? false,
+          key: ValueKey('post-${post.id}:is-like'),
+        );
+
+        final likeCount = context.sharedStateOf(
+          () => -1,
+          key: ValueKey('post-${post.id}:like-count'),
+        );
+
+        // 게시글에 좋아요를 추가하거나 취소.
+        void onLike() {
+          AppUseCase.likePost(
+            context,
+            id: post.id,
+            value: !isLike.value,
+            isLike: isLike,
+            likeCount: likeCount,
+          );
+        }
+
         return GdsUserItem.post(
           type: post.type.displayName,
           chipVariant: post.type == .notice ? .primary : .assistive,
@@ -59,6 +84,8 @@ class SliverPosts extends StatelessWidget {
             // 글 상세 페이지로 이동.
             context.push(PostDetailPage(id: post.id));
           },
+          like: isLike.value,
+          onLike: post.isLike != null ? onLike : null,
         );
       },
     );
