@@ -60,44 +60,51 @@ abstract class AppUseCase {
     }
   }
 
-  /// 사용자를 팔로우하고 팔로워 수를 늘리며, 요청 실패 시 이전 상태로 복구합니다.
+  /// 사용자의 팔로우 상태와 팔로워 수를 변경하고, 요청 실패 시 이전 상태로 복구합니다.
   static Future<void> follow(
     BuildContext context, {
     required String id,
+    required bool value,
     required ValueState<bool> isFollowing,
     required ValueState<int> followerCount,
   }) async {
     try {
-      // 요청 전에 팔로우 상태를 화면에 반영.
-      isFollowing.value = true;
-      followerCount.value = followerCount.value + 1;
+      // 요청 전에 팔로우 상태와 팔로워 수를 화면에 반영.
+      isFollowing.value = value;
+      followerCount.value = followerCount.value + (value ? 1 : -1);
 
-      await PutUsersByIdFollow(id: id).request();
+      if (value) {
+        await PutUsersByIdFollow(id: id).request();
+      } else {
+        await DeleteUsersByIdFollow(id: id).request();
+      }
     } catch (_) {
       // 요청 실패 시 이전 상태로 복구.
-      isFollowing.value = false;
-      followerCount.value = followerCount.value - 1;
+      isFollowing.value = !value;
+      followerCount.value = followerCount.value + (value ? -1 : 1);
       rethrow;
     }
   }
 
-  /// 사용자의 팔로우를 취소하고 팔로워 수를 줄이며, 요청 실패 시 이전 상태로 복구합니다.
-  static Future<void> unFollow(
+  /// 사용자의 차단 상태를 변경하고, 요청 실패 시 이전 상태로 복구합니다.
+  static Future<void> block(
     BuildContext context, {
     required String id,
-    required ValueState<bool> isFollowing,
-    required ValueState<int> followerCount,
+    required bool value,
+    required ValueState<bool> isBlocking,
   }) async {
     try {
-      // 요청 전에 팔로우 상태를 화면에 반영.
-      isFollowing.value = false;
-      followerCount.value = followerCount.value - 1;
+      // 요청 전에 차단 상태를 화면에 반영.
+      isBlocking.value = value;
 
-      await DeleteUsersByIdFollow(id: id).request();
+      if (value) {
+        await PutUsersByIdBlock(id: id).request();
+      } else {
+        await DeleteUsersByIdBlock(id: id).request();
+      }
     } catch (_) {
       // 요청 실패 시 이전 상태로 복구.
-      isFollowing.value = true;
-      followerCount.value = followerCount.value + 1;
+      isBlocking.value = !value;
       rethrow;
     }
   }

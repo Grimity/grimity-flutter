@@ -34,11 +34,8 @@ class FollowScreen extends GdsBasicScreen {
   @override
   bool get scroll => false;
 
-  @override
-  EdgeInsets? get padding => .zero;
-
   /// 기기 유형에 대응하는 스크롤 여백을 반환합니다.
-  static EdgeInsets scrollPaddingOf(BuildContext context) {
+  static EdgeInsets scrollPadding(BuildContext context) {
     return context.whenDevice(
       mobile: 12.top + 16.bottom + 16.horizontal,
       tablet: 12.top + 20.bottom + 20.horizontal,

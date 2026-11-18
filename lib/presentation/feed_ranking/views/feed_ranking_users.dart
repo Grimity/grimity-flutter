@@ -86,14 +86,16 @@ class FeedRankingUsers extends StatelessWidget {
         AppUseCase.follow(
           context,
           id: user.id,
+          value: true,
           isFollowing: isFollowing,
           followerCount: followerCount,
         );
       },
       onUnFollow: () {
-        AppUseCase.unFollow(
+        AppUseCase.follow(
           context,
           id: user.id,
+          value: false,
           isFollowing: isFollowing,
           followerCount: followerCount,
         );

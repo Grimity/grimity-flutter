@@ -25,7 +25,7 @@ class ProfileEditScreen extends GdsEditorScreen {
   String get title => '프로필 수정';
 
   @override
-  EdgeInsets get padding => .zero;
+  EdgeInsets scrollPaddingOf(BuildContext context) => .zero;
 
   @override
   GdsEditorContent build(BuildContext context) {

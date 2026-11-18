@@ -73,7 +73,7 @@ class Followers extends StatelessWidget with GdsTabView {
           onLoadMore: service.loadMore,
           enabled: service.canLoreMore,
           child: ListView.builder(
-            padding: FollowScreen.scrollPaddingOf(context),
+            padding: FollowScreen.scrollPadding(context),
             itemCount: followers.length,
             itemBuilder: (context, index) {
               final follower = followers[index];

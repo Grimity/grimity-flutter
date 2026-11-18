@@ -75,7 +75,7 @@ class Following extends StatelessWidget with GdsTabView {
           onLoadMore: service.loadMore,
           enabled: service.canLoreMore,
           child: ListView.builder(
-            padding: FollowScreen.scrollPaddingOf(context),
+            padding: FollowScreen.scrollPadding(context),
             itemCount: followings.length,
             itemBuilder: (context, index) {
               final following = followings[index];

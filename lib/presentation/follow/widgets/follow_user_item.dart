@@ -54,14 +54,16 @@ class FollowUserItem extends StatelessWidget {
             AppUseCase.follow(
               context,
               id: id,
+              value: true,
               isFollowing: isFollowing,
               followerCount: followerCount,
             );
           },
           onUnFollow: () {
-            AppUseCase.unFollow(
+            AppUseCase.follow(
               context,
               id: id,
+              value: false,
               isFollowing: isFollowing,
               followerCount: followerCount,
             );

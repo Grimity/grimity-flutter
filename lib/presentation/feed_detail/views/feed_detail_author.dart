@@ -108,14 +108,16 @@ class FeedDetailAuthor extends StatelessWidget {
                       AppUseCase.follow(
                         context,
                         id: authorId,
+                        value: true,
                         isFollowing: isFollowing,
                         followerCount: followerCount,
                       );
                     },
                     onUnFollow: () {
-                      AppUseCase.unFollow(
+                      AppUseCase.follow(
                         context,
                         id: authorId,
+                        value: false,
                         isFollowing: isFollowing,
                         followerCount: followerCount,
                       );

@@ -8,6 +8,7 @@ import 'package:grimity/api/api.dart';
 import 'package:grimity/app/app_use_case.dart';
 import 'package:grimity/extensions/model/link_response.dart';
 import 'package:grimity/extensions/model/user_profile_response.dart';
+import 'package:grimity/presentation/block/screens/block_screen.dart';
 import 'package:grimity/presentation/profile/views/show_profile_links_modal.dart';
 import 'package:grimity/presentation/profile_edit/screens/profile_edit_screen.dart';
 import 'package:grimity/presentation/report/screens/report_screen.dart';
@@ -262,7 +263,10 @@ class ProfileHeader extends GdsAdaptiveWidget {
             if (data.isMe) ...[
               .new(
                 label: '차단 목록',
-                onTap: () {}, // TODO
+                onTap: () {
+                  // 차단 목록 화면으로 이동.
+                  const BlockScreen().pushReplacement(context);
+                },
               ),
             ],
 
@@ -276,7 +280,7 @@ class ProfileHeader extends GdsAdaptiveWidget {
               .new(
                 label: '신고하기',
                 onTap: () {
-                  // 신고 페이지로 이동.
+                  // 신고 화면으로 이동.
                   final screen = ReportScreen(refId: data.id, refType: .user);
                   screen.pushReplacement(context);
                 },
@@ -402,14 +406,16 @@ class _FollowButton extends StatelessWidget {
         AppUseCase.follow(
           context,
           id: data.id,
+          value: true,
           isFollowing: isFollowing,
           followerCount: followerCount,
         );
       },
       onUnFollow: () {
-        AppUseCase.unFollow(
+        AppUseCase.follow(
           context,
           id: data.id,
+          value: false,
           isFollowing: isFollowing,
           followerCount: followerCount,
         );
