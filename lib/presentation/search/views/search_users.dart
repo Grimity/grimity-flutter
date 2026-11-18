@@ -3,7 +3,7 @@
 // AI/ML training and dataset use are prohibited. See LICENSE.
 
 import 'package:dynamic_height_list_view/dynamic_height_view.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/app/app_use_case.dart';

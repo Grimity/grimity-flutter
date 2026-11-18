@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/presentation/album_edit/views/show_album_rename_modal.dart';
 import 'package:grimity/presentation/album_organize/models/album_organize_model.dart';
-import 'package:pervice/components/value_state.dart';
+import 'package:pervice/pervice.dart';
 
 /// 앨범 이름과 이름 변경 액션 버튼을 표시하는 헤더 위젯.
 class AlbumOrganizeHeader extends StatelessWidget {

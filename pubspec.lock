@@ -170,7 +170,7 @@ packages:
     source: hosted
     version: "1.1.7"
   custom_image_crop:
-    dependency: "direct main"
+    dependency: transitive
     description:
       path: "."
       ref: HEAD
@@ -396,7 +396,7 @@ packages:
     description:
       path: "packages/flutter_design_preview"
       ref: HEAD
-      resolved-ref: c827371aa07df4c1de64e71f714166ffae974245
+      resolved-ref: f248842b0080863d949c3b25ec4b87c3a9c09f62
       url: "https://github.com/MTtankkeo/vscode-flutter-design-preview.git"
     source: git
     version: "1.0.0"
@@ -668,7 +668,7 @@ packages:
     description:
       path: "packages/gds_flutter"
       ref: HEAD
-      resolved-ref: "9c580832831fda6b4d6a3c4c7840add3a1bc26a8"
+      resolved-ref: "89d66dfebd8c8fe80bcbf59cfd1b1229d767a801"
       url: "https://github.com/Grimity/gds-flutter.git"
     source: git
     version: "0.0.0"
@@ -928,6 +928,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.0"
+  listen:
+    dependency: transitive
+    description:
+      name: listen
+      sha256: "47501a08016a43fcad79252439d723f50f14f88fa7bfd8a177e0a417e5c9e1f2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   logging:
     dependency: transitive
     description:
@@ -961,7 +969,7 @@ packages:
     source: hosted
     version: "0.13.0"
   material_ui:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: material_ui
       sha256: a6b19012df437a356cbc01f8ea22a105e07194c47c9a6009da0032a0ce35c4ab
@@ -1092,10 +1100,10 @@ packages:
     dependency: "direct main"
     description:
       name: pervice
-      sha256: "342ffa89613e5bd2b87314d051f4ff737c6dc0d342fceeeb90b78be9b1a5c7b0"
+      sha256: d77cd0e752cff9962efd3cf102c7ae2aaa1c4657aa27d83841da7910d55b4dc2
       url: "https://pub.dev"
     source: hosted
-    version: "1.7.0"
+    version: "1.8.0"
   pervice_openapi:
     dependency: "direct main"
     description:
@@ -1466,10 +1474,10 @@ packages:
     dependency: transitive
     description:
       name: test_api
-      sha256: "2a122cbe059f8b610d3a5415f42e255b6c17b1f21eee1d960f31080237fb4f11"
+      sha256: "0a10344e901e5b2e63819567951cb6a06673ed6b84f40462188ff5a0c41f371f"
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.12"
+    version: "0.7.14"
   transition_switcher:
     dependency: transitive
     description:
@@ -1687,5 +1695,5 @@ packages:
     source: hosted
     version: "2.1.0"
 sdks:
-  dart: ">=3.13.5 <4.0.0"
+  dart: ">=3.14.0 <4.0.0"
   flutter: ">=3.47.0"

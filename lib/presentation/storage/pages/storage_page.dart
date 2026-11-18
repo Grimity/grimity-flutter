@@ -2,7 +2,7 @@
 // Licensed under the Grimity Source-Available License v1.0.
 // AI/ML training and dataset use are prohibited. See LICENSE.
 
-import 'package:flutter/material.dart' hide AppBar;
+import 'package:material_ui/material_ui.dart' hide AppBar;
 import 'package:flutter_appbar/flutter_appbar.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/presentation/storage/views/storage_liked_feeds.dart';

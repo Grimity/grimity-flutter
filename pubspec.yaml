@@ -4,15 +4,13 @@ publish_to: 'none'
 version: 0.0.1
 
 environment:
-  sdk: ^3.13.5
+  sdk: ^3.14.0
 
 dependencies:
   flutter:
     sdk: flutter
-  pervice: ^1.7.0
-  custom_image_crop:
-    git:
-      url: https://github.com/MTtankkeo/flutter-custom-image-crop
+  material_ui: ^1.11.0
+  pervice: ^1.8.0
   dio: ^5.11.1
   flutter_appbar: ^1.10.0
   flutter_secure_storage: ^11.2.0
