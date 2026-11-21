@@ -668,7 +668,7 @@ packages:
     description:
       path: "packages/gds_flutter"
       ref: HEAD
-      resolved-ref: "39a9b58c914335afc143eaa41ce14ec4d8829056"
+      resolved-ref: c6e44d4a346d0e7ed66b0df203e070aa66c8f3c8
       url: "https://github.com/Grimity/gds-flutter.git"
     source: git
     version: "0.0.0"

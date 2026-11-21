@@ -7,6 +7,7 @@ import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/presentation/settings/views/settings_contact.dart';
 import 'package:grimity/presentation/settings/views/settings_my_account.dart';
 import 'package:grimity/presentation/settings/views/settings_guide.dart';
+import 'package:grimity/presentation/settings/views/settings_notification.dart';
 
 /// 앱 설정 항목을 목록과 상세 화면으로 표시하는 적응형 페이지.
 class SettingsPage extends StatelessWidget {
@@ -19,6 +20,9 @@ class SettingsPage extends StatelessWidget {
       pages: const [
         // 내 계정
         SettingsMyAccount(),
+
+        // 알림
+        SettingsNotification(),
 
         // 이용 안내
         SettingsGuide(),
