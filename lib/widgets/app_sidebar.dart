@@ -9,10 +9,17 @@ import 'package:grimity/presentation/follow/screens/follow_screen.dart';
 import 'package:grimity/presentation/profile/pages/profile_page.dart';
 import 'package:grimity/presentation/settings/pages/settings_page.dart';
 import 'package:grimity/presentation/storage/pages/storage_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// 프로필, 팔로우 정보, 탭 목록과 서비스 정보를 표시하는 사이드바 위젯.
 class AppSidebar extends StatelessWidget {
   const new({super.key});
+
+  /// 그리미티 서비스 이용약관 URL.
+  static const termsOfServiceUrl = 'https://term.grimity.com/term';
+
+  /// 그리미티 개인정보 처리방침 URL.
+  static const privacyPolicyUrl = 'https://term.grimity.com/privacy';
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +45,14 @@ class AppSidebar extends StatelessWidget {
         const FollowScreen(initialTab: .following).push(context);
       },
       onSignOut: AppUser.signOut,
-      onTermsOfService: () {}, // TODO
-      onPrivacyPolicy: () {}, // TODO
+      onTermsOfService: () {
+        // 서비스 이용약관 열기.
+        launchUrl(Uri.parse(termsOfServiceUrl));
+      },
+      onPrivacyPolicy: () {
+        // 개인정보 처리방침 열기.
+        launchUrl(Uri.parse(privacyPolicyUrl));
+      },
       onBusinessInfo: () {}, // TODO
       tabs: [
         .new(
@@ -58,7 +71,7 @@ class AppSidebar extends StatelessWidget {
             context.push(const SettingsPage());
           },
         ),
-      ], // TODO
+      ],
     );
   }
 
