@@ -6,9 +6,9 @@ import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/presentation/album_edit/models/album_edit_model.dart';
-import 'package:grimity/presentation/album_edit/views/show_album_delete_alert.dart';
 import 'package:grimity/presentation/album_edit/views/show_album_rename_modal.dart';
 import 'package:grimity/presentation/album_edit/widgets/album_edit_empty_state.dart';
+import 'package:grimity/views/show_confirm_alert.dart';
 import 'package:pervice/pervice.dart';
 
 /// 앨범 목록을 표시하고 이름 변경, 삭제 및 순서 변경을 제공하는 위젯.
@@ -150,7 +150,12 @@ class _AlbumField extends StatelessWidget {
 
   /// 삭제 여부를 확인한 뒤 앨범을 목록에서 제거합니다.
   Future<void> onDelete(BuildContext context) async {
-    final isConfirmed = await showAlbumDeleteAlert(context);
+    final isConfirmed = await showConfirmAlert(
+      context,
+      label: '삭제하기',
+      title: '앨범을 삭제할까요?',
+      description: '앨범을 삭제하면\n그림은 전체 항목으로 이동돼요',
+    );
 
     // 사용자가 앨범 삭제를 동의했을 경우.
     if (isConfirmed == true) {

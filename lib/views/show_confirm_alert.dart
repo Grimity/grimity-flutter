@@ -2,19 +2,26 @@
 // Licensed under the Grimity Source-Available License v1.0.
 // AI/ML training and dataset use are prohibited. See LICENSE.
 
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 
-/// 앨범 삭제 여부를 확인하는 알림창을 엽니다.
-Future<bool?> showAlbumDeleteAlert(BuildContext context) {
-  return GdsAlert.show(
+/// 정말로 작업을 진행할 것인지 추가 확인하는 팝업을 표시합니다.
+Future<bool?> showConfirmAlert(
+  BuildContext context, {
+  required String label,
+  required String title,
+  required String description,
+}) async {
+  return GdsAlert.show<bool>(
     context,
     builder: (context) {
       return GdsAlert(
-        title: '앨범을 삭제할까요?',
-        description: '앨범을 삭제하면\n그림은 전체 항목으로 이동돼요',
+        title: title,
+        description: description,
         primaryButton: .new(
-          label: '삭제하기',
+          label: label,
           onTap: () => context.pop(true),
         ),
         secondaryButton: .new(

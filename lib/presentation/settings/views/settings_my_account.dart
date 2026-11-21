@@ -7,6 +7,7 @@ import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/app/app_user.dart';
 import 'package:grimity/presentation/settings/views/settings_nickname.dart';
 import 'package:grimity/presentation/settings/views/settings_profile_url.dart';
+import 'package:grimity/views/show_confirm_alert.dart';
 
 /// 계정 정보 설정과 로그아웃, 회원 탈퇴 항목을 표시하는 설정 페이지.
 class SettingsMyAccount extends StatelessWidget with GdsListDetailPage {
@@ -62,7 +63,19 @@ class SettingsMyAccount extends StatelessWidget with GdsListDetailPage {
             type: .borderless,
             variant: .assistive,
             label: '탈퇴하기',
-            onTap: AppUser.delete,
+            onTap: () async {
+              final isConfirmed = await showConfirmAlert(
+                context,
+                label: '탈퇴하기',
+                title: '정말 탈퇴하시겠어요?',
+                description: '계정 복구는 어려워요.',
+              );
+
+              // 사용자가 계정 탈퇴를 동의했을 경우.
+              if (isConfirmed == true) {
+                await AppUser.delete();
+              }
+            },
           ),
         ),
       ],

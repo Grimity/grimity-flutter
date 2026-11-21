@@ -13,20 +13,22 @@ Future<void> showExitAlert(
 }) async {
   return GdsAlert.show<void>(
     context,
-    builder: (context) => GdsAlert(
-      title: title,
-      description: description,
-      primaryButton: .new(
-        label: '나가기',
-        onTap: () {
-          context.pop();
-          context.pop();
-        },
-      ),
-      secondaryButton: .new(
-        label: '아니요',
-        onTap: context.pop,
-      ),
-    ),
+    builder: (context) {
+      return GdsAlert(
+        title: title,
+        description: description,
+        primaryButton: .new(
+          label: '나가기',
+          onTap: () {
+            context.pop();
+            context.pop();
+          },
+        ),
+        secondaryButton: .new(
+          label: '아니요',
+          onTap: context.pop,
+        ),
+      );
+    },
   );
 }
