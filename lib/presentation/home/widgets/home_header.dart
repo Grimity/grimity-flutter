@@ -10,11 +10,11 @@ class HomeHeader extends StatelessWidget {
   const new({
     super.key,
     required this.title,
-    required this.onMore,
+    this.onMore,
   });
 
   final String title;
-  final VoidCallback onMore;
+  final VoidCallback? onMore;
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +33,15 @@ class HomeHeader extends StatelessWidget {
         ),
 
         // 우측에 더보기 버튼 표시
-        GdsButton.text(
-          type: .borderless,
-          size: .md,
-          variant: .assistive,
-          label: '더보기',
-          onTap: onMore,
-        ),
+        if (onMore != null) ...[
+          GdsButton.text(
+            type: .borderless,
+            size: .md,
+            variant: .assistive,
+            label: '더보기',
+            onTap: onMore,
+          ),
+        ],
       ],
     );
   }

@@ -5,6 +5,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/presentation/search/pages/search_page.dart';
+import 'package:grimity/presentation/settings/pages/settings_page.dart';
+import 'package:grimity/presentation/storage/pages/storage_page.dart';
 
 /// 프로필 페이지의 상단 탐색 버튼을 표시하는 앱바 위젯.
 class ProfileAppBar extends StatelessWidget {
@@ -25,12 +27,18 @@ class ProfileAppBar extends StatelessWidget {
 
         .new(
           icon: .inbox,
-          onTap: () {}, // TODO
+          onTap: () {
+            // 보관함 페이지로 이동.
+            context.push(const StoragePage());
+          },
         ),
 
         .new(
           icon: .settings,
-          onTap: () {}, // TODO
+          onTap: () {
+            // 설정 페이지로 이동.
+            context.push(const SettingsPage());
+          },
         ),
       ],
     );

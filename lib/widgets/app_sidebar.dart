@@ -4,7 +4,9 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
+import 'package:grimity/app/app_urls.dart';
 import 'package:grimity/app/app_user.dart';
+import 'package:grimity/presentation/business_info/pages/business_info_page.dart';
 import 'package:grimity/presentation/follow/screens/follow_screen.dart';
 import 'package:grimity/presentation/profile/pages/profile_page.dart';
 import 'package:grimity/presentation/settings/pages/settings_page.dart';
@@ -14,12 +16,6 @@ import 'package:url_launcher/url_launcher.dart';
 /// 프로필, 팔로우 정보, 탭 목록과 서비스 정보를 표시하는 사이드바 위젯.
 class AppSidebar extends StatelessWidget {
   const new({super.key});
-
-  /// 그리미티 서비스 이용약관 URL.
-  static const termsOfServiceUrl = 'https://term.grimity.com/term';
-
-  /// 그리미티 개인정보 처리방침 URL.
-  static const privacyPolicyUrl = 'https://term.grimity.com/privacy';
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +29,18 @@ class AppSidebar extends StatelessWidget {
       profile: profile.image?.toImage(),
       followerCount: profile.followerCount.toInt(),
       followingCount: profile.followingCount.toInt(),
-      onProfile: () => pushProfilePage(context),
-      onNickname: () => pushProfilePage(context),
-      onHandle: () => pushProfilePage(context),
+      onProfile: () {
+        // 프로필 페이지로 이동.
+        context.push(ProfilePage(url: profile.url));
+      },
+      onNickname: () {
+        // 프로필 페이지로 이동.
+        context.push(ProfilePage(url: profile.url));
+      },
+      onHandle: () {
+        // 프로필 페이지로 이동.
+        context.push(ProfilePage(url: profile.url));
+      },
       onFollower: () {
         // 팔로워 화면으로 이동.
         const FollowScreen(initialTab: .followers).push(context);
@@ -47,13 +52,16 @@ class AppSidebar extends StatelessWidget {
       onSignOut: AppUser.signOut,
       onTermsOfService: () {
         // 서비스 이용약관 열기.
-        launchUrl(Uri.parse(termsOfServiceUrl));
+        launchUrl(Uri.parse(AppUrls.termsOfService));
       },
       onPrivacyPolicy: () {
         // 개인정보 처리방침 열기.
-        launchUrl(Uri.parse(privacyPolicyUrl));
+        launchUrl(Uri.parse(AppUrls.privacyPolicy));
       },
-      onBusinessInfo: () {}, // TODO
+      onBusinessInfo: () {
+        // 사업자 정보 페이지로 이동.
+        context.push(const BusinessInfoPage());
+      },
       tabs: [
         .new(
           icon: .inbox,
@@ -73,10 +81,5 @@ class AppSidebar extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  /// 본인 프로필 페이지로 이동.
-  static void pushProfilePage(BuildContext context) {
-    context.push(ProfilePage(url: profile.url));
   }
 }

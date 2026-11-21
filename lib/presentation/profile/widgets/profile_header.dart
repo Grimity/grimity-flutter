@@ -237,7 +237,7 @@ class ProfileHeader extends GdsAdaptiveWidget {
     }
   }
 
-  /// TODO
+  /// 프로필 관련 메뉴를 엽니다.
   void onMenu(BuildContext context, LayerLink layerLink) {
     GdsAdaptiveMenu.show(
       context,

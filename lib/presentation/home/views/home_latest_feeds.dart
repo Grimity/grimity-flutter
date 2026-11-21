@@ -48,7 +48,6 @@ class HomeLatestFeeds extends StatelessWidget {
     return HomeSection.sliver(
       header: .new(
         title: '최신 그림',
-        onMore: () {}, // TODO
       ),
       child: service.sliver(
         placeholder: placeholder,

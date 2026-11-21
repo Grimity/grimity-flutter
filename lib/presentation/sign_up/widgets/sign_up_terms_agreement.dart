@@ -4,6 +4,8 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
+import 'package:grimity/app/app_urls.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// 서비스 이용약관과 개인정보처리방침 링크 및 동의 체크박스를 표시하는 위젯.
 class SignUpTermsAgreement extends StatelessWidget {
@@ -29,7 +31,10 @@ class SignUpTermsAgreement extends StatelessWidget {
           Wrap(
             children: [
               GdsGesture(
-                onTap: () {}, // TODO
+                onTap: () {
+                  // 서비스 이용약관 열기.
+                  launchUrl(Uri.parse(AppUrls.termsOfService));
+                },
                 child: GdsText(
                   '서비스이용약관',
                   color: .textGrayBold,
@@ -45,7 +50,10 @@ class SignUpTermsAgreement extends StatelessWidget {
               ),
 
               GdsGesture(
-                onTap: () {}, // TODO
+                onTap: () {
+                  // 개인정보 처리방침 열기.
+                  launchUrl(Uri.parse(AppUrls.privacyPolicy));
+                },
                 child: GdsText(
                   '개인정보처리방침',
                   color: .textGrayBold,

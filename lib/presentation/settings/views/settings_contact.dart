@@ -4,6 +4,7 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
+import 'package:grimity/app/app_urls.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// 카카오톡과 이메일 문의 항목을 표시하는 설정 화면.
@@ -15,9 +16,6 @@ class SettingsContact extends StatelessWidget with GdsListDetailPage {
 
   @override
   String get title => '문의하기';
-
-  /// 그리미티 카카오톡 오픈채팅방 URL.
-  static const kakaoTalkOpenChatUrl = 'https://open.kakao.com/o/sKYFewgh';
 
   /// 그리미티 문의 이메일 주소.
   static const email = 'support@grimity.com';
@@ -31,7 +29,7 @@ class SettingsContact extends StatelessWidget with GdsListDetailPage {
           label: '오픈 카카오톡으로 이동',
           onTap: () {
             // 그리미티 카카오톡 오픈채팅방 열기.
-            launchUrl(Uri.parse(kakaoTalkOpenChatUrl));
+            launchUrl(Uri.parse(AppUrls.kakaoTalkOpenChat));
           },
         ),
 
