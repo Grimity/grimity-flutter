@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:grimity/app/settings/app_settings.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
@@ -20,6 +21,9 @@ Future<void> main() async {
   // 첫 화면에 표시할 스플래시 로고 이미지를 미리 불러오기.
   await preloadImage(SplashPage.logoImage);
 
+  // 앱 설정 초기화.
+  await AppSettings.initialize();
+
   // API 관련 설정 초기화.
   Api.setup(AppNetwork.dio);
 
@@ -32,9 +36,16 @@ class GrimityApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GdsApp(
-      themeMode: .system, // TODO
-      initialPage: SplashPage(),
+    // 화면 테마 설정 변경에 따라 앱 테마 갱신.
+    return ListenableBuilder(
+      listenable: AppSettings.theme,
+      builder: (context, child) {
+        return GdsApp(
+          themeMode: AppSettings.theme.value,
+          initialPage: child!,
+        );
+      },
+      child: const SplashPage(),
     );
   }
 }
