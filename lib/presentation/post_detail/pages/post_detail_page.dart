@@ -19,7 +19,15 @@ import 'package:pervice/pervice.dart';
 
 /// 글 상세 정보와 댓글, 최신 게시글 목록을 표시하는 페이지.
 class PostDetailPage extends StatelessWidget {
-  const new({super.key, required this.id});
+  const new({
+    super.key,
+    required this.id,
+  });
+
+  /// 이용 안내 게시글.
+  const new guide({
+    super.key,
+  }) : id = '048ae290-4b1e-4292-9845-e4b2ca68ea6a';
 
   final String id;
 

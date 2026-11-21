@@ -14,9 +14,6 @@ class HomeBanner extends StatelessWidget {
   static const _smSize = Size(1372, 320);
   static const _lgSize = Size(4380, 360);
 
-  /// 홈 배너를 누르면 이동할 이용 안내 게시글의 아이디.
-  static const guidePostId = '048ae290-4b1e-4292-9845-e4b2ca68ea6a';
-
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
@@ -28,7 +25,7 @@ class HomeBanner extends StatelessWidget {
           }
 
           // 그리미티 이용 규칙에 대한 게시글 페이지로 이동.
-          context.push(PostDetailPage(id: guidePostId));
+          context.push(const PostDetailPage.guide());
         },
         child: AspectRatio(
           aspectRatio: context.whenDevice(

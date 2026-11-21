@@ -130,6 +130,17 @@ abstract class AppUser {
     status = .unauth;
   }
 
+  /// 서버에 회원 탈퇴를 요청하고 사용자 정보와 토큰을 초기화합니다.
+  static Future<void> delete() async {
+    await DeleteMe().request();
+    await AppSecureStorage.accessToken.delete();
+    await AppSecureStorage.refreshToken.delete();
+
+    _profile = null;
+    _albums = null;
+    status = .unauth;
+  }
+
   /// 저장된 토큰 유무에 따라 사용자 정보를 불러옵니다.
   static Future<void> initialize() async {
     if (await hasToken) {
