@@ -2,6 +2,7 @@
 // Licensed under the Grimity Source-Available License v1.0.
 // AI/ML training and dataset use are prohibited. See LICENSE.
 
+import 'package:grimity/presentation/notification/pages/notification_page.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/app/app_user.dart';
@@ -19,7 +20,10 @@ abstract class AppTopNavigation {
             // 검색 페이지로 이동.
             context.push(const SearchPage());
           },
-          onNotification: () {}, // TODO
+          onNotification: () {
+            // 알림 페이지로 이동.
+            context.push(const NotificationPage());
+          },
           onProfile: context.openDrawer,
           profile: profile.image?.toImage(),
           hasNotification: profile.hasNotification,
@@ -39,7 +43,10 @@ abstract class AppTopNavigation {
             // 검색 페이지로 이동.
             context.push(const SearchPage());
           },
-          onNotification: () {}, // TODO
+          onNotification: () {
+            // 알림 페이지로 이동.
+            context.push(const NotificationPage());
+          },
           onProfile: context.openDrawer,
           title: title,
           profile: profile.image?.toImage(),
