@@ -5,6 +5,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
+import 'package:grimity/app/app_user.dart';
 import 'package:grimity/extensions/model/notification_response.dart';
 import 'package:grimity/presentation/notification/widgets/notification_actions.dart';
 import 'package:grimity/presentation/notification/widgets/notification_app_bar.dart';
@@ -69,7 +70,10 @@ class NotificationPage extends StatelessWidget {
                       onTap: () {}, // TODO
                       onClose: () async {
                         await DeleteNotificationsById(id: notif.id).request();
-                        await service.refresh();
+                        await Future.wait([
+                          service.refresh(),
+                          AppUser.refresh(),
+                        ]);
                       },
                     );
                   },

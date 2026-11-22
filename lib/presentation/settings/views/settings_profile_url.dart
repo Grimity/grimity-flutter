@@ -34,7 +34,7 @@ class SettingsProfileUrl extends StatelessWidget {
 
         // 프로필 URL 변경 후 현재 사용자 정보 갱신.
         await service.request();
-        await AppUser.initialize();
+        await AppUser.refresh();
 
         // 프로필 URL 설정 화면을 닫고 변경 완료 메시지 표시.
         if (context.mounted) {

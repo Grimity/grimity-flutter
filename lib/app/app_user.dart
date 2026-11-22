@@ -141,6 +141,9 @@ abstract class AppUser {
     status = .unauth;
   }
 
+  /// 현재 사용자 정보를 다시 불러오고 로그인 상태를 갱신합니다.
+  static Future<void> refresh() => initialize();
+
   /// 저장된 토큰 유무에 따라 사용자 정보를 불러옵니다.
   static Future<void> initialize() async {
     if (await hasToken) {

@@ -5,6 +5,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
+import 'package:grimity/app/app_user.dart';
 
 /// 알림 전체 읽음과 삭제 버튼을 표시하는 위젯.
 class NotificationActions extends StatelessWidget {
@@ -35,7 +36,10 @@ class NotificationActions extends StatelessWidget {
             trailingIcon: .eye,
             onTap: () async {
               await PutNotifications().request();
-              await service.refresh();
+              await Future.wait([
+                service.refresh(),
+                AppUser.refresh(),
+              ]);
             },
           ),
 
@@ -55,7 +59,10 @@ class NotificationActions extends StatelessWidget {
             trailingIcon: .trashBinTrash,
             onTap: () async {
               await DeleteNotifications().request();
-              await service.refresh();
+              await Future.wait([
+                service.refresh(),
+                AppUser.refresh(),
+              ]);
             },
           ),
         ],
