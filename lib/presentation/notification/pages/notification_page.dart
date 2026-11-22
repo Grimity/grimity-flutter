@@ -15,6 +15,18 @@ import 'package:pervice/pervice.dart';
 class NotificationPage extends StatelessWidget {
   const new({super.key});
 
+  /// 알림 목록을 불러오는 동안 표시할 임시 데이터.
+  static final placeholder = List.generate(5, (_) {
+    return NotificationResponse(
+      id: '',
+      createdAt: .now(),
+      isRead: false,
+      link: '',
+      image: null,
+      message: 'Placeholder',
+    );
+  });
+
   @override
   Widget build(BuildContext context) {
     final service = context.serviceOf(GetNotifications.new);
@@ -28,8 +40,9 @@ class NotificationPage extends StatelessWidget {
 
           // 알림 목록 표시
           Expanded(
-            child: service.page(
-              loaded: (notifs) {
+            child: service.builder(
+              placeholder: placeholder,
+              builder: (notifs) {
                 // 알림이 아예 없을 경우.
                 if (notifs.isEmpty) {
                   return Center(
