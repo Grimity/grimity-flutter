@@ -11,21 +11,9 @@ import 'package:grimity/presentation/notification/widgets/notification_actions.d
 import 'package:grimity/presentation/notification/widgets/notification_app_bar.dart';
 import 'package:pervice/pervice.dart';
 
-///
+/// 알림 목록을 조회하고 전체 읽음과 삭제 기능을 제공하는 페이지.
 class NotificationPage extends StatelessWidget {
   const new({super.key});
-
-  /// 알림 목록을 불러오는 동안 표시할 임시 데이터.
-  static final placeholder = List.generate(10, (_) {
-    return NotificationResponse(
-      id: '',
-      createdAt: .now(),
-      isRead: false,
-      link: '',
-      image: null,
-      message: 'Placeholder',
-    );
-  });
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +28,8 @@ class NotificationPage extends StatelessWidget {
 
           // 알림 목록 표시
           Expanded(
-            child: service.builder(
-              placeholder: placeholder,
-              builder: (notifs) {
+            child: service.page(
+              loaded: (notifs) {
                 // 알림이 아예 없을 경우.
                 if (notifs.isEmpty) {
                   return Center(
