@@ -24,13 +24,18 @@ abstract class AppUser {
   /// 현재 사용자 상태를 관리하고 변경을 알리기 위해 사용됩니다.
   static final statusNotifier = ValueNotifier(AppUserStatus.loading);
 
-  /// 마지막으로 불러온 현재 사용자의 프로필.
-  static MyProfileResponse? _profile;
+  /// 현재 사용자의 프로필 정보를 관리하고 변경을 알리기 위해 사용됩니다.
+  static final profileNotifier = ValueNotifier<MyProfileResponse?>(null);
 
   /// 사용자의 프로필 정보를 반환합니다.
   static MyProfileResponse get profile {
-    assert(_profile != null);
-    return _profile ?? (throw StateError('불러오기 전에는 참조되지 않아야 합니다.'));
+    assert(profileNotifier.value != null);
+    return profileNotifier.value ?? (throw StateError('불러오기 전에는 참조되지 않아야 합니다.'));
+  }
+
+  /// 사용자의 프로필 정보를 변경하고 이를 알립니다.
+  static set profile(MyProfileResponse? newValue) {
+    profileNotifier.value = newValue;
   }
 
   /// 마지막으로 불러온 현재 사용자의 앨범 목록.
@@ -125,7 +130,7 @@ abstract class AppUser {
     await AppSecureStorage.accessToken.delete();
     await AppSecureStorage.refreshToken.delete();
 
-    _profile = null;
+    profile = null;
     _albums = null;
     status = .unauth;
   }
@@ -136,7 +141,7 @@ abstract class AppUser {
     await AppSecureStorage.accessToken.delete();
     await AppSecureStorage.refreshToken.delete();
 
-    _profile = null;
+    profile = null;
     _albums = null;
     status = .unauth;
   }
@@ -148,13 +153,13 @@ abstract class AppUser {
   static Future<void> initialize() async {
     if (await hasToken) {
       try {
-        final (profile, albums) = await (
+        final (newProfile, newAlbums) = await (
           GetMe().request(),
           GetMeAlbums().request(),
         ).wait;
 
-        _profile = profile;
-        _albums = albums;
+        profile = newProfile;
+        _albums = newAlbums;
         status = .loaded;
       } catch (_) {
         status = .unauth;

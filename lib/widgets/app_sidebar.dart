@@ -11,6 +11,7 @@ import 'package:grimity/presentation/follow/screens/follow_screen.dart';
 import 'package:grimity/presentation/profile/pages/profile_page.dart';
 import 'package:grimity/presentation/settings/pages/settings_page.dart';
 import 'package:grimity/presentation/storage/pages/storage_page.dart';
+import 'package:pervice/pervice.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// 프로필, 팔로우 정보, 탭 목록과 서비스 정보를 표시하는 사이드바 위젯.
@@ -19,6 +20,8 @@ class AppSidebar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.watch(AppUser.profileNotifier);
+
     return GdsSidebar(
       size: context.whenDevice(
         mobile: .md,
