@@ -10,6 +10,7 @@ import 'package:grimity/extensions/model/notification_response.dart';
 import 'package:grimity/presentation/notification/widgets/notification_actions.dart';
 import 'package:grimity/presentation/notification/widgets/notification_app_bar.dart';
 import 'package:pervice/pervice.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// 알림 목록을 조회하고 전체 읽음과 삭제 기능을 제공하는 페이지.
 class NotificationPage extends StatelessWidget {
@@ -67,7 +68,19 @@ class NotificationPage extends StatelessWidget {
                       content: notif.message,
                       createdAt: notif.createdAt,
                       read: notif.isRead,
-                      onTap: () {}, // TODO
+                      onTap: () async {
+                        // 알림에 연결된 링크 열기.
+                        launchUrl(Uri.parse(notif.link), mode: .externalApplication);
+
+                        // 읽지 않은 알림만 읽음 처리.
+                        if (!notif.isRead) {
+                          await PutNotificationsById(id: notif.id).request();
+                          await Future.wait([
+                            service.refresh(),
+                            AppUser.refresh(),
+                          ]);
+                        }
+                      },
                       onClose: () async {
                         await DeleteNotificationsById(id: notif.id).request();
                         await Future.wait([
