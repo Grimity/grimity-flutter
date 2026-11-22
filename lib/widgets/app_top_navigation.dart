@@ -7,6 +7,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/app/app_user.dart';
 import 'package:grimity/presentation/search/pages/search_page.dart';
+import 'package:pervice/pervice.dart';
 
 /// 화면 상단에 위치한 내비게이션으로, 작은 화면을 디자인할 때 사용됩니다.
 abstract class AppTopNavigation {
@@ -14,6 +15,8 @@ abstract class AppTopNavigation {
   static Widget main({Key? key}) {
     return Builder(
       builder: (context) {
+        context.watch(AppUser.profileNotifier);
+
         return GdsTopNavigation.main(
           key: key,
           onSearch: () {
@@ -36,6 +39,8 @@ abstract class AppTopNavigation {
   static Widget title({Key? key, String? title}) {
     return Builder(
       builder: (context) {
+        context.watch(AppUser.profileNotifier);
+
         return GdsTopNavigation.title(
           key: key,
           onBack: context.pop,
