@@ -5,6 +5,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/presentation/board/pages/board_page.dart';
+import 'package:grimity/presentation/chat_list/pages/chat_list_page.dart';
 import 'package:grimity/presentation/following_feed/pages/following_feed_page.dart';
 import 'package:grimity/presentation/home/pages/home_page.dart';
 import 'package:grimity/presentation/navigation/navigation_view.dart';
@@ -23,7 +24,7 @@ class NavigationPage extends StatelessWidget {
     FeedRankingPage(),
     FollowingFeedPage(),
     BoardPage(),
-    _Test(icon: .message, label: 'DM', action: false),
+    ChatListPage(),
   ];
 
   /// 지정한 인덱스의 내비게이션 화면으로 이동합니다.
@@ -118,41 +119,6 @@ class NavigationPage extends StatelessWidget {
               }),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _Test extends StatelessWidget with NavigationView {
-  const new({
-    required this.icon,
-    required this.label,
-    required this.action,
-  });
-
-  final bool action;
-
-  @override
-  final GdsIcon icon;
-
-  @override
-  final String label;
-
-  @override
-  bool get hasAction => action;
-
-  @override
-  Widget build(BuildContext context) {
-    final counter = context.stateOf(() => 0);
-
-    return Center(
-      child: GdsGesture(
-        onTap: () => counter.value = counter.value + 1,
-        child: GdsText(
-          '$label ${counter.value}',
-          color: .textGrayBold,
-          style: .title1,
         ),
       ),
     );
