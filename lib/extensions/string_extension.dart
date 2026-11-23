@@ -8,4 +8,9 @@ extension StringExtension on String {
   bool get isEmail {
     return RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(this);
   }
+
+  /// 빈 문자열이면 null을, 아니면 문자열을 그대로 반환합니다.
+  String? get orNull {
+    return isEmpty ? null : this;
+  }
 }
