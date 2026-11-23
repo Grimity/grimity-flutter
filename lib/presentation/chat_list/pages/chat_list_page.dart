@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_appbar/flutter_appbar.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
+import 'package:grimity/presentation/chat_list/service/chat_list_service.dart';
 import 'package:grimity/presentation/chat_list/widgets/chat_list_actions.dart';
 import 'package:grimity/presentation/chat_list/widgets/chat_list_header.dart';
 import 'package:grimity/presentation/navigation/navigation_view.dart';
@@ -27,6 +28,9 @@ class ChatListPage extends StatelessWidget with NavigationView {
 
   @override
   String get label => 'DM';
+
+  /// 채팅 목록 새로고침을 요청하는 알림.
+  static final refreshNotifier = Notifier();
 
   /// 채팅 목록을 불러오는 동안 표시할 임시 데이터.
   static final placeholder = [
@@ -54,14 +58,8 @@ class ChatListPage extends StatelessWidget with NavigationView {
   ];
 
   /// 검색어에 맞는 채팅 목록을 조회하는 서비스를 생성합니다.
-  LoadMoreService<ChatsResponse> createService(String keyword) {
-    return .new(
-      builder: (cursor) => GetChats(
-        cursor: cursor,
-        keyword: keyword.isEmpty ? null : keyword,
-      ),
-      cursorOf: (data) => data.nextCursor,
-    );
+  ChatListService createService(String keyword) {
+    return .new(keyword: keyword, listenable: refreshNotifier);
   }
 
   @override
@@ -89,81 +87,78 @@ class ChatListPage extends StatelessWidget with NavigationView {
           ),
         ),
       ],
-      child: GdsPullToRefresh(
-        onRefresh: service.refresh,
-        child: GdsInfiniteScroll(
-          onLoadMore: service.loadMore,
-          enabled: service.canLoreMore,
-          child: SliverScrollView(
-            padding: context.whenDevice(
-              mobile: 12.top + 20.horizontal,
-              tablet: 8.top + 20.horizontal,
-            ),
-            slivers: [
-              // 편집 모드에 대한 액션 버튼 고정 표시
-              PinnedHeaderSliver(
-                child: ChatListActions(
-                  service: service,
-                  selectedChats: selectedChats,
-                  mode: mode,
-                ),
+      child: GdsInfiniteScroll(
+        onLoadMore: service.loadMore,
+        enabled: service.canLoreMore,
+        child: SliverScrollView(
+          padding: context.whenDevice(
+            mobile: 12.top + 20.horizontal,
+            tablet: 8.top + 20.horizontal,
+          ),
+          slivers: [
+            // 편집 모드에 대한 액션 버튼 고정 표시
+            PinnedHeaderSliver(
+              child: ChatListActions(
+                service: service,
+                selectedChats: selectedChats,
+                mode: mode,
               ),
+            ),
 
-              // 알림 목록 표시
-              service.sliver(
-                placeholder: placeholder,
-                builder: (data) {
-                  final chats = data.expand((e) => e.chats).toList();
+            // 알림 목록 표시
+            service.sliver(
+              placeholder: placeholder,
+              builder: (data) {
+                final chats = data.expand((e) => e.chats).toList();
 
-                  // 채팅이 아예 없을 경우.
-                  if (chats.isEmpty) {
-                    return SliverToBoxAdapter(
-                      child: GdsEmptyState(
-                        illust: .illustReply,
-                        title: '아직 주고 받은 메시지가 없어요',
-                        description: '다른 작가에게 사진과 메시지를\n보낼 수 있어요',
-                        action: .new(
-                          type: .outlined,
-                          label: '새 메세지 보내기',
-                          onTap: () {}, // TODO
-                        ),
+                // 채팅이 아예 없을 경우.
+                if (chats.isEmpty) {
+                  return SliverToBoxAdapter(
+                    child: GdsEmptyState(
+                      illust: .illustReply,
+                      title: '아직 주고 받은 메시지가 없어요',
+                      description: '다른 작가에게 사진과 메시지를\n보낼 수 있어요',
+                      action: .new(
+                        type: .outlined,
+                        label: '새 메세지 보내기',
+                        onTap: () {}, // TODO
+                      ),
+                    ),
+                  );
+                }
+
+                return SliverList.builder(
+                  itemCount: chats.length,
+                  itemBuilder: (context, index) {
+                    final chat = chats[index];
+                    final user = chat.opponentUser;
+                    final lastMessage = chat.lastMessage;
+                    final isSelected = selectedChats.value.contains(chat);
+
+                    return GdsControl.foldable(
+                      visible: mode.value == .edit,
+                      spacing: 12,
+                      control: GdsCheckBox(size: .md, value: isSelected),
+                      onTap: () {
+                        isSelected
+                            ? selectedChats.remove(chat) //
+                            : selectedChats.add(chat);
+                      },
+                      child: GdsDmList(
+                        profile: user.image?.toImage(),
+                        nickname: user.name,
+                        message: lastMessage == null
+                            ? '최근 메시지가 없어요' // 메세지가 아예 없을 경우.
+                            : lastMessage.content ?? '사진을 보냈어요',
+                        createdAt: chat.enteredAt,
+                        onTap: () {}, // TODO
                       ),
                     );
-                  }
-
-                  return SliverList.builder(
-                    itemCount: chats.length,
-                    itemBuilder: (context, index) {
-                      final chat = chats[index];
-                      final user = chat.opponentUser;
-                      final lastMessage = chat.lastMessage;
-                      final isSelected = selectedChats.value.contains(chat);
-
-                      return GdsControl.foldable(
-                        visible: mode.value == .edit,
-                        spacing: 12,
-                        control: GdsCheckBox(size: .md, value: isSelected),
-                        onTap: () {
-                          isSelected
-                              ? selectedChats.remove(chat) //
-                              : selectedChats.add(chat);
-                        },
-                        child: GdsDmList(
-                          profile: user.image?.toImage(),
-                          nickname: user.name,
-                          message: lastMessage == null
-                              ? '최근 메시지가 없어요' // 메세지가 아예 없을 경우.
-                              : lastMessage.content ?? '사진을 보냈어요',
-                          createdAt: chat.enteredAt,
-                          onTap: () {}, // TODO
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-            ],
-          ),
+                  },
+                );
+              },
+            ),
+          ],
         ),
       ),
     );

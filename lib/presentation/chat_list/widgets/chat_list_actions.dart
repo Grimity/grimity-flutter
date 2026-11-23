@@ -66,8 +66,9 @@ class ChatListActions extends StatelessWidget {
 
                       // 선택한 채팅방을 나간 뒤 목록 새로고침.
                       await PostChatsBatchDelete(request: .new(ids: ids)).request();
+
                       selectedChats.clear();
-                      service.refresh();
+                      ChatListPage.refreshNotifier.notify();
                     },
                   ),
 
