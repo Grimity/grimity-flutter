@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/presentation/chat_list/pages/chat_list_page.dart';
+import 'package:grimity/presentation/chat_new/screens/new_chat_screen.dart';
 import 'package:pervice/pervice.dart';
 
 /// 채팅 목록의 헤더 제목, 액션 버튼과 검색 필드를 표시하는 위젯.
@@ -54,7 +55,10 @@ class ChatListHeader extends StatelessWidget {
                 type: .outlined,
                 size: .sm,
                 label: '새 메세지',
-                onTap: () {}, // TODO
+                onTap: () {
+                  // 새 채팅 화면 열기.
+                  const NewChatScreen().push(context);
+                },
                 enabled: mode.value == .none,
               ),
 

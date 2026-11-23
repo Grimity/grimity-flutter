@@ -9,6 +9,7 @@ import 'package:grimity/api/api.dart';
 import 'package:grimity/presentation/chat_list/service/chat_list_service.dart';
 import 'package:grimity/presentation/chat_list/widgets/chat_list_actions.dart';
 import 'package:grimity/presentation/chat_list/widgets/chat_list_header.dart';
+import 'package:grimity/presentation/chat_new/screens/new_chat_screen.dart';
 import 'package:grimity/presentation/navigation/navigation_view.dart';
 import 'package:grimity/widgets/sliver_scroll_view.dart';
 import 'package:pervice/pervice.dart';
@@ -121,7 +122,10 @@ class ChatListPage extends StatelessWidget with NavigationView {
                       action: .new(
                         type: .outlined,
                         label: '새 메세지 보내기',
-                        onTap: () {}, // TODO
+                        onTap: () {
+                          // 새 채팅 화면 열기.
+                          const NewChatScreen().push(context);
+                        },
                       ),
                     ),
                   );
