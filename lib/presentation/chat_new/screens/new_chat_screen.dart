@@ -1,7 +1,12 @@
+// Copyright © 2026 Grimity. All rights reserved.
+// Licensed under the Grimity Source-Available License v1.0.
+// AI/ML training and dataset use are prohibited. See LICENSE.
+
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
 import 'package:grimity/extensions/string_extension.dart';
+import 'package:grimity/presentation/chat/pages/chat_page.dart';
 import 'package:grimity/presentation/chat_new/widgets/new_chat_empty_state.dart';
 import 'package:grimity/presentation/chat_new/widgets/new_chat_search_bar.dart';
 import 'package:grimity/widgets/app_top_navigation.dart';
@@ -39,7 +44,7 @@ class NewChatScreen extends GdsBasicScreen {
   }
 
   /// 검색어에 맞는 팔로잉 목록을 조회하는 서비스를 생성합니다.
-  LoadMoreService<MyFollowingsResponse> createService(String keyword) {
+  static LoadMoreService<MyFollowingsResponse> createService(String keyword) {
     return .new(
       builder: (cursor) => GetMeFollowings(
         cursor: cursor,
@@ -98,7 +103,7 @@ class NewChatScreen extends GdsBasicScreen {
                           nickname: user.name,
                           profile: user.image?.toImage(),
                           handle: user.url,
-                          onUser: () {}, // TODO
+                          onUser: () => startChat(context, user.id),
                         );
                       },
                     );
@@ -110,5 +115,19 @@ class NewChatScreen extends GdsBasicScreen {
         ],
       ),
     );
+  }
+
+  /// 사용자와 채팅방을 생성하고 해당 채팅 페이지로 이동합니다.
+  static Future<void> startChat(
+    BuildContext context,
+    String userId,
+  ) async {
+    final service = PostChats(request: .new(targetUserId: userId));
+    final response = await service.request();
+
+    // 생성된 채팅방으로 이동.
+    if (context.mounted) {
+      context.pushReplacement(ChatPage(id: response.id));
+    }
   }
 }

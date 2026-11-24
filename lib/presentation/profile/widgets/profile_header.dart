@@ -9,6 +9,7 @@ import 'package:grimity/app/app_use_case.dart';
 import 'package:grimity/extensions/model/link_response.dart';
 import 'package:grimity/extensions/model/user_profile_response.dart';
 import 'package:grimity/presentation/block/screens/block_screen.dart';
+import 'package:grimity/presentation/chat_new/screens/new_chat_screen.dart';
 import 'package:grimity/presentation/profile/views/show_profile_links_modal.dart';
 import 'package:grimity/presentation/profile_edit/screens/profile_edit_screen.dart';
 import 'package:grimity/presentation/report/screens/report_screen.dart';
@@ -274,7 +275,7 @@ class ProfileHeader extends GdsAdaptiveWidget {
             if (!data.isMe) ...[
               .new(
                 label: '메세지 보내기',
-                onTap: () {}, // TODO
+                onTap: () => NewChatScreen.startChat(context, data.id),
               ),
 
               .new(

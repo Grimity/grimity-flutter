@@ -6,7 +6,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_appbar/flutter_appbar.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
-import 'package:grimity/presentation/chat_list/service/chat_list_service.dart';
+import 'package:grimity/app/app_user.dart';
+import 'package:grimity/presentation/chat/pages/chat_page.dart';
+import 'package:grimity/presentation/chat_list/services/chat_list_service.dart';
 import 'package:grimity/presentation/chat_list/widgets/chat_list_actions.dart';
 import 'package:grimity/presentation/chat_list/widgets/chat_list_header.dart';
 import 'package:grimity/presentation/chat_new/screens/new_chat_screen.dart';
@@ -29,6 +31,9 @@ class ChatListPage extends StatelessWidget with NavigationView {
 
   @override
   String get label => 'DM';
+
+  @override
+  bool get showDot => profile.hasUnreadChatMessage;
 
   /// 채팅 목록 새로고침을 요청하는 알림.
   static final refreshNotifier = Notifier();
@@ -59,7 +64,7 @@ class ChatListPage extends StatelessWidget with NavigationView {
   ];
 
   /// 검색어에 맞는 채팅 목록을 조회하는 서비스를 생성합니다.
-  ChatListService createService(String keyword) {
+  static ChatListService createService(String keyword) {
     return .new(keyword: keyword, listenable: refreshNotifier);
   }
 
@@ -139,6 +144,11 @@ class ChatListPage extends StatelessWidget with NavigationView {
                     final lastMessage = chat.lastMessage;
                     final isSelected = selectedChats.value.contains(chat);
 
+                    // 채팅 항목에 표시할 최근 메시지 미리보기.
+                    final preview = lastMessage == null
+                        ? '최근 메시지가 없어요' //
+                        : lastMessage.content ?? '사진을 보냈어요';
+
                     return GdsControl.foldable(
                       visible: mode.value == .edit,
                       spacing: 12,
@@ -151,11 +161,13 @@ class ChatListPage extends StatelessWidget with NavigationView {
                       child: GdsDmList(
                         profile: user.image?.toImage(),
                         nickname: user.name,
-                        message: lastMessage == null
-                            ? '최근 메시지가 없어요' // 메세지가 아예 없을 경우.
-                            : lastMessage.content ?? '사진을 보냈어요',
+                        message: preview,
                         createdAt: chat.enteredAt,
-                        onTap: () {}, // TODO
+                        unreadCount: chat.unreadCount.toInt(),
+                        onTap: () {
+                          // 채팅방 페이지로 이동.
+                          context.push(ChatPage(id: chat.id));
+                        },
                       ),
                     );
                   },

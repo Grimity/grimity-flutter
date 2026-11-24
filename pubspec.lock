@@ -668,7 +668,7 @@ packages:
     description:
       path: "packages/gds_flutter"
       ref: HEAD
-      resolved-ref: "45c0f5fbe0b0ee4383ee51874dcddc91b26514ff"
+      resolved-ref: "73322b024c2e48eabf313aeb3b7d0e6446d9a1ba"
       url: "https://github.com/Grimity/gds-flutter.git"
     source: git
     version: "0.0.0"
@@ -1382,6 +1382,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.12"
+  socket_io_client:
+    dependency: "direct main"
+    description:
+      name: socket_io_client
+      sha256: f5990ff303d385e7b2150f0e57cca097a8d20c6a2ae0a22cb2d496661ea8ed9b
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.6"
+  socket_io_common:
+    dependency: transitive
+    description:
+      name: socket_io_common
+      sha256: "162fbaecbf4bf9a9372a62a341b3550b51dcef2f02f3e5830a297fd48203d45b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.1"
   source_span:
     dependency: transitive
     description:
@@ -1646,6 +1662,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
+  web_socket:
+    dependency: transitive
+    description:
+      name: web_socket
+      sha256: "34d64019aa8e36bf9842ac014bb5d2f5586ca73df5e4d9bf5c936975cae6982c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   win32:
     dependency: transitive
     description:
