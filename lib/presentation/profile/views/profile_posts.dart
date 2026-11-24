@@ -120,17 +120,12 @@ class ProfilePosts extends StatelessWidget with GdsTabView {
                 ),
 
                 // 내비게이션 표시
-                service.sliver(
-                  placeholder: placeholder,
-                  builder: (posts) {
-                    return SliverPostNavigation(
-                      page: page.value,
-                      totalCount: data.postCount.toInt(),
-                      onChanged: (index) {
-                        controller.animateToTop();
-                        page.value = index;
-                      },
-                    );
+                SliverPostNavigation(
+                  page: page.value,
+                  totalCount: data.postCount.toInt(),
+                  onChanged: (index) {
+                    controller.animateToTop();
+                    page.value = index;
                   },
                 ),
               ],
