@@ -12,6 +12,7 @@ import 'package:grimity/presentation/following_feed/widgets/following_feed_carou
 import 'package:grimity/presentation/following_feed/widgets/following_feed_comment.dart';
 import 'package:grimity/presentation/navigation/navigation_page.dart';
 import 'package:grimity/presentation/profile/pages/profile_page.dart';
+import 'package:grimity/presentation/report/screens/report_screen.dart';
 import 'package:pervice/pervice.dart';
 
 /// 팔로우한 작가의 피드를 이미지, 본문과 댓글을 포함하여 이를 목록으로 표시하는 위젯.
@@ -85,6 +86,7 @@ class FollowingFeeds extends StatelessWidget {
           separatorBuilder: (_, _) => const Gap(24),
           itemCount: feeds.length,
           itemBuilder: (context, index) {
+            final layerLink = context.useLayerLink();
             final feed = feeds[index];
 
             // SHARED STATE
@@ -112,9 +114,11 @@ class FollowingFeeds extends StatelessWidget {
                   nickname: feed.author.name,
                   profile: feed.author.image?.toImage(),
                   actions: [
+                    // 더보기 메뉴
                     .new(
                       icon: .dotmenuHorizontal,
-                      onTap: () {}, // TODO
+                      layerLink: layerLink,
+                      onTap: () => onMenu(context, layerLink, feed),
                     ),
                   ],
                   onUser: () {
@@ -199,6 +203,40 @@ class FollowingFeeds extends StatelessWidget {
               ],
             );
           },
+        );
+      },
+    );
+  }
+
+  /// 팔로잉 피드 항목의 더보기 메뉴를 엽니다.
+  void onMenu(
+    BuildContext context,
+    LayerLink layerLink,
+    FollowingFeedResponse feed,
+  ) {
+    GdsAdaptiveMenu.show(
+      context,
+      layerLink: layerLink,
+      position: .right,
+      builder: (context) {
+        return .new(
+          items: [
+            .new(
+              label: '신고하기',
+              onTap: () {
+                // 해당 피드의 신고 화면으로 이동.
+                final screen = ReportScreen(refId: feed.id, refType: .feed);
+                screen.pushReplacement(context);
+              },
+            ),
+            .new(
+              label: '유저 프로필로 이동',
+              onTap: () {
+                // 해당 작가의 프로필 페이지로 이동.
+                context.pushReplacement(ProfilePage(url: feed.author.url));
+              },
+            ),
+          ],
         );
       },
     );
