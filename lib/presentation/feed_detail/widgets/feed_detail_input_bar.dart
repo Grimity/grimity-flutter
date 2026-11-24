@@ -29,7 +29,7 @@ class FeedDetailInputBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = context.useTextEditingController();
     final content = context.stateOf(() => '');
-    final canSubmit = content.isNotEmpty;
+    final canSubmit = content.trimmed.isNotEmpty;
 
     // SHARED STATE
     final mention = context.sharedStateOf<FeedMention?>(
@@ -56,7 +56,7 @@ class FeedDetailInputBar extends StatelessWidget {
           final postFeed = PostFeedComments(
             request: .new(
               feedId: id,
-              content: content.value,
+              content: content.trimmed,
               mentionedUserId: mention.value?.userId,
               parentCommentId: mention.value?.parentCommentId,
             ),

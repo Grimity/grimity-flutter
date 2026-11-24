@@ -21,7 +21,7 @@ Future<String?> showAlbumRenameModal(
         title: '앨범명 변경',
         primaryButton: .new(
           label: '변경하기',
-          onTap: () => context.pop(newName.value),
+          onTap: () => context.pop(newName.trimmed),
           enabled: enabled,
         ),
         secondaryButton: .new(

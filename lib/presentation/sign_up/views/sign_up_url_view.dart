@@ -29,7 +29,7 @@ class SignUpUrlView extends SignUpView {
 
   // URL의 길이가 2 이상인 경우.
   @override
-  bool get canSubmit => url.length >= 2;
+  bool get canSubmit => url.trim().length >= 2;
 
   @override
   Future<SignUpView?> onSubmit(BuildContext context) async {
@@ -40,7 +40,7 @@ class SignUpUrlView extends SignUpView {
         widget.provider,
         widget.accessToken,
         nickname,
-        url,
+        url.trim(),
       );
 
       return SignUpWelcomeView();

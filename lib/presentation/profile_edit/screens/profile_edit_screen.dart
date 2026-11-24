@@ -112,10 +112,10 @@ class ProfileEditScreen extends GdsEditorScreen {
 
     final service = PutMe(
       request: .new(
-        name: model.nickname,
-        url: model.url,
-        description: model.description,
-        links: model.links.builder((e) => .new(linkName: e.linkName, link: e.link)),
+        name: model.nickname.trim(),
+        url: model.url.trim(),
+        description: model.description.trim(),
+        links: model.links.builder((e) => .new(linkName: e.linkName.trim(), link: e.link.trim())),
       ),
     );
 

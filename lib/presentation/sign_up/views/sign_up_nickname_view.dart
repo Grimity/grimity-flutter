@@ -28,18 +28,18 @@ class SignUpNicknameView extends SignUpView {
   // 관련 약관을 동의함과 동시에 입력된 닉네임의 길이가 2~12인 경우.
   @override
   bool get canSubmit {
-    return nickname.length >= 2 && nickname.length <= 12 && isAgree;
+    return nickname.trim().length >= 2 && nickname.trim().length <= 12 && isAgree;
   }
 
   @override
   Future<SignUpView?> onSubmit(BuildContext context) async {
     try {
-      await PostUsersNameCheck(request: .new(name: nickname)).request();
+      await PostUsersNameCheck(request: .new(name: nickname.trim())).request();
 
       // 뒤로 가기를 고려하여 성공 시 에러 메시지 초기화.
       errorMessage = null;
 
-      return SignUpUrlView(nickname);
+      return SignUpUrlView(nickname.trim());
     } on DioException catch (error) {
       errorMessage = switch (error.response?.statusCode) {
         // 유효성 검사에서 실패했을 경우.

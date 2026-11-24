@@ -52,7 +52,7 @@ class PostUploadAppBar extends StatelessWidget {
   /// 제목과 HTML 본문으로 글을 생성하거나 수정합니다.
   Future<void> submit(BuildContext context, PostUploadModel model) async {
     final request = CreatePostRequest(
-      title: model.title,
+      title: model.title.trim(),
       content: model.content,
       type: model.type,
     );

@@ -47,7 +47,7 @@ class ProfileEditModel({
       }
     }
 
-    return nickname.length >= 2 && url.trim().isNotEmpty && hasChanges;
+    return nickname.trim().length >= 2 && url.trim().isNotEmpty && hasChanges;
   }
 
   /// 지정한 값을 반영한 새 모델을 반환합니다.

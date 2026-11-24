@@ -18,14 +18,14 @@ class SettingsNickname extends StatelessWidget {
     final newNickname = context.stateOf(() => oldNickname);
 
     // 닉네임이 변경되어 제출할 수 있는지 여부.
-    final canSubmit = oldNickname != newNickname.value;
+    final canSubmit = newNickname.trimmed.isNotEmpty && oldNickname != newNickname.trimmed;
 
     // 입력한 새 닉네임을 프로필에 반영합니다.
     void onSubmit() async {
       try {
         final service = PutMe(
           request: .new(
-            name: newNickname.value,
+            name: newNickname.trimmed,
             url: profile.url,
             description: profile.description,
           ),

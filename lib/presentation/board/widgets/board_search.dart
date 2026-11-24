@@ -52,7 +52,7 @@ class BoardSearch extends StatelessWidget {
         Flexible(
           child: GdsTextField.search(
             size: .sm,
-            onSubmitted: keyword.setter,
+            onSubmitted: (value) => keyword.value = value.trim(),
             placeholder: '검색어를 입력하세요',
           ),
         ),

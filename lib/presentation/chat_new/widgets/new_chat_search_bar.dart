@@ -28,7 +28,7 @@ class NewChatSearchBar extends StatelessWidget {
       child: GdsTextField.search(
         size: .md,
         placeholder: '누구에게 메시지를 보낼까요?',
-        onSubmitted: keyword.setter,
+        onSubmitted: (value) => keyword.value = value.trim(),
 
         // 팔로잉한 작가가 한 명이라도 있을 때만 활성화.
         status: .from(enabled: profile.followingCount > 0),

@@ -29,7 +29,7 @@ class PostDetailInputBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = context.useTextEditingController();
     final content = context.stateOf(() => '');
-    final canSubmit = content.isNotEmpty;
+    final canSubmit = content.trimmed.isNotEmpty;
 
     // SHARED STATE
     final mention = context.sharedStateOf<PostMention?>(
@@ -57,7 +57,7 @@ class PostDetailInputBar extends StatelessWidget {
           final postFeed = PostPostComments(
             request: .new(
               postId: id,
-              content: content.value,
+              content: content.trimmed,
               mentionedUserId: mention.value?.userId,
               parentCommentId: mention.value?.parentCommentId,
             ),

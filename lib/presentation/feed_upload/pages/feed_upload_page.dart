@@ -157,9 +157,9 @@ class FeedUploadPage extends StatelessWidget {
           final service = PutFeedsById(
             id: initialFeed!.id,
             request: .new(
-              title: model.title,
+              title: model.title.trim(),
               cards: cards,
-              content: model.content,
+              content: model.content.trim(),
               tags: model.tags,
               thumbnail: cards[thumbnailIndex],
               albumId: model.album?.id,
@@ -179,9 +179,9 @@ class FeedUploadPage extends StatelessWidget {
         } else {
           final service = PostFeeds(
             request: .new(
-              title: model.title,
+              title: model.title.trim(),
               cards: cards,
-              content: model.content,
+              content: model.content.trim(),
               tags: model.tags,
               thumbnail: cards[thumbnailIndex],
               albumId: model.album?.id,

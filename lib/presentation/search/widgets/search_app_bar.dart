@@ -21,7 +21,7 @@ class SearchAppBar extends StatelessWidget {
       onBack: context.pop,
       text: keyword.value,
       initialText: keyword.value,
-      onSubmitted: keyword.setter,
+      onSubmitted: (value) => keyword.value = value.trim(),
       placeholder: '그림, 작가, 글을 검색해보세요.',
     );
   }

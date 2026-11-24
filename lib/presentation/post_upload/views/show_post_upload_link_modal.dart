@@ -13,12 +13,12 @@ Future<GdsLink?> showPostUploadLinkModal(BuildContext context) {
     builder: (context) {
       final name = context.stateOf<String?>(() => null);
       final url = context.stateOf<String>(() => '');
-      final canSubmit = url.isNotEmpty;
+      final canSubmit = url.trimmed.isNotEmpty;
 
       // 링크 이름이 없으면 URL을 표시 이름으로 사용.
       final GdsLink link = (
-        name: name.value ?? url.value,
-        url: url.value,
+        name: name.value?.trim() ?? url.trimmed,
+        url: url.trimmed,
       );
 
       return GdsAdaptiveModal(

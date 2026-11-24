@@ -78,7 +78,7 @@ class ChatListHeader extends StatelessWidget {
             size: .sm,
             placeholder: '작가 이름을 검색해보세요',
             initialText: keyword.value,
-            onSubmitted: keyword.setter,
+            onSubmitted: (value) => keyword.value = value.trim(),
             status: .from(enabled: hasData || keyword.isNotEmpty),
           ),
         ],

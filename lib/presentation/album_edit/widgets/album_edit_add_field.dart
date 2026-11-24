@@ -22,7 +22,7 @@ class AlbumEditAddField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final albumName = context.stateOf(() => '');
-    final isTooLong = albumName.length > 15;
+    final isTooLong = albumName.trimmed.length > 15;
 
     return GdsInput.title(
       title: '새 앨범 추가',
@@ -40,7 +40,7 @@ class AlbumEditAddField extends StatelessWidget {
         onTap: () => onAdd(context, albumName),
 
         // 앨범 이름이 비어 있지 않고 15자 이하일 경우.
-        enabled: albumName.isNotEmpty && !isTooLong,
+        enabled: albumName.trimmed.isNotEmpty && !isTooLong,
       ),
     );
   }

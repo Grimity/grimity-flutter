@@ -19,7 +19,7 @@ class SettingsProfileUrl extends StatelessWidget {
     final newUrl = context.stateOf(() => oldUrl);
 
     // 프로필 URL이 변경되어 제출할 수 있는지 여부.
-    final canSubmit = oldUrl != newUrl.value;
+    final canSubmit = newUrl.trimmed.isNotEmpty && oldUrl != newUrl.trimmed;
 
     // 입력한 새 프로필 URL을 프로필에 반영합니다.
     void onSubmit() async {
@@ -27,7 +27,7 @@ class SettingsProfileUrl extends StatelessWidget {
         final service = PutMe(
           request: .new(
             name: profile.name,
-            url: newUrl.value,
+            url: newUrl.trimmed,
             description: profile.description,
           ),
         );
