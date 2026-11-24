@@ -668,7 +668,7 @@ packages:
     description:
       path: "packages/gds_flutter"
       ref: HEAD
-      resolved-ref: "9b18014ff890057f48e675fd202a13199b231045"
+      resolved-ref: "12606e3b0deb3b0168afca637a7708e1d0273c5f"
       url: "https://github.com/Grimity/gds-flutter.git"
     source: git
     version: "0.0.0"
@@ -1109,7 +1109,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "1a08242be0ad6ce877f2507b2fa7e11857224fa5"
+      resolved-ref: f903e5e85c773eb2239722f76cf37a186812922c
       url: "https://github.com/pervice-sdk/pervice-openapi"
     source: git
     version: "1.0.0"
