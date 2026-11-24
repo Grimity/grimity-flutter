@@ -10,22 +10,24 @@ import 'package:grimity/extensions/model/album_base_response.dart';
 /// 앨범 목록 편집에 필요한 입력 데이터를 관리하는 모델.
 class AlbumEditModel({
   required final List<AlbumBaseResponse> albums,
+  required final List<AlbumBaseResponse> parent,
 }) {
   factory from() {
     return .new(
       albums: AppUser.albums.toList(),
+      parent: AppUser.albums,
     );
   }
 
   /// 초기 목록 또는 서버에 반영된 목록과 다른 내용이 있는지 여부.
-  bool get hasChanges => !listEquals(AppUser.albums, albums);
+  bool get hasChanges => !listEquals(parent, albums);
 
   /// 변경된 내용이 있어 제출할 수 있는지 여부.
   bool get canSubmit => hasChanges;
 
   /// 기존 앨범 중 편집 목록에서 제거된 앨범.
   List<AlbumBaseResponse> get removedAlbums {
-    return AppUser.albums.where((old) => !albums.ids.contains(old.id)).toList();
+    return parent.where((old) => !albums.ids.contains(old.id)).toList();
   }
 
   /// 기존 앨범 중 편집 목록에서 추가된 앨범.
@@ -35,6 +37,6 @@ class AlbumEditModel({
 
   /// 기존 앨범 중 편집 목록에서 수정된 앨범.
   List<AlbumBaseResponse> get renamedAlbums {
-    return albums.where((album) => AppUser.albums.any((old) => old.id == album.id && old.name != album.name)).toList();
+    return albums.where((album) => parent.any((old) => old.id == album.id && old.name != album.name)).toList();
   }
 }
