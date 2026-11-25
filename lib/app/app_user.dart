@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
+import 'package:grimity/app/app_notification.dart';
 import 'package:grimity/app/app_secure_storage.dart';
 import 'package:grimity/app/app_device.dart';
 
@@ -86,7 +87,7 @@ abstract class AppUser {
 
     await AppSecureStorage.accessToken.set(response.accessToken);
     await AppSecureStorage.refreshToken.set(response.refreshToken);
-    initialize();
+    await initialize();
   }
 
   /// 소셜 인증 토큰으로 서버에 회원가입한 뒤 사용자 프로필을 불러옵니다.
@@ -113,7 +114,7 @@ abstract class AppUser {
 
     await AppSecureStorage.accessToken.set(response.accessToken);
     await AppSecureStorage.refreshToken.set(response.refreshToken);
-    initialize();
+    await initialize();
   }
 
   /// 기기 종류와 모델명을 전달해 서버에 로그아웃을 요청합니다.
@@ -161,6 +162,9 @@ abstract class AppUser {
         profile = newProfile;
         _albums = newAlbums;
         status = .loaded;
+
+        // 로그인 후 푸시 알림 권한 요청 및 토큰 등록.
+        AppNotification.register();
       } catch (_) {
         status = .unauth;
         rethrow;

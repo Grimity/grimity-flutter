@@ -4,6 +4,7 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
+import 'package:grimity/app/app_user.dart';
 import 'package:grimity/presentation/board/pages/board_page.dart';
 import 'package:grimity/presentation/chat_list/pages/chat_list_page.dart';
 import 'package:grimity/presentation/following_feed/pages/following_feed_page.dart';
@@ -41,6 +42,9 @@ class NavigationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final index = context.sharedStateOf(() => 0, key: ValueKey(NavigationPage));
     assert(index.value < _views.length);
+
+    // 새 알림과 읽지 않은 메시지 상태를 내비게이션에 반영.
+    context.watch(AppUser.profileNotifier);
 
     // 이전에 선택한 탭의 인덱스와 페이지 전환 방향.
     final transition = context.stateOf(

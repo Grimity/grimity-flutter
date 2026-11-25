@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/app/app_firebase.dart';
 import 'package:grimity/app/app_link.dart';
+import 'package:grimity/app/app_notification.dart';
 import 'package:grimity/app/app_oauth.dart';
 import 'package:grimity/app/app_photo.dart';
 import 'package:grimity/app/app_user.dart';
@@ -33,6 +34,7 @@ class SplashPage extends StatelessWidget {
     await Firebase.initializeApp(options: AppFirebase.options);
     await AppOAuth.setup();
     await AppPhoto.initialize();
+    await AppNotification.initialize();
 
     // 사용자 정보 초기화.
     await AppUser.initialize();

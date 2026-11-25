@@ -14,13 +14,15 @@ final class ProfileLink extends AppLink {
 
   @override
   void onLink(BuildContext context, Uri uri) async {
-    final segments = uri.pathSegments;
+    // 웹 프로필 주소와 푸시 알림의 내부 프로필 경로를 함께 처리.
+    final url = switch (uri.pathSegments) {
+      [final url] => url,
+      ['profile', final url] => url,
+      _ => null,
+    };
+    if (url == null || url.isEmpty) return;
 
-    // :id
-    if (segments.length != 1) return;
-    if (segments.last.isEmpty) return;
-
-    final user = await GetUsersProfileByUrl(url: segments.last).requestOrNull();
+    final user = await GetUsersProfileByUrl(url: url).requestOrNull();
 
     // 링크에 포함된 아이디가 유효할 경우에만 해당 페이지 열기.
     if (user != null && context.mounted) {
