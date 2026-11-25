@@ -32,6 +32,7 @@ dependencies:
   shared_preferences: ^2.5.6
   socket_io_client: ^3.1.6
   package_info_plus: ^10.2.2
+  app_links: ^7.2.2
 
   # 소셜 로그인
   google_sign_in: ^7.2.0

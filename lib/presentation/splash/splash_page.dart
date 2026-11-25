@@ -8,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/app/app_firebase.dart';
+import 'package:grimity/app/app_link.dart';
 import 'package:grimity/app/app_oauth.dart';
 import 'package:grimity/app/app_photo.dart';
 import 'package:grimity/app/app_user.dart';
@@ -35,6 +36,9 @@ class SplashPage extends StatelessWidget {
 
     // 사용자 정보 초기화.
     await AppUser.initialize();
+
+    // 사용자 정보를 불러온 뒤 딥링크 수신.
+    AppLink.initialize();
 
     // 앱 업데이트 확인 및 안내 팝업 표시.
     AppVersion.checkForUpdate();
@@ -97,9 +101,6 @@ class SplashPage extends StatelessWidget {
 
       // 초기화가 끝나면 로고 애니메이션 실행.
       loadFuture = load()..whenComplete(parent.forward);
-
-      // 초기화가 끝나면 저장된 Future 해제.
-      loadFuture?.whenComplete(() => loadFuture = null);
     }
 
     return ColoredBox(

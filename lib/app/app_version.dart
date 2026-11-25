@@ -7,7 +7,7 @@ import 'package:grimity/api/api.dart';
 import 'package:grimity/views/show_app_update_alert.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-/// 앱 버전 정보를 정의하고 업데이트 필요 여부를 판단하는 클래스.
+/// 앱 버전 정보를 정의하고 업데이트 필요 여부를 판단합니다.
 final class AppVersion({
   required final int major,
   required final int minor,
@@ -21,11 +21,6 @@ final class AppVersion({
       minor: .parse($[1]),
       patch: .parse($[2]),
     );
-  }
-
-  /// 비교 대상의 major 또는 minor 버전이 높아 업데이트가 필요한지 여부.
-  bool needsUpdate(AppVersion other) {
-    return other.major == major ? other.minor > minor : other.major > major;
   }
 
   /// 앱 버전을 확인하고 업데이트가 필요한 경우 안내 팝업을 표시합니다.
@@ -44,6 +39,11 @@ final class AppVersion({
         await showAppUpdateAlert(context);
       }
     }
+  }
+
+  /// 비교 대상의 major 또는 minor 버전이 높아 업데이트가 필요한지 여부.
+  bool needsUpdate(AppVersion other) {
+    return other.major == major ? other.minor > minor : other.major > major;
   }
 
   @override
