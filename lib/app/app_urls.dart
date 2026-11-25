@@ -12,4 +12,10 @@ abstract class AppUrls {
 
   /// 그리미티 카카오톡 오픈채팅방 URL.
   static const kakaoTalkOpenChat = 'https://open.kakao.com/o/sKYFewgh';
+
+  /// 그리미티 앱의 Google Play 스토어 URL.
+  static const playStore = 'https://play.google.com/store/apps/details?id=com.grimity.flutter';
+
+  /// 그리미티 앱의 App Store URL.
+  static const appStore = 'https://apps.apple.com/app/id6754501709';
 }

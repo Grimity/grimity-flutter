@@ -11,6 +11,7 @@ import 'package:grimity/app/app_firebase.dart';
 import 'package:grimity/app/app_oauth.dart';
 import 'package:grimity/app/app_photo.dart';
 import 'package:grimity/app/app_user.dart';
+import 'package:grimity/app/app_version.dart';
 import 'package:grimity/presentation/navigation/navigation_page.dart';
 import 'package:grimity/presentation/sign_in/pages/sign_in_page.dart';
 import 'package:pervice/pervice.dart';
@@ -34,6 +35,9 @@ class SplashPage extends StatelessWidget {
 
     // 사용자 정보 초기화.
     await AppUser.initialize();
+
+    // 앱 업데이트 확인 및 안내 팝업 표시.
+    AppVersion.checkForUpdate();
 
     // 앱이 다시 활성화되면 사진 접근 권한 상태 갱신.
     AppLifecycleListener(
