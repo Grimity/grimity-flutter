@@ -4,6 +4,7 @@
 
 // ignore_for_file: gds_lints/prefer_gds_image
 
+import 'package:app_badge_plus/app_badge_plus.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/app/app_link.dart';
@@ -32,6 +33,9 @@ class SplashPage extends StatelessWidget {
     await AppOAuth.setup();
     await AppPhoto.initialize();
     await AppNotification.initialize();
+
+    // 앱 아이콘의 알림 뱃지 초기화.
+    await AppBadgePlus.updateBadge(0);
 
     // 사용자 정보 초기화.
     await AppUser.initialize();

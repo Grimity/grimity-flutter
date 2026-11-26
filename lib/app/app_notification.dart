@@ -52,7 +52,6 @@ abstract final class AppNotification {
       presentAlert: true,
       presentSound: true,
       presentBadge: false,
-      badgeNumber: 0,
     ),
   );
 
@@ -70,7 +69,8 @@ abstract final class AppNotification {
   /// 기존에 등록한 토큰과 다른 경우 기기 식별자와 함께 서버에 등록합니다.
   static Future<void> syncToken(String token) async {
     final prefs = await SharedPreferences.getInstance();
-    final sentToken = prefs.getString('fcm_token');
+    final tokenKey = 'fcm_token:${profile.id}';
+    final sentToken = prefs.getString(tokenKey);
     if (sentToken == token) return;
 
     // 멀티 디바이스 지원을 위해 기기 식별자도 함께 전달.
@@ -81,7 +81,7 @@ abstract final class AppNotification {
     ).request();
 
     // 서버에 등록한 FCM 토큰 기록.
-    await prefs.setString('fcm_token', token);
+    await prefs.setString(tokenKey, token);
   }
 
   /// FCM 토큰이 갱신되면 새 토큰을 서버에 등록합니다.
