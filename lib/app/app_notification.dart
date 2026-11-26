@@ -6,7 +6,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart' hide NotificationResponse;
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
@@ -200,7 +199,6 @@ abstract final class AppNotification {
 
   /// 선택한 알림을 읽음 처리하고 포함된 딥링크를 처리합니다.
   static Future<void> onMessageClicked(RemoteMessage message) async {
-    debugPrint('[푸시 알림 클릭] ${message.data}');
     if (message.data.isNotEmpty) {
       final data = message.data['data'] as String?;
       final event = message.data['event'];
