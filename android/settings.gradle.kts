@@ -23,6 +23,7 @@ plugins {
 
     // Firebase의 Android 설정 파일을 처리하는 플러그인.
     id("com.google.gms.google-services") version "4.5.0" apply false
+    id("com.google.firebase.crashlytics") version "3.0.8" apply false
     id("org.jetbrains.kotlin.android") version "2.4.0" apply false
 }
 

@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:grimity/app/app_firebase.dart';
 import 'package:grimity/app/settings/app_settings.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:gds_flutter/gds_flutter.dart';
@@ -17,6 +18,9 @@ final kTestMode = Platform.environment.containsKey('FLUTTER_TEST');
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Firebase 및 오류, 분석 수집 초기화.
+  await AppFirebase.initialize();
 
   // 첫 화면에 표시할 스플래시 로고 이미지를 미리 불러오기.
   await preloadImage(SplashPage.logoImage);
@@ -42,6 +46,7 @@ class GrimityApp extends StatelessWidget {
       builder: (context, child) {
         return GdsApp(
           themeMode: AppSettings.theme.value,
+          navigatorObservers: [AppFirebase.observer],
           initialPage: child!,
         );
       },

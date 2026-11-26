@@ -7,6 +7,9 @@ plugins {
     // android/app/google-services.json을 Android 리소스로 변환.
     id("com.google.gms.google-services")
 
+    // Crashlytics 빌드 정보와 난독화 매핑 파일 처리.
+    id("com.google.firebase.crashlytics")
+
     // Flutter 플러그인은 Android 플러그인 뒤에 해야함.
     id("dev.flutter.flutter-gradle-plugin")
 }

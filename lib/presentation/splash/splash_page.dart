@@ -4,10 +4,8 @@
 
 // ignore_for_file: gds_lints/prefer_gds_image
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gds_flutter/gds_flutter.dart';
-import 'package:grimity/app/app_firebase.dart';
 import 'package:grimity/app/app_link.dart';
 import 'package:grimity/app/app_notification.dart';
 import 'package:grimity/app/app_oauth.dart';
@@ -30,8 +28,7 @@ class SplashPage extends StatelessWidget {
 
   /// 앱 시작에 필요한 초기화 작업을 수행합니다.
   Future<void> load() async {
-    // 파이어베이스 및 SDK 플러그인 초기화.
-    await Firebase.initializeApp(options: AppFirebase.options);
+    // 앱에서 사용하는 SDK 플러그인 초기화.
     await AppOAuth.setup();
     await AppPhoto.initialize();
     await AppNotification.initialize();

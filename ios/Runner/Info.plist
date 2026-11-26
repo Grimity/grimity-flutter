@@ -2,6 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 	<dict>
+		<key>FirebaseCrashlyticsCollectionEnabled</key>
+		<false/>
+		<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
+		<false/>
+		<!-- 딥링크는 app_links에서 처리. -->
 		<key>FlutterDeepLinkingEnabled</key>
 		<false/>
 		<key>NSPhotoLibraryUsageDescription</key>
