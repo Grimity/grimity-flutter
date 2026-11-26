@@ -1,70 +1,73 @@
 <img width="1024" height="300" alt="banner" src="https://github.com/user-attachments/assets/3d68364b-e05a-4e54-afd5-571a14267426" />
 
-## 처리해야 할 작업
+# 🖌️ Grimity
 
-[legacy](https://github.com/Grimity/grimity-flutter/tree/legacy) 브랜치 대비 구현 현황입니다. 기존 소셜 로그인, 토큰 저장, Firebase 초기화, API 생성 설정은 제외했습니다.
+그림쟁이들을 위한 그림 커뮤니티, 그리미티에 대한 Flutter 기반의 모바일 애플리케이션입니다.
 
-### 공통 기능
+<a href="https://play.google.com/store/apps/details?id=com.grimity.flutter"><img height="50" alt="Google Play" src="https://github.com/user-attachments/assets/cb3b771c-a41b-4878-9606-75dc6a5555a0" />
+<a href="https://apps.apple.com/us/app/%EA%B7%B8%EB%A6%AC%EB%AF%B8%ED%8B%B0/id6754501709"><img height="50" alt="App Store" src="https://github.com/user-attachments/assets/a00afbda-3e96-4d2b-9f7c-ef6b3bf2129e" /></a>
 
-| 완료 | 작업 | 설명 |
-| --- | --- | --- |
-| ☑ | 시작 흐름 | 저장된 세션 복원·초기 사용자 조회 |
-| ☑ | 인증 상태 | 로그인·로그아웃·세션 만료 반영 |
-| ☑ | 회원가입 | 신규 사용자 분기·가입 API 연결 |
-| ☑ | 계정 관리 | 사용자 정보 수정·회원 탈퇴 |
-| ☑ | 토큰 갱신 | 갱신 실패·반복 401 처리 검증 |
-| ☑ | 앱 설정 | 테마·알림 설정 저장 |
-| ☑ | 푸시 알림 | FCM 토큰·권한·수신·배지 처리 |
-| ☑ | 딥 링크 | 알림·외부 링크의 화면 이동 |
-| ☑ | 이미지 업로드 | WebP 변환·업로드 URL 발급·전송·기존 이미지 재사용 |
-| ☑ | 이미지 자르기 | 이미지 크기 조정 및 자르기 |
-| ☑ | 사진 접근 | 이미지·앨범 조회·권한 요청·앱 복귀 시 권한 상태 갱신 |
-| ☑ | 공유·외부 링크 | 카카오 공유·링크 복사·브라우저 열기 |
-| ☑ | 앱 업데이트 | 버전 확인·업데이트 안내 |
-| ☑ | 오류·분석 수집 | Crashlytics 오류 수집·Analytics 앱 실행 기록 |
-| ☐ | 배포 자동화 | 테스트·Android/iOS 배포 연결 |
+<img width="3667" height="1080" alt="Preview Images" src="https://github.com/user-attachments/assets/d617c22c-0c61-4b49-ad9c-95ca59336b8e" />
 
-### 페이지 및 요소
+### 🔗 관련 종속성
 
-| 완료 | 화면·구성 | 주요 기능 |
-| --- | --- | --- |
-| ☑ | 네비게이션 | 하단 탭·화면 상태 유지 |
-| ☑ | 스플레시 | 초기화 후 화면 분기 |
-| ☑ | 로그인 | 로그인 |
-| ☑ | 회원가입 | 회원가입 |
-| ☑ | 홈 | 최신 그림 목록 |
-| ☑ | 랭킹 | 인기 그림·작가·태그·기간 선택 |
-| ☑ | 팔로잉 피드 | 팔로잉 그림 목록 |
-| ☑ | 게시판 | 공지·유형별 게시글 목록·검색 기준 선택·검색·페이지 이동 |
-| ☑ | 검색 | 그림·게시글·사용자 검색 |
-| ☑ | 그림 상세 | 상세·좋아요·저장·수정·삭제 |
-| ☑ | 그림 작성 | 작성·수정·이미지 추가·삭제·대표 이미지·태그·나가기 확인 |
-| ☑ | 게시글 상세 | 본문·좋아요·저장·공유 |
-| ☑ | 게시글 작성 | 에디터·작성·수정·삭제 |
-| ☑ | 댓글 | 댓글·답글·좋아요·삭제 |
-| ☑ | 사진 선택 | 앨범 선택·이미지 페이지 조회·다중 선택·선택 해제·권한 안내 |
-| ☑ | 이미지 뷰어 | 확대·넘기기·저장 |
-| ☑ | 프로필 | 사용자 정보·그림·게시글·앨범 |
-| ☑ | 프로필 편집 | 사진·소개·링크 수정 |
-| ☑ | 팔로우 | 팔로워·팔로잉 관리 |
-| ☑ | 앨범 편집 | 생성·이름 변경·정렬·삭제 |
-| ☑ | 그림 정리 | 앨범 그림·이동·제거 |
-| ☑ | 보관함 | 좋아요·저장한 그림·게시글 |
-| ☑ | 채팅 목록 | 목록·읽지 않은 메시지·삭제 |
-| ☑ | 새 채팅 | 상대 검색·채팅 시작 |
-| ☑ | 채팅방 | 메시지·이미지·답장·나가기 |
-| ☑ | 알림 목록 | 목록·읽음·삭제·화면 이동 |
-| ☑ | 신고 | 사유 선택·신고 전송 |
-| ☑ | 설정 진입 | 설정 메뉴 연결 |
-| ☑ | 계정 설정 | 계정 정보·로그아웃·탈퇴 |
-| ☑ | 닉네임 설정 | 중복 확인·변경 |
-| ☑ | 프로필 URL 설정 | URL 검증·변경 |
-| ☑ | 테마 설정 | 시스템·라이트·다크 선택 |
-| ☑ | 알림 설정 | 알림 구독 변경 |
-| ☑ | 문의 | 문의·외부 링크 연결 |
-| ☑ | 차단 목록 | 차단 사용자·차단 해제 |
-| ☑ | 사업자 정보 | 사업자 정보 표시 |
-| ☑ | 업데이트 안내 | 업데이트 다이얼로그 |
+| 종속성 | 최소 버전 | 배포 버전 |
+| ---- | ------- | ------- |
+| Flutter SDK | >= 3.50.0 | [FLUTTER_VERSION](https://github.com/Grimity/grimity-flutter/settings/variables/actions) |
+
+### 🚀 자동화 배포
+
+자동화 배포를 위한 CI/CD 에서는 Fastlane을 통한 GitHub Actions를 사용합니다.
+
+- 상단 Actions 탭 클릭
+- 왼쪽 사이드바에서 All workflows → 자동화 배포 선택
+- Run workflow 버튼 클릭
+- 배포할 버전 입력 ...(이하 생략)
+
+### 🗂️ 초기 세팅하기
+
+해당 CLI는 앱 빌드에 필요한 [비공개 설정 파일](https://github.com/Grimity/grimity-flutter-config)을 가져오며, macOS에서는 앱 서명 인증서도 함께 설정합니다.
+
+```bash
+dart run tools/setup.dart
+```
+
+### ⚙️ 설정 파일 불러오기
+
+`tools/setup.dart`를 실행했다면 별도로 실행할 필요는 없습니다.
+
+다만 [비공개 설정 파일](https://github.com/Grimity/grimity-flutter-config)이 업데이트된 경우, 변경 사항을 반영하려면 다시 실행해야 합니다.
+
+```bash
+dart run git_config fetch
+```
+
+### 🏗️ OpenAPI 코드 생성하기
+
+서버의 OpenAPI 명세를 기준으로 API 클라이언트와 요청, 응답 모델을 생성합니다.
+
+```bash
+dart run tools/openapi.dart
+```
+
+### 🔍 코드 품질 검사
+
+일관된 코드 스타일을 유지하고 오류의 재발을 방지하기 위해, 커밋 전 반드시 코드 포맷을 적용하고 커스텀 린트와 회귀 테스트를 통과해야 합니다.
+
+> [!NOTE]
+> 푸시와 PR 생성 시 GitHub Actions에서 자동으로 검사하고 있으니, 주기적으로 확인해주세요.
+
+```bash
+dart format .
+```
+
+```bash
+flutter test .
+```
+
+```bash
+flutter analyze
+```
 
 ## License
 
