@@ -43,7 +43,7 @@ abstract class Fastlane {
     );
   }
 
-  /// 서명 인증서를 동기화하고 프로비저닝 프로파일을 강제로 갱신하여 저장소에 반영합니다.
+  /// 만료된 서명 인증서를 교체하고 프로비저닝 프로파일을 강제로 갱신하여 저장소에 반영합니다.
   static Future<void> force(String profile, String appId, DotEnv env) async {
     await run(
       'fastlane',
@@ -51,6 +51,7 @@ abstract class Fastlane {
         'match',
         profile,
         '--force',
+        '--renew_expired_certs',
         '--git_url',
         repository,
         '--app_identifier',
