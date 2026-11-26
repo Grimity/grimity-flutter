@@ -1361,6 +1361,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.1"
+  pubspec_version_tool:
+    dependency: "direct dev"
+    description:
+      name: pubspec_version_tool
+      sha256: b3d629c9d72b3faf587dbb0eb5d27328550b38e5d62fa10c420c38cd6f297e58
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   quill_native_bridge:
     dependency: transitive
     description:
@@ -1894,6 +1902,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.4"
+  yaml_magic:
+    dependency: transitive
+    description:
+      name: yaml_magic
+      sha256: "6f281c7fd58492e8f30f9a7335697193d61269313952fc43e3baa784860062f3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.6"
   yaml_writer:
     dependency: transitive
     description:
