@@ -58,7 +58,7 @@
 
         <!-- 카카오 계정 로그인 후 앱으로 돌아오는 콜백입니다. -->
         <activity
-            android:name="com.kakao.sdk.flutter.AuthCodeCustomTabsActivity"
+            android:name="com.kakao.sdk.flutter.auth.AuthCodeHandlerActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

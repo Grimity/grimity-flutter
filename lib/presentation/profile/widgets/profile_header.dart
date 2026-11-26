@@ -129,6 +129,7 @@ class ProfileHeader extends GdsAdaptiveWidget {
     return Padding(
       padding: 20.top + 24.bottom + 20.horizontal,
       child: Row(
+        crossAxisAlignment: .start,
         spacing: 16,
         children: [
           // 프로필 이미지 표시

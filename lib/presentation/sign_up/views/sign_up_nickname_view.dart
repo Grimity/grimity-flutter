@@ -34,7 +34,8 @@ class SignUpNicknameView extends SignUpView {
   @override
   Future<SignUpView?> onSubmit(BuildContext context) async {
     try {
-      await PostUsersNameCheck(request: .new(name: nickname.trim())).request();
+      final service = PostUsersNameCheck(request: .new(name: nickname.trim()));
+      await service.request();
 
       // 뒤로 가기를 고려하여 성공 시 에러 메시지 초기화.
       errorMessage = null;

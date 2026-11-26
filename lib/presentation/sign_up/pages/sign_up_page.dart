@@ -8,6 +8,7 @@ import 'package:grimity/api/api.dart';
 import 'package:grimity/presentation/sign_up/views/sign_up_view.dart';
 import 'package:grimity/presentation/sign_up/views/sign_up_nickname_view.dart';
 import 'package:grimity/widgets/sliver_scroll_view.dart';
+import 'package:pervice/pervice.dart';
 
 /// 닉네임과 프로필 URL 입력부터 가입 완료까지 단계별 화면을 표시하는 페이지.
 class SignUpPage extends StatelessWidget {
@@ -81,9 +82,13 @@ class SignUpPage extends StatelessWidget {
                   onTap: () async {
                     final nextView = await view.onSubmit(context);
 
-                    // 다음 단계가 있으면 화면 전환.
-                    if (context.mounted && nextView != null) {
-                      controller.push(nextView);
+                    // 제출 결과를 반영하고 필요한 경우 다음 단계로 이동.
+                    if (context.mounted) {
+                      context.setState();
+
+                      if (nextView != null) {
+                        controller.push(nextView);
+                      }
                     }
                   },
                 ),
