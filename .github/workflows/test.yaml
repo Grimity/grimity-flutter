@@ -1,4 +1,4 @@
-name: Flutter Test
+name: 회귀 테스트
 
 on:
   push:
