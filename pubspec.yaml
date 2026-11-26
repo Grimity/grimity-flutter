@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   material_ui: ^1.11.0
-  pervice: ^1.8.0
+  pervice: ^1.8.1
   dio: ^5.11.1
   flutter_appbar: ^1.10.0
   flutter_secure_storage: ^11.2.0

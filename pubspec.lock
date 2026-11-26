@@ -820,7 +820,7 @@ packages:
     description:
       path: "packages/gds_flutter"
       ref: HEAD
-      resolved-ref: "1b56c79e5ff23e23d7fdc95d6e3cfe3d48de0f37"
+      resolved-ref: "6ae87c30df9240e8fe06046b3d005998983a43a5"
       url: "https://github.com/Grimity/gds-flutter.git"
     source: git
     version: "0.0.0"
@@ -1268,10 +1268,10 @@ packages:
     dependency: "direct main"
     description:
       name: pervice
-      sha256: d77cd0e752cff9962efd3cf102c7ae2aaa1c4657aa27d83841da7910d55b4dc2
+      sha256: "8a1b2b0885a6562c793254c906dac903166a09bc3372d01e304dc42c116ae9f5"
       url: "https://pub.dev"
     source: hosted
-    version: "1.8.0"
+    version: "1.8.1"
   pervice_openapi:
     dependency: "direct main"
     description:

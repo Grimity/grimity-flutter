@@ -90,7 +90,7 @@ class SplashPage extends StatelessWidget {
       curve: const Cubic(0.8, -1, 0.5, 1),
     );
 
-    if (loadFuture == null) {
+    context.onInitState(() {
       // 로고 애니메이션이 완료되면 다음 화면 표시.
       parent.addStatusListener((status) {
         if (status == .completed) {
@@ -99,8 +99,8 @@ class SplashPage extends StatelessWidget {
       });
 
       // 초기화가 끝나면 로고 애니메이션 실행.
-      loadFuture = load()..whenComplete(parent.forward);
-    }
+      load().whenComplete(parent.forward);
+    });
 
     return ColoredBox(
       key: const ValueKey('splash'),
