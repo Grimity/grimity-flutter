@@ -10,7 +10,8 @@ import 'package:pervice_openapi/pervice_openapi.dart';
 /// Enum representing the allowed values of SocialProvider.
 enum SocialProvider {
   kakao('KAKAO'),
-  google('GOOGLE');
+  google('GOOGLE'),
+  apple('APPLE');
 
   const new(this.key);
 
@@ -32,6 +33,7 @@ class _Codec extends OpenApiCodec<SocialProvider, String> {
   SocialProvider decode(String key) => switch (key) {
     'KAKAO' => .kakao,
     'GOOGLE' => .google,
+    'APPLE' => .apple,
     _ => throw FormatException('Invalid SocialProvider key: $key'),
   };
 
