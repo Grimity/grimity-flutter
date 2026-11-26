@@ -169,7 +169,6 @@ jobs:
           appstore-connect-key: ${{ secrets.APP_STORE_CONNECT_KEY }}
           appstore-team-id: ${{ secrets.APP_STORE_TEAM_ID }}
           build-extra: >-
-            --flavor prod --target lib/app/entrypoints/main_prod.dart
             --local-engine-src-path="${{ github.workspace }}/.ios-engine/engine/src"
             --local-engine=ios_release
             --local-engine-host=host_release_arm64
