@@ -85,7 +85,9 @@ abstract final class AppNotification {
 
   /// FCM 토큰이 갱신되면 새 토큰을 서버에 등록합니다.
   static void onTokenRefresh(String newToken) {
-    syncToken(newToken);
+    if (AppUser.status == .loaded) {
+      syncToken(newToken);
+    }
   }
 
   /// 필요한 알림 권한을 요청합니다.
@@ -114,10 +116,6 @@ abstract final class AppNotification {
       await syncToken(fcmToken);
     }
 
-    // ignore: deprecated_member_use
-    FirebaseMessaging.instance.onTokenRefresh.listen(onTokenRefresh);
-    FirebaseMessaging.onMessage.listen(onForegroundMessage);
-
     // 앱이 완전히 종료된 상태에서 알림을 선택해 실행한 경우.
     final initialMessage = await FirebaseMessaging.instance.getInitialMessage();
     if (initialMessage != null) {
@@ -132,10 +130,6 @@ abstract final class AppNotification {
     if (launchDetails?.didNotificationLaunchApp == true && payload != null) {
       onMessageClicked(RemoteMessage.fromMap(jsonDecode(payload)));
     }
-
-    // 백그라운드에서 알림을 선택해 앱으로 복귀한 경우.
-    FirebaseMessaging.onMessageOpenedApp.listen(onBackgroundMessageClicked);
-    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   }
 
   /// 알림 권한을 요청하고 푸시 토큰 등록과 메시지 수신을 설정합니다.
@@ -174,10 +168,19 @@ abstract final class AppNotification {
     // 푸시 알림 수신 시 사용자 정보와 채팅 목록 갱신.
     notifier.addListener(AppUser.refresh);
     notifier.addListener(ChatListPage.refreshNotifier.notify);
+
+    // ignore: deprecated_member_use
+    FirebaseMessaging.instance.onTokenRefresh.listen(onTokenRefresh);
+    FirebaseMessaging.onMessage.listen(onForegroundMessage);
+
+    // 백그라운드에서 알림을 선택해 앱으로 복귀한 경우.
+    FirebaseMessaging.onMessageOpenedApp.listen(onBackgroundMessageClicked);
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   }
 
   /// 앱 실행 중 수신한 메시지를 전달하고 이를 소비하는 화면이 없으면 알림을 표시합니다.
   static void onForegroundMessage(RemoteMessage message) async {
+    if (AppUser.status != .loaded) return;
     notifier.notify();
 
     final notification = message.notification;
@@ -194,7 +197,9 @@ abstract final class AppNotification {
 
   /// 백그라운드 또는 종료된 상태에서 선택한 알림을 처리합니다.
   static void onBackgroundMessageClicked(RemoteMessage message) {
-    onMessageClicked(message);
+    if (AppUser.status == .loaded) {
+      onMessageClicked(message);
+    }
   }
 
   /// 선택한 알림을 읽음 처리하고 포함된 딥링크를 처리합니다.

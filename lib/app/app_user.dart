@@ -148,27 +148,29 @@ abstract class AppUser {
   }
 
   /// 현재 사용자 정보를 다시 불러오고 로그인 상태를 갱신합니다.
-  static Future<void> refresh() => initialize();
+  static Future<void> refresh() async {
+    try {
+      final (newProfile, newAlbums) = await (
+        GetMe().request(),
+        GetMeAlbums().request(),
+      ).wait;
+
+      profile = newProfile;
+      _albums = newAlbums;
+      status = .loaded;
+    } catch (_) {
+      status = .unauth;
+      rethrow;
+    }
+  }
 
   /// 저장된 토큰 유무에 따라 사용자 정보를 불러옵니다.
   static Future<void> initialize() async {
     if (await hasToken) {
-      try {
-        final (newProfile, newAlbums) = await (
-          GetMe().request(),
-          GetMeAlbums().request(),
-        ).wait;
+      await refresh();
 
-        profile = newProfile;
-        _albums = newAlbums;
-        status = .loaded;
-
-        // 로그인 후 푸시 알림 권한 요청 및 토큰 등록.
-        AppNotification.register();
-      } catch (_) {
-        status = .unauth;
-        rethrow;
-      }
+      // 로그인 후 푸시 알림 권한 요청 및 토큰 등록.
+      AppNotification.register();
     } else {
       status = .unauth;
     }
