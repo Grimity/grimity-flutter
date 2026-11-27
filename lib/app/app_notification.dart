@@ -4,8 +4,11 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart' hide NotificationResponse;
 import 'package:gds_flutter/gds_flutter.dart';
 import 'package:grimity/api/api.dart';
@@ -34,23 +37,6 @@ abstract final class AppNotification {
       requestSoundPermission: false,
       requestAlertPermission: false,
       requestBadgePermission: false,
-    ),
-  );
-
-  /// 플랫폼별 알림 표시 설정.
-  static const details = NotificationDetails(
-    android: .new(
-      'default_channel',
-      'Default',
-      channelDescription: 'default channel',
-      importance: .max,
-      priority: .high,
-      number: 0,
-    ),
-    iOS: .new(
-      presentAlert: true,
-      presentSound: true,
-      presentBadge: false,
     ),
   );
 
@@ -185,7 +171,42 @@ abstract final class AppNotification {
 
     final notification = message.notification;
     if (notification != null) {
-      localNotificationPlugin.show(
+      final imageUrl = notification.apple?.imageUrl ?? notification.android?.imageUrl;
+      File? image;
+
+      // 이미지가 있으면 다운로드하고, 실패한 경우 오류를 기록한 뒤 텍스트 알림만 표시.
+      if (imageUrl != null) {
+        try {
+          image = await DefaultCacheManager().getSingleFile(imageUrl);
+        } catch (error, stack) {
+          FirebaseCrashlytics.instance.recordError(error, stack);
+        }
+      }
+
+      // 플랫폼별 알림 표시 설정.
+      final details = NotificationDetails(
+        android: .new(
+          'default_channel',
+          'Default',
+          channelDescription: 'default channel',
+          importance: .max,
+          priority: .high,
+          number: 0,
+          styleInformation: image == null
+              ? null //
+              : BigPictureStyleInformation(FilePathAndroidBitmap(image.path)),
+        ),
+        iOS: .new(
+          presentAlert: true,
+          presentSound: true,
+          presentBadge: false,
+          attachments: [
+            if (image != null) DarwinNotificationAttachment(image.path),
+          ],
+        ),
+      );
+
+      await localNotificationPlugin.show(
         id: notification.hashCode,
         title: notification.title,
         body: notification.body,
