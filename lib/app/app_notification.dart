@@ -19,12 +19,6 @@ import 'package:grimity/presentation/chat_list/pages/chat_list_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/// 백그라운드에서 FCM 푸시를 받는 진입점.
-@pragma('vm:entry-point')
-Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // 백그라운드 알림 표시는 OS에서 처리.
-}
-
 /// Firebase FCM을 통한 푸시 알림 수신과 관련 동작을 처리합니다.
 abstract final class AppNotification {
   /// 앱 실행 중 수신한 푸시를 시스템 알림으로 표시하는 플러그인.
@@ -161,7 +155,6 @@ abstract final class AppNotification {
 
     // 백그라운드에서 알림을 선택해 앱으로 복귀한 경우.
     FirebaseMessaging.onMessageOpenedApp.listen(onBackgroundMessageClicked);
-    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   }
 
   /// 앱 실행 중 수신한 메시지를 전달하고 이를 소비하는 화면이 없으면 알림을 표시합니다.
